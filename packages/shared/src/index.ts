@@ -6,6 +6,7 @@ export * from "./edges.ts";
 export * from "./entities.ts";
 export * from "./facts.ts";
 export * from "./ids.ts";
+export * from "./labels.ts";
 export * from "./locators.ts";
 export * from "./reference.ts";
 export * from "./status.ts";

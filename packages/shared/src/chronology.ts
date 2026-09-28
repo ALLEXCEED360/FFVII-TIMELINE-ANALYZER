@@ -77,16 +77,3 @@ export function compareChronologically(a: Chronological, b: Chronological): numb
   if (bySeq !== 0) return bySeq;
   return a.id.localeCompare(b.id);
 }
-
-/** "Year 0", "5 years before", "~2,000 years before", "500 years after". */
-export function formatYear(date: InUniverseDate): string {
-  const one = (year: Year) => {
-    const approx = year.approx ? "~" : "";
-    if (year.year === 0) return "Year 0";
-    const n = `${approx}${Math.abs(year.year).toLocaleString("en-US")}`;
-    const unit = Math.abs(year.year) === 1 ? "year" : "years";
-    return year.year < 0 ? `${n} ${unit} before` : `${n} ${unit} after`;
-  };
-  if ("between" in date) return `${one(date.between[0])} – ${one(date.between[1])}`;
-  return one(date);
-}

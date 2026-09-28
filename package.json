@@ -23,7 +23,10 @@
     "db:seed": "node packages/db/src/cli/seed.ts data",
     "db:reset": "docker compose down --volumes && pnpm db:up && pnpm db:migrate && pnpm db:seed",
     "test:db": "pnpm --filter @ffvii/db --filter @ffvii/api --workspace-concurrency=1 run test:db",
-    "api:dev": "pnpm --filter @ffvii/api dev"
+    "api:dev": "pnpm --filter @ffvii/api dev",
+    "api:types": "node apps/api/src/cli/openapi.ts && pnpm --filter @ffvii/web types",
+    "web:dev": "pnpm --filter @ffvii/web dev",
+    "web:build": "pnpm --filter @ffvii/web build"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

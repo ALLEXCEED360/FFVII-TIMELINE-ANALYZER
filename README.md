@@ -6,7 +6,7 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 
 ## Status
 
-**Phase 3 — REST API (complete).** A read-only Fastify API over the database — reference data, entities, timeline, play order, comparison, differences, network and search — with OpenAPI docs at `/docs`, packaged as a Docker image that migrates and reseeds itself on start. Next: Phase 4, the web app shell and the first timeline. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
+**Phase 4 — web app shell and first timeline (complete).** The React app with its shell, home page and the timeline: one lane per title, in-universe or play order, zoom and pan, filters, a list layout, and an inspector for the selected event. Next: Phase 5, the entity explorer and search. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
 
 | Package                            | What it does                                                                       |
 | ---------------------------------- | ---------------------------------------------------------------------------------- |
@@ -14,6 +14,7 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 | [`@ffvii/data`](packages/data)     | Loads and validates `data/`; generates editor schemas                              |
 | [`@ffvii/db`](packages/db)         | PostgreSQL schema, migrations, seeding and queries                                 |
 | [`@ffvii/api`](apps/api)           | Read-only REST API (Fastify); OpenAPI docs at `/docs`                              |
+| [`@ffvii/web`](apps/web)           | The web app (React, Vite, Tailwind, D3)                                            |
 
 ## Roadmap
 
@@ -56,6 +57,7 @@ pnpm db:up && pnpm db:migrate && pnpm db:seed
 pnpm check
 pnpm test:db
 pnpm api:dev    # http://localhost:3000/docs
+pnpm web:dev    # http://localhost:5173
 ```
 
 | Command            | What it does                                                            |
@@ -67,6 +69,8 @@ pnpm api:dev    # http://localhost:3000/docs
 | `pnpm db:reset`    | Wipe the database, then migrate and seed from scratch                   |
 | `pnpm test:db`     | Database and API tests (needs `pnpm db:up`)                             |
 | `pnpm api:dev`     | Run the API with auto-reload (restart it after `pnpm db:seed`)          |
+| `pnpm web:dev`     | Run the web app (uses `VITE_API_URL`, default `http://localhost:3000`)  |
+| `pnpm api:types`   | Regenerate the web app's API types after changing the API               |
 | `pnpm db:generate` | Create a migration after changing `packages/db/src/schema.ts`           |
 | `pnpm schemas`     | Regenerate the editor's YAML schemas after changing a Zod schema        |
 

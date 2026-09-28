@@ -29,6 +29,9 @@ jobs:
 
       - run: pnpm check
 
+      - name: Build the web app
+        run: pnpm web:build
+
   database:
     runs-on: ubuntu-latest
     services:

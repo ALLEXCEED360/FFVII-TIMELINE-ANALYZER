@@ -4,13 +4,13 @@ import {
   InUniverseDateSchema,
   WhenSchema,
   compareChronologically,
-  formatYear,
   resolveWhen,
 } from "./chronology.ts";
 import { DifferenceSchema } from "./differences.ts";
 import { EdgeInFileSchema } from "./edges.ts";
 import { EventFileSchema } from "./entities.ts";
 import { EntityIdSchema, kindOfId } from "./ids.ts";
+import { formatLocator, formatYear, formatYearBounds } from "./labels.ts";
 import { LocatorSchema, playPosition } from "./locators.ts";
 
 const og = { title: "og", disc: 1, segment: "og_kalm" } as const;
@@ -232,5 +232,29 @@ describe("entity files", () => {
 
   it("rejects an ID of the wrong kind", () => {
     expect(EventFileSchema.safeParse({ ...event, id: "character_test" }).success).toBe(false);
+  });
+});
+
+describe("labels", () => {
+  const names = {
+    title: (code: string) => ({ og: "OG", rebirth: "Rebirth" })[code] ?? code,
+    segment: (id: string) => (id === "og_kalm" ? "Kalm" : undefined),
+    unit: (_code: string, key: string) =>
+      key === "interlude" ? "Interlude: A World Apart" : undefined,
+  };
+
+  it("formats locators with display names", () => {
+    expect(formatLocator(og, names)).toBe("OG · Disc 1 · Kalm");
+    expect(formatLocator(rebirth1, names)).toBe("Rebirth · Ch. 1");
+    expect(formatLocator({ title: "rebirth", part: "interlude" }, names)).toBe(
+      "Rebirth · Interlude: A World Apart",
+    );
+  });
+
+  it("formats resolved year bounds", () => {
+    expect(formatYearBounds({ earliest: -5, latest: -5 })).toBe("5 years before");
+    expect(formatYearBounds({ earliest: -30, latest: -25 })).toBe(
+      "30 years before – 25 years before",
+    );
   });
 });

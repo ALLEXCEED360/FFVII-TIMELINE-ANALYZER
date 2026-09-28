@@ -1,0 +1,163 @@
+{
+  "items": [
+    {
+      "id": "event_nibelheim_incident",
+      "name": "Nibelheim Incident",
+      "summary": "Five years before the story, Sephiroth burns Cloud and Tifa's hometown during a Shinra mission to its Mako reactor.",
+      "importance": 3,
+      "arcId": "arc_the_journey_begins",
+      "seq": null,
+      "start": { "earliest": -5, "latest": -5 },
+      "end": { "earliest": -5, "latest": -5 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 8,
+          "framing": "false_account",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 2,
+          "framing": "vision",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 1,
+          "framing": "disputed_account",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_mako_reactor_1_bombing",
+      "name": "Bombing of Mako Reactor 1",
+      "summary": "AVALANCHE's attack on Shinra's Mako Reactor 1 in Midgar, the opening mission of the story.",
+      "importance": 2,
+      "arcId": "arc_midgar",
+      "seq": 10,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 0,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 1,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_sector_7_plate_fall",
+      "name": "Fall of the Sector 7 Plate",
+      "summary": "Shinra brings the upper plate of Sector 7 down onto the slums beneath it.",
+      "importance": 3,
+      "arcId": "arc_midgar",
+      "seq": 20,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 5,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 12,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_zack_survives",
+          "status": "referenced",
+          "playPosition": 0.5,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_aerith_death",
+      "name": "Death of Aerith",
+      "summary": "Sephiroth kills Aerith as she prays at the altar in the Forgotten Capital.",
+      "importance": 3,
+      "arcId": "arc_the_promised_land",
+      "seq": 30,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 23,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 14,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_cloud_memories_restored",
+      "name": "Cloud's Memories Restored",
+      "summary": "In the Lifestream, Cloud recovers his true memories of the past five years.",
+      "importance": 3,
+      "arcId": "arc_the_lifestream",
+      "seq": 40,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 30,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    }
+  ]
+}

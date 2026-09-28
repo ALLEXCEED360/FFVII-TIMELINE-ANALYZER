@@ -1,0 +1,457 @@
+{
+  "titles": [
+    {
+      "code": "og",
+      "name": "Final Fantasy VII",
+      "shortName": "OG",
+      "released": "1997-01-31",
+      "series": "original",
+      "units": [],
+      "coverage": null
+    },
+    {
+      "code": "remake",
+      "name": "Final Fantasy VII Remake",
+      "shortName": "Remake",
+      "released": "2020-04-10",
+      "series": "remake",
+      "units": [
+        { "key": "1", "name": "The Destruction of Mako Reactor 1", "position": 1 },
+        { "key": "2", "name": "Fateful Encounters", "position": 2 },
+        { "key": "3", "name": "Home Sweet Slum", "position": 3 },
+        { "key": "4", "name": "Mad Dash", "position": 4 },
+        { "key": "5", "name": "Dogged Pursuit", "position": 5 },
+        { "key": "6", "name": "Light the Way", "position": 6 },
+        { "key": "7", "name": "A Trap is Sprung", "position": 7 },
+        { "key": "8", "name": "Budding Bodyguard", "position": 8 },
+        { "key": "9", "name": "The Town That Never Sleeps", "position": 9 },
+        { "key": "10", "name": "Rough Waters", "position": 10 },
+        { "key": "11", "name": "Haunted", "position": 11 },
+        { "key": "12", "name": "Fight for Survival", "position": 12 },
+        { "key": "13", "name": "A Broken World", "position": 13 },
+        { "key": "14", "name": "In Search of Hope", "position": 14 },
+        { "key": "15", "name": "The Day Midgar Stood Still", "position": 15 },
+        { "key": "16", "name": "The Belly of the Beast", "position": 16 },
+        { "key": "17", "name": "Deliverance from Chaos", "position": 17 },
+        { "key": "18", "name": "Destiny's Crossroads", "position": 18 }
+      ],
+      "coverage": {
+        "from": "og_reactor_1",
+        "to": "og_shinra_building",
+        "segments": [
+          "og_reactor_1",
+          "og_seventh_heaven",
+          "og_reactor_5",
+          "og_sector_5_church",
+          "og_wall_market",
+          "og_sector_7_pillar",
+          "og_aerith_story",
+          "og_shinra_building"
+        ],
+        "notes": "Remake retells Midgar, ending with the escape from the city."
+      }
+    },
+    {
+      "code": "intermission",
+      "name": "Final Fantasy VII Remake Intergrade — Episode INTERmission",
+      "shortName": "INTERmission",
+      "released": "2021-06-10",
+      "series": "remake",
+      "units": [
+        { "key": "1", "name": "Wutai's Finest", "position": 1 },
+        { "key": "2", "name": "Covert Ops", "position": 2 }
+      ],
+      "coverage": null
+    },
+    {
+      "code": "rebirth",
+      "name": "Final Fantasy VII Rebirth",
+      "shortName": "Rebirth",
+      "released": "2024-02-29",
+      "series": "remake",
+      "units": [
+        { "key": "interlude", "name": "Interlude: A World Apart", "position": 0.5 },
+        { "key": "1", "name": "Fall of a Hero", "position": 1 },
+        { "key": "2", "name": "A New Journey Begins", "position": 2 },
+        { "key": "3", "name": "Deeper into Darkness", "position": 3 },
+        { "key": "4", "name": "Dawn of a New Era", "position": 4 },
+        { "key": "5", "name": "Blood in the Water", "position": 5 },
+        { "key": "6", "name": "Fool's Paradise", "position": 6 },
+        { "key": "7", "name": "Those Left Behind", "position": 7 },
+        { "key": "8", "name": "All That Glitters", "position": 8 },
+        { "key": "9", "name": "The Planet Stirs", "position": 9 },
+        { "key": "10", "name": "Watcher of the Vale", "position": 10 },
+        { "key": "11", "name": "The Long Shadow of Shinra", "position": 11 },
+        { "key": "12", "name": "A Golden Key", "position": 12 },
+        { "key": "13", "name": "Where Angels Fear to Tread", "position": 13 },
+        { "key": "14", "name": "End of the World", "position": 14 }
+      ],
+      "coverage": {
+        "from": "og_kalm",
+        "to": "og_forgotten_capital",
+        "segments": [
+          "og_kalm",
+          "og_road_to_junon",
+          "og_junon",
+          "og_cargo_ship",
+          "og_costa_del_sol",
+          "og_corel",
+          "og_gold_saucer",
+          "og_corel_prison",
+          "og_gongaga",
+          "og_cosmo_canyon",
+          "og_nibelheim",
+          "og_rocket_town",
+          "og_keystone",
+          "og_temple_of_the_ancients",
+          "og_bone_village",
+          "og_forgotten_capital"
+        ],
+        "notes": "Rebirth runs from Kalm to the Forgotten Capital. It also shows Aerith being laid to rest, which in the original opens the second disc (og_icicle_inn); that scene is cited as a depiction of the event rather than extending the coverage."
+      }
+    }
+  ],
+  "segments": [
+    {
+      "id": "og_reactor_1",
+      "name": "Mako Reactor 1",
+      "disc": 1,
+      "summary": "AVALANCHE's bombing of Mako Reactor 1 and the escape through Sector 8."
+    },
+    {
+      "id": "og_seventh_heaven",
+      "name": "Seventh Heaven",
+      "disc": 1,
+      "summary": "Back in the Sector 7 slums at AVALANCHE's hideout, and the plan for the next reactor."
+    },
+    {
+      "id": "og_reactor_5",
+      "name": "Mako Reactor 5",
+      "disc": 1,
+      "summary": "The train to Sector 4, the Reactor 5 mission and the ambush that follows."
+    },
+    {
+      "id": "og_sector_5_church",
+      "name": "The Sector 5 Church",
+      "disc": 1,
+      "summary": "Cloud falls into the Sector 5 church, meets Aerith properly and escorts her."
+    },
+    {
+      "id": "og_wall_market",
+      "name": "Wall Market",
+      "disc": 1,
+      "summary": "Tracking Tifa to Wall Market and Don Corneo's mansion."
+    },
+    {
+      "id": "og_sector_7_pillar",
+      "name": "The Sector 7 Pillar",
+      "disc": 1,
+      "summary": "Through the sewers and the train graveyard to the pillar, and the fall of the plate."
+    },
+    {
+      "id": "og_aerith_story",
+      "name": "Aerith's Story",
+      "disc": 1,
+      "summary": "Elmyra tells Aerith's story; the climb up to the plate."
+    },
+    {
+      "id": "og_shinra_building",
+      "name": "The Shinra Building",
+      "disc": 1,
+      "summary": "Infiltrating Shinra headquarters, the President's death and the escape from Midgar."
+    },
+    {
+      "id": "og_kalm",
+      "name": "Kalm",
+      "disc": 1,
+      "summary": "At the Kalm inn, Cloud tells his account of Nibelheim five years earlier."
+    },
+    {
+      "id": "og_road_to_junon",
+      "name": "The Road to Junon",
+      "disc": 1,
+      "summary": "The Chocobo Farm, the marshes and the Mythril Mine."
+    },
+    {
+      "id": "og_junon",
+      "name": "Junon",
+      "disc": 1,
+      "summary": "Under Junon, the welcoming parade for Rufus, and stowing away."
+    },
+    {
+      "id": "og_cargo_ship",
+      "name": "The Cargo Ship",
+      "disc": 1,
+      "summary": "The crossing to Costa del Sol aboard a Shinra cargo ship."
+    },
+    {
+      "id": "og_costa_del_sol",
+      "name": "Costa del Sol",
+      "disc": 1,
+      "summary": "The resort town on the western continent."
+    },
+    {
+      "id": "og_corel",
+      "name": "Corel",
+      "disc": 1,
+      "summary": "Mount Corel and North Corel, and Barret's past."
+    },
+    {
+      "id": "og_gold_saucer",
+      "name": "The Gold Saucer",
+      "disc": 1,
+      "summary": "The amusement park, and the party framed for a shooting."
+    },
+    {
+      "id": "og_corel_prison",
+      "name": "Corel Prison",
+      "disc": 1,
+      "summary": "The desert prison beneath the Gold Saucer."
+    },
+    {
+      "id": "og_gongaga",
+      "name": "Gongaga",
+      "disc": 1,
+      "summary": "The village around a ruined reactor."
+    },
+    {
+      "id": "og_cosmo_canyon",
+      "name": "Cosmo Canyon",
+      "disc": 1,
+      "summary": "Red XIII's home and the study of the planet."
+    },
+    {
+      "id": "og_nibelheim",
+      "name": "Nibelheim",
+      "disc": 1,
+      "summary": "Cloud and Tifa's hometown, apparently rebuilt, and the Shinra Manor."
+    },
+    {
+      "id": "og_rocket_town",
+      "name": "Rocket Town",
+      "disc": 1,
+      "summary": "Cid, his grounded rocket, and the Tiny Bronco."
+    },
+    {
+      "id": "og_keystone",
+      "name": "The Keystone",
+      "disc": 1,
+      "summary": "The return to the Gold Saucer for the keystone to the Temple of the Ancients."
+    },
+    {
+      "id": "og_temple_of_the_ancients",
+      "name": "The Temple of the Ancients",
+      "disc": 1,
+      "summary": "The temple, and the Black Materia."
+    },
+    {
+      "id": "og_bone_village",
+      "name": "Bone Village",
+      "disc": 1,
+      "summary": "Cloud's recovery in Gongaga, then Bone Village and the Sleeping Forest."
+    },
+    {
+      "id": "og_forgotten_capital",
+      "name": "The Forgotten Capital",
+      "disc": 1,
+      "summary": "The city of the Cetra, where the first disc ends."
+    },
+    {
+      "id": "og_icicle_inn",
+      "name": "Icicle Inn",
+      "disc": 2,
+      "summary": "Aerith is laid to rest; the route north to Icicle Inn."
+    },
+    {
+      "id": "og_northern_crater",
+      "name": "The Northern Crater",
+      "disc": 2,
+      "summary": "The Great Glacier, Gaea's Cliff and the crater, where Meteor is summoned."
+    },
+    {
+      "id": "og_junon_execution",
+      "name": "The Junon Execution",
+      "disc": 2,
+      "summary": "Tifa's planned execution in Junon and the escape aboard the Highwind."
+    },
+    { "id": "og_mideel", "name": "Mideel", "disc": 2, "summary": "Finding Cloud in Mideel." },
+    {
+      "id": "og_corel_huge_materia",
+      "name": "Huge Materia at Corel",
+      "disc": 2,
+      "summary": "The race for the Huge Materia at North Corel."
+    },
+    {
+      "id": "og_fort_condor_huge_materia",
+      "name": "Huge Materia at Fort Condor",
+      "disc": 2,
+      "summary": "The battle for the Huge Materia at Fort Condor."
+    },
+    {
+      "id": "og_inside_clouds_mind",
+      "name": "Inside Cloud's Mind",
+      "disc": 2,
+      "summary": "Cloud and Tifa fall into the Lifestream at Mideel, where Cloud's memories are restored."
+    },
+    {
+      "id": "og_underwater_reactor",
+      "name": "The Underwater Reactor",
+      "disc": 2,
+      "summary": "The Huge Materia at Junon's underwater reactor, and the submarine."
+    },
+    {
+      "id": "og_rocket_launch",
+      "name": "The Rocket",
+      "disc": 2,
+      "summary": "Rocket Town's rocket is launched at Meteor, with the last Huge Materia aboard."
+    },
+    {
+      "id": "og_cosmo_canyon_return",
+      "name": "Remembering Aerith",
+      "disc": 2,
+      "summary": "Back to Cosmo Canyon, to find out what Aerith was trying to do."
+    },
+    {
+      "id": "og_aerith_prayer",
+      "name": "Aerith's Prayer",
+      "disc": 2,
+      "summary": "The Forgotten Capital again, where the party learns what Aerith left behind."
+    },
+    {
+      "id": "og_midgar_raid",
+      "name": "The Midgar Raid",
+      "disc": 2,
+      "summary": "The attack on Midgar and the confrontation with Hojo."
+    },
+    {
+      "id": "og_highwind",
+      "name": "Aboard the Highwind",
+      "disc": 2,
+      "summary": "The party's talk aboard the Highwind before the final descent, where the second disc ends."
+    },
+    {
+      "id": "og_northern_cave",
+      "name": "The Northern Cave",
+      "disc": 3,
+      "summary": "The descent into the crater's depths."
+    },
+    {
+      "id": "og_finale",
+      "name": "The Final Battle",
+      "disc": 3,
+      "summary": "The last battle with Sephiroth, the fate of Meteor, and the epilogue."
+    }
+  ],
+  "arcs": [
+    {
+      "id": "arc_midgar",
+      "name": "Midgar",
+      "summary": "AVALANCHE's campaign against Shinra's reactors, through the escape from Midgar.",
+      "og": { "from": "og_reactor_1", "to": "og_shinra_building" },
+      "chapters": { "remake": [1, 18] }
+    },
+    {
+      "id": "arc_the_journey_begins",
+      "name": "The Journey Begins",
+      "summary": "The pursuit of Sephiroth from Kalm to Junon.",
+      "og": { "from": "og_kalm", "to": "og_junon" },
+      "chapters": {}
+    },
+    {
+      "id": "arc_across_the_sea",
+      "name": "Across the Sea",
+      "summary": "The western continent, from the cargo ship to Rocket Town.",
+      "og": { "from": "og_cargo_ship", "to": "og_rocket_town" },
+      "chapters": {}
+    },
+    {
+      "id": "arc_the_promised_land",
+      "name": "The Promised Land",
+      "summary": "The race for the Black Materia and the journey to the Forgotten Capital.",
+      "og": { "from": "og_keystone", "to": "og_forgotten_capital" },
+      "chapters": {}
+    },
+    {
+      "id": "arc_meteor",
+      "name": "Meteor",
+      "summary": "North to the crater, the summoning of Meteor and its aftermath.",
+      "og": { "from": "og_icicle_inn", "to": "og_junon_execution" },
+      "chapters": {}
+    },
+    {
+      "id": "arc_the_lifestream",
+      "name": "The Lifestream",
+      "summary": "The search for Cloud and the truth about his past.",
+      "og": { "from": "og_mideel", "to": "og_inside_clouds_mind" },
+      "chapters": {}
+    },
+    {
+      "id": "arc_shinras_last_stand",
+      "name": "Shinra's Last Stand",
+      "summary": "The Huge Materia, the rocket, Aerith's legacy and the battle for Midgar.",
+      "og": { "from": "og_underwater_reactor", "to": "og_highwind" },
+      "chapters": {}
+    },
+    {
+      "id": "arc_the_final_battle",
+      "name": "The Final Battle",
+      "summary": "The descent into the crater and the end of the story.",
+      "og": { "from": "og_northern_cave", "to": "og_finale" },
+      "chapters": {}
+    }
+  ],
+  "eras": [
+    {
+      "id": "era_distant_past",
+      "name": "The Distant Past",
+      "start": -3000,
+      "end": -101,
+      "weight": 1
+    },
+    { "id": "era_shinras_rise", "name": "Shinra's Rise", "start": -100, "end": -6, "weight": 1.5 },
+    {
+      "id": "era_five_years_before",
+      "name": "Five Years Before",
+      "start": -5,
+      "end": -1,
+      "weight": 2
+    },
+    { "id": "era_main_story", "name": "The Main Story", "start": 0, "end": 0, "weight": 8 },
+    { "id": "era_after_the_story", "name": "After the Story", "start": 1, "end": 1000, "weight": 1 }
+  ],
+  "worlds": [
+    {
+      "id": "world_main",
+      "name": "The main world",
+      "summary": "The world the story follows, and the only world of the original.",
+      "firstShown": null,
+      "branchesFrom": null,
+      "sources": null,
+      "certainty": null,
+      "notes": null
+    },
+    {
+      "id": "world_zack_survives",
+      "name": "Zack survives",
+      "summary": "A world, shown in the Remake series, in which Zack survives his fight with Shinra troops outside Midgar and carries Cloud toward the city.",
+      "firstShown": { "title": "remake", "chapter": 18, "scene": "the closing scenes" },
+      "branchesFrom": null,
+      "sources": [
+        {
+          "title": "remake",
+          "chapter": 18,
+          "scene": "Zack, after the fight, heading for Midgar with Cloud"
+        },
+        { "title": "intermission", "chapter": 2, "scene": "post-credits scene in Aerith's church" },
+        {
+          "title": "rebirth",
+          "part": "interlude",
+          "scene": "Zack in Midgar after the expressway collapse"
+        },
+        { "title": "rebirth", "chapter": 14, "scene": "Zack's final scene in Aerith's church" }
+      ],
+      "certainty": "stated",
+      "notes": "Rebirth states outright that separate worlds exist and part again (chapter 14). Whether the Remake ending, INTERmission's post-credits scene and Rebirth's interlude all show one and the same branch is treated as one world until a title distinguishes them. The branch point (Zack's last stand) is not recorded yet: in the original it is shown only visually, in an optional flashback, and still needs checking against footage."
+    }
+  ]
+}

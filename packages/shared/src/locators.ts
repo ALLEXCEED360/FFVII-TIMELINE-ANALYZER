@@ -66,10 +66,3 @@ export function playPosition(locator: Locator, segmentIndex: (id: string) => num
   const part = partsOf(locator.title).find((p) => p.key === locator.part);
   return (part?.before ?? 0) - 0.5;
 }
-
-/** A short human label, e.g. "Rebirth ch. 12" or "OG disc 1 · og_kalm". */
-export function formatLocator(locator: Locator): string {
-  if ("segment" in locator) return `og disc ${String(locator.disc)} · ${locator.segment}`;
-  if ("chapter" in locator) return `${locator.title} ch. ${String(locator.chapter)}`;
-  return `${locator.title} ${locator.part}`;
-}
