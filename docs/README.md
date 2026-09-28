@@ -31,3 +31,4 @@ One short record per architecture decision, numbered in order.
 | 0002 | [Pin TypeScript to 6.0.x](decisions/0002-pin-typescript-6.md)                                          |
 | 0003 | [Run TypeScript directly on Node](decisions/0003-run-typescript-natively-on-node.md)                   |
 | 0004 | [Data files are the source of truth](decisions/0004-data-files-are-the-source-of-truth.md)             |
+| 0005 | [Database schema](decisions/0005-database-schema.md)                                                   |

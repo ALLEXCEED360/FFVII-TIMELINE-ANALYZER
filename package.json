@@ -15,7 +15,14 @@
     "test": "pnpm -r --if-present run test",
     "validate": "node packages/data/src/cli/validate.ts data",
     "schemas": "node packages/data/src/cli/schemas.ts",
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm validate"
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm validate",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:generate": "pnpm --filter @ffvii/db generate",
+    "db:migrate": "node packages/db/src/cli/migrate.ts",
+    "db:seed": "node packages/db/src/cli/seed.ts data",
+    "db:reset": "docker compose down --volumes && pnpm db:up && pnpm db:migrate && pnpm db:seed",
+    "test:db": "pnpm --filter @ffvii/db run test:db"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -67,9 +67,16 @@ export function ogSegmentOf(appearances: readonly Appearance[]): string | undefi
   return at !== undefined && "segment" in at ? at.segment : undefined;
 }
 
+/** What status derivation needs to know about an entity — available from files or the database. */
+export interface StatusSubject {
+  appearances: readonly Pick<Appearance, "title" | "world" | "status">[];
+  /** The original segment where the entity is shown (see `ogSegmentOf`). */
+  ogSegment: string | undefined;
+}
+
 /** What a title's column shows for an entity (main world). */
 export function displayStatus(
-  appearances: readonly Appearance[],
+  { appearances, ogSegment: segment }: StatusSubject,
   title: TitleCode,
   index: CoverageIndex,
 ): DisplayStatus {
@@ -78,7 +85,6 @@ export function displayStatus(
   // Only titles that retell part of the original can be missing or behind (INTERmission can't).
   if (!isRemakeSeries(title) || !index.hasCoverage(title)) return "absent";
 
-  const segment = ogSegmentOf(appearances);
   if (segment === undefined) return "absent";
   if (index.covers(title, segment)) return "undocumented";
   if (index.isBeyondFrontier(segment)) return "not_yet_reached";
@@ -86,13 +92,16 @@ export function displayStatus(
 }
 
 /** New in the Remake series: appears there but not in the original (appearances.md §3). */
-export function isNewInRemakeSeries(appearances: readonly Appearance[]): boolean {
+export function isNewInRemakeSeries(appearances: readonly Pick<Appearance, "title">[]): boolean {
   return (
     !appearances.some((a) => a.title === "og") && appearances.some((a) => isRemakeSeries(a.title))
   );
 }
 
 /** Whether any difference targets this title's appearance ("changed" badge). */
-export function isChanged(differences: readonly Difference[], title: TitleCode): boolean {
+export function isChanged(
+  differences: readonly { to: Pick<Difference["to"], "title"> }[],
+  title: TitleCode,
+): boolean {
   return differences.some((d) => d.to.title === title);
 }

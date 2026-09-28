@@ -1,0 +1,25 @@
+{
+  "name": "@ffvii/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc",
+    "test": "vitest run search-query",
+    "test:db": "vitest run db.test",
+    "generate": "drizzle-kit generate"
+  },
+  "dependencies": {
+    "@ffvii/data": "workspace:*",
+    "@ffvii/shared": "workspace:*",
+    "drizzle-orm": "^0.45.3",
+    "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "@types/node": "~24.19.0",
+    "drizzle-kit": "^0.31.11"
+  }
+}

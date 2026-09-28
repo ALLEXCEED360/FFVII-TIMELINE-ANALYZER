@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { type Appearance, AppearanceSchema } from "./appearances.ts";
-import { CoverageIndex, displayStatus, isNewInRemakeSeries } from "./status.ts";
+import { CoverageIndex, displayStatus, isNewInRemakeSeries, ogSegmentOf } from "./status.ts";
 
 const segments = ["og_a", "og_b", "og_c", "og_d", "og_e"].map((id) => ({
   id,
@@ -37,32 +37,38 @@ function remakeSeries(title: "remake" | "rebirth", status = "depicted"): Appeara
   });
 }
 
+function subject(appearances: Appearance[]) {
+  return { appearances, ogSegment: ogSegmentOf(appearances) };
+}
+
 describe("displayStatus", () => {
   it("returns the stored status when there is one", () => {
-    expect(displayStatus([ogAt("og_a"), remakeSeries("remake")], "remake", index)).toBe("depicted");
-    expect(displayStatus([ogAt("og_a"), remakeSeries("remake", "omitted")], "remake", index)).toBe(
-      "omitted",
+    expect(displayStatus(subject([ogAt("og_a"), remakeSeries("remake")]), "remake", index)).toBe(
+      "depicted",
     );
+    expect(
+      displayStatus(subject([ogAt("og_a"), remakeSeries("remake", "omitted")]), "remake", index),
+    ).toBe("omitted");
   });
 
   it("flags covered-but-missing data as undocumented", () => {
-    expect(displayStatus([ogAt("og_b")], "remake", index)).toBe("undocumented");
+    expect(displayStatus(subject([ogAt("og_b")]), "remake", index)).toBe("undocumented");
   });
 
   it("says not yet reached beyond every title's coverage", () => {
-    expect(displayStatus([ogAt("og_e")], "remake", index)).toBe("not_yet_reached");
-    expect(displayStatus([ogAt("og_e")], "rebirth", index)).toBe("not_yet_reached");
+    expect(displayStatus(subject([ogAt("og_e")]), "remake", index)).toBe("not_yet_reached");
+    expect(displayStatus(subject([ogAt("og_e")]), "rebirth", index)).toBe("not_yet_reached");
   });
 
   it("is absent when another title covers it, or it's excluded", () => {
-    expect(displayStatus([ogAt("og_c")], "remake", index)).toBe("absent");
-    expect(displayStatus([ogAt("og_d")], "rebirth", index)).toBe("absent");
+    expect(displayStatus(subject([ogAt("og_c")]), "remake", index)).toBe("absent");
+    expect(displayStatus(subject([ogAt("og_d")]), "rebirth", index)).toBe("absent");
   });
 
   it("is absent for titles without coverage and for the original", () => {
-    expect(displayStatus([ogAt("og_a")], "intermission", index)).toBe("absent");
-    expect(displayStatus([ogAt("og_e")], "intermission", index)).toBe("absent");
-    expect(displayStatus([remakeSeries("remake")], "og", index)).toBe("absent");
+    expect(displayStatus(subject([ogAt("og_a")]), "intermission", index)).toBe("absent");
+    expect(displayStatus(subject([ogAt("og_e")]), "intermission", index)).toBe("absent");
+    expect(displayStatus(subject([remakeSeries("remake")]), "og", index)).toBe("absent");
   });
 });
 

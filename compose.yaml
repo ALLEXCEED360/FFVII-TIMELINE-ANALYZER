@@ -1,0 +1,21 @@
+# Local development database. Start with `pnpm db:up`.
+# Host port 5433, so it can run alongside other local Postgres instances on 5432.
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ffvii
+      POSTGRES_PASSWORD: ffvii
+      POSTGRES_DB: ffvii
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ffvii -d ffvii"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+volumes:
+  postgres-data:

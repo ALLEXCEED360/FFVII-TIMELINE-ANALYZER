@@ -1,5 +1,5 @@
 import { fileURLToPath } from "node:url";
-import { CoverageIndex, TITLES_IN_ORDER, displayStatus } from "@ffvii/shared";
+import { CoverageIndex, TITLES_IN_ORDER, displayStatus, ogSegmentOf } from "@ffvii/shared";
 import { describe, expect, it } from "vitest";
 import { readDataDir } from "./files.ts";
 import { formatIssue } from "./issues.ts";
@@ -22,9 +22,8 @@ describe("data/", async () => {
     const index = new CoverageIndex(dataset.segments, dataset.coverage);
     const event = dataset.entities.get("event_cloud_memories_restored")?.entity;
     expect(event).toBeDefined();
-    const statuses = TITLES_IN_ORDER.map((title) =>
-      displayStatus(event!.appearances, title, index),
-    );
+    const subject = { appearances: event!.appearances, ogSegment: ogSegmentOf(event!.appearances) };
+    const statuses = TITLES_IN_ORDER.map((title) => displayStatus(subject, title, index));
     expect(statuses).toEqual(["depicted", "not_yet_reached", "absent", "not_yet_reached"]);
   });
 });

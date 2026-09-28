@@ -304,7 +304,8 @@ function checkEntities(dataset: Dataset): Issue[] {
       if (!arcs.has(entity.arc)) issues.push(error(file, "arc", `unknown arc \`${entity.arc}\``));
       if (entity.importance >= 2) {
         for (const title of Object.keys(dataset.coverage) as TitleCode[]) {
-          if (displayStatus(entity.appearances, title, index) === "undocumented") {
+          const subject = { appearances: entity.appearances, ogSegment };
+          if (displayStatus(subject, title, index) === "undocumented") {
             issues.push(
               warning(
                 file,

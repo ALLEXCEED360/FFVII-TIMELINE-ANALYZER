@@ -28,3 +28,44 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm check
+
+  database:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: ffvii
+          POSTGRES_PASSWORD: ffvii
+          POSTGRES_DB: ffvii
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U ffvii -d ffvii"
+          --health-interval 2s
+          --health-timeout 5s
+          --health-retries 15
+    env:
+      DATABASE_URL: postgres://ffvii:ffvii@localhost:5433/ffvii
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Migrations match the schema
+        run: |
+          pnpm db:generate
+          test -z "$(git status --porcelain packages/db/migrations)"
+
+      - run: pnpm db:migrate
+
+      - run: pnpm db:seed
+
+      - run: pnpm test:db

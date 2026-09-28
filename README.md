@@ -6,12 +6,13 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 
 ## Status
 
-**Phase 1 — data model and prototype dataset (complete).** The schemas, validator and reference data are in place, with a verified prototype dataset: 5 events, 5 characters and 4 locations across all four titles (47 appearances, 22 relationships). Next: Phase 2, the database. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
+**Phase 2 — database (complete).** PostgreSQL schema, migrations and a seed that rebuilds the database from `data/`, with the core queries: timeline, play order, entity detail, comparison, neighbourhood and search. The prototype dataset covers 5 events, 5 characters and 4 locations across all four titles. Next: Phase 3, the REST API. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
 
 | Package                            | What it does                                                                       |
 | ---------------------------------- | ---------------------------------------------------------------------------------- |
 | [`@ffvii/shared`](packages/shared) | Zod schemas and types for all data; titles, locators, chronology, derived statuses |
 | [`@ffvii/data`](packages/data)     | Loads and validates `data/`; generates editor schemas                              |
+| [`@ffvii/db`](packages/db)         | PostgreSQL schema, migrations, seeding and queries                                 |
 
 ## Roadmap
 
@@ -45,19 +46,26 @@ TypeScript throughout, in a pnpm monorepo.
 
 ## Development
 
-Requires Node 24 and pnpm.
+Requires Node 24, pnpm and Docker.
 
 ```bash
 pnpm install
+cp .env.example .env
+pnpm db:up && pnpm db:migrate && pnpm db:seed
 pnpm check
+pnpm test:db
 ```
 
-| Command         | What it does                                                        |
-| --------------- | ------------------------------------------------------------------- |
-| `pnpm check`    | Everything CI runs: types, lint, formatting, tests, data validation |
-| `pnpm validate` | Check `data/` against every rule in the design docs                 |
-| `pnpm schemas`  | Regenerate the editor's YAML schemas after changing a Zod schema    |
-| `pnpm format`   | Format everything with Prettier                                     |
+| Command            | What it does                                                            |
+| ------------------ | ----------------------------------------------------------------------- |
+| `pnpm check`       | Everything CI runs without a database: types, lint, format, tests, data |
+| `pnpm validate`    | Check `data/` against every rule in the design docs                     |
+| `pnpm db:up`       | Start the local Postgres (Docker, port 5433)                            |
+| `pnpm db:seed`     | Rebuild the database from `data/`                                       |
+| `pnpm db:reset`    | Wipe the database, then migrate and seed from scratch                   |
+| `pnpm test:db`     | Database tests (needs `pnpm db:up`)                                     |
+| `pnpm db:generate` | Create a migration after changing `packages/db/src/schema.ts`           |
+| `pnpm schemas`     | Regenerate the editor's YAML schemas after changing a Zod schema        |
 
 ## License
 
