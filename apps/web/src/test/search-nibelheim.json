@@ -1,0 +1,53 @@
+{
+  "terms": ["nibelheim"],
+  "items": [
+    {
+      "id": "location_nibelheim",
+      "kind": "location",
+      "name": "Nibelheim",
+      "reason": "name",
+      "detail": "Nibelheim",
+      "score": 3
+    },
+    {
+      "id": "event_nibelheim_incident",
+      "kind": "event",
+      "name": "Nibelheim Incident",
+      "reason": "name",
+      "detail": "Nibelheim Incident",
+      "score": 2
+    },
+    {
+      "id": "character_cloud_strife",
+      "kind": "character",
+      "name": "Cloud Strife",
+      "reason": "summary",
+      "detail": null,
+      "score": 0.6
+    },
+    {
+      "id": "character_tifa_lockhart",
+      "kind": "character",
+      "name": "Tifa Lockhart",
+      "reason": "summary",
+      "detail": null,
+      "score": 0.6
+    },
+    {
+      "id": "character_sephiroth",
+      "kind": "character",
+      "name": "Sephiroth",
+      "reason": "appearance",
+      "detail": "og",
+      "score": 0.5
+    },
+    {
+      "id": "event_cloud_memories_restored",
+      "kind": "event",
+      "name": "Cloud's Memories Restored",
+      "reason": "appearance",
+      "detail": "og",
+      "score": 0.5
+    }
+  ]
+}

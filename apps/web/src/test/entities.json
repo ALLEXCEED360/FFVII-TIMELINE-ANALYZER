@@ -1,0 +1,102 @@
+{
+  "items": [
+    {
+      "id": "character_aerith_gainsborough",
+      "kind": "character",
+      "name": "Aerith Gainsborough",
+      "summary": "A flower seller from the Sector 5 slums, and the last of the Cetra.",
+      "titles": ["og", "remake", "intermission", "rebirth"]
+    },
+    {
+      "id": "character_barret_wallace",
+      "kind": "character",
+      "name": "Barret Wallace",
+      "summary": "The leader of AVALANCHE, fighting Shinra to save the planet.",
+      "titles": ["og", "remake", "intermission", "rebirth"]
+    },
+    {
+      "id": "event_mako_reactor_1_bombing",
+      "kind": "event",
+      "name": "Bombing of Mako Reactor 1",
+      "summary": "AVALANCHE's attack on Shinra's Mako Reactor 1 in Midgar, the opening mission of the story.",
+      "titles": ["og", "remake"]
+    },
+    {
+      "id": "character_cloud_strife",
+      "kind": "character",
+      "name": "Cloud Strife",
+      "summary": "A swordsman from Nibelheim who says he was once in SOLDIER, and the story's protagonist.",
+      "titles": ["og", "remake", "intermission", "rebirth"]
+    },
+    {
+      "id": "event_cloud_memories_restored",
+      "kind": "event",
+      "name": "Cloud's Memories Restored",
+      "summary": "In the Lifestream, Cloud recovers his true memories of the past five years.",
+      "titles": ["og"]
+    },
+    {
+      "id": "event_aerith_death",
+      "kind": "event",
+      "name": "Death of Aerith",
+      "summary": "Sephiroth kills Aerith as she prays at the altar in the Forgotten Capital.",
+      "titles": ["og", "rebirth"]
+    },
+    {
+      "id": "event_sector_7_plate_fall",
+      "kind": "event",
+      "name": "Fall of the Sector 7 Plate",
+      "summary": "Shinra brings the upper plate of Sector 7 down onto the slums beneath it.",
+      "titles": ["og", "remake", "intermission", "rebirth"]
+    },
+    {
+      "id": "location_forgotten_capital",
+      "kind": "location",
+      "name": "Forgotten Capital",
+      "summary": "A city of the Cetra in the far north, where Aerith goes to pray.",
+      "titles": ["og", "rebirth"]
+    },
+    {
+      "id": "location_midgar",
+      "kind": "location",
+      "name": "Midgar",
+      "summary": "Shinra's city, divided into sectors and powered by mako reactors, with slums beneath its upper plate.",
+      "titles": ["og", "remake", "intermission", "rebirth"]
+    },
+    {
+      "id": "location_nibelheim",
+      "kind": "location",
+      "name": "Nibelheim",
+      "summary": "A mountain village with a Shinra reactor, and the hometown of Cloud and Tifa.",
+      "titles": ["og", "remake", "rebirth"]
+    },
+    {
+      "id": "event_nibelheim_incident",
+      "kind": "event",
+      "name": "Nibelheim Incident",
+      "summary": "Five years before the story, Sephiroth burns Cloud and Tifa's hometown during a Shinra mission to its Mako reactor.",
+      "titles": ["og", "remake", "rebirth"]
+    },
+    {
+      "id": "location_sector_7",
+      "kind": "location",
+      "name": "Sector 7",
+      "summary": "A sector of Midgar, home to the Seventh Heaven bar in the slums beneath its plate.",
+      "titles": ["og", "remake", "intermission", "rebirth"]
+    },
+    {
+      "id": "character_sephiroth",
+      "kind": "character",
+      "name": "Sephiroth",
+      "summary": "A legendary SOLDIER, believed dead, whom the party pursues across the world.",
+      "titles": ["og", "remake", "rebirth"]
+    },
+    {
+      "id": "character_tifa_lockhart",
+      "kind": "character",
+      "name": "Tifa Lockhart",
+      "summary": "Cloud's childhood friend from Nibelheim, who runs the Seventh Heaven bar in Sector 7.",
+      "titles": ["og", "remake", "intermission", "rebirth"]
+    }
+  ]
+}

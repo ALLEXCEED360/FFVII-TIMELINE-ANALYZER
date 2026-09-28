@@ -1,15 +1,11 @@
-import {
-  DIFFERENCE_CATEGORY_LABELS,
-  FRAMING_LABELS,
-  STATUS_DESCRIPTIONS,
-  STATUS_LABELS,
-  formatYearBounds,
-} from "@ffvii/shared/labels";
-import type { Appearance, EntityDetail, Reference } from "../../api/client";
+import { formatYearBounds } from "@ffvii/shared/labels";
+import { Link } from "react-router";
+import type { EntityDetail, Reference } from "../../api/client";
 import { useEntity } from "../../api/queries";
 import { ErrorMessage, Loading } from "../../components/QueryState";
-import { describeLocator, titleShort, worldName } from "../../lib/reference";
-import { TITLE_COLOR } from "../../lib/titles";
+import { entityPath } from "../../lib/paths";
+import { describeLocator } from "../../lib/reference";
+import { AppearanceCard, DifferenceList, TitleDots } from "../entity/parts";
 
 /**
  * The inspector (blueprint §25): the selected event in full, without leaving the timeline —
@@ -28,16 +24,21 @@ export function EventInspector({
 
   return (
     <aside aria-label="Inspector" className="panel flex flex-col gap-5 p-4">
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-center justify-between gap-3">
         <span className="label">Inspector</span>
-        <button
-          type="button"
-          className="btn px-2 py-0.5"
-          onClick={onClose}
-          aria-label="Close inspector"
-        >
-          ✕
-        </button>
+        <div className="flex items-center gap-1.5">
+          <Link to={entityPath(id)} className="btn px-2 py-0.5">
+            Open page
+          </Link>
+          <button
+            type="button"
+            className="btn px-2 py-0.5"
+            onClick={onClose}
+            aria-label="Close inspector"
+          >
+            ✕
+          </button>
+        </div>
       </div>
       {query.isPending ? (
         <Loading label="Loading event…" />
@@ -97,23 +98,7 @@ function EventDetails({
           <h3 id="inspector-differences" className="label">
             Differences
           </h3>
-          <ul className="flex flex-col gap-2">
-            {entity.differences.map((d) => (
-              <li key={d.id} className="rounded border border-night-700 p-2.5 text-sm">
-                <p className="mb-1 flex flex-wrap gap-1.5">
-                  <span className="chip">
-                    {titleShort(reference, d.from.title)} → {titleShort(reference, d.to.title)}
-                  </span>
-                  <span className="chip">{DIFFERENCE_CATEGORY_LABELS[d.category]}</span>
-                  {d.magnitude === "major" && (
-                    <span className="chip border-mako-500 text-mako-300">Major</span>
-                  )}
-                  {d.certainty === "ambiguous" && <span className="chip">Left open</span>}
-                </p>
-                <p className="text-steel-200">{d.summary}</p>
-              </li>
-            ))}
-          </ul>
+          <DifferenceList differences={entity.differences} reference={reference} />
         </section>
       )}
 
@@ -125,21 +110,23 @@ function EventDetails({
           <ul className="flex flex-col gap-1.5 text-sm">
             {[...places, ...people].map((r) => (
               <li key={r.id} className="flex flex-wrap items-baseline gap-x-2">
-                <span className="text-steel-100">{r.other.name}</span>
+                <Link to={entityPath(r.other.id)} className="text-steel-100 hover:text-mako-300">
+                  {r.other.name}
+                </Link>
                 {typeof r.attributes.role === "string" && (
                   <span className="text-xs text-steel-400">{r.attributes.role}</span>
                 )}
-                <span className="ml-auto flex gap-1">
-                  {r.titles.map((t) => (
-                    <span
-                      key={t.title}
-                      role="img"
-                      title={titleShort(reference, t.title)}
-                      aria-label={titleShort(reference, t.title)}
-                      className="size-2 rotate-45"
-                      style={{ background: TITLE_COLOR[t.title] }}
-                    />
-                  ))}
+                <span className="ml-auto">
+                  <TitleDots
+                    titles={r.titles.map((t) => t.title)}
+                    reference={reference}
+                    describe={(title) =>
+                      r.titles
+                        .find((t) => t.title === title)
+                        ?.sources.map((s) => describeLocator(reference, s))
+                        .join("; ") ?? ""
+                    }
+                  />
                 </span>
               </li>
             ))}
@@ -147,54 +134,5 @@ function EventDetails({
         </section>
       )}
     </>
-  );
-}
-
-function AppearanceCard({
-  appearance,
-  reference,
-}: {
-  appearance: Appearance;
-  reference: Reference | undefined;
-}) {
-  return (
-    <article
-      className="rounded border border-night-700 border-l-2 p-3"
-      style={{ borderLeftColor: TITLE_COLOR[appearance.title] }}
-    >
-      <header className="mb-1.5 flex flex-wrap items-center gap-1.5">
-        <h4 className="font-display text-sm font-semibold text-steel-100">
-          {titleShort(reference, appearance.title)}
-        </h4>
-        <span className="chip" title={STATUS_DESCRIPTIONS[appearance.status]}>
-          {STATUS_LABELS[appearance.status]}
-        </span>
-        {appearance.world !== "world_main" && (
-          <span className="chip border-title-rebirth/60">
-            {worldName(reference, appearance.world)}
-          </span>
-        )}
-        {appearance.certainty !== "stated" && (
-          <span className="chip">
-            {appearance.certainty === "ambiguous" ? "Left open" : "Inferred"}
-          </span>
-        )}
-      </header>
-      <p className="text-sm text-steel-300">{appearance.summary}</p>
-      {appearance.depictions.length > 0 && (
-        <ul className="mt-2 flex flex-col gap-1">
-          {appearance.depictions.map((d, i) => (
-            <li key={i} className="flex flex-wrap gap-x-2 text-xs">
-              <span className="font-mono text-steel-400">
-                {describeLocator(reference, d.locator)}
-              </span>
-              <span className="text-steel-300">{FRAMING_LABELS[d.framing]}</span>
-              {d.note && <span className="text-steel-400">— {d.note}</span>}
-            </li>
-          ))}
-        </ul>
-      )}
-      {appearance.notes && <p className="mt-2 text-xs text-steel-400 italic">{appearance.notes}</p>}
-    </article>
   );
 }

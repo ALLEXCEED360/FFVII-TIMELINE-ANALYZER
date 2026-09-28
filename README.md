@@ -6,7 +6,7 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 
 ## Status
 
-**Phase 4 — web app shell and first timeline (complete).** The React app with its shell, home page and the timeline: one lane per title, in-universe or play order, zoom and pan, filters, a list layout, and an inspector for the selected event. Next: Phase 5, the entity explorer and search. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
+**Phase 5 — entity explorer and search (complete).** A page for every character, event, location and organization (`/character/cloud-strife`), an Explore catalogue with filters, and a Ctrl/⌘ + K search palette with typo-tolerant, grouped results — alongside the timeline from Phase 4. Next: Phase 6, the comparison view. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
 
 | Package                            | What it does                                                                       |
 | ---------------------------------- | ---------------------------------------------------------------------------------- |

@@ -30,6 +30,16 @@ export function useTimeline(titles: readonly TitleCode[]) {
   });
 }
 
+export function useSearch(q: string) {
+  const query = q.trim();
+  return useQuery({
+    queryKey: ["search", query],
+    queryFn: () => unwrap(api.GET("/search", { params: { query: { q: query, limit: 20 } } })),
+    enabled: query.length > 0,
+    placeholderData: keepPreviousData,
+  });
+}
+
 export function useEntity(id: string | undefined) {
   return useQuery({
     queryKey: ["entity", id],

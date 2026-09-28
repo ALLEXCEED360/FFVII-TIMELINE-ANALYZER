@@ -14,6 +14,15 @@ export const routes: RouteObject[] = [
         path: "timeline",
         lazy: () => import("../pages/TimelinePage").then((m) => ({ Component: m.TimelinePage })),
       },
+      {
+        path: "explore",
+        lazy: () => import("../pages/ExplorePage").then((m) => ({ Component: m.ExplorePage })),
+      },
+      // /character/cloud-strife, /event/nibelheim-incident, … (unknown kinds show "not found").
+      {
+        path: ":kind/:slug",
+        lazy: () => import("../pages/EntityPage").then((m) => ({ Component: m.EntityPage })),
+      },
       { path: "*", element: <NotFoundPage /> },
     ],
   },

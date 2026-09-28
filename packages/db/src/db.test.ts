@@ -236,6 +236,10 @@ describe("search", () => {
       detail: "Aeris",
     });
     expect((await search(db, { q: "sephirot" })).results[0]?.id).toBe("character_sephiroth");
+    // A typo still finds long names that contain the word.
+    const typo = (await search(db, { q: "nibelhiem" })).results.map((r) => r.id);
+    expect(typo).toContain("location_nibelheim");
+    expect(typo).toContain("event_nibelheim_incident");
   });
 
   it("needs every word to match, numbers included", async () => {

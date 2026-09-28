@@ -1,0 +1,61 @@
+{
+  "terms": ["aeris"],
+  "items": [
+    {
+      "id": "character_aerith_gainsborough",
+      "kind": "character",
+      "name": "Aerith Gainsborough",
+      "reason": "name",
+      "detail": "Aeris",
+      "score": 3
+    },
+    {
+      "id": "event_aerith_death",
+      "kind": "event",
+      "name": "Death of Aerith",
+      "reason": "name",
+      "detail": "Death of Aerith",
+      "score": 0.6
+    },
+    {
+      "id": "location_forgotten_capital",
+      "kind": "location",
+      "name": "Forgotten Capital",
+      "reason": "summary",
+      "detail": null,
+      "score": 0.6
+    },
+    {
+      "id": "character_sephiroth",
+      "kind": "character",
+      "name": "Sephiroth",
+      "reason": "appearance",
+      "detail": "og",
+      "score": 0.5
+    },
+    {
+      "id": "character_tifa_lockhart",
+      "kind": "character",
+      "name": "Tifa Lockhart",
+      "reason": "appearance",
+      "detail": "rebirth",
+      "score": 0.5
+    },
+    {
+      "id": "event_nibelheim_incident",
+      "kind": "event",
+      "name": "Nibelheim Incident",
+      "reason": "appearance",
+      "detail": "rebirth",
+      "score": 0.5
+    },
+    {
+      "id": "event_sector_7_plate_fall",
+      "kind": "event",
+      "name": "Fall of the Sector 7 Plate",
+      "reason": "appearance",
+      "detail": "og",
+      "score": 0.5
+    }
+  ]
+}

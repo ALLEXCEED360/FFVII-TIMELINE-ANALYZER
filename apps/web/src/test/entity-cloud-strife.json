@@ -1,0 +1,350 @@
+{
+  "id": "character_cloud_strife",
+  "kind": "character",
+  "name": "Cloud Strife",
+  "aliases": [],
+  "summary": "A swordsman from Nibelheim who says he was once in SOLDIER, and the story's protagonist.",
+  "notes": null,
+  "ogSegmentId": "og_reactor_1",
+  "event": null,
+  "appearances": [
+    {
+      "title": "og",
+      "world": "world_main",
+      "status": "depicted",
+      "summary": "Joins AVALANCHE for money and is drawn into the pursuit of Sephiroth. His account of his own past proves false, and he recovers the truth in the Lifestream.",
+      "role": "A hired ex-SOLDIER, by his own account, who joins AVALANCHE's raid for pay",
+      "when": null,
+      "playPosition": 0,
+      "sources": [
+        {
+          "title": "og",
+          "disc": 1,
+          "segment": "og_reactor_1",
+          "scene": "Biggs: You used to be in SOLDIER"
+        },
+        {
+          "title": "og",
+          "disc": 1,
+          "segment": "og_seventh_heaven",
+          "scene": "I want to talk about my money"
+        }
+      ],
+      "certainty": "stated",
+      "notes": null,
+      "depictions": [
+        {
+          "locator": { "title": "og", "disc": 1, "segment": "og_reactor_1" },
+          "framing": "direct",
+          "seq": null,
+          "isPrimary": true,
+          "note": null,
+          "playPosition": 0
+        }
+      ]
+    },
+    {
+      "title": "remake",
+      "world": "world_main",
+      "status": "depicted",
+      "summary": "Joins AVALANCHE's raids \"for the paycheck\" and is drawn into the fight against Shinra.",
+      "role": "A mercenary and self-described ex-SOLDIER working for AVALANCHE",
+      "when": null,
+      "playPosition": 1,
+      "sources": [{ "title": "remake", "chapter": 1, "scene": "I'm just here for the paycheck" }],
+      "certainty": "stated",
+      "notes": null,
+      "depictions": [
+        {
+          "locator": { "title": "remake", "chapter": 1 },
+          "framing": "direct",
+          "seq": null,
+          "isPrimary": true,
+          "note": null,
+          "playPosition": 1
+        }
+      ]
+    },
+    {
+      "title": "remake",
+      "world": "world_zack_survives",
+      "status": "depicted",
+      "summary": "Carried toward Midgar by Zack after Zack survives the Shinra troops.",
+      "role": "Carried by Zack, unable to act for himself",
+      "when": null,
+      "playPosition": 18,
+      "sources": [{ "title": "remake", "chapter": 18, "scene": "Almost there, Cloud" }],
+      "certainty": "stated",
+      "notes": null,
+      "depictions": [
+        {
+          "locator": { "title": "remake", "chapter": 18 },
+          "framing": "direct",
+          "seq": null,
+          "isPrimary": true,
+          "note": null,
+          "playPosition": 18
+        }
+      ]
+    },
+    {
+      "title": "intermission",
+      "world": "world_main",
+      "status": "depicted",
+      "summary": "Absent from Yuffie's mission (AVALANCHE mention having lost him); seen with the party leaving Midgar in the post-credits scene.",
+      "role": null,
+      "when": null,
+      "playPosition": 1,
+      "sources": [
+        { "title": "intermission", "chapter": 1, "scene": "Where's Cloud? — We lost him." },
+        { "title": "intermission", "chapter": 2, "scene": "post-credits scene" }
+      ],
+      "certainty": "stated",
+      "notes": null,
+      "depictions": [
+        {
+          "locator": { "title": "intermission", "chapter": 1 },
+          "framing": "mention",
+          "seq": null,
+          "isPrimary": true,
+          "note": null,
+          "playPosition": 1
+        },
+        {
+          "locator": { "title": "intermission", "chapter": 2 },
+          "framing": "direct",
+          "seq": null,
+          "isPrimary": false,
+          "note": "post-credits scene",
+          "playPosition": 2
+        }
+      ]
+    },
+    {
+      "title": "rebirth",
+      "world": "world_main",
+      "status": "depicted",
+      "summary": "Tells his account of Nibelheim at Kalm and follows Sephiroth to the Forgotten Capital.",
+      "role": "Leads the pursuit of Sephiroth beyond Midgar",
+      "when": null,
+      "playPosition": 1,
+      "sources": [
+        { "title": "rebirth", "chapter": 1 },
+        { "title": "rebirth", "chapter": 14 }
+      ],
+      "certainty": "stated",
+      "notes": null,
+      "depictions": [
+        {
+          "locator": { "title": "rebirth", "chapter": 1 },
+          "framing": "direct",
+          "seq": null,
+          "isPrimary": true,
+          "note": null,
+          "playPosition": 1
+        }
+      ]
+    },
+    {
+      "title": "rebirth",
+      "world": "world_zack_survives",
+      "status": "depicted",
+      "summary": "Left by Zack in someone else's care in Midgar, \"too much mako\" in him.",
+      "role": "Unresponsive from mako poisoning, in Zack's care",
+      "when": null,
+      "playPosition": 0.5,
+      "sources": [
+        { "title": "rebirth", "part": "interlude", "scene": "Zack: Could ya look after my friend?" }
+      ],
+      "certainty": "stated",
+      "notes": null,
+      "depictions": [
+        {
+          "locator": { "title": "rebirth", "part": "interlude" },
+          "framing": "direct",
+          "seq": null,
+          "isPrimary": true,
+          "note": null,
+          "playPosition": 0.5
+        }
+      ]
+    }
+  ],
+  "differences": [],
+  "relationships": [
+    {
+      "id": "edge_fed1459d1963c78e",
+      "type": "hometown",
+      "category": "structural",
+      "direction": "out",
+      "label": "from",
+      "other": { "id": "location_nibelheim", "kind": "location", "name": "Nibelheim" },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [
+            {
+              "title": "og",
+              "disc": 1,
+              "segment": "og_forgotten_capital",
+              "scene": "I'm Cloud, ex-SOLDIER, born in Nibelheim"
+            }
+          ],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "sources": [{ "title": "rebirth", "chapter": 1, "scene": "Strife Residence" }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ]
+    },
+    {
+      "id": "edge_ccbe90cfd48ba572",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "out",
+      "label": "took part in",
+      "other": {
+        "id": "event_mako_reactor_1_bombing",
+        "kind": "event",
+        "name": "Bombing of Mako Reactor 1"
+      },
+      "attributes": { "role": "sets the bomb" },
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_reactor_1" }],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "sources": [{ "title": "remake", "chapter": 1 }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ]
+    },
+    {
+      "id": "edge_fc83d7ff276bc485",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "out",
+      "label": "took part in",
+      "other": {
+        "id": "event_cloud_memories_restored",
+        "kind": "event",
+        "name": "Cloud's Memories Restored"
+      },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ]
+    },
+    {
+      "id": "edge_2510df55b395330c",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "out",
+      "label": "took part in",
+      "other": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "sources": [{ "title": "rebirth", "chapter": 14 }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ]
+    },
+    {
+      "id": "edge_91623530454adffd",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "out",
+      "label": "took part in",
+      "other": {
+        "id": "event_sector_7_plate_fall",
+        "kind": "event",
+        "name": "Fall of the Sector 7 Plate"
+      },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_sector_7_pillar" }],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "sources": [{ "title": "remake", "chapter": 12 }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ]
+    },
+    {
+      "id": "edge_3589dbbcbe054cd7",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "out",
+      "label": "took part in",
+      "other": { "id": "event_nibelheim_incident", "kind": "event", "name": "Nibelheim Incident" },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" }],
+          "certainty": "stated",
+          "notes": "Present as a masked Shinra infantryman, not the SOLDIER he claimed to be."
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "sources": [{ "title": "rebirth", "chapter": 1 }],
+          "certainty": "ambiguous",
+          "notes": "Present in his own account, which Tifa privately doubts; Rebirth doesn't resolve it."
+        }
+      ]
+    }
+  ]
+}

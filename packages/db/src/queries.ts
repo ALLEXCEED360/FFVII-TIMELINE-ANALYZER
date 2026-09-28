@@ -517,13 +517,16 @@ export async function search(
       hits as (
         select t.ord, n.entity_id, 'name' as reason, n.name as detail,
                greatest(
-                 similarity(lower(n.name), t.term),
+                 -- Word similarity scores a typo against each word, so long names aren't penalised.
+                 word_similarity(t.term, lower(n.name)) * 0.9,
                  case when lower(n.name) ~ ('\\m' || t.term) then 1
                       when lower(n.name) like '%' || t.term || '%' then 0.8
                       else 0 end
                ) as score
         from terms t
-        join entity_names n on lower(n.name) % t.term or lower(n.name) like '%' || t.term || '%'
+        join entity_names n
+          on word_similarity(t.term, lower(n.name)) >= 0.5
+          or lower(n.name) like '%' || t.term || '%'
         union all
         select t.ord, e.id, 'summary', null, 0.6
         from terms t

@@ -26,7 +26,7 @@ export default defineConfig(
 
   // Tests poke at untyped YAML fixtures; strict `any` rules only add noise there.
   {
-    files: ["**/*.test.ts"],
+    files: ["**/*.test.{ts,tsx}"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-non-null-assertion": "off",

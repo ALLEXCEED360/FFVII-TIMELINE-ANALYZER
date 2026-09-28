@@ -1,12 +1,15 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-// UI state that is neither server data nor part of the URL. Remembered per browser.
+// UI state that is neither server data nor part of the URL.
 
 interface UiState {
-  /** The one-time spoiler notice has been dismissed (docs/model/spoilers.md). */
+  /** The one-time spoiler notice has been dismissed (docs/model/spoilers.md). Remembered. */
   noticeDismissed: boolean;
   dismissNotice: () => void;
+  /** The search palette is open. Not remembered. */
+  paletteOpen: boolean;
+  setPaletteOpen: (open: boolean) => void;
 }
 
 export const useUi = create<UiState>()(
@@ -15,6 +18,10 @@ export const useUi = create<UiState>()(
       noticeDismissed: false,
       dismissNotice: () => {
         set({ noticeDismissed: true });
+      },
+      paletteOpen: false,
+      setPaletteOpen: (open) => {
+        set({ paletteOpen: open });
       },
     }),
     {
@@ -27,6 +34,7 @@ export const useUi = create<UiState>()(
           return sessionStorage;
         }
       }),
+      partialize: (state) => ({ noticeDismissed: state.noticeDismissed }),
       version: 1,
     },
   ),

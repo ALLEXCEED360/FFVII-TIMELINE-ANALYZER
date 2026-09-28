@@ -3,8 +3,12 @@ import { render } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router";
 import { vi } from "vitest";
 import { routes } from "../app/routes";
+import entities from "./entities.json";
 import entityAerithDeath from "./entity-aerith-death.json";
+import entityCloudStrife from "./entity-cloud-strife.json";
 import reference from "./reference.json";
+import searchAeris from "./search-aeris.json";
+import searchNibelheim from "./search-nibelheim.json";
 import timeline from "./timeline.json";
 
 // Renders the app at a URL, with `fetch` answering from fixtures captured from the real API
@@ -15,9 +19,23 @@ type Responder = (url: URL) => { status: number; body: unknown } | undefined;
 const FIXTURES: Record<string, unknown> = {
   "/reference": reference,
   "/timeline": timeline,
+  "/entities": entities,
   "/entities/event_aerith_death": entityAerithDeath,
-  "/entities": { items: [] },
+  "/entities/character_cloud_strife": entityCloudStrife,
 };
+
+/** Search answers by query; anything else finds nothing. */
+const SEARCHES: Record<string, unknown> = { aeris: searchAeris, nibelheim: searchNibelheim };
+
+function answerFor(url: URL): { status: number; body: unknown } {
+  if (url.pathname === "/search") {
+    const q = url.searchParams.get("q") ?? "";
+    return { status: 200, body: SEARCHES[q] ?? { terms: [q], items: [] } };
+  }
+  return url.pathname in FIXTURES
+    ? { status: 200, body: FIXTURES[url.pathname] }
+    : { status: 404, body: { error: "not_found", message: "No such entity." } };
+}
 
 export function stubApi(override?: Responder) {
   const requests: URL[] = [];
@@ -26,12 +44,7 @@ export function stubApi(override?: Responder) {
     vi.fn((input: Request) => {
       const url = new URL(input.url);
       requests.push(url);
-      const custom = override?.(url);
-      const answer =
-        custom ??
-        (url.pathname in FIXTURES
-          ? { status: 200, body: FIXTURES[url.pathname] }
-          : { status: 404, body: { error: "not_found", message: "No such entity." } });
+      const answer = override?.(url) ?? answerFor(url);
       return Promise.resolve(
         new Response(JSON.stringify(answer.body), {
           status: answer.status,

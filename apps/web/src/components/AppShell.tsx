@@ -1,13 +1,23 @@
 import { NavLink, Outlet } from "react-router";
+import {
+  CommandPalette,
+  SHORTCUT_LABEL,
+  useSearchShortcut,
+} from "../features/search/CommandPalette";
+import { useUi } from "../stores/ui";
 import { SpoilerNotice } from "./SpoilerNotice";
 
 const NAV = [
   { to: "/", label: "Home", end: true },
   { to: "/timeline", label: "Timeline", end: false },
+  { to: "/explore", label: "Explore", end: false },
 ] as const;
 
-/** Header, navigation and footer around every page (blueprint §18, §20). */
+/** Header, navigation, search and footer around every page (blueprint §18, §20, §26). */
 export function AppShell() {
+  useSearchShortcut();
+  const openPalette = useUi((s) => s.setPaletteOpen);
+
   return (
     <div className="flex min-h-dvh flex-col">
       <a
@@ -49,6 +59,19 @@ export function AppShell() {
               ))}
             </ul>
           </nav>
+          <button
+            type="button"
+            onClick={() => {
+              openPalette(true);
+            }}
+            className="btn ml-auto min-w-48 justify-between text-steel-400 normal-case"
+            aria-keyshortcuts="Control+K Meta+K"
+          >
+            <span>Search…</span>
+            <kbd className="rounded border border-night-600 px-1.5 text-[10px]">
+              {SHORTCUT_LABEL}
+            </kbd>
+          </button>
         </div>
       </header>
 
@@ -62,6 +85,8 @@ export function AppShell() {
           <em>Final Fantasy VII</em> and all related names belong to Square Enix.
         </p>
       </footer>
+
+      <CommandPalette />
     </div>
   );
 }

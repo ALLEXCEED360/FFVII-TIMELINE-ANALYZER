@@ -1,0 +1,152 @@
+import { useMemo } from "react";
+import { Link, useSearchParams } from "react-router";
+import type { TitleCode } from "../api/client";
+import { useEntities, useReference } from "../api/queries";
+import { Empty, ErrorMessage, Loading } from "../components/QueryState";
+import { TitleDots } from "../features/entity/parts";
+import { ENTITY_KINDS, KIND_LABELS, entityPath, isEntityKind } from "../lib/paths";
+import { TITLE_ORDER, isTitleCode, titleShort } from "../lib/reference";
+import { TITLE_COLOR } from "../lib/titles";
+
+/** Browse everything in the archive (blueprint §20 EXPLORE): /explore?kind=character&title=rebirth&q=… */
+export function ExplorePage() {
+  const [search, setSearch] = useSearchParams();
+  const kindParam = search.get("kind") ?? undefined;
+  const kind = isEntityKind(kindParam) ? kindParam : undefined;
+  const titleParam = search.get("title") ?? "";
+  const title = isTitleCode(titleParam) ? titleParam : undefined;
+  const text = search.get("q") ?? "";
+
+  const entities = useEntities();
+  const reference = useReference();
+
+  const set = (key: string, value: string | undefined) => {
+    const next = new URLSearchParams(search);
+    if (value) next.set(key, value);
+    else next.delete(key);
+    setSearch(next, { replace: key === "q" });
+  };
+
+  const all = useMemo(() => entities.data?.items ?? [], [entities.data]);
+  const filtered = useMemo(() => {
+    const needle = text.trim().toLowerCase();
+    return all.filter(
+      (e) =>
+        (kind === undefined || e.kind === kind) &&
+        (title === undefined || e.titles.includes(title)) &&
+        (needle === "" ||
+          e.name.toLowerCase().includes(needle) ||
+          e.summary.toLowerCase().includes(needle)),
+    );
+  }, [all, kind, title, text]);
+  const counts = (k: string) => all.filter((e) => e.kind === k).length;
+
+  return (
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-col gap-1">
+        <p className="label text-mako-300">Archive</p>
+        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100">
+          Explore
+        </h1>
+        <p className="max-w-3xl text-sm text-steel-300">
+          Every character, event, location and organization in the dataset, with the titles each
+          appears in.
+        </p>
+      </header>
+
+      <div className="flex flex-col gap-3">
+        <div role="group" aria-label="Kind" className="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            className="btn"
+            aria-pressed={kind === undefined}
+            onClick={() => {
+              set("kind", undefined);
+            }}
+          >
+            All <span className="text-steel-400">{all.length}</span>
+          </button>
+          {ENTITY_KINDS.map((k) => (
+            <button
+              key={k}
+              type="button"
+              className="btn"
+              aria-pressed={kind === k}
+              onClick={() => {
+                set("kind", k);
+              }}
+            >
+              {KIND_LABELS[k].many} <span className="text-steel-400">{counts(k)}</span>
+            </button>
+          ))}
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <div role="group" aria-label="Title" className="flex flex-wrap gap-1.5">
+            {TITLE_ORDER.map((code: TitleCode) => (
+              <button
+                key={code}
+                type="button"
+                className="btn"
+                aria-pressed={title === code}
+                onClick={() => {
+                  set("title", title === code ? undefined : code);
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  className="size-2 rotate-45"
+                  style={{ background: TITLE_COLOR[code] }}
+                />
+                {titleShort(reference.data, code)}
+              </button>
+            ))}
+          </div>
+          <label className="ml-auto flex items-center gap-2">
+            <span className="label">Filter</span>
+            <input
+              type="search"
+              value={text}
+              onChange={(e) => {
+                set("q", e.target.value || undefined);
+              }}
+              placeholder="Name or description…"
+              className="w-56 rounded border border-night-600 bg-night-900 px-2.5 py-1.5 text-sm text-steel-100 placeholder:text-steel-400"
+            />
+          </label>
+        </div>
+      </div>
+
+      {entities.isPending ? (
+        <Loading variant="panel" label="Loading the archive…" />
+      ) : entities.isError ? (
+        <div className="panel p-4">
+          <ErrorMessage error={entities.error} onRetry={() => void entities.refetch()} />
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="panel">
+          <Empty>Nothing matches these filters.</Empty>
+        </div>
+      ) : (
+        <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3" aria-label="Results">
+          {filtered.map((e) => (
+            <li key={e.id}>
+              <Link
+                to={entityPath(e.id)}
+                className="panel flex h-full flex-col gap-2 p-4 transition hover:border-mako-500"
+              >
+                <span className="flex items-center justify-between gap-2">
+                  <span className="label">
+                    {isEntityKind(e.kind) ? KIND_LABELS[e.kind].one : e.kind}
+                  </span>
+                  <TitleDots titles={e.titles} reference={reference.data} />
+                </span>
+                <span className="font-display text-lg font-semibold text-steel-100">{e.name}</span>
+                <span className="text-sm text-steel-300">{e.summary}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
