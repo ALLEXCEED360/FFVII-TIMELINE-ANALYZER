@@ -1,0 +1,29 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+build/
+.vite/
+*.tsbuildinfo
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# testing
+coverage/
+playwright-report/
+test-results/
+
+# logs
+*.log
+pnpm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
