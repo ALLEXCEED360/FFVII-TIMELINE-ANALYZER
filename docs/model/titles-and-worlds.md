@@ -45,7 +45,7 @@ Each title records:
 A world is an in-story branch of reality.
 
 - **`world_main`** is the default. Every appearance is in `world_main` unless it says otherwise. The original (`og`) only ever uses `world_main`.
-- The Remake series shows at least one other world — beginning with the ending of `remake`, where Zack survives the fight on the outskirts of Midgar, and continuing in `rebirth`. The exact list of worlds, their names and where each is first shown is **Phase 1 research**; nothing is added until it's verified.
+- The Remake series shows at least one other world — beginning with the ending of `remake`, where Zack survives the fight on the outskirts of Midgar, and continuing in `intermission`'s post-credits scene and `rebirth`. The list lives in `data/reference/worlds.yaml`; so far it holds `world_zack_survives`. Nothing is added until it's verified.
 - Each world records: `id`, `name`, `firstShown` (a citation), `branchesFrom` (the event where it diverges, if the title makes that clear), `certainty`, and `notes`.
 - Where a title leaves it unclear which world a scene belongs to, the appearance uses the best-supported world and is marked `certainty: ambiguous` with a note (`canon-and-sources.md` §6).
 
@@ -59,7 +59,9 @@ The Remake series retells the original in parts, and the final part isn't out. S
 | The Remake series covered that part and left it out     | `omitted`         | **Stored**, with citations of the chapters that cover it |
 | The part is covered but nobody has entered the data yet | `undocumented`    | Derived                                                  |
 
-Coverage is stored once per title as a range of original segments. Status derivation is defined in `model/appearances.md` §3.
+Coverage is stored once per title in `data/reference/coverage.yaml`, as a range of original segments with optional `except` exclusions. Status derivation is defined in `model/appearances.md` §3.
+
+**INTERmission has no coverage.** It is a side story, not a retelling of original events, so an original event missing from it is never `omitted`, `undocumented` or `not_yet_reached` — just absent.
 
 ## 5. Titles in the UI
 

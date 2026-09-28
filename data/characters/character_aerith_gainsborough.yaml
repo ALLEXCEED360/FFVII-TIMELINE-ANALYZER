@@ -1,0 +1,80 @@
+id: character_aerith_gainsborough
+name: Aerith Gainsborough
+aliases: [Aeris, Aeris Gainsborough]
+summary: A flower seller from the Sector 5 slums, and the last of the Cetra.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Flower seller from the Sector 5 slums; the last surviving Ancient, sought by Shinra
+    summary: >-
+      Meets Cloud as a flower girl in Sector 8, joins the party, and is killed by Sephiroth at the
+      Forgotten Capital.
+    depictions:
+      - at: { title: og, disc: 1, segment: og_reactor_1 }
+        framing: direct
+        note: as the unnamed flower girl in Sector 8
+      - { at: { title: og, disc: 1, segment: og_sector_5_church }, framing: direct, primary: true }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_sector_5_church,
+          scene: "So, we meet again. Don't you remember me?",
+        }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_sector_7_pillar,
+          scene: "Tseng: the last remaining Ancient",
+        }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: Flower seller from the Sector 5 slums; the Ancient Shinra wants in its custody
+    summary: Meets Cloud as a flower peddler in Sector 8 and is taken by Tseng during the plate's fall.
+    depictions:
+      - {
+          at: { title: remake, chapter: 2 },
+          framing: direct,
+          note: "credited as the Flower Peddler",
+        }
+    sources:
+      - { title: remake, chapter: 2 }
+      - { title: remake, chapter: 12, scene: "Tseng: the Ancient, back in our custody" }
+    certainty: stated
+
+  - title: intermission
+    status: depicted
+    summary: With the party leaving Midgar in the post-credits scene.
+    depictions:
+      - { at: { title: intermission, chapter: 2 }, framing: direct, note: post-credits scene }
+    sources:
+      - { title: intermission, chapter: 2, scene: "post-credits scene" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: The last living Cetra, travelling with Cloud
+    summary: Travels with the party from Kalm and prays at the altar in the Forgotten Capital.
+    depictions:
+      - { at: { title: rebirth, chapter: 1 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 1 }
+      - { title: rebirth, chapter: 14, scene: "as the last living Cetra" }
+    certainty: stated
+
+relationships:
+  - type: participated_in
+    target: event_sector_7_plate_fall
+    role: takes Marlene to safety
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_sector_7_pillar }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 12 }], certainty: stated }
+
+  - type: participated_in
+    target: event_aerith_death
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_forgotten_capital }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 14 }], certainty: stated }

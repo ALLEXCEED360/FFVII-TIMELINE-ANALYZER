@@ -1,0 +1,14 @@
+# Which original segments each Remake-series title retells (docs/model/titles-and-worlds.md §4).
+# INTERmission has no coverage: it is a side story, not a retelling of original events.
+
+remake:
+  from: og_reactor_1
+  to: og_shinra_building
+  notes: Remake retells Midgar, ending with the escape from the city.
+rebirth:
+  from: og_kalm
+  to: og_forgotten_capital
+  notes: >-
+    Rebirth runs from Kalm to the Forgotten Capital. It also shows Aerith being laid to rest,
+    which in the original opens the second disc (og_icicle_inn); that scene is cited as a
+    depiction of the event rather than extending the coverage.

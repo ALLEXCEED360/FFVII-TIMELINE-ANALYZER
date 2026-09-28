@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "propertyNames": {
+    "$ref": "#/$defs/__schema0"
+  },
+  "additionalProperties": {
+    "anyOf": [
+      {
+        "$ref": "#/$defs/__schema0"
+      },
+      {
+        "type": "null"
+      }
+    ]
+  },
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "pattern": "^(character|event|location|organization|arc)_[a-z0-9]+(_[a-z0-9]+)*$"
+    }
+  }
+}

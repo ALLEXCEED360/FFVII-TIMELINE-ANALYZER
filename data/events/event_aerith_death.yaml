@@ -1,0 +1,84 @@
+id: event_aerith_death
+name: Death of Aerith
+summary: Sephiroth kills Aerith as she prays at the altar in the Forgotten Capital.
+when: { year: 0 }
+seq: 30
+importance: 3
+arc: arc_the_promised_land
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Aerith prays at the altar. Cloud, no longer in control of himself, moves against her until
+      the others stop him; then Sephiroth descends and kills her. The party lays her to rest in the
+      water.
+    depictions:
+      - at: { title: og, disc: 1, segment: og_forgotten_capital }
+        framing: direct
+        primary: true
+      - at: { title: og, disc: 2, segment: og_icicle_inn }
+        framing: direct
+        note: laid to rest in the water, opening the second disc
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_forgotten_capital,
+          scene: "the water altar; Cloud's speech afterwards",
+        }
+      - { title: og, disc: 2, segment: og_icicle_inn, scene: "the opening cinematic" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      At the altar, Cloud appears to block Sephiroth's blade, before the scene resolves into
+      Sephiroth killing Aerith. After she is laid to rest in the pool, Cloud goes on seeing and
+      speaking with her; Tifa does not see her.
+    depictions:
+      - { at: { title: rebirth, chapter: 14 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 14, scene: "the altar, the funeral at the pool, the departure" }
+    certainty: ambiguous
+    notes: >-
+      Rebirth shows two outcomes at the altar and then shows Cloud perceiving Aerith when others
+      don't; it doesn't say which perception is real. Visual details here come from transcript
+      stage directions and still need checking against footage.
+
+differences:
+  - key: blocked_blade
+    from: { title: og }
+    to: { title: rebirth }
+    category: presentation
+    magnitude: major
+    summary: >-
+      In OG, Sephiroth's strike is shown once; in Rebirth, Cloud first appears to deflect it
+      before the scene shows Sephiroth killing Aerith.
+    sources:
+      - { title: og, disc: 1, segment: og_forgotten_capital }
+      - { title: rebirth, chapter: 14 }
+    certainty: ambiguous
+    notes: Which of Rebirth's two outcomes is real is left open.
+
+  - key: after_death
+    from: { title: og }
+    to: { title: rebirth }
+    category: context
+    magnitude: major
+    summary: >-
+      In OG, Cloud mourns that Aerith will no longer talk or laugh; in Rebirth, Cloud goes on seeing
+      and hearing her after her funeral, while Tifa does not.
+    sources:
+      - { title: og, disc: 1, segment: og_forgotten_capital, scene: "Cloud's words to Sephiroth" }
+      - { title: rebirth, chapter: 14, scene: "leaving the Forgotten Capital" }
+    related: [character_cloud_strife, character_tifa_lockhart]
+    certainty: ambiguous
+    notes: Rebirth doesn't explain what Cloud is seeing.
+
+relationships:
+  - type: occurred_at
+    target: location_forgotten_capital
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_forgotten_capital }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 14 }], certainty: stated }

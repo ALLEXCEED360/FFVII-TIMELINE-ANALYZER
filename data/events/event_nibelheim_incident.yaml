@@ -1,0 +1,84 @@
+id: event_nibelheim_incident
+name: Nibelheim Incident
+summary: >-
+  Five years before the story, Sephiroth burns Cloud and Tifa's hometown during a Shinra mission
+  to its Mako reactor.
+when: { year: -5 }
+importance: 3
+arc: arc_the_journey_begins
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Sephiroth, sent with a SOLDIER and Shinra infantry to Nibelheim's reactor, learns of the
+      Jenova Project, sets the town ablaze and cuts down villagers, then goes to Jenova at the
+      reactor. Cloud's account at Kalm casts himself as the SOLDIER at Sephiroth's side; in the
+      Lifestream at Mideel it emerges that the SOLDIER was Zack, and Cloud a masked infantryman.
+    depictions:
+      - at: { title: og, disc: 1, segment: og_kalm }
+        framing: false_account
+        primary: true
+        note: Cloud tells it at the Kalm inn
+      - at: { title: og, disc: 2, segment: og_inside_clouds_mind }
+        framing: flashback
+        note: the true version, pieced together in the Lifestream
+    sources:
+      - { title: og, disc: 1, segment: og_kalm, scene: "Cloud's story at the inn" }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_inside_clouds_mind,
+          scene: "Tifa and Cloud in his memories",
+        }
+    certainty: stated
+
+  - title: remake
+    status: referenced
+    summary: >-
+      Only alluded to: when Sephiroth appears to Cloud in the wreckage of Sector 8, Cloud insists
+      he killed him, and Sephiroth speaks of Cloud's hometown burning.
+    depictions:
+      - at: { title: remake, chapter: 2 }
+        framing: vision
+        note: Sephiroth's "your hometown that burns so bright"
+    sources:
+      - { title: remake, chapter: 2, scene: "Follow Him — Sephiroth in Sector 8" }
+    certainty: inferred
+    notes: >-
+      Remake doesn't name the town here. It is identified as Nibelheim and this event from the
+      original and Rebirth, where Cloud's hometown is Nibelheim and it burns five years earlier.
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      The first chapter plays Cloud's account at Kalm in full, with Cloud a SOLDIER First Class at
+      sixteen. Afterwards Tifa privately tells Aerith that, as far as she knows, Cloud was never in
+      Nibelheim five years ago. Rebirth leaves the contradiction unresolved.
+    depictions:
+      - { at: { title: rebirth, chapter: 1 }, framing: disputed_account }
+    sources:
+      - { title: rebirth, chapter: 1, scene: "Cloud's narration; Tifa and Aerith that night" }
+    certainty: stated
+
+differences:
+  - key: framing
+    from: { title: og }
+    to: { title: rebirth }
+    category: presentation
+    magnitude: major
+    summary: >-
+      In OG, Cloud's account at Kalm is later exposed as false in the Lifestream; in Rebirth, the
+      account is played in full and questioned by Tifa, but not resolved within the title.
+    sources:
+      - { title: og, disc: 1, segment: og_kalm }
+      - { title: og, disc: 2, segment: og_inside_clouds_mind }
+      - { title: rebirth, chapter: 1 }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_nibelheim
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_kalm }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 1 }], certainty: stated }

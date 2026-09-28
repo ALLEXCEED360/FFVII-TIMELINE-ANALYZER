@@ -24,6 +24,18 @@ export default defineConfig(
     },
   },
 
+  // Tests poke at untyped YAML fixtures; strict `any` rules only add noise there.
+  {
+    files: ["**/*.test.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+    },
+  },
+
   // React rules for the web app.
   {
     files: ["apps/web/**/*.{ts,tsx}"],

@@ -1,0 +1,44 @@
+id: location_nibelheim
+name: Nibelheim
+summary: A mountain village with a Shinra reactor, and the hometown of Cloud and Tifa.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Seen first in Cloud and Tifa's memories; the party later finds it apparently rebuilt, as if
+      nothing had happened.
+    depictions:
+      - {
+          at: { title: og, disc: 1, segment: og_seventh_heaven },
+          framing: flashback,
+          note: "the well",
+        }
+      - { at: { title: og, disc: 1, segment: og_kalm }, framing: false_account }
+      - { at: { title: og, disc: 1, segment: og_nibelheim }, framing: direct, primary: true }
+    sources:
+      - { title: og, disc: 1, segment: og_seventh_heaven }
+      - { title: og, disc: 1, segment: og_kalm }
+      - { title: og, disc: 1, segment: og_nibelheim }
+    certainty: stated
+
+  - title: remake
+    status: referenced
+    summary: Only alluded to, as Cloud's burning hometown.
+    depictions:
+      - { at: { title: remake, chapter: 2 }, framing: vision }
+    sources:
+      - { title: remake, chapter: 2, scene: "Follow Him" }
+    certainty: inferred
+    notes: >-
+      Remake doesn't name it here; identified as Nibelheim because it is Cloud's hometown in the
+      original and in Rebirth.
+
+  - title: rebirth
+    status: depicted
+    summary: The setting of the first chapter's account of five years earlier.
+    depictions:
+      - { at: { title: rebirth, chapter: 1 }, framing: disputed_account }
+    sources:
+      - { title: rebirth, chapter: 1, scene: "Sephiroth: Nibelheim." }
+    certainty: stated

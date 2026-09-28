@@ -1,0 +1,55 @@
+id: location_midgar
+name: Midgar
+summary: Shinra's city, divided into sectors and powered by mako reactors, with slums beneath its upper plate.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: The setting of the opening, from the reactor raid to the escape from the city.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_reactor_1 }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_reactor_1, scene: "Jessie's model of the city of Midgar" }
+      - { title: og, disc: 1, segment: og_shinra_building, scene: "Midgar City map: Sectors 5–8" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: The setting of the whole game.
+    depictions:
+      - { at: { title: remake, chapter: 1 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 2, scene: "Jessie's wireframe model of Midgar" }
+    certainty: stated
+
+  - title: intermission
+    status: depicted
+    summary: Yuffie arrives in Midgar on her mission for Wutai.
+    depictions:
+      - { at: { title: intermission, chapter: 1 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 1, scene: "Your girl finally made it to Midgar" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: The city the party has left behind.
+    depictions:
+      - {
+          at: { title: rebirth, chapter: 1 },
+          framing: mention,
+          note: "Cloud: after I left for Midgar",
+        }
+    sources:
+      - { title: rebirth, chapter: 1, scene: "Strife Residence" }
+    certainty: stated
+
+  - title: rebirth
+    world: world_zack_survives
+    status: depicted
+    summary: Zack makes his way through a Midgar recovering from the collapse of its expressway.
+    depictions:
+      - { at: { title: rebirth, part: interlude }, framing: direct }
+    sources:
+      - { title: rebirth, part: interlude, scene: "the reporter on the Midgar Expressway" }
+    certainty: stated

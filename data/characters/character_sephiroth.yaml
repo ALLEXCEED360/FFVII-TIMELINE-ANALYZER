@@ -1,0 +1,71 @@
+id: character_sephiroth
+name: Sephiroth
+summary: A legendary SOLDIER, believed dead, whom the party pursues across the world.
+
+appearances:
+  - title: og
+    status: depicted
+    role: The legendary SOLDIER the party pursues
+    summary: >-
+      Named first in Cloud and Tifa's memories; shown in Cloud's account of Nibelheim, then as the
+      party's quarry, who kills Aerith.
+    depictions:
+      - at: { title: og, disc: 1, segment: og_seventh_heaven }
+        framing: mention
+        note: named in the flashback at the Nibelheim well
+      - { at: { title: og, disc: 1, segment: og_kalm }, framing: false_account, primary: true }
+    sources:
+      - { title: og, disc: 1, segment: og_seventh_heaven }
+      - { title: og, disc: 1, segment: og_kalm }
+      - { title: og, disc: 1, segment: og_forgotten_capital }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: A figure from Cloud's past who appears to him in visions
+    summary: Appears to Cloud in visions from the second chapter, and is fought at the end of the game.
+    depictions:
+      - { at: { title: remake, chapter: 2 }, framing: vision }
+      - { at: { title: remake, chapter: 18 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 2, scene: "Follow Him" }
+      - { title: remake, chapter: 18, scene: "the battle against Sephiroth" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: The party's quarry
+    summary: Shown in Cloud's account of Nibelheim, then pursued to the Forgotten Capital.
+    depictions:
+      - { at: { title: rebirth, chapter: 1 }, framing: disputed_account }
+      - { at: { title: rebirth, chapter: 14 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 1 }
+      - { title: rebirth, chapter: 14 }
+    certainty: stated
+
+relationships:
+  - type: participated_in
+    target: event_nibelheim_incident
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_kalm }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 1 }], certainty: stated }
+
+  - type: participated_in
+    target: event_aerith_death
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_forgotten_capital }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 14 }], certainty: stated }
+
+  - type: killed
+    target: character_aerith_gainsborough
+    in: event_aerith_death
+    titles:
+      og:
+        sources:
+          - { title: og, disc: 1, segment: og_forgotten_capital, scene: "Cloud: He … killed Aeris" }
+        certainty: stated
+      rebirth:
+        sources: [{ title: rebirth, chapter: 14 }]
+        certainty: stated
+        notes: Shown after a moment in which Cloud appears to block the blade.

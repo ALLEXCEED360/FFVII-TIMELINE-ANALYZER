@@ -17,6 +17,10 @@ Design documents for the Timeline Analyzer. These are the rules the data and cod
 | [`model/spoilers.md`](model/spoilers.md)                   | Lenient spoiler policy                                             | Done   |
 | [`features/divergence.md`](features/divergence.md)         | The Divergence view                                                | Draft  |
 
+## Research
+
+Working notes behind the dataset, in [`research/`](research/README.md): the [source log](research/source-log.md) and [open questions](research/open-questions.md).
+
 ## Decisions
 
 One short record per architecture decision, numbered in order.

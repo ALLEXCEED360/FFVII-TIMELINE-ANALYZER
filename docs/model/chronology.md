@@ -62,7 +62,7 @@ In-universe time lives on the **entity**, because usually all titles agree. When
 - its appearance carries its own `when`, which overrides the entity's for that title; **and**
 - the entity records a difference with `category: chronology` (`model/appearances.md` §5).
 
-The validator requires both or neither, so the timeline and the comparison view can't disagree.
+The validator rejects an override without a `chronology` difference for that title, so the timeline and the comparison view can't disagree. (A `chronology` difference can also exist without an override — for example when titles only reveal the event in a different order.)
 
 ## 6. Eras and the time scale
 
@@ -107,7 +107,7 @@ type Year = { year: number; approx?: boolean };
 type InUniverseDate = Year | { between: [Year, Year] };
 type When = InUniverseDate | { start: InUniverseDate; end: InUniverseDate };
 
-// Event entity:  when?: When; seq?: number
+// Event entity:  when: When (required); seq?: number
 // Appearance:    when?: When   (override; requires a chronology difference)
 // Depiction:     at: Locator; seq?: number; primary?: boolean
 ```

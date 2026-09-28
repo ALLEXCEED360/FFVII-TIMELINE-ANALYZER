@@ -13,7 +13,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "pnpm -r --if-present run test",
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test"
+    "validate": "node packages/data/src/cli/validate.ts data",
+    "schemas": "node packages/data/src/cli/schemas.ts",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm validate"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

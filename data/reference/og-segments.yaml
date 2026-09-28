@@ -1,0 +1,167 @@
+# The original's story segments, in play order (docs/canon-and-sources.md §10).
+# Main-story progression only: optional content (Wutai, Fort Condor's first visit, Lucrecia's
+# cave, optional flashbacks) is cited by the segment in which it becomes available, with
+# `optional: true` on the locator. Disc boundaries: disc 1 ends with Aerith's death; disc 2 ends
+# after the talk aboard the Highwind. See docs/research/source-log.md.
+
+# ── Disc 1 ──────────────────────────────────────────────────────────────────
+- id: og_reactor_1
+  name: Mako Reactor 1
+  disc: 1
+  summary: AVALANCHE's bombing of Mako Reactor 1 and the escape through Sector 8.
+- id: og_seventh_heaven
+  name: Seventh Heaven
+  disc: 1
+  summary: Back in the Sector 7 slums at AVALANCHE's hideout, and the plan for the next reactor.
+- id: og_reactor_5
+  name: Mako Reactor 5
+  disc: 1
+  summary: The train to Sector 4, the Reactor 5 mission and the ambush that follows.
+- id: og_sector_5_church
+  name: The Sector 5 Church
+  disc: 1
+  summary: Cloud falls into the Sector 5 church, meets Aerith properly and escorts her.
+- id: og_wall_market
+  name: Wall Market
+  disc: 1
+  summary: Tracking Tifa to Wall Market and Don Corneo's mansion.
+- id: og_sector_7_pillar
+  name: The Sector 7 Pillar
+  disc: 1
+  summary: Through the sewers and the train graveyard to the pillar, and the fall of the plate.
+- id: og_aerith_story
+  name: Aerith's Story
+  disc: 1
+  summary: Elmyra tells Aerith's story; the climb up to the plate.
+- id: og_shinra_building
+  name: The Shinra Building
+  disc: 1
+  summary: Infiltrating Shinra headquarters, the President's death and the escape from Midgar.
+- id: og_kalm
+  name: Kalm
+  disc: 1
+  summary: At the Kalm inn, Cloud tells his account of Nibelheim five years earlier.
+- id: og_road_to_junon
+  name: The Road to Junon
+  disc: 1
+  summary: The Chocobo Farm, the marshes and the Mythril Mine.
+- id: og_junon
+  name: Junon
+  disc: 1
+  summary: Under Junon, the welcoming parade for Rufus, and stowing away.
+- id: og_cargo_ship
+  name: The Cargo Ship
+  disc: 1
+  summary: The crossing to Costa del Sol aboard a Shinra cargo ship.
+- id: og_costa_del_sol
+  name: Costa del Sol
+  disc: 1
+  summary: The resort town on the western continent.
+- id: og_corel
+  name: Corel
+  disc: 1
+  summary: Mount Corel and North Corel, and Barret's past.
+- id: og_gold_saucer
+  name: The Gold Saucer
+  disc: 1
+  summary: The amusement park, and the party framed for a shooting.
+- id: og_corel_prison
+  name: Corel Prison
+  disc: 1
+  summary: The desert prison beneath the Gold Saucer.
+- id: og_gongaga
+  name: Gongaga
+  disc: 1
+  summary: The village around a ruined reactor.
+- id: og_cosmo_canyon
+  name: Cosmo Canyon
+  disc: 1
+  summary: Red XIII's home and the study of the planet.
+- id: og_nibelheim
+  name: Nibelheim
+  disc: 1
+  summary: Cloud and Tifa's hometown, apparently rebuilt, and the Shinra Manor.
+- id: og_rocket_town
+  name: Rocket Town
+  disc: 1
+  summary: Cid, his grounded rocket, and the Tiny Bronco.
+- id: og_keystone
+  name: The Keystone
+  disc: 1
+  summary: The return to the Gold Saucer for the keystone to the Temple of the Ancients.
+- id: og_temple_of_the_ancients
+  name: The Temple of the Ancients
+  disc: 1
+  summary: The temple, and the Black Materia.
+- id: og_bone_village
+  name: Bone Village
+  disc: 1
+  summary: Cloud's recovery in Gongaga, then Bone Village and the Sleeping Forest.
+- id: og_forgotten_capital
+  name: The Forgotten Capital
+  disc: 1
+  summary: The city of the Cetra, where the first disc ends.
+
+# ── Disc 2 ──────────────────────────────────────────────────────────────────
+- id: og_icicle_inn
+  name: Icicle Inn
+  disc: 2
+  summary: Aerith is laid to rest; the route north to Icicle Inn.
+- id: og_northern_crater
+  name: The Northern Crater
+  disc: 2
+  summary: The Great Glacier, Gaea's Cliff and the crater, where Meteor is summoned.
+- id: og_junon_execution
+  name: The Junon Execution
+  disc: 2
+  summary: Tifa's planned execution in Junon and the escape aboard the Highwind.
+- id: og_mideel
+  name: Mideel
+  disc: 2
+  summary: Finding Cloud in Mideel.
+- id: og_corel_huge_materia
+  name: Huge Materia at Corel
+  disc: 2
+  summary: The race for the Huge Materia at North Corel.
+- id: og_fort_condor_huge_materia
+  name: Huge Materia at Fort Condor
+  disc: 2
+  summary: The battle for the Huge Materia at Fort Condor.
+- id: og_inside_clouds_mind
+  name: Inside Cloud's Mind
+  disc: 2
+  summary: Cloud and Tifa fall into the Lifestream at Mideel, where Cloud's memories are restored.
+- id: og_underwater_reactor
+  name: The Underwater Reactor
+  disc: 2
+  summary: The Huge Materia at Junon's underwater reactor, and the submarine.
+- id: og_rocket_launch
+  name: The Rocket
+  disc: 2
+  summary: Rocket Town's rocket is launched at Meteor, with the last Huge Materia aboard.
+- id: og_cosmo_canyon_return
+  name: Remembering Aerith
+  disc: 2
+  summary: Back to Cosmo Canyon, to find out what Aerith was trying to do.
+- id: og_aerith_prayer
+  name: Aerith's Prayer
+  disc: 2
+  summary: The Forgotten Capital again, where the party learns what Aerith left behind.
+- id: og_midgar_raid
+  name: The Midgar Raid
+  disc: 2
+  summary: The attack on Midgar and the confrontation with Hojo.
+- id: og_highwind
+  name: Aboard the Highwind
+  disc: 2
+  summary: The party's talk aboard the Highwind before the final descent, where the second disc ends.
+
+# ── Disc 3 ──────────────────────────────────────────────────────────────────
+- id: og_northern_cave
+  name: The Northern Cave
+  disc: 3
+  summary: The descent into the crater's depths.
+- id: og_finale
+  name: The Final Battle
+  disc: 3
+  summary: The last battle with Sephiroth, the fate of Meteor, and the epilogue.

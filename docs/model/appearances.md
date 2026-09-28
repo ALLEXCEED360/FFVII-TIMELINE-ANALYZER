@@ -98,14 +98,15 @@ A depiction is one place in a title where the entity is shown or mentioned.
 | `seq`     | —        | Orders several depictions in the same chapter or segment |
 | `note`    | —        | One short line, e.g. "told by Cloud at the inn"          |
 
-| Framing         | Meaning                                                                                                    |
-| --------------- | ---------------------------------------------------------------------------------------------------------- |
-| `direct`        | Shown as it happens, in the present of the story                                                           |
-| `flashback`     | Shown as a memory or retelling that the title presents as accurate                                         |
-| `false_account` | Shown as a memory or retelling that the title reveals to be false or distorted (`canon-and-sources.md` §7) |
-| `vision`        | A vision, hallucination or other scene the title presents as not literally real                            |
-| `mention`       | Told in dialogue or text only                                                                              |
-| `glimpse`       | A brief flash of imagery, without a full scene                                                             |
+| Framing            | Meaning                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `direct`           | Shown as it happens, in the present of the story                                                                                     |
+| `flashback`        | Shown as a memory or retelling that the title presents as accurate                                                                   |
+| `false_account`    | Shown as a memory or retelling that the title reveals to be false or distorted (`canon-and-sources.md` §7)                           |
+| `disputed_account` | Shown as a memory or retelling that the title calls into doubt without resolving it (e.g. Cloud's account of Nibelheim in _Rebirth_) |
+| `vision`           | A vision, hallucination or other scene the title presents as not literally real                                                      |
+| `mention`          | Told in dialogue or text only                                                                                                        |
+| `glimpse`          | A brief flash of imagery, without a full scene                                                                                       |
 
 An appearance's **play position** — where it sits in the title's play order — is its first depiction, unless another is marked `primary: true`.
 

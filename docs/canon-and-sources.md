@@ -45,6 +45,8 @@ A fact goes into `data/` only after it has been **checked against the game itsel
 
 Wikis and fan resources may be used **only to locate** a fact (which chapter, which scene). They are never the evidence.
 
+**Status of the v0.1 dataset (2026-09-27):** every fact was checked against full script transcripts (level 3) — see `docs/research/source-log.md`. Where a fact depends on what is _shown_ rather than said, it came from the transcripts' stage directions and is listed in `docs/research/open-questions.md` for checking against footage before v1.0.
+
 ## 5. Citations
 
 Every fact cites **at least one locator** in the title that establishes it. A locator is the smallest official unit of that title:
@@ -54,7 +56,9 @@ Every fact cites **at least one locator** in the title that establishes it. A lo
 | `og`           | Disc + story segment (project-defined, §10) | `{ title: og, disc: 1, segment: og_kalm }` |
 | `remake`       | Chapter (1–18)                              | `{ title: remake, chapter: 8 }`            |
 | `intermission` | Chapter (1–2)                               | `{ title: intermission, chapter: 2 }`      |
-| `rebirth`      | Chapter (1–14)                              | `{ title: rebirth, chapter: 12 }`          |
+| `rebirth`      | Chapter (1–14), or the unnumbered interlude | `{ title: rebirth, chapter: 12 }`          |
+
+Unnumbered parts of a chaptered title are cited by `part` — so far only _Rebirth_'s opening "Interlude: A World Apart": `{ title: rebirth, part: interlude }`. Parts are listed with their titles in the shared package.
 
 - A locator may add a free-text `scene` ("the Kalm inn flashback") to help a reader find the moment. Video timestamps and links go in notes only — they rot.
 - Cite the locator(s) that **show or state** the fact most clearly. A fact may cite several.

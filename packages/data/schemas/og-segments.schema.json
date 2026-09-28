@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^og_[a-z0-9]+(_[a-z0-9]+)*$"
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "disc": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 3
+      },
+      "summary": {
+        "type": "string",
+        "minLength": 1
+      },
+      "optional": {
+        "type": "boolean",
+        "const": true
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "disc",
+      "summary"
+    ],
+    "additionalProperties": false
+  }
+}

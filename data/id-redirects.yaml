@@ -1,0 +1,3 @@
+# Retired IDs → replacement ID, or null if removed (docs/conventions/ids.md §6).
+# Empty until the first public deployment; IDs may be renamed freely before then.
+{}

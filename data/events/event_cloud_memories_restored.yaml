@@ -1,0 +1,25 @@
+id: event_cloud_memories_restored
+name: Cloud's Memories Restored
+summary: In the Lifestream, Cloud recovers his true memories of the past five years.
+when: { year: 0 }
+seq: 40
+importance: 3
+arc: arc_the_lifestream
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Inside Cloud's mind in the Lifestream at Mideel, Tifa helps him piece together what really
+      happened: he never made it into SOLDIER, and it was Zack who came to Nibelheim with
+      Sephiroth. Cloud accepts who he is.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_inside_clouds_mind }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_inside_clouds_mind,
+          scene: "Searching for the you of that day",
+        }
+    certainty: stated

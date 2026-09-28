@@ -1,0 +1,25 @@
+# In-story worlds (docs/model/titles-and-worlds.md §3). Only the Remake series shows worlds other
+# than the main one. Add a world only once its evidence is verified.
+
+- id: world_main
+  name: The main world
+  summary: The world the story follows, and the only world of the original.
+
+- id: world_zack_survives
+  name: Zack survives
+  summary: >-
+    A world, shown in the Remake series, in which Zack survives his fight with Shinra troops
+    outside Midgar and carries Cloud toward the city.
+  firstShown: { title: remake, chapter: 18, scene: "the closing scenes" }
+  sources:
+    - { title: remake, chapter: 18, scene: "Zack, after the fight, heading for Midgar with Cloud" }
+    - { title: intermission, chapter: 2, scene: "post-credits scene in Aerith's church" }
+    - { title: rebirth, part: interlude, scene: "Zack in Midgar after the expressway collapse" }
+    - { title: rebirth, chapter: 14, scene: "Zack's final scene in Aerith's church" }
+  certainty: stated
+  notes: >-
+    Rebirth states outright that separate worlds exist and part again (chapter 14). Whether the
+    Remake ending, INTERmission's post-credits scene and Rebirth's interlude all show one and the
+    same branch is treated as one world until a title distinguishes them. The branch point (Zack's
+    last stand) is not recorded yet: in the original it is shown only visually, in an optional
+    flashback, and still needs checking against footage.

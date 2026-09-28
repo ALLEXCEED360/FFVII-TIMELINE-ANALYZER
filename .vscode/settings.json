@@ -5,5 +5,17 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
+  },
+  "yaml.schemas": {
+    "./packages/data/schemas/characters.schema.json": "data/characters/*.yaml",
+    "./packages/data/schemas/events.schema.json": "data/events/*.yaml",
+    "./packages/data/schemas/locations.schema.json": "data/locations/*.yaml",
+    "./packages/data/schemas/organizations.schema.json": "data/organizations/*.yaml",
+    "./packages/data/schemas/og-segments.schema.json": "data/reference/og-segments.yaml",
+    "./packages/data/schemas/coverage.schema.json": "data/reference/coverage.yaml",
+    "./packages/data/schemas/arcs.schema.json": "data/reference/arcs.yaml",
+    "./packages/data/schemas/eras.schema.json": "data/reference/eras.yaml",
+    "./packages/data/schemas/worlds.schema.json": "data/reference/worlds.yaml",
+    "./packages/data/schemas/id-redirects.schema.json": "data/id-redirects.yaml"
   }
 }

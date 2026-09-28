@@ -1,0 +1,29 @@
+# Eras for the in-universe timeline's scale (docs/model/chronology.md §6). Year 0 is the year the
+# main story begins. Eras are contiguous; `weight` is each era's share of the timeline's width.
+# Boundaries are provisional display choices, not facts — revisit as events are added.
+
+- id: era_distant_past
+  name: The Distant Past
+  start: -3000
+  end: -101
+  weight: 1
+- id: era_shinras_rise
+  name: Shinra's Rise
+  start: -100
+  end: -6
+  weight: 1.5
+- id: era_five_years_before
+  name: Five Years Before
+  start: -5
+  end: -1
+  weight: 2
+- id: era_main_story
+  name: The Main Story
+  start: 0
+  end: 0
+  weight: 8
+- id: era_after_the_story
+  name: After the Story
+  start: 1
+  end: 1000
+  weight: 1

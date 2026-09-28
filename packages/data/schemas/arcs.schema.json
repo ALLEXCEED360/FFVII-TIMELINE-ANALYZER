@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^(character|event|location|organization|arc)_[a-z0-9]+(_[a-z0-9]+)*$"
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "summary": {
+        "type": "string",
+        "minLength": 1
+      },
+      "og": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "$ref": "#/$defs/__schema0"
+          },
+          "to": {
+            "$ref": "#/$defs/__schema0"
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ],
+        "additionalProperties": false
+      },
+      "chapters": {
+        "type": "object",
+        "propertyNames": {
+          "type": "string",
+          "enum": [
+            "remake",
+            "intermission",
+            "rebirth"
+          ]
+        },
+        "additionalProperties": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "summary",
+      "og"
+    ],
+    "additionalProperties": false
+  },
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "pattern": "^og_[a-z0-9]+(_[a-z0-9]+)*$"
+    }
+  }
+}

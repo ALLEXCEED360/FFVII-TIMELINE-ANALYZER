@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "propertyNames": {
+    "type": "string",
+    "enum": [
+      "remake",
+      "intermission",
+      "rebirth"
+    ]
+  },
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "from": {
+        "$ref": "#/$defs/__schema0"
+      },
+      "to": {
+        "$ref": "#/$defs/__schema0"
+      },
+      "except": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/__schema0"
+        }
+      },
+      "notes": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "from",
+      "to"
+    ],
+    "additionalProperties": false
+  },
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "pattern": "^og_[a-z0-9]+(_[a-z0-9]+)*$"
+    }
+  }
+}

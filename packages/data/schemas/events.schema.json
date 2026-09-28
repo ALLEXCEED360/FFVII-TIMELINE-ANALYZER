@@ -1,0 +1,1043 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/__schema0"
+    },
+    "name": {
+      "$ref": "#/$defs/__schema1"
+    },
+    "aliases": {
+      "$ref": "#/$defs/__schema2"
+    },
+    "summary": {
+      "$ref": "#/$defs/__schema3"
+    },
+    "appearances": {
+      "$ref": "#/$defs/__schema4"
+    },
+    "differences": {
+      "$ref": "#/$defs/__schema28"
+    },
+    "relationships": {
+      "$ref": "#/$defs/__schema35"
+    },
+    "notes": {
+      "$ref": "#/$defs/__schema43"
+    },
+    "when": {
+      "$ref": "#/$defs/__schema19"
+    },
+    "seq": {
+      "$ref": "#/$defs/__schema44"
+    },
+    "importance": {
+      "$ref": "#/$defs/__schema45"
+    },
+    "arc": {
+      "$ref": "#/$defs/__schema46"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "summary",
+    "appearances",
+    "when",
+    "importance",
+    "arc"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "pattern": "^(character|event|location|organization|arc)_[a-z0-9]+(_[a-z0-9]+)*$"
+    },
+    "__schema1": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema2": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "__schema3": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema4": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema5"
+      }
+    },
+    "__schema5": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/__schema6"
+        },
+        "world": {
+          "$ref": "#/$defs/__schema7"
+        },
+        "status": {
+          "$ref": "#/$defs/__schema9"
+        },
+        "summary": {
+          "$ref": "#/$defs/__schema10"
+        },
+        "depictions": {
+          "$ref": "#/$defs/__schema11"
+        },
+        "when": {
+          "$ref": "#/$defs/__schema18"
+        },
+        "role": {
+          "$ref": "#/$defs/__schema23"
+        },
+        "sources": {
+          "$ref": "#/$defs/__schema24"
+        },
+        "certainty": {
+          "$ref": "#/$defs/__schema25"
+        },
+        "notes": {
+          "$ref": "#/$defs/__schema26"
+        }
+      },
+      "required": [
+        "title",
+        "status",
+        "summary",
+        "sources",
+        "certainty"
+      ],
+      "additionalProperties": false
+    },
+    "__schema6": {
+      "type": "string",
+      "enum": [
+        "og",
+        "remake",
+        "intermission",
+        "rebirth"
+      ]
+    },
+    "__schema7": {
+      "default": "world_main",
+      "$ref": "#/$defs/__schema8"
+    },
+    "__schema8": {
+      "type": "string",
+      "pattern": "^world_[a-z0-9]+(_[a-z0-9]+)*$"
+    },
+    "__schema9": {
+      "type": "string",
+      "enum": [
+        "depicted",
+        "referenced",
+        "omitted"
+      ]
+    },
+    "__schema10": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema11": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "$ref": "#/$defs/__schema12"
+          },
+          "framing": {
+            "type": "string",
+            "enum": [
+              "direct",
+              "flashback",
+              "false_account",
+              "disputed_account",
+              "vision",
+              "mention",
+              "glimpse"
+            ]
+          },
+          "seq": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "primary": {
+            "type": "boolean",
+            "const": true
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "at",
+          "framing"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "__schema12": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/__schema13"
+        },
+        {
+          "$ref": "#/$defs/__schema16"
+        },
+        {
+          "$ref": "#/$defs/__schema17"
+        }
+      ]
+    },
+    "__schema13": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "const": "og"
+        },
+        "disc": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "segment": {
+          "type": "string",
+          "pattern": "^og_[a-z0-9]+(_[a-z0-9]+)*$"
+        },
+        "scene": {
+          "$ref": "#/$defs/__schema14"
+        },
+        "optional": {
+          "$ref": "#/$defs/__schema15"
+        }
+      },
+      "required": [
+        "title",
+        "disc",
+        "segment"
+      ],
+      "additionalProperties": false
+    },
+    "__schema14": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema15": {
+      "type": "boolean",
+      "const": true
+    },
+    "__schema16": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "enum": [
+            "remake",
+            "intermission",
+            "rebirth"
+          ]
+        },
+        "chapter": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "scene": {
+          "$ref": "#/$defs/__schema14"
+        },
+        "optional": {
+          "$ref": "#/$defs/__schema15"
+        }
+      },
+      "required": [
+        "title",
+        "chapter"
+      ],
+      "additionalProperties": false
+    },
+    "__schema17": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "enum": [
+            "remake",
+            "intermission",
+            "rebirth"
+          ]
+        },
+        "part": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scene": {
+          "$ref": "#/$defs/__schema14"
+        },
+        "optional": {
+          "$ref": "#/$defs/__schema15"
+        }
+      },
+      "required": [
+        "title",
+        "part"
+      ],
+      "additionalProperties": false
+    },
+    "__schema18": {
+      "$ref": "#/$defs/__schema19"
+    },
+    "__schema19": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/__schema20"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "start": {
+              "$ref": "#/$defs/__schema20"
+            },
+            "end": {
+              "$ref": "#/$defs/__schema20"
+            }
+          },
+          "required": [
+            "start",
+            "end"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "__schema20": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/__schema21"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "between": {
+              "$ref": "#/$defs/__schema22"
+            }
+          },
+          "required": [
+            "between"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "__schema21": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "approx": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "required": [
+        "year"
+      ],
+      "additionalProperties": false
+    },
+    "__schema22": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/__schema21"
+        },
+        {
+          "$ref": "#/$defs/__schema21"
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "__schema23": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema24": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema12"
+      }
+    },
+    "__schema25": {
+      "type": "string",
+      "enum": [
+        "stated",
+        "inferred",
+        "ambiguous"
+      ]
+    },
+    "__schema26": {
+      "$ref": "#/$defs/__schema27"
+    },
+    "__schema27": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema28": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "$ref": "#/$defs/__schema29"
+          },
+          "from": {
+            "$ref": "#/$defs/__schema30"
+          },
+          "to": {
+            "$ref": "#/$defs/__schema30"
+          },
+          "category": {
+            "$ref": "#/$defs/__schema31"
+          },
+          "magnitude": {
+            "$ref": "#/$defs/__schema32"
+          },
+          "summary": {
+            "$ref": "#/$defs/__schema33"
+          },
+          "related": {
+            "$ref": "#/$defs/__schema34"
+          },
+          "sources": {
+            "$ref": "#/$defs/__schema24"
+          },
+          "certainty": {
+            "$ref": "#/$defs/__schema25"
+          },
+          "notes": {
+            "$ref": "#/$defs/__schema26"
+          }
+        },
+        "required": [
+          "key",
+          "from",
+          "to",
+          "category",
+          "magnitude",
+          "summary",
+          "sources",
+          "certainty"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "__schema29": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$"
+    },
+    "__schema30": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/__schema6"
+        },
+        "world": {
+          "default": "world_main",
+          "$ref": "#/$defs/__schema8"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "additionalProperties": false
+    },
+    "__schema31": {
+      "type": "string",
+      "enum": [
+        "presentation",
+        "participants",
+        "setting",
+        "chronology",
+        "outcome",
+        "role",
+        "relationship",
+        "context",
+        "gameplay"
+      ]
+    },
+    "__schema32": {
+      "type": "string",
+      "enum": [
+        "minor",
+        "major"
+      ]
+    },
+    "__schema33": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema34": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema0"
+      }
+    },
+    "__schema35": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "parent_of"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "biological",
+                  "adoptive"
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles",
+              "kind"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "sibling_of"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "spouse_of"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "from": {
+                "$ref": "#/$defs/__schema39"
+              },
+              "until": {
+                "$ref": "#/$defs/__schema41"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "member_of"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "from": {
+                "$ref": "#/$defs/__schema39"
+              },
+              "until": {
+                "$ref": "#/$defs/__schema41"
+              },
+              "role": {
+                "$ref": "#/$defs/__schema42"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "leads"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "from": {
+                "$ref": "#/$defs/__schema39"
+              },
+              "until": {
+                "$ref": "#/$defs/__schema41"
+              },
+              "title": {
+                "$ref": "#/$defs/__schema42"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "part_of"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "from": {
+                "$ref": "#/$defs/__schema39"
+              },
+              "until": {
+                "$ref": "#/$defs/__schema41"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "hometown"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "lives_in"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "from": {
+                "$ref": "#/$defs/__schema39"
+              },
+              "until": {
+                "$ref": "#/$defs/__schema41"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "based_at"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "from": {
+                "$ref": "#/$defs/__schema39"
+              },
+              "until": {
+                "$ref": "#/$defs/__schema41"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "controls"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "from": {
+                "$ref": "#/$defs/__schema39"
+              },
+              "until": {
+                "$ref": "#/$defs/__schema41"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "participated_in"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "role": {
+                "$ref": "#/$defs/__schema42"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "occurred_at"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "sub_event_of"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "killed"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "in": {
+                "$ref": "#/$defs/__schema0"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "caused"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "experimented_on"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "from": {
+                "$ref": "#/$defs/__schema39"
+              },
+              "until": {
+                "$ref": "#/$defs/__schema41"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "acted_through"
+              },
+              "target": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "titles": {
+                "$ref": "#/$defs/__schema36"
+              },
+              "from": {
+                "$ref": "#/$defs/__schema39"
+              },
+              "until": {
+                "$ref": "#/$defs/__schema41"
+              }
+            },
+            "required": [
+              "type",
+              "target",
+              "titles"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "__schema36": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/__schema6"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/__schema37"
+      }
+    },
+    "__schema37": {
+      "type": "object",
+      "properties": {
+        "world": {
+          "$ref": "#/$defs/__schema38"
+        },
+        "sources": {
+          "$ref": "#/$defs/__schema24"
+        },
+        "certainty": {
+          "$ref": "#/$defs/__schema25"
+        },
+        "notes": {
+          "$ref": "#/$defs/__schema26"
+        }
+      },
+      "required": [
+        "sources",
+        "certainty"
+      ],
+      "additionalProperties": false
+    },
+    "__schema38": {
+      "default": "world_main",
+      "$ref": "#/$defs/__schema8"
+    },
+    "__schema39": {
+      "$ref": "#/$defs/__schema40"
+    },
+    "__schema40": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/__schema20"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "event": {
+              "$ref": "#/$defs/__schema0"
+            },
+            "at": {
+              "type": "string",
+              "enum": [
+                "start",
+                "end"
+              ]
+            }
+          },
+          "required": [
+            "event"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "__schema41": {
+      "$ref": "#/$defs/__schema40"
+    },
+    "__schema42": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema43": {
+      "$ref": "#/$defs/__schema27"
+    },
+    "__schema44": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "__schema45": {
+      "anyOf": [
+        {
+          "type": "number",
+          "const": 1
+        },
+        {
+          "type": "number",
+          "const": 2
+        },
+        {
+          "type": "number",
+          "const": 3
+        }
+      ]
+    },
+    "__schema46": {
+      "$ref": "#/$defs/__schema0"
+    }
+  }
+}

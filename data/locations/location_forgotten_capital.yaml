@@ -1,0 +1,31 @@
+id: location_forgotten_capital
+name: Forgotten Capital
+aliases: [City of the Ancients]
+summary: A city of the Cetra in the far north, where Aerith goes to pray.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: Where Aerith goes alone to pray, and where she is killed.
+    depictions:
+      - at: { title: og, disc: 1, segment: og_bone_village }
+        framing: mention
+        note: Aerith names the City of the Ancients from the Sleeping Forest
+      - {
+          at: { title: og, disc: 1, segment: og_forgotten_capital },
+          framing: direct,
+          primary: true,
+        }
+    sources:
+      - { title: og, disc: 1, segment: og_bone_village }
+      - { title: og, disc: 1, segment: og_forgotten_capital }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: The setting of the final chapter.
+    depictions:
+      - { at: { title: rebirth, chapter: 14 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 14, scene: "reaching the Forgotten Capital" }
+    certainty: stated

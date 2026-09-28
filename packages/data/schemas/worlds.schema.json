@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "anyOf": [
+      {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "const": "world_main"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "summary"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/__schema0"
+          },
+          "name": {
+            "$ref": "#/$defs/__schema1"
+          },
+          "summary": {
+            "$ref": "#/$defs/__schema2"
+          },
+          "firstShown": {
+            "$ref": "#/$defs/__schema3"
+          },
+          "branchesFrom": {
+            "$ref": "#/$defs/__schema9"
+          },
+          "sources": {
+            "$ref": "#/$defs/__schema10"
+          },
+          "certainty": {
+            "$ref": "#/$defs/__schema11"
+          },
+          "notes": {
+            "$ref": "#/$defs/__schema12"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "summary",
+          "firstShown",
+          "sources",
+          "certainty"
+        ],
+        "additionalProperties": false
+      }
+    ]
+  },
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "pattern": "^world_[a-z0-9]+(_[a-z0-9]+)*$"
+    },
+    "__schema1": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema2": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema3": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/__schema4"
+        },
+        {
+          "$ref": "#/$defs/__schema7"
+        },
+        {
+          "$ref": "#/$defs/__schema8"
+        }
+      ]
+    },
+    "__schema4": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "const": "og"
+        },
+        "disc": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "segment": {
+          "type": "string",
+          "pattern": "^og_[a-z0-9]+(_[a-z0-9]+)*$"
+        },
+        "scene": {
+          "$ref": "#/$defs/__schema5"
+        },
+        "optional": {
+          "$ref": "#/$defs/__schema6"
+        }
+      },
+      "required": [
+        "title",
+        "disc",
+        "segment"
+      ],
+      "additionalProperties": false
+    },
+    "__schema5": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema6": {
+      "type": "boolean",
+      "const": true
+    },
+    "__schema7": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "enum": [
+            "remake",
+            "intermission",
+            "rebirth"
+          ]
+        },
+        "chapter": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "scene": {
+          "$ref": "#/$defs/__schema5"
+        },
+        "optional": {
+          "$ref": "#/$defs/__schema6"
+        }
+      },
+      "required": [
+        "title",
+        "chapter"
+      ],
+      "additionalProperties": false
+    },
+    "__schema8": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "enum": [
+            "remake",
+            "intermission",
+            "rebirth"
+          ]
+        },
+        "part": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scene": {
+          "$ref": "#/$defs/__schema5"
+        },
+        "optional": {
+          "$ref": "#/$defs/__schema6"
+        }
+      },
+      "required": [
+        "title",
+        "part"
+      ],
+      "additionalProperties": false
+    },
+    "__schema9": {
+      "type": "string",
+      "pattern": "^(character|event|location|organization|arc)_[a-z0-9]+(_[a-z0-9]+)*$"
+    },
+    "__schema10": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema3"
+      }
+    },
+    "__schema11": {
+      "type": "string",
+      "enum": [
+        "stated",
+        "inferred",
+        "ambiguous"
+      ]
+    },
+    "__schema12": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

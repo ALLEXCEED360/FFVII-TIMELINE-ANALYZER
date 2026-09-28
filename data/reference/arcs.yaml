@@ -1,0 +1,38 @@
+# Project-defined story arcs (docs/canon-and-sources.md §10). Arc names are fan conventions, not
+# official divisions. Arcs follow each other in play order and cover every segment.
+# `chapters` lists the Remake-series chapters that retell an arc, where verified.
+
+- id: arc_midgar
+  name: Midgar
+  summary: AVALANCHE's campaign against Shinra's reactors, through the escape from Midgar.
+  og: { from: og_reactor_1, to: og_shinra_building }
+  chapters:
+    remake: [1, 18]
+- id: arc_the_journey_begins
+  name: The Journey Begins
+  summary: The pursuit of Sephiroth from Kalm to Junon.
+  og: { from: og_kalm, to: og_junon }
+- id: arc_across_the_sea
+  name: Across the Sea
+  summary: The western continent, from the cargo ship to Rocket Town.
+  og: { from: og_cargo_ship, to: og_rocket_town }
+- id: arc_the_promised_land
+  name: The Promised Land
+  summary: The race for the Black Materia and the journey to the Forgotten Capital.
+  og: { from: og_keystone, to: og_forgotten_capital }
+- id: arc_meteor
+  name: Meteor
+  summary: North to the crater, the summoning of Meteor and its aftermath.
+  og: { from: og_icicle_inn, to: og_junon_execution }
+- id: arc_the_lifestream
+  name: The Lifestream
+  summary: The search for Cloud and the truth about his past.
+  og: { from: og_mideel, to: og_inside_clouds_mind }
+- id: arc_shinras_last_stand
+  name: Shinra's Last Stand
+  summary: The Huge Materia, the rocket, Aerith's legacy and the battle for Midgar.
+  og: { from: og_underwater_reactor, to: og_highwind }
+- id: arc_the_final_battle
+  name: The Final Battle
+  summary: The descent into the crater and the end of the story.
+  og: { from: og_northern_cave, to: og_finale }

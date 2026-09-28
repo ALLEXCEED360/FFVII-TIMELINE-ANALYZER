@@ -6,7 +6,12 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 
 ## Status
 
-**Phase 0 — foundations (complete).** Tooling, CI and the design docs are in place. Next: Phase 1, the data model and the first prototype dataset. The design lives in [`docs/`](docs/README.md).
+**Phase 1 — data model and prototype dataset (complete).** The schemas, validator and reference data are in place, with a verified prototype dataset: 5 events, 5 characters and 4 locations across all four titles (47 appearances, 22 relationships). Next: Phase 2, the database. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
+
+| Package                            | What it does                                                                       |
+| ---------------------------------- | ---------------------------------------------------------------------------------- |
+| [`@ffvii/shared`](packages/shared) | Zod schemas and types for all data; titles, locators, chronology, derived statuses |
+| [`@ffvii/data`](packages/data)     | Loads and validates `data/`; generates editor schemas                              |
 
 ## Roadmap
 
@@ -47,10 +52,12 @@ pnpm install
 pnpm check
 ```
 
-| Command       | What it does                      |
-| ------------- | --------------------------------- |
-| `pnpm check`  | Types, lint, formatting and tests |
-| `pnpm format` | Format everything with Prettier   |
+| Command         | What it does                                                        |
+| --------------- | ------------------------------------------------------------------- |
+| `pnpm check`    | Everything CI runs: types, lint, formatting, tests, data validation |
+| `pnpm validate` | Check `data/` against every rule in the design docs                 |
+| `pnpm schemas`  | Regenerate the editor's YAML schemas after changing a Zod schema    |
+| `pnpm format`   | Format everything with Prettier                                     |
 
 ## License
 
