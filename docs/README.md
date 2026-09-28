@@ -32,3 +32,4 @@ One short record per architecture decision, numbered in order.
 | 0003 | [Run TypeScript directly on Node](decisions/0003-run-typescript-natively-on-node.md)                   |
 | 0004 | [Data files are the source of truth](decisions/0004-data-files-are-the-source-of-truth.md)             |
 | 0005 | [Database schema](decisions/0005-database-schema.md)                                                   |
+| 0006 | [API design and deployment](decisions/0006-api-design.md)                                              |

@@ -2,6 +2,7 @@ import {
   type Certainty,
   CoverageIndex,
   type Coverage,
+  type DateRef,
   type DifferenceCategory,
   type DisplayStatus,
   EDGE_TYPES,
@@ -15,6 +16,7 @@ import {
   type StoredStatus,
   TITLES_IN_ORDER,
   type TitleCode,
+  type When,
   displayStatus,
   isChanged,
   isNewInRemakeSeries,
@@ -161,7 +163,7 @@ export interface AppearanceDetail {
   status: StoredStatus;
   summary: string;
   role: string | null;
-  when: unknown;
+  when: When | null;
   playPosition: number | null;
   sources: Locator[];
   certainty: Certainty;
@@ -201,13 +203,13 @@ export interface RelationshipDetail {
   label: string;
   other: EntityRef;
   attributes: Record<string, unknown>;
-  from: unknown;
-  until: unknown;
+  from: DateRef | null;
+  until: DateRef | null;
   titles: RelationshipTitle[];
 }
 
 export interface EventDetail {
-  when: unknown;
+  when: When;
   start: YearBounds;
   end: YearBounds;
   seq: number | null;

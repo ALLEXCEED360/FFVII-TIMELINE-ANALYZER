@@ -1,0 +1,18 @@
+# Render Blueprint for the API (https://render.com/docs/blueprint-spec).
+# The database lives on Neon; paste its connection string as DATABASE_URL when Render asks.
+services:
+  - type: web
+    name: ffvii-timeline-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: LOG_LEVEL
+        value: info

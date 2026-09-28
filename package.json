@@ -22,7 +22,8 @@
     "db:migrate": "node packages/db/src/cli/migrate.ts",
     "db:seed": "node packages/db/src/cli/seed.ts data",
     "db:reset": "docker compose down --volumes && pnpm db:up && pnpm db:migrate && pnpm db:seed",
-    "test:db": "pnpm --filter @ffvii/db run test:db"
+    "test:db": "pnpm --filter @ffvii/db --filter @ffvii/api --workspace-concurrency=1 run test:db",
+    "api:dev": "pnpm --filter @ffvii/api dev"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -11,6 +11,7 @@ import {
 } from "@ffvii/shared";
 import { sql } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { listDifferences, listEntities, network, reference } from "./catalog.ts";
 import { connect } from "./client.ts";
 import { comparison, entity, neighborhood, playOrder, search, timeline } from "./queries.ts";
 import { buildSeedRows, seed } from "./seed.ts";
@@ -254,5 +255,58 @@ describe("search", () => {
 
   it("returns nothing for empty input", async () => {
     expect(await search(db, { q: "  " })).toEqual({ terms: [], results: [] });
+  });
+});
+
+describe("catalogue", () => {
+  it("lists entities with the titles they appear in", async () => {
+    const all = await listEntities(db);
+    expect(all).toHaveLength(dataset.entities.size);
+    const midgar = all.find((e) => e.id === "location_midgar");
+    expect(midgar?.titles).toEqual(["og", "remake", "intermission", "rebirth"]);
+
+    const events = await listEntities(db, { kind: "event", title: "intermission" });
+    expect(events.map((e) => e.id)).toEqual(["event_sector_7_plate_fall"]);
+  });
+
+  it("lists differences for the chosen titles, filtered by category and magnitude", async () => {
+    const all = await listDifferences(db);
+    const count = [...dataset.entities.values()].flatMap((l) => l.entity.differences).length;
+    expect(all).toHaveLength(count);
+    // Events in in-universe order: Nibelheim, five years before the story, comes first.
+    expect(all[0]?.entity.id).toBe("event_nibelheim_incident");
+
+    const major = await listDifferences(db, { titles: ["og", "rebirth"], magnitude: "major" });
+    expect(major.map((d) => d.id).sort()).toEqual([
+      "event_aerith_death:after_death",
+      "event_aerith_death:blocked_blade",
+      "event_nibelheim_incident:framing",
+    ]);
+    expect(await listDifferences(db, { titles: ["og", "remake"], category: "outcome" })).toEqual(
+      [],
+    );
+  });
+
+  it("returns a network slice whose edges all belong to the chosen titles", async () => {
+    const slice = await network(db, { id: "event_aerith_death", depth: 1, titles: ["rebirth"] });
+    expect(slice?.nodes[0]).toMatchObject({ id: "event_aerith_death", depth: 0 });
+    const ids = new Set(slice?.nodes.map((n) => n.id));
+    for (const edge of slice?.edges ?? []) {
+      expect(ids.has(edge.source) && ids.has(edge.target)).toBe(true);
+      expect(edge.titles).toEqual(["rebirth"]);
+    }
+    expect(slice?.edges.some((e) => e.type === "killed")).toBe(true);
+    expect(await network(db, { id: "character_nobody", depth: 1 })).toBeUndefined();
+  });
+
+  it("returns the reference bundle", async () => {
+    const ref = await reference(db);
+    expect(ref.titles.map((t) => t.code)).toEqual(["og", "remake", "intermission", "rebirth"]);
+    const rebirth = ref.titles.find((t) => t.code === "rebirth");
+    expect(rebirth?.units[0]).toMatchObject({ key: "interlude", position: 0.5 });
+    expect(rebirth?.coverage?.segments[0]).toBe("og_kalm");
+    expect(ref.titles.find((t) => t.code === "intermission")?.coverage).toBeNull();
+    expect(ref.segments).toHaveLength(dataset.segments.length);
+    expect(ref.worlds.map((w) => w.id)).toEqual(["world_main", "world_zack_survives"]);
   });
 });
