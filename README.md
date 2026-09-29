@@ -6,7 +6,7 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 
 ## Status
 
-**Phase 9 — archive and sources (complete).** A new Archive section catalogues each title part by part (`/archive/og`, `/archive/remake/chapter-8`): every story segment, chapter and part lists the facts that cite it, and every citation across the app links there. The research log — the sources used to check facts, open questions, and the facts that are inferred or left open — is now validated data, shown at `/archive/research` and on the pages it concerns. Earlier phases built the timeline, explorer, search, comparison view, relationship network and divergence view. Next: Phase 10, hardening (end-to-end tests, performance, accessibility). The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
+**Phase 10 — hardening (complete).** Playwright now walks the app the way a visitor does, in a real browser against the real API: the blueprint's search-to-timeline journey, divergence and the archive's citation trail, keyboard use, API outages and failed downloads, and a phone layout — with axe auditing 18 pages for WCAG 2.2 AA, contrast included. A Motion setting offers reduced motion; bundle budgets are enforced in CI. The dataset covers 25 events, 20 characters, 11 locations and 5 organizations. Next: Phase 11, the design pass. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
 
 | Package                                    | What it does                                                                       |
 | ------------------------------------------ | ---------------------------------------------------------------------------------- |
@@ -16,6 +16,7 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 | [`@ffvii/db`](packages/db)                 | PostgreSQL schema, migrations, seeding and queries                                 |
 | [`@ffvii/api`](apps/api)                   | Read-only REST API (Fastify); OpenAPI docs at `/docs`                              |
 | [`@ffvii/web`](apps/web)                   | The web app (React, Vite, Tailwind, D3)                                            |
+| [`@ffvii/e2e`](apps/e2e)                   | End-to-end journeys and accessibility audits (Playwright, axe)                     |
 
 ## Roadmap
 
@@ -57,23 +58,27 @@ cp .env.example .env
 pnpm db:up && pnpm db:migrate && pnpm db:seed
 pnpm check
 pnpm test:db
+pnpm --filter @ffvii/e2e exec playwright install chromium   # once
+pnpm e2e
 pnpm api:dev    # http://localhost:3000/docs
 pnpm web:dev    # http://localhost:5173
 ```
 
-| Command            | What it does                                                            |
-| ------------------ | ----------------------------------------------------------------------- |
-| `pnpm check`       | Everything CI runs without a database: types, lint, format, tests, data |
-| `pnpm validate`    | Check `data/` against every rule in the design docs                     |
-| `pnpm db:up`       | Start the local Postgres (Docker, port 5433)                            |
-| `pnpm db:seed`     | Rebuild the database from `data/`                                       |
-| `pnpm db:reset`    | Wipe the database, then migrate and seed from scratch                   |
-| `pnpm test:db`     | Database and API tests (needs `pnpm db:up`)                             |
-| `pnpm api:dev`     | Run the API with auto-reload (restart it after `pnpm db:seed`)          |
-| `pnpm web:dev`     | Run the web app (uses `VITE_API_URL`, default `http://localhost:3000`)  |
-| `pnpm api:types`   | Regenerate the web app's API types after changing the API               |
-| `pnpm db:generate` | Create a migration after changing `packages/db/src/schema.ts`           |
-| `pnpm schemas`     | Regenerate the editor's YAML schemas after changing a Zod schema        |
+| Command            | What it does                                                                 |
+| ------------------ | ---------------------------------------------------------------------------- |
+| `pnpm check`       | Everything CI runs without a database: types, lint, format, tests, data      |
+| `pnpm validate`    | Check `data/` against every rule in the design docs                          |
+| `pnpm db:up`       | Start the local Postgres (Docker, port 5433)                                 |
+| `pnpm db:seed`     | Rebuild the database from `data/`                                            |
+| `pnpm db:reset`    | Wipe the database, then migrate and seed from scratch                        |
+| `pnpm test:db`     | Database and API tests (needs `pnpm db:up`)                                  |
+| `pnpm e2e`         | Build the web app and run the Playwright journeys (needs the API's database) |
+| `pnpm web:size`    | Check the built web app against its size budgets                             |
+| `pnpm api:dev`     | Run the API with auto-reload (restart it after `pnpm db:seed`)               |
+| `pnpm web:dev`     | Run the web app (uses `VITE_API_URL`, default `http://localhost:3000`)       |
+| `pnpm api:types`   | Regenerate the web app's API types after changing the API                    |
+| `pnpm db:generate` | Create a migration after changing `packages/db/src/schema.ts`                |
+| `pnpm schemas`     | Regenerate the editor's YAML schemas after changing a Zod schema             |
 
 ## License
 

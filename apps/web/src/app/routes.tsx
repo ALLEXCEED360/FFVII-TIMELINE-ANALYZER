@@ -3,6 +3,8 @@ import { AppShell } from "../components/AppShell";
 import { Loading } from "../components/QueryState";
 import { HomePage } from "../pages/HomePage";
 import { NotFoundPage } from "../pages/NotFoundPage";
+import { RouteError } from "../pages/RouteError";
+import { PAGES } from "./pages";
 
 // The home page ships with the app; other pages load on first visit, so the first screen doesn't
 // wait for code it may never need (the timeline's chart and zoom, later the graph…).
@@ -23,49 +25,31 @@ function lazyPage(
 export const routes: RouteObject[] = [
   {
     element: <AppShell />,
+    // Last resort, if the shell itself fails.
+    errorElement: <RouteError />,
     children: [
-      { index: true, element: <HomePage /> },
-      lazyPage("timeline", () =>
-        import("../pages/TimelinePage").then((m) => ({ Component: m.TimelinePage })),
-      ),
-      lazyPage("explore", () =>
-        import("../pages/ExplorePage").then((m) => ({ Component: m.ExplorePage })),
-      ),
-      lazyPage("compare", () =>
-        import("../pages/ComparePage").then((m) => ({ Component: m.ComparePage })),
-      ),
-      lazyPage("compare/:kind/:slug", () =>
-        import("../pages/ComparisonPage").then((m) => ({ Component: m.ComparisonPage })),
-      ),
-      lazyPage("network", () =>
-        import("../pages/NetworkOverviewPage").then((m) => ({ Component: m.NetworkOverviewPage })),
-      ),
-      lazyPage("network/:kind/:slug", () =>
-        import("../pages/NetworkPage").then((m) => ({ Component: m.NetworkPage })),
-      ),
-      lazyPage("divergence", () =>
-        import("../pages/DivergencePage").then((m) => ({ Component: m.DivergencePage })),
-      ),
-      lazyPage("divergence/:kind/:slug", () =>
-        import("../pages/DivergenceViewPage").then((m) => ({ Component: m.DivergenceViewPage })),
-      ),
-      lazyPage("archive", () =>
-        import("../pages/ArchivePage").then((m) => ({ Component: m.ArchivePage })),
-      ),
-      lazyPage("archive/research", () =>
-        import("../pages/ResearchPage").then((m) => ({ Component: m.ResearchPage })),
-      ),
-      lazyPage("archive/:title", () =>
-        import("../pages/ArchiveTitlePage").then((m) => ({ Component: m.ArchiveTitlePage })),
-      ),
-      lazyPage("archive/:title/:unit", () =>
-        import("../pages/SourceUnitPage").then((m) => ({ Component: m.SourceUnitPage })),
-      ),
-      // /character/cloud-strife, /event/nibelheim-incident, … (unknown kinds show "not found").
-      lazyPage(":kind/:slug", () =>
-        import("../pages/EntityPage").then((m) => ({ Component: m.EntityPage })),
-      ),
-      { path: "*", element: <NotFoundPage /> },
+      {
+        // A page that fails to load or render shows an error inside the shell.
+        errorElement: <RouteError />,
+        children: [
+          { index: true, element: <HomePage /> },
+          lazyPage("timeline", PAGES.timeline),
+          lazyPage("explore", PAGES.explore),
+          lazyPage("compare", PAGES.compare),
+          lazyPage("compare/:kind/:slug", PAGES.comparison),
+          lazyPage("network", PAGES.network),
+          lazyPage("network/:kind/:slug", PAGES.networkView),
+          lazyPage("divergence", PAGES.divergence),
+          lazyPage("divergence/:kind/:slug", PAGES.divergenceView),
+          lazyPage("archive", PAGES.archive),
+          lazyPage("archive/research", PAGES.research),
+          lazyPage("archive/:title", PAGES.archiveTitle),
+          lazyPage("archive/:title/:unit", PAGES.sourceUnit),
+          // /character/cloud-strife, /event/nibelheim-incident, … (unknown kinds show "not found").
+          lazyPage(":kind/:slug", PAGES.entity),
+          { path: "*", element: <NotFoundPage /> },
+        ],
+      },
     ],
   },
 ];

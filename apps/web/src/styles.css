@@ -74,6 +74,16 @@
     outline-offset: 2px;
   }
 
+  /* SVG stations draw their own focus ring (outlines don't follow SVG shapes). */
+  svg [role="button"]:focus-visible {
+    outline: none;
+  }
+
+  svg [role="button"]:focus-visible .focus-ring {
+    stroke: var(--color-mako-300);
+    stroke-width: 2;
+  }
+
   ::selection {
     background: var(--color-mako-700);
     color: var(--color-steel-100);
@@ -156,11 +166,23 @@
   }
 }
 
+/* Reduced motion: chosen in the footer's Motion setting, or the system's preference unless the
+   visitor chose full motion (lib/motion.ts). */
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  :root:not([data-motion="full"]) *,
+  :root:not([data-motion="full"]) *::before,
+  :root:not([data-motion="full"]) *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }

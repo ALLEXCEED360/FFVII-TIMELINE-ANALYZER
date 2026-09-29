@@ -7,9 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc",
+    "typecheck": "tsc && tsc -p scripts",
     "test": "vitest run",
-    "types": "openapi-typescript src/api/openapi.json -o src/api/schema.d.ts"
+    "types": "openapi-typescript src/api/openapi.json -o src/api/schema.d.ts",
+    "size": "node scripts/check-bundle.ts"
   },
   "dependencies": {
     "@ffvii/shared": "workspace:*",
@@ -35,6 +36,7 @@
     "@types/cytoscape-fcose": "^2.2.5",
     "@types/d3-selection": "^3.0.12",
     "@types/d3-zoom": "^3.0.8",
+    "@types/node": "~24.19.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",

@@ -26,7 +26,9 @@
     "api:dev": "pnpm --filter @ffvii/api dev",
     "api:types": "node apps/api/src/cli/openapi.ts && pnpm --filter @ffvii/web types",
     "web:dev": "pnpm --filter @ffvii/web dev",
-    "web:build": "pnpm --filter @ffvii/web build"
+    "web:build": "pnpm --filter @ffvii/web build",
+    "web:size": "pnpm --filter @ffvii/web size",
+    "e2e": "pnpm web:build && pnpm --filter @ffvii/e2e e2e"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

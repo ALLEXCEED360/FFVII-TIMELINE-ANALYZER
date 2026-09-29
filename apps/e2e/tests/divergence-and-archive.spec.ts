@@ -1,0 +1,79 @@
+import { expect, test } from "@playwright/test";
+
+// The signature view and the source trail: from an event to where its titles part ways, and from
+// a citation to everything else that part of the game backs.
+
+test("from an event to its divergence map, re-rooted on an earlier event", async ({ page }) => {
+  await page.goto("/event/aerith-death");
+  await page.getByRole("main").getByRole("link", { name: "Divergence", exact: true }).click();
+  await expect(page).toHaveURL(/\/divergence\/event\/aerith-death$/);
+
+  const map = page.getByRole("group", { name: /Divergence map/ });
+  await expect(map.getByRole("button", { name: /^Death of Aerith — OG: Changed$/ })).toBeVisible();
+
+  await map.getByRole("button", { name: /^Fall of the Sector 7 Plate — before the pivot/ }).click();
+  await page
+    .getByRole("complementary", { name: "Inspector" })
+    .getByRole("button", { name: "Re-root here" })
+    .click();
+  await expect(page).toHaveURL(/\/divergence\/event\/sector-7-plate-fall/);
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Fall of the Sector 7 Plate" }),
+  ).toBeVisible();
+});
+
+test("from a citation to its part of the game, and on through the archive", async ({ page }) => {
+  await page.goto("/event/aerith-death");
+  await page.getByRole("link", { name: "Rebirth · Ch. 14" }).first().click();
+  await expect(page).toHaveURL(/\/archive\/rebirth\/chapter-14$/);
+  await expect(page.getByRole("heading", { level: 1, name: "End of the World" })).toBeVisible();
+
+  // Everything else the chapter backs, including the research question about it.
+  await expect(page.getByRole("region", { name: /^Shown here/ })).toContainText("Tifa Lockhart");
+  await expect(page.getByRole("region", { name: "Open questions here" })).toBeVisible();
+
+  await page
+    .getByRole("navigation", { name: "Neighbouring units" })
+    .getByRole("link")
+    .first()
+    .click();
+  await expect(page).toHaveURL(/\/archive\/rebirth\/chapter-13$/);
+  await page
+    .getByRole("navigation", { name: "Breadcrumb" })
+    .getByRole("link", { name: "Rebirth" })
+    .click();
+  await expect(page.getByRole("region", { name: "Chapters" })).toBeVisible();
+  await page
+    .getByRole("navigation", { name: "Breadcrumb" })
+    .getByRole("link", { name: "Archive" })
+    .click();
+  await page.getByRole("link", { name: "Open the research log" }).click();
+  await expect(page.getByRole("region", { name: /^Open questions/ })).toContainText(
+    "How Rebirth shows Aerith's death",
+  );
+});
+
+test("on a phone: the timeline as a list, and a comparison as tabs @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "phone layout");
+  await page.goto("/timeline");
+  await expect(page.getByRole("group", { name: /Timeline chart/ })).toHaveCount(0);
+  await page
+    .getByRole("button", { name: /Nibelheim Incident/ })
+    .first()
+    .click();
+  await expect(page).toHaveURL(/event=event_nibelheim_incident/);
+
+  await page.goto("/compare/event/aerith-death");
+  const tabs = page.getByRole("tablist", { name: "Titles" });
+  await expect(tabs.getByRole("tab", { name: "OG" })).toHaveAttribute("aria-selected", "true");
+  await tabs.getByRole("tab", { name: "Rebirth" }).click();
+  await expect(page.getByRole("tabpanel")).toContainText(/Rebirth|Cloud/);
+  // The page never scrolls sideways.
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
+});

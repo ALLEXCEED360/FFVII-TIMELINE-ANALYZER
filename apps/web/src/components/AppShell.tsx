@@ -4,22 +4,25 @@ import {
   SHORTCUT_LABEL,
   useSearchShortcut,
 } from "../features/search/CommandPalette";
-import { useUi } from "../stores/ui";
+import { type PageName, preloadPage } from "../app/pages";
+import { useMotionAttribute } from "../lib/motion";
+import { type MotionSetting, useUi } from "../stores/ui";
 import { SpoilerNotice } from "./SpoilerNotice";
 
-const NAV = [
+const NAV: readonly { to: string; label: string; end: boolean; page?: PageName }[] = [
   { to: "/", label: "Home", end: true },
-  { to: "/timeline", label: "Timeline", end: false },
-  { to: "/compare", label: "Compare", end: false },
-  { to: "/network", label: "Network", end: false },
-  { to: "/divergence", label: "Divergence", end: false },
-  { to: "/explore", label: "Explore", end: false },
-  { to: "/archive", label: "Archive", end: false },
-] as const;
+  { to: "/timeline", label: "Timeline", end: false, page: "timeline" },
+  { to: "/compare", label: "Compare", end: false, page: "compare" },
+  { to: "/network", label: "Network", end: false, page: "network" },
+  { to: "/divergence", label: "Divergence", end: false, page: "divergence" },
+  { to: "/explore", label: "Explore", end: false, page: "explore" },
+  { to: "/archive", label: "Archive", end: false, page: "archive" },
+];
 
 /** Header, navigation, search and footer around every page (blueprint §18, §20, §26). */
 export function AppShell() {
   useSearchShortcut();
+  useMotionAttribute();
   const openPalette = useUi((s) => s.setPaletteOpen);
 
   return (
@@ -42,13 +45,24 @@ export function AppShell() {
               FFVII <span className="text-mako-300">Timeline Analyzer</span>
             </span>
           </NavLink>
-          <nav aria-label="Main">
-            <ul className="flex gap-1">
+          {/* On narrow screens the sections scroll sideways on their own row; the page doesn't. */}
+          <nav
+            aria-label="Main"
+            className="order-last -mx-4 w-screen overflow-x-auto px-4 lg:order-none lg:mx-0 lg:w-auto lg:overflow-visible lg:px-0"
+          >
+            <ul className="flex w-max gap-1">
               {NAV.map((item) => (
                 <li key={item.to}>
                   <NavLink
                     to={item.to}
                     end={item.end}
+                    // Start loading the section's code before the click lands.
+                    onPointerEnter={() => {
+                      if (item.page) preloadPage(item.page);
+                    }}
+                    onFocus={() => {
+                      if (item.page) preloadPage(item.page);
+                    }}
                     className={({ isActive }) =>
                       `block rounded px-3 py-1.5 font-mono text-xs tracking-[0.12em] uppercase transition ${
                         isActive
@@ -68,11 +82,11 @@ export function AppShell() {
             onClick={() => {
               openPalette(true);
             }}
-            className="btn ml-auto min-w-48 justify-between text-steel-400 normal-case"
+            className="btn ml-auto min-w-0 flex-1 justify-between text-steel-400 normal-case sm:min-w-48 sm:flex-none"
             aria-keyshortcuts="Control+K Meta+K"
           >
             <span>Search…</span>
-            <kbd className="rounded border border-night-600 px-1.5 text-[10px]">
+            <kbd className="hidden rounded border border-night-600 px-1.5 text-[10px] sm:inline">
               {SHORTCUT_LABEL}
             </kbd>
           </button>
@@ -84,13 +98,56 @@ export function AppShell() {
       </main>
 
       <footer className="border-t border-night-800 px-4 py-5 text-xs text-steel-400">
-        <p className="mx-auto max-w-[96rem]">
-          Non-commercial fan project. Not affiliated with or endorsed by Square Enix.{" "}
-          <em>Final Fantasy VII</em> and all related names belong to Square Enix.
-        </p>
+        <div className="mx-auto flex max-w-[96rem] flex-wrap items-center justify-between gap-4">
+          <p>
+            Non-commercial fan project. Not affiliated with or endorsed by Square Enix.{" "}
+            <em>Final Fantasy VII</em> and all related names belong to Square Enix.
+          </p>
+          <MotionControl />
+        </div>
       </footer>
 
       <CommandPalette />
     </div>
+  );
+}
+
+const MOTION_OPTIONS: readonly { value: MotionSetting; label: string }[] = [
+  { value: "system", label: "System" },
+  { value: "reduced", label: "Reduced" },
+  { value: "full", label: "Full" },
+];
+
+/** The reduced-motion option (blueprint §33): follow the system, or choose. Remembered. */
+function MotionControl() {
+  const motion = useUi((s) => s.motion);
+  const setMotion = useUi((s) => s.setMotion);
+  return (
+    <fieldset className="flex items-center gap-2">
+      <legend className="sr-only">Motion</legend>
+      <span aria-hidden="true" className="label">
+        Motion
+      </span>
+      <div className="flex gap-1">
+        {MOTION_OPTIONS.map((option) => (
+          <label
+            key={option.value}
+            className="btn min-h-6 cursor-pointer px-2 py-0.5 has-checked:border-mako-400 has-checked:text-mako-200 has-focus-visible:outline-2 has-focus-visible:outline-mako-400"
+          >
+            <input
+              type="radio"
+              name="motion"
+              value={option.value}
+              checked={motion === option.value}
+              onChange={() => {
+                setMotion(option.value);
+              }}
+              className="sr-only"
+            />
+            {option.label}
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 }

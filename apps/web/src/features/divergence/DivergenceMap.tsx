@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { Reference } from "../../api/client";
 import { titleShort, worldName } from "../../lib/reference";
 import { TITLE_COLOR } from "../../lib/titles";
@@ -28,13 +29,20 @@ export function DivergenceMap({ layout, reference, selected, onSelect }: Props) 
   const trunkY = laneY((layout.lanes.length - 1) / 2);
   const rowOf = new Map(layout.lanes.map((l) => [l.key, l.row]));
   const forkX = x(layout.pivotColumn) - COL / 2;
+
+  // Open with the pivot in view: a long shared history would otherwise push it off-screen.
+  const scroller = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = scroller.current;
+    if (el) el.scrollLeft = Math.max(0, forkX - LEFT - COL);
+  }, [forkX]);
   const laneName = (lane: DivergenceLayout["lanes"][number]) =>
     lane.world === "world_main"
       ? titleShort(reference, lane.title)
       : `${titleShort(reference, lane.title)} · ${worldName(reference, lane.world)}`;
 
   return (
-    <div className="panel overflow-x-auto">
+    <div ref={scroller} className="panel overflow-x-auto">
       <svg
         width={width}
         height={height}
@@ -180,7 +188,13 @@ export function DivergenceMap({ layout, reference, selected, onSelect }: Props) 
               }
             }}
           >
-            <circle cx={x(stop.column)} cy={trunkY} r={14} fill="transparent" />
+            <circle
+              cx={x(stop.column)}
+              cy={trunkY}
+              r={14}
+              fill="transparent"
+              className="focus-ring"
+            />
             {stop.summary === "shared" ? (
               <circle
                 cx={x(stop.column)}
@@ -224,7 +238,7 @@ export function DivergenceMap({ layout, reference, selected, onSelect }: Props) 
               }}
             >
               <title>{`${nameOf(layout, stop.eventId)} — ${laneName(lane)}: ${MARKING_LABELS[stop.marking]}`}</title>
-              <circle cx={cx} cy={cy} r={16} fill="transparent" />
+              <circle cx={cx} cy={cy} r={16} fill="transparent" className="focus-ring" />
               <StationGlyph
                 marking={stop.marking}
                 cx={cx}

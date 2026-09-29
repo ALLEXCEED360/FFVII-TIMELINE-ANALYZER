@@ -1,6 +1,6 @@
 import type { Core, ElementDefinition, NodeSingular } from "cytoscape";
 import { useEffect, useRef, useState } from "react";
-import { useMediaQuery } from "../../lib/useMediaQuery";
+import { useReducedMotion } from "../../lib/motion";
 import { GRAPH_STYLE } from "./style";
 
 // The interactive graph (blueprint §27): Cytoscape with the fcose layout, loaded on demand so it
@@ -36,7 +36,7 @@ export default function GraphView({
   const container = useRef<HTMLDivElement>(null);
   const cy = useRef<Core | null>(null);
   const [ready, setReady] = useState(false);
-  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)", false);
+  const reducedMotion = useReducedMotion();
   // Cytoscape's listeners are attached once; they call whatever handlers are current.
   const handlers = useRef({ onSelect, onFocus });
   useEffect(() => {
@@ -73,6 +73,17 @@ export default function GraphView({
       cy.current = null;
     };
   }, []);
+
+  // Node transitions (selection, fading) follow the Motion setting too.
+  useEffect(() => {
+    const instance = cy.current;
+    if (!ready || !instance) return;
+    instance
+      .style()
+      .selector("node")
+      .style("transition-duration", reducedMotion ? 0 : 150)
+      .update();
+  }, [ready, reducedMotion]);
 
   // Apply the elements as a diff: remove what's gone, add what's new, update the rest.
   useEffect(() => {

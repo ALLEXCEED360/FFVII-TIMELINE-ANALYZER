@@ -14,7 +14,7 @@ export function Citation({
   return (
     <Link
       to={sourcePath(locator)}
-      className="font-mono text-steel-400 underline decoration-night-500 underline-offset-2 hover:text-mako-300 hover:decoration-mako-500"
+      className="inline-block min-h-6 py-0.5 font-mono text-steel-400 underline decoration-night-500 underline-offset-2 hover:text-mako-300 hover:decoration-mako-500"
       title={locator.scene ? `Scene: ${locator.scene}` : undefined}
     >
       {describeLocator(reference, locator)}

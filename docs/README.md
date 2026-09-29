@@ -39,3 +39,4 @@ One short record per architecture decision, numbered in order.
 | 0010 | [The relationship network](decisions/0010-network.md)                                                  |
 | 0011 | [The divergence view](decisions/0011-divergence.md)                                                    |
 | 0012 | [The archive and sources](decisions/0012-archive-and-sources.md)                                       |
+| 0013 | [Hardening: end-to-end tests, accessibility and performance](decisions/0013-hardening.md)              |
