@@ -10,7 +10,7 @@
   covers: [og]
   usedFor: Checking dialogue and on-screen text, and the order of the original's story segments.
   url: https://finalfantasy.fandom.com/wiki/Final_Fantasy_VII_script
-  accessed: 2026-09-27
+  accessed: 2026-09-29
   notes: >-
     A full transcript of the original PlayStation release. Its stage directions are fan
     descriptions of what is shown, so facts that rest on them wait for a footage check.
@@ -22,7 +22,7 @@
   covers: [remake, intermission]
   usedFor: Checking dialogue and on-screen text, and chapter titles. Includes Episode INTERmission.
   url: https://finalfantasy.fandom.com/wiki/Final_Fantasy_VII_Remake_script
-  accessed: 2026-09-27
+  accessed: 2026-09-29
 
 - id: src_wiki_rebirth_script
   name: Final Fantasy Wiki — Final Fantasy VII Rebirth script
@@ -31,8 +31,10 @@
   covers: [rebirth]
   usedFor: Checking dialogue, and stage directions for scenes that are mostly visual.
   url: https://finalfantasy.fandom.com/wiki/Final_Fantasy_VII_Rebirth_script
-  accessed: 2026-09-27
-  notes: Incomplete when accessed — chapter 8 was empty and chapter 9 thin.
+  accessed: 2026-09-29
+  notes: >-
+    Incomplete when accessed — chapter 8 empty, chapter 9 thin, and chapters 10–14 partly in
+    stage-direction summaries.
 
 - id: src_yinza_og_script
   name: Yinza — Final Fantasy VII Complete Script (index)

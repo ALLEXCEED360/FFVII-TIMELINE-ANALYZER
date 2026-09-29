@@ -1,0 +1,79 @@
+id: character_yuffie
+name: Yuffie
+summary: A young ninja and self-styled materia hunter from Wutai.
+
+appearances:
+  - title: og
+    status: depicted
+    role: An optional companion, a ninja who steals materia
+    summary: >-
+      An optional character, met in random encounters in forests after the party leaves Midgar;
+      she can be persuaded to join.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_road_to_junon, optional: true }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_road_to_junon,
+          scene: "Recruiting Yuffie: the forests",
+          optional: true,
+        }
+    certainty: inferred
+    notes: >-
+      She can be met in any forest from this point on; she is cited at the earliest place she can be
+      met, not at a fixed scene.
+
+  - title: intermission
+    status: depicted
+    role: Wutai's operative in Midgar
+    summary: >-
+      An elite operative for the new Wutai government, sent to Midgar with Sonon to steal Shinra's
+      ultimate materia.
+    depictions:
+      - { at: { title: intermission, chapter: 1 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 1, scene: "First Challenge" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: A Wutai operative who joins the party
+    summary: Joins the party in Junon, introducing herself as a materia hunter and ninja operative for the interim Wutai government.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "Trouble Brewing" }
+      - { title: rebirth, chapter: 4, scene: "Well-Earned Rest" }
+    certainty: stated
+
+relationships:
+  - type: member_of
+    target: organization_wutai
+    role: special forces operative
+    titles:
+      intermission:
+        {
+          sources:
+            [
+              {
+                title: intermission,
+                chapter: 1,
+                scene: "'elite special forces operative for the new Wutai government'",
+              },
+            ],
+          certainty: stated,
+        }
+      rebirth:
+        { sources: [{ title: rebirth, chapter: 4, scene: "Well-Earned Rest" }], certainty: stated }
+
+  - type: participated_in
+    target: event_yuffie_raid_on_shinra
+    titles:
+      intermission: { sources: [{ title: intermission, chapter: 2 }], certainty: stated }
+
+  - type: participated_in
+    target: event_jenova_on_the_cargo_ship
+    titles:
+      rebirth:
+        { sources: [{ title: rebirth, chapter: 5, scene: "To Catch a Fiend" }], certainty: stated }

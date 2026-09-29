@@ -1,0 +1,51 @@
+id: organization_avalanche
+name: AVALANCHE
+aliases: [Avalanche]
+summary: A small resistance group in Midgar that attacks Shinra's mako reactors to save the planet.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: Barret's group, based beneath Seventh Heaven; it bombs Mako Reactors 1 and 5.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_reactor_1 }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_reactor_1 }
+      - { title: og, disc: 1, segment: og_seventh_heaven }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      Barret's cell, based beneath Seventh Heaven, which answers to an Avalanche headquarters;
+      Shinra paints it as a terrorist group allied with Wutai.
+    depictions:
+      - { at: { title: remake, chapter: 1 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 1 }
+      - { title: remake, chapter: 7, scene: "'allies of wicked Wutai'" }
+      - { title: remake, chapter: 16, scene: "Barret: 'Idiots at HQ shoulda kept us in the loop'" }
+    certainty: stated
+
+  - title: intermission
+    status: depicted
+    summary: Its members in the Sector 7 slums help Yuffie and Sonon reach the Shinra Building.
+    depictions:
+      - { at: { title: intermission, chapter: 1 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 1, scene: "Avalanche's Base" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: Blamed by Shinra for Midgar's disasters; Rufus lists its arrest among his father's unfinished tasks.
+    depictions:
+      - {
+          at: { title: rebirth, part: interlude },
+          framing: mention,
+          note: "in the world where Zack survives",
+        }
+      - { at: { title: rebirth, chapter: 4 }, framing: mention, primary: true }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "'the arrest and execution of Avalanche'" }
+    certainty: stated

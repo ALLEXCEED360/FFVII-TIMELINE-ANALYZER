@@ -1,0 +1,83 @@
+id: event_cloud_meets_aerith
+name: Cloud Meets Aerith
+summary: >-
+  In Sector 8, just after the bombing of Mako Reactor 1, Cloud meets Aerith as she sells flowers
+  in the street.
+when: { year: 0 }
+seq: 110
+importance: 2
+arc: arc_midgar
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      On his way to the station, Cloud passes a flower girl who asks what happened; he can buy one
+      of her flowers for a gil.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_reactor_1 }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_reactor_1, scene: "the flower girl in Sector 8" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      After a vision of Sephiroth, a flower peddler gives Cloud a yellow flower as a gift, saying
+      lovers used to give them when they were reunited. She flees when security arrives.
+    depictions:
+      - { at: { title: remake, chapter: 2 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 2, scene: "Loveless Street" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: >-
+      Aerith asks Cloud whether he remembers the first time they met: the yellow flower in
+      Sector 8.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "Respite" }
+    certainty: stated
+
+differences:
+  - key: gift
+    from: { title: og }
+    to: { title: remake }
+    category: presentation
+    magnitude: minor
+    summary: >-
+      In OG, Cloud can buy a flower from her for one gil; in Remake, she insists on giving it to him
+      as a gift.
+    sources:
+      - { title: og, disc: 1, segment: og_reactor_1, scene: "the flower girl in Sector 8" }
+      - { title: remake, chapter: 2, scene: "Loveless Street" }
+    certainty: stated
+
+  - key: sephiroth_and_whispers
+    from: { title: og }
+    to: { title: remake }
+    category: context
+    magnitude: minor
+    summary: >-
+      In OG, the meeting is a brief exchange in the street; in Remake, it follows a vision of
+      Sephiroth, and she thanks Cloud for scaring away "those things" he cannot see.
+    sources:
+      - { title: og, disc: 1, segment: og_reactor_1 }
+      - { title: remake, chapter: 2, scene: "Loveless Street" }
+    related: [character_sephiroth]
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_midgar
+    titles:
+      og:
+        {
+          sources: [{ title: og, disc: 1, segment: og_reactor_1, scene: "Sector 8" }],
+          certainty: stated,
+        }
+      remake:
+        { sources: [{ title: remake, chapter: 2, scene: "Loveless Street" }], certainty: stated }

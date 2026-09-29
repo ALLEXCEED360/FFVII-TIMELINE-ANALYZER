@@ -1,0 +1,59 @@
+id: event_truth_about_seto
+name: The Truth About Seto
+summary: >-
+  In Cosmo Canyon, Bugenhagen shows Nanaki that his father Seto, whom he believed a coward, died
+  defending the canyon from the Gi and still stands guard, turned to stone.
+when: { year: 0 }
+seq: 230
+importance: 2
+arc: arc_across_the_sea
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Bugenhagen leads Nanaki and Cloud through the Cave of the Gi, past the Gi's vengeful ghosts
+      and their leader Gi Nattak, to Seto, turned to stone by the Gi's poisoned arrows while he held
+      them off alone. Nanaki's mother knew, and had the cave sealed. Nanaki resolves to go on with
+      Cloud as a warrior worthy of his father.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_cosmo_canyon }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_cosmo_canyon, scene: "Seto's Wall" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Bugenhagen shows Nanaki his father, the Watcher of the Vale, turned to stone by the Gi's
+      poisoned arrows; his mother knew, and she and Seto had the cave sealed to protect their son.
+      Bugenhagen sends Nanaki back out into the world. Gi Nattak then appears and asks the party to
+      recover the black materia, which he says the Cetra stole from the Gi.
+    depictions:
+      - { at: { title: rebirth, chapter: 10 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 10, scene: "The Watcher's Verdict" }
+      - { title: rebirth, chapter: 10, scene: "Undying Wish" }
+    certainty: stated
+
+differences:
+  - key: gi
+    from: { title: og }
+    to: { title: rebirth }
+    category: context
+    magnitude: major
+    summary: >-
+      In OG, the Gi are vengeful ghosts in the cave, and Gi Nattak is fought as an enemy; in
+      Rebirth, Gi Nattak seeks the party's help, asking them to recover the black materia so the
+      Gi, rejected by the planet, can be released.
+    sources:
+      - { title: og, disc: 1, segment: og_cosmo_canyon, scene: "the Cave of the Gi" }
+      - { title: rebirth, chapter: 10, scene: "Undying Wish" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_cosmo_canyon
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_cosmo_canyon }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 10 }], certainty: stated }

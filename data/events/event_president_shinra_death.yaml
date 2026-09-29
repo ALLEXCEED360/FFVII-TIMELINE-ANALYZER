@@ -1,0 +1,72 @@
+id: event_president_shinra_death
+name: Death of President Shinra
+summary: >-
+  On the night of the raid on the Shinra Building, President Shinra is killed in his office, and
+  his son Rufus takes his place.
+when: { year: 0 }
+seq: 155
+importance: 3
+arc: arc_midgar
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      The party wakes to find the cells open and the guards dead, and Jenova's tank in Hojo's lab
+      empty. They find the President dead in his office, and Cloud knows the sword left there as
+      Sephiroth's; Palmer says he saw Sephiroth come. On the roof, Rufus introduces himself as the new President.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building, scene: "The Nightmare Beginning Anew" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      The party finds the President in his office pleading for his life, and Barret confronts him
+      over Sector 7 before Sephiroth appears. By the end of the night Tseng addresses Rufus as
+      President.
+    depictions:
+      - { at: { title: remake, chapter: 17 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 17, scene: "The Ominous Trail" }
+      - { title: remake, chapter: 18, scene: "the final scene: 'Mister President'" }
+    certainty: stated
+    notes: >-
+      How the President dies is shown rather than said, so it isn't recorded until checked against
+      footage (question_president_death_remake).
+
+  - title: rebirth
+    status: referenced
+    summary: >-
+      Rufus, now President, speaks of his late father in Junon and to his executives.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: mention }
+      - { at: { title: rebirth, chapter: 7 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "In Search of Lost Robes: 'my father is dead'" }
+      - { title: rebirth, chapter: 7, scene: "the executive boardroom" }
+    certainty: stated
+
+relationships:
+  - type: sub_event_of
+    target: event_shinra_building_raid
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 17 }], certainty: stated }
+
+  - type: occurred_at
+    target: location_shinra_building
+    titles:
+      og:
+        {
+          sources:
+            [{ title: og, disc: 1, segment: og_shinra_building, scene: "the President's office" }],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources: [{ title: remake, chapter: 17, scene: "70th Floor - President's Office" }],
+          certainty: stated,
+        }

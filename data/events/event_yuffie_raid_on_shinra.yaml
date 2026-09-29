@@ -1,0 +1,34 @@
+id: event_yuffie_raid_on_shinra
+name: Yuffie's Raid on Shinra Headquarters
+summary: >-
+  Yuffie and Sonon, agents of Wutai, infiltrate the Shinra Building to steal its "ultimate
+  materia"; the operation ends with Sonon's death.
+when: { year: 0 }
+seq: 135
+importance: 2
+arc: arc_midgar
+
+appearances:
+  - title: intermission
+    status: depicted
+    summary: >-
+      With AVALANCHE's help, Yuffie and Sonon get into the Shinra Building, where Scarlet toys with
+      them and reveals that the materia isn't finished and that Shinra will drop the Sector 7 plate
+      and blame AVALANCHE and Wutai. They defeat Nero of Deepground, but Sonon is killed covering
+      Yuffie's escape.
+    depictions:
+      - { at: { title: intermission, chapter: 2 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 2, scene: "Scarlet's Trap" }
+      - { title: intermission, chapter: 2, scene: "A Fateful Confrontation" }
+      - { title: intermission, chapter: 2, scene: "Dread" }
+    certainty: stated
+    notes: New in the Remake series; the original has no counterpart.
+
+relationships:
+  - type: occurred_at
+    target: location_shinra_building
+    titles:
+      intermission:
+        sources: [{ title: intermission, chapter: 2, scene: "Shinra Building - Entrance" }]
+        certainty: stated

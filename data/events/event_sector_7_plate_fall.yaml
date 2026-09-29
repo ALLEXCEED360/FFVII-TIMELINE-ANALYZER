@@ -2,7 +2,7 @@ id: event_sector_7_plate_fall
 name: Fall of the Sector 7 Plate
 summary: Shinra brings the upper plate of Sector 7 down onto the slums beneath it.
 when: { year: 0 }
-seq: 20
+seq: 140
 importance: 3
 arc: arc_midgar
 

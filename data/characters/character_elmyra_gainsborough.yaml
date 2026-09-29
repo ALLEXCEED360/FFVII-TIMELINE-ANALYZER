@@ -1,0 +1,88 @@
+id: character_elmyra_gainsborough
+name: Elmyra Gainsborough
+summary: The woman who took in the young Aerith and raised her as her daughter.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Aerith's adoptive mother
+    summary: >-
+      Meets Cloud when Aerith brings him home, and later tells how she took Aerith in fifteen years
+      earlier, after her mother died at the station.
+    depictions:
+      - {
+          at: { title: og, disc: 1, segment: og_sector_5_church },
+          framing: direct,
+          note: "at Aerith's house",
+        }
+    sources:
+      - { title: og, disc: 1, segment: og_sector_5_church, scene: "'This is Cloud. My bodyguard.'" }
+      - { title: og, disc: 1, segment: og_aerith_story, scene: "Elmyra's story" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: Aerith's adoptive mother
+    summary: >-
+      Meets Cloud when Aerith brings him home, looks after Marlene, and tells the story of how she
+      took Aerith in.
+    depictions:
+      - { at: { title: remake, chapter: 8 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 8, scene: "To Aerith's House" }
+      - { title: remake, chapter: 13, scene: "Words of Hope" }
+    certainty: stated
+
+  - title: rebirth
+    world: world_zack_survives
+    status: depicted
+    role: Aerith's mother
+    summary: Comes to take the unconscious Aerith home from Zack's hideout in the Sector 5 undercity.
+    depictions:
+      - { at: { title: rebirth, part: interlude }, framing: direct }
+    sources:
+      - { title: rebirth, part: interlude, scene: "Knock at the Door" }
+    certainty: stated
+
+relationships:
+  - type: parent_of
+    target: character_aerith_gainsborough
+    kind: adoptive
+    titles:
+      og:
+        {
+          sources:
+            [{ title: og, disc: 1, segment: og_aerith_story, scene: "'Not her real mother'" }],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources: [{ title: remake, chapter: 13, scene: "'She's not my daughter. Not by blood'" }],
+          certainty: stated,
+        }
+
+  - type: lives_in
+    target: location_midgar
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_sector_5_church,
+                scene: "Aerith's house in the Sector 5 slums",
+              },
+            ],
+          certainty: stated,
+        }
+      remake:
+        { sources: [{ title: remake, chapter: 8, scene: "To Aerith's House" }], certainty: stated }
+
+  - type: participated_in
+    target: event_ifalna_death
+    role: takes Aerith in
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_aerith_story }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 13 }], certainty: stated }

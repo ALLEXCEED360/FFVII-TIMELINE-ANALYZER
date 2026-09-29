@@ -1,0 +1,91 @@
+id: event_jenova_calamity
+name: The Calamity from the Skies
+summary: >-
+  About two thousand years ago, Jenova falls to the planet in the north, wounding it, and turns
+  on the Cetra who try to heal the wound.
+when: { year: -2000, approx: true }
+importance: 3
+arc: arc_meteor
+
+appearances:
+  - title: og
+    status: referenced
+    summary: >-
+      In recordings kept at Icicle Inn, Ifalna tells Professor Gast that two thousand years ago
+      something fell from the sky at the Knowlespole. The "crisis from the sky" came to the Cetra
+      as a friend, in the likeness of their dead, and spread a virus that drove them mad. A few
+      survivors defeated and confined it; it was named Jenova.
+    depictions:
+      - {
+          at: { title: og, disc: 1, segment: og_kalm },
+          framing: mention,
+          note: "Sephiroth mistakes Jenova for an Ancient",
+        }
+      - { at: { title: og, disc: 2, segment: og_icicle_inn }, framing: mention, primary: true }
+    sources:
+      - { title: og, disc: 1, segment: og_kalm, scene: "Sephiroth in the Shinra Mansion library" }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_icicle_inn,
+          scene: "Gast's video: The Original Crisis",
+          optional: true,
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_icicle_inn,
+          scene: "Gast's video: What is 'Weapon?'",
+          optional: true,
+        }
+    certainty: stated
+
+  - title: remake
+    status: referenced
+    summary: Red XIII calls Jenova the cataclysm that came from the stars, which Hojo has spent half his life studying.
+    depictions:
+      - { at: { title: remake, chapter: 17 }, framing: mention }
+    sources:
+      - { title: remake, chapter: 17, scene: "Use the Central Terminal" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      In the Temple of the Ancients, the Cetra's murals tell how a wound marred the northern lands,
+      and how a deceiver that stole the faces of the dead sowed discord among the Cetra and among
+      humans. The Cetra gave their lives to defeat it; unable to die, it slept, and was named
+      Jenova.
+    depictions:
+      - {
+          at: { title: rebirth, chapter: 1 },
+          framing: mention,
+          note: "the specimen found in two-thousand-year-old strata",
+        }
+      - { at: { title: rebirth, chapter: 13 }, framing: flashback, primary: true }
+    sources:
+      - { title: rebirth, chapter: 1, scene: "Searching for Sephiroth" }
+      - { title: rebirth, chapter: 13, scene: "Arrival" }
+    certainty: stated
+
+differences:
+  - key: humans
+    from: { title: og }
+    to: { title: rebirth }
+    category: context
+    magnitude: major
+    summary: >-
+      In OG, Ifalna tells of Jenova infecting the Cetra with a virus; in Rebirth, the murals say it
+      sowed discord among the Cetra and among humans, and that humans, fearing and envying the
+      Cetra, drove them out.
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_icicle_inn,
+          scene: "Gast's video: The Original Crisis",
+          optional: true,
+        }
+      - { title: rebirth, chapter: 13, scene: "Arrival" }
+      - { title: rebirth, chapter: 13, scene: "Before the Fall" }
+    certainty: stated

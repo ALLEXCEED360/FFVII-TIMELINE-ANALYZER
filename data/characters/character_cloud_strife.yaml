@@ -125,3 +125,96 @@ relationships:
     target: event_cloud_memories_restored
     titles:
       og: { sources: [{ title: og, disc: 2, segment: og_inside_clouds_mind }], certainty: stated }
+
+  - type: participated_in
+    target: event_cloud_meets_aerith
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_reactor_1 }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 2 }], certainty: stated }
+
+  - type: participated_in
+    target: event_sector_7_6_annex_raid
+    role: draws the guards away
+    titles:
+      remake: { sources: [{ title: remake, chapter: 4 }], certainty: stated }
+
+  - type: participated_in
+    target: event_mako_reactor_5_bombing
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_reactor_5 }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 7 }], certainty: stated }
+
+  - type: participated_in
+    target: event_aerith_hires_cloud
+    role: hired as her bodyguard
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_sector_5_church }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 8 }], certainty: stated }
+
+  - type: participated_in
+    target: event_corneo_audition
+    role: disguised as a woman
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_wall_market }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 9 }], certainty: stated }
+
+  - type: participated_in
+    target: event_shinra_building_raid
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 16 }], certainty: stated }
+
+  - type: participated_in
+    target: event_escape_from_midgar
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 18 }], certainty: stated }
+
+  - type: participated_in
+    target: event_battle_at_destinys_crossroads
+    titles:
+      remake:
+        { sources: [{ title: remake, chapter: 18, scene: "The Turning Point" }], certainty: stated }
+
+  - type: participated_in
+    target: event_water_tower_promise
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_seventh_heaven }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 4 }], certainty: stated }
+
+  - type: participated_in
+    target: event_junon_parade
+    role: marches in disguise
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_junon }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 4 }], certainty: stated }
+
+  - type: participated_in
+    target: event_jenova_on_the_cargo_ship
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_cargo_ship }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 5 }], certainty: stated }
+
+  - type: participated_in
+    target: event_truth_about_seto
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_cosmo_canyon }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 10 }], certainty: stated }
+
+  - type: participated_in
+    target: event_race_for_the_black_materia
+    titles:
+      og:
+        { sources: [{ title: og, disc: 1, segment: og_temple_of_the_ancients }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 13 }], certainty: stated }
+
+  - type: participated_in
+    target: event_meteor_summoned
+    role: hands over the black materia
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_northern_crater }], certainty: stated }
+
+  - type: participated_in
+    target: event_defeat_of_sephiroth
+    titles:
+      og: { sources: [{ title: og, disc: 3, segment: og_finale }], certainty: stated }

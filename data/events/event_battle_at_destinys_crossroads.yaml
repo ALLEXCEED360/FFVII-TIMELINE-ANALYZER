@@ -1,0 +1,34 @@
+id: event_battle_at_destinys_crossroads
+name: Battle at Destiny's Crossroads
+summary: >-
+  At the end of the Midgar Expressway, the party passes through a wall of Whispers to fight the
+  arbiters of fate, then faces Sephiroth at the edge of creation.
+when: { year: 0 }
+seq: 165
+importance: 3
+arc: arc_midgar
+
+appearances:
+  - title: remake
+    status: depicted
+    summary: >-
+      Aerith calls the wall the point of no return. Beyond it the party defeats the Whispers and
+      then Sephiroth, who takes Cloud to the edge of creation and asks him to defy destiny with
+      him; Cloud refuses. Meanwhile Zack survives a fight with Shinra troops, and the party sets out
+      to hunt Sephiroth.
+    depictions:
+      - { at: { title: remake, chapter: 18 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 18, scene: "The Turning Point" }
+    certainty: stated
+    notes: >-
+      New in the Remake series; the original's escape from Midgar has no counterpart. What the
+      party's victory changes is left open, and not interpreted here.
+
+relationships:
+  - type: occurred_at
+    target: location_midgar
+    titles:
+      remake:
+        sources: [{ title: remake, chapter: 18, scene: "End of the Road" }]
+        certainty: stated

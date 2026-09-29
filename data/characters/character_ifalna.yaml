@@ -1,0 +1,81 @@
+id: character_ifalna
+name: Ifalna
+summary: A Cetra, Aerith's mother, who escaped Shinra's laboratory with her daughter and died soon after.
+
+appearances:
+  - title: og
+    status: referenced
+    role: Aerith's mother, a Cetra
+    summary: >-
+      Named by Hojo as Aerith's mother; recordings at Icicle Inn show her telling Professor Gast of
+      the Cetra and Jenova.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: mention }
+      - {
+          at: { title: og, disc: 2, segment: og_icicle_inn, optional: true },
+          framing: flashback,
+          note: "Gast's recordings",
+        }
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building, scene: "'her mother, Ifalna'" }
+      - { title: og, disc: 2, segment: og_icicle_inn, scene: "Gast's video", optional: true }
+    certainty: stated
+
+  - title: remake
+    status: referenced
+    role: Aerith's mother
+    summary: >-
+      Unnamed: Elmyra tells of Aerith's mother dying at the station, and Hojo of the last
+      pure-blooded Ancient who tried to run.
+    depictions:
+      - { at: { title: remake, chapter: 13 }, framing: mention }
+    sources:
+      - { title: remake, chapter: 13, scene: "Words of Hope" }
+      - { title: remake, chapter: 16, scene: "A Helping Hand" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    role: Aerith's mother, a Cetra
+    summary: Aerith tells Cloud that Hojo held her and her mother, Ifalna, as specimens.
+    depictions:
+      - { at: { title: rebirth, chapter: 6 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 6, scene: "When Evening Comes" }
+    certainty: stated
+
+relationships:
+  - type: parent_of
+    target: character_aerith_gainsborough
+    kind: biological
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_shinra_building,
+                scene: "'comparing her to her mother, Ifalna'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources: [{ title: remake, chapter: 13, scene: "'Her and her mother'" }],
+          certainty: stated,
+        }
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 6, scene: "'Me and my mom—Ifalna'" }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_ifalna_death
+    role: dies, leaving Aerith with Elmyra
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_aerith_story }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 13 }], certainty: stated }

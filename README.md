@@ -35,7 +35,7 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 | 11    | Design pass                                       |
 | 12    | Release                                           |
 
-Dataset research runs alongside Phases 4–9, growing to the MVP scope (about 25 events, 20 characters, 10 locations, 5 organizations).
+Dataset research ran alongside Phases 4–9 and reached the MVP scope before Phase 10: 25 events, 20 characters, 11 locations and 5 organizations, with 148 relationships, each checked against the games' script transcripts (see the research log at `/archive/research`).
 
 ## Stack
 

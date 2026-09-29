@@ -1,0 +1,27 @@
+id: location_temple_of_the_ancients
+name: Temple of the Ancients
+summary: A temple of the Cetra that holds the black materia.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Opened with the Keystone. Inside, Sephiroth shows Cloud the mural of Meteor, and the temple
+      itself proves to be the black materia.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_temple_of_the_ancients }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_temple_of_the_ancients }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      A fortress-like temple where each of the party faces a trial, and whose murals tell the
+      Cetra's history, before the black materia is reached.
+    depictions:
+      - { at: { title: rebirth, chapter: 13 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 13, scene: "Hall of Resurrection" }
+      - { title: rebirth, chapter: 13, scene: "The Materia Awaits" }
+    certainty: stated

@@ -1,0 +1,167 @@
+id: character_hojo
+name: Hojo
+aliases: [Professor Hojo]
+summary: A Shinra scientist whose experiments with Jenova lie behind Sephiroth, SOLDIER and much else.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Head of Shinra's Science Department
+    summary: >-
+      Studies Aerith as a specimen and plans to breed her with Red XIII; later resigns from Shinra.
+      At the Northern Crater he calls Cloud a failed Sephiroth clone of his making, and in Midgar he
+      reveals that he is Sephiroth's father.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_shinra_building,
+          scene: "the board meeting and Hojo's laboratory",
+        }
+      - { title: og, disc: 2, segment: og_northern_crater }
+      - { title: og, disc: 2, segment: og_midgar_raid, scene: "Hojo atop the Mako Cannon" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: Shinra's director of Research and Development
+    summary: >-
+      Holds Aerith in his laboratory, the Drum, and speaks of her mother, the last pure-blooded
+      Ancient, who tried to run.
+    depictions:
+      - { at: { title: remake, chapter: 16 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 16, scene: "Playing the Tourist: Hojo's hologram" }
+      - { title: remake, chapter: 16, scene: "A Helping Hand" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: A Shinra scientist following the black-robed men
+    summary: >-
+      Lets the attack on the Shinra-8 continue as an experiment, and turns up on the beach at Costa
+      del Sol.
+    depictions:
+      - { at: { title: rebirth, chapter: 5 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 5, scene: "Passengers in Peril" }
+      - { title: rebirth, chapter: 6, scene: "Hojo's Mojo" }
+    certainty: stated
+
+relationships:
+  - type: member_of
+    target: organization_shinra
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_shinra_building,
+                scene: "'in charge of the Shinra's Science Department'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources:
+            [{ title: remake, chapter: 16, scene: "'director of Research and Development'" }],
+          certainty: stated,
+        }
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 6, scene: "'If you girls sign up with Shinra'" }],
+          certainty: stated,
+        }
+
+  - type: parent_of
+    target: character_sephiroth
+    kind: biological
+    titles:
+      og:
+        sources:
+          [{ title: og, disc: 2, segment: og_midgar_raid, scene: "'the woman with my child'" }]
+        certainty: stated
+
+  - type: experimented_on
+    target: character_sephiroth
+    titles:
+      og:
+        sources:
+          [{ title: og, disc: 2, segment: og_midgar_raid, scene: "'we took the cells of Jenova'" }]
+        certainty: stated
+
+  - type: experimented_on
+    target: character_cloud_strife
+    titles:
+      og:
+        sources:
+          [
+            {
+              title: og,
+              disc: 2,
+              segment: og_northern_crater,
+              scene: "'a Sephiroth-clone I created'",
+            },
+          ]
+        certainty: stated
+
+  - type: experimented_on
+    target: character_aerith_gainsborough
+    titles:
+      og:
+        {
+          sources: [{ title: og, disc: 1, segment: og_shinra_building, scene: "'As a specimen'" }],
+          certainty: stated,
+        }
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 6, scene: "When Evening Comes" }],
+          certainty: stated,
+        }
+
+  - type: experimented_on
+    target: character_ifalna
+    titles:
+      rebirth:
+        sources: [{ title: rebirth, chapter: 6, scene: '''a "specimen" for his experiments''' }]
+        certainty: stated
+
+  - type: experimented_on
+    target: character_red_xiii
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_shinra_building,
+                scene: "'Hojo has named me, Red XIII'",
+              },
+            ],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_shinra_building_raid
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 16 }], certainty: stated }
+
+  - type: participated_in
+    target: event_jenova_on_the_cargo_ship
+    role: lets the attack continue as an experiment
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 5 }], certainty: stated }
+
+  - type: participated_in
+    target: event_meteor_summoned
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_northern_crater }], certainty: stated }

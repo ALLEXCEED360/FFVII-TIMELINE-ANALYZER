@@ -1,0 +1,64 @@
+id: location_sector_5_church
+name: Sector 5 Church
+aliases: [Aerith's church]
+summary: An old church in the Sector 5 slums of Midgar, where Aerith grows flowers.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: Cloud falls through its roof into Aerith's flower bed, and meets her again.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_sector_5_church }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_sector_5_church,
+          scene: "'a church in the Sector 5 slums'",
+        }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: Cloud crashes through its roof into Aerith's flower bed, and fights Reno there.
+    depictions:
+      - { at: { title: remake, chapter: 8 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 8, scene: "'An old church in the Sector 5 slums'" }
+    certainty: stated
+
+  - title: intermission
+    world: world_zack_survives
+    status: depicted
+    summary: Zack arrives, looking for Aerith, in the post-credits scene.
+    depictions:
+      - { at: { title: intermission, chapter: 2 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 2, scene: "post-credits scene in Aerith's church" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: Aerith reminds Cloud that the church was where they met for the second time.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "Respite", optional: true }
+    certainty: stated
+
+  - title: rebirth
+    world: world_zack_survives
+    status: depicted
+    summary: Zack wakes in the church at the end of the story.
+    depictions:
+      - { at: { title: rebirth, chapter: 14 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 14, scene: "Zack's final scene in Aerith's church" }
+    certainty: stated
+
+relationships:
+  - type: part_of
+    target: location_midgar
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_sector_5_church }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 8 }], certainty: stated }

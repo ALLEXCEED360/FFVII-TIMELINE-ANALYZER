@@ -1,0 +1,117 @@
+id: character_president_shinra
+name: President Shinra
+summary: The head of the Shinra Electric Power Company, and Rufus's father.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Head of Shinra, Inc.
+    summary: >-
+      Springs the trap at Mako Reactor 5, has Sector 7 left in ruins, seeks the Promised Land
+      through Aerith, and is found dead in his office on the night of the raid.
+    depictions:
+      - {
+          at: { title: og, disc: 1, segment: og_seventh_heaven, optional: true },
+          framing: glimpse,
+          note: "on the news, after the first bombing",
+        }
+      - { at: { title: og, disc: 1, segment: og_reactor_5 }, framing: direct, primary: true }
+    sources:
+      - { title: og, disc: 1, segment: og_reactor_5, scene: "the trap on the walkway" }
+      - { title: og, disc: 1, segment: og_shinra_building }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: President of the Shinra Electric Power Company
+    summary: >-
+      Appears at Mako Reactor 5 to brand AVALANCHE allies of Wutai, plans a new mako-powered city in
+      the promised land, and is confronted by Barret in his office.
+    depictions:
+      - { at: { title: remake, chapter: 7 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 7, scene: "Storming the Gates (continued)" }
+      - { title: remake, chapter: 16, scene: "Reconnaissance" }
+      - { title: remake, chapter: 17, scene: "The Ominous Trail" }
+    certainty: stated
+
+  - title: intermission
+    status: depicted
+    role: President of Shinra
+    summary: Overrules Reeve's plea to spare the Sector 7 undercity from the plate drop.
+    depictions:
+      - { at: { title: intermission, chapter: 2 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 2, scene: "Scarlet's Trap: 'Progress requires sacrifice'" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: Remembered by Rufus as the late president who built the company.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: mention }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 4,
+          scene: "The Seventh Infantry: 'The late president, my father'",
+        }
+    certainty: stated
+
+relationships:
+  - type: leads
+    target: organization_shinra
+    title: President
+    until: { event: event_president_shinra_death }
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_shinra_building,
+                scene: "'The leader of Shinra, Inc. is dead'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake: { sources: [{ title: remake, chapter: 7 }], certainty: stated }
+      intermission: { sources: [{ title: intermission, chapter: 2 }], certainty: stated }
+
+  - type: parent_of
+    target: character_rufus_shinra
+    kind: biological
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_shinra_building,
+                scene: "'Vice President Rufus. The President's son.'",
+              },
+            ],
+          certainty: stated,
+        }
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 4, scene: "'my father is dead'" }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_mako_reactor_5_bombing
+    role: springs the trap
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_reactor_5 }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 7 }], certainty: stated }
+
+  - type: participated_in
+    target: event_president_shinra_death
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 17 }], certainty: stated }

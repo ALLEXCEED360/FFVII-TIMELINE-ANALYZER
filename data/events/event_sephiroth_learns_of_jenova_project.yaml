@@ -1,0 +1,81 @@
+id: event_sephiroth_learns_of_jenova_project
+name: Sephiroth Learns of the Jenova Project
+summary: >-
+  During the Nibelheim mission, Sephiroth shuts himself in the Shinra Mansion's basement library
+  and reads Professor Gast's records of Jenova and the Jenova Project, concluding that he was
+  created by it.
+when: { year: -5 }
+seq: 10
+importance: 2
+arc: arc_the_journey_begins
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      After seeing the creatures in the reactor, Sephiroth wonders whether he was made the same
+      way. In the mansion's basement he reads that Gast named a dead organism found in
+      two-thousand-year-old strata Jenova, and that the Jenova Project was approved. He reads for
+      days without rest, then tells Cloud that Gast produced him.
+    depictions:
+      - at: { title: og, disc: 1, segment: og_kalm }
+        framing: false_account
+        note: part of Cloud's account at the Kalm inn
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_kalm,
+          scene: "the library in the Shinra Mansion basement",
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Sephiroth reads in a basement beneath Shinra Manor that the village never knew of: Jenova,
+      verified as an Ancient, and the Jenova Project's approval. On the seventh night he tells Cloud
+      he was the project's creation, and leaves to see his "mother".
+    depictions:
+      - { at: { title: rebirth, chapter: 1 }, framing: disputed_account }
+    sources:
+      - { title: rebirth, chapter: 1, scene: "To Shinra Manor" }
+      - { title: rebirth, chapter: 1, scene: "Searching for Sephiroth" }
+    certainty: stated
+
+differences:
+  - key: dates
+    from: { title: og }
+    to: { title: rebirth }
+    category: presentation
+    magnitude: minor
+    summary: >-
+      In OG, the records Sephiroth reads aloud have their dates blanked out ("X Year, X Month, X
+      Day"); in Rebirth, he reads out dated entries.
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_kalm,
+          scene: "the library in the Shinra Mansion basement",
+        }
+      - { title: rebirth, chapter: 1, scene: "To Shinra Manor" }
+    certainty: stated
+
+relationships:
+  - type: sub_event_of
+    target: event_nibelheim_incident
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_kalm }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 1 }], certainty: stated }
+
+  - type: occurred_at
+    target: location_nibelheim
+    titles:
+      og:
+        {
+          sources: [{ title: og, disc: 1, segment: og_kalm, scene: "the Shinra Mansion" }],
+          certainty: stated,
+        }
+      rebirth:
+        { sources: [{ title: rebirth, chapter: 1, scene: "Shinra Manor" }], certainty: stated }

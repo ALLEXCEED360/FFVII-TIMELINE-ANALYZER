@@ -1,0 +1,42 @@
+id: location_wall_market
+name: Wall Market
+summary: A red-light district in Midgar's Sector 6 slums, ruled by Don Corneo.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: Where Cloud dresses up to get into Don Corneo's mansion.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_wall_market }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_wall_market, scene: "'a big shot here in Wall Market'" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      Explored over a whole chapter, with the Honeybee Inn, Madam M and the Underground Colosseum;
+      the party returns later in the story.
+    depictions:
+      - { at: { title: remake, chapter: 9 }, framing: direct }
+      - { at: { title: remake, chapter: 14 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 9 }
+      - { title: remake, chapter: 14, scene: "Wavering Heart" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: Madam M reminds Cloud of their time in Wall Market.
+    depictions:
+      - { at: { title: rebirth, chapter: 5 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 5, scene: "Queen's Blood, Round 3" }
+    certainty: stated
+
+relationships:
+  - type: part_of
+    target: location_midgar
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_wall_market }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 9 }], certainty: stated }

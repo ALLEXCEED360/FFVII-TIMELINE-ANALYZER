@@ -1,0 +1,54 @@
+id: event_aerith_hires_cloud
+name: Aerith Hires Cloud as Her Bodyguard
+summary: >-
+  Cloud falls through the roof of the Sector 5 church into Aerith's flower bed. When the Turks come
+  for her, she hires him as a bodyguard to take her home, for the price of one date.
+when: { year: 0 }
+seq: 125
+importance: 2
+arc: arc_midgar
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Cloud wakes in the church after his fall. Reno of the Turks arrives with soldiers; Aerith
+      asks Cloud whether he has ever been a bodyguard, offers to go out with him once as payment,
+      and the two escape Reno's men.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_sector_5_church }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_sector_5_church, scene: "The Woman at the Church" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      Aerith recognizes Cloud as the man she gave a flower to. When Reno arrives, she introduces
+      Cloud as her bodyguard, sets his fee at one date, and Cloud fights Reno before they flee.
+    depictions:
+      - { at: { title: remake, chapter: 8 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 8, scene: "Second Chance Meeting" }
+    certainty: stated
+
+differences:
+  - key: reno_fight
+    from: { title: og }
+    to: { title: remake }
+    category: gameplay
+    magnitude: minor
+    summary: >-
+      In OG, Cloud and Aerith escape Reno's soldiers without facing Reno; in Remake, Cloud fights
+      Reno in the church.
+    sources:
+      - { title: og, disc: 1, segment: og_sector_5_church, scene: "the escape from the church" }
+      - { title: remake, chapter: 8, scene: "Second Chance Meeting" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_sector_5_church
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_sector_5_church }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 8 }], certainty: stated }

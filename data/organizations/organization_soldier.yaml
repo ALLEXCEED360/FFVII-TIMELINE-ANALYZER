@@ -1,0 +1,66 @@
+id: organization_soldier
+name: SOLDIER
+summary: Shinra's elite fighting force, whose members are marked by eyes that glow from exposure to mako.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Cloud claims to be a former member; Sephiroth was its greatest. In the Lifestream it emerges
+      that Cloud never made it in.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_reactor_1 }, framing: mention }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_reactor_1,
+          scene: "'You used to be in SOLDIER all right!'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_inside_clouds_mind,
+          scene: "'I...never made it as a member of SOLDIER'",
+        }
+    certainty: stated
+
+  - title: remake
+    status: referenced
+    summary: >-
+      Cloud calls himself an ex-SOLDIER; President Shinra hints that SOLDIERs die young, and Rufus
+      claims to own any SOLDIER.
+    depictions:
+      - { at: { title: remake, chapter: 7 }, framing: mention }
+    sources:
+      - { title: remake, chapter: 7, scene: "'Once a SOLDIER, always a SOLDIER'" }
+      - {
+          title: remake,
+          chapter: 17,
+          scene: "'You're a SOLDIER, aren't you? Which, of course, would mean that I own you.'",
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: In Cloud's account, he is a SOLDIER First Class sent to Nibelheim with Sephiroth.
+    depictions:
+      - { at: { title: rebirth, chapter: 1 }, framing: disputed_account }
+    sources:
+      - { title: rebirth, chapter: 1, scene: "'Finally make First'" }
+    certainty: stated
+
+relationships:
+  - type: part_of
+    target: organization_shinra
+    titles:
+      remake:
+        sources:
+          [
+            {
+              title: remake,
+              chapter: 17,
+              scene: "'You're a SOLDIER... which would mean that I own you'",
+            },
+          ]
+        certainty: stated

@@ -1,0 +1,73 @@
+id: event_corneo_audition
+name: Don Corneo's Audition
+summary: >-
+  In Wall Market, Cloud, disguised as a woman, joins Tifa and Aerith among Don Corneo's
+  prospective brides, and the three force him to reveal Shinra's plan to drop the Sector 7 plate.
+when: { year: 0 }
+seq: 130
+importance: 2
+arc: arc_midgar
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Tifa has gone to Corneo's mansion to learn why his men were asking about Barret. Cloud,
+      dressed up with Aerith's help, gets in alongside her. Corneo picks one of the three, and they
+      make him confess that Heidegger hired him and that Shinra will break the Sector 7 pillar.
+      He drops them into the sewers through a trapdoor.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_wall_market }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_wall_market, scene: "Don Corneo's bedroom" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      Cloud and Aerith win the backing of Wall Market's bosses, Andrea Rhodea and Madam M, to get
+      into the audition. Corneo chooses Cloud; Tifa and Aerith fight off his men and together they
+      make him confess that Heidegger hired him and that Shinra will blow up the Sector 7 support
+      pillar. He drops them into the sewers.
+    depictions:
+      - { at: { title: remake, chapter: 9 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 9, scene: "The Audition" }
+      - { title: remake, chapter: 9, scene: "Showdown with Corneo" }
+    certainty: stated
+
+differences:
+  - key: chosen
+    from: { title: og }
+    to: { title: remake }
+    category: presentation
+    magnitude: minor
+    summary: >-
+      In OG, Corneo chooses Cloud, Tifa or Aerith, depending on the player's earlier choices; in
+      Remake, he always chooses Cloud.
+    sources:
+      - { title: og, disc: 1, segment: og_wall_market, scene: "Corneo makes his choice" }
+      - { title: remake, chapter: 9, scene: "Showdown with Corneo" }
+    certainty: stated
+
+  - key: road_to_the_audition
+    from: { title: og }
+    to: { title: remake }
+    category: gameplay
+    magnitude: minor
+    summary: >-
+      In OG, Cloud gathers a dress, a wig and other items around Wall Market; in Remake, he needs
+      the recommendations of Madam M and Andrea Rhodea, won through the Underground Colosseum and
+      a dance at the Honeybee Inn.
+    sources:
+      - { title: og, disc: 1, segment: og_wall_market, scene: "the dress shop and the gym" }
+      - { title: remake, chapter: 9, scene: "Underground Colosseum" }
+      - { title: remake, chapter: 9, scene: "Aerith's Plan" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_wall_market
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_wall_market }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 9 }], certainty: stated }

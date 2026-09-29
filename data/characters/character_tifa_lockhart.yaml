@@ -88,3 +88,60 @@ relationships:
     target: event_cloud_memories_restored
     titles:
       og: { sources: [{ title: og, disc: 2, segment: og_inside_clouds_mind }], certainty: stated }
+
+  - type: member_of
+    target: organization_avalanche
+    titles:
+      og:
+        {
+          sources:
+            [{ title: og, disc: 1, segment: og_shinra_building, scene: "Tifa: 'Same here!'" }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_mako_reactor_5_bombing
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_reactor_5 }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 7 }], certainty: stated }
+
+  - type: participated_in
+    target: event_corneo_audition
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_wall_market }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 9 }], certainty: stated }
+
+  - type: participated_in
+    target: event_shinra_building_raid
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 16 }], certainty: stated }
+
+  - type: participated_in
+    target: event_escape_from_midgar
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 18 }], certainty: stated }
+
+  - type: participated_in
+    target: event_battle_at_destinys_crossroads
+    titles:
+      remake:
+        { sources: [{ title: remake, chapter: 18, scene: "The Turning Point" }], certainty: stated }
+
+  - type: participated_in
+    target: event_water_tower_promise
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_seventh_heaven }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 4 }], certainty: stated }
+
+  - type: participated_in
+    target: event_junon_parade
+    role: marches in disguise
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 4 }], certainty: stated }
+
+  - type: participated_in
+    target: event_meteor_summoned
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_northern_crater }], certainty: stated }

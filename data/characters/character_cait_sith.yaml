@@ -1,0 +1,54 @@
+id: character_cait_sith
+name: Cait Sith
+summary: >-
+  A fortune-telling robot cat riding a giant moogle, operated from afar by someone inside Shinra.
+
+appearances:
+  - title: og
+    status: depicted
+    role: A fortune-teller who joins the party, and Shinra's spy within it
+    summary: >-
+      Joins the party at the Gold Saucer. After stealing the Keystone for Shinra he admits to being
+      a spy, but stays with the party, and gives up his body to take the black materia out of the
+      Temple of the Ancients.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_gold_saucer }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_gold_saucer, scene: "Wonder Square" }
+      - { title: og, disc: 1, segment: og_keystone, scene: "'Yes, I was a spy'" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: Travels with the party, claiming to work at a small Shinra subsidiary
+    summary: >-
+      Travels with the party, telling Barret he is a nobody at a small Shinra subsidiary, and is
+      with them at the Temple of the Ancients and the Forgotten Capital.
+    depictions:
+      - { at: { title: rebirth, chapter: 9 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 9, scene: "'a 9-to-5 nobody at a small Shinra subsidiary'" }
+      - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }
+    certainty: stated
+    notes: >-
+      The transcript used is empty for chapter 8, where he joins; he is cited from his first
+      recorded lines.
+
+relationships:
+  - type: participated_in
+    target: event_race_for_the_black_materia
+    role: gives up his body to bring out the black materia
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_temple_of_the_ancients,
+                scene: "Cait Sith's farewell",
+              },
+            ],
+          certainty: stated,
+        }

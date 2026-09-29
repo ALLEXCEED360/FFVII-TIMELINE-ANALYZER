@@ -1,0 +1,75 @@
+id: event_race_for_the_black_materia
+name: Race for the Black Materia
+summary: >-
+  At the Temple of the Ancients, Sephiroth and the party both seek the black materia, which can
+  summon Meteor.
+when: { year: 0 }
+seq: 240
+importance: 3
+arc: arc_the_promised_land
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Tseng, wounded by Sephiroth, gives the party the Keystone. Sephiroth shows Cloud the mural
+      of Meteor. The temple itself turns out to be the black materia, which can only be taken out
+      by someone solving it from inside; Cait Sith offers up his stuffed body to do it. Outside,
+      Sephiroth takes control of Cloud, who hands the black materia over.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_temple_of_the_ancients }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_temple_of_the_ancients, scene: "Tseng at the altar" }
+      - { title: og, disc: 1, segment: og_temple_of_the_ancients, scene: "Cait Sith's farewell" }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_temple_of_the_ancients,
+          scene: "Gave 'Black Materia' to Sephiroth!",
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Sephiroth, in the form of a robed man, strikes down Tseng. The party passes the temple's
+      trials, and the Cetra's murals tell of Jenova and of the Gi, who forged the black materia.
+      Sephiroth declares his purpose, and when Cloud reaches the materia, Aerith tries to stop him
+      as the temple begins to fall.
+    depictions:
+      - { at: { title: rebirth, chapter: 13 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 13, scene: "Hall of Resurrection" }
+      - { title: rebirth, chapter: 13, scene: "Dreams of Oblivion" }
+      - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }
+    certainty: stated
+    notes: >-
+      The transcript used is incomplete from here to the end of the chapter; what becomes of the
+      black materia in Rebirth is an open question (question_rebirth_black_materia).
+
+differences:
+  - key: gi_origin
+    from: { title: og }
+    to: { title: rebirth }
+    category: context
+    magnitude: minor
+    summary: >-
+      In OG, the Ancients' temple is itself the black materia; in Rebirth, the Cetra's murals say
+      the Gi forged the black materia, and the Cetra hid it away.
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_temple_of_the_ancients,
+          scene: "the temple is the black materia",
+        }
+      - { title: rebirth, chapter: 13, scene: "Dreams of Oblivion" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_temple_of_the_ancients
+    titles:
+      og:
+        { sources: [{ title: og, disc: 1, segment: og_temple_of_the_ancients }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 13 }], certainty: stated }

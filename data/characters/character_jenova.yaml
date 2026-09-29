@@ -1,0 +1,82 @@
+id: character_jenova
+name: Jenova
+aliases: [Calamity from the Skies]
+summary: >-
+  A being that fell to the planet two thousand years ago, taking the forms of others; Shinra
+  mistook it for an Ancient and made it the basis of the Jenova Project.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Hojo's specimen, and the "mother" Sephiroth seeks
+    summary: >-
+      Kept in Hojo's laboratory until it disappears on the night of the raid; its forms are fought
+      aboard the cargo ship and at the end of the story. Ifalna's recordings name it the crisis from
+      the sky.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_shinra_building,
+          scene: "'Jenova... So...they've brought it here'",
+        }
+      - { title: og, disc: 1, segment: og_cargo_ship, scene: "Jenova·BIRTH" }
+      - { title: og, disc: 3, segment: og_finale, scene: "Jenova·SYNTHESIS" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: The specimen in the Shinra Building
+    summary: >-
+      Red XIII names it the cataclysm that came from the stars; the party fights Jenova Dreamweaver
+      in the President's office.
+    depictions:
+      - { at: { title: remake, chapter: 17 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 17, scene: "Use the Central Terminal" }
+      - { title: remake, chapter: 17, scene: "The Ominous Trail: Jenova Dreamweaver" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: The "mother" Sephiroth seeks
+    summary: >-
+      Sephiroth reads of the specimen in Nibelheim; the party fights Jenova Emergent aboard the
+      Shinra-8, and the Cetra's murals tell of the deceiver that stole the faces of the dead.
+    depictions:
+      - { at: { title: rebirth, chapter: 1 }, framing: mention }
+      - { at: { title: rebirth, chapter: 5 }, framing: direct, primary: true }
+    sources:
+      - { title: rebirth, chapter: 1, scene: "Searching for Sephiroth" }
+      - { title: rebirth, chapter: 5, scene: "To Catch a Fiend: Jenova Emergent" }
+      - { title: rebirth, chapter: 13, scene: "Arrival" }
+    certainty: stated
+
+relationships:
+  - type: participated_in
+    target: event_jenova_calamity
+    titles:
+      og:
+        {
+          sources:
+            [{ title: og, disc: 2, segment: og_icicle_inn, scene: "Gast's video", optional: true }],
+          certainty: stated,
+        }
+      rebirth: { sources: [{ title: rebirth, chapter: 13, scene: "Arrival" }], certainty: stated }
+
+  - type: participated_in
+    target: event_jenova_on_the_cargo_ship
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_cargo_ship }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 5 }], certainty: stated }
+
+  - type: participated_in
+    target: event_defeat_of_sephiroth
+    titles:
+      og:
+        {
+          sources: [{ title: og, disc: 3, segment: og_finale, scene: "Jenova·SYNTHESIS" }],
+          certainty: stated,
+        }

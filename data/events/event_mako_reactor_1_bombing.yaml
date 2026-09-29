@@ -2,7 +2,7 @@ id: event_mako_reactor_1_bombing
 name: Bombing of Mako Reactor 1
 summary: AVALANCHE's attack on Shinra's Mako Reactor 1 in Midgar, the opening mission of the story.
 when: { year: 0 }
-seq: 10
+seq: 100
 importance: 2
 arc: arc_midgar
 

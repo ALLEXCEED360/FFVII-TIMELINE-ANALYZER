@@ -1,0 +1,85 @@
+id: character_red_xiii
+name: Red XIII
+aliases: [Nanaki]
+summary: >-
+  A red, lion-like creature of Cosmo Canyon who can speak; "Red XIII" is the designation Hojo gave
+  him, and his true name is Nanaki.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Hojo's specimen, freed during the raid on the Shinra Building
+    summary: >-
+      Held in Hojo's laboratory as a specimen, he helps the party escape and joins them, later
+      returning home to Cosmo Canyon, where he learns the truth about his father.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building, scene: "'Hojo has named me, Red XIII'" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: Hojo's specimen, who joins the party in the Shinra Building
+    summary: >-
+      Freed in the Drum, he explains the Whispers to the party and fights beside them through the
+      escape from Midgar.
+    depictions:
+      - { at: { title: remake, chapter: 16 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 16, scene: "'The designation given to me by Hojo'" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: Travels with the party; the Watcher of Cosmo Canyon
+    summary: >-
+      Travels with the party from Kalm. At Cosmo Canyon he learns of his father's stand and takes up
+      the name Nanaki, Watcher of the Vale.
+    depictions:
+      - { at: { title: rebirth, chapter: 1 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 1, scene: "Get Some Rest" }
+      - { title: rebirth, chapter: 10, scene: "The Watcher's Verdict" }
+    certainty: stated
+
+relationships:
+  - type: hometown
+    target: location_cosmo_canyon
+    titles:
+      og:
+        {
+          sources:
+            [{ title: og, disc: 1, segment: og_cosmo_canyon, scene: "'this is my hometown'" }],
+          certainty: stated,
+        }
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 10, scene: "The Watcher's Verdict" }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_shinra_building_raid
+    role: freed from Hojo's laboratory
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 16 }], certainty: stated }
+
+  - type: participated_in
+    target: event_escape_from_midgar
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 18 }], certainty: stated }
+
+  - type: participated_in
+    target: event_battle_at_destinys_crossroads
+    titles:
+      remake:
+        { sources: [{ title: remake, chapter: 18, scene: "The Turning Point" }], certainty: stated }
+
+  - type: participated_in
+    target: event_truth_about_seto
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_cosmo_canyon }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 10 }], certainty: stated }

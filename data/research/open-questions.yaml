@@ -71,3 +71,57 @@
   kind: structure
   summary: The eras are provisional
   details: The eras are display ranges for the timeline; revisit them as dated events are added.
+
+- id: question_president_death_remake
+  kind: needs_footage
+  summary: How Remake shows President Shinra's death (chapter 17)
+  details: >-
+    The transcript has the party find the President in his office and Barret confront him, then
+    Sephiroth's appearance; how the President dies is shown rather than said. Check the footage,
+    then record it on the event and add Sephiroth's part.
+  entities: [event_president_shinra_death, character_president_shinra]
+  sources: [{ title: remake, chapter: 17, scene: "The Ominous Trail" }]
+
+- id: question_rebirth_black_materia
+  kind: needs_footage
+  summary: What becomes of the black materia in Rebirth (chapters 13–14)
+  details: >-
+    The transcript breaks off as Cloud reaches the black materia and the temple begins to fall, and
+    resumes with stage directions at the end of chapter 14 in which Cloud puts the black materia
+    into his sword. Whether Cloud hands it over, what happens to Cait Sith, and whether Meteor is
+    summoned all need checking against the game.
+  entities: [event_race_for_the_black_materia, character_cait_sith, event_meteor_summoned]
+  sources:
+    - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }
+    - { title: rebirth, chapter: 14, scene: "the ending" }
+
+- id: question_rebirth_chapters_8_9
+  kind: not_in_dataset
+  summary: Rebirth's Gold Saucer and Corel chapters
+  details: >-
+    The transcript used is empty for chapter 8 and thin for chapter 9, which cover the Gold
+    Saucer, Corel Prison and Barret's past — including the burning of Corel, Dyne, and where Cait
+    Sith joins. These are left out until checked against the game.
+  entities: [character_cait_sith, character_barret_wallace]
+  sources:
+    - { title: rebirth, chapter: 8 }
+    - { title: rebirth, chapter: 9 }
+
+- id: question_midgar_zolom
+  kind: needs_footage
+  summary: The Midgar Zolom (Midgardsormr) found impaled
+  details: >-
+    In the original, the party finds the Midgar Zolom impaled by Sephiroth near the Mythril Mine;
+    in Rebirth the party fights Midgardsormr in the swamp, and Cloud afterwards seems to sense
+    Sephiroth. Both scenes are mostly visual, so the event isn't recorded yet.
+  sources:
+    - { title: og, disc: 1, segment: og_road_to_junon, scene: "'Did Sephiroth... do this......?'" }
+    - { title: rebirth, chapter: 2, scene: "Through the Swamplands" }
+
+- id: question_full_names
+  kind: structure
+  summary: Full names not given in the transcripts
+  details: >-
+    Yuffie's and Jessie's family names don't appear in the transcripts used, so they are recorded
+    by first name only. Add their full names, with the title that states them, once checked.
+  entities: [character_yuffie, character_jessie]

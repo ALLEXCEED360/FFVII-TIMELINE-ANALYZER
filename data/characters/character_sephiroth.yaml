@@ -69,3 +69,75 @@ relationships:
         sources: [{ title: rebirth, chapter: 14 }]
         certainty: stated
         notes: Shown after a moment in which Cloud appears to block the blade.
+
+  - type: member_of
+    target: organization_soldier
+    titles:
+      og:
+        {
+          sources: [{ title: og, disc: 1, segment: og_kalm, scene: "the mission to Nibelheim" }],
+          certainty: stated,
+        }
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 1, scene: "the mission to Nibelheim" }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_sephiroth_learns_of_jenova_project
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_kalm }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 1 }], certainty: stated }
+
+  - type: participated_in
+    target: event_president_shinra_death
+    role: named as the killer
+    titles:
+      og:
+        sources:
+          - { title: og, disc: 1, segment: og_shinra_building, scene: "Palmer: 'Sephiroth came'" }
+        certainty: inferred
+        notes: >-
+          Palmer says he saw Sephiroth, and Cloud identifies the sword as his. At the Northern Crater, Hojo explains that Jenova and the clones were moved by Sephiroth's will, with Sephiroth himself waiting in the crater, so who struck the blow is left to inference.
+
+  - type: participated_in
+    target: event_jenova_on_the_cargo_ship
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_cargo_ship }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 5 }], certainty: stated }
+
+  - type: participated_in
+    target: event_battle_at_destinys_crossroads
+    titles:
+      remake:
+        { sources: [{ title: remake, chapter: 18, scene: "The Turning Point" }], certainty: stated }
+
+  - type: participated_in
+    target: event_race_for_the_black_materia
+    titles:
+      og:
+        { sources: [{ title: og, disc: 1, segment: og_temple_of_the_ancients }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 13 }], certainty: stated }
+
+  - type: participated_in
+    target: event_meteor_summoned
+    role: summons Meteor
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_northern_crater }], certainty: stated }
+
+  - type: participated_in
+    target: event_defeat_of_sephiroth
+    titles:
+      og: { sources: [{ title: og, disc: 3, segment: og_finale }], certainty: stated }
+
+  - type: killed
+    target: character_president_shinra
+    in: event_president_shinra_death
+    titles:
+      og:
+        sources:
+          - { title: og, disc: 1, segment: og_shinra_building, scene: "the President's office" }
+        certainty: inferred
+        notes: >-
+          Palmer says he saw Sephiroth, and Cloud identifies the sword as his. At the Northern Crater, Hojo explains that Jenova and the clones were moved by Sephiroth's will, with Sephiroth himself waiting in the crater, so who struck the blow is left to inference.

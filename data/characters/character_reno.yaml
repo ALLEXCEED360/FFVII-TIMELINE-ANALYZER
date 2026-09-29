@@ -1,0 +1,75 @@
+id: character_reno
+name: Reno
+summary: A member of the Turks, Shinra's covert agents.
+
+appearances:
+  - title: og
+    status: depicted
+    role: A Turk sent after Aerith, who drops the Sector 7 plate
+    summary: >-
+      Comes for Aerith at the Sector 5 church, and triggers the Emergency Plate Release System at
+      the top of the Sector 7 pillar.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_sector_5_church }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_sector_5_church }
+      - { title: og, disc: 1, segment: og_sector_7_pillar }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: A Turk sent after Aerith, who drops the Sector 7 plate
+    summary: >-
+      Fights Cloud in the Sector 5 church, and with Rude defends the top of the Sector 7 pillar
+      while the plate is released.
+    depictions:
+      - { at: { title: remake, chapter: 8 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 8, scene: "Second Chance Meeting" }
+      - { title: remake, chapter: 12, scene: "Showdown" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: Elena asks Rude how Reno is holding up, and Aerith asks where he is.
+    depictions:
+      - { at: { title: rebirth, chapter: 3 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 3, scene: "Where They Lead" }
+    certainty: stated
+
+relationships:
+  - type: member_of
+    target: organization_turks
+    titles:
+      og:
+        {
+          sources:
+            [{ title: og, disc: 1, segment: og_sector_5_church, scene: "'They're the Turks'" }],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources:
+            [
+              {
+                title: remake,
+                chapter: 12,
+                scene: "Link Up with Avalanche: Reno on the loudspeaker",
+              },
+            ],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_aerith_hires_cloud
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_sector_5_church }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 8 }], certainty: stated }
+
+  - type: participated_in
+    target: event_sector_7_plate_fall
+    role: releases the plate
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_sector_7_pillar }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 12 }], certainty: stated }

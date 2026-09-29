@@ -1,0 +1,73 @@
+id: character_don_corneo
+name: Don Corneo
+summary: The lecherous boss of Wall Market, who picks a "bride" from the women brought to his mansion.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Boss of Wall Market, working for Heidegger
+    summary: >-
+      Picks a bride from Cloud, Tifa and Aerith, then confesses under threat that Heidegger hired
+      him to find Barret and that Shinra will drop the Sector 7 plate.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_wall_market }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_wall_market, scene: "Don Corneo's bedroom" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: Boss of Wall Market, working for Heidegger
+    summary: >-
+      Chooses the disguised Cloud at his audition, then confesses that Heidegger paid him to find
+      Barret and that Shinra will blow up the Sector 7 pillar.
+    depictions:
+      - { at: { title: remake, chapter: 9 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 9, scene: "Showdown with Corneo" }
+    certainty: stated
+
+  - title: intermission
+    status: referenced
+    summary: His men try to recruit a bride for him in the Sector 7 slums.
+    depictions:
+      - { at: { title: intermission, chapter: 1 }, framing: mention }
+    sources:
+      - { title: intermission, chapter: 1, scene: "The Handoff" }
+    certainty: stated
+
+relationships:
+  - type: participated_in
+    target: event_corneo_audition
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_wall_market }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 9 }], certainty: stated }
+
+  - type: lives_in
+    target: location_wall_market
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_wall_market,
+                scene: "'This is Don Corneo's mansion'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources:
+            [
+              {
+                title: remake,
+                chapter: 9,
+                scene: "'Welcome to the mansion of the esteemed Don Corneo'",
+              },
+            ],
+          certainty: stated,
+        }

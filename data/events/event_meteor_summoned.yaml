@@ -1,0 +1,37 @@
+id: event_meteor_summoned
+name: Meteor Is Summoned
+summary: >-
+  At the Northern Crater, Cloud hands the black materia to Sephiroth, who uses it to summon Meteor.
+  The Weapons awaken.
+when: { year: 0 }
+seq: 300
+importance: 3
+arc: arc_meteor
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Inside the crater, before Rufus, Hojo and Tifa, Cloud says he was summoned rather than
+      pursuing him, and gives the black materia to Sephiroth, waiting there. Hojo calls
+      Cloud a failed Sephiroth clone and rejoices at the Jenova Reunion; Tifa warns that Sephiroth
+      will summon Meteor. Something stirs in the crater walls: the Weapons, as Hojo recognizes.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_northern_crater }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_northern_crater,
+          scene: "'I brought you the Black Materia'",
+        }
+    certainty: stated
+    notes: >-
+      Hojo's claims about Cloud are his own; the title later reveals the truth about Cloud's past
+      (event_cloud_memories_restored).
+
+relationships:
+  - type: occurred_at
+    target: location_northern_crater
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_northern_crater }], certainty: stated }

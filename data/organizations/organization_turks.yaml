@@ -1,0 +1,60 @@
+id: organization_turks
+name: The Turks
+aliases: [Turks]
+summary: Shinra's covert agents, who scout for SOLDIER and handle the company's dirty work.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: Pursue Aerith for Shinra, drop the Sector 7 plate and shadow the party across the world.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_sector_5_church }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_sector_5_church,
+          scene: "'The Turks are an organization in Shinra'",
+        }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: Pursue Aerith for Shinra and carry out the plate drop.
+    depictions:
+      - { at: { title: remake, chapter: 8 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 8, scene: "'He was one of Shinra's Turks'" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: Follow the black-robed men, telling the party they will leave them alone if they stay out of the way.
+    depictions:
+      - { at: { title: rebirth, chapter: 3 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 3, scene: "Where They Lead" }
+    certainty: stated
+
+relationships:
+  - type: part_of
+    target: organization_shinra
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_sector_5_church,
+                scene: "'an organization in Shinra'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources: [{ title: remake, chapter: 8, scene: "'one of Shinra's Turks'" }],
+          certainty: stated,
+        }

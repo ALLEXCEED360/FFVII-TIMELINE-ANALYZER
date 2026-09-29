@@ -1,0 +1,70 @@
+id: event_escape_from_midgar
+name: Escape from Midgar
+summary: >-
+  Fleeing the Shinra Building, the party races Shinra's pursuers along the Midgar Expressway and
+  leaves the city to follow Sephiroth.
+when: { year: 0 }
+seq: 160
+importance: 2
+arc: arc_midgar
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Cloud rides a motorcycle and the others a truck down the expressway, fighting off Shinra's
+      pursuit troops and the Motor Ball. Outside the city Cloud resolves to settle the score with
+      Sephiroth, and the others join him.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building, scene: "the chase on the highway" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      The party rides a motorcycle and a truck along the Midgar Expressway, beating off Shinra's
+      troops and the M.O.T.O.R., as Whispers swarm the Shinra Building behind them. At the end of
+      the road they find Sephiroth waiting.
+    depictions:
+      - { at: { title: remake, chapter: 18 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 18, scene: "Flying Through the Night" }
+    certainty: stated
+
+differences:
+  - key: boss
+    from: { title: og }
+    to: { title: remake }
+    category: gameplay
+    magnitude: minor
+    summary: >-
+      In OG, the chase ends with the Motor Ball; in Remake, with the M.O.T.O.R., after which
+      Sephiroth is waiting at the end of the expressway.
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building, scene: "After defeating Motor Ball" }
+      - { title: remake, chapter: 18, scene: "Flying Through the Night" }
+      - { title: remake, chapter: 18, scene: "The Turning Point" }
+    certainty: stated
+
+  - key: whispers
+    from: { title: og }
+    to: { title: remake }
+    category: context
+    magnitude: minor
+    summary: >-
+      In OG, the chase is fought against Shinra alone; in Remake, the Whispers intervene during it,
+      which Red XIII explains as preserving destiny's course.
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building }
+      - { title: remake, chapter: 18, scene: "Flying Through the Night" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_midgar
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake:
+        { sources: [{ title: remake, chapter: 18, scene: "Midgar Expressway" }], certainty: stated }

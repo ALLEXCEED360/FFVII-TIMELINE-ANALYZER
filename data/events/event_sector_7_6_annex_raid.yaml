@@ -1,0 +1,34 @@
+id: event_sector_7_6_annex_raid
+name: Raid on the Sector 7-6 Annex
+summary: >-
+  Between the reactor bombings, Jessie takes Cloud, Biggs and Wedge above the plate to steal
+  blasting agent for the next bomb from a Shinra warehouse.
+when: { year: 0 }
+seq: 115
+importance: 1
+arc: arc_midgar
+
+appearances:
+  - title: remake
+    status: depicted
+    summary: >-
+      Unable to reach her supplier, Jessie plans to loot the Sector 7-6 Annex. The group visits her
+      parents' home in the Shinra employee housing area, then Cloud, Biggs and Wedge draw the
+      guards' attention while Jessie slips inside. They regroup in an empty lot, Wedge singed but
+      unhurt.
+    depictions:
+      - { at: { title: remake, chapter: 4 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 4, scene: "The Jessie Job" }
+      - { title: remake, chapter: 4, scene: "Sector 7-6 Annex Infiltration" }
+      - { title: remake, chapter: 4, scene: "Rendezvous at the Empty Lot" }
+    certainty: stated
+    notes: New in the Remake series; the original has no counterpart.
+
+relationships:
+  - type: occurred_at
+    target: location_midgar
+    titles:
+      remake:
+        sources: [{ title: remake, chapter: 4, scene: "Sector 7 Employee Housing Area" }]
+        certainty: stated

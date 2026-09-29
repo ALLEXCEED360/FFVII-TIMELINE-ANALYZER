@@ -2,7 +2,7 @@ id: event_cloud_memories_restored
 name: Cloud's Memories Restored
 summary: In the Lifestream, Cloud recovers his true memories of the past five years.
 when: { year: 0 }
-seq: 40
+seq: 310
 importance: 3
 arc: arc_the_lifestream
 

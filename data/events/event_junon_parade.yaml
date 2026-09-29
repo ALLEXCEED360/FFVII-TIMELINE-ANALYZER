@@ -1,0 +1,70 @@
+id: event_junon_parade
+name: Rufus's Welcoming Parade in Junon
+summary: >-
+  Junon holds a parade to welcome the new President, Rufus Shinra, and Cloud marches in it
+  disguised as a Shinra trooper.
+when: { year: 0 }
+seq: 210
+importance: 2
+arc: arc_the_journey_begins
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      To follow Sephiroth across the sea, the party sneaks into Junon. Cloud, in a borrowed
+      uniform, marches in Rufus's welcoming parade, broadcast live on Shinra TV, and then in the
+      send-off at the port, before the party stows away on Rufus's ship.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_junon }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_junon, scene: "the Welcome Parade" }
+      - { title: og, disc: 1, segment: og_junon, scene: "President Rufus sent off at the port" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Cloud, Tifa and Aerith march in disguise with Midgar's Seventh Infantry, hoping the
+      president's commendation will bring them face to face with Rufus. Rufus presents it,
+      recognizes Cloud, and offers the party their freedom if they find and kill Sephiroth; Cloud
+      accepts.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "Rain on His Parade" }
+      - { title: rebirth, chapter: 4, scene: "The Seventh Infantry" }
+    certainty: stated
+
+differences:
+  - key: rufus_deal
+    from: { title: og }
+    to: { title: rebirth }
+    category: outcome
+    magnitude: major
+    summary: >-
+      In OG, Cloud marches unnoticed and the party stows away; in Rebirth, Rufus recognizes Cloud
+      at the award and offers to let the party go if they kill Sephiroth, and Cloud agrees.
+    sources:
+      - { title: og, disc: 1, segment: og_junon }
+      - { title: rebirth, chapter: 4, scene: "The Seventh Infantry" }
+    certainty: stated
+
+  - key: marchers
+    from: { title: og }
+    to: { title: rebirth }
+    category: participants
+    magnitude: minor
+    summary: >-
+      In OG, Cloud marches alone among the troops; in Rebirth, Tifa and Aerith march with him.
+    sources:
+      - { title: og, disc: 1, segment: og_junon, scene: "the Welcome Parade" }
+      - { title: rebirth, chapter: 4, scene: "Rain on His Parade" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_junon
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_junon }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 4 }], certainty: stated }

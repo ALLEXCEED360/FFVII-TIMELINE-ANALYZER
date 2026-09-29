@@ -2,7 +2,7 @@ id: event_aerith_death
 name: Death of Aerith
 summary: Sephiroth kills Aerith as she prays at the altar in the Forgotten Capital.
 when: { year: 0 }
-seq: 30
+seq: 250
 importance: 3
 arc: arc_the_promised_land
 

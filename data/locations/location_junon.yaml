@@ -1,0 +1,28 @@
+id: location_junon
+name: Junon
+summary: A Shinra military city and harbour on the coast, with the village of Under Junon beneath it.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      The party climbs from Under Junon into the city, where Rufus is welcomed with a parade before
+      sailing from the port.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_junon }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_junon, scene: "Under Junon and the Welcome Parade" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      From Under Junon the party enters the city, where Rufus is inaugurated as President with a
+      parade, and leaves by ferry from the seaport.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "Under Junon" }
+      - { title: rebirth, chapter: 4, scene: "Junon - Inauguration Parade" }
+      - { title: rebirth, chapter: 4, scene: "Junon Seaport - Ferry Dock" }
+    certainty: stated

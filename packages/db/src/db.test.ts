@@ -92,8 +92,12 @@ describe("timeline", () => {
 
   it("keeps only events shown in the chosen titles, with only those appearances", async () => {
     const events = await timeline(db, { titles: ["intermission"] });
-    expect(events.map((e) => e.id)).toEqual(["event_sector_7_plate_fall"]);
-    expect(events[0]?.appearances.map((a) => a.title)).toEqual(["intermission"]);
+    expect(events.map((e) => e.id)).toEqual([
+      "event_mako_reactor_5_bombing",
+      "event_yuffie_raid_on_shinra",
+      "event_sector_7_plate_fall",
+    ]);
+    expect(events.every((e) => e.appearances.every((a) => a.title === "intermission"))).toBe(true);
   });
 
   it("gives each appearance its primary framing", async () => {
@@ -110,20 +114,41 @@ describe("timeline", () => {
 
 describe("playOrder", () => {
   it("lists a title's events in the order the player sees them", async () => {
-    const og = await playOrder(db, { title: "og", kind: "event" });
-    expect(og.map((item) => item.id)).toEqual([
-      "event_mako_reactor_1_bombing",
-      "event_sector_7_plate_fall",
-      "event_nibelheim_incident",
-      "event_aerith_death",
-      "event_cloud_memories_restored",
-    ]);
+    const og = (await playOrder(db, { title: "og", kind: "event" })).map((item) => item.id);
+    const shownInOg = [...dataset.entities.values()].filter(
+      ({ entity }) => entity.kind === "event" && entity.appearances.some((a) => a.title === "og"),
+    );
+    expect(og).toHaveLength(shownInOg.length);
+    // Play order, not in-universe order: Nibelheim (five years before) is told at Kalm.
+    expect(
+      [
+        "event_mako_reactor_1_bombing",
+        "event_sector_7_plate_fall",
+        "event_nibelheim_incident",
+        "event_aerith_death",
+        "event_cloud_memories_restored",
+        "event_defeat_of_sephiroth",
+      ].map((id) => og.indexOf(id)),
+    ).toEqual(
+      [...og.keys()].filter((i) =>
+        [
+          "event_mako_reactor_1_bombing",
+          "event_sector_7_plate_fall",
+          "event_nibelheim_incident",
+          "event_aerith_death",
+          "event_cloud_memories_restored",
+          "event_defeat_of_sephiroth",
+        ].includes(og[i] ?? ""),
+      ),
+    );
   });
 
   it("places Rebirth's interlude before chapter 1, in its own world", async () => {
     const zack = await playOrder(db, { title: "rebirth", world: "world_zack_survives" });
-    expect(zack.every((item) => item.playPosition < 1)).toBe(true);
-    expect(zack.map((item) => item.id)).toContain("character_cloud_strife");
+    expect(zack[0]?.playPosition).toBeLessThan(1);
+    const interlude = zack.filter((item) => item.playPosition < 1).map((item) => item.id);
+    expect(interlude).toContain("character_cloud_strife");
+    expect(interlude).toContain("character_zack_fair");
   });
 });
 
@@ -300,24 +325,40 @@ describe("catalogue", () => {
     expect(midgar?.titles).toEqual(["og", "remake", "intermission", "rebirth"]);
 
     const events = await listEntities(db, { kind: "event", title: "intermission" });
-    expect(events.map((e) => e.id)).toEqual(["event_sector_7_plate_fall"]);
+    expect(events.map((e) => e.id)).toEqual([
+      "event_mako_reactor_5_bombing",
+      "event_sector_7_plate_fall",
+      "event_yuffie_raid_on_shinra",
+    ]);
   });
 
   it("lists differences for the chosen titles, filtered by category and magnitude", async () => {
     const all = await listDifferences(db);
     const count = [...dataset.entities.values()].flatMap((l) => l.entity.differences).length;
     expect(all).toHaveLength(count);
-    // Events in in-universe order: Nibelheim, five years before the story, comes first.
-    expect(all[0]?.entity.id).toBe("event_nibelheim_incident");
+    // Events in in-universe order: Jenova's arrival, two thousand years before, comes first.
+    expect(all[0]?.entity.id).toBe("event_jenova_calamity");
 
+    // The same filters applied straight to the data files.
+    const expected = (
+      titles: TitleCode[],
+      keep: (d: { category: string; magnitude: string }) => boolean,
+    ) =>
+      [...dataset.entities.values()]
+        .flatMap(({ entity }) =>
+          entity.differences.map((d) => ({ ...d, id: `${entity.id}:${d.key}` })),
+        )
+        .filter((d) => titles.includes(d.from.title) && titles.includes(d.to.title) && keep(d))
+        .map((d) => d.id)
+        .sort();
     const major = await listDifferences(db, { titles: ["og", "rebirth"], magnitude: "major" });
-    expect(major.map((d) => d.id).sort()).toEqual([
-      "event_aerith_death:after_death",
-      "event_aerith_death:blocked_blade",
-      "event_nibelheim_incident:framing",
-    ]);
-    expect(await listDifferences(db, { titles: ["og", "remake"], category: "outcome" })).toEqual(
-      [],
+    expect(major.map((d) => d.id).sort()).toEqual(
+      expected(["og", "rebirth"], (d) => d.magnitude === "major"),
+    );
+    expect(major.map((d) => d.id)).toContain("event_nibelheim_incident:framing");
+    const outcome = await listDifferences(db, { titles: ["og", "remake"], category: "outcome" });
+    expect(outcome.map((d) => d.id).sort()).toEqual(
+      expected(["og", "remake"], (d) => d.category === "outcome"),
     );
   });
 
@@ -338,7 +379,9 @@ describe("loadGraph", () => {
     const graph = await loadGraph(db);
     expect(graph.nodes.size).toBe(dataset.entities.size);
     expect(graph.edges).toHaveLength(dataset.edges.length);
-    const killed = graph.edges.find((e) => e.type === "killed");
+    const killed = graph.edges.find(
+      (e) => e.type === "killed" && e.target === "character_aerith_gainsborough",
+    );
     expect(killed).toMatchObject({
       source: "character_sephiroth",
       target: "character_aerith_gainsborough",

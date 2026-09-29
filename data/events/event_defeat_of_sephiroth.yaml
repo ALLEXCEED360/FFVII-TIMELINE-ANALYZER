@@ -1,0 +1,28 @@
+id: event_defeat_of_sephiroth
+name: Defeat of Sephiroth
+summary: >-
+  In the depths of the Northern Crater, the party defeats Sephiroth, while Holy, called by Aerith's
+  prayer, and the Lifestream rise against Meteor.
+when: { year: 0 }
+seq: 400
+importance: 3
+arc: arc_the_final_battle
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Deep inside the planet the party defeats Jenova·SYNTHESIS and then Sephiroth's final forms,
+      as Cloud sees Holy, Aerith's prayer, shining, and then Cloud fights Sephiroth alone. As
+      Meteor nears Midgar and Red XIII fears Holy is too late, the Lifestream rises.
+    depictions:
+      - { at: { title: og, disc: 3, segment: og_finale }, framing: direct }
+    sources:
+      - { title: og, disc: 3, segment: og_finale, scene: "The Planet's Judgment" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_northern_crater
+    titles:
+      og: { sources: [{ title: og, disc: 3, segment: og_finale }], certainty: stated }

@@ -1,0 +1,88 @@
+id: character_rufus_shinra
+name: Rufus Shinra
+summary: President Shinra's son, who succeeds him as head of the company.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Vice President, then President of Shinra, Inc.
+    summary: >-
+      Arrives on the night of his father's death and names himself President, promising to rule by
+      fear; is welcomed in Junon with a parade, and is present when Meteor is summoned.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_shinra_building,
+          scene: "Rufus's appointment speech on the roof",
+        }
+      - { title: og, disc: 1, segment: og_junon }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: Vice President, then President of Shinra
+    summary: Fights Cloud on the roof of the Shinra Building; by the end of the night he is President.
+    depictions:
+      - { at: { title: remake, chapter: 17 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 17, scene: "The Showdown" }
+      - { title: remake, chapter: 18, scene: "the final scene: 'Mister President'" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: President of the Shinra Electric Power Company
+    summary: >-
+      Inaugurated with a parade in Junon, he offers Cloud a deal: the party's freedom in exchange
+      for Sephiroth's death.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "In Search of Lost Robes" }
+      - { title: rebirth, chapter: 4, scene: "The Seventh Infantry" }
+    certainty: stated
+
+relationships:
+  - type: leads
+    target: organization_shinra
+    title: President
+    from: { event: event_president_shinra_death }
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_shinra_building,
+                scene: "'The President of Shinra, Inc.'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources: [{ title: remake, chapter: 18, scene: "'Mister President'" }],
+          certainty: stated,
+        }
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 4, scene: "The Seventh Infantry" }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_junon_parade
+    role: the President being welcomed
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_junon }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 4 }], certainty: stated }
+
+  - type: participated_in
+    target: event_meteor_summoned
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_northern_crater }], certainty: stated }

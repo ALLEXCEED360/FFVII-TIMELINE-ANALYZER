@@ -4,6 +4,7 @@ summary: >-
   Five years before the story, Sephiroth burns Cloud and Tifa's hometown during a Shinra mission
   to its Mako reactor.
 when: { year: -5 }
+seq: 20
 importance: 3
 arc: arc_the_journey_begins
 

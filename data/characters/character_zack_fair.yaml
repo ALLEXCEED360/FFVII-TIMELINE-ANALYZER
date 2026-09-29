@@ -1,0 +1,78 @@
+id: character_zack_fair
+name: Zack Fair
+summary: A member of SOLDIER who came to Nibelheim with Sephiroth five years before the story.
+
+appearances:
+  - title: og
+    status: depicted
+    role: The SOLDIER at Sephiroth's side in Nibelheim, missing from Cloud's account
+    summary: >-
+      Absent from Cloud's story at Kalm; in the Lifestream, Tifa and Cloud piece together that it
+      was Zack who came to Nibelheim with Sephiroth, and Cloud an infantryman beside him.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_inside_clouds_mind }, framing: flashback }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_inside_clouds_mind,
+          scene: "'It was Zack who came to Nibelheim with Sephiroth!'",
+        }
+    certainty: stated
+
+  - title: remake
+    world: world_zack_survives
+    status: depicted
+    role: Fights off Shinra troops outside Midgar
+    summary: Makes a last stand against Shinra troops and survives, then heads for Midgar carrying Cloud.
+    depictions:
+      - { at: { title: remake, chapter: 18 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 18, scene: "The Turning Point" }
+    certainty: stated
+
+  - title: intermission
+    world: world_zack_survives
+    status: depicted
+    summary: Arrives at Aerith's church in the post-credits scene.
+    depictions:
+      - { at: { title: intermission, chapter: 2 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 2, scene: "post-credits scene" }
+    certainty: stated
+
+  - title: rebirth
+    world: world_zack_survives
+    status: depicted
+    role: A fugitive ex-SOLDIER in Midgar, caring for Cloud
+    summary: >-
+      Leaves Cloud in a stranger's care and fights Shinra troops at a crash site to reach Aerith,
+      hunted as an ex-SOLDIER working with AVALANCHE.
+    depictions:
+      - { at: { title: rebirth, part: interlude }, framing: direct }
+    sources:
+      - { title: rebirth, part: interlude, scene: "the expressway and the helicopter crash" }
+    certainty: stated
+
+relationships:
+  - type: member_of
+    target: organization_soldier
+    titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 1,
+              segment: og_kalm,
+              scene: "Cloud's account: the SOLDIER sent with Sephiroth",
+            }
+          - { title: og, disc: 2, segment: og_inside_clouds_mind }
+        certainty: inferred
+        notes: >-
+          Cloud's account at Kalm has a SOLDIER sent to Nibelheim with Sephiroth; in the Lifestream
+          it emerges that this was Zack, and that Cloud never made it into SOLDIER.
+
+  - type: participated_in
+    target: event_nibelheim_incident
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_inside_clouds_mind }], certainty: stated }

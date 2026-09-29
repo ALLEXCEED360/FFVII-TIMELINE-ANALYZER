@@ -1,0 +1,92 @@
+id: character_jessie
+name: Jessie
+summary: A member of AVALANCHE and its technician.
+
+appearances:
+  - title: og
+    status: depicted
+    role: AVALANCHE's technician
+    summary: >-
+      Takes part in the raids on Mako Reactors 1 and 5, making the party's ID cards, and is left
+      dying at the top of the Sector 7 pillar.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_reactor_1 }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_reactor_1 }
+      - { title: og, disc: 1, segment: og_sector_7_pillar, scene: "Jessie's last words" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: AVALANCHE's bomb-maker
+    summary: >-
+      Makes AVALANCHE's bombs, takes Cloud home to her parents' house above the plate to
+      raid a Shinra warehouse, and dies after fighting at the Sector 7 pillar.
+    depictions:
+      - { at: { title: remake, chapter: 1 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 1 }
+      - { title: remake, chapter: 4, scene: "The Jessie Job" }
+      - { title: remake, chapter: 12, scene: "To the Top: Jessie's last words" }
+    certainty: stated
+
+  - title: intermission
+    status: depicted
+    summary: Waits with Biggs and Wedge for Cloud's group to come back from Mako Reactor 5.
+    depictions:
+      - { at: { title: intermission, chapter: 1 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 1, scene: "Esteemed Avalanche Colleagues" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: In a vision in the Temple of the Ancients, Cloud sees Tifa mourning her.
+    depictions:
+      - { at: { title: rebirth, chapter: 13 }, framing: vision }
+    sources:
+      - { title: rebirth, chapter: 13, scene: "Corridor of Effigies" }
+    certainty: stated
+
+relationships:
+  - type: member_of
+    target: organization_avalanche
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_reactor_1,
+                scene: "'What's he doing with us in AVALANCHE?'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake: { sources: [{ title: remake, chapter: 1 }], certainty: stated }
+      intermission:
+        {
+          sources: [{ title: intermission, chapter: 1, scene: "Avalanche's Base" }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_mako_reactor_1_bombing
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_reactor_1 }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 1 }], certainty: stated }
+
+  - type: participated_in
+    target: event_sector_7_6_annex_raid
+    role: plans it and slips inside
+    titles:
+      remake: { sources: [{ title: remake, chapter: 4 }], certainty: stated }
+
+  - type: participated_in
+    target: event_sector_7_plate_fall
+    role: mortally wounded at the pillar
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_sector_7_pillar }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 12 }], certainty: stated }

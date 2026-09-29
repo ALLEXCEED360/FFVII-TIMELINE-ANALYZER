@@ -1,0 +1,68 @@
+id: event_shinra_building_raid
+name: Raid on the Shinra Building
+summary: >-
+  Cloud, Tifa and Barret break into Shinra's headquarters to rescue Aerith from Hojo's laboratory,
+  and meet Red XIII there.
+when: { year: 0 }
+seq: 150
+importance: 2
+arc: arc_midgar
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      The three climb the building, overhear a board meeting about Aerith and the Promised Land,
+      and follow Hojo to his laboratory, where they free Aerith and Red XIII. On the way out the
+      Turks capture them, and after an audience with President Shinra they are locked in cells.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building, scene: "Storming the Shinra Building" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      The three infiltrate the building and reach the Drum, Hojo's laboratory, where they free
+      Aerith and meet Red XIII. They wake in the room where Aerith and her mother were held when
+      she was a child, and fight their way through the facility.
+    depictions:
+      - { at: { title: remake, chapter: 16 }, framing: direct }
+      - { at: { title: remake, chapter: 17 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 16, scene: "Operation: Save Aerith" }
+      - { title: remake, chapter: 17, scene: "A Way Out" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: >-
+      Rufus lists what his father left him to finish: recapturing a fugitive of Ancient descent
+      and recovering a stolen lab specimen.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "Rufus's speech at the parade" }
+    certainty: stated
+
+differences:
+  - key: no_jail
+    from: { title: og }
+    to: { title: remake }
+    category: outcome
+    magnitude: minor
+    summary: >-
+      In OG, the Turks capture the party and President Shinra has them locked in cells; in Remake,
+      they are not captured, and wake in a room of the laboratory where Aerith was held as a child.
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building, scene: "the Turks at the elevator" }
+      - { title: remake, chapter: 17, scene: "A Way Out" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_shinra_building
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 16 }], certainty: stated }

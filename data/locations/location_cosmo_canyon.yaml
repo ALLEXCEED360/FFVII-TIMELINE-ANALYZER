@@ -1,0 +1,24 @@
+id: location_cosmo_canyon
+name: Cosmo Canyon
+summary: >-
+  A canyon settlement devoted to the study of the planet, home of Bugenhagen and Red XIII's
+  people.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: Red XIII's hometown, where Bugenhagen shows him the truth about his father.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_cosmo_canyon }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_cosmo_canyon, scene: "'this is my hometown'" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: Nanaki's home, where Bugenhagen reveals Seto's stand and sends Nanaki back out into the world.
+    depictions:
+      - { at: { title: rebirth, chapter: 10 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 10, scene: "The Watcher's Verdict" }
+    certainty: stated

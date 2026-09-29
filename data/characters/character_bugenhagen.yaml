@@ -1,0 +1,40 @@
+id: character_bugenhagen
+name: Bugenhagen
+summary: The aged elder of Cosmo Canyon and a student of the planet, who raised Nanaki.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Elder of Cosmo Canyon; Nanaki's "grandfather"
+    summary: >-
+      Shows the party his observatory and teaches them about the planet, then leads Nanaki to his
+      father, Seto, and sends him on with Cloud.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_cosmo_canyon }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_cosmo_canyon, scene: "'this is my grandfather, Bugen'" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: Elder of Cosmo Canyon
+    summary: Shows Nanaki the truth about Seto and sends him back out into the world.
+    depictions:
+      - { at: { title: rebirth, chapter: 10 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 10, scene: "The Watcher's Verdict" }
+    certainty: stated
+
+relationships:
+  - type: lives_in
+    target: location_cosmo_canyon
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_cosmo_canyon }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 10 }], certainty: stated }
+
+  - type: participated_in
+    target: event_truth_about_seto
+    role: reveals the truth
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_cosmo_canyon }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 10 }], certainty: stated }

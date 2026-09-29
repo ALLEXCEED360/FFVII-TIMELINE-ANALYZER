@@ -1,0 +1,75 @@
+id: event_ifalna_death
+name: Death of Ifalna
+summary: >-
+  Having escaped Shinra's laboratory with her young daughter Aerith, the Cetra Ifalna dies at a
+  station in Midgar, leaving Aerith in the care of Elmyra Gainsborough.
+when: { year: -15, approx: true }
+importance: 2
+arc: arc_midgar
+
+appearances:
+  - title: og
+    status: referenced
+    summary: >-
+      Elmyra tells Cloud and Barret how, about fifteen years earlier, waiting at the station for a
+      husband who never came home from the war in Wutai, she found a dying woman who asked her to
+      take Aerith somewhere safe. Aerith later told her they had escaped a research laboratory.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_aerith_story }, framing: mention }
+    sources:
+      - { title: og, disc: 1, segment: og_aerith_story, scene: "Elmyra's story" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      Elmyra tells the same story, with flashbacks to Aerith's childhood, including Aerith's tales
+      of escaping a facility with her mother. In the Shinra Building Aerith
+      recognizes the room where she and her mother were held, and Hojo says he regrets that her
+      mother ran.
+    depictions:
+      - { at: { title: remake, chapter: 13 }, framing: flashback }
+      - { at: { title: remake, chapter: 16 }, framing: mention }
+      - { at: { title: remake, chapter: 17 }, framing: mention }
+    sources:
+      - { title: remake, chapter: 13, scene: "Words of Hope" }
+      - { title: remake, chapter: 16, scene: "A Helping Hand" }
+      - { title: remake, chapter: 17, scene: "A Way Out" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: >-
+      Aerith tells Cloud that Hojo held her and her mother, Ifalna, prisoner as specimens because
+      Ifalna was a Cetra.
+    depictions:
+      - { at: { title: rebirth, chapter: 6 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 6, scene: "When Evening Comes" }
+    certainty: stated
+
+differences:
+  - key: shown
+    from: { title: og }
+    to: { title: remake }
+    category: presentation
+    magnitude: minor
+    summary: >-
+      In OG, the story is told in Elmyra's words; in Remake, it is shown in flashback as she tells
+      it, and Aerith later sees the room where she and her mother were held.
+    sources:
+      - { title: og, disc: 1, segment: og_aerith_story, scene: "Elmyra's story" }
+      - { title: remake, chapter: 13, scene: "Words of Hope" }
+      - { title: remake, chapter: 17, scene: "A Way Out" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_midgar
+    titles:
+      og:
+        {
+          sources: [{ title: og, disc: 1, segment: og_aerith_story, scene: "the station" }],
+          certainty: stated,
+        }
+      remake: { sources: [{ title: remake, chapter: 13, scene: "the station" }], certainty: stated }

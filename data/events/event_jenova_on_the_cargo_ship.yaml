@@ -1,0 +1,62 @@
+id: event_jenova_on_the_cargo_ship
+name: Jenova on the Cargo Ship
+summary: >-
+  Crossing the sea from Junon, the party confronts Sephiroth in the ship's engine room and fights
+  a form of Jenova.
+when: { year: 0 }
+seq: 220
+importance: 2
+arc: arc_across_the_sea
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Stowed away in Shinra uniforms, the party hears of a suspicious man aboard and finds dead
+      crew near the engine room. Sephiroth appears, says that after a long sleep the time has come,
+      and leaves them to fight Jenova·BIRTH. Afterwards Cloud recognizes Jenova's arm.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_cargo_ship }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_cargo_ship, scene: "the engine room" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      On the Shinra-8, bound for Costa del Sol, fiends board the ship and merge with the tattooed
+      men in black robes. Hojo, told of it by the captain, orders him to let the experiment continue.
+      In the engine room the robed men speak of the reunion, Sephiroth appears and introduces
+      Jenova, and the party defeats Jenova Emergent.
+    depictions:
+      - { at: { title: rebirth, chapter: 5 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 5, scene: "Passengers in Peril" }
+      - { title: rebirth, chapter: 5, scene: "To Catch a Fiend" }
+    certainty: stated
+
+differences:
+  - key: robed_men
+    from: { title: og }
+    to: { title: rebirth }
+    category: context
+    magnitude: minor
+    summary: >-
+      In OG, the party finds the crew dead and meets Sephiroth alone; in Rebirth, fiends merge with
+      the black-robed men on board, and Hojo lets the attack continue as an experiment.
+    sources:
+      - { title: og, disc: 1, segment: og_cargo_ship, scene: "the engine room" }
+      - { title: rebirth, chapter: 5, scene: "Passengers in Peril" }
+    related: [character_hojo]
+    certainty: stated
+
+  - key: boss
+    from: { title: og }
+    to: { title: rebirth }
+    category: gameplay
+    magnitude: minor
+    summary: "In OG, the party fights Jenova·BIRTH; in Rebirth, Jenova Emergent."
+    sources:
+      - { title: og, disc: 1, segment: og_cargo_ship }
+      - { title: rebirth, chapter: 5, scene: "To Catch a Fiend" }
+    certainty: stated

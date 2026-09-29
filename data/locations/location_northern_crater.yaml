@@ -1,0 +1,17 @@
+id: location_northern_crater
+name: Northern Crater
+summary: A vast crater in the far north, where Sephiroth waits and Meteor is summoned.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Reached across the Great Glacier and Gaea's Cliff. Meteor is summoned here, and the final
+      battle is fought in its depths.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_northern_crater }, framing: direct }
+      - { at: { title: og, disc: 3, segment: og_finale }, framing: direct }
+    sources:
+      - { title: og, disc: 2, segment: og_northern_crater }
+      - { title: og, disc: 3, segment: og_finale }
+    certainty: stated

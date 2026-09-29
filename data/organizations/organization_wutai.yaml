@@ -1,0 +1,36 @@
+id: organization_wutai
+name: Wutai
+summary: >-
+  The nation of Wutai as a political power, long at war with Shinra. (Its land would be a separate
+  location.)
+
+appearances:
+  - title: remake
+    status: referenced
+    summary: Shinra's sworn enemy, which Shinra claims AVALANCHE serves.
+    depictions:
+      - { at: { title: remake, chapter: 7 }, framing: mention }
+    sources:
+      - { title: remake, chapter: 7, scene: "'allies of wicked Wutai, our sworn enemy'" }
+    certainty: stated
+
+  - title: intermission
+    status: referenced
+    summary: Its new government sends Yuffie and Sonon to steal Shinra's ultimate materia.
+    depictions:
+      - { at: { title: intermission, chapter: 1 }, framing: mention }
+    sources:
+      - { title: intermission, chapter: 1, scene: "'the new Wutai government'" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: >-
+      Governed by an interim government after a revolution, and bound by a fragile cease-fire with
+      Shinra; its emissary visits Rufus in Junon.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "In Search of Lost Robes: 'An emissary from Wutai'" }
+      - { title: rebirth, chapter: 7, scene: "Corel Reactor: Yuffie on the revolution" }
+    certainty: stated

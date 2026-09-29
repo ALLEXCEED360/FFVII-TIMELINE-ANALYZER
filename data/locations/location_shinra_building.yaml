@@ -1,0 +1,54 @@
+id: location_shinra_building
+name: Shinra Building
+aliases: [Shinra Headquarters, Shinra HQ]
+summary: The Shinra Electric Power Company's headquarters, a tower at the centre of Midgar.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: Stormed by the party to rescue Aerith, and the scene of President Shinra's death.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building, scene: "Storming the Shinra Building" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      Infiltrated by the party in the last chapters, from the lobby and Skyview Hall to Hojo's
+      laboratory, the Drum, and the President's office.
+    depictions:
+      - { at: { title: remake, chapter: 16 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 16, scene: "Infiltration" }
+      - { title: remake, chapter: 17, scene: "70th Floor - President's Office" }
+    certainty: stated
+
+  - title: intermission
+    status: depicted
+    summary: Yuffie and Sonon enter it to steal Shinra's new materia, and are led into Scarlet's trap.
+    depictions:
+      - { at: { title: intermission, chapter: 2 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 2, scene: "Shinra Building - Entrance" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Seen in scenes away from the party: Hojo in the Drum, and Rufus meeting his executives in the
+      boardroom.
+    depictions:
+      - { at: { title: rebirth, chapter: 5 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 5, scene: "Shinra Building 67F, Classified Research - The Drum" }
+      - { title: rebirth, chapter: 7, scene: "Shinra Building - 64F, Executive Boardroom" }
+    certainty: stated
+
+relationships:
+  - type: part_of
+    target: location_midgar
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 16 }], certainty: stated }

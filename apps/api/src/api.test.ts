@@ -94,7 +94,9 @@ describe("reference and entities", () => {
     const { body } = await get("/entities?kind=location&title=intermission");
     expect(body.items.map((e: { id: string }) => e.id)).toEqual([
       "location_midgar",
+      "location_sector_5_church",
       "location_sector_7",
+      "location_shinra_building",
     ]);
   });
 
@@ -142,17 +144,27 @@ describe("reference and entities", () => {
 describe("timeline, comparison, network and search", () => {
   it("returns the timeline for the chosen titles", async () => {
     const all = (await get("/timeline")).body.items;
-    expect(all[0].id).toBe("event_nibelheim_incident");
+    expect(all[0].id).toBe("event_jenova_calamity");
     const intermission = (await get("/timeline?titles=intermission")).body.items;
-    expect(intermission.map((e: { id: string }) => e.id)).toEqual(["event_sector_7_plate_fall"]);
+    expect(intermission.map((e: { id: string }) => e.id)).toEqual([
+      "event_mako_reactor_5_bombing",
+      "event_yuffie_raid_on_shinra",
+      "event_sector_7_plate_fall",
+    ]);
   });
 
   it("returns a title's play order", async () => {
     const { body } = await get("/play-order/rebirth?kind=event");
-    expect(body.items.map((i: { id: string }) => i.id)).toEqual([
-      "event_nibelheim_incident",
-      "event_aerith_death",
-    ]);
+    const ids = body.items.map((i: { id: string }) => i.id);
+    const shown = [...dataset.entities.values()].filter(
+      ({ entity }) =>
+        entity.kind === "event" &&
+        entity.appearances.some((a) => a.title === "rebirth" && a.world === "world_main"),
+    );
+    expect(ids).toHaveLength(shown.length);
+    // Chapter 1 retells Nibelheim; chapter 14 ends at the Forgotten Capital.
+    expect(ids[0]).toBe("event_nibelheim_incident");
+    expect(ids.at(-1)).toBe("event_aerith_death");
   });
 
   it("compares titles with derived statuses", async () => {
@@ -204,7 +216,12 @@ describe("timeline, comparison, network and search", () => {
         "/network/path?from=character_sephiroth&to=character_aerith_gainsborough&categories=structural",
       )
     ).body;
-    expect(around).toEqual({ found: false, cost: null, nodes: [], edges: [] });
+    expect(around.found).toBe(true);
+    expect(around.cost).toBeGreaterThan(1);
+    // The original establishes none of Yuffie's relationships, so nothing reaches her there.
+    expect(
+      (await get("/network/path?from=location_northern_crater&to=character_yuffie&titles=og")).body,
+    ).toEqual({ found: false, cost: null, nodes: [], edges: [] });
     expect(
       (
         await get(
@@ -222,15 +239,18 @@ describe("timeline, comparison, network and search", () => {
     expect(body.nodeCount).toBe(dataset.entities.size);
     expect(body.edgeCount).toBe(dataset.edges.length);
     expect(body.components[0].size).toBe(dataset.entities.size);
-    expect(body.centrality[0]).toMatchObject({ id: "character_cloud_strife", degree: 6 });
+    expect(body.centrality[0]).toMatchObject({ id: "character_cloud_strife" });
 
-    // INTERmission shows 7 of the entities; only Sector 7 and Midgar are linked there.
+    // Only the entities INTERmission shows count, and they fall into several groups there.
     const intermission = (await get("/network/metrics?titles=intermission")).body;
-    expect(intermission.nodeCount).toBe(7);
-    expect(intermission.components[0].members.map((m: { id: string }) => m.id)).toEqual([
-      "location_midgar",
-      "location_sector_7",
-    ]);
+    const shown = [...dataset.entities.values()].filter(({ entity }) =>
+      entity.appearances.some((a) => a.title === "intermission"),
+    );
+    expect(intermission.nodeCount).toBe(shown.length);
+    expect(intermission.components.length).toBeGreaterThan(1);
+    expect(intermission.components[0].members.map((m: { id: string }) => m.id)).toContain(
+      "character_yuffie",
+    );
 
     // An entity the chosen titles don't show stands alone rather than disappearing.
     const alone = (await get("/network/event_nibelheim_incident?titles=intermission")).body;
@@ -239,24 +259,35 @@ describe("timeline, comparison, network and search", () => {
 
   it("lists divergence points and splits the titles around a pivot", async () => {
     const points = (await get("/divergence")).body.items.map((p: { id: string }) => p.id);
-    expect(points).toEqual([
-      "event_nibelheim_incident",
-      "event_mako_reactor_1_bombing",
-      "event_sector_7_plate_fall",
-      "event_aerith_death",
-    ]);
+    // In-universe order, starting two thousand years before the story.
+    expect(points[0]).toBe("event_jenova_calamity");
+    expect(points).toEqual(
+      expect.arrayContaining([
+        "event_nibelheim_incident",
+        "event_mako_reactor_1_bombing",
+        "event_sector_7_plate_fall",
+        "event_aerith_death",
+      ]),
+    );
 
     const { body } = await get("/divergence/event_aerith_death?titles=og,rebirth");
     expect(body.branches.map((b: { key: string }) => b.key)).toEqual([
       "og/world_main",
       "rebirth/world_main",
     ]);
-    expect(body.trunk.map((r: { event: { id: string } }) => r.event.id)).toEqual([
-      "event_nibelheim_incident",
-      "event_mako_reactor_1_bombing",
-      "event_sector_7_plate_fall",
-    ]);
-    const [pivot, memories] = body.events;
+    const trunk = body.trunk.map((r: { event: { id: string } }) => r.event.id);
+    expect(trunk).toEqual(
+      expect.arrayContaining([
+        "event_nibelheim_incident",
+        "event_mako_reactor_1_bombing",
+        "event_sector_7_plate_fall",
+      ]),
+    );
+    expect(trunk).not.toContain("event_aerith_death");
+    const pivot = body.events[0];
+    const memories = body.events.find(
+      (r: { event: { id: string } }) => r.event.id === "event_cloud_memories_restored",
+    );
     expect(pivot.stations.map((s: { marking: string }) => s.marking)).toEqual([
       "changed",
       "changed",

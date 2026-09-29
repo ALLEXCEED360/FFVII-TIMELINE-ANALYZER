@@ -1,0 +1,82 @@
+id: event_water_tower_promise
+name: The Promise at the Water Tower
+summary: >-
+  One night in Nibelheim, before leaving to join SOLDIER, Cloud promises Tifa that if she is ever
+  in trouble he will come and save her.
+when: { year: -7 }
+importance: 2
+arc: arc_midgar
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      When Cloud means to walk away from AVALANCHE, Tifa reminds him of the promise they made seven
+      years earlier at the well, shown in flashback: he would leave in spring to join SOLDIER, and
+      she asked him to come and save her if she was ever in a bind.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_seventh_heaven }, framing: flashback }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_seventh_heaven,
+          scene: "Tifa: 'It was seven years ago...'",
+        }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      Shown in flashback during Cloud's mission with Jessie, Biggs and Wedge in Sector 7-6: Cloud
+      tells Tifa he will leave for Midgar in spring to become a SOLDIER like Sephiroth, and
+      she makes him promise to come and save her.
+    depictions:
+      - { at: { title: remake, chapter: 4 }, framing: flashback }
+    sources:
+      - { title: remake, chapter: 4, scene: "Sector 7-6 Annex Infiltration" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: >-
+      In Kalm, Tifa asks whether a tank reminds Cloud of anything; he can answer that it looks like
+      the place he made his promise to her.
+    depictions:
+      - { at: { title: rebirth, chapter: 2 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 2, scene: "Bucolic Kalm", optional: true }
+    certainty: stated
+
+differences:
+  - key: when_told
+    from: { title: og }
+    to: { title: remake }
+    category: presentation
+    magnitude: minor
+    summary: >-
+      In OG, Tifa recalls the promise when Cloud is about to walk away from AVALANCHE; in Remake,
+      it comes back to Cloud as a memory during a later mission.
+    sources:
+      - { title: og, disc: 1, segment: og_seventh_heaven }
+      - { title: remake, chapter: 4, scene: "Sector 7-6 Annex Infiltration" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_nibelheim
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_seventh_heaven,
+                scene: "the flashback in Nibelheim",
+              },
+            ],
+          certainty: stated,
+        }
+      remake: { sources: [{ title: remake, chapter: 4 }], certainty: stated }

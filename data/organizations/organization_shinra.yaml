@@ -1,0 +1,85 @@
+id: organization_shinra
+name: Shinra Electric Power Company
+aliases: [Shinra, "Shinra, Inc."]
+summary: >-
+  The company that powers the world with mako energy drawn from the planet, with its own army,
+  security forces and research divisions.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: Called Shinra, Inc.; AVALANCHE's enemy, running Midgar and the reactors.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_reactor_1 }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_reactor_1 }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_shinra_building,
+          scene: "'The leader of Shinra, Inc. is dead'",
+        }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: AVALANCHE's enemy, which turns their attacks into propaganda and drops the Sector 7 plate.
+    depictions:
+      - { at: { title: remake, chapter: 1 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 1 }
+      - {
+          title: remake,
+          chapter: 17,
+          scene: "'The Shinra Electric Power Company isn't the real enemy'",
+        }
+    certainty: stated
+
+  - title: intermission
+    status: depicted
+    summary: Wutai's enemy; Yuffie and Sonon infiltrate its headquarters.
+    depictions:
+      - { at: { title: intermission, chapter: 2 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 2, scene: "Scarlet's Trap" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: Under its new President, Rufus, it hunts the party and seeks Sephiroth.
+    depictions:
+      - {
+          at: { title: rebirth, chapter: 1 },
+          framing: direct,
+          note: "Cloud's account: a Shinra mission to Nibelheim",
+        }
+      - { at: { title: rebirth, chapter: 4 }, framing: direct, primary: true }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 4,
+          scene: "The Seventh Infantry: 'The Shinra Electric Power Company will endure'",
+        }
+    certainty: stated
+
+relationships:
+  - type: based_at
+    target: location_shinra_building
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
+      remake:
+        {
+          sources: [{ title: remake, chapter: 16, scene: "'Welcome to Shinra headquarters'" }],
+          certainty: stated,
+        }
+      intermission:
+        {
+          sources: [{ title: intermission, chapter: 1, scene: "'infiltrate Shinra headquarters'" }],
+          certainty: stated,
+        }
+      rebirth:
+        {
+          sources:
+            [{ title: rebirth, chapter: 7, scene: "Shinra Building - 64F, Executive Boardroom" }],
+          certainty: stated,
+        }
