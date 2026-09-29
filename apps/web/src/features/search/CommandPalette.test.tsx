@@ -46,7 +46,10 @@ describe("search palette", () => {
       expect(screen.queryByRole("dialog")).toBeNull();
     });
     expect(target).toContain("Nibelheim Incident");
-    expect(router.state.location.pathname).toBe("/event/nibelheim-incident");
+    // The entity page is lazy-loaded; the router commits the URL once its code has arrived.
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe("/event/nibelheim-incident");
+    });
   });
 
   it("says so when nothing matches", async () => {

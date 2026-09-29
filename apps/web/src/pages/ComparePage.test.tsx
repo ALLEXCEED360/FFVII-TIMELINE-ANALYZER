@@ -40,7 +40,10 @@ describe("compare page", () => {
       expect(within(picker).getByRole("option", { name: "Death of Aerith" })).toBeTruthy();
     });
     await userEvent.selectOptions(picker, "event_aerith_death");
-    expect(router.state.location.pathname).toBe("/compare/event/aerith-death");
+    // The comparison page is lazy-loaded; the router commits the URL once its code has arrived.
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe("/compare/event/aerith-death");
+    });
     expect(router.state.location.search).toBe("?titles=og,rebirth");
   });
 });

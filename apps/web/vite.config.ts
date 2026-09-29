@@ -7,5 +7,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: ["./src/test/setup.ts"],
+    // Room for the 5 s waits in setup.ts on slow CI runners.
+    testTimeout: 15_000,
   },
 });
