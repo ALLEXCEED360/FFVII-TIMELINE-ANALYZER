@@ -1,0 +1,150 @@
+{
+  "title": "og",
+  "unit": {
+    "key": "og_forgotten_capital",
+    "name": "The Forgotten Capital",
+    "disc": 1,
+    "position": 23,
+    "summary": "The city of the Cetra, where the first disc ends."
+  },
+  "previous": { "key": "og_bone_village", "name": "Bone Village", "disc": 1, "position": 22 },
+  "next": { "key": "og_icicle_inn", "name": "Icicle Inn", "disc": 2, "position": 24 },
+  "appearances": [
+    {
+      "entity": { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" },
+      "world": "world_main",
+      "status": "depicted",
+      "role": "The legendary SOLDIER the party pursues",
+      "summary": "Named first in Cloud and Tifa's memories; shown in Cloud's account of Nibelheim, then as the party's quarry, who kills Aerith.",
+      "certainty": "stated",
+      "cited": true,
+      "depictions": [],
+      "scenes": []
+    },
+    {
+      "entity": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "world": "world_main",
+      "status": "depicted",
+      "role": null,
+      "summary": "Aerith prays at the altar. Cloud, no longer in control of himself, moves against her until the others stop him; then Sephiroth descends and kills her. The party lays her to rest in the water.",
+      "certainty": "stated",
+      "cited": true,
+      "depictions": [{ "framing": "direct", "note": null }],
+      "scenes": ["the water altar; Cloud's speech afterwards"]
+    },
+    {
+      "entity": {
+        "id": "location_forgotten_capital",
+        "kind": "location",
+        "name": "Forgotten Capital"
+      },
+      "world": "world_main",
+      "status": "depicted",
+      "role": null,
+      "summary": "Where Aerith goes alone to pray, and where she is killed.",
+      "certainty": "stated",
+      "cited": true,
+      "depictions": [{ "framing": "direct", "note": null }],
+      "scenes": []
+    }
+  ],
+  "differences": [
+    {
+      "id": "event_aerith_death:after_death",
+      "entity": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "rebirth", "world": "world_main" },
+      "category": "context",
+      "magnitude": "major",
+      "summary": "In OG, Cloud mourns that Aerith will no longer talk or laugh; in Rebirth, Cloud goes on seeing and hearing her after her funeral, while Tifa does not.",
+      "certainty": "ambiguous",
+      "scenes": ["Cloud's words to Sephiroth"]
+    },
+    {
+      "id": "event_aerith_death:blocked_blade",
+      "entity": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "rebirth", "world": "world_main" },
+      "category": "presentation",
+      "magnitude": "major",
+      "summary": "In OG, Sephiroth's strike is shown once; in Rebirth, Cloud first appears to deflect it before the scene shows Sephiroth killing Aerith.",
+      "certainty": "ambiguous",
+      "scenes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "edge_fed1459d1963c78e",
+      "type": "hometown",
+      "label": "from",
+      "source": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
+      "target": { "id": "location_nibelheim", "kind": "location", "name": "Nibelheim" },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": ["I'm Cloud, ex-SOLDIER, born in Nibelheim"]
+    },
+    {
+      "id": "edge_3e791cf6eeebd635",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": {
+        "id": "character_aerith_gainsborough",
+        "kind": "character",
+        "name": "Aerith Gainsborough"
+      },
+      "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": []
+    },
+    {
+      "id": "edge_2510df55b395330c",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
+      "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": []
+    },
+    {
+      "id": "edge_701b23f90b238e3c",
+      "type": "occurred_at",
+      "label": "took place at",
+      "source": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "target": {
+        "id": "location_forgotten_capital",
+        "kind": "location",
+        "name": "Forgotten Capital"
+      },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": []
+    },
+    {
+      "id": "edge_e0f7d7c8b5e09d63",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" },
+      "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": []
+    },
+    {
+      "id": "edge_cb8e411fb0467ecb",
+      "type": "killed",
+      "label": "killed",
+      "source": { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" },
+      "target": {
+        "id": "character_aerith_gainsborough",
+        "kind": "character",
+        "name": "Aerith Gainsborough"
+      },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": ["Cloud: He … killed Aeris"]
+    }
+  ],
+  "worlds": []
+}

@@ -57,7 +57,10 @@ describe("basics", () => {
       "/network/{id}",
       "/play-order/{title}",
       "/reference",
+      "/research",
       "/search",
+      "/sources",
+      "/sources/{title}/{unit}",
       "/timeline",
     ]);
   });
@@ -104,6 +107,11 @@ describe("reference and entities", () => {
       "remake",
       "rebirth",
     ]);
+    expect(
+      (await get("/entities/event_aerith_death")).body.openQuestions.map(
+        (q: { id: string }) => q.id,
+      ),
+    ).toEqual(["question_aerith_death_rebirth_visuals", "question_aerith_funeral_og"]);
     expect(await get("/entities/character_nobody")).toMatchObject({
       status: 404,
       body: { error: "not_found" },
@@ -274,6 +282,118 @@ describe("timeline, comparison, network and search", () => {
   it("searches", async () => {
     const { body } = await get("/search?q=aeris");
     expect(body.items[0]).toMatchObject({ id: "character_aerith_gainsborough", reason: "name" });
+  });
+});
+
+describe("archive", () => {
+  it("lists every unit of every title with its citation count", async () => {
+    const { status, body } = await get("/sources");
+    expect(status).toBe(200);
+    const units = (code: string) =>
+      body.titles.find((t: { code: string }) => t.code === code).units as {
+        key: string;
+        disc: number | null;
+        citations: number;
+      }[];
+    expect(body.titles.map((t: { code: string }) => t.code)).toEqual([
+      "og",
+      "remake",
+      "intermission",
+      "rebirth",
+    ]);
+    expect(units("og")).toHaveLength(dataset.segments.length);
+    expect(units("og")[0]).toMatchObject({ key: "og_reactor_1", disc: 1 });
+    // Rebirth's interlude comes before chapter 1.
+    expect(
+      units("rebirth")
+        .map((u) => u.key)
+        .slice(0, 2),
+    ).toEqual(["interlude", "1"]);
+
+    // Every locator in the dataset is counted exactly once.
+    const total = body.titles
+      .flatMap((t: { units: { citations: number }[] }) => t.units)
+      .reduce((sum: number, u: { citations: number }) => sum + u.citations, 0);
+    const locators = [...dataset.entities.values()].flatMap(({ entity }) => [
+      ...entity.appearances.flatMap((a) => [...a.sources, ...a.depictions.map((d) => d.at)]),
+      ...entity.differences.flatMap((d) => d.sources),
+    ]);
+    const edgeLocators = dataset.edges.flatMap(({ edge }) =>
+      Object.values(edge.titles).flatMap((scope) => scope.sources),
+    );
+    const worldLocators = dataset.worlds.flatMap((w) => ("sources" in w ? w.sources : []));
+    expect(total).toBe(locators.length + edgeLocators.length + worldLocators.length);
+  });
+
+  it("returns a unit with every fact that cites it, or 404", async () => {
+    const { status, body } = await get("/sources/rebirth/14");
+    expect(status).toBe(200);
+    expect(body.unit).toMatchObject({ key: "14", name: "End of the World", disc: null });
+    expect(body.previous.key).toBe("13");
+    expect(body.next).toBeNull();
+    expect(body.appearances.find((a: any) => a.entity.id === "event_aerith_death")).toMatchObject({
+      world: "world_main",
+      certainty: "ambiguous",
+      cited: true,
+    });
+    expect(body.differences.map((d: { id: string }) => d.id)).toContain(
+      "event_aerith_death:after_death",
+    );
+    expect(body.worlds.map((w: { id: string }) => w.id)).toEqual(["world_zack_survives"]);
+
+    const segment = await get("/sources/og/og_kalm");
+    expect(segment.body.unit.summary).toEqual(expect.any(String));
+    expect(await get("/sources/og/og_nowhere")).toMatchObject({
+      status: 404,
+      body: { error: "not_found" },
+    });
+    expect((await get("/sources/crisis_core/1")).status).toBe(400);
+  });
+
+  it("serves every unit, citing exactly the facts the catalogue counts", async () => {
+    const titles = (await get("/sources")).body.titles as {
+      code: string;
+      units: { key: string; citations: number }[];
+    }[];
+    for (const { code, units } of titles) {
+      for (const unit of units) {
+        const { status, body } = await get(`/sources/${code}/${unit.key}`);
+        const lists: unknown[][] = [
+          body.appearances,
+          body.differences,
+          body.relationships,
+          body.worlds,
+        ];
+        const facts = lists.reduce((sum, list) => sum + list.length, 0);
+        expect({ url: `${code}/${unit.key}`, status, cited: facts > 0 }).toEqual({
+          url: `${code}/${unit.key}`,
+          status: 200,
+          cited: unit.citations > 0,
+        });
+      }
+    }
+  });
+
+  it("returns the research log and the facts that aren't stated outright", async () => {
+    const { status, body } = await get("/research");
+    expect(status).toBe(200);
+    expect(body.sources).toHaveLength(dataset.researchSources.length);
+    expect(body.questions.map((q: { id: string }) => q.id)).toEqual(
+      dataset.openQuestions.map((q) => q.id),
+    );
+    expect(
+      body.questions.find((q: { id: string }) => q.id === "question_zack_last_stand").worlds,
+    ).toEqual([{ id: "world_zack_survives", name: "Zack survives" }]);
+    const { stated, inferred, ambiguous } = body.certainty as {
+      stated: number;
+      inferred: number;
+      ambiguous: number;
+    };
+    expect(stated).toBeGreaterThan(0);
+    expect(body.interpretations).toHaveLength(inferred + ambiguous);
+    expect(body.interpretations.every((f: { certainty: string }) => f.certainty !== "stated")).toBe(
+      true,
+    );
   });
 });
 

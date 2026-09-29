@@ -9,6 +9,7 @@ import {
   type FileEntityKind,
   FramingSchema,
   LocatorSchema,
+  QUESTION_KINDS,
   StoredStatusSchema,
   TITLES_IN_ORDER,
   TitleCodeSchema,
@@ -114,6 +115,16 @@ export const Relationship = z.object({
       notes: z.string().nullable(),
     }),
   ),
+});
+
+export const OpenQuestion = z.object({
+  id: z.string(),
+  kind: z.enum(QUESTION_KINDS),
+  summary: z.string(),
+  details: z.string(),
+  sources: z.array(LocatorSchema).describe("Where in the titles to look."),
+  entities: z.array(EntityRef),
+  worlds: z.array(z.object({ id: z.string(), name: z.string() })),
 });
 
 export const EventInfo = z.object({

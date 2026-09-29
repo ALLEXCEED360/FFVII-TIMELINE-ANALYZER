@@ -241,5 +241,27 @@
         }
       ]
     }
+  ],
+  "openQuestions": [
+    {
+      "id": "question_aerith_death_rebirth_visuals",
+      "kind": "needs_footage",
+      "summary": "How Rebirth shows Aerith's death (chapter 14)",
+      "details": "Cloud appearing to block Sephiroth's blade before the scene resolves into her death, the funeral at the pool, and Cloud seeing Aerith afterwards while Tifa does not all rest on the transcript's stage directions, not dialogue.",
+      "sources": [{ "title": "rebirth", "chapter": 14 }],
+      "entities": [{ "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" }],
+      "worlds": []
+    },
+    {
+      "id": "question_aerith_funeral_og",
+      "kind": "needs_footage",
+      "summary": "Aerith's funeral in the original (opening of disc 2)",
+      "details": "Laid to rest in the water in the cinematic that opens disc 2. Located through a walkthrough's screenshot caption only.",
+      "sources": [
+        { "title": "og", "disc": 2, "segment": "og_icicle_inn", "scene": "the opening cinematic" }
+      ],
+      "entities": [{ "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" }],
+      "worlds": []
+    }
   ]
 }

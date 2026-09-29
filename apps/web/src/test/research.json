@@ -1,0 +1,270 @@
+{
+  "sources": [
+    {
+      "id": "src_wiki_og_script",
+      "name": "Final Fantasy Wiki — Final Fantasy VII script",
+      "kind": "transcript",
+      "role": "evidence",
+      "covers": ["og"],
+      "usedFor": "Checking dialogue and on-screen text, and the order of the original's story segments.",
+      "url": "https://finalfantasy.fandom.com/wiki/Final_Fantasy_VII_script",
+      "accessed": "2026-09-27",
+      "notes": "A full transcript of the original PlayStation release. Its stage directions are fan descriptions of what is shown, so facts that rest on them wait for a footage check."
+    },
+    {
+      "id": "src_wiki_remake_script",
+      "name": "Final Fantasy Wiki — Final Fantasy VII Remake script",
+      "kind": "transcript",
+      "role": "evidence",
+      "covers": ["remake", "intermission"],
+      "usedFor": "Checking dialogue and on-screen text, and chapter titles. Includes Episode INTERmission.",
+      "url": "https://finalfantasy.fandom.com/wiki/Final_Fantasy_VII_Remake_script",
+      "accessed": "2026-09-27",
+      "notes": null
+    },
+    {
+      "id": "src_wiki_rebirth_script",
+      "name": "Final Fantasy Wiki — Final Fantasy VII Rebirth script",
+      "kind": "transcript",
+      "role": "evidence",
+      "covers": ["rebirth"],
+      "usedFor": "Checking dialogue, and stage directions for scenes that are mostly visual.",
+      "url": "https://finalfantasy.fandom.com/wiki/Final_Fantasy_VII_Rebirth_script",
+      "accessed": "2026-09-27",
+      "notes": "Incomplete when accessed — chapter 8 was empty and chapter 9 thin."
+    },
+    {
+      "id": "src_yinza_og_script",
+      "name": "Yinza — Final Fantasy VII Complete Script (index)",
+      "kind": "transcript",
+      "role": "locating",
+      "covers": ["og"],
+      "usedFor": "The original's scene order (48 sections), cross-checked with the wiki transcript.",
+      "url": "https://www.yinza.com/Fandom/Script.html",
+      "accessed": "2026-09-27",
+      "notes": null
+    },
+    {
+      "id": "src_jegged_og_walkthrough",
+      "name": "Jegged — Final Fantasy VII walkthrough, disc indexes",
+      "kind": "walkthrough",
+      "role": "locating",
+      "covers": ["og"],
+      "usedFor": "Disc boundaries: disc 1 ends with Aerith's death; disc 2 opens with her funeral and ends after the Highwind scenes that follow the Hojo battle.",
+      "url": "https://jegged.com/Games/Final-Fantasy-VII/Walkthrough/Disc-1/",
+      "accessed": "2026-09-27",
+      "notes": null
+    },
+    {
+      "id": "src_gamepressure_remake_chapters",
+      "name": "Gamepressure — Final Fantasy VII Remake chapter list",
+      "kind": "chapter_list",
+      "role": "locating",
+      "covers": ["remake"],
+      "usedFor": "Chapter titles, cross-checked against the wiki transcript's headings.",
+      "url": "https://www.gamepressure.com/final-fantasy-vii-remake/list-of-all-chapters/z5d278",
+      "accessed": "2026-09-27",
+      "notes": null
+    },
+    {
+      "id": "src_game8_intermission_chapters",
+      "name": "Game8 — Episode INTERmission chapters",
+      "kind": "chapter_list",
+      "role": "locating",
+      "covers": ["intermission"],
+      "usedFor": "Chapter titles, cross-checked against the wiki transcript's headings.",
+      "url": "https://game8.co/games/FF7-Remake/archives/333282",
+      "accessed": "2026-09-27",
+      "notes": null
+    },
+    {
+      "id": "src_gamerant_rebirth_chapters",
+      "name": "Game Rant — Final Fantasy VII Rebirth chapter list",
+      "kind": "chapter_list",
+      "role": "locating",
+      "covers": ["rebirth"],
+      "usedFor": "Chapter titles and the unnumbered interlude, cross-checked with Game8 and the transcript.",
+      "url": "https://gamerant.com/ff7-final-fantasy-vii-rebirth-chapter-list-all-chapters/",
+      "accessed": "2026-09-27",
+      "notes": null
+    },
+    {
+      "id": "src_square_enix_revelation",
+      "name": "Square Enix press release — Final Fantasy VII Revelation announced",
+      "kind": "press",
+      "role": "locating",
+      "covers": [],
+      "usedFor": "Revelation as the final part of the Remake series, due in Spring 2027 (future content).",
+      "url": null,
+      "accessed": "2026-09-27",
+      "notes": null
+    }
+  ],
+  "questions": [
+    {
+      "id": "question_aerith_death_rebirth_visuals",
+      "kind": "needs_footage",
+      "summary": "How Rebirth shows Aerith's death (chapter 14)",
+      "details": "Cloud appearing to block Sephiroth's blade before the scene resolves into her death, the funeral at the pool, and Cloud seeing Aerith afterwards while Tifa does not all rest on the transcript's stage directions, not dialogue.",
+      "sources": [{ "title": "rebirth", "chapter": 14 }],
+      "entities": [{ "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" }],
+      "worlds": []
+    },
+    {
+      "id": "question_aerith_funeral_og",
+      "kind": "needs_footage",
+      "summary": "Aerith's funeral in the original (opening of disc 2)",
+      "details": "Laid to rest in the water in the cinematic that opens disc 2. Located through a walkthrough's screenshot caption only.",
+      "sources": [
+        { "title": "og", "disc": 2, "segment": "og_icicle_inn", "scene": "the opening cinematic" }
+      ],
+      "entities": [{ "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" }],
+      "worlds": []
+    },
+    {
+      "id": "question_remake_ending_visuals",
+      "kind": "needs_footage",
+      "summary": "Zack's survival at the end of Remake",
+      "details": "Zack surviving the fight outside Midgar and carrying Cloud. The dialogue supports it; the visuals haven't been checked.",
+      "sources": [{ "title": "remake", "chapter": 18 }],
+      "entities": [],
+      "worlds": [{ "id": "world_zack_survives", "name": "Zack survives" }]
+    },
+    {
+      "id": "question_zack_last_stand",
+      "kind": "not_in_dataset",
+      "summary": "Zack's last stand, the branch point of the world where he survives",
+      "details": "The original shows his death only visually, in an optional flashback that becomes available after \"Inside Cloud's Mind\"; the transcript has no dialogue that states it. Needs footage before it can be added as an event and set as the world's branch point.",
+      "sources": [],
+      "entities": [],
+      "worlds": [{ "id": "world_zack_survives", "name": "Zack survives" }]
+    },
+    {
+      "id": "question_rebirth_arc_chapters",
+      "kind": "not_in_dataset",
+      "summary": "Which Rebirth chapters retell each arc",
+      "details": "The arcs list Remake's chapters for the Midgar arc only. Rebirth's chapter-to-arc mapping needs a chapter-by-chapter check; the wiki transcript is incomplete for chapters 8 and 9.",
+      "sources": [],
+      "entities": [],
+      "worlds": []
+    },
+    {
+      "id": "question_rebirth_main_world_midgar",
+      "kind": "not_in_dataset",
+      "summary": "Rebirth's main-world view of the plate fall and Midgar",
+      "details": "Only the interlude in the world where Zack survives is recorded so far.",
+      "sources": [{ "title": "rebirth", "part": "interlude" }],
+      "entities": [
+        { "id": "event_sector_7_plate_fall", "kind": "event", "name": "Fall of the Sector 7 Plate" }
+      ],
+      "worlds": []
+    },
+    {
+      "id": "question_disc_2_3_boundary",
+      "kind": "structure",
+      "summary": "Where disc 2 ends in the original",
+      "details": "Placed after the Highwind scenes (the Highwind segment on disc 2), per a walkthrough. Confirm in the game.",
+      "sources": [],
+      "entities": [],
+      "worlds": []
+    },
+    {
+      "id": "question_chapter_title_capitalization",
+      "kind": "structure",
+      "summary": "Capitalization of chapter titles",
+      "details": "Sources disagree on small words (for example \"Deeper into Darkness\" against \"Deeper Into Darkness\"). Use the in-game spelling once checked.",
+      "sources": [],
+      "entities": [],
+      "worlds": []
+    },
+    {
+      "id": "question_eras",
+      "kind": "structure",
+      "summary": "The eras are provisional",
+      "details": "The eras are display ranges for the timeline; revisit them as dated events are added.",
+      "sources": [],
+      "entities": [],
+      "worlds": []
+    }
+  ],
+  "certainty": { "stated": 91, "inferred": 2, "ambiguous": 4 },
+  "interpretations": [
+    {
+      "kind": "appearance",
+      "certainty": "ambiguous",
+      "notes": "Rebirth shows two outcomes at the altar and then shows Cloud perceiving Aerith when others don't; it doesn't say which perception is real. Visual details here come from transcript stage directions and still need checking against footage.",
+      "subject": { "id": "event_aerith_death", "name": "Death of Aerith", "kind": "event" },
+      "titles": ["rebirth"],
+      "label": "At the altar, Cloud appears to block Sephiroth's blade, before the scene resolves into Sephiroth killing Aerith. After she is laid to rest in the pool, Cloud goes on seeing and speaking with her; Tifa does not see her.",
+      "sources": [
+        {
+          "title": "rebirth",
+          "chapter": 14,
+          "scene": "the altar, the funeral at the pool, the departure"
+        }
+      ]
+    },
+    {
+      "kind": "appearance",
+      "certainty": "inferred",
+      "notes": "Remake doesn't name it here; identified as Nibelheim because it is Cloud's hometown in the original and in Rebirth.",
+      "subject": { "id": "location_nibelheim", "name": "Nibelheim", "kind": "location" },
+      "titles": ["remake"],
+      "label": "Only alluded to, as Cloud's burning hometown.",
+      "sources": [{ "title": "remake", "chapter": 2, "scene": "Follow Him" }]
+    },
+    {
+      "kind": "appearance",
+      "certainty": "inferred",
+      "notes": "Remake doesn't name the town here. It is identified as Nibelheim and this event from the original and Rebirth, where Cloud's hometown is Nibelheim and it burns five years earlier.",
+      "subject": {
+        "id": "event_nibelheim_incident",
+        "name": "Nibelheim Incident",
+        "kind": "event"
+      },
+      "titles": ["remake"],
+      "label": "Only alluded to: when Sephiroth appears to Cloud in the wreckage of Sector 8, Cloud insists he killed him, and Sephiroth speaks of Cloud's hometown burning.",
+      "sources": [
+        { "title": "remake", "chapter": 2, "scene": "Follow Him — Sephiroth in Sector 8" }
+      ]
+    },
+    {
+      "kind": "difference",
+      "certainty": "ambiguous",
+      "notes": "Which of Rebirth's two outcomes is real is left open.",
+      "subject": { "id": "event_aerith_death", "name": "Death of Aerith", "kind": "event" },
+      "titles": ["og", "rebirth"],
+      "label": "In OG, Sephiroth's strike is shown once; in Rebirth, Cloud first appears to deflect it before the scene shows Sephiroth killing Aerith.",
+      "sources": [
+        { "title": "og", "disc": 1, "segment": "og_forgotten_capital" },
+        { "title": "rebirth", "chapter": 14 }
+      ]
+    },
+    {
+      "kind": "difference",
+      "certainty": "ambiguous",
+      "notes": "Rebirth doesn't explain what Cloud is seeing.",
+      "subject": { "id": "event_aerith_death", "name": "Death of Aerith", "kind": "event" },
+      "titles": ["og", "rebirth"],
+      "label": "In OG, Cloud mourns that Aerith will no longer talk or laugh; in Rebirth, Cloud goes on seeing and hearing her after her funeral, while Tifa does not.",
+      "sources": [
+        {
+          "title": "og",
+          "disc": 1,
+          "segment": "og_forgotten_capital",
+          "scene": "Cloud's words to Sephiroth"
+        },
+        { "title": "rebirth", "chapter": 14, "scene": "leaving the Forgotten Capital" }
+      ]
+    },
+    {
+      "kind": "relationship",
+      "certainty": "ambiguous",
+      "notes": "Present in his own account, which Tifa privately doubts; Rebirth doesn't resolve it.",
+      "subject": { "id": "character_cloud_strife", "name": "Cloud Strife", "kind": "character" },
+      "titles": ["rebirth"],
+      "label": "took part in Nibelheim Incident",
+      "sources": [{ "title": "rebirth", "chapter": 1 }]
+    }
+  ]
+}

@@ -1,0 +1,616 @@
+{
+  "titles": [
+    {
+      "code": "og",
+      "units": [
+        {
+          "key": "og_reactor_1",
+          "name": "Mako Reactor 1",
+          "disc": 1,
+          "position": 0,
+          "citations": 14,
+          "subjects": 5
+        },
+        {
+          "key": "og_seventh_heaven",
+          "name": "Seventh Heaven",
+          "disc": 1,
+          "position": 1,
+          "citations": 10,
+          "subjects": 5
+        },
+        {
+          "key": "og_reactor_5",
+          "name": "Mako Reactor 5",
+          "disc": 1,
+          "position": 2,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_sector_5_church",
+          "name": "The Sector 5 Church",
+          "disc": 1,
+          "position": 3,
+          "citations": 2,
+          "subjects": 1
+        },
+        {
+          "key": "og_wall_market",
+          "name": "Wall Market",
+          "disc": 1,
+          "position": 4,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_sector_7_pillar",
+          "name": "The Sector 7 Pillar",
+          "disc": 1,
+          "position": 5,
+          "citations": 12,
+          "subjects": 6
+        },
+        {
+          "key": "og_aerith_story",
+          "name": "Aerith's Story",
+          "disc": 1,
+          "position": 6,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_shinra_building",
+          "name": "The Shinra Building",
+          "disc": 1,
+          "position": 7,
+          "citations": 2,
+          "subjects": 2
+        },
+        {
+          "key": "og_kalm",
+          "name": "Kalm",
+          "disc": 1,
+          "position": 8,
+          "citations": 10,
+          "subjects": 4
+        },
+        {
+          "key": "og_road_to_junon",
+          "name": "The Road to Junon",
+          "disc": 1,
+          "position": 9,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_junon",
+          "name": "Junon",
+          "disc": 1,
+          "position": 10,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_cargo_ship",
+          "name": "The Cargo Ship",
+          "disc": 1,
+          "position": 11,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_costa_del_sol",
+          "name": "Costa del Sol",
+          "disc": 1,
+          "position": 12,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_corel",
+          "name": "Corel",
+          "disc": 1,
+          "position": 13,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_gold_saucer",
+          "name": "The Gold Saucer",
+          "disc": 1,
+          "position": 14,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_corel_prison",
+          "name": "Corel Prison",
+          "disc": 1,
+          "position": 15,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_gongaga",
+          "name": "Gongaga",
+          "disc": 1,
+          "position": 16,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_cosmo_canyon",
+          "name": "Cosmo Canyon",
+          "disc": 1,
+          "position": 17,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_nibelheim",
+          "name": "Nibelheim",
+          "disc": 1,
+          "position": 18,
+          "citations": 2,
+          "subjects": 1
+        },
+        {
+          "key": "og_rocket_town",
+          "name": "Rocket Town",
+          "disc": 1,
+          "position": 19,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_keystone",
+          "name": "The Keystone",
+          "disc": 1,
+          "position": 20,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_temple_of_the_ancients",
+          "name": "The Temple of the Ancients",
+          "disc": 1,
+          "position": 21,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_bone_village",
+          "name": "Bone Village",
+          "disc": 1,
+          "position": 22,
+          "citations": 2,
+          "subjects": 1
+        },
+        {
+          "key": "og_forgotten_capital",
+          "name": "The Forgotten Capital",
+          "disc": 1,
+          "position": 23,
+          "citations": 13,
+          "subjects": 5
+        },
+        {
+          "key": "og_icicle_inn",
+          "name": "Icicle Inn",
+          "disc": 2,
+          "position": 24,
+          "citations": 2,
+          "subjects": 1
+        },
+        {
+          "key": "og_northern_crater",
+          "name": "The Northern Crater",
+          "disc": 2,
+          "position": 25,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_junon_execution",
+          "name": "The Junon Execution",
+          "disc": 2,
+          "position": 26,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_mideel",
+          "name": "Mideel",
+          "disc": 2,
+          "position": 27,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_corel_huge_materia",
+          "name": "Huge Materia at Corel",
+          "disc": 2,
+          "position": 28,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_fort_condor_huge_materia",
+          "name": "Huge Materia at Fort Condor",
+          "disc": 2,
+          "position": 29,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_inside_clouds_mind",
+          "name": "Inside Cloud's Mind",
+          "disc": 2,
+          "position": 30,
+          "citations": 8,
+          "subjects": 4
+        },
+        {
+          "key": "og_underwater_reactor",
+          "name": "The Underwater Reactor",
+          "disc": 2,
+          "position": 31,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_rocket_launch",
+          "name": "The Rocket",
+          "disc": 2,
+          "position": 32,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_cosmo_canyon_return",
+          "name": "Remembering Aerith",
+          "disc": 2,
+          "position": 33,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_aerith_prayer",
+          "name": "Aerith's Prayer",
+          "disc": 2,
+          "position": 34,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_midgar_raid",
+          "name": "The Midgar Raid",
+          "disc": 2,
+          "position": 35,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_highwind",
+          "name": "Aboard the Highwind",
+          "disc": 2,
+          "position": 36,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_northern_cave",
+          "name": "The Northern Cave",
+          "disc": 3,
+          "position": 37,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "og_finale",
+          "name": "The Final Battle",
+          "disc": 3,
+          "position": 38,
+          "citations": 0,
+          "subjects": 0
+        }
+      ]
+    },
+    {
+      "code": "remake",
+      "units": [
+        {
+          "key": "1",
+          "name": "The Destruction of Mako Reactor 1",
+          "disc": null,
+          "position": 1,
+          "citations": 13,
+          "subjects": 5
+        },
+        {
+          "key": "2",
+          "name": "Fateful Encounters",
+          "disc": null,
+          "position": 2,
+          "citations": 12,
+          "subjects": 6
+        },
+        {
+          "key": "3",
+          "name": "Home Sweet Slum",
+          "disc": null,
+          "position": 3,
+          "citations": 4,
+          "subjects": 2
+        },
+        {
+          "key": "4",
+          "name": "Mad Dash",
+          "disc": null,
+          "position": 4,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "5",
+          "name": "Dogged Pursuit",
+          "disc": null,
+          "position": 5,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "6",
+          "name": "Light the Way",
+          "disc": null,
+          "position": 6,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "7",
+          "name": "A Trap is Sprung",
+          "disc": null,
+          "position": 7,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "8",
+          "name": "Budding Bodyguard",
+          "disc": null,
+          "position": 8,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "9",
+          "name": "The Town That Never Sleeps",
+          "disc": null,
+          "position": 9,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "10",
+          "name": "Rough Waters",
+          "disc": null,
+          "position": 10,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "11",
+          "name": "Haunted",
+          "disc": null,
+          "position": 11,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "12",
+          "name": "Fight for Survival",
+          "disc": null,
+          "position": 12,
+          "citations": 11,
+          "subjects": 6
+        },
+        {
+          "key": "13",
+          "name": "A Broken World",
+          "disc": null,
+          "position": 13,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "14",
+          "name": "In Search of Hope",
+          "disc": null,
+          "position": 14,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "15",
+          "name": "The Day Midgar Stood Still",
+          "disc": null,
+          "position": 15,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "16",
+          "name": "The Belly of the Beast",
+          "disc": null,
+          "position": 16,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "17",
+          "name": "Deliverance from Chaos",
+          "disc": null,
+          "position": 17,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "18",
+          "name": "Destiny's Crossroads",
+          "disc": null,
+          "position": 18,
+          "citations": 5,
+          "subjects": 3
+        }
+      ]
+    },
+    {
+      "code": "intermission",
+      "units": [
+        {
+          "key": "1",
+          "name": "Wutai's Finest",
+          "disc": null,
+          "position": 1,
+          "citations": 11,
+          "subjects": 5
+        },
+        {
+          "key": "2",
+          "name": "Covert Ops",
+          "disc": null,
+          "position": 2,
+          "citations": 9,
+          "subjects": 6
+        }
+      ]
+    },
+    {
+      "code": "rebirth",
+      "units": [
+        {
+          "key": "interlude",
+          "name": "Interlude: A World Apart",
+          "disc": null,
+          "position": 0.5,
+          "citations": 9,
+          "subjects": 5
+        },
+        {
+          "key": "1",
+          "name": "Fall of a Hero",
+          "disc": null,
+          "position": 1,
+          "citations": 23,
+          "subjects": 8
+        },
+        {
+          "key": "2",
+          "name": "A New Journey Begins",
+          "disc": null,
+          "position": 2,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "3",
+          "name": "Deeper into Darkness",
+          "disc": null,
+          "position": 3,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "4",
+          "name": "Dawn of a New Era",
+          "disc": null,
+          "position": 4,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "5",
+          "name": "Blood in the Water",
+          "disc": null,
+          "position": 5,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "6",
+          "name": "Fool's Paradise",
+          "disc": null,
+          "position": 6,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "7",
+          "name": "Those Left Behind",
+          "disc": null,
+          "position": 7,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "8",
+          "name": "All That Glitters",
+          "disc": null,
+          "position": 8,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "9",
+          "name": "The Planet Stirs",
+          "disc": null,
+          "position": 9,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "10",
+          "name": "Watcher of the Vale",
+          "disc": null,
+          "position": 10,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "11",
+          "name": "The Long Shadow of Shinra",
+          "disc": null,
+          "position": 11,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "12",
+          "name": "A Golden Key",
+          "disc": null,
+          "position": 12,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "13",
+          "name": "Where Angels Fear to Tread",
+          "disc": null,
+          "position": 13,
+          "citations": 0,
+          "subjects": 0
+        },
+        {
+          "key": "14",
+          "name": "End of the World",
+          "disc": null,
+          "position": 14,
+          "citations": 17,
+          "subjects": 7
+        }
+      ]
+    }
+  ]
+}

@@ -13,6 +13,10 @@ import {
   IdRedirectsSchema,
   type OgSegments,
   OgSegmentsSchema,
+  type OpenQuestions,
+  OpenQuestionsSchema,
+  type ResearchSources,
+  ResearchSourcesSchema,
   type Worlds,
   WorldsSchema,
 } from "@ffvii/shared";
@@ -47,6 +51,9 @@ export interface Dataset {
   eras: Eras;
   worlds: Worlds;
   redirects: IdRedirects;
+  /** The research log (optional files). */
+  researchSources: ResearchSources;
+  openQuestions: OpenQuestions;
 }
 
 export const REFERENCE_FILES = {
@@ -56,7 +63,16 @@ export const REFERENCE_FILES = {
   eras: "reference/eras.yaml",
   worlds: "reference/worlds.yaml",
   redirects: "id-redirects.yaml",
+  researchSources: "research/sources.yaml",
+  openQuestions: "research/open-questions.yaml",
 } as const;
+
+/** Reference files a dataset can do without. */
+const OPTIONAL_FILES: ReadonlySet<string> = new Set([
+  REFERENCE_FILES.redirects,
+  REFERENCE_FILES.researchSources,
+  REFERENCE_FILES.openQuestions,
+]);
 
 const KIND_BY_FOLDER = new Map<string, FileEntityKind>(
   Object.entries(ENTITY_FILE_KINDS).map(([kind, { folder }]) => [folder, kind as FileEntityKind]),
@@ -74,6 +90,8 @@ export function loadDataset(files: readonly SourceFile[]): { dataset: Dataset; i
     eras: [],
     worlds: [],
     redirects: {},
+    researchSources: [],
+    openQuestions: [],
   };
   const seenReference = new Set<string>();
 
@@ -105,6 +123,12 @@ export function loadDataset(files: readonly SourceFile[]): { dataset: Dataset; i
       case REFERENCE_FILES.redirects:
         dataset.redirects = parseFile(file, IdRedirectsSchema, issues) ?? {};
         continue;
+      case REFERENCE_FILES.researchSources:
+        dataset.researchSources = parseFile(file, ResearchSourcesSchema, issues) ?? [];
+        continue;
+      case REFERENCE_FILES.openQuestions:
+        dataset.openQuestions = parseFile(file, OpenQuestionsSchema, issues) ?? [];
+        continue;
     }
 
     const [folder, name, ...rest] = file.path.split("/");
@@ -135,7 +159,7 @@ export function loadDataset(files: readonly SourceFile[]): { dataset: Dataset; i
   }
 
   for (const path of Object.values(REFERENCE_FILES)) {
-    if (path !== REFERENCE_FILES.redirects && !seenReference.has(path)) {
+    if (!OPTIONAL_FILES.has(path) && !seenReference.has(path)) {
       issues.push({ level: "error", file: path, message: "required reference file is missing" });
     }
   }

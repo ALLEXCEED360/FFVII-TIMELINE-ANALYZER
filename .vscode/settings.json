@@ -16,6 +16,8 @@
     "./packages/data/schemas/arcs.schema.json": "data/reference/arcs.yaml",
     "./packages/data/schemas/eras.schema.json": "data/reference/eras.yaml",
     "./packages/data/schemas/worlds.schema.json": "data/reference/worlds.yaml",
-    "./packages/data/schemas/id-redirects.schema.json": "data/id-redirects.yaml"
+    "./packages/data/schemas/id-redirects.schema.json": "data/id-redirects.yaml",
+    "./packages/data/schemas/research-sources.schema.json": "data/research/sources.yaml",
+    "./packages/data/schemas/open-questions.schema.json": "data/research/open-questions.yaml"
   }
 }

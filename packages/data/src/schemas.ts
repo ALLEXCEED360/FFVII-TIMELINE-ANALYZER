@@ -5,6 +5,8 @@ import {
   ErasSchema,
   IdRedirectsSchema,
   OgSegmentsSchema,
+  OpenQuestionsSchema,
+  ResearchSourcesSchema,
   WorldsSchema,
 } from "@ffvii/shared";
 import { z } from "zod";
@@ -27,6 +29,8 @@ export function generateSchemas(): Map<string, string> {
     ["eras.schema.json", ErasSchema],
     ["worlds.schema.json", WorldsSchema],
     ["id-redirects.schema.json", IdRedirectsSchema],
+    ["research-sources.schema.json", ResearchSourcesSchema],
+    ["open-questions.schema.json", OpenQuestionsSchema],
   ]);
 
   return new Map(

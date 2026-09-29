@@ -38,6 +38,7 @@ export function validateDataset(dataset: Dataset): Issue[] {
     ...checkEdges(dataset),
     ...checkCycles(dataset),
     ...checkChronology(dataset),
+    ...checkResearch(dataset),
   ];
 }
 
@@ -546,5 +547,52 @@ function checkChronology(dataset: Dataset): Issue[] {
     }
   }
 
+  return issues;
+}
+
+// ─── Research log ─────────────────────────────────────────────────────────────
+
+function checkResearch(dataset: Dataset): Issue[] {
+  const issues: Issue[] = [];
+  const duplicates = (file: string, ids: readonly string[]) => {
+    const seen = new Set<string>();
+    ids.forEach((id, index) => {
+      if (seen.has(id)) issues.push(error(file, `[${String(index)}]`, `duplicate ID \`${id}\``));
+      seen.add(id);
+    });
+  };
+
+  duplicates(
+    REFERENCE_FILES.researchSources,
+    dataset.researchSources.map((source) => source.id),
+  );
+
+  const file = REFERENCE_FILES.openQuestions;
+  duplicates(
+    file,
+    dataset.openQuestions.map((question) => question.id),
+  );
+  const worlds = new Set(dataset.worlds.map((world) => world.id));
+  dataset.openQuestions.forEach((question, index) => {
+    const path = `[${String(index)}]`;
+    question.entities?.forEach((id, i) => {
+      const problem = unknownEntity(dataset, id);
+      if (problem) issues.push(error(file, `${path}.entities[${String(i)}]`, problem));
+    });
+    question.worlds?.forEach((id, i) => {
+      if (!worlds.has(id)) {
+        issues.push(error(file, `${path}.worlds[${String(i)}]`, `unknown world \`${id}\``));
+      }
+    });
+    issues.push(
+      ...checkLocators(
+        dataset,
+        file,
+        (question.sources ?? []).map(
+          (s, i) => [`${path}.sources[${String(i)}]`, s] as [string, Locator],
+        ),
+      ),
+    );
+  });
   return issues;
 }

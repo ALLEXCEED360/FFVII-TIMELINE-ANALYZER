@@ -18,6 +18,7 @@ import {
 } from "../lib/paths";
 import { TITLE_ORDER, describeLocator, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
+import { OpenQuestionList } from "../features/archive/OpenQuestions";
 import { NotFoundPage } from "./NotFoundPage";
 
 /**
@@ -160,6 +161,26 @@ function EntityView({
       </section>
 
       <Connections entity={entity} reference={reference} />
+
+      {entity.openQuestions.length > 0 && (
+        <section aria-labelledby="entity-questions" className="flex flex-col gap-3">
+          <h2 id="entity-questions" className="label">
+            Open research questions
+          </h2>
+          <p className="text-sm text-steel-400">
+            Parts of this record still awaiting a stronger check. See the{" "}
+            <Link to="/archive/research" className="text-steel-200 hover:text-mako-300">
+              research log
+            </Link>
+            .
+          </p>
+          <OpenQuestionList
+            questions={entity.openQuestions}
+            reference={reference}
+            showSubjects={false}
+          />
+        </section>
+      )}
     </article>
   );
 }

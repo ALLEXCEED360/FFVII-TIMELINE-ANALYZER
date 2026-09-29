@@ -19,7 +19,7 @@ Design documents for the Timeline Analyzer. These are the rules the data and cod
 
 ## Research
 
-Working notes behind the dataset, in [`research/`](research/README.md): the [source log](research/source-log.md) and [open questions](research/open-questions.md).
+The research log (sources used and open questions) is data, in [`data/research/`](../data/research/) — see [`research/`](research/README.md) and decision [0012](decisions/0012-archive-and-sources.md).
 
 ## Decisions
 
@@ -38,3 +38,4 @@ One short record per architecture decision, numbered in order.
 | 0009 | [The comparison view](decisions/0009-comparison-view.md)                                               |
 | 0010 | [The relationship network](decisions/0010-network.md)                                                  |
 | 0011 | [The divergence view](decisions/0011-divergence.md)                                                    |
+| 0012 | [The archive and sources](decisions/0012-archive-and-sources.md)                                       |

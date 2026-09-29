@@ -14,6 +14,7 @@ const NAV = [
   { to: "/network", label: "Network", end: false },
   { to: "/divergence", label: "Divergence", end: false },
   { to: "/explore", label: "Explore", end: false },
+  { to: "/archive", label: "Archive", end: false },
 ] as const;
 
 /** Header, navigation, search and footer around every page (blueprint §18, §20, §26). */

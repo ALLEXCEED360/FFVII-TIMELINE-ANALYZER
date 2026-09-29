@@ -14,6 +14,7 @@ import type {
   TitleCode,
 } from "../../api/client";
 import { entityPath } from "../../lib/paths";
+import { Citations } from "../../components/Citation";
 import { TITLE_ORDER, describeLocator, titleShort } from "../../lib/reference";
 import { TITLE_COLOR } from "../../lib/titles";
 import { AppearanceCard } from "../entity/parts";
@@ -164,8 +165,8 @@ export function DifferencesByCategory({
                   </p>
                   <p className="text-steel-200">{d.summary}</p>
                   {d.notes && <p className="mt-1 text-xs text-steel-400 italic">{d.notes}</p>}
-                  <p className="mt-1.5 font-mono text-[11px] text-steel-400">
-                    Sources: {d.sources.map((s) => describeLocator(reference, s)).join("; ")}
+                  <p className="mt-1.5 text-[11px] text-steel-400">
+                    Sources: <Citations sources={d.sources} reference={reference} />
                   </p>
                 </li>
               ))}

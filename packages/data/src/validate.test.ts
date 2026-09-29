@@ -286,4 +286,59 @@ describe("validateDataset", () => {
       "event_old";
     expect(errors(files)).toContain("`event_old` was retired — use `event_one`");
   });
+
+  it("checks the research log: IDs, evidence kinds, and what questions refer to", () => {
+    const source = {
+      id: "src_one",
+      name: "One",
+      kind: "transcript",
+      role: "evidence",
+      covers: ["og"],
+      usedFor: "…",
+    };
+    const question = {
+      id: "question_one",
+      kind: "needs_footage",
+      summary: "…",
+      details: "…",
+      entities: ["event_one"],
+      sources: [ogA],
+    };
+    const files = {
+      ...baseFiles(),
+      "research/sources.yaml": [source],
+      "research/open-questions.yaml": [question],
+    };
+    expect(run(files)).toEqual([]);
+
+    expect(
+      errors({
+        ...files,
+        "research/sources.yaml": [source, { ...source, kind: "walkthrough" }],
+      }),
+    ).toEqual(["only play, footage and transcripts can be evidence; other sources only locate"]);
+    expect(
+      errors({
+        ...files,
+        "research/sources.yaml": [source, source],
+      }),
+    ).toEqual(["duplicate ID `src_one`"]);
+    expect(
+      errors({
+        ...files,
+        "research/open-questions.yaml": [
+          {
+            ...question,
+            entities: ["event_zzz"],
+            worlds: ["world_zzz"],
+            sources: [{ ...ogA, segment: "og_zzz" }],
+          },
+        ],
+      }),
+    ).toEqual([
+      "unknown entity `event_zzz`",
+      "unknown world `world_zzz`",
+      "unknown segment `og_zzz`",
+    ]);
+  });
 });

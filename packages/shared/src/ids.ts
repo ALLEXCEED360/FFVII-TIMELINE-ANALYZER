@@ -32,6 +32,8 @@ function prefixedCode(prefix: string, example: string) {
 export const WorldIdSchema = prefixedCode("world", "world_main");
 export const SegmentIdSchema = prefixedCode("og", "og_kalm");
 export const EraIdSchema = prefixedCode("era", "era_main_story");
+export const SourceIdSchema = prefixedCode("src", "src_wiki_og_script");
+export const QuestionIdSchema = prefixedCode("question", "question_zack_last_stand");
 
 export const MAIN_WORLD = "world_main";
 

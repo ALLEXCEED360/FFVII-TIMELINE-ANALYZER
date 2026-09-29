@@ -45,7 +45,9 @@ A fact goes into `data/` only after it has been **checked against the game itsel
 
 Wikis and fan resources may be used **only to locate** a fact (which chapter, which scene). They are never the evidence.
 
-**Status of the v0.1 dataset (2026-09-27):** every fact was checked against full script transcripts (level 3) — see `docs/research/source-log.md`. Where a fact depends on what is _shown_ rather than said, it came from the transcripts' stage directions and is listed in `docs/research/open-questions.md` for checking against footage before v1.0.
+**Status of the v0.1 dataset (2026-09-27):** every fact was checked against full script transcripts (level 3) — see the research log in `data/research/sources.yaml`. Where a fact depends on what is _shown_ rather than said, it came from the transcripts' stage directions and is listed in `data/research/open-questions.yaml` for checking against footage before v1.0.
+
+**The research log** (`data/research/`, decision [0012](decisions/0012-archive-and-sources.md)) records every source used, whether it is evidence or only used to locate, and every open question. It is validated with the dataset and shown at `/archive/research`.
 
 ## 5. Citations
 
@@ -117,4 +119,4 @@ Two structures are defined by this project, not by the games, and live in `data/
   - Every image is listed in an art manifest in the web app, with its source, and credited on a Credits page.
   - No game files are extracted (models, textures, music, audio). No music is used.
   - Artwork is not covered by this project's licences and is removed on request of the rights holder.
-- Unverified facts never go into `data/`. Research notes and open questions live in `docs/research/`.
+- Unverified facts never go into `data/` as facts. Open questions about them go in `data/research/open-questions.yaml`.

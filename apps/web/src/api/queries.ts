@@ -170,3 +170,33 @@ export function useDivergence(
     retry: false,
   });
 }
+
+export function useSources() {
+  return useQuery({
+    queryKey: ["sources"],
+    queryFn: () => unwrap(api.GET("/sources")),
+    staleTime: Infinity,
+  });
+}
+
+export function useSourceUnit(title: TitleCode | undefined, unit: string | undefined) {
+  return useQuery({
+    queryKey: ["sources", title, unit],
+    queryFn: () =>
+      unwrap(
+        api.GET("/sources/{title}/{unit}", {
+          params: { path: { title: title ?? "og", unit: unit ?? "" } },
+        }),
+      ),
+    enabled: title !== undefined && unit !== undefined,
+    retry: false,
+  });
+}
+
+export function useResearch() {
+  return useQuery({
+    queryKey: ["research"],
+    queryFn: () => unwrap(api.GET("/research")),
+    staleTime: Infinity,
+  });
+}

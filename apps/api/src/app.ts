@@ -20,6 +20,7 @@ import { entityRoutes } from "./routes/entities.ts";
 import { networkRoutes } from "./routes/network.ts";
 import { referenceRoutes } from "./routes/reference.ts";
 import { searchRoutes } from "./routes/search.ts";
+import { sourceRoutes } from "./routes/sources.ts";
 import { timelineRoutes } from "./routes/timeline.ts";
 
 export interface AppOptions {
@@ -102,6 +103,7 @@ export async function buildApp({
   const getGraph = () => (graph ??= loadGraph(db));
   await app.register(networkRoutes, { graph: getGraph });
   await app.register(divergenceRoutes, { db });
+  await app.register(sourceRoutes, { db });
   await app.register(searchRoutes, { db });
   return app;
 }

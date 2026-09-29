@@ -49,6 +49,18 @@ export const routes: RouteObject[] = [
       lazyPage("divergence/:kind/:slug", () =>
         import("../pages/DivergenceViewPage").then((m) => ({ Component: m.DivergenceViewPage })),
       ),
+      lazyPage("archive", () =>
+        import("../pages/ArchivePage").then((m) => ({ Component: m.ArchivePage })),
+      ),
+      lazyPage("archive/research", () =>
+        import("../pages/ResearchPage").then((m) => ({ Component: m.ResearchPage })),
+      ),
+      lazyPage("archive/:title", () =>
+        import("../pages/ArchiveTitlePage").then((m) => ({ Component: m.ArchiveTitlePage })),
+      ),
+      lazyPage("archive/:title/:unit", () =>
+        import("../pages/SourceUnitPage").then((m) => ({ Component: m.SourceUnitPage })),
+      ),
       // /character/cloud-strife, /event/nibelheim-incident, … (unknown kinds show "not found").
       lazyPage(":kind/:slug", () =>
         import("../pages/EntityPage").then((m) => ({ Component: m.EntityPage })),

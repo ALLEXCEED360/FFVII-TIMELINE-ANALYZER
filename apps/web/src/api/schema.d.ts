@@ -585,6 +585,48 @@ export interface paths {
                                     notes: string | null;
                                 }[];
                             }[];
+                            /** @description Research questions about this entity (facts awaiting a stronger check, gaps). */
+                            openQuestions: {
+                                id: string;
+                                /** @enum {string} */
+                                kind: "needs_footage" | "not_in_dataset" | "structure";
+                                summary: string;
+                                details: string;
+                                /** @description Where in the titles to look. */
+                                sources: ({
+                                    /** @enum {string} */
+                                    title: "og";
+                                    disc: number;
+                                    segment: string;
+                                    scene?: string;
+                                    /** @enum {boolean} */
+                                    optional?: true;
+                                } | {
+                                    /** @enum {string} */
+                                    title: "remake" | "intermission" | "rebirth";
+                                    chapter: number;
+                                    scene?: string;
+                                    /** @enum {boolean} */
+                                    optional?: true;
+                                } | {
+                                    /** @enum {string} */
+                                    title: "remake" | "intermission" | "rebirth";
+                                    part: string;
+                                    scene?: string;
+                                    /** @enum {boolean} */
+                                    optional?: true;
+                                })[];
+                                entities: {
+                                    id: string;
+                                    /** @enum {string} */
+                                    kind: "character" | "event" | "location" | "organization";
+                                    name: string;
+                                }[];
+                                worlds: {
+                                    id: string;
+                                    name: string;
+                                }[];
+                            }[];
                         };
                     };
                 };
@@ -1792,6 +1834,356 @@ export interface paths {
                         "application/json": {
                             error: string;
                             message: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Every unit of every title, with how many citations point into it */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            titles: {
+                                /** @enum {string} */
+                                code: "og" | "remake" | "intermission" | "rebirth";
+                                units: {
+                                    /** @description The original's segment ID, a chapter number, or a part's key. */
+                                    key: string;
+                                    name: string;
+                                    /** @description The original's disc; null for chaptered titles. */
+                                    disc: number | null;
+                                    position: number;
+                                    citations: number;
+                                    /** @description Distinct entities and worlds cited. */
+                                    subjects: number;
+                                }[];
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sources/{title}/{unit}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One unit of a title (segment, chapter or part) and every fact that cites it */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    title: "og" | "remake" | "intermission" | "rebirth";
+                    unit: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            title: "og" | "remake" | "intermission" | "rebirth";
+                            unit: {
+                                /** @description The original's segment ID, a chapter number, or a part's key. */
+                                key: string;
+                                name: string;
+                                /** @description The original's disc; null for chaptered titles. */
+                                disc: number | null;
+                                position: number;
+                                summary: string | null;
+                            };
+                            previous: {
+                                /** @description The original's segment ID, a chapter number, or a part's key. */
+                                key: string;
+                                name: string;
+                                /** @description The original's disc; null for chaptered titles. */
+                                disc: number | null;
+                                position: number;
+                            } | null;
+                            next: {
+                                /** @description The original's segment ID, a chapter number, or a part's key. */
+                                key: string;
+                                name: string;
+                                /** @description The original's disc; null for chaptered titles. */
+                                disc: number | null;
+                                position: number;
+                            } | null;
+                            appearances: {
+                                entity: {
+                                    id: string;
+                                    /** @enum {string} */
+                                    kind: "character" | "event" | "location" | "organization";
+                                    name: string;
+                                };
+                                world: string;
+                                /** @enum {string} */
+                                status: "depicted" | "referenced" | "omitted";
+                                role: string | null;
+                                summary: string;
+                                /** @enum {string} */
+                                certainty: "stated" | "inferred" | "ambiguous";
+                                /** @description The appearance's own sources cite this unit. */
+                                cited: boolean;
+                                /** @description Depictions set in this unit. */
+                                depictions: {
+                                    /** @enum {string} */
+                                    framing: "direct" | "flashback" | "false_account" | "disputed_account" | "vision" | "mention" | "glimpse";
+                                    note: string | null;
+                                }[];
+                                /** @description Scenes named by the citations. */
+                                scenes: string[];
+                            }[];
+                            differences: {
+                                id: string;
+                                entity: {
+                                    id: string;
+                                    /** @enum {string} */
+                                    kind: "character" | "event" | "location" | "organization";
+                                    name: string;
+                                };
+                                from: {
+                                    /** @enum {string} */
+                                    title: "og" | "remake" | "intermission" | "rebirth";
+                                    world: string;
+                                };
+                                to: {
+                                    /** @enum {string} */
+                                    title: "og" | "remake" | "intermission" | "rebirth";
+                                    world: string;
+                                };
+                                /** @enum {string} */
+                                category: "presentation" | "participants" | "setting" | "chronology" | "outcome" | "role" | "relationship" | "context" | "gameplay";
+                                /** @enum {string} */
+                                magnitude: "minor" | "major";
+                                summary: string;
+                                /** @enum {string} */
+                                certainty: "stated" | "inferred" | "ambiguous";
+                                /** @description Scenes named by the citations. */
+                                scenes: string[];
+                            }[];
+                            relationships: {
+                                id: string;
+                                /** @enum {string} */
+                                type: "parent_of" | "sibling_of" | "spouse_of" | "member_of" | "leads" | "part_of" | "hometown" | "lives_in" | "based_at" | "controls" | "participated_in" | "occurred_at" | "sub_event_of" | "killed" | "caused" | "experimented_on" | "acted_through";
+                                label: string;
+                                source: {
+                                    id: string;
+                                    /** @enum {string} */
+                                    kind: "character" | "event" | "location" | "organization";
+                                    name: string;
+                                };
+                                target: {
+                                    id: string;
+                                    /** @enum {string} */
+                                    kind: "character" | "event" | "location" | "organization";
+                                    name: string;
+                                };
+                                world: string;
+                                /** @enum {string} */
+                                certainty: "stated" | "inferred" | "ambiguous";
+                                /** @description Scenes named by the citations. */
+                                scenes: string[];
+                            }[];
+                            worlds: {
+                                id: string;
+                                name: string;
+                                /** @enum {string} */
+                                certainty: "stated" | "inferred" | "ambiguous";
+                                /** @description Scenes named by the citations. */
+                                scenes: string[];
+                            }[];
+                        };
+                    };
+                };
+                /** @description Default Response */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                            message: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/research": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The research log: sources used, open questions, and facts by certainty */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            sources: {
+                                id: string;
+                                name: string;
+                                /** @enum {string} */
+                                kind: "play" | "footage" | "transcript" | "walkthrough" | "chapter_list" | "press";
+                                /** @enum {string} */
+                                role: "evidence" | "locating";
+                                covers: ("og" | "remake" | "intermission" | "rebirth")[];
+                                usedFor: string;
+                                url: string | null;
+                                accessed: string | null;
+                                notes: string | null;
+                            }[];
+                            questions: {
+                                id: string;
+                                /** @enum {string} */
+                                kind: "needs_footage" | "not_in_dataset" | "structure";
+                                summary: string;
+                                details: string;
+                                /** @description Where in the titles to look. */
+                                sources: ({
+                                    /** @enum {string} */
+                                    title: "og";
+                                    disc: number;
+                                    segment: string;
+                                    scene?: string;
+                                    /** @enum {boolean} */
+                                    optional?: true;
+                                } | {
+                                    /** @enum {string} */
+                                    title: "remake" | "intermission" | "rebirth";
+                                    chapter: number;
+                                    scene?: string;
+                                    /** @enum {boolean} */
+                                    optional?: true;
+                                } | {
+                                    /** @enum {string} */
+                                    title: "remake" | "intermission" | "rebirth";
+                                    part: string;
+                                    scene?: string;
+                                    /** @enum {boolean} */
+                                    optional?: true;
+                                })[];
+                                entities: {
+                                    id: string;
+                                    /** @enum {string} */
+                                    kind: "character" | "event" | "location" | "organization";
+                                    name: string;
+                                }[];
+                                worlds: {
+                                    id: string;
+                                    name: string;
+                                }[];
+                            }[];
+                            /** @description Facts by certainty: appearances, differences, relationships per title, worlds. */
+                            certainty: {
+                                stated: number;
+                                inferred: number;
+                                ambiguous: number;
+                            };
+                            /** @description Facts that are inferred or ambiguous, with the notes that explain them. */
+                            interpretations: {
+                                /** @enum {string} */
+                                kind: "appearance" | "difference" | "relationship" | "world";
+                                /** @enum {string} */
+                                certainty: "inferred" | "ambiguous";
+                                notes: string;
+                                subject: {
+                                    id: string;
+                                    name: string;
+                                    kind: string;
+                                };
+                                titles: ("og" | "remake" | "intermission" | "rebirth")[];
+                                label: string;
+                                sources: ({
+                                    /** @enum {string} */
+                                    title: "og";
+                                    disc: number;
+                                    segment: string;
+                                    scene?: string;
+                                    /** @enum {boolean} */
+                                    optional?: true;
+                                } | {
+                                    /** @enum {string} */
+                                    title: "remake" | "intermission" | "rebirth";
+                                    chapter: number;
+                                    scene?: string;
+                                    /** @enum {boolean} */
+                                    optional?: true;
+                                } | {
+                                    /** @enum {string} */
+                                    title: "remake" | "intermission" | "rebirth";
+                                    part: string;
+                                    scene?: string;
+                                    /** @enum {boolean} */
+                                    optional?: true;
+                                })[];
+                            }[];
                         };
                     };
                 };

@@ -6,6 +6,9 @@ import {
   type EdgeType,
   type FileEntityKind,
   FRAMINGS,
+  QUESTION_KINDS,
+  SOURCE_KINDS,
+  SOURCE_ROLES,
   STORED_STATUSES,
   TITLE_CODES,
   type TitleCode,
@@ -16,6 +19,7 @@ import {
   boolean,
   check,
   customType,
+  date,
   foreignKey,
   index,
   integer,
@@ -45,6 +49,17 @@ export const differenceCategory = pgEnum("difference_category", DIFFERENCE_CATEG
 export const magnitude = pgEnum("magnitude", ["minor", "major"]);
 export const edgeType = pgEnum("edge_type", EDGE_TYPE_NAMES as [EdgeType, ...EdgeType[]]);
 export const edgeCategory = pgEnum("edge_category", EDGE_CATEGORIES);
+export const sourceKind = pgEnum("source_kind", SOURCE_KINDS);
+export const sourceRole = pgEnum("source_role", SOURCE_ROLES);
+export const questionKind = pgEnum("question_kind", QUESTION_KINDS);
+export const CITATION_KINDS = [
+  "appearance",
+  "depiction",
+  "difference",
+  "relationship",
+  "world",
+] as const;
+export const citationKind = pgEnum("citation_kind", CITATION_KINDS);
 
 // ─── Titles and reference data ────────────────────────────────────────────────
 
@@ -391,5 +406,100 @@ export const idRedirects = pgTable("id_redirects", {
   oldId: text().primaryKey(),
   newId: text().references(() => entities.id, { onDelete: "cascade" }),
 });
+
+// ─── Research log and citations ───────────────────────────────────────────────
+
+/** What was used to find and check the facts (data/research/sources.yaml). */
+export const researchSources = pgTable("research_sources", {
+  id: text().primaryKey(),
+  position: smallint().notNull().unique(),
+  name: text().notNull(),
+  kind: sourceKind().notNull(),
+  role: sourceRole().notNull(),
+  covers: titleCode().array().notNull(),
+  usedFor: text().notNull(),
+  url: text(),
+  accessed: date({ mode: "string" }),
+  notes: text(),
+});
+
+/** Facts awaiting a stronger check, and gaps (data/research/open-questions.yaml). */
+export const openQuestions = pgTable("open_questions", {
+  id: text().primaryKey(),
+  position: smallint().notNull().unique(),
+  kind: questionKind().notNull(),
+  summary: text().notNull(),
+  details: text().notNull(),
+  /** Where in the titles to look, as written. */
+  sources: jsonb(),
+});
+
+export const openQuestionEntities = pgTable(
+  "open_question_entities",
+  {
+    questionId: text()
+      .notNull()
+      .references(() => openQuestions.id, { onDelete: "cascade" }),
+    entityId: text()
+      .notNull()
+      .references(() => entities.id, { onDelete: "cascade" }),
+  },
+  (t) => [
+    primaryKey({ columns: [t.questionId, t.entityId] }),
+    index("open_question_entities_entity_idx").on(t.entityId),
+  ],
+);
+
+export const openQuestionWorlds = pgTable(
+  "open_question_worlds",
+  {
+    questionId: text()
+      .notNull()
+      .references(() => openQuestions.id, { onDelete: "cascade" }),
+    worldId: text()
+      .notNull()
+      .references(() => worlds.id, { onDelete: "cascade" }),
+  },
+  (t) => [primaryKey({ columns: [t.questionId, t.worldId] })],
+);
+
+/**
+ * Every citation, one row per locator — derived at seed time. The index from a unit of a title
+ * (a segment, chapter or part) back to the facts it backs. Which columns are set depends on `kind`.
+ */
+export const citations = pgTable(
+  "citations",
+  {
+    title: titleCode()
+      .notNull()
+      .references(() => titles.code),
+    /** The original's segment ID, a chapter number as text, or a part's key (`unitOf`). */
+    unit: text().notNull(),
+    kind: citationKind().notNull(),
+    /** The entity the fact belongs to (a relationship's source); null for a world. */
+    entityId: text().references(() => entities.id, { onDelete: "cascade" }),
+    /** The appearance's world, or the world itself. */
+    world: text().references(() => worlds.id, { onDelete: "cascade" }),
+    /** A depiction's position within its appearance. */
+    depiction: smallint(),
+    differenceId: text().references(() => differences.id, { onDelete: "cascade" }),
+    edgeId: text().references(() => edges.id, { onDelete: "cascade" }),
+    scene: text(),
+    optional: boolean().notNull(),
+  },
+  (t) => [
+    index("citations_unit_idx").on(t.title, t.unit),
+    check(
+      "citations_shape",
+      sql`case ${t.kind}
+        when 'world' then ${t.world} is not null and ${t.entityId} is null
+        when 'difference' then ${t.differenceId} is not null
+        when 'relationship' then ${t.edgeId} is not null
+        when 'depiction' then ${t.depiction} is not null and ${t.world} is not null
+        else ${t.entityId} is not null and ${t.world} is not null
+      end`,
+    ),
+  ],
+);
 
 export type { EdgeType, TitleCode };

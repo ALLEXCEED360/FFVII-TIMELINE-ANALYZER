@@ -1,0 +1,184 @@
+{
+  "title": "rebirth",
+  "unit": {
+    "key": "14",
+    "name": "End of the World",
+    "disc": null,
+    "position": 14,
+    "summary": null
+  },
+  "previous": { "key": "13", "name": "Where Angels Fear to Tread", "disc": null, "position": 13 },
+  "next": null,
+  "appearances": [
+    {
+      "entity": {
+        "id": "character_aerith_gainsborough",
+        "kind": "character",
+        "name": "Aerith Gainsborough"
+      },
+      "world": "world_main",
+      "status": "depicted",
+      "role": "The last living Cetra, travelling with Cloud",
+      "summary": "Travels with the party from Kalm and prays at the altar in the Forgotten Capital.",
+      "certainty": "stated",
+      "cited": true,
+      "depictions": [],
+      "scenes": ["as the last living Cetra"]
+    },
+    {
+      "entity": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
+      "world": "world_main",
+      "status": "depicted",
+      "role": "Leads the pursuit of Sephiroth beyond Midgar",
+      "summary": "Tells his account of Nibelheim at Kalm and follows Sephiroth to the Forgotten Capital.",
+      "certainty": "stated",
+      "cited": true,
+      "depictions": [],
+      "scenes": []
+    },
+    {
+      "entity": { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" },
+      "world": "world_main",
+      "status": "depicted",
+      "role": "The party's quarry",
+      "summary": "Shown in Cloud's account of Nibelheim, then pursued to the Forgotten Capital.",
+      "certainty": "stated",
+      "cited": true,
+      "depictions": [{ "framing": "direct", "note": null }],
+      "scenes": []
+    },
+    {
+      "entity": { "id": "character_tifa_lockhart", "kind": "character", "name": "Tifa Lockhart" },
+      "world": "world_main",
+      "status": "depicted",
+      "role": "Travels with Cloud; questions his account of Nibelheim",
+      "summary": "Doubts Cloud's story of Nibelheim, and is present at Aerith's death.",
+      "certainty": "stated",
+      "cited": true,
+      "depictions": [],
+      "scenes": []
+    },
+    {
+      "entity": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "world": "world_main",
+      "status": "depicted",
+      "role": null,
+      "summary": "At the altar, Cloud appears to block Sephiroth's blade, before the scene resolves into Sephiroth killing Aerith. After she is laid to rest in the pool, Cloud goes on seeing and speaking with her; Tifa does not see her.",
+      "certainty": "ambiguous",
+      "cited": true,
+      "depictions": [{ "framing": "direct", "note": null }],
+      "scenes": ["the altar, the funeral at the pool, the departure"]
+    },
+    {
+      "entity": {
+        "id": "location_forgotten_capital",
+        "kind": "location",
+        "name": "Forgotten Capital"
+      },
+      "world": "world_main",
+      "status": "depicted",
+      "role": null,
+      "summary": "The setting of the final chapter.",
+      "certainty": "stated",
+      "cited": true,
+      "depictions": [{ "framing": "direct", "note": null }],
+      "scenes": ["reaching the Forgotten Capital"]
+    }
+  ],
+  "differences": [
+    {
+      "id": "event_aerith_death:after_death",
+      "entity": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "rebirth", "world": "world_main" },
+      "category": "context",
+      "magnitude": "major",
+      "summary": "In OG, Cloud mourns that Aerith will no longer talk or laugh; in Rebirth, Cloud goes on seeing and hearing her after her funeral, while Tifa does not.",
+      "certainty": "ambiguous",
+      "scenes": ["leaving the Forgotten Capital"]
+    },
+    {
+      "id": "event_aerith_death:blocked_blade",
+      "entity": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "rebirth", "world": "world_main" },
+      "category": "presentation",
+      "magnitude": "major",
+      "summary": "In OG, Sephiroth's strike is shown once; in Rebirth, Cloud first appears to deflect it before the scene shows Sephiroth killing Aerith.",
+      "certainty": "ambiguous",
+      "scenes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "edge_3e791cf6eeebd635",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": {
+        "id": "character_aerith_gainsborough",
+        "kind": "character",
+        "name": "Aerith Gainsborough"
+      },
+      "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": []
+    },
+    {
+      "id": "edge_2510df55b395330c",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
+      "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": []
+    },
+    {
+      "id": "edge_701b23f90b238e3c",
+      "type": "occurred_at",
+      "label": "took place at",
+      "source": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "target": {
+        "id": "location_forgotten_capital",
+        "kind": "location",
+        "name": "Forgotten Capital"
+      },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": []
+    },
+    {
+      "id": "edge_e0f7d7c8b5e09d63",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" },
+      "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": []
+    },
+    {
+      "id": "edge_cb8e411fb0467ecb",
+      "type": "killed",
+      "label": "killed",
+      "source": { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" },
+      "target": {
+        "id": "character_aerith_gainsborough",
+        "kind": "character",
+        "name": "Aerith Gainsborough"
+      },
+      "world": "world_main",
+      "certainty": "stated",
+      "scenes": []
+    }
+  ],
+  "worlds": [
+    {
+      "id": "world_zack_survives",
+      "name": "Zack survives",
+      "certainty": "stated",
+      "scenes": ["Zack's final scene in Aerith's church"]
+    }
+  ]
+}

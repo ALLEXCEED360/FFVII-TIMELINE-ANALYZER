@@ -1,4 +1,4 @@
-import { type Db, entity, listEntities } from "@ffvii/db";
+import { type Db, entity, listEntities, openQuestionsAbout } from "@ffvii/db";
 import { TitleCodeSchema } from "@ffvii/shared";
 import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
 import { z } from "zod";
@@ -10,6 +10,7 @@ import {
   EntityKindEnum,
   EntityRef,
   ErrorBody,
+  OpenQuestion,
   Relationship,
 } from "../schemas.ts";
 import { NOT_FOUND, redirectRetired } from "./redirects.ts";
@@ -18,6 +19,9 @@ const EntityDetail = EntityInfo.extend({
   appearances: z.array(Appearance).describe("One per title and world, in release order."),
   differences: z.array(Difference),
   relationships: z.array(Relationship),
+  openQuestions: z
+    .array(OpenQuestion)
+    .describe("Research questions about this entity (facts awaiting a stronger check, gaps)."),
 });
 
 export const entityRoutes: FastifyPluginCallbackZod<{ db: Db }> = (app, { db }, done) => {
@@ -63,7 +67,7 @@ export const entityRoutes: FastifyPluginCallbackZod<{ db: Db }> = (app, { db }, 
       if ("redirectTo" in found) {
         return redirectRetired(request, reply, { oldId: id, newId: found.redirectTo });
       }
-      return found;
+      return { ...found, openQuestions: await openQuestionsAbout(db, found.id) };
     },
   );
   done();

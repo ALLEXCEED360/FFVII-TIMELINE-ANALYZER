@@ -1,0 +1,73 @@
+# Open questions (docs/canon-and-sources.md §4): facts in data/ that still need a stronger check,
+# and things not yet verified well enough to add. Settle each by checking the game or footage,
+# then delete it. Questions about an entity or world are shown on its page.
+
+- id: question_aerith_death_rebirth_visuals
+  kind: needs_footage
+  summary: How Rebirth shows Aerith's death (chapter 14)
+  details: >-
+    Cloud appearing to block Sephiroth's blade before the scene resolves into her death, the
+    funeral at the pool, and Cloud seeing Aerith afterwards while Tifa does not all rest on the
+    transcript's stage directions, not dialogue.
+  entities: [event_aerith_death]
+  sources: [{ title: rebirth, chapter: 14 }]
+
+- id: question_aerith_funeral_og
+  kind: needs_footage
+  summary: Aerith's funeral in the original (opening of disc 2)
+  details: >-
+    Laid to rest in the water in the cinematic that opens disc 2. Located through a walkthrough's
+    screenshot caption only.
+  entities: [event_aerith_death]
+  sources: [{ title: og, disc: 2, segment: og_icicle_inn, scene: "the opening cinematic" }]
+
+- id: question_remake_ending_visuals
+  kind: needs_footage
+  summary: Zack's survival at the end of Remake
+  details: >-
+    Zack surviving the fight outside Midgar and carrying Cloud. The dialogue supports it; the
+    visuals haven't been checked.
+  worlds: [world_zack_survives]
+  sources: [{ title: remake, chapter: 18 }]
+
+- id: question_zack_last_stand
+  kind: not_in_dataset
+  summary: Zack's last stand, the branch point of the world where he survives
+  details: >-
+    The original shows his death only visually, in an optional flashback that becomes available
+    after "Inside Cloud's Mind"; the transcript has no dialogue that states it. Needs footage
+    before it can be added as an event and set as the world's branch point.
+  worlds: [world_zack_survives]
+
+- id: question_rebirth_arc_chapters
+  kind: not_in_dataset
+  summary: Which Rebirth chapters retell each arc
+  details: >-
+    The arcs list Remake's chapters for the Midgar arc only. Rebirth's chapter-to-arc mapping
+    needs a chapter-by-chapter check; the wiki transcript is incomplete for chapters 8 and 9.
+
+- id: question_rebirth_main_world_midgar
+  kind: not_in_dataset
+  summary: Rebirth's main-world view of the plate fall and Midgar
+  details: Only the interlude in the world where Zack survives is recorded so far.
+  entities: [event_sector_7_plate_fall]
+  sources: [{ title: rebirth, part: interlude }]
+
+- id: question_disc_2_3_boundary
+  kind: structure
+  summary: Where disc 2 ends in the original
+  details: >-
+    Placed after the Highwind scenes (the Highwind segment on disc 2), per a walkthrough. Confirm
+    in the game.
+
+- id: question_chapter_title_capitalization
+  kind: structure
+  summary: Capitalization of chapter titles
+  details: >-
+    Sources disagree on small words (for example "Deeper into Darkness" against "Deeper Into
+    Darkness"). Use the in-game spelling once checked.
+
+- id: question_eras
+  kind: structure
+  summary: The eras are provisional
+  details: The eras are display ranges for the timeline; revisit them as dated events are added.

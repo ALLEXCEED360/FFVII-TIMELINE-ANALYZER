@@ -2328,6 +2328,200 @@
                         ],
                         "additionalProperties": false
                       }
+                    },
+                    "openQuestions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "needs_footage",
+                              "not_in_dataset",
+                              "structure"
+                            ]
+                          },
+                          "summary": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "string"
+                          },
+                          "sources": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "enum": [
+                                        "og"
+                                      ]
+                                    },
+                                    "disc": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "maximum": 3
+                                    },
+                                    "segment": {
+                                      "type": "string",
+                                      "pattern": "^og_[a-z0-9]+(_[a-z0-9]+)*$"
+                                    },
+                                    "scene": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "optional": {
+                                      "type": "boolean",
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "title",
+                                    "disc",
+                                    "segment"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "enum": [
+                                        "remake",
+                                        "intermission",
+                                        "rebirth"
+                                      ]
+                                    },
+                                    "chapter": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "exclusiveMinimum": true,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "scene": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "optional": {
+                                      "type": "boolean",
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "title",
+                                    "chapter"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "enum": [
+                                        "remake",
+                                        "intermission",
+                                        "rebirth"
+                                      ]
+                                    },
+                                    "part": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "scene": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "optional": {
+                                      "type": "boolean",
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "title",
+                                    "part"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              ]
+                            },
+                            "description": "Where in the titles to look."
+                          },
+                          "entities": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "kind": {
+                                  "type": "string",
+                                  "enum": [
+                                    "character",
+                                    "event",
+                                    "location",
+                                    "organization"
+                                  ]
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "kind",
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "worlds": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "summary",
+                          "details",
+                          "sources",
+                          "entities",
+                          "worlds"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "description": "Research questions about this entity (facts awaiting a stronger check, gaps)."
                     }
                   },
                   "required": [
@@ -2341,7 +2535,8 @@
                     "event",
                     "appearances",
                     "differences",
-                    "relationships"
+                    "relationships",
+                    "openQuestions"
                   ],
                   "additionalProperties": false
                 }
@@ -6556,6 +6751,1166 @@
                   "required": [
                     "error",
                     "message"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sources": {
+      "get": {
+        "summary": "Every unit of every title, with how many citations point into it",
+        "tags": [
+          "archive"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "titles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "enum": [
+                              "og",
+                              "remake",
+                              "intermission",
+                              "rebirth"
+                            ]
+                          },
+                          "units": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "key": {
+                                  "type": "string",
+                                  "description": "The original's segment ID, a chapter number, or a part's key."
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "disc": {
+                                  "nullable": true,
+                                  "description": "The original's disc; null for chaptered titles.",
+                                  "type": "number"
+                                },
+                                "position": {
+                                  "type": "number"
+                                },
+                                "citations": {
+                                  "type": "number"
+                                },
+                                "subjects": {
+                                  "type": "number",
+                                  "description": "Distinct entities and worlds cited."
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "name",
+                                "disc",
+                                "position",
+                                "citations",
+                                "subjects"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "units"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "titles"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sources/{title}/{unit}": {
+      "get": {
+        "summary": "One unit of a title (segment, chapter or part) and every fact that cites it",
+        "tags": [
+          "archive"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "og",
+                "remake",
+                "intermission",
+                "rebirth"
+              ]
+            },
+            "in": "path",
+            "name": "title",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "in": "path",
+            "name": "unit",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "enum": [
+                        "og",
+                        "remake",
+                        "intermission",
+                        "rebirth"
+                      ]
+                    },
+                    "unit": {
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string",
+                          "description": "The original's segment ID, a chapter number, or a part's key."
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "disc": {
+                          "nullable": true,
+                          "description": "The original's disc; null for chaptered titles.",
+                          "type": "number"
+                        },
+                        "position": {
+                          "type": "number"
+                        },
+                        "summary": {
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "name",
+                        "disc",
+                        "position",
+                        "summary"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "previous": {
+                      "nullable": true,
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string",
+                          "description": "The original's segment ID, a chapter number, or a part's key."
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "disc": {
+                          "nullable": true,
+                          "description": "The original's disc; null for chaptered titles.",
+                          "type": "number"
+                        },
+                        "position": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "name",
+                        "disc",
+                        "position"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "next": {
+                      "nullable": true,
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string",
+                          "description": "The original's segment ID, a chapter number, or a part's key."
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "disc": {
+                          "nullable": true,
+                          "description": "The original's disc; null for chaptered titles.",
+                          "type": "number"
+                        },
+                        "position": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "name",
+                        "disc",
+                        "position"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "appearances": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "entity": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "character",
+                                  "event",
+                                  "location",
+                                  "organization"
+                                ]
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "kind",
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "world": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "depicted",
+                              "referenced",
+                              "omitted"
+                            ]
+                          },
+                          "role": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "summary": {
+                            "type": "string"
+                          },
+                          "certainty": {
+                            "type": "string",
+                            "enum": [
+                              "stated",
+                              "inferred",
+                              "ambiguous"
+                            ]
+                          },
+                          "cited": {
+                            "type": "boolean",
+                            "description": "The appearance's own sources cite this unit."
+                          },
+                          "depictions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "framing": {
+                                  "type": "string",
+                                  "enum": [
+                                    "direct",
+                                    "flashback",
+                                    "false_account",
+                                    "disputed_account",
+                                    "vision",
+                                    "mention",
+                                    "glimpse"
+                                  ]
+                                },
+                                "note": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "framing",
+                                "note"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "description": "Depictions set in this unit."
+                          },
+                          "scenes": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Scenes named by the citations."
+                          }
+                        },
+                        "required": [
+                          "entity",
+                          "world",
+                          "status",
+                          "role",
+                          "summary",
+                          "certainty",
+                          "cited",
+                          "depictions",
+                          "scenes"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "differences": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "entity": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "character",
+                                  "event",
+                                  "location",
+                                  "organization"
+                                ]
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "kind",
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "from": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string",
+                                "enum": [
+                                  "og",
+                                  "remake",
+                                  "intermission",
+                                  "rebirth"
+                                ]
+                              },
+                              "world": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "title",
+                              "world"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "to": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string",
+                                "enum": [
+                                  "og",
+                                  "remake",
+                                  "intermission",
+                                  "rebirth"
+                                ]
+                              },
+                              "world": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "title",
+                              "world"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "category": {
+                            "type": "string",
+                            "enum": [
+                              "presentation",
+                              "participants",
+                              "setting",
+                              "chronology",
+                              "outcome",
+                              "role",
+                              "relationship",
+                              "context",
+                              "gameplay"
+                            ]
+                          },
+                          "magnitude": {
+                            "type": "string",
+                            "enum": [
+                              "minor",
+                              "major"
+                            ]
+                          },
+                          "summary": {
+                            "type": "string"
+                          },
+                          "certainty": {
+                            "type": "string",
+                            "enum": [
+                              "stated",
+                              "inferred",
+                              "ambiguous"
+                            ]
+                          },
+                          "scenes": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Scenes named by the citations."
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "entity",
+                          "from",
+                          "to",
+                          "category",
+                          "magnitude",
+                          "summary",
+                          "certainty",
+                          "scenes"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "relationships": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "parent_of",
+                              "sibling_of",
+                              "spouse_of",
+                              "member_of",
+                              "leads",
+                              "part_of",
+                              "hometown",
+                              "lives_in",
+                              "based_at",
+                              "controls",
+                              "participated_in",
+                              "occurred_at",
+                              "sub_event_of",
+                              "killed",
+                              "caused",
+                              "experimented_on",
+                              "acted_through"
+                            ]
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "character",
+                                  "event",
+                                  "location",
+                                  "organization"
+                                ]
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "kind",
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "target": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "character",
+                                  "event",
+                                  "location",
+                                  "organization"
+                                ]
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "kind",
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "world": {
+                            "type": "string"
+                          },
+                          "certainty": {
+                            "type": "string",
+                            "enum": [
+                              "stated",
+                              "inferred",
+                              "ambiguous"
+                            ]
+                          },
+                          "scenes": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Scenes named by the citations."
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "label",
+                          "source",
+                          "target",
+                          "world",
+                          "certainty",
+                          "scenes"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "worlds": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "certainty": {
+                            "type": "string",
+                            "enum": [
+                              "stated",
+                              "inferred",
+                              "ambiguous"
+                            ]
+                          },
+                          "scenes": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Scenes named by the citations."
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "certainty",
+                          "scenes"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "unit",
+                    "previous",
+                    "next",
+                    "appearances",
+                    "differences",
+                    "relationships",
+                    "worlds"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "message"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/research": {
+      "get": {
+        "summary": "The research log: sources used, open questions, and facts by certainty",
+        "tags": [
+          "archive"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "play",
+                              "footage",
+                              "transcript",
+                              "walkthrough",
+                              "chapter_list",
+                              "press"
+                            ]
+                          },
+                          "role": {
+                            "type": "string",
+                            "enum": [
+                              "evidence",
+                              "locating"
+                            ]
+                          },
+                          "covers": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "og",
+                                "remake",
+                                "intermission",
+                                "rebirth"
+                              ]
+                            }
+                          },
+                          "usedFor": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "accessed": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "notes": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "kind",
+                          "role",
+                          "covers",
+                          "usedFor",
+                          "url",
+                          "accessed",
+                          "notes"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "questions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "needs_footage",
+                              "not_in_dataset",
+                              "structure"
+                            ]
+                          },
+                          "summary": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "string"
+                          },
+                          "sources": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "enum": [
+                                        "og"
+                                      ]
+                                    },
+                                    "disc": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "maximum": 3
+                                    },
+                                    "segment": {
+                                      "type": "string",
+                                      "pattern": "^og_[a-z0-9]+(_[a-z0-9]+)*$"
+                                    },
+                                    "scene": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "optional": {
+                                      "type": "boolean",
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "title",
+                                    "disc",
+                                    "segment"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "enum": [
+                                        "remake",
+                                        "intermission",
+                                        "rebirth"
+                                      ]
+                                    },
+                                    "chapter": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "exclusiveMinimum": true,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "scene": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "optional": {
+                                      "type": "boolean",
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "title",
+                                    "chapter"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "enum": [
+                                        "remake",
+                                        "intermission",
+                                        "rebirth"
+                                      ]
+                                    },
+                                    "part": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "scene": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "optional": {
+                                      "type": "boolean",
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "title",
+                                    "part"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              ]
+                            },
+                            "description": "Where in the titles to look."
+                          },
+                          "entities": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "kind": {
+                                  "type": "string",
+                                  "enum": [
+                                    "character",
+                                    "event",
+                                    "location",
+                                    "organization"
+                                  ]
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "kind",
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "worlds": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "summary",
+                          "details",
+                          "sources",
+                          "entities",
+                          "worlds"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "certainty": {
+                      "type": "object",
+                      "properties": {
+                        "stated": {
+                          "type": "number"
+                        },
+                        "inferred": {
+                          "type": "number"
+                        },
+                        "ambiguous": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "stated",
+                        "inferred",
+                        "ambiguous"
+                      ],
+                      "additionalProperties": false,
+                      "description": "Facts by certainty: appearances, differences, relationships per title, worlds."
+                    },
+                    "interpretations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "appearance",
+                              "difference",
+                              "relationship",
+                              "world"
+                            ]
+                          },
+                          "certainty": {
+                            "type": "string",
+                            "enum": [
+                              "inferred",
+                              "ambiguous"
+                            ]
+                          },
+                          "notes": {
+                            "type": "string"
+                          },
+                          "subject": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "kind": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "kind"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "titles": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "og",
+                                "remake",
+                                "intermission",
+                                "rebirth"
+                              ]
+                            }
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "sources": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "enum": [
+                                        "og"
+                                      ]
+                                    },
+                                    "disc": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "maximum": 3
+                                    },
+                                    "segment": {
+                                      "type": "string",
+                                      "pattern": "^og_[a-z0-9]+(_[a-z0-9]+)*$"
+                                    },
+                                    "scene": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "optional": {
+                                      "type": "boolean",
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "title",
+                                    "disc",
+                                    "segment"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "enum": [
+                                        "remake",
+                                        "intermission",
+                                        "rebirth"
+                                      ]
+                                    },
+                                    "chapter": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "exclusiveMinimum": true,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "scene": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "optional": {
+                                      "type": "boolean",
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "title",
+                                    "chapter"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "enum": [
+                                        "remake",
+                                        "intermission",
+                                        "rebirth"
+                                      ]
+                                    },
+                                    "part": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "scene": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "optional": {
+                                      "type": "boolean",
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "title",
+                                    "part"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "certainty",
+                          "notes",
+                          "subject",
+                          "titles",
+                          "label",
+                          "sources"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "description": "Facts that are inferred or ambiguous, with the notes that explain them."
+                    }
+                  },
+                  "required": [
+                    "sources",
+                    "questions",
+                    "certainty",
+                    "interpretations"
                   ],
                   "additionalProperties": false
                 }

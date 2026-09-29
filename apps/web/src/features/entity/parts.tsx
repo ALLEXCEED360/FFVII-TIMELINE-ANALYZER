@@ -6,6 +6,7 @@ import {
 } from "@ffvii/shared/labels";
 import { Link } from "react-router";
 import type { Appearance, Difference, Reference, TitleCode } from "../../api/client";
+import { Citation, Citations } from "../../components/Citation";
 import { describeLocator, titleShort, worldName } from "../../lib/reference";
 import { entityPath } from "../../lib/paths";
 import { TITLE_COLOR } from "../../lib/titles";
@@ -26,6 +27,9 @@ export function AppearanceCard({
   compact?: boolean;
 }) {
   const Heading = headingLevel === 3 ? "h3" : "h4";
+  // Citations not already given as a depiction's place.
+  const shown = new Set(appearance.depictions.map((d) => describeLocator(reference, d.locator)));
+  const alsoCited = appearance.sources.filter((s) => !shown.has(describeLocator(reference, s)));
   return (
     <article
       className="rounded border border-night-700 border-l-2 bg-night-950/40 p-3"
@@ -59,14 +63,18 @@ export function AppearanceCard({
         <ul className="mt-2 flex flex-col gap-1" aria-label="Where it's shown">
           {appearance.depictions.map((d, i) => (
             <li key={i} className="flex flex-wrap gap-x-2 text-xs">
-              <span className="font-mono text-steel-400">
-                {describeLocator(reference, d.locator)}
-              </span>
+              <Citation locator={d.locator} reference={reference} />
               <span className="text-steel-300">{FRAMING_LABELS[d.framing]}</span>
               {d.note && <span className="text-steel-400">— {d.note}</span>}
             </li>
           ))}
         </ul>
+      )}
+      {alsoCited.length > 0 && (
+        <p className="mt-1 text-xs text-steel-400">
+          {appearance.depictions.length > 0 ? "Also cited: " : "Cited: "}
+          <Citations sources={alsoCited} reference={reference} />
+        </p>
       )}
       {appearance.notes && <p className="mt-2 text-xs text-steel-400 italic">{appearance.notes}</p>}
     </article>
@@ -110,6 +118,9 @@ export function DifferenceList({
             </p>
           )}
           {d.notes && <p className="mt-1 text-xs text-steel-400 italic">{d.notes}</p>}
+          <p className="mt-1 text-xs text-steel-400">
+            Sources: <Citations sources={d.sources} reference={reference} />
+          </p>
         </li>
       ))}
     </ul>

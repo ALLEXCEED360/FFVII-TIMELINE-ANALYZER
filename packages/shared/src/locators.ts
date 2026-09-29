@@ -57,6 +57,16 @@ export type Locator = z.infer<typeof LocatorSchema>;
 export const SourcesSchema = z.array(LocatorSchema).min(1, "cite at least one locator");
 
 /**
+ * The unit of a title a locator points into, as keyed in the reference data: the original's
+ * segment ID, a chapter number as text, or a part's key.
+ */
+export function unitOf(locator: Locator): { title: Locator["title"]; unit: string } {
+  if ("segment" in locator) return { title: locator.title, unit: locator.segment };
+  if ("chapter" in locator) return { title: locator.title, unit: String(locator.chapter) };
+  return { title: locator.title, unit: locator.part };
+}
+
+/**
  * A sortable play position within a title. For the original, pass the segment's index in play
  * order (from the segment list); chaptered titles place unnumbered parts just before their chapter.
  */

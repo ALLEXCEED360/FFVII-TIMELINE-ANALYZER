@@ -17,8 +17,12 @@ import metricsIntermission from "./metrics-intermission.json";
 import networkCloud from "./network-cloud.json";
 import pathCloudSephiroth from "./path-cloud-sephiroth.json";
 import reference from "./reference.json";
+import research from "./research.json";
 import searchAeris from "./search-aeris.json";
 import searchNibelheim from "./search-nibelheim.json";
+import sourceOgForgottenCapital from "./source-og-forgotten-capital.json";
+import sourceRebirth14 from "./source-rebirth-14.json";
+import sources from "./sources.json";
 import timeline from "./timeline.json";
 
 // Renders the app at a URL, with `fetch` answering from fixtures captured from the real API
@@ -42,6 +46,10 @@ const FIXTURES: Record<string, unknown> = {
   "/network/character_cloud_strife": networkCloud,
   "/network/path": pathCloudSephiroth,
   "/network/metrics": metricsIntermission,
+  "/sources": sources,
+  "/sources/rebirth/14": sourceRebirth14,
+  "/sources/og/og_forgotten_capital": sourceOgForgottenCapital,
+  "/research": research,
 };
 
 /** Search answers by query; anything else finds nothing. */

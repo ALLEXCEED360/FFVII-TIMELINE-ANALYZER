@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { useEntities, useReference } from "../api/queries";
+import { archiveTitlePath } from "../lib/paths";
 import { TITLE_COLOR } from "../lib/titles";
 
 /** The entry point (blueprint §20): what this is, what it covers, and where to start. */
@@ -44,7 +45,11 @@ export function HomePage() {
               className="panel border-t-2 p-4"
               style={{ borderTopColor: TITLE_COLOR[title.code] }}
             >
-              <p className="font-display text-lg font-semibold text-steel-100">{title.shortName}</p>
+              <p className="font-display text-lg font-semibold text-steel-100">
+                <Link to={archiveTitlePath(title.code)} className="hover:text-mako-300">
+                  {title.shortName}
+                </Link>
+              </p>
               <p className="text-sm text-steel-300">{title.name}</p>
               <p className="label mt-3">
                 {title.released.slice(0, 4)} ·{" "}

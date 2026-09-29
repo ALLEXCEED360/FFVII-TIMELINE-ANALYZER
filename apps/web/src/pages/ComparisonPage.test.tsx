@@ -38,11 +38,16 @@ describe("comparison page", () => {
     const section = await screen.findByRole("region", { name: /Documented differences/ });
     expect(within(section).getByRole("heading", { name: "Presentation" })).toBeTruthy();
     expect(within(section).getByRole("heading", { name: "Context" })).toBeTruthy();
-    expect(
-      within(section).getAllByText(
-        /Sources: OG · Disc 1 · The Forgotten Capital; Rebirth · Ch\. 14/,
-      ),
-    ).toHaveLength(2);
+    // Each difference cites both sides, linked to their place in the archive.
+    const og = within(section).getAllByRole("link", {
+      name: "OG · Disc 1 · The Forgotten Capital",
+    });
+    const rebirth = within(section).getAllByRole("link", { name: "Rebirth · Ch. 14" });
+    expect(og.map((l) => l.getAttribute("href"))).toEqual([
+      "/archive/og/forgotten-capital",
+      "/archive/og/forgotten-capital",
+    ]);
+    expect(rebirth).toHaveLength(2);
   });
 
   it("marks a connection version-specific only where a title depicts both ends", async () => {

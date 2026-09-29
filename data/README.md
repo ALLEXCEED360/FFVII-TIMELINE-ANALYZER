@@ -18,6 +18,9 @@ data/
 │   ├── arcs.yaml          project-defined story arcs
 │   ├── eras.yaml          the timeline's eras
 │   └── worlds.yaml        in-story worlds
+├── research/
+│   ├── sources.yaml         every source used to find or check facts
+│   └── open-questions.yaml  facts awaiting a stronger check, and gaps
 └── id-redirects.yaml      retired IDs
 ```
 

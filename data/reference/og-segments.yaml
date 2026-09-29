@@ -2,7 +2,7 @@
 # Main-story progression only: optional content (Wutai, Fort Condor's first visit, Lucrecia's
 # cave, optional flashbacks) is cited by the segment in which it becomes available, with
 # `optional: true` on the locator. Disc boundaries: disc 1 ends with Aerith's death; disc 2 ends
-# after the talk aboard the Highwind. See docs/research/source-log.md.
+# after the talk aboard the Highwind. See data/research/sources.yaml.
 
 # ── Disc 1 ──────────────────────────────────────────────────────────────────
 - id: og_reactor_1

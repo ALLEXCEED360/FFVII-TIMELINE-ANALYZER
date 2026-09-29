@@ -10,5 +10,6 @@ export * from "./ids.ts";
 export * from "./labels.ts";
 export * from "./locators.ts";
 export * from "./reference.ts";
+export * from "./research.ts";
 export * from "./status.ts";
 export * from "./titles.ts";

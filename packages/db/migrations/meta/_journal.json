@@ -15,6 +15,13 @@
       "when": 1790573948021,
       "tag": "0001_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790656998011,
+      "tag": "0002_research",
+      "breakpoints": true
     }
   ]
 }

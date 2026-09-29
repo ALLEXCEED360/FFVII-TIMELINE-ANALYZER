@@ -1,0 +1,89 @@
+# The research log (docs/canon-and-sources.md §4): every source used to find or check the facts in
+# data/. Facts cite the games themselves; these are how the citations were checked. Add a source
+# here whenever you use a new one. Evidence is play, footage or a transcript; anything else may
+# only be used to find where something happens.
+
+- id: src_wiki_og_script
+  name: Final Fantasy Wiki — Final Fantasy VII script
+  kind: transcript
+  role: evidence
+  covers: [og]
+  usedFor: Checking dialogue and on-screen text, and the order of the original's story segments.
+  url: https://finalfantasy.fandom.com/wiki/Final_Fantasy_VII_script
+  accessed: 2026-09-27
+  notes: >-
+    A full transcript of the original PlayStation release. Its stage directions are fan
+    descriptions of what is shown, so facts that rest on them wait for a footage check.
+
+- id: src_wiki_remake_script
+  name: Final Fantasy Wiki — Final Fantasy VII Remake script
+  kind: transcript
+  role: evidence
+  covers: [remake, intermission]
+  usedFor: Checking dialogue and on-screen text, and chapter titles. Includes Episode INTERmission.
+  url: https://finalfantasy.fandom.com/wiki/Final_Fantasy_VII_Remake_script
+  accessed: 2026-09-27
+
+- id: src_wiki_rebirth_script
+  name: Final Fantasy Wiki — Final Fantasy VII Rebirth script
+  kind: transcript
+  role: evidence
+  covers: [rebirth]
+  usedFor: Checking dialogue, and stage directions for scenes that are mostly visual.
+  url: https://finalfantasy.fandom.com/wiki/Final_Fantasy_VII_Rebirth_script
+  accessed: 2026-09-27
+  notes: Incomplete when accessed — chapter 8 was empty and chapter 9 thin.
+
+- id: src_yinza_og_script
+  name: Yinza — Final Fantasy VII Complete Script (index)
+  kind: transcript
+  role: locating
+  covers: [og]
+  usedFor: The original's scene order (48 sections), cross-checked with the wiki transcript.
+  url: https://www.yinza.com/Fandom/Script.html
+  accessed: 2026-09-27
+
+- id: src_jegged_og_walkthrough
+  name: Jegged — Final Fantasy VII walkthrough, disc indexes
+  kind: walkthrough
+  role: locating
+  covers: [og]
+  usedFor: >-
+    Disc boundaries: disc 1 ends with Aerith's death; disc 2 opens with her funeral and ends after
+    the Highwind scenes that follow the Hojo battle.
+  url: https://jegged.com/Games/Final-Fantasy-VII/Walkthrough/Disc-1/
+  accessed: 2026-09-27
+
+- id: src_gamepressure_remake_chapters
+  name: Gamepressure — Final Fantasy VII Remake chapter list
+  kind: chapter_list
+  role: locating
+  covers: [remake]
+  usedFor: Chapter titles, cross-checked against the wiki transcript's headings.
+  url: https://www.gamepressure.com/final-fantasy-vii-remake/list-of-all-chapters/z5d278
+  accessed: 2026-09-27
+
+- id: src_game8_intermission_chapters
+  name: Game8 — Episode INTERmission chapters
+  kind: chapter_list
+  role: locating
+  covers: [intermission]
+  usedFor: Chapter titles, cross-checked against the wiki transcript's headings.
+  url: https://game8.co/games/FF7-Remake/archives/333282
+  accessed: 2026-09-27
+
+- id: src_gamerant_rebirth_chapters
+  name: Game Rant — Final Fantasy VII Rebirth chapter list
+  kind: chapter_list
+  role: locating
+  covers: [rebirth]
+  usedFor: Chapter titles and the unnumbered interlude, cross-checked with Game8 and the transcript.
+  url: https://gamerant.com/ff7-final-fantasy-vii-rebirth-chapter-list-all-chapters/
+  accessed: 2026-09-27
+
+- id: src_square_enix_revelation
+  name: Square Enix press release — Final Fantasy VII Revelation announced
+  kind: press
+  role: locating
+  usedFor: Revelation as the final part of the Remake series, due in Spring 2027 (future content).
+  accessed: 2026-09-27

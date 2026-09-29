@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "$ref": "#/$defs/__schema0"
+      },
+      "name": {
+        "$ref": "#/$defs/__schema1"
+      },
+      "kind": {
+        "$ref": "#/$defs/__schema2"
+      },
+      "role": {
+        "$ref": "#/$defs/__schema3"
+      },
+      "covers": {
+        "$ref": "#/$defs/__schema4"
+      },
+      "usedFor": {
+        "$ref": "#/$defs/__schema6"
+      },
+      "url": {
+        "$ref": "#/$defs/__schema7"
+      },
+      "accessed": {
+        "$ref": "#/$defs/__schema8"
+      },
+      "notes": {
+        "$ref": "#/$defs/__schema9"
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "kind",
+      "role",
+      "usedFor"
+    ],
+    "additionalProperties": false
+  },
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "pattern": "^src_[a-z0-9]+(_[a-z0-9]+)*$"
+    },
+    "__schema1": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema2": {
+      "type": "string",
+      "enum": [
+        "play",
+        "footage",
+        "transcript",
+        "walkthrough",
+        "chapter_list",
+        "press"
+      ]
+    },
+    "__schema3": {
+      "type": "string",
+      "enum": [
+        "evidence",
+        "locating"
+      ]
+    },
+    "__schema4": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema5"
+      }
+    },
+    "__schema5": {
+      "type": "string",
+      "enum": [
+        "og",
+        "remake",
+        "intermission",
+        "rebirth"
+      ]
+    },
+    "__schema6": {
+      "type": "string",
+      "minLength": 1
+    },
+    "__schema7": {
+      "type": "string",
+      "format": "uri"
+    },
+    "__schema8": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+    },
+    "__schema9": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

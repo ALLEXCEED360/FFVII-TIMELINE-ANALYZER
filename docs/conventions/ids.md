@@ -41,12 +41,14 @@ Pattern (enforced by the Phase 1 schema):
 
 Some things are fixed lists rather than entities. They are not nodes in the graph and use their own formats:
 
-| Thing                  | Format         | Examples                                  | Defined in                      |
-| ---------------------- | -------------- | ----------------------------------------- | ------------------------------- |
-| Title                  | short code     | `og`, `remake`, `intermission`, `rebirth` | `model/titles-and-worlds.md` §2 |
-| In-story world         | `world_<slug>` | `world_main`                              | `model/titles-and-worlds.md` §3 |
-| Original story segment | `og_<slug>`    | `og_midgar`, `og_kalm`                    | `data/reference/` (Phase 1)     |
-| Era                    | `era_<slug>`   | `era_main_story`                          | `model/chronology.md` §6        |
+| Thing                  | Format            | Examples                                  | Defined in                          |
+| ---------------------- | ----------------- | ----------------------------------------- | ----------------------------------- |
+| Title                  | short code        | `og`, `remake`, `intermission`, `rebirth` | `model/titles-and-worlds.md` §2     |
+| In-story world         | `world_<slug>`    | `world_main`                              | `model/titles-and-worlds.md` §3     |
+| Original story segment | `og_<slug>`       | `og_midgar`, `og_kalm`                    | `data/reference/` (Phase 1)         |
+| Era                    | `era_<slug>`      | `era_main_story`                          | `model/chronology.md` §6            |
+| Research source        | `src_<slug>`      | `src_wiki_og_script`                      | `data/research/sources.yaml`        |
+| Open question          | `question_<slug>` | `question_zack_last_stand`                | `data/research/open-questions.yaml` |
 
 ## 3. Kind boundaries
 
