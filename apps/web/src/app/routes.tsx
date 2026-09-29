@@ -18,6 +18,15 @@ export const routes: RouteObject[] = [
         path: "explore",
         lazy: () => import("../pages/ExplorePage").then((m) => ({ Component: m.ExplorePage })),
       },
+      {
+        path: "compare",
+        lazy: () => import("../pages/ComparePage").then((m) => ({ Component: m.ComparePage })),
+      },
+      {
+        path: "compare/:kind/:slug",
+        lazy: () =>
+          import("../pages/ComparisonPage").then((m) => ({ Component: m.ComparisonPage })),
+      },
       // /character/cloud-strife, /event/nibelheim-incident, … (unknown kinds show "not found").
       {
         path: ":kind/:slug",

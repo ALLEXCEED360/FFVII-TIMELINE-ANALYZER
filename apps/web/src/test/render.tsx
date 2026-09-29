@@ -3,6 +3,11 @@ import { render } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router";
 import { vi } from "vitest";
 import { routes } from "../app/routes";
+import compareAerithDeath from "./compare-aerith-death.json";
+import compareMemories from "./compare-memories.json";
+import compareSector7 from "./compare-sector-7.json";
+import compareTifa from "./compare-tifa.json";
+import differences from "./differences.json";
 import entities from "./entities.json";
 import entityAerithDeath from "./entity-aerith-death.json";
 import entityCloudStrife from "./entity-cloud-strife.json";
@@ -22,6 +27,11 @@ const FIXTURES: Record<string, unknown> = {
   "/entities": entities,
   "/entities/event_aerith_death": entityAerithDeath,
   "/entities/character_cloud_strife": entityCloudStrife,
+  "/compare/event_aerith_death": compareAerithDeath,
+  "/compare/event_cloud_memories_restored": compareMemories,
+  "/compare/character_tifa_lockhart": compareTifa,
+  "/compare/location_sector_7": compareSector7,
+  "/differences": differences,
 };
 
 /** Search answers by query; anything else finds nothing. */

@@ -34,7 +34,14 @@ const Comparison = z.object({
     .array(Difference)
     .describe("Only those with both sides among the compared titles."),
   relationships: z.array(
-    Relationship.extend({ shared: z.boolean().describe("Every compared title establishes it.") }),
+    Relationship.extend({
+      applicable: z
+        .array(TitleCodeSchema)
+        .describe(
+          "Compared titles that show both ends of the relationship — the only titles that could establish it.",
+        ),
+      shared: z.boolean().describe("Every applicable title establishes it."),
+    }),
   ),
 });
 

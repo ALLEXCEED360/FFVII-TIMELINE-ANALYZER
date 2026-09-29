@@ -132,6 +132,7 @@
     color: var(--color-mako-300);
   }
   .btn[aria-pressed="true"],
+  .btn[aria-selected="true"],
   .btn[aria-current="page"] {
     border-color: var(--color-mako-400);
     background: color-mix(in oklab, var(--color-mako-900) 70%, transparent);

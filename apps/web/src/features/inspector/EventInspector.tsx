@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import type { EntityDetail, Reference } from "../../api/client";
 import { useEntity } from "../../api/queries";
 import { ErrorMessage, Loading } from "../../components/QueryState";
-import { entityPath } from "../../lib/paths";
+import { comparePath, entityPath } from "../../lib/paths";
 import { describeLocator } from "../../lib/reference";
 import { AppearanceCard, DifferenceList, TitleDots } from "../entity/parts";
 
@@ -27,6 +27,9 @@ export function EventInspector({
       <div className="flex items-center justify-between gap-3">
         <span className="label">Inspector</span>
         <div className="flex items-center gap-1.5">
+          <Link to={comparePath(id)} className="btn px-2 py-0.5">
+            Compare
+          </Link>
           <Link to={entityPath(id)} className="btn px-2 py-0.5">
             Open page
           </Link>

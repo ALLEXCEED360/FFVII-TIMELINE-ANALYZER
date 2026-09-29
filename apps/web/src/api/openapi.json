@@ -5116,9 +5116,22 @@
                               "additionalProperties": false
                             }
                           },
+                          "applicable": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "og",
+                                "remake",
+                                "intermission",
+                                "rebirth"
+                              ]
+                            },
+                            "description": "Compared titles that show both ends of the relationship — the only titles that could establish it."
+                          },
                           "shared": {
                             "type": "boolean",
-                            "description": "Every compared title establishes it."
+                            "description": "Every applicable title establishes it."
                           }
                         },
                         "required": [
@@ -5132,6 +5145,7 @@
                           "from",
                           "until",
                           "titles",
+                          "applicable",
                           "shared"
                         ],
                         "additionalProperties": false

@@ -1,0 +1,275 @@
+{
+  "entity": {
+    "id": "event_aerith_death",
+    "kind": "event",
+    "name": "Death of Aerith",
+    "aliases": [],
+    "summary": "Sephiroth kills Aerith as she prays at the altar in the Forgotten Capital.",
+    "notes": null,
+    "ogSegmentId": "og_forgotten_capital",
+    "event": {
+      "when": { "year": 0 },
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "seq": 30,
+      "importance": 3,
+      "arc": { "id": "arc_the_promised_land", "name": "The Promised Land" }
+    }
+  },
+  "isNew": false,
+  "columns": [
+    {
+      "title": "og",
+      "status": "depicted",
+      "changed": false,
+      "appearance": {
+        "title": "og",
+        "world": "world_main",
+        "status": "depicted",
+        "summary": "Aerith prays at the altar. Cloud, no longer in control of himself, moves against her until the others stop him; then Sephiroth descends and kills her. The party lays her to rest in the water.",
+        "role": null,
+        "when": null,
+        "playPosition": 23,
+        "sources": [
+          {
+            "title": "og",
+            "disc": 1,
+            "segment": "og_forgotten_capital",
+            "scene": "the water altar; Cloud's speech afterwards"
+          },
+          { "title": "og", "disc": 2, "segment": "og_icicle_inn", "scene": "the opening cinematic" }
+        ],
+        "certainty": "stated",
+        "notes": null,
+        "depictions": [
+          {
+            "locator": { "title": "og", "disc": 1, "segment": "og_forgotten_capital" },
+            "framing": "direct",
+            "seq": null,
+            "isPrimary": true,
+            "note": null,
+            "playPosition": 23
+          },
+          {
+            "locator": { "title": "og", "disc": 2, "segment": "og_icicle_inn" },
+            "framing": "direct",
+            "seq": null,
+            "isPrimary": false,
+            "note": "laid to rest in the water, opening the second disc",
+            "playPosition": 24
+          }
+        ]
+      },
+      "otherWorlds": []
+    },
+    {
+      "title": "remake",
+      "status": "absent",
+      "changed": false,
+      "appearance": null,
+      "otherWorlds": []
+    },
+    {
+      "title": "rebirth",
+      "status": "depicted",
+      "changed": true,
+      "appearance": {
+        "title": "rebirth",
+        "world": "world_main",
+        "status": "depicted",
+        "summary": "At the altar, Cloud appears to block Sephiroth's blade, before the scene resolves into Sephiroth killing Aerith. After she is laid to rest in the pool, Cloud goes on seeing and speaking with her; Tifa does not see her.",
+        "role": null,
+        "when": null,
+        "playPosition": 14,
+        "sources": [
+          {
+            "title": "rebirth",
+            "chapter": 14,
+            "scene": "the altar, the funeral at the pool, the departure"
+          }
+        ],
+        "certainty": "ambiguous",
+        "notes": "Rebirth shows two outcomes at the altar and then shows Cloud perceiving Aerith when others don't; it doesn't say which perception is real. Visual details here come from transcript stage directions and still need checking against footage.",
+        "depictions": [
+          {
+            "locator": { "title": "rebirth", "chapter": 14 },
+            "framing": "direct",
+            "seq": null,
+            "isPrimary": true,
+            "note": null,
+            "playPosition": 14
+          }
+        ]
+      },
+      "otherWorlds": []
+    }
+  ],
+  "differences": [
+    {
+      "id": "event_aerith_death:after_death",
+      "key": "after_death",
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "rebirth", "world": "world_main" },
+      "category": "context",
+      "magnitude": "major",
+      "summary": "In OG, Cloud mourns that Aerith will no longer talk or laugh; in Rebirth, Cloud goes on seeing and hearing her after her funeral, while Tifa does not.",
+      "sources": [
+        {
+          "title": "og",
+          "disc": 1,
+          "segment": "og_forgotten_capital",
+          "scene": "Cloud's words to Sephiroth"
+        },
+        { "title": "rebirth", "chapter": 14, "scene": "leaving the Forgotten Capital" }
+      ],
+      "certainty": "ambiguous",
+      "notes": "Rebirth doesn't explain what Cloud is seeing.",
+      "related": [
+        { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
+        { "id": "character_tifa_lockhart", "kind": "character", "name": "Tifa Lockhart" }
+      ]
+    },
+    {
+      "id": "event_aerith_death:blocked_blade",
+      "key": "blocked_blade",
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "rebirth", "world": "world_main" },
+      "category": "presentation",
+      "magnitude": "major",
+      "summary": "In OG, Sephiroth's strike is shown once; in Rebirth, Cloud first appears to deflect it before the scene shows Sephiroth killing Aerith.",
+      "sources": [
+        { "title": "og", "disc": 1, "segment": "og_forgotten_capital" },
+        { "title": "rebirth", "chapter": 14 }
+      ],
+      "certainty": "ambiguous",
+      "notes": "Which of Rebirth's two outcomes is real is left open.",
+      "related": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "edge_3e791cf6eeebd635",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "in",
+      "label": "participant",
+      "other": {
+        "id": "character_aerith_gainsborough",
+        "kind": "character",
+        "name": "Aerith Gainsborough"
+      },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "sources": [{ "title": "rebirth", "chapter": 14 }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og", "rebirth"],
+      "shared": true
+    },
+    {
+      "id": "edge_2510df55b395330c",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "in",
+      "label": "participant",
+      "other": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "sources": [{ "title": "rebirth", "chapter": 14 }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og", "rebirth"],
+      "shared": true
+    },
+    {
+      "id": "edge_e0f7d7c8b5e09d63",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "in",
+      "label": "participant",
+      "other": { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "sources": [{ "title": "rebirth", "chapter": 14 }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og", "rebirth"],
+      "shared": true
+    },
+    {
+      "id": "edge_701b23f90b238e3c",
+      "type": "occurred_at",
+      "category": "event",
+      "direction": "out",
+      "label": "took place at",
+      "other": {
+        "id": "location_forgotten_capital",
+        "kind": "location",
+        "name": "Forgotten Capital"
+      },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "sources": [{ "title": "rebirth", "chapter": 14 }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og", "rebirth"],
+      "shared": true
+    }
+  ]
+}

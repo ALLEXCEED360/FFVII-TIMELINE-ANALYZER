@@ -1,0 +1,118 @@
+{
+  "entity": {
+    "id": "event_cloud_memories_restored",
+    "kind": "event",
+    "name": "Cloud's Memories Restored",
+    "aliases": [],
+    "summary": "In the Lifestream, Cloud recovers his true memories of the past five years.",
+    "notes": null,
+    "ogSegmentId": "og_inside_clouds_mind",
+    "event": {
+      "when": { "year": 0 },
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "seq": 40,
+      "importance": 3,
+      "arc": { "id": "arc_the_lifestream", "name": "The Lifestream" }
+    }
+  },
+  "isNew": false,
+  "columns": [
+    {
+      "title": "og",
+      "status": "depicted",
+      "changed": false,
+      "appearance": {
+        "title": "og",
+        "world": "world_main",
+        "status": "depicted",
+        "summary": "Inside Cloud's mind in the Lifestream at Mideel, Tifa helps him piece together what really happened: he never made it into SOLDIER, and it was Zack who came to Nibelheim with Sephiroth. Cloud accepts who he is.",
+        "role": null,
+        "when": null,
+        "playPosition": 30,
+        "sources": [
+          {
+            "title": "og",
+            "disc": 2,
+            "segment": "og_inside_clouds_mind",
+            "scene": "Searching for the you of that day"
+          }
+        ],
+        "certainty": "stated",
+        "notes": null,
+        "depictions": [
+          {
+            "locator": { "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" },
+            "framing": "direct",
+            "seq": null,
+            "isPrimary": true,
+            "note": null,
+            "playPosition": 30
+          }
+        ]
+      },
+      "otherWorlds": []
+    },
+    {
+      "title": "remake",
+      "status": "not_yet_reached",
+      "changed": false,
+      "appearance": null,
+      "otherWorlds": []
+    },
+    {
+      "title": "rebirth",
+      "status": "not_yet_reached",
+      "changed": false,
+      "appearance": null,
+      "otherWorlds": []
+    }
+  ],
+  "differences": [],
+  "relationships": [
+    {
+      "id": "edge_fc83d7ff276bc485",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "in",
+      "label": "participant",
+      "other": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og"],
+      "shared": true
+    },
+    {
+      "id": "edge_c685655ecbaeec48",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "in",
+      "label": "participant",
+      "other": { "id": "character_tifa_lockhart", "kind": "character", "name": "Tifa Lockhart" },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og"],
+      "shared": true
+    }
+  ]
+}

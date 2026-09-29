@@ -1,0 +1,202 @@
+{
+  "entity": {
+    "id": "character_tifa_lockhart",
+    "kind": "character",
+    "name": "Tifa Lockhart",
+    "aliases": [],
+    "summary": "Cloud's childhood friend from Nibelheim, who runs the Seventh Heaven bar in Sector 7.",
+    "notes": null,
+    "ogSegmentId": "og_seventh_heaven",
+    "event": null
+  },
+  "isNew": false,
+  "columns": [
+    {
+      "title": "og",
+      "status": "depicted",
+      "changed": false,
+      "appearance": {
+        "title": "og",
+        "world": "world_main",
+        "status": "depicted",
+        "summary": "Runs the bar where AVALANCHE has its hideout; later guides Cloud through his own memories in the Lifestream.",
+        "role": "Runs Seventh Heaven and fights with AVALANCHE; Cloud's childhood friend",
+        "when": null,
+        "playPosition": 1,
+        "sources": [
+          { "title": "og", "disc": 1, "segment": "og_seventh_heaven" },
+          {
+            "title": "og",
+            "disc": 1,
+            "segment": "og_sector_7_pillar",
+            "scene": "I have a bar called '7th Heaven'"
+          }
+        ],
+        "certainty": "stated",
+        "notes": null,
+        "depictions": [
+          {
+            "locator": { "title": "og", "disc": 1, "segment": "og_seventh_heaven" },
+            "framing": "direct",
+            "seq": null,
+            "isPrimary": true,
+            "note": null,
+            "playPosition": 1
+          }
+        ]
+      },
+      "otherWorlds": []
+    },
+    {
+      "title": "rebirth",
+      "status": "depicted",
+      "changed": false,
+      "appearance": {
+        "title": "rebirth",
+        "world": "world_main",
+        "status": "depicted",
+        "summary": "Doubts Cloud's story of Nibelheim, and is present at Aerith's death.",
+        "role": "Travels with Cloud; questions his account of Nibelheim",
+        "when": null,
+        "playPosition": 1,
+        "sources": [
+          { "title": "rebirth", "chapter": 1 },
+          { "title": "rebirth", "chapter": 14 }
+        ],
+        "certainty": "stated",
+        "notes": null,
+        "depictions": [
+          {
+            "locator": { "title": "rebirth", "chapter": 1 },
+            "framing": "direct",
+            "seq": null,
+            "isPrimary": true,
+            "note": null,
+            "playPosition": 1
+          }
+        ]
+      },
+      "otherWorlds": []
+    }
+  ],
+  "differences": [],
+  "relationships": [
+    {
+      "id": "edge_208b7fb77dc399f2",
+      "type": "hometown",
+      "category": "structural",
+      "direction": "out",
+      "label": "from",
+      "other": { "id": "location_nibelheim", "kind": "location", "name": "Nibelheim" },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [
+            {
+              "title": "og",
+              "disc": 1,
+              "segment": "og_seventh_heaven",
+              "scene": "the flashback at the Nibelheim well"
+            }
+          ],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "sources": [{ "title": "rebirth", "chapter": 1, "scene": "Lockhart Residence" }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og", "rebirth"],
+      "shared": true
+    },
+    {
+      "id": "edge_c685655ecbaeec48",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "out",
+      "label": "took part in",
+      "other": {
+        "id": "event_cloud_memories_restored",
+        "kind": "event",
+        "name": "Cloud's Memories Restored"
+      },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og"],
+      "shared": true
+    },
+    {
+      "id": "edge_d2dc0103a14ef4b6",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "out",
+      "label": "took part in",
+      "other": {
+        "id": "event_sector_7_plate_fall",
+        "kind": "event",
+        "name": "Fall of the Sector 7 Plate"
+      },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_sector_7_pillar" }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og"],
+      "shared": true
+    },
+    {
+      "id": "edge_5c0493250af82dc4",
+      "type": "participated_in",
+      "category": "event",
+      "direction": "out",
+      "label": "took part in",
+      "other": { "id": "event_nibelheim_incident", "kind": "event", "name": "Nibelheim Incident" },
+      "attributes": { "role": "the party's guide to the reactor" },
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_kalm" }],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "sources": [{ "title": "rebirth", "chapter": 1 }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og", "rebirth"],
+      "shared": true
+    }
+  ]
+}

@@ -26,6 +26,11 @@ export function entityPath(id: string): string {
   return `/${kind}/${id.slice(kind.length + 1).replaceAll("_", "-")}`;
 }
 
+/** `/compare/character/cloud-strife` — the entity's comparison view. */
+export function comparePath(id: string): string {
+  return `/compare${entityPath(id)}`;
+}
+
 /** The entity ID a `/:kind/:slug` path names, or undefined if the path can't be one. */
 export function idFromPath(kind: string | undefined, slug: string | undefined): string | undefined {
   if (!isEntityKind(kind) || !slug || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return undefined;

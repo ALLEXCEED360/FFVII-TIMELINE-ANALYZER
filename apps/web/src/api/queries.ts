@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { type TitleCode, api, unwrap } from "./client";
+import { type DifferenceCategory, type TitleCode, api, unwrap } from "./client";
 
 // Server state (TanStack Query). The data only changes when the dataset is redeployed, so answers
 // are cached for the whole visit.
@@ -36,6 +36,47 @@ export function useSearch(q: string) {
     queryKey: ["search", query],
     queryFn: () => unwrap(api.GET("/search", { params: { query: { q: query, limit: 20 } } })),
     enabled: query.length > 0,
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function useComparison(id: string | undefined, titles: readonly TitleCode[]) {
+  const param = titles.join(",");
+  return useQuery({
+    queryKey: ["compare", id, param],
+    queryFn: () =>
+      unwrap(
+        api.GET("/compare/{id}", {
+          params: { path: { id: id ?? "" }, query: { titles: param } },
+        }),
+      ),
+    enabled: id !== undefined,
+    placeholderData: keepPreviousData,
+    retry: false,
+  });
+}
+
+export function useDifferences(filters: {
+  titles: readonly TitleCode[];
+  category?: DifferenceCategory | undefined;
+  magnitude?: "minor" | "major" | undefined;
+}) {
+  const titles = filters.titles.join(",");
+  const { category, magnitude } = filters;
+  return useQuery({
+    queryKey: ["differences", titles, category, magnitude],
+    queryFn: () =>
+      unwrap(
+        api.GET("/differences", {
+          params: {
+            query: {
+              titles,
+              ...(category ? { category } : {}),
+              ...(magnitude ? { magnitude } : {}),
+            },
+          },
+        }),
+      ),
     placeholderData: keepPreviousData,
   });
 }

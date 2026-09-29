@@ -35,3 +35,4 @@ One short record per architecture decision, numbered in order.
 | 0006 | [API design and deployment](decisions/0006-api-design.md)                                              |
 | 0007 | [Web app architecture and the first timeline](decisions/0007-web-app.md)                               |
 | 0008 | [Entity explorer and search](decisions/0008-explorer-and-search.md)                                    |
+| 0009 | [The comparison view](decisions/0009-comparison-view.md)                                               |

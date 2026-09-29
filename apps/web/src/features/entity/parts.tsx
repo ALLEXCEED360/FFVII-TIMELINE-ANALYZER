@@ -17,10 +17,13 @@ export function AppearanceCard({
   appearance,
   reference,
   headingLevel = 4,
+  compact = false,
 }: {
   appearance: Appearance;
   reference: Reference | undefined;
   headingLevel?: 3 | 4;
+  /** Inside a column that already names the title and its status: leave both out. */
+  compact?: boolean;
 }) {
   const Heading = headingLevel === 3 ? "h3" : "h4";
   return (
@@ -29,12 +32,16 @@ export function AppearanceCard({
       style={{ borderLeftColor: TITLE_COLOR[appearance.title] }}
     >
       <header className="mb-1.5 flex flex-wrap items-center gap-1.5">
-        <Heading className="font-display text-sm font-semibold text-steel-100">
-          {titleShort(reference, appearance.title)}
-        </Heading>
-        <span className="chip" title={STATUS_DESCRIPTIONS[appearance.status]}>
-          {STATUS_LABELS[appearance.status]}
-        </span>
+        {!compact && (
+          <>
+            <Heading className="font-display text-sm font-semibold text-steel-100">
+              {titleShort(reference, appearance.title)}
+            </Heading>
+            <span className="chip" title={STATUS_DESCRIPTIONS[appearance.status]}>
+              {STATUS_LABELS[appearance.status]}
+            </span>
+          </>
+        )}
         {appearance.world !== "world_main" && (
           <span className="chip border-title-rebirth/60">
             {worldName(reference, appearance.world)}

@@ -43,7 +43,13 @@ Every title is its own canon, so an edge lists **each title that establishes it*
 
 - Each entry has `sources` and `certainty`, and may have `world` (default `world_main`) and `notes`.
 - **An edge missing from a title is not a claim that it's false there** — only that that title doesn't establish it.
-- The comparison view **derives** relationship differences: an edge established in `og` but in no Remake-series title whose coverage includes it shows as "not established in Remake/Rebirth". This is never stored (`model/appearances.md` §5).
+- The comparison view **derives** relationship differences; they are never stored (`model/appearances.md` §5). A title can only reveal a missing relationship if it **depicts both ends in the same world** — the relationship version of "not covered" vs. "left out". For each compared title an edge is:
+  - **established** — the title establishes it;
+  - **not established** — the title depicts both ends in one world but doesn't establish it: a real difference, shown as _version-specific_;
+  - **not applicable** — the title doesn't depict both ends (one is absent, only mentioned, or only in another world), so it says nothing about the relationship.
+
+  An edge is _shared_ when every applicable title establishes it. (Decided in Phase 6, decision 0009: the first version counted every title that showed the entity, which marked, for example, Tifa's part in Cloud's recovered memories as missing from _Rebirth_, a title that hasn't reached that event.)
+
 - If two titles give a relationship **different attributes** (e.g. a different role), they are two edges with different `titles`, and a `relationship` difference on the source entity explains it.
 - The graph shows an edge when **any selected title** establishes it, and marks edges not shared by all selected titles.
 

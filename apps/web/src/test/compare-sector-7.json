@@ -1,0 +1,142 @@
+{
+  "entity": {
+    "id": "location_sector_7",
+    "kind": "location",
+    "name": "Sector 7",
+    "aliases": [],
+    "summary": "A sector of Midgar, home to the Seventh Heaven bar in the slums beneath its plate.",
+    "notes": null,
+    "ogSegmentId": "og_seventh_heaven",
+    "event": null
+  },
+  "isNew": false,
+  "columns": [
+    {
+      "title": "og",
+      "status": "depicted",
+      "changed": false,
+      "appearance": {
+        "title": "og",
+        "world": "world_main",
+        "status": "depicted",
+        "summary": "AVALANCHE's home ground, until Shinra drops the plate on it.",
+        "role": null,
+        "when": null,
+        "playPosition": 1,
+        "sources": [
+          { "title": "og", "disc": 1, "segment": "og_seventh_heaven" },
+          { "title": "og", "disc": 1, "segment": "og_sector_7_pillar" }
+        ],
+        "certainty": "stated",
+        "notes": null,
+        "depictions": [
+          {
+            "locator": { "title": "og", "disc": 1, "segment": "og_seventh_heaven" },
+            "framing": "direct",
+            "seq": null,
+            "isPrimary": true,
+            "note": null,
+            "playPosition": 1
+          }
+        ]
+      },
+      "otherWorlds": []
+    },
+    {
+      "title": "remake",
+      "status": "depicted",
+      "changed": false,
+      "appearance": {
+        "title": "remake",
+        "world": "world_main",
+        "status": "depicted",
+        "summary": "AVALANCHE's home ground, until Shinra drops the plate on it.",
+        "role": null,
+        "when": null,
+        "playPosition": 3,
+        "sources": [
+          { "title": "remake", "chapter": 3, "scene": "Sector 7 Undercity Station" },
+          { "title": "remake", "chapter": 12 }
+        ],
+        "certainty": "stated",
+        "notes": null,
+        "depictions": [
+          {
+            "locator": { "title": "remake", "chapter": 3 },
+            "framing": "direct",
+            "seq": null,
+            "isPrimary": true,
+            "note": null,
+            "playPosition": 3
+          }
+        ]
+      },
+      "otherWorlds": []
+    }
+  ],
+  "differences": [],
+  "relationships": [
+    {
+      "id": "edge_e6b5f4ad43e7b0b9",
+      "type": "part_of",
+      "category": "structural",
+      "direction": "out",
+      "label": "part of",
+      "other": { "id": "location_midgar", "kind": "location", "name": "Midgar" },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [
+            {
+              "title": "og",
+              "disc": 1,
+              "segment": "og_shinra_building",
+              "scene": "Midgar City map: Sectors 5–8"
+            }
+          ],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og", "remake"],
+      "shared": false
+    },
+    {
+      "id": "edge_643fb83add0fd3bc",
+      "type": "occurred_at",
+      "category": "event",
+      "direction": "in",
+      "label": "site of",
+      "other": {
+        "id": "event_sector_7_plate_fall",
+        "kind": "event",
+        "name": "Fall of the Sector 7 Plate"
+      },
+      "attributes": {},
+      "from": null,
+      "until": null,
+      "titles": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_sector_7_pillar" }],
+          "certainty": "stated",
+          "notes": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "sources": [{ "title": "remake", "chapter": 12 }],
+          "certainty": "stated",
+          "notes": null
+        }
+      ],
+      "applicable": ["og", "remake"],
+      "shared": true
+    }
+  ]
+}

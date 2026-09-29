@@ -6,7 +6,14 @@ import { ApiError } from "../api/client";
 import { useEntity, useReference, useTimeline } from "../api/queries";
 import { Empty, ErrorMessage, Loading } from "../components/QueryState";
 import { AppearanceCard, DifferenceList, TitleDots } from "../features/entity/parts";
-import { ENTITY_KINDS, KIND_LABELS, entityPath, idFromPath, kindOf } from "../lib/paths";
+import {
+  ENTITY_KINDS,
+  KIND_LABELS,
+  comparePath,
+  entityPath,
+  idFromPath,
+  kindOf,
+} from "../lib/paths";
 import { TITLE_ORDER, describeLocator, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import { NotFoundPage } from "./NotFoundPage";
@@ -96,11 +103,18 @@ function EntityView({
               <span className="sr-only">{presentIn.has(title) ? "" : " (not in this title)"}</span>
             </span>
           ))}
-          {entity.event && (
-            <Link to={`/timeline?event=${entity.id}`} className="btn ml-auto">
-              Show on timeline
-            </Link>
-          )}
+          <span className="ml-auto flex gap-2">
+            {presentIn.size >= 2 && (
+              <Link to={comparePath(entity.id)} className="btn">
+                Compare titles
+              </Link>
+            )}
+            {entity.event && (
+              <Link to={`/timeline?event=${entity.id}`} className="btn">
+                Show on timeline
+              </Link>
+            )}
+          </span>
         </div>
       </header>
 

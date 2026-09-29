@@ -387,7 +387,12 @@ export interface ComparisonColumn {
 }
 
 export interface ComparedRelationship extends RelationshipDetail {
-  /** Every compared title establishes it. */
+  /**
+   * Compared titles that show both ends of the relationship — the only titles that could
+   * establish it. A title that shows only one end says nothing about the connection.
+   */
+  applicable: TitleCode[];
+  /** Every applicable title establishes it. */
   shared: boolean;
 }
 
@@ -417,6 +422,17 @@ export async function comparison(
   const chosen = new Set(titles);
   const ordered = TITLES_IN_ORDER.filter((title) => chosen.has(title));
   const compared = differences.filter((d) => chosen.has(d.from.title) && chosen.has(d.to.title));
+  // A title can only reveal a missing relationship if it depicts both ends, in the same world —
+  // the relationship version of "not covered" vs "left out". A mere mention, or an end shown only
+  // in another world, isn't enough to claim the title leaves the relationship out.
+  const depicted = await depictedIn(db, [id, ...relationships.map((r) => r.other.id)]);
+  const applicableTitles = (other: string, established: ReadonlySet<TitleCode>) =>
+    ordered.filter((title) => {
+      if (established.has(title)) return true;
+      const mine = depicted.get(id) ?? new Set<string>();
+      const theirs = depicted.get(other) ?? new Set<string>();
+      return [...mine].some((key) => key.startsWith(`${title}/`) && theirs.has(key));
+    });
 
   return {
     entity: info,
@@ -432,10 +448,24 @@ export async function comparison(
     relationships: relationships.flatMap((relationship) => {
       const evidence = relationship.titles.filter((t) => chosen.has(t.title));
       if (evidence.length === 0) return [];
-      const shared = ordered.every((title) => evidence.some((t) => t.title === title));
-      return [{ ...relationship, titles: evidence, shared }];
+      const established = new Set(evidence.map((t) => t.title));
+      const applicable = applicableTitles(relationship.other.id, established);
+      const shared = applicable.every((title) => evidence.some((t) => t.title === title));
+      return [{ ...relationship, titles: evidence, applicable, shared }];
     }),
   };
+}
+
+/** For each entity, where it's depicted, as `title/world` keys. */
+async function depictedIn(db: Db, ids: readonly string[]): Promise<Map<string, Set<string>>> {
+  const rows = await db.execute<{ id: string; keys: string[] }>(sql`
+    select entity_id as id, array_agg(title::text || '/' || world) as keys
+    from appearances
+    where status = 'depicted'
+      and entity_id in (select jsonb_array_elements_text(${JSON.stringify(ids)}::jsonb))
+    group by entity_id
+  `);
+  return new Map(rows.map((row) => [row.id, new Set(row.keys)]));
 }
 
 // ─── Network ──────────────────────────────────────────────────────────────────

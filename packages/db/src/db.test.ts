@@ -175,6 +175,34 @@ describe("comparison", () => {
     expect(result.differences.map((d) => d.key)).toEqual(["after_death", "blocked_blade"]);
     expect(result.relationships.every((r) => r.shared)).toBe(true);
 
+    // Remake doesn't show Aerith's death, so it doesn't make relationships version-specific.
+    const withRemake = await comparison(db, "event_aerith_death", ["og", "remake", "rebirth"]);
+    if (withRemake === undefined || "redirectTo" in withRemake) throw new Error("not found");
+    expect(withRemake.relationships.every((r) => r.shared)).toBe(true);
+
+    // Rebirth doesn't show Cloud's recovered memories, so Tifa's link to that event is judged
+    // in OG alone: not a difference.
+    const tifa = await comparison(db, "character_tifa_lockhart", ["og", "rebirth"]);
+    if (tifa === undefined || "redirectTo" in tifa) throw new Error("not found");
+    const memories = tifa.relationships.find((r) => r.other.id === "event_cloud_memories_restored");
+    expect(memories).toMatchObject({ applicable: ["og"], shared: true });
+
+    // Remake only mentions Nibelheim, so it can't be said to leave out Cloud's hometown.
+    const cloud = await comparison(db, "character_cloud_strife", ["og", "remake"]);
+    if (cloud === undefined || "redirectTo" in cloud) throw new Error("not found");
+    const hometown = cloud.relationships.find((r) => r.type === "hometown");
+    expect(hometown).toMatchObject({ applicable: ["og"], shared: true });
+
+    // Rebirth shows the plate fall only in another world, where Tifa doesn't appear.
+    const plate = tifa.relationships.find((r) => r.other.id === "event_sector_7_plate_fall");
+    expect(plate).toMatchObject({ applicable: ["og"], shared: true });
+
+    // Remake depicts both Sector 7 and Midgar but doesn't establish the link: version-specific.
+    const sector = await comparison(db, "location_sector_7", ["og", "remake"]);
+    if (sector === undefined || "redirectTo" in sector) throw new Error("not found");
+    const partOf = sector.relationships.find((r) => r.type === "part_of");
+    expect(partOf).toMatchObject({ applicable: ["og", "remake"], shared: false });
+
     const ogOnly = await comparison(db, "event_mako_reactor_1_bombing", ["og", "rebirth"]);
     if (ogOnly === undefined || "redirectTo" in ogOnly) throw new Error("not found");
     expect(ogOnly.columns.map((c) => c.status)).toEqual(["depicted", "absent"]);

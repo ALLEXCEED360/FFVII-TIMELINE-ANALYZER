@@ -1,0 +1,164 @@
+{
+  "items": [
+    {
+      "id": "event_nibelheim_incident:framing",
+      "key": "framing",
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "rebirth", "world": "world_main" },
+      "category": "presentation",
+      "magnitude": "major",
+      "summary": "In OG, Cloud's account at Kalm is later exposed as false in the Lifestream; in Rebirth, the account is played in full and questioned by Tifa, but not resolved within the title.",
+      "sources": [
+        { "title": "og", "disc": 1, "segment": "og_kalm" },
+        { "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" },
+        { "title": "rebirth", "chapter": 1 }
+      ],
+      "certainty": "stated",
+      "notes": null,
+      "related": [],
+      "entity": { "id": "event_nibelheim_incident", "kind": "event", "name": "Nibelheim Incident" }
+    },
+    {
+      "id": "event_mako_reactor_1_bombing:blast_size",
+      "key": "blast_size",
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "remake", "world": "world_main" },
+      "category": "context",
+      "magnitude": "minor",
+      "summary": "In Remake, Jessie says afterwards that her bomb shouldn't have produced an explosion that big — a doubt the original never raises.",
+      "sources": [
+        { "title": "og", "disc": 1, "segment": "og_reactor_1" },
+        { "title": "remake", "chapter": 2, "scene": "Jessie talks to Cloud about the explosion" }
+      ],
+      "certainty": "stated",
+      "notes": null,
+      "related": [],
+      "entity": {
+        "id": "event_mako_reactor_1_bombing",
+        "kind": "event",
+        "name": "Bombing of Mako Reactor 1"
+      }
+    },
+    {
+      "id": "event_mako_reactor_1_bombing:timer",
+      "key": "timer",
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "remake", "world": "world_main" },
+      "category": "gameplay",
+      "magnitude": "minor",
+      "summary": "In OG the bomb runs on a fixed ten-minute countdown; in Remake the player chooses a twenty- or thirty-minute timer.",
+      "sources": [
+        {
+          "title": "og",
+          "disc": 1,
+          "segment": "og_reactor_1",
+          "scene": "Ten minutes to detonation!"
+        },
+        { "title": "remake", "chapter": 1, "scene": "Set the timer" }
+      ],
+      "certainty": "stated",
+      "notes": null,
+      "related": [],
+      "entity": {
+        "id": "event_mako_reactor_1_bombing",
+        "kind": "event",
+        "name": "Bombing of Mako Reactor 1"
+      }
+    },
+    {
+      "id": "event_sector_7_plate_fall:aerith_capture",
+      "key": "aerith_capture",
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "remake", "world": "world_main" },
+      "category": "presentation",
+      "magnitude": "minor",
+      "summary": "In OG, Tseng appears at the top of the pillar holding Aerith hostage; in Remake, he takes her after she finds Marlene and speaks to the party over a monitor.",
+      "sources": [
+        {
+          "title": "og",
+          "disc": 1,
+          "segment": "og_sector_7_pillar",
+          "scene": "Tseng and his 'special guest'"
+        },
+        { "title": "remake", "chapter": 12, "scene": "Saving Marlene; Tseng on the monitor" }
+      ],
+      "certainty": "stated",
+      "notes": null,
+      "related": [
+        {
+          "id": "character_aerith_gainsborough",
+          "kind": "character",
+          "name": "Aerith Gainsborough"
+        }
+      ],
+      "entity": {
+        "id": "event_sector_7_plate_fall",
+        "kind": "event",
+        "name": "Fall of the Sector 7 Plate"
+      }
+    },
+    {
+      "id": "event_sector_7_plate_fall:rude_fights",
+      "key": "rude_fights",
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "remake", "world": "world_main" },
+      "category": "participants",
+      "magnitude": "minor",
+      "summary": "In OG, Reno alone fights the party at the top of the pillar; in Remake, Rude fights alongside him.",
+      "sources": [
+        { "title": "og", "disc": 1, "segment": "og_sector_7_pillar" },
+        { "title": "remake", "chapter": 12 }
+      ],
+      "certainty": "stated",
+      "notes": null,
+      "related": [],
+      "entity": {
+        "id": "event_sector_7_plate_fall",
+        "kind": "event",
+        "name": "Fall of the Sector 7 Plate"
+      }
+    },
+    {
+      "id": "event_aerith_death:after_death",
+      "key": "after_death",
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "rebirth", "world": "world_main" },
+      "category": "context",
+      "magnitude": "major",
+      "summary": "In OG, Cloud mourns that Aerith will no longer talk or laugh; in Rebirth, Cloud goes on seeing and hearing her after her funeral, while Tifa does not.",
+      "sources": [
+        {
+          "title": "og",
+          "disc": 1,
+          "segment": "og_forgotten_capital",
+          "scene": "Cloud's words to Sephiroth"
+        },
+        { "title": "rebirth", "chapter": 14, "scene": "leaving the Forgotten Capital" }
+      ],
+      "certainty": "ambiguous",
+      "notes": "Rebirth doesn't explain what Cloud is seeing.",
+      "related": [
+        { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
+        { "id": "character_tifa_lockhart", "kind": "character", "name": "Tifa Lockhart" }
+      ],
+      "entity": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" }
+    },
+    {
+      "id": "event_aerith_death:blocked_blade",
+      "key": "blocked_blade",
+      "from": { "title": "og", "world": "world_main" },
+      "to": { "title": "rebirth", "world": "world_main" },
+      "category": "presentation",
+      "magnitude": "major",
+      "summary": "In OG, Sephiroth's strike is shown once; in Rebirth, Cloud first appears to deflect it before the scene shows Sephiroth killing Aerith.",
+      "sources": [
+        { "title": "og", "disc": 1, "segment": "og_forgotten_capital" },
+        { "title": "rebirth", "chapter": 14 }
+      ],
+      "certainty": "ambiguous",
+      "notes": "Which of Rebirth's two outcomes is real is left open.",
+      "related": [],
+      "entity": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" }
+    }
+  ]
+}

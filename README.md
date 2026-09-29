@@ -6,7 +6,7 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 
 ## Status
 
-**Phase 5 — entity explorer and search (complete).** A page for every character, event, location and organization (`/character/cloud-strife`), an Explore catalogue with filters, and a Ctrl/⌘ + K search palette with typo-tolerant, grouped results — alongside the timeline from Phase 4. Next: Phase 6, the comparison view. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
+**Phase 6 — comparison view (complete).** Any entity side by side across titles (`/compare/event/nibelheim-incident`), with stored and derived statuses, grouped differences cited on both sides, and a relationship matrix that tells real omissions from titles that simply don't cover something; plus a Compare section listing every difference. Next: Phase 7, the relationship network. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
 
 | Package                            | What it does                                                                       |
 | ---------------------------------- | ---------------------------------------------------------------------------------- |

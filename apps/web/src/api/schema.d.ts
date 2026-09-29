@@ -1246,7 +1246,9 @@ export interface paths {
                                     certainty: "stated" | "inferred" | "ambiguous";
                                     notes: string | null;
                                 }[];
-                                /** @description Every compared title establishes it. */
+                                /** @description Compared titles that show both ends of the relationship — the only titles that could establish it. */
+                                applicable: ("og" | "remake" | "intermission" | "rebirth")[];
+                                /** @description Every applicable title establishes it. */
                                 shared: boolean;
                             }[];
                         };
