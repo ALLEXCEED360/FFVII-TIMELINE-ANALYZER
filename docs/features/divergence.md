@@ -1,9 +1,9 @@
 # Divergence view
 
-- **Status:** Draft — refined when the feature is built (Phase 8)
-- **Date:** 2026-09-27
+- **Status:** Accepted — built in Phase 8 ([ADR 0011](../decisions/0011-divergence.md))
+- **Date:** 2026-09-27, updated 2026-09-28
 
-The signature feature. Written now so the data model is known to support it before any data is entered.
+The signature feature: where do the original and the Remake series (and the worlds inside it) part ways around an event?
 
 ## 1. The question it answers
 
@@ -11,34 +11,53 @@ The signature feature. Written now so the data model is known to support it befo
 
 ## 2. Two kinds of divergence
 
-| Kind      | Branches are…                                  | Comes from                                                              |
-| --------- | ---------------------------------------------- | ----------------------------------------------------------------------- |
-| **Title** | How the original and the Remake series tell it | Appearances, their statuses and differences (`model/appearances.md`)    |
-| **World** | Branches of reality inside the Remake series   | Worlds and their `branchesFrom` event (`model/titles-and-worlds.md` §3) |
+| Kind      | Branches are…                                  | Comes from                                                               |
+| --------- | ---------------------------------------------- | ------------------------------------------------------------------------ |
+| **Title** | How the original and the Remake series tell it | Appearances, their statuses and differences (`model/appearances.md`)     |
+| **World** | Branches of reality inside the Remake series   | Appearances stored under another world (`model/titles-and-worlds.md` §3) |
 
-The user can view either, or both together (world branches drawn inside the Remake series' branch).
+Title branches are always shown; **Show other worlds** adds a branch for each other world a chosen title shows, forking from that title's line.
 
 ## 3. What the user does
 
-1. Selects an event (from the timeline, search, the graph or a URL: `/divergence/<event id>`).
-2. Sees a **shared trunk** — the events leading to it that all selected titles share.
-3. Sees **branches** from that point, one per title (or world), each continuing along its own events.
-4. Each event on a branch is marked by its relation to the other branches:
-   - **shared** — also on the other branch, unchanged;
-   - **changed** — on both, with differences (badge shows categories and magnitude);
-   - **new** — only on this branch;
-   - **omitted** — present on the other branch, stored as omitted here;
-   - **not yet reached** — beyond this title's coverage (drawn faded, not as a gap in the story).
-5. Clicking an event updates the inspector, timeline and graph selection (the synchronized-selection rule in the blueprint), and can re-root the view there.
+1. Picks an event: a divergence point on `/divergence`, any event from the same page, the **Divergence** button on an event's page or in the timeline inspector, or a URL — `/divergence/event/aerith-death?titles=og,rebirth&worlds=1`.
+2. Sees the **trunk**: every event before it in in-universe order (`when` + `seq`) that a chosen branch shows. Each trunk station says whether the branches tell it alike or differently.
+3. Sees **branches** from that event, one per title (or world), each running through the later events it shows.
+4. Each station on a branch has a **marking** (§4) and, where there are differences, their categories and magnitude.
+5. Selecting a station opens the event in the inspector (with the selection in the URL). **Re-root here** makes that event the pivot, keeping the titles and worlds.
 
-## 4. How it's computed (no extra data needed)
+Choosing titles works as on the comparison view: at least two, with the same presets.
 
-- **Trunk and branches** come from the events connected to the selected event by `caused` and `sub_event_of`, plus chronological neighbours (by `when` + `seq`), each restricted to the titles or worlds being compared.
-- **Markings** come from appearance statuses (stored and derived) and differences.
-- **World branch points** come from each world's `branchesFrom`.
+## 4. Markings
 
-All of this is computed in the shared graph package so the API and the browser agree. If building the view reveals that something must be stored, add it to the model docs first.
+For each branch and event, the branch's status comes from `displayStatus` for a title's main world, and from the stored appearance (or nothing) for another world. The branch is compared with its **counterparts**: the other titles' main worlds, or, for another world, its own title's main world.
 
-## 5. Accessibility
+| Marking                      | Meaning                                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Shared**                   | Shown here and by a counterpart, with no documented difference between them.                                 |
+| **Changed**                  | Shown here and by a counterpart, with a documented difference between this branch and that counterpart.      |
+| **Only here**                | Shown here, and a counterpart that covers this part of the story leaves it out (omitted or not yet entered). |
+| **Not yet retold elsewhere** | Shown here; every counterpart that doesn't show it simply hasn't reached this part of the story yet.         |
+| **Omitted**                  | This branch covers this part of the story and leaves the event out.                                          |
+| **Not yet reached**          | This branch hasn't reached this part of the story yet (drawn faded, not as a gap).                           |
+| **Not yet documented**       | Covered by this branch, but not yet entered in the dataset.                                                  |
 
-The view has a **list form**: trunk, then each branch as a list of events with their markings — so it's never the only way to reach the information.
+A branch with no status at all for an event (for example Remake at the Death of Aerith, which Rebirth retells) has no station there. An event no branch in the view shows is left off the map, except the pivot.
+
+**Divergence points** (the landing page) are events with documented differences between two of the chosen titles, counted with how many are major.
+
+## 5. How it's computed
+
+`computeDivergence` and `divergencePoints` in `packages/shared/src/divergence.ts`, pure and unit-tested; the API (`GET /divergence`, `GET /divergence/:id`) feeds them the events from Postgres. No extra data is stored.
+
+## 6. Accessibility
+
+- The map is an SVG in which every station is a focusable button with a full label ("Death of Aerith — OG: Changed").
+- Every marking has its own **shape** (circle, diamond, square, open circle with arrow, cross, dashed circle, "?"), so colour is never the only cue; the legend shows them.
+- The **list form** below the map carries the same information: the trunk, then each branch's events with markings and differences.
+- On narrow screens the map scrolls sideways inside its panel; the page itself doesn't.
+
+## 7. Later
+
+- World branch points (`branchesFrom`) aren't recorded yet, so world lines fork at the pivot. Once they are, a world could fork at its own branch event.
+- Causal structure (`caused`, `sub_event_of`) could thin the trunk to the events that lead to the pivot, rather than everything before it, once the dataset is large enough to need it.

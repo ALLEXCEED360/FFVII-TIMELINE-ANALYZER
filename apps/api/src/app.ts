@@ -15,6 +15,7 @@ import {
 } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { compareRoutes } from "./routes/compare.ts";
+import { divergenceRoutes } from "./routes/divergence.ts";
 import { entityRoutes } from "./routes/entities.ts";
 import { networkRoutes } from "./routes/network.ts";
 import { referenceRoutes } from "./routes/reference.ts";
@@ -100,6 +101,7 @@ export async function buildApp({
   let graph: Promise<Graph> | undefined;
   const getGraph = () => (graph ??= loadGraph(db));
   await app.register(networkRoutes, { graph: getGraph });
+  await app.register(divergenceRoutes, { db });
   await app.register(searchRoutes, { db });
   return app;
 }

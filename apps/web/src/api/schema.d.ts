@@ -1629,6 +1629,182 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/divergence": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Divergence points: events where the chosen titles differ */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+                    titles?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            items: {
+                                id: string;
+                                name: string;
+                                /** @description Earliest in-universe year; 0 is the year the story begins. */
+                                start: number;
+                                importance: number;
+                                differences: number;
+                                major: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/divergence/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Where the chosen titles — and optionally worlds — part ways around an event
+         * @description Events before the pivot form the trunk; from the pivot on, each title (and, with `worlds=true`, each other world it shows) is a branch. Each station is marked relative to the other branches: shared, changed, only here, not yet retold, omitted, not yet reached or undocumented.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+                    titles?: string;
+                    /** @description Add other worlds as branches. */
+                    worlds?: string;
+                };
+                header?: never;
+                path: {
+                    /** @description An entity ID, e.g. `character_cloud_strife`. */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            pivot: {
+                                id: string;
+                                name: string;
+                                /** @description Earliest in-universe year; 0 is the year the story begins. */
+                                start: number;
+                                importance: number;
+                            };
+                            branches: {
+                                key: string;
+                                /** @enum {string} */
+                                title: "og" | "remake" | "intermission" | "rebirth";
+                                world: string;
+                            }[];
+                            /** @description Events before the pivot: the common history. */
+                            trunk: {
+                                event: {
+                                    id: string;
+                                    name: string;
+                                    /** @description Earliest in-universe year; 0 is the year the story begins. */
+                                    start: number;
+                                    importance: number;
+                                };
+                                /** @description One per branch, in the order of `branches`; null if that branch doesn't show it. */
+                                stations: ({
+                                    /**
+                                     * @description How this branch shows the event, relative to the other branches.
+                                     * @enum {string}
+                                     */
+                                    marking: "shared" | "changed" | "only_here" | "not_yet_retold" | "omitted" | "not_yet_reached" | "undocumented";
+                                    differences: {
+                                        id: string;
+                                        /** @enum {string} */
+                                        category: "presentation" | "participants" | "setting" | "chronology" | "outcome" | "role" | "relationship" | "context" | "gameplay";
+                                        /** @enum {string} */
+                                        magnitude: "minor" | "major";
+                                    }[];
+                                    /** @description Branches (`title/world`) that cover this part of the story but don't show it. */
+                                    missingIn: string[];
+                                } | null)[];
+                            }[];
+                            /** @description The pivot and everything after it, per branch. */
+                            events: {
+                                event: {
+                                    id: string;
+                                    name: string;
+                                    /** @description Earliest in-universe year; 0 is the year the story begins. */
+                                    start: number;
+                                    importance: number;
+                                };
+                                /** @description One per branch, in the order of `branches`; null if that branch doesn't show it. */
+                                stations: ({
+                                    /**
+                                     * @description How this branch shows the event, relative to the other branches.
+                                     * @enum {string}
+                                     */
+                                    marking: "shared" | "changed" | "only_here" | "not_yet_retold" | "omitted" | "not_yet_reached" | "undocumented";
+                                    differences: {
+                                        id: string;
+                                        /** @enum {string} */
+                                        category: "presentation" | "participants" | "setting" | "chronology" | "outcome" | "role" | "relationship" | "context" | "gameplay";
+                                        /** @enum {string} */
+                                        magnitude: "minor" | "major";
+                                    }[];
+                                    /** @description Branches (`title/world`) that cover this part of the story but don't show it. */
+                                    missingIn: string[];
+                                } | null)[];
+                            }[];
+                        };
+                    };
+                };
+                /** @description Default Response */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                            message: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/search": {
         parameters: {
             query?: never;

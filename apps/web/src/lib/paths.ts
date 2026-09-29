@@ -36,6 +36,11 @@ export function networkPath(id: string): string {
   return `/network${entityPath(id)}`;
 }
 
+/** `/divergence/event/aerith-death` — where the titles part ways around an event. */
+export function divergencePath(id: string): string {
+  return `/divergence${entityPath(id)}`;
+}
+
 /** The entity ID a `/:kind/:slug` path names, or undefined if the path can't be one. */
 export function idFromPath(kind: string | undefined, slug: string | undefined): string | undefined {
   if (!isEntityKind(kind) || !slug || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return undefined;

@@ -63,3 +63,6 @@ export type NetworkEdge = Network["edges"][number];
 export type EdgeCategory = NetworkEdge["category"];
 export type PathResult = Json<"/network/path">;
 export type NetworkMetrics = Json<"/network/metrics">;
+export type DivergenceView = Json<"/divergence/{id}">;
+export type DivergenceRow = DivergenceView["events"][number];
+export type DivergencePoint = Json<"/divergence">["items"][number];

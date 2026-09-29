@@ -6,7 +6,7 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 
 ## Status
 
-**Phase 7 — relationship network (complete).** An interactive graph around any entity (`/network/character/cloud-strife`) with depth, title and category filters, expand/collapse, a selection that lights up its immediate network, and weighted strongest-path search; a Network overview with groups and degree centrality; all built on a tested `graph-core` package. Next: Phase 8, the Divergence view. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
+**Phase 8 — divergence view (complete).** Pick any event (`/divergence/event/aerith-death`) to see the history the titles share up to it and a subway-style map of how each title — and, optionally, each world inside the Remake series — tells it and what follows, with every station marked shared, changed, only here, not yet retold, omitted or not yet reached. A landing page lists the divergence points, and the same information is available as a list. Earlier phases built the timeline, explorer, search, comparison view and relationship network. Next: Phase 9, archive and sources. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
 
 | Package                                    | What it does                                                                       |
 | ------------------------------------------ | ---------------------------------------------------------------------------------- |

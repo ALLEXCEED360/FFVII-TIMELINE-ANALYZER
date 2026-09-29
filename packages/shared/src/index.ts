@@ -1,6 +1,7 @@
 export * from "./appearances.ts";
 export * from "./chronology.ts";
 export * from "./differences.ts";
+export * from "./divergence.ts";
 export * from "./edge-types.ts";
 export * from "./edges.ts";
 export * from "./entities.ts";

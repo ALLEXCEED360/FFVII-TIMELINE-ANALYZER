@@ -145,3 +145,28 @@ export function useEntity(id: string | undefined) {
     retry: false,
   });
 }
+
+export function useDivergencePoints(titles: readonly TitleCode[]) {
+  const param = titles.join(",");
+  return useQuery({
+    queryKey: ["divergence", param],
+    queryFn: () => unwrap(api.GET("/divergence", { params: { query: { titles: param } } })),
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function useDivergence(
+  id: string | undefined,
+  titles: readonly TitleCode[],
+  worlds: boolean,
+) {
+  const query = { titles: titles.join(","), worlds: String(worlds) };
+  return useQuery({
+    queryKey: ["divergence", id, query],
+    queryFn: () =>
+      unwrap(api.GET("/divergence/{id}", { params: { path: { id: id ?? "" }, query } })),
+    enabled: id !== undefined,
+    placeholderData: keepPreviousData,
+    retry: false,
+  });
+}

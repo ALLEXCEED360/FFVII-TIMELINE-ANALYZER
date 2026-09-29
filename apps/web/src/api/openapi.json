@@ -6128,6 +6128,443 @@
         }
       }
     },
+    "/divergence": {
+      "get": {
+        "summary": "Divergence points: events where the chosen titles differ",
+        "tags": [
+          "divergence"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "titles",
+            "required": false,
+            "description": "Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "start": {
+                            "type": "number",
+                            "description": "Earliest in-universe year; 0 is the year the story begins."
+                          },
+                          "importance": {
+                            "type": "number"
+                          },
+                          "differences": {
+                            "type": "number"
+                          },
+                          "major": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "start",
+                          "importance",
+                          "differences",
+                          "major"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/divergence/{id}": {
+      "get": {
+        "summary": "Where the chosen titles — and optionally worlds — part ways around an event",
+        "tags": [
+          "divergence"
+        ],
+        "description": "Events before the pivot form the trunk; from the pivot on, each title (and, with `worlds=true`, each other world it shows) is a branch. Each station is marked relative to the other branches: shared, changed, only here, not yet retold, omitted, not yet reached or undocumented.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "titles",
+            "required": false,
+            "description": "Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "worlds",
+            "required": false,
+            "description": "Add other worlds as branches."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "An entity ID, e.g. `character_cloud_strife`."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pivot": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "start": {
+                          "type": "number",
+                          "description": "Earliest in-universe year; 0 is the year the story begins."
+                        },
+                        "importance": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "start",
+                        "importance"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string",
+                            "enum": [
+                              "og",
+                              "remake",
+                              "intermission",
+                              "rebirth"
+                            ]
+                          },
+                          "world": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "title",
+                          "world"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "trunk": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "event": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "start": {
+                                "type": "number",
+                                "description": "Earliest in-universe year; 0 is the year the story begins."
+                              },
+                              "importance": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "start",
+                              "importance"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "stations": {
+                            "type": "array",
+                            "items": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "marking": {
+                                  "type": "string",
+                                  "enum": [
+                                    "shared",
+                                    "changed",
+                                    "only_here",
+                                    "not_yet_retold",
+                                    "omitted",
+                                    "not_yet_reached",
+                                    "undocumented"
+                                  ],
+                                  "description": "How this branch shows the event, relative to the other branches."
+                                },
+                                "differences": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "category": {
+                                        "type": "string",
+                                        "enum": [
+                                          "presentation",
+                                          "participants",
+                                          "setting",
+                                          "chronology",
+                                          "outcome",
+                                          "role",
+                                          "relationship",
+                                          "context",
+                                          "gameplay"
+                                        ]
+                                      },
+                                      "magnitude": {
+                                        "type": "string",
+                                        "enum": [
+                                          "minor",
+                                          "major"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "category",
+                                      "magnitude"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                },
+                                "missingIn": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "description": "Branches (`title/world`) that cover this part of the story but don't show it."
+                                }
+                              },
+                              "required": [
+                                "marking",
+                                "differences",
+                                "missingIn"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "description": "One per branch, in the order of `branches`; null if that branch doesn't show it."
+                          }
+                        },
+                        "required": [
+                          "event",
+                          "stations"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "description": "Events before the pivot: the common history."
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "event": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "start": {
+                                "type": "number",
+                                "description": "Earliest in-universe year; 0 is the year the story begins."
+                              },
+                              "importance": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "start",
+                              "importance"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "stations": {
+                            "type": "array",
+                            "items": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "marking": {
+                                  "type": "string",
+                                  "enum": [
+                                    "shared",
+                                    "changed",
+                                    "only_here",
+                                    "not_yet_retold",
+                                    "omitted",
+                                    "not_yet_reached",
+                                    "undocumented"
+                                  ],
+                                  "description": "How this branch shows the event, relative to the other branches."
+                                },
+                                "differences": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "category": {
+                                        "type": "string",
+                                        "enum": [
+                                          "presentation",
+                                          "participants",
+                                          "setting",
+                                          "chronology",
+                                          "outcome",
+                                          "role",
+                                          "relationship",
+                                          "context",
+                                          "gameplay"
+                                        ]
+                                      },
+                                      "magnitude": {
+                                        "type": "string",
+                                        "enum": [
+                                          "minor",
+                                          "major"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "category",
+                                      "magnitude"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                },
+                                "missingIn": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "description": "Branches (`title/world`) that cover this part of the story but don't show it."
+                                }
+                              },
+                              "required": [
+                                "marking",
+                                "differences",
+                                "missingIn"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "description": "One per branch, in the order of `branches`; null if that branch doesn't show it."
+                          }
+                        },
+                        "required": [
+                          "event",
+                          "stations"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "description": "The pivot and everything after it, per branch."
+                    }
+                  },
+                  "required": [
+                    "pivot",
+                    "branches",
+                    "trunk",
+                    "events"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "message"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/search": {
       "get": {
         "summary": "Find entities by name, summary or connection",

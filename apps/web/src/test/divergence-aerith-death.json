@@ -1,0 +1,185 @@
+{
+  "pivot": { "id": "event_aerith_death", "name": "Death of Aerith", "start": 0, "importance": 3 },
+  "branches": [
+    { "key": "og/world_main", "title": "og", "world": "world_main" },
+    { "key": "remake/world_main", "title": "remake", "world": "world_main" },
+    { "key": "rebirth/world_main", "title": "rebirth", "world": "world_main" },
+    { "key": "rebirth/world_zack_survives", "title": "rebirth", "world": "world_zack_survives" }
+  ],
+  "trunk": [
+    {
+      "event": {
+        "id": "event_nibelheim_incident",
+        "name": "Nibelheim Incident",
+        "start": -5,
+        "importance": 3
+      },
+      "stations": [
+        {
+          "marking": "changed",
+          "differences": [
+            {
+              "id": "event_nibelheim_incident:framing",
+              "category": "presentation",
+              "magnitude": "major"
+            }
+          ],
+          "missingIn": []
+        },
+        { "marking": "shared", "differences": [], "missingIn": [] },
+        {
+          "marking": "changed",
+          "differences": [
+            {
+              "id": "event_nibelheim_incident:framing",
+              "category": "presentation",
+              "magnitude": "major"
+            }
+          ],
+          "missingIn": []
+        },
+        null
+      ]
+    },
+    {
+      "event": {
+        "id": "event_mako_reactor_1_bombing",
+        "name": "Bombing of Mako Reactor 1",
+        "start": 0,
+        "importance": 2
+      },
+      "stations": [
+        {
+          "marking": "changed",
+          "differences": [
+            {
+              "id": "event_mako_reactor_1_bombing:blast_size",
+              "category": "context",
+              "magnitude": "minor"
+            },
+            {
+              "id": "event_mako_reactor_1_bombing:timer",
+              "category": "gameplay",
+              "magnitude": "minor"
+            }
+          ],
+          "missingIn": []
+        },
+        {
+          "marking": "changed",
+          "differences": [
+            {
+              "id": "event_mako_reactor_1_bombing:blast_size",
+              "category": "context",
+              "magnitude": "minor"
+            },
+            {
+              "id": "event_mako_reactor_1_bombing:timer",
+              "category": "gameplay",
+              "magnitude": "minor"
+            }
+          ],
+          "missingIn": []
+        },
+        null,
+        null
+      ]
+    },
+    {
+      "event": {
+        "id": "event_sector_7_plate_fall",
+        "name": "Fall of the Sector 7 Plate",
+        "start": 0,
+        "importance": 3
+      },
+      "stations": [
+        {
+          "marking": "changed",
+          "differences": [
+            {
+              "id": "event_sector_7_plate_fall:aerith_capture",
+              "category": "presentation",
+              "magnitude": "minor"
+            },
+            {
+              "id": "event_sector_7_plate_fall:rude_fights",
+              "category": "participants",
+              "magnitude": "minor"
+            }
+          ],
+          "missingIn": []
+        },
+        {
+          "marking": "changed",
+          "differences": [
+            {
+              "id": "event_sector_7_plate_fall:aerith_capture",
+              "category": "presentation",
+              "magnitude": "minor"
+            },
+            {
+              "id": "event_sector_7_plate_fall:rude_fights",
+              "category": "participants",
+              "magnitude": "minor"
+            }
+          ],
+          "missingIn": []
+        },
+        null,
+        { "marking": "only_here", "differences": [], "missingIn": [] }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "event": {
+        "id": "event_aerith_death",
+        "name": "Death of Aerith",
+        "start": 0,
+        "importance": 3
+      },
+      "stations": [
+        {
+          "marking": "changed",
+          "differences": [
+            { "id": "event_aerith_death:after_death", "category": "context", "magnitude": "major" },
+            {
+              "id": "event_aerith_death:blocked_blade",
+              "category": "presentation",
+              "magnitude": "major"
+            }
+          ],
+          "missingIn": []
+        },
+        null,
+        {
+          "marking": "changed",
+          "differences": [
+            { "id": "event_aerith_death:after_death", "category": "context", "magnitude": "major" },
+            {
+              "id": "event_aerith_death:blocked_blade",
+              "category": "presentation",
+              "magnitude": "major"
+            }
+          ],
+          "missingIn": []
+        },
+        null
+      ]
+    },
+    {
+      "event": {
+        "id": "event_cloud_memories_restored",
+        "name": "Cloud's Memories Restored",
+        "start": 0,
+        "importance": 3
+      },
+      "stations": [
+        { "marking": "not_yet_retold", "differences": [], "missingIn": [] },
+        { "marking": "not_yet_reached", "differences": [], "missingIn": [] },
+        { "marking": "not_yet_reached", "differences": [], "missingIn": [] },
+        null
+      ]
+    }
+  ]
+}

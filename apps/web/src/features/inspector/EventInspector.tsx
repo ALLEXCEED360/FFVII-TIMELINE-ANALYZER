@@ -1,9 +1,10 @@
 import { formatYearBounds } from "@ffvii/shared/labels";
+import type { ReactNode } from "react";
 import { Link } from "react-router";
 import type { EntityDetail, Reference } from "../../api/client";
 import { useEntity } from "../../api/queries";
 import { ErrorMessage, Loading } from "../../components/QueryState";
-import { comparePath, entityPath } from "../../lib/paths";
+import { comparePath, divergencePath, entityPath } from "../../lib/paths";
 import { describeLocator } from "../../lib/reference";
 import { AppearanceCard, DifferenceList, TitleDots } from "../entity/parts";
 
@@ -15,21 +16,29 @@ export function EventInspector({
   id,
   reference,
   onClose,
+  action,
 }: {
   id: string;
   reference: Reference | undefined;
   onClose: () => void;
+  /** Replaces the Divergence link, e.g. with "Re-root here" on the divergence view. */
+  action?: ReactNode;
 }) {
   const query = useEntity(id);
 
   return (
     <aside aria-label="Inspector" className="panel flex flex-col gap-5 p-4">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <span className="label">Inspector</span>
-        <div className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5">
           <Link to={comparePath(id)} className="btn px-2 py-0.5">
             Compare
           </Link>
+          {action ?? (
+            <Link to={divergencePath(id)} className="btn px-2 py-0.5">
+              Divergence
+            </Link>
+          )}
           <Link to={entityPath(id)} className="btn px-2 py-0.5">
             Open page
           </Link>

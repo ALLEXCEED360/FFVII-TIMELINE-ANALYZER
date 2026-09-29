@@ -12,6 +12,7 @@ const NAV = [
   { to: "/timeline", label: "Timeline", end: false },
   { to: "/compare", label: "Compare", end: false },
   { to: "/network", label: "Network", end: false },
+  { to: "/divergence", label: "Divergence", end: false },
   { to: "/explore", label: "Explore", end: false },
 ] as const;
 

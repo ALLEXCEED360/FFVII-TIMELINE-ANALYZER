@@ -1,6 +1,7 @@
 import {
   type Certainty,
   type DifferenceCategory,
+  type DivergenceEvent,
   type FileEntityKind,
   type Locator,
   type Series,
@@ -178,4 +179,32 @@ export async function reference(db: Db): Promise<Reference> {
     eras: [...eras],
     worlds: [...worlds],
   };
+}
+
+// ─── Divergence ───────────────────────────────────────────────────────────────
+
+/** Every event with what the Divergence view needs (docs/features/divergence.md §4). */
+export async function divergenceEvents(db: Db): Promise<DivergenceEvent[]> {
+  const rows = await db.execute<DivergenceEvent & Record<string, unknown>>(sql`
+    select e.id, e.name, ev.start_earliest as start, ev.seq, ev.importance,
+      e.og_segment_id as "ogSegment",
+      coalesce((
+        select json_agg(json_build_object('title', a.title, 'world', a.world, 'status', a.status))
+        from appearances a where a.entity_id = e.id
+      ), '[]') as appearances,
+      coalesce((
+        select json_agg(json_build_object(
+          'id', d.id,
+          'from', json_build_object('title', d.from_title, 'world', d.from_world),
+          'to', json_build_object('title', d.to_title, 'world', d.to_world),
+          'category', d.category,
+          'magnitude', d.magnitude
+        ) order by d.id)
+        from differences d where d.entity_id = e.id
+      ), '[]') as differences
+    from events ev
+    join entities e on e.id = ev.entity_id
+    order by ev.start_earliest, ev.seq nulls last, e.id
+  `);
+  return rows.map((row) => ({ ...row, ogSegment: row.ogSegment ?? undefined }));
 }

@@ -8,6 +8,8 @@ import compareMemories from "./compare-memories.json";
 import compareSector7 from "./compare-sector-7.json";
 import compareTifa from "./compare-tifa.json";
 import differences from "./differences.json";
+import divergenceAerithDeath from "./divergence-aerith-death.json";
+import divergencePoints from "./divergence-points.json";
 import entities from "./entities.json";
 import entityAerithDeath from "./entity-aerith-death.json";
 import entityCloudStrife from "./entity-cloud-strife.json";
@@ -35,6 +37,8 @@ const FIXTURES: Record<string, unknown> = {
   "/compare/character_tifa_lockhart": compareTifa,
   "/compare/location_sector_7": compareSector7,
   "/differences": differences,
+  "/divergence": divergencePoints,
+  "/divergence/event_aerith_death": divergenceAerithDeath,
   "/network/character_cloud_strife": networkCloud,
   "/network/path": pathCloudSephiroth,
   "/network/metrics": metricsIntermission,

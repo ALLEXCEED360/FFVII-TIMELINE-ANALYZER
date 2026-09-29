@@ -47,6 +47,8 @@ describe("basics", () => {
     expect(Object.keys(body.paths).sort()).toEqual([
       "/compare/{id}",
       "/differences",
+      "/divergence",
+      "/divergence/{id}",
       "/entities",
       "/entities/{id}",
       "/health",
@@ -225,6 +227,48 @@ describe("timeline, comparison, network and search", () => {
     // An entity the chosen titles don't show stands alone rather than disappearing.
     const alone = (await get("/network/event_nibelheim_incident?titles=intermission")).body;
     expect(alone.nodes.map((n: { id: string }) => n.id)).toEqual(["event_nibelheim_incident"]);
+  });
+
+  it("lists divergence points and splits the titles around a pivot", async () => {
+    const points = (await get("/divergence")).body.items.map((p: { id: string }) => p.id);
+    expect(points).toEqual([
+      "event_nibelheim_incident",
+      "event_mako_reactor_1_bombing",
+      "event_sector_7_plate_fall",
+      "event_aerith_death",
+    ]);
+
+    const { body } = await get("/divergence/event_aerith_death?titles=og,rebirth");
+    expect(body.branches.map((b: { key: string }) => b.key)).toEqual([
+      "og/world_main",
+      "rebirth/world_main",
+    ]);
+    expect(body.trunk.map((r: { event: { id: string } }) => r.event.id)).toEqual([
+      "event_nibelheim_incident",
+      "event_mako_reactor_1_bombing",
+      "event_sector_7_plate_fall",
+    ]);
+    const [pivot, memories] = body.events;
+    expect(pivot.stations.map((s: { marking: string }) => s.marking)).toEqual([
+      "changed",
+      "changed",
+    ]);
+    expect(memories.event.id).toBe("event_cloud_memories_restored");
+    expect(memories.stations.map((s: { marking: string } | null) => s?.marking ?? null)).toEqual([
+      "not_yet_retold",
+      "not_yet_reached",
+    ]);
+  });
+
+  it("adds world branches on request, and rejects a single title or unknown event", async () => {
+    const { body } = await get(
+      "/divergence/event_sector_7_plate_fall?titles=og,remake,rebirth&worlds=true",
+    );
+    expect(body.branches.map((b: { key: string }) => b.key)).toContain(
+      "rebirth/world_zack_survives",
+    );
+    expect((await get("/divergence/event_aerith_death?titles=og")).status).toBe(400);
+    expect((await get("/divergence/event_nothing")).status).toBe(404);
   });
 
   it("searches", async () => {

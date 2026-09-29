@@ -6,16 +6,16 @@ Design documents for the Timeline Analyzer. These are the rules the data and cod
 
 ## Design
 
-| Doc                                                        | Purpose                                                            | Status |
-| ---------------------------------------------------------- | ------------------------------------------------------------------ | ------ |
-| [`canon-and-sources.md`](canon-and-sources.md)             | Per-title canon, scope, verification, citations, certainty, IP     | Done   |
-| [`model/titles-and-worlds.md`](model/titles-and-worlds.md) | Titles (which game) vs. worlds (in-story branches); coverage       | Done   |
-| [`model/appearances.md`](model/appearances.md)             | Entities, per-title appearances, statuses, depictions, differences | Done   |
-| [`model/chronology.md`](model/chronology.md)               | In-universe time, play order, eras, timeline views                 | Done   |
-| [`model/relationships.md`](model/relationships.md)         | Edge vocabulary, title scope, path weights                         | Done   |
-| [`conventions/ids.md`](conventions/ids.md)                 | Entity kinds, reference codes, how IDs are formed                  | Done   |
-| [`model/spoilers.md`](model/spoilers.md)                   | Lenient spoiler policy                                             | Done   |
-| [`features/divergence.md`](features/divergence.md)         | The Divergence view                                                | Draft  |
+| Doc                                                        | Purpose                                                            | Status   |
+| ---------------------------------------------------------- | ------------------------------------------------------------------ | -------- |
+| [`canon-and-sources.md`](canon-and-sources.md)             | Per-title canon, scope, verification, citations, certainty, IP     | Done     |
+| [`model/titles-and-worlds.md`](model/titles-and-worlds.md) | Titles (which game) vs. worlds (in-story branches); coverage       | Done     |
+| [`model/appearances.md`](model/appearances.md)             | Entities, per-title appearances, statuses, depictions, differences | Done     |
+| [`model/chronology.md`](model/chronology.md)               | In-universe time, play order, eras, timeline views                 | Done     |
+| [`model/relationships.md`](model/relationships.md)         | Edge vocabulary, title scope, path weights                         | Done     |
+| [`conventions/ids.md`](conventions/ids.md)                 | Entity kinds, reference codes, how IDs are formed                  | Done     |
+| [`model/spoilers.md`](model/spoilers.md)                   | Lenient spoiler policy                                             | Done     |
+| [`features/divergence.md`](features/divergence.md)         | The Divergence view                                                | Accepted |
 
 ## Research
 
@@ -37,3 +37,4 @@ One short record per architecture decision, numbered in order.
 | 0008 | [Entity explorer and search](decisions/0008-explorer-and-search.md)                                    |
 | 0009 | [The comparison view](decisions/0009-comparison-view.md)                                               |
 | 0010 | [The relationship network](decisions/0010-network.md)                                                  |
+| 0011 | [The divergence view](decisions/0011-divergence.md)                                                    |

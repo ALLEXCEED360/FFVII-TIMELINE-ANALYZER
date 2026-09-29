@@ -13,6 +13,7 @@ import {
   entityPath,
   idFromPath,
   kindOf,
+  divergencePath,
   networkPath,
 } from "../lib/paths";
 import { TITLE_ORDER, describeLocator, titleShort } from "../lib/reference";
@@ -113,6 +114,11 @@ function EntityView({
             {entity.relationships.length > 0 && (
               <Link to={networkPath(entity.id)} className="btn">
                 Network
+              </Link>
+            )}
+            {entity.event && (
+              <Link to={divergencePath(entity.id)} className="btn">
+                Divergence
               </Link>
             )}
             {entity.event && (

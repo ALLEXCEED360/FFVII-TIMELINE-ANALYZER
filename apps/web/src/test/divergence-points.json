@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "id": "event_nibelheim_incident",
+      "name": "Nibelheim Incident",
+      "start": -5,
+      "importance": 3,
+      "differences": 1,
+      "major": 1
+    },
+    {
+      "id": "event_mako_reactor_1_bombing",
+      "name": "Bombing of Mako Reactor 1",
+      "start": 0,
+      "importance": 2,
+      "differences": 2,
+      "major": 0
+    },
+    {
+      "id": "event_sector_7_plate_fall",
+      "name": "Fall of the Sector 7 Plate",
+      "start": 0,
+      "importance": 3,
+      "differences": 2,
+      "major": 0
+    },
+    {
+      "id": "event_aerith_death",
+      "name": "Death of Aerith",
+      "start": 0,
+      "importance": 3,
+      "differences": 2,
+      "major": 2
+    }
+  ]
+}
