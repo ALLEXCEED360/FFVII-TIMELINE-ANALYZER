@@ -37,6 +37,12 @@ export const routes: RouteObject[] = [
       lazyPage("compare/:kind/:slug", () =>
         import("../pages/ComparisonPage").then((m) => ({ Component: m.ComparisonPage })),
       ),
+      lazyPage("network", () =>
+        import("../pages/NetworkOverviewPage").then((m) => ({ Component: m.NetworkOverviewPage })),
+      ),
+      lazyPage("network/:kind/:slug", () =>
+        import("../pages/NetworkPage").then((m) => ({ Component: m.NetworkPage })),
+      ),
       // /character/cloud-strife, /event/nibelheim-incident, … (unknown kinds show "not found").
       lazyPage(":kind/:slug", () =>
         import("../pages/EntityPage").then((m) => ({ Component: m.EntityPage })),

@@ -1,0 +1,16 @@
+{
+  "name": "@ffvii/graph-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@ffvii/shared": "workspace:*"
+  }
+}

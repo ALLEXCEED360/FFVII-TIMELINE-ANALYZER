@@ -1,7 +1,8 @@
 import cors from "@fastify/cors";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
-import type { Db } from "@ffvii/db";
+import { type Db, loadGraph } from "@ffvii/db";
+import type { Graph } from "@ffvii/graph-core";
 import { sql } from "drizzle-orm";
 import Fastify, { type FastifyServerOptions } from "fastify";
 import {
@@ -94,7 +95,11 @@ export async function buildApp({
   await app.register(entityRoutes, { db });
   await app.register(timelineRoutes, { db });
   await app.register(compareRoutes, { db });
-  await app.register(networkRoutes, { db });
+  // The graph is loaded once, on first use, and kept: it only changes when the data is redeployed
+  // (which restarts the server).
+  let graph: Promise<Graph> | undefined;
+  const getGraph = () => (graph ??= loadGraph(db));
+  await app.register(networkRoutes, { graph: getGraph });
   await app.register(searchRoutes, { db });
   return app;
 }

@@ -1378,6 +1378,172 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/network/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Structure of the whole relationship graph: groups and degree centrality */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+                    titles?: string;
+                    /** @description Comma-separated relationship categories (`structural,event,causal`). Defaults to all. */
+                    categories?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            nodeCount: number;
+                            edgeCount: number;
+                            /** @description Groups of entities connected to each other, largest first. */
+                            components: {
+                                size: number;
+                                members: {
+                                    id: string;
+                                    /** @enum {string} */
+                                    kind: "character" | "event" | "location" | "organization";
+                                    name: string;
+                                }[];
+                            }[];
+                            /** @description Degree centrality, highest first — a dataset metric, not a ranking of characters. */
+                            centrality: {
+                                id: string;
+                                /** @enum {string} */
+                                kind: "character" | "event" | "location" | "organization";
+                                name: string;
+                                /** @description Distinct entities it's directly related to. */
+                                degree: number;
+                                /** @description Degree ÷ (entities − 1), 0–1. */
+                                centrality: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network/path": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * The strongest chain of relationships between two entities
+         * @description Weighted shortest path (docs/model/relationships.md §6): family, killings, causes and experiments are strong links; membership and residence are weak. Use `avoid` to route around large hubs.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description An entity ID, e.g. `character_cloud_strife`. */
+                    from: string;
+                    /** @description An entity ID, e.g. `character_cloud_strife`. */
+                    to: string;
+                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+                    titles?: string;
+                    /** @description Comma-separated relationship categories (`structural,event,causal`). Defaults to all. */
+                    categories?: string;
+                    /** @description Comma-separated entity IDs to leave out, e.g. to find a path that avoids them. */
+                    avoid?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            found: boolean;
+                            /** @description Sum of the weights along the path. */
+                            cost: number | null;
+                            /** @description From start to end. */
+                            nodes: {
+                                id: string;
+                                /** @enum {string} */
+                                kind: "character" | "event" | "location" | "organization";
+                                name: string;
+                            }[];
+                            /** @description `edges[i]` joins `nodes[i]` and `nodes[i + 1]`. */
+                            edges: {
+                                id: string;
+                                source: string;
+                                target: string;
+                                /** @enum {string} */
+                                type: "parent_of" | "sibling_of" | "spouse_of" | "member_of" | "leads" | "part_of" | "hometown" | "lives_in" | "based_at" | "controls" | "participated_in" | "occurred_at" | "sub_event_of" | "killed" | "caused" | "experimented_on" | "acted_through";
+                                /** @enum {string} */
+                                category: "structural" | "event" | "causal";
+                                /** @description Read from source to target, e.g. `took part in`. */
+                                label: string;
+                                /** @description Cost in shortest-path search; lower is a stronger link. */
+                                weight: number;
+                                /** @description Which requested titles establish it. */
+                                titles: ("og" | "remake" | "intermission" | "rebirth")[];
+                            }[];
+                        };
+                    };
+                };
+                /** @description Default Response */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                            message: string;
+                        };
+                    };
+                };
+                /** @description Default Response */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                            message: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/network/{id}": {
         parameters: {
             query?: never;
@@ -1387,7 +1553,7 @@ export interface paths {
         };
         /**
          * An entity's neighbourhood in the relationship graph
-         * @description Every entity within `depth` relationships of `id`, and the relationships among them, following only relationships that one of `titles` establishes.
+         * @description Every entity within `depth` relationships of `id`, and the relationships among them, following only relationships that one of `titles` establishes, in the chosen `categories`.
          */
         get: {
             parameters: {
@@ -1395,6 +1561,8 @@ export interface paths {
                     depth?: number;
                     /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
                     titles?: string;
+                    /** @description Comma-separated relationship categories (`structural,event,causal`). Defaults to all. */
+                    categories?: string;
                 };
                 header?: never;
                 path: {
@@ -1429,6 +1597,7 @@ export interface paths {
                                 type: "parent_of" | "sibling_of" | "spouse_of" | "member_of" | "leads" | "part_of" | "hometown" | "lives_in" | "based_at" | "controls" | "participated_in" | "occurred_at" | "sub_event_of" | "killed" | "caused" | "experimented_on" | "acted_through";
                                 /** @enum {string} */
                                 category: "structural" | "event" | "causal";
+                                /** @description Read from source to target, e.g. `took part in`. */
                                 label: string;
                                 /** @description Cost in shortest-path search; lower is a stronger link. */
                                 weight: number;

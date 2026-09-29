@@ -1,0 +1,94 @@
+{
+  "nodeCount": 7,
+  "edgeCount": 1,
+  "components": [
+    {
+      "size": 2,
+      "members": [
+        { "id": "location_midgar", "kind": "location", "name": "Midgar" },
+        { "id": "location_sector_7", "kind": "location", "name": "Sector 7" }
+      ]
+    },
+    {
+      "size": 1,
+      "members": [
+        {
+          "id": "character_aerith_gainsborough",
+          "kind": "character",
+          "name": "Aerith Gainsborough"
+        }
+      ]
+    },
+    {
+      "size": 1,
+      "members": [
+        { "id": "character_barret_wallace", "kind": "character", "name": "Barret Wallace" }
+      ]
+    },
+    {
+      "size": 1,
+      "members": [{ "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" }]
+    },
+    {
+      "size": 1,
+      "members": [{ "id": "character_tifa_lockhart", "kind": "character", "name": "Tifa Lockhart" }]
+    },
+    {
+      "size": 1,
+      "members": [
+        { "id": "event_sector_7_plate_fall", "kind": "event", "name": "Fall of the Sector 7 Plate" }
+      ]
+    }
+  ],
+  "centrality": [
+    {
+      "id": "location_midgar",
+      "kind": "location",
+      "name": "Midgar",
+      "degree": 1,
+      "centrality": 0.16666666666666666
+    },
+    {
+      "id": "location_sector_7",
+      "kind": "location",
+      "name": "Sector 7",
+      "degree": 1,
+      "centrality": 0.16666666666666666
+    },
+    {
+      "id": "character_aerith_gainsborough",
+      "kind": "character",
+      "name": "Aerith Gainsborough",
+      "degree": 0,
+      "centrality": 0
+    },
+    {
+      "id": "character_barret_wallace",
+      "kind": "character",
+      "name": "Barret Wallace",
+      "degree": 0,
+      "centrality": 0
+    },
+    {
+      "id": "character_cloud_strife",
+      "kind": "character",
+      "name": "Cloud Strife",
+      "degree": 0,
+      "centrality": 0
+    },
+    {
+      "id": "event_sector_7_plate_fall",
+      "kind": "event",
+      "name": "Fall of the Sector 7 Plate",
+      "degree": 0,
+      "centrality": 0
+    },
+    {
+      "id": "character_tifa_lockhart",
+      "kind": "character",
+      "name": "Tifa Lockhart",
+      "degree": 0,
+      "centrality": 0
+    }
+  ]
+}

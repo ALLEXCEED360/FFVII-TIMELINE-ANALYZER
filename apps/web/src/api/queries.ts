@@ -1,5 +1,5 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { type DifferenceCategory, type TitleCode, api, unwrap } from "./client";
+import { keepPreviousData, useQueries, useQuery } from "@tanstack/react-query";
+import { type DifferenceCategory, type EdgeCategory, type TitleCode, api, unwrap } from "./client";
 
 // Server state (TanStack Query). The data only changes when the dataset is redeployed, so answers
 // are cached for the whole visit.
@@ -77,6 +77,62 @@ export function useDifferences(filters: {
           },
         }),
       ),
+    placeholderData: keepPreviousData,
+  });
+}
+
+interface NetworkFilter {
+  titles: readonly TitleCode[];
+  categories: readonly EdgeCategory[];
+}
+
+function networkQuery(id: string, depth: number, { titles, categories }: NetworkFilter) {
+  const query = { depth, titles: titles.join(","), categories: categories.join(",") };
+  return {
+    queryKey: ["network", id, query],
+    queryFn: () => unwrap(api.GET("/network/{id}", { params: { path: { id }, query } })),
+    retry: false,
+  };
+}
+
+export function useNetwork(id: string | undefined, depth: number, filter: NetworkFilter) {
+  return useQuery({
+    ...networkQuery(id ?? "", depth, filter),
+    enabled: id !== undefined,
+    placeholderData: keepPreviousData,
+  });
+}
+
+/** Keeps the loaded results; a stable function, so TanStack Query can keep the array stable. */
+function loaded<T>(results: readonly { data?: T | undefined }[]): T[] {
+  return results.flatMap((result) => (result.data === undefined ? [] : [result.data]));
+}
+
+/** One-step neighbourhoods of expanded entities, added to the main view (loaded ones only). */
+export function useNetworkExpansions(ids: readonly string[], filter: NetworkFilter) {
+  return useQueries({ queries: ids.map((id) => networkQuery(id, 1, filter)), combine: loaded });
+}
+
+export function usePath(from: string | undefined, to: string | null, filter: NetworkFilter) {
+  const query = {
+    from: from ?? "",
+    to: to ?? "",
+    titles: filter.titles.join(","),
+    categories: filter.categories.join(","),
+  };
+  return useQuery({
+    queryKey: ["path", query],
+    queryFn: () => unwrap(api.GET("/network/path", { params: { query } })),
+    enabled: from !== undefined && to !== null,
+    retry: false,
+  });
+}
+
+export function useNetworkMetrics(titles: readonly TitleCode[]) {
+  const param = titles.join(",");
+  return useQuery({
+    queryKey: ["metrics", param],
+    queryFn: () => unwrap(api.GET("/network/metrics", { params: { query: { titles: param } } })),
     placeholderData: keepPreviousData,
   });
 }

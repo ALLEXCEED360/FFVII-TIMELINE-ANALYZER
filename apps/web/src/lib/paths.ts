@@ -31,6 +31,11 @@ export function comparePath(id: string): string {
   return `/compare${entityPath(id)}`;
 }
 
+/** `/network/character/cloud-strife` — the entity's relationship network. */
+export function networkPath(id: string): string {
+  return `/network${entityPath(id)}`;
+}
+
 /** The entity ID a `/:kind/:slug` path names, or undefined if the path can't be one. */
 export function idFromPath(kind: string | undefined, slug: string | undefined): string | undefined {
   if (!isEntityKind(kind) || !slug || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return undefined;

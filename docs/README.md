@@ -36,3 +36,4 @@ One short record per architecture decision, numbered in order.
 | 0007 | [Web app architecture and the first timeline](decisions/0007-web-app.md)                               |
 | 0008 | [Entity explorer and search](decisions/0008-explorer-and-search.md)                                    |
 | 0009 | [The comparison view](decisions/0009-comparison-view.md)                                               |
+| 0010 | [The relationship network](decisions/0010-network.md)                                                  |

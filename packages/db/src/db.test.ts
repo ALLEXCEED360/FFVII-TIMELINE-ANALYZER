@@ -11,8 +11,10 @@ import {
 } from "@ffvii/shared";
 import { sql } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { listDifferences, listEntities, network, reference } from "./catalog.ts";
+import { filterGraph, neighborhood as graphNeighborhood } from "@ffvii/graph-core";
+import { listDifferences, listEntities, reference } from "./catalog.ts";
 import { connect } from "./client.ts";
+import { loadGraph } from "./graph.ts";
 import { comparison, entity, neighborhood, playOrder, search, timeline } from "./queries.ts";
 import { buildSeedRows, seed } from "./seed.ts";
 
@@ -319,18 +321,6 @@ describe("catalogue", () => {
     );
   });
 
-  it("returns a network slice whose edges all belong to the chosen titles", async () => {
-    const slice = await network(db, { id: "event_aerith_death", depth: 1, titles: ["rebirth"] });
-    expect(slice?.nodes[0]).toMatchObject({ id: "event_aerith_death", depth: 0 });
-    const ids = new Set(slice?.nodes.map((n) => n.id));
-    for (const edge of slice?.edges ?? []) {
-      expect(ids.has(edge.source) && ids.has(edge.target)).toBe(true);
-      expect(edge.titles).toEqual(["rebirth"]);
-    }
-    expect(slice?.edges.some((e) => e.type === "killed")).toBe(true);
-    expect(await network(db, { id: "character_nobody", depth: 1 })).toBeUndefined();
-  });
-
   it("returns the reference bundle", async () => {
     const ref = await reference(db);
     expect(ref.titles.map((t) => t.code)).toEqual(["og", "remake", "intermission", "rebirth"]);
@@ -340,5 +330,44 @@ describe("catalogue", () => {
     expect(ref.titles.find((t) => t.code === "intermission")?.coverage).toBeNull();
     expect(ref.segments).toHaveLength(dataset.segments.length);
     expect(ref.worlds.map((w) => w.id)).toEqual(["world_main", "world_zack_survives"]);
+  });
+});
+
+describe("loadGraph", () => {
+  it("holds every entity and relationship, with the titles that establish each", async () => {
+    const graph = await loadGraph(db);
+    expect(graph.nodes.size).toBe(dataset.entities.size);
+    expect(graph.edges).toHaveLength(dataset.edges.length);
+    const killed = graph.edges.find((e) => e.type === "killed");
+    expect(killed).toMatchObject({
+      source: "character_sephiroth",
+      target: "character_aerith_gainsborough",
+      titles: ["og", "rebirth"],
+      weight: 1,
+    });
+  });
+
+  it("walks the same neighbourhoods as the SQL query, for every entity and title set", async () => {
+    const graph = await loadGraph(db);
+    const titleSets: (readonly TitleCode[])[] = [
+      TITLES_IN_ORDER,
+      ["og"],
+      ["remake", "intermission"],
+      ["rebirth"],
+    ];
+    for (const titles of titleSets) {
+      const filtered = filterGraph(graph, { titles });
+      for (const id of dataset.entities.keys()) {
+        for (const depth of [1, 2, 3]) {
+          // An entity none of the titles show has no neighbourhood in the filtered graph.
+          const shown = graph.nodes.get(id)?.titles?.some((t) => titles.includes(t)) ?? false;
+          const sqlAnswer = shown ? await neighborhood(db, { id, depth, titles }) : new Map();
+          expect(
+            Object.fromEntries(graphNeighborhood(filtered, id, depth)),
+            `${id} ${titles.join()} ${String(depth)}`,
+          ).toEqual(Object.fromEntries(sqlAnswer));
+        }
+      }
+    }
   });
 });

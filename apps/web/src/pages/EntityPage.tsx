@@ -13,6 +13,7 @@ import {
   entityPath,
   idFromPath,
   kindOf,
+  networkPath,
 } from "../lib/paths";
 import { TITLE_ORDER, describeLocator, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
@@ -107,6 +108,11 @@ function EntityView({
             {presentIn.size >= 2 && (
               <Link to={comparePath(entity.id)} className="btn">
                 Compare titles
+              </Link>
+            )}
+            {entity.relationships.length > 0 && (
+              <Link to={networkPath(entity.id)} className="btn">
+                Network
               </Link>
             )}
             {entity.event && (

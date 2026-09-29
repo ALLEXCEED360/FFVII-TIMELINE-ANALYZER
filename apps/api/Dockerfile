@@ -9,6 +9,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/api/package.json apps/api/
 COPY packages/shared/package.json packages/shared/
 COPY packages/data/package.json packages/data/
+COPY packages/graph-core/package.json packages/graph-core/
 COPY packages/db/package.json packages/db/
 RUN pnpm install --frozen-lockfile --prod --filter "@ffvii/api..."
 

@@ -11,6 +11,9 @@ import differences from "./differences.json";
 import entities from "./entities.json";
 import entityAerithDeath from "./entity-aerith-death.json";
 import entityCloudStrife from "./entity-cloud-strife.json";
+import metricsIntermission from "./metrics-intermission.json";
+import networkCloud from "./network-cloud.json";
+import pathCloudSephiroth from "./path-cloud-sephiroth.json";
 import reference from "./reference.json";
 import searchAeris from "./search-aeris.json";
 import searchNibelheim from "./search-nibelheim.json";
@@ -32,6 +35,9 @@ const FIXTURES: Record<string, unknown> = {
   "/compare/character_tifa_lockhart": compareTifa,
   "/compare/location_sector_7": compareSector7,
   "/differences": differences,
+  "/network/character_cloud_strife": networkCloud,
+  "/network/path": pathCloudSephiroth,
+  "/network/metrics": metricsIntermission,
 };
 
 /** Search answers by query; anything else finds nothing. */

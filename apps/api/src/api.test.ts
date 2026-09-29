@@ -50,6 +50,8 @@ describe("basics", () => {
       "/entities",
       "/entities/{id}",
       "/health",
+      "/network/metrics",
+      "/network/path",
       "/network/{id}",
       "/play-order/{title}",
       "/reference",
@@ -164,6 +166,65 @@ describe("timeline, comparison, network and search", () => {
     expect(body.center).toBe("location_nibelheim");
     expect(body.nodes.map((n: { id: string }) => n.id)).toContain("character_sephiroth");
     expect(await get("/network/character_nobody")).toMatchObject({ status: 404 });
+  });
+
+  it("filters a network slice by relationship category", async () => {
+    const { body } = await get("/network/character_cloud_strife?depth=1&categories=structural");
+    expect(body.edges.map((e: { type: string }) => e.type)).toEqual(["hometown"]);
+    expect((await get("/network/character_cloud_strife?categories=nope")).status).toBe(400);
+  });
+
+  it("finds the strongest path between two entities", async () => {
+    const { body } = await get(
+      "/network/path?from=character_tifa_lockhart&to=character_aerith_gainsborough",
+    );
+    expect(body.found).toBe(true);
+    expect(body.nodes[0].id).toBe("character_tifa_lockhart");
+    expect(body.nodes.at(-1).id).toBe("character_aerith_gainsborough");
+    expect(body.edges).toHaveLength(body.nodes.length - 1);
+  });
+
+  it("routes around avoided entities, and reports when there's no path", async () => {
+    const direct = (
+      await get("/network/path?from=character_sephiroth&to=character_aerith_gainsborough")
+    ).body;
+    expect(direct).toMatchObject({ found: true, cost: 1 });
+    const around = (
+      await get(
+        "/network/path?from=character_sephiroth&to=character_aerith_gainsborough&categories=structural",
+      )
+    ).body;
+    expect(around).toEqual({ found: false, cost: null, nodes: [], edges: [] });
+    expect(
+      (
+        await get(
+          "/network/path?from=character_sephiroth&to=character_aerith_gainsborough&avoid=character_sephiroth",
+        )
+      ).status,
+    ).toBe(400);
+    expect((await get("/network/path?from=character_nobody&to=character_sephiroth")).status).toBe(
+      404,
+    );
+  });
+
+  it("reports groups and degree centrality", async () => {
+    const { body } = await get("/network/metrics");
+    expect(body.nodeCount).toBe(dataset.entities.size);
+    expect(body.edgeCount).toBe(dataset.edges.length);
+    expect(body.components[0].size).toBe(dataset.entities.size);
+    expect(body.centrality[0]).toMatchObject({ id: "character_cloud_strife", degree: 6 });
+
+    // INTERmission shows 7 of the entities; only Sector 7 and Midgar are linked there.
+    const intermission = (await get("/network/metrics?titles=intermission")).body;
+    expect(intermission.nodeCount).toBe(7);
+    expect(intermission.components[0].members.map((m: { id: string }) => m.id)).toEqual([
+      "location_midgar",
+      "location_sector_7",
+    ]);
+
+    // An entity the chosen titles don't show stands alone rather than disappearing.
+    const alone = (await get("/network/event_nibelheim_incident?titles=intermission")).body;
+    expect(alone.nodes.map((n: { id: string }) => n.id)).toEqual(["event_nibelheim_incident"]);
   });
 
   it("searches", async () => {

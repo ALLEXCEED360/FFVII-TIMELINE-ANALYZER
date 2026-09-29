@@ -1,0 +1,31 @@
+{
+  "found": true,
+  "cost": 4,
+  "nodes": [
+    { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
+    { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
+    { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" }
+  ],
+  "edges": [
+    {
+      "id": "edge_2510df55b395330c",
+      "source": "character_cloud_strife",
+      "target": "event_aerith_death",
+      "type": "participated_in",
+      "category": "event",
+      "label": "took part in",
+      "weight": 2,
+      "titles": ["og", "rebirth"]
+    },
+    {
+      "id": "edge_e0f7d7c8b5e09d63",
+      "source": "character_sephiroth",
+      "target": "event_aerith_death",
+      "type": "participated_in",
+      "category": "event",
+      "label": "took part in",
+      "weight": 2,
+      "titles": ["og", "rebirth"]
+    }
+  ]
+}

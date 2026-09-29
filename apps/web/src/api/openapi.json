@@ -5532,13 +5532,399 @@
         }
       }
     },
+    "/network/metrics": {
+      "get": {
+        "summary": "Structure of the whole relationship graph: groups and degree centrality",
+        "tags": [
+          "network"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "titles",
+            "required": false,
+            "description": "Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "categories",
+            "required": false,
+            "description": "Comma-separated relationship categories (`structural,event,causal`). Defaults to all."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nodeCount": {
+                      "type": "number"
+                    },
+                    "edgeCount": {
+                      "type": "number"
+                    },
+                    "components": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "size": {
+                            "type": "number"
+                          },
+                          "members": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "kind": {
+                                  "type": "string",
+                                  "enum": [
+                                    "character",
+                                    "event",
+                                    "location",
+                                    "organization"
+                                  ]
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "kind",
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "size",
+                          "members"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "description": "Groups of entities connected to each other, largest first."
+                    },
+                    "centrality": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "character",
+                              "event",
+                              "location",
+                              "organization"
+                            ]
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "degree": {
+                            "type": "number",
+                            "description": "Distinct entities it's directly related to."
+                          },
+                          "centrality": {
+                            "type": "number",
+                            "description": "Degree ÷ (entities − 1), 0–1."
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "name",
+                          "degree",
+                          "centrality"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "description": "Degree centrality, highest first — a dataset metric, not a ranking of characters."
+                    }
+                  },
+                  "required": [
+                    "nodeCount",
+                    "edgeCount",
+                    "components",
+                    "centrality"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/network/path": {
+      "get": {
+        "summary": "The strongest chain of relationships between two entities",
+        "tags": [
+          "network"
+        ],
+        "description": "Weighted shortest path (docs/model/relationships.md §6): family, killings, causes and experiments are strong links; membership and residence are weak. Use `avoid` to route around large hubs.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "in": "query",
+            "name": "from",
+            "required": true,
+            "description": "An entity ID, e.g. `character_cloud_strife`."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "in": "query",
+            "name": "to",
+            "required": true,
+            "description": "An entity ID, e.g. `character_cloud_strife`."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "titles",
+            "required": false,
+            "description": "Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "categories",
+            "required": false,
+            "description": "Comma-separated relationship categories (`structural,event,causal`). Defaults to all."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "avoid",
+            "required": false,
+            "description": "Comma-separated entity IDs to leave out, e.g. to find a path that avoids them."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "found": {
+                      "type": "boolean"
+                    },
+                    "cost": {
+                      "nullable": true,
+                      "description": "Sum of the weights along the path.",
+                      "type": "number"
+                    },
+                    "nodes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "character",
+                              "event",
+                              "location",
+                              "organization"
+                            ]
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "description": "From start to end."
+                    },
+                    "edges": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "string"
+                          },
+                          "target": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "parent_of",
+                              "sibling_of",
+                              "spouse_of",
+                              "member_of",
+                              "leads",
+                              "part_of",
+                              "hometown",
+                              "lives_in",
+                              "based_at",
+                              "controls",
+                              "participated_in",
+                              "occurred_at",
+                              "sub_event_of",
+                              "killed",
+                              "caused",
+                              "experimented_on",
+                              "acted_through"
+                            ]
+                          },
+                          "category": {
+                            "type": "string",
+                            "enum": [
+                              "structural",
+                              "event",
+                              "causal"
+                            ]
+                          },
+                          "label": {
+                            "type": "string",
+                            "description": "Read from source to target, e.g. `took part in`."
+                          },
+                          "weight": {
+                            "type": "number",
+                            "description": "Cost in shortest-path search; lower is a stronger link."
+                          },
+                          "titles": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "og",
+                                "remake",
+                                "intermission",
+                                "rebirth"
+                              ]
+                            },
+                            "description": "Which requested titles establish it."
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "source",
+                          "target",
+                          "type",
+                          "category",
+                          "label",
+                          "weight",
+                          "titles"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "description": "`edges[i]` joins `nodes[i]` and `nodes[i + 1]`."
+                    }
+                  },
+                  "required": [
+                    "found",
+                    "cost",
+                    "nodes",
+                    "edges"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "message"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "message"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/network/{id}": {
       "get": {
         "summary": "An entity's neighbourhood in the relationship graph",
         "tags": [
           "network"
         ],
-        "description": "Every entity within `depth` relationships of `id`, and the relationships among them, following only relationships that one of `titles` establishes.",
+        "description": "Every entity within `depth` relationships of `id`, and the relationships among them, following only relationships that one of `titles` establishes, in the chosen `categories`.",
         "parameters": [
           {
             "schema": {
@@ -5559,6 +5945,15 @@
             "name": "titles",
             "required": false,
             "description": "Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "categories",
+            "required": false,
+            "description": "Comma-separated relationship categories (`structural,event,causal`). Defaults to all."
           },
           {
             "schema": {
@@ -5662,7 +6057,8 @@
                             ]
                           },
                           "label": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Read from source to target, e.g. `took part in`."
                           },
                           "weight": {
                             "type": "number",

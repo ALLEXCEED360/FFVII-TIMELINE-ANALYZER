@@ -1,0 +1,99 @@
+{
+  "center": "character_cloud_strife",
+  "nodes": [
+    { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife", "depth": 0 },
+    {
+      "id": "event_mako_reactor_1_bombing",
+      "kind": "event",
+      "name": "Bombing of Mako Reactor 1",
+      "depth": 1
+    },
+    {
+      "id": "event_cloud_memories_restored",
+      "kind": "event",
+      "name": "Cloud's Memories Restored",
+      "depth": 1
+    },
+    { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith", "depth": 1 },
+    {
+      "id": "event_sector_7_plate_fall",
+      "kind": "event",
+      "name": "Fall of the Sector 7 Plate",
+      "depth": 1
+    },
+    { "id": "location_nibelheim", "kind": "location", "name": "Nibelheim", "depth": 1 },
+    { "id": "event_nibelheim_incident", "kind": "event", "name": "Nibelheim Incident", "depth": 1 }
+  ],
+  "edges": [
+    {
+      "id": "edge_2510df55b395330c",
+      "source": "character_cloud_strife",
+      "target": "event_aerith_death",
+      "type": "participated_in",
+      "category": "event",
+      "label": "took part in",
+      "weight": 2,
+      "titles": ["og", "rebirth"]
+    },
+    {
+      "id": "edge_3589dbbcbe054cd7",
+      "source": "character_cloud_strife",
+      "target": "event_nibelheim_incident",
+      "type": "participated_in",
+      "category": "event",
+      "label": "took part in",
+      "weight": 2,
+      "titles": ["og", "rebirth"]
+    },
+    {
+      "id": "edge_91623530454adffd",
+      "source": "character_cloud_strife",
+      "target": "event_sector_7_plate_fall",
+      "type": "participated_in",
+      "category": "event",
+      "label": "took part in",
+      "weight": 2,
+      "titles": ["og", "remake"]
+    },
+    {
+      "id": "edge_ccbe90cfd48ba572",
+      "source": "character_cloud_strife",
+      "target": "event_mako_reactor_1_bombing",
+      "type": "participated_in",
+      "category": "event",
+      "label": "took part in",
+      "weight": 2,
+      "titles": ["og", "remake"]
+    },
+    {
+      "id": "edge_e3203a9dd8b7b629",
+      "source": "event_nibelheim_incident",
+      "target": "location_nibelheim",
+      "type": "occurred_at",
+      "category": "event",
+      "label": "took place at",
+      "weight": 2,
+      "titles": ["og", "rebirth"]
+    },
+    {
+      "id": "edge_fc83d7ff276bc485",
+      "source": "character_cloud_strife",
+      "target": "event_cloud_memories_restored",
+      "type": "participated_in",
+      "category": "event",
+      "label": "took part in",
+      "weight": 2,
+      "titles": ["og"]
+    },
+    {
+      "id": "edge_fed1459d1963c78e",
+      "source": "character_cloud_strife",
+      "target": "location_nibelheim",
+      "type": "hometown",
+      "category": "structural",
+      "label": "from",
+      "weight": 2,
+      "titles": ["og", "rebirth"]
+    }
+  ]
+}

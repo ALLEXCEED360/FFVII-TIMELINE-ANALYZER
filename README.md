@@ -6,15 +6,16 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 
 ## Status
 
-**Phase 6 — comparison view (complete).** Any entity side by side across titles (`/compare/event/nibelheim-incident`), with stored and derived statuses, grouped differences cited on both sides, and a relationship matrix that tells real omissions from titles that simply don't cover something; plus a Compare section listing every difference. Next: Phase 7, the relationship network. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
+**Phase 7 — relationship network (complete).** An interactive graph around any entity (`/network/character/cloud-strife`) with depth, title and category filters, expand/collapse, a selection that lights up its immediate network, and weighted strongest-path search; a Network overview with groups and degree centrality; all built on a tested `graph-core` package. Next: Phase 8, the Divergence view. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
 
-| Package                            | What it does                                                                       |
-| ---------------------------------- | ---------------------------------------------------------------------------------- |
-| [`@ffvii/shared`](packages/shared) | Zod schemas and types for all data; titles, locators, chronology, derived statuses |
-| [`@ffvii/data`](packages/data)     | Loads and validates `data/`; generates editor schemas                              |
-| [`@ffvii/db`](packages/db)         | PostgreSQL schema, migrations, seeding and queries                                 |
-| [`@ffvii/api`](apps/api)           | Read-only REST API (Fastify); OpenAPI docs at `/docs`                              |
-| [`@ffvii/web`](apps/web)           | The web app (React, Vite, Tailwind, D3)                                            |
+| Package                                    | What it does                                                                       |
+| ------------------------------------------ | ---------------------------------------------------------------------------------- |
+| [`@ffvii/shared`](packages/shared)         | Zod schemas and types for all data; titles, locators, chronology, derived statuses |
+| [`@ffvii/data`](packages/data)             | Loads and validates `data/`; generates editor schemas                              |
+| [`@ffvii/graph-core`](packages/graph-core) | Graph algorithms: neighbourhoods, weighted shortest path, groups, centrality       |
+| [`@ffvii/db`](packages/db)                 | PostgreSQL schema, migrations, seeding and queries                                 |
+| [`@ffvii/api`](apps/api)                   | Read-only REST API (Fastify); OpenAPI docs at `/docs`                              |
+| [`@ffvii/web`](apps/web)                   | The web app (React, Vite, Tailwind, D3)                                            |
 
 ## Roadmap
 

@@ -1,8 +1,6 @@
 import {
   type Certainty,
   type DifferenceCategory,
-  type EdgeCategory,
-  type EdgeType,
   type FileEntityKind,
   type Locator,
   type Series,
@@ -11,15 +9,10 @@ import {
 } from "@ffvii/shared";
 import { type SQL, sql } from "drizzle-orm";
 import type { Db } from "./client.ts";
-import {
-  type DifferenceDetail,
-  type EntityRef,
-  neighborhood,
-  relationshipLabel,
-} from "./queries.ts";
+import type { DifferenceDetail, EntityRef } from "./queries.ts";
 
-// Listings and reference data for browsing: the catalogue, all differences, a network slice, and
-// the reference bundle the web app loads once.
+// Listings and reference data for browsing: the catalogue, all differences, and the reference
+// bundle the web app loads once.
 
 function titleList(titles: readonly TitleCode[]): SQL {
   return sql`(select jsonb_array_elements_text(${JSON.stringify(titles)}::jsonb))`;
@@ -101,73 +94,6 @@ export async function listDifferences(
     order by ev.start_earliest nulls last, ev.seq nulls last, e.name, d.key
   `);
   return [...rows];
-}
-
-// ─── Network ──────────────────────────────────────────────────────────────────
-
-export interface NetworkNode extends EntityRef {
-  /** Relationships away from the centre. */
-  depth: number;
-}
-
-export interface NetworkEdge {
-  id: string;
-  source: string;
-  target: string;
-  type: EdgeType;
-  category: EdgeCategory;
-  label: string;
-  weight: number;
-  /** Which of the requested titles establish it. */
-  titles: TitleCode[];
-}
-
-export interface Network {
-  center: string;
-  nodes: NetworkNode[];
-  edges: NetworkEdge[];
-}
-
-/**
- * The neighbourhood of `id` (`depth` relationships out) and every relationship among those
- * entities that one of `titles` establishes. Undefined if the entity doesn't exist.
- */
-export async function network(
-  db: Db,
-  {
-    id,
-    depth,
-    titles = TITLES_IN_ORDER,
-  }: { id: string; depth: number; titles?: readonly TitleCode[] },
-): Promise<Network | undefined> {
-  const depths = await neighborhood(db, { id, depth, titles });
-  if (depths.size === 0) return undefined;
-  const ids = JSON.stringify([...depths.keys()]);
-
-  const nodes = await db.execute<EntityRef & Record<string, unknown>>(sql`
-    select id, kind, name from entities
-    where id in (select jsonb_array_elements_text(${ids}::jsonb))
-  `);
-  const edges = await db.execute<Omit<NetworkEdge, "label"> & Record<string, unknown>>(sql`
-    select e.id, e.source_id as source, e.target_id as target, e.type, e.category, e.weight,
-      json_agg(et.title order by t.position) as titles
-    from edges e
-    join edge_titles et on et.edge_id = e.id
-    join titles t on t.code = et.title
-    where e.source_id in (select jsonb_array_elements_text(${ids}::jsonb))
-      and e.target_id in (select jsonb_array_elements_text(${ids}::jsonb))
-      and et.title::text in ${titleList(titles)}
-    group by e.id
-    order by e.id
-  `);
-
-  return {
-    center: id,
-    nodes: nodes
-      .map((node) => ({ ...node, depth: depths.get(node.id) ?? 0 }))
-      .sort((a, b) => a.depth - b.depth || a.name.localeCompare(b.name)),
-    edges: edges.map((edge) => ({ ...edge, label: relationshipLabel(edge.type, "out") })),
-  };
 }
 
 // ─── Reference data ───────────────────────────────────────────────────────────
