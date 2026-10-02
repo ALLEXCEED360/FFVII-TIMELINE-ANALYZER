@@ -1,0 +1,94 @@
+import { type KeyboardEvent, useRef, useState } from "react";
+import { type PageName, preloadPage } from "../../app/pages";
+
+/**
+ * The home menu's commands: where each goes, what it does, and the artwork that fills the screen
+ * behind the menu while it's highlighted. These are wide pieces, chosen to fill a landscape
+ * screen without cropping a figure or blurring: the sections' own page backdrops (SECTION_ART)
+ * include tall portraits that suit a page header but not a whole screen.
+ */
+export const SECTIONS: readonly {
+  to: string;
+  page: PageName;
+  name: string;
+  text: string;
+  art: string;
+}[] = [
+  {
+    to: "/timeline",
+    page: "timeline",
+    name: "Timeline",
+    text: "Every event in the order it happens in the story, or in the order each game shows it.",
+    art: "places/midgar-concept",
+  },
+  {
+    to: "/compare",
+    page: "compare",
+    name: "Compare",
+    text: "The same event, character or place across the titles, with what changed between them.",
+    art: "key/remake",
+  },
+  {
+    to: "/divergence",
+    page: "divergence",
+    name: "Divergence",
+    text: "Pick a moment and watch the shared history fork into a line for each telling.",
+    art: "key/aerith",
+  },
+  {
+    to: "/network",
+    page: "network",
+    name: "Network",
+    text: "Who is bound to whom, and the strongest path between any two of them.",
+    art: "key/intermission",
+  },
+  {
+    to: "/explore",
+    page: "explore",
+    name: "Explore",
+    text: "Browse every character, event, location and organization in the archive.",
+    art: "places/sector-7",
+  },
+  {
+    to: "/archive",
+    page: "archive",
+    name: "Archive",
+    text: "Each game part by part, what cites it, and the research behind every fact.",
+    art: "key/tifa",
+  },
+  {
+    to: "/settings",
+    page: "settings",
+    name: "Config",
+    text: "Motion, the title screen and the cursor, saved in this browser.",
+    art: "key/barret-marlene",
+  },
+];
+
+/** The chosen section and arrow-key movement through a list of links (with wrap, Home, End). */
+export function useMenu() {
+  const [active, setActive] = useState(0);
+  const links = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  const choose = (i: number) => {
+    setActive(i);
+    const section = SECTIONS[i];
+    if (section) preloadPage(section.page);
+  };
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    const count = SECTIONS.length;
+    const step = { ArrowDown: 1, ArrowUp: -1, Home: -active, End: count - 1 - active }[event.key];
+    if (step === undefined) return;
+    event.preventDefault();
+    const to = (active + step + count) % count;
+    choose(to);
+    links.current[to]?.focus();
+  };
+
+  const ref = (i: number) => (el: HTMLAnchorElement | null) => {
+    links.current[i] = el;
+  };
+
+  return { active, choose, onKeyDown, ref, current: SECTIONS[active] ?? SECTIONS[0] };
+}

@@ -1,6 +1,6 @@
 # 0015 — A game-menu design, with official artwork
 
-- **Status:** Accepted
+- **Status:** Accepted; its title screen superseded by [0016](0016-title-screen.md), its home menu by [0017](0017-home-menu.md)
 - **Date:** 2026-09-30
 - **Builds on:** [0014](0014-design-pass.md), which it replaces for look and feel; its page structure, hover previews and timeline layout stay.
 

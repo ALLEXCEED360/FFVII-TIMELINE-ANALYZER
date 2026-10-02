@@ -21,7 +21,7 @@ test("a page whose code fails to download offers a reload, inside the site", asy
   await page.goto("/");
   await page.route("**/assets/ExplorePage-*.js", (route) => route.abort());
   await page
-    .getByRole("navigation", { name: "Main" })
+    .getByRole("navigation", { name: "Sections" })
     .getByRole("link", { name: "Explore" })
     .click();
   const alert = page.getByRole("alert");
@@ -42,7 +42,7 @@ test("the graph library loads only on network pages", async ({ page }) => {
 
   await page.goto("/");
   await page
-    .getByRole("navigation", { name: "Main" })
+    .getByRole("navigation", { name: "Sections" })
     .getByRole("link", { name: "Timeline" })
     .click();
   await expect(page.getByRole("group", { name: /Timeline chart/ })).toBeVisible();
@@ -55,11 +55,11 @@ test("the graph library loads only on network pages", async ({ page }) => {
   await expect.poll(graphLibrary).toBe(true);
 });
 
-test("hovering a section in the navigation starts loading its page", async ({ page }) => {
+test("pointing at a command on the home menu starts loading its page", async ({ page }) => {
   await page.goto("/");
   const loaded = page.waitForRequest(/\/assets\/ArchivePage-.*\.js$/);
   await page
-    .getByRole("navigation", { name: "Main" })
+    .getByRole("navigation", { name: "Sections" })
     .getByRole("link", { name: "Archive" })
     .hover();
   await loaded;

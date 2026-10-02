@@ -74,14 +74,14 @@ test.describe("reduced motion", () => {
 
   test("follows the system setting by default", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/");
+    await page.goto("/timeline");
     await expect(page.locator("html")).toHaveAttribute("data-motion", "system");
     expect(Number.parseFloat(await navTransition(page))).toBeLessThan(0.01);
   });
 
   test("can be chosen in Settings, and is remembered", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "no-preference" });
-    await page.goto("/");
+    await page.goto("/timeline");
     expect(Number.parseFloat(await navTransition(page))).toBeGreaterThan(0.1);
 
     await chooseMotion(page, "Reduced");
@@ -136,16 +136,29 @@ test("timeline markers preview their event on hover and focus", async ({ page })
 test("moving between sections plays the wipe, but not under reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  const nav = page.getByRole("navigation", { name: "Main" });
-  await nav.getByRole("link", { name: "Timeline" }).click();
+  await page
+    .getByRole("navigation", { name: "Sections" })
+    .getByRole("link", { name: "Timeline" })
+    .click();
   await expect(page.locator(".wipe")).toContainText("Timeline");
   await expect(page).toHaveURL(/\/timeline$/);
   await expect(page.locator(".wipe")).toHaveCount(0);
 
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await nav.getByRole("link", { name: "Archive" }).click();
+  await page
+    .getByRole("navigation", { name: "Main" })
+    .getByRole("link", { name: "Archive" })
+    .click();
   await expect(page).toHaveURL(/\/archive$/);
   await expect(page.locator(".wipe")).toHaveCount(0);
+});
+
+test("the home menu shows no navigation of its own, other pages do", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("navigation", { name: "Sections" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Main" })).toHaveCount(0);
+  await page.goto("/timeline");
+  await expect(page.getByRole("navigation", { name: "Main" })).toBeVisible();
 });
 
 test("the home menu is driven with the arrow keys", async ({ page }) => {
@@ -155,9 +168,11 @@ test("the home menu is driven with the arrow keys", async ({ page }) => {
   await page.keyboard.press("ArrowDown");
   await expect(menu.getByRole("link", { name: /^Compare/ })).toBeFocused();
   await page.keyboard.press("End");
-  await expect(menu.getByRole("link", { name: /^Archive/ })).toBeFocused();
+  await expect(menu.getByRole("link", { name: /^Config/ })).toBeFocused();
   await page.keyboard.press("ArrowDown");
   await expect(menu.getByRole("link", { name: /^Timeline/ })).toBeFocused();
+  await page.keyboard.press("ArrowUp");
+  await expect(menu.getByRole("link", { name: /^Config/ })).toBeFocused();
   await page.keyboard.press("ArrowUp");
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/archive$/);

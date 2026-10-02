@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { create } from "zustand";
 import { artSrc, artwork } from "../art/manifest";
 
@@ -11,8 +11,11 @@ interface BackdropState {
   id: string | null;
   /** 0–1: how much of the artwork survives the dimming. */
   strength: number;
-  /** Where the readable column is; that side is darkened most. */
-  side: "left" | "right" | "center";
+  /**
+   * Where the readable column is; that side is darkened most. "full" shows the artwork across the
+   * whole screen under a light veil, for a page that is itself a set of windows (the home menu).
+   */
+  side: "left" | "right" | "center" | "full";
   set: (next: Omit<BackdropState, "set">) => void;
 }
 
@@ -42,36 +45,53 @@ export function useBackdrop(
 
 export function Backdrop() {
   const { id, strength, side } = useBackdropStore();
-  const entry = id === null ? undefined : artwork(id);
-  const lineart = entry?.kind === "lineart";
+  // The artwork shown before this one stays underneath while the new one fades in over it, so a
+  // change is a crossfade rather than a flash of the page colour.
+  const [layers, setLayers] = useState<{ current: string | null; previous: string | null }>({
+    current: id,
+    previous: null,
+  });
+  if (layers.current !== id) setLayers({ current: id, previous: layers.current });
+
+  const layer = (layerId: string | null, fading: boolean) => {
+    const entry = layerId === null ? undefined : artwork(layerId);
+    if (!entry) return null;
+    const lineart = entry.kind === "lineart";
+    return (
+      <img
+        key={`${fading ? "in" : "under"}-${entry.id}`}
+        src={artSrc(entry)}
+        alt=""
+        decoding="async"
+        className={`absolute inset-0 size-full ${fading ? "animate-[art-in_0.7s_var(--ease-out-expo)_both]" : ""} ${
+          lineart ? "object-contain object-right-top p-[6vh]" : "object-cover"
+        }`}
+        style={{
+          objectPosition: lineart ? undefined : entry.focus,
+          opacity: lineart ? strength * 0.55 : strength,
+          maskImage:
+            side === "full"
+              ? undefined
+              : "linear-gradient(to bottom, #000 0%, #000 30%, transparent 92%)",
+        }}
+      />
+    );
+  };
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      {entry && (
-        // Keyed by artwork, so each new one fades in over the last.
-        <img
-          key={entry.id}
-          src={artSrc(entry)}
-          alt=""
-          decoding="async"
-          className={`absolute inset-0 size-full animate-[art-in_0.9s_var(--ease-out-expo)_both] ${
-            lineart ? "object-contain object-right-top p-[6vh]" : "object-cover"
-          }`}
-          style={{
-            objectPosition: lineart ? undefined : entry.focus,
-            opacity: lineart ? strength * 0.55 : strength,
-            maskImage: "linear-gradient(to bottom, #000 0%, #000 30%, transparent 92%)",
-          }}
-        />
-      )}
+      {layers.previous !== layers.current && layer(layers.previous, false)}
+      {layer(layers.current, true)}
       {/* Darkest where the text is. */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            side === "center"
-              ? "radial-gradient(ellipse at center, rgb(5 7 10 / 0.35), rgb(5 7 10 / 0.9) 80%)"
-              : `linear-gradient(${side === "left" ? "100deg" : "260deg"}, rgb(5 7 10 / 0.94) 0%, rgb(5 7 10 / 0.72) 38%, rgb(5 7 10 / 0.2) 72%, rgb(5 7 10 / 0.05) 100%)`,
+            side === "full"
+              ? "radial-gradient(ellipse at center, rgb(5 7 10 / 0.15), rgb(5 7 10 / 0.6) 100%)"
+              : side === "center"
+                ? "radial-gradient(ellipse at center, rgb(5 7 10 / 0.35), rgb(5 7 10 / 0.9) 80%)"
+                : `linear-gradient(${side === "left" ? "100deg" : "260deg"}, rgb(5 7 10 / 0.94) 0%, rgb(5 7 10 / 0.72) 38%, rgb(5 7 10 / 0.2) 72%, rgb(5 7 10 / 0.05) 100%)`,
         }}
       />
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-void/80 to-transparent" />
