@@ -6,12 +6,15 @@ import { Empty, ErrorMessage, Loading } from "../components/QueryState";
 import { TitleSelect } from "../features/compare/parts";
 import { compareTitlesParam, parseCompareTitles } from "../features/compare/titles";
 import { divergencePath, kindOf } from "../lib/paths";
+import { SECTION_ART } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 
 /**
  * The DIVERGENCE section (blueprint §29): the events where the chosen titles part ways, each a
  * way into the divergence map, plus any event as a starting point.
  */
 export function DivergencePage() {
+  useBackdrop(SECTION_ART.divergence, { strength: 0.5 });
   const [search, setSearch] = useSearchParams();
   const titles = parseCompareTitles(search.get("titles"));
   const points = useDivergencePoints(titles);
@@ -30,10 +33,8 @@ export function DivergencePage() {
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-1">
-        <p className="label text-mako-300">Where the stories part ways</p>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100">
-          Divergence
-        </h1>
+        <p className="eyebrow">Where the stories part ways</p>
+        <h1 className="page-title">Divergence</h1>
         <p className="max-w-3xl text-sm text-steel-300">
           Pick an event to see the history the titles share up to it, and how each tells it and what
           follows. The points below are where the chosen titles have documented differences.
@@ -44,7 +45,7 @@ export function DivergencePage() {
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <section aria-labelledby="divergence-points" className="flex flex-col gap-3">
-          <h2 id="divergence-points" className="label">
+          <h2 id="divergence-points" className="section-title">
             Divergence points
           </h2>
           {points.isPending ? (
@@ -89,7 +90,7 @@ export function DivergencePage() {
         </section>
 
         <section aria-labelledby="divergence-any" className="panel flex h-fit flex-col gap-3 p-4">
-          <h2 id="divergence-any" className="label">
+          <h2 id="divergence-any" className="section-title">
             Start from any event
           </h2>
           <select

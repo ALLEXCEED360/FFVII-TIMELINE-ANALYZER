@@ -7,6 +7,8 @@ import { ErrorMessage, Loading } from "../../components/QueryState";
 import { comparePath, divergencePath, entityPath } from "../../lib/paths";
 import { describeLocator } from "../../lib/reference";
 import { AppearanceCard, DifferenceList, TitleDots } from "../entity/parts";
+import { artFor, sceneFor } from "../../art/manifest";
+import { Artwork } from "../../components/Artwork";
 
 /**
  * The inspector (blueprint §25): the selected event in full, without leaving the timeline —
@@ -77,10 +79,25 @@ function EventDetails({
     (r) => r.type === "occurred_at" && r.direction === "out",
   );
 
+  const art = sceneFor(entity.id) ?? artFor(entity.id).main;
+
   return (
     <>
+      {art && (
+        <div
+          aria-hidden="true"
+          className="halftone relative -mx-4 -mb-2 h-32 overflow-hidden bg-night-950"
+        >
+          <Artwork
+            entry={art}
+            decorative
+            className={`size-full ${art.kind === "cutout" ? "object-contain object-top" : "object-cover"}`}
+          />
+          <span className="absolute inset-0 bg-gradient-to-t from-night-900 to-transparent" />
+        </div>
+      )}
       <header className="flex flex-col gap-1.5">
-        <h2 className="font-display text-xl leading-tight font-semibold text-steel-100">
+        <h2 className="font-display text-2xl leading-tight font-bold tracking-wide text-steel-100 uppercase italic">
           {entity.name}
         </h2>
         {entity.event && (

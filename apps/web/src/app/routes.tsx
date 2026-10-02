@@ -32,7 +32,7 @@ export const routes: RouteObject[] = [
         // A page that fails to load or render shows an error inside the shell.
         errorElement: <RouteError />,
         children: [
-          { index: true, element: <HomePage /> },
+          { index: true, element: <HomePage />, handle: { bleed: true } },
           lazyPage("timeline", PAGES.timeline),
           lazyPage("explore", PAGES.explore),
           lazyPage("compare", PAGES.compare),
@@ -45,6 +45,8 @@ export const routes: RouteObject[] = [
           lazyPage("archive/research", PAGES.research),
           lazyPage("archive/:title", PAGES.archiveTitle),
           lazyPage("archive/:title/:unit", PAGES.sourceUnit),
+          lazyPage("credits", PAGES.credits),
+          lazyPage("settings", PAGES.settings),
           // /character/cloud-strife, /event/nibelheim-incident, … (unknown kinds show "not found").
           lazyPage(":kind/:slug", PAGES.entity),
           { path: "*", element: <NotFoundPage /> },

@@ -20,6 +20,9 @@ import { TITLE_ORDER, describeLocator, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import { OpenQuestionList } from "../features/archive/OpenQuestions";
 import { NotFoundPage } from "./NotFoundPage";
+import { artFor, sceneFor } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
+import { Portrait } from "../features/entity/Portrait";
 
 /**
  * One entity in full (blueprint §25): identity, how each title presents it, what changes, and
@@ -64,77 +67,89 @@ function EntityView({
   const presentIn = new Set(
     entity.appearances.filter((a) => a.status !== "omitted").map((a) => a.title),
   );
+  const { main, original } = artFor(entity.id);
+  const figure = main?.kind === "cutout" ? main : undefined;
+  useBackdrop(sceneFor(entity.id)?.id, { strength: figure ? 0.3 : 0.5 });
 
   return (
     <article className="flex flex-col gap-8">
-      <header className="flex flex-col gap-3">
-        <nav aria-label="Breadcrumb" className="label">
-          <Link to="/explore" className="hover:text-mako-300">
-            Explore
-          </Link>{" "}
-          /{" "}
-          <Link to={`/explore?kind=${kind}`} className="hover:text-mako-300">
-            {KIND_LABELS[kind].many}
-          </Link>
-        </nav>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100 sm:text-4xl">
-          {entity.name}
-        </h1>
-        {entity.aliases.length > 0 && (
-          <p className="text-sm text-steel-400">Also known as {entity.aliases.join(", ")}</p>
-        )}
-        {entity.event && (
-          <p className="label text-mako-300">
-            {formatYearBounds(entity.event.start)} · {entity.event.arc.name}
-            {entity.event.importance === 3 ? " · Pivotal" : ""}
-          </p>
-        )}
-        <p className="max-w-3xl text-steel-300">{entity.summary}</p>
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="label mr-1">Appears in</span>
-          {TITLE_ORDER.map((title) => (
-            <span
-              key={title}
-              className="chip"
-              style={
-                presentIn.has(title)
-                  ? { borderColor: TITLE_COLOR[title], color: "var(--color-steel-100)" }
-                  : { opacity: 0.45 }
-              }
-            >
-              {titleShort(reference, title)}
-              <span className="sr-only">{presentIn.has(title) ? "" : " (not in this title)"}</span>
+      <header
+        className={`grid items-end gap-6 ${figure ? "lg:grid-cols-[minmax(0,1fr)_minmax(18rem,28rem)]" : ""}`}
+      >
+        <div className="flex flex-col gap-3">
+          <nav aria-label="Breadcrumb" className="label">
+            <Link to="/explore" className="hover:text-mako-300">
+              Explore
+            </Link>{" "}
+            /{" "}
+            <Link to={`/explore?kind=${kind}`} className="hover:text-mako-300">
+              {KIND_LABELS[kind].many}
+            </Link>
+          </nav>
+          <h1 className="page-title">{entity.name}</h1>
+          {entity.aliases.length > 0 && (
+            <p className="text-sm text-steel-400">Also known as {entity.aliases.join(", ")}</p>
+          )}
+          {entity.event && (
+            <p className="eyebrow">
+              {formatYearBounds(entity.event.start)} · {entity.event.arc.name}
+              {entity.event.importance === 3 ? " · Pivotal" : ""}
+            </p>
+          )}
+          <p className="max-w-3xl text-steel-300">{entity.summary}</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="label mr-1">Appears in</span>
+            {TITLE_ORDER.map((title) => (
+              <span
+                key={title}
+                className="chip"
+                style={
+                  presentIn.has(title)
+                    ? { borderColor: TITLE_COLOR[title], color: "var(--color-steel-100)" }
+                    : {
+                        borderStyle: "dashed",
+                        color: "var(--color-steel-400)",
+                        textDecoration: "line-through",
+                      }
+                }
+              >
+                {titleShort(reference, title)}
+                <span className="sr-only">
+                  {presentIn.has(title) ? "" : " (not in this title)"}
+                </span>
+              </span>
+            ))}
+            <span className="ml-auto flex gap-2">
+              {presentIn.size >= 2 && (
+                <Link to={comparePath(entity.id)} className="btn">
+                  Compare titles
+                </Link>
+              )}
+              {entity.relationships.length > 0 && (
+                <Link to={networkPath(entity.id)} className="btn">
+                  Network
+                </Link>
+              )}
+              {entity.event && (
+                <Link to={divergencePath(entity.id)} className="btn">
+                  Divergence
+                </Link>
+              )}
+              {entity.event && (
+                <Link to={`/timeline?event=${entity.id}`} className="btn">
+                  Show on timeline
+                </Link>
+              )}
             </span>
-          ))}
-          <span className="ml-auto flex gap-2">
-            {presentIn.size >= 2 && (
-              <Link to={comparePath(entity.id)} className="btn">
-                Compare titles
-              </Link>
-            )}
-            {entity.relationships.length > 0 && (
-              <Link to={networkPath(entity.id)} className="btn">
-                Network
-              </Link>
-            )}
-            {entity.event && (
-              <Link to={divergencePath(entity.id)} className="btn">
-                Divergence
-              </Link>
-            )}
-            {entity.event && (
-              <Link to={`/timeline?event=${entity.id}`} className="btn">
-                Show on timeline
-              </Link>
-            )}
-          </span>
+          </div>
         </div>
+        {figure && <Portrait main={figure} original={original} />}
       </header>
 
       {entity.event && <EventContext id={entity.id} />}
 
       <section aria-labelledby="entity-titles" className="flex flex-col gap-3">
-        <h2 id="entity-titles" className="label">
+        <h2 id="entity-titles" className="section-title">
           In each title
         </h2>
         <div className="grid gap-3 md:grid-cols-2">
@@ -150,7 +165,7 @@ function EntityView({
       </section>
 
       <section aria-labelledby="entity-differences" className="flex flex-col gap-3">
-        <h2 id="entity-differences" className="label">
+        <h2 id="entity-differences" className="section-title">
           Differences between titles
         </h2>
         {entity.differences.length > 0 ? (
@@ -164,12 +179,15 @@ function EntityView({
 
       {entity.openQuestions.length > 0 && (
         <section aria-labelledby="entity-questions" className="flex flex-col gap-3">
-          <h2 id="entity-questions" className="label">
+          <h2 id="entity-questions" className="section-title">
             Open research questions
           </h2>
           <p className="text-sm text-steel-400">
             Parts of this record still awaiting a stronger check. See the{" "}
-            <Link to="/archive/research" className="text-steel-200 hover:text-mako-300">
+            <Link
+              to="/archive/research"
+              className="text-steel-200 underline underline-offset-2 hover:text-mako-300"
+            >
               research log
             </Link>
             .
@@ -200,11 +218,7 @@ function EventContext({ id }: { id: string }) {
     <nav aria-label="Chronology" className="grid gap-3 sm:grid-cols-2">
       {neighbours.map(({ label, event }) =>
         event ? (
-          <Link
-            key={label}
-            to={entityPath(event.id)}
-            className="panel p-3 transition hover:border-mako-500"
-          >
+          <Link key={label} to={entityPath(event.id)} className="panel panel-link p-3">
             <span className="label block">{label}</span>
             <span className="text-steel-100">{event.name}</span>
             <span className="block text-xs text-steel-400">{formatYearBounds(event.start)}</span>
@@ -242,7 +256,7 @@ function Connections({
 
   return (
     <section aria-labelledby="entity-connections" className="flex flex-col gap-3">
-      <h2 id="entity-connections" className="label">
+      <h2 id="entity-connections" className="section-title">
         Connections
       </h2>
       {groups.length === 0 ? (

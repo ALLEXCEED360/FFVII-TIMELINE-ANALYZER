@@ -54,10 +54,12 @@ test("divergence stations can be chosen with the keyboard", async ({ page }) => 
   await expect(page).toHaveURL(/node=event_aerith_death/);
 });
 
-/** Click the option's label, as a visitor would (the radio itself is visually hidden). */
+/** Choose a Motion option in Settings, clicking its label as a visitor would (the radio is hidden). */
 async function chooseMotion(page: import("@playwright/test").Page, option: string) {
+  await page.goto("/settings");
   await page
-    .locator("footer label")
+    .getByRole("group", { name: "Motion" })
+    .locator("label")
     .filter({ hasText: new RegExp(`^${option}$`) })
     .click();
   await expect(page.getByRole("radio", { name: option })).toBeChecked();
@@ -77,7 +79,7 @@ test.describe("reduced motion", () => {
     expect(Number.parseFloat(await navTransition(page))).toBeLessThan(0.01);
   });
 
-  test("can be chosen in the footer, and is remembered", async ({ page }) => {
+  test("can be chosen in Settings, and is remembered", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await page.goto("/");
     expect(Number.parseFloat(await navTransition(page))).toBeGreaterThan(0.1);
@@ -115,4 +117,81 @@ test("keyboard focus is always visible", async ({ page }) => {
     });
     expect(outline).toBe("ok");
   }
+});
+
+test("timeline markers preview their event on hover and focus", async ({ page }) => {
+  await page.goto("/timeline");
+  const marker = page.getByRole("button", { name: /^Death of Aerith — Rebirth/ });
+  await marker.hover();
+  const preview = page.locator('[aria-hidden="true"]').filter({ hasText: "Select to inspect" });
+  await expect(preview).toContainText("Death of Aerith");
+  await expect(preview).toContainText("Rebirth");
+  await page.mouse.move(0, 0);
+  await expect(preview).toHaveCount(0);
+
+  await marker.focus();
+  await expect(preview).toContainText("Death of Aerith");
+});
+
+test("moving between sections plays the wipe, but not under reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  const nav = page.getByRole("navigation", { name: "Main" });
+  await nav.getByRole("link", { name: "Timeline" }).click();
+  await expect(page.locator(".wipe")).toContainText("Timeline");
+  await expect(page).toHaveURL(/\/timeline$/);
+  await expect(page.locator(".wipe")).toHaveCount(0);
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await nav.getByRole("link", { name: "Archive" }).click();
+  await expect(page).toHaveURL(/\/archive$/);
+  await expect(page.locator(".wipe")).toHaveCount(0);
+});
+
+test("the home menu is driven with the arrow keys", async ({ page }) => {
+  await page.goto("/");
+  const menu = page.getByRole("navigation", { name: "Sections" });
+  await menu.getByRole("link", { name: /^Timeline/ }).focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(menu.getByRole("link", { name: /^Compare/ })).toBeFocused();
+  await page.keyboard.press("End");
+  await expect(menu.getByRole("link", { name: /^Archive/ })).toBeFocused();
+  await page.keyboard.press("ArrowDown");
+  await expect(menu.getByRole("link", { name: /^Timeline/ })).toBeFocused();
+  await page.keyboard.press("ArrowUp");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/archive$/);
+  await expect(page.getByRole("heading", { level: 1, name: "Archive" })).toBeVisible();
+});
+
+test.describe("title screen", () => {
+  // A first visit: nothing saved, so the title screen plays.
+  test.use({ storageState: { cookies: [], origins: [] } });
+
+  test("plays on the first visit, waits for a key, then not again this session", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const title = page.getByRole("dialog", { name: /Timeline\s*Analyzer/ });
+    await expect(title).toBeVisible();
+    await expect(title).toContainText("Archive online");
+    await expect(
+      page.getByRole("button", { name: /Press any button|Tap the screen/ }),
+    ).toBeFocused();
+    await page.waitForTimeout(800);
+    await page.keyboard.press("Enter");
+    await expect(title).toHaveCount(0);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("One story.");
+
+    await page.reload();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("One story.");
+    await expect(title).toHaveCount(0);
+  });
+
+  test("steps aside by itself on a shared link @mobile", async ({ page }) => {
+    await page.goto("/character/cloud-strife");
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await expect(page.getByRole("dialog")).toHaveCount(0, { timeout: 10_000 });
+    await expect(page.getByRole("heading", { level: 1, name: "Cloud Strife" })).toBeVisible();
+  });
 });

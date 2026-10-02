@@ -7,10 +7,15 @@ import { unitPath } from "../lib/paths";
 import { isTitleCode, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import { NotFoundPage } from "./NotFoundPage";
+import { SECTION_ART, TITLE_ART } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 
 /** One title as a source (blueprint §16): every segment or chapter, with what cites it. */
 export function ArchiveTitlePage() {
   const { title } = useParams();
+  useBackdrop(isTitleCode(title ?? "") ? TITLE_ART[title as TitleCode] : SECTION_ART.archive, {
+    strength: 0.45,
+  });
   const sources = useSources();
   const reference = useReference();
 
@@ -63,7 +68,7 @@ export function ArchiveTitlePage() {
             aria-label={group.label ?? "Chapters"}
             className="flex flex-col gap-2"
           >
-            {group.label && <h2 className="label">{group.label}</h2>}
+            {group.label && <h2 className="section-title">{group.label}</h2>}
             <UnitList
               title={title}
               units={group.units}

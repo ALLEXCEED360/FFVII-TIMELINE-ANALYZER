@@ -7,12 +7,15 @@ import { toggle } from "../features/network/params";
 import { KIND_LABELS, isEntityKind, networkPath } from "../lib/paths";
 import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
+import { SECTION_ART } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 
 /**
  * The NETWORK section (blueprint §20, §28): how the dataset is connected — the most directly
  * connected entities, any disconnected groups — and entry points into the graph and path finder.
  */
 export function NetworkOverviewPage() {
+  useBackdrop(SECTION_ART.network, { strength: 0.45 });
   const [search, setSearch] = useSearchParams();
   const titlesParam = search.get("titles")?.split(",") ?? [];
   const chosen = TITLE_ORDER.filter((t) => titlesParam.includes(t));
@@ -37,10 +40,8 @@ export function NetworkOverviewPage() {
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-1">
-        <p className="label text-mako-300">Relationship graph</p>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100">
-          Network
-        </h1>
+        <p className="eyebrow">Relationship graph</p>
+        <h1 className="page-title">Network</h1>
         <p className="max-w-3xl text-sm text-steel-300">
           How the dataset's characters, events, places and organizations connect. These are measures
           of the data — how much is recorded and linked — not rankings of the story.
@@ -70,7 +71,7 @@ export function NetworkOverviewPage() {
 
       <div className="grid gap-5 lg:grid-cols-2">
         <section aria-labelledby="network-start" className="panel flex flex-col gap-4 p-4">
-          <h2 id="network-start" className="label">
+          <h2 id="network-start" className="section-title">
             Explore the graph
           </h2>
           <label className="flex flex-col gap-1.5">
@@ -146,7 +147,7 @@ export function NetworkOverviewPage() {
         </section>
 
         <section aria-labelledby="network-shape" className="panel flex flex-col gap-3 p-4">
-          <h2 id="network-shape" className="label">
+          <h2 id="network-shape" className="section-title">
             Shape of the data
           </h2>
           {metrics.isPending ? (
@@ -198,7 +199,7 @@ export function NetworkOverviewPage() {
       </div>
 
       <section aria-labelledby="network-central" className="flex flex-col gap-3">
-        <h2 id="network-central" className="label">
+        <h2 id="network-central" className="section-title">
           Most directly connected
         </h2>
         {metrics.data && (

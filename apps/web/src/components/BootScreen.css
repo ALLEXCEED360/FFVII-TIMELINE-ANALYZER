@@ -1,0 +1,225 @@
+/* The title screen (BootScreen.tsx, decision 0016). Every movement here stops under reduced
+   motion (styles.css); decoration that exists only as movement is marked .motion-only. Its
+   keyframes live here: Tailwind only outputs theme keyframes that styles.css itself uses. */
+
+/* ── The scene: Midgar at night, stars, Meteor, and the Lifestream's motes ──────────────── */
+
+.boot-city {
+  opacity: 0.5;
+  mask-image: linear-gradient(to top, #000 45%, transparent);
+  animation: fade-in 2s ease-out 0.2s both;
+}
+.boot-stars {
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 27% 8%, #cfe 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 41% 26%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 12%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 31%, #dff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 79% 6%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 22%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 6% 36%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 40%, #cfe 50%, transparent 51%),
+    radial-gradient(1px 1px at 94% 40%, #fff 50%, transparent 51%);
+  background-size: 520px 420px;
+  mask-image: linear-gradient(to bottom, #000 30%, transparent 70%);
+  animation: twinkle 3.6s ease-in-out infinite;
+}
+/* Upper right, in from the edge, its sphere just touching the title's upper right. */
+.boot-meteor {
+  top: 1%;
+  right: 5%;
+  width: min(40vw, 50rem, 68vh);
+  opacity: 0.24;
+  animation: fade-in 3s ease-out 0.6s both;
+}
+.boot-mote {
+  position: absolute;
+  bottom: 0;
+  border-radius: 999px;
+  background: var(--color-mako-300);
+  box-shadow: 0 0 10px 2px rgb(88 224 168 / 0.7);
+  --glow: 0.8;
+  animation: drift-up 9s linear infinite;
+}
+.boot-veil {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 45%, rgb(5 7 10 / 0.82), transparent 75%),
+    linear-gradient(to top, rgb(5 7 10 / 0.6), transparent 35%);
+}
+/* In from black. */
+.boot-veil::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-ink);
+  animation: fade-out 1.2s ease-out 0.15s both;
+}
+
+/* ── The title, engraved ────────────────────────────────────────────────────────────────── */
+
+/* Set here rather than in the theme: Tailwind drops theme variables its own sheet doesn't use. */
+.boot {
+  --font-ff-logo: "FF Logo", "Optimus Princeps", Georgia, serif;
+  --font-engraved: "Optimus Princeps", "Trajan Pro", Georgia, serif;
+}
+
+@keyframes title-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(0.3rem);
+  }
+}
+
+/* The series' own lettering, small, between hairlines tipped with Mako; beneath it the name in
+   engraved Roman capitals of brushed silver, a glint of light crossing them now and then. */
+.en-ff {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-ff-logo);
+  text-transform: uppercase;
+  font-size: clamp(1.5rem, min(3.6vw, 5.6vh), 3.4rem);
+  letter-spacing: 0.24em;
+  margin-right: -0.24em;
+  color: #e7ecee;
+  text-shadow: 0 2px 10px rgb(0 0 0 / 0.8);
+  animation: title-in 1.6s ease-out 0.6s both;
+}
+.en-rule {
+  width: clamp(2.5rem, 10vw, 11rem);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-mako-300));
+}
+.en-rule-r {
+  margin-left: -0.24em;
+  transform: scaleX(-1);
+}
+.en-name {
+  margin-top: 0.3em;
+  font-family: var(--font-engraved);
+  font-size: clamp(2.5rem, min(8.6vw, 15vh), 10.5rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.06em;
+  margin-right: -0.06em;
+  text-transform: uppercase;
+  background:
+    linear-gradient(105deg, transparent 42%, rgb(255 255 255 / 0.95) 50%, transparent 58%) 130% 0 /
+      250% 100% no-repeat,
+    linear-gradient(180deg, #ffffff 0%, #eef1f2 50%, #b5c0c5 75%, #f3f5f6 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 22px rgb(150 230 200 / 0.22)) drop-shadow(0 2px 0 rgb(0 0 0 / 0.8));
+  animation:
+    title-in 2s ease-out 1s both,
+    glint 7s ease-in-out 3.5s infinite;
+}
+@keyframes glint {
+  0% {
+    background-position:
+      130% 0,
+      0 0;
+  }
+  30%,
+  100% {
+    background-position:
+      -30% 0,
+      0 0;
+  }
+}
+
+/* ── Shared: the games, the prompt, the small print ─────────────────────────────────────── */
+
+/* The four games in small spaced capitals, each after a short line in its colour. */
+.boot-tellings {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
+  margin-top: 1.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #b8c2c6;
+  animation: title-in 1.4s ease-out 1.9s both;
+}
+.boot-tellings > span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.boot-tellings > span > span {
+  display: inline-block;
+  width: 1rem;
+  height: 1px;
+}
+
+/* The prompt between two hairlines on a faint band of Mako, pulsing slowly. */
+.boot-press {
+  position: relative;
+  padding: 0.6rem 2.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  color: #fff;
+  border-top: 1px solid rgb(255 255 255 / 0.25);
+  border-bottom: 1px solid rgb(255 255 255 / 0.25);
+  background: linear-gradient(90deg, transparent, rgb(88 224 168 / 0.12), transparent);
+  outline: none;
+  animation:
+    title-in 1.2s ease-out 2.2s both,
+    press-pulse 2.6s ease-in-out 3.4s infinite;
+}
+/* Keyboard focus shows as the hairlines brightening, not as a box round the prompt. */
+.boot-press:focus-visible {
+  border-color: rgb(255 255 255 / 0.75);
+}
+@keyframes press-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+.boot-small {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #8f9ca2;
+  animation: title-in 1s ease-out 2.4s both;
+}
+
+.boot[data-leaving] {
+  animation: boot-out 0.56s var(--ease-wipe) both;
+}
+
+@keyframes twinkle {
+  50% {
+    opacity: 0.25;
+  }
+}
+@keyframes drift-up {
+  from {
+    transform: translate3d(0, 12vh, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: var(--glow, 0.8);
+  }
+  to {
+    transform: translate3d(var(--sway, 0), -110vh, 0);
+    opacity: 0;
+  }
+}
+@keyframes boot-out {
+  to {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}

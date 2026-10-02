@@ -6,7 +6,7 @@ The core question: **how does this piece of FFVII's story appear, change, connec
 
 ## Status
 
-**Phase 10 — hardening (complete).** Playwright now walks the app the way a visitor does, in a real browser against the real API: the blueprint's search-to-timeline journey, divergence and the archive's citation trail, keyboard use, API outages and failed downloads, and a phone layout — with axe auditing 18 pages for WCAG 2.2 AA, contrast included. A Motion setting offers reduced motion; bundle budgets are enforced in CI. The dataset covers 25 events, 20 characters, 11 locations and 5 organizations. Next: Phase 11, the design pass. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
+**Phase 11 — design pass (complete).** The archive now looks and plays like an Atlus game menu set in FFVII: a title screen over Midgar at night that wakes the server, a Metaphor-style main menu of the sections, fat-face titles, slanted slabs, a paper-red-ink wipe carrying each section's name, a Mako cursor, and Settings for motion, the title screen and the cursor. 71 pieces of official Square Enix artwork (key art, character renders, Nomura's original illustrations, concept art) sit behind every screen, stand in the character roster, and pair each character's original and modern looks. Next: Phase 12, the release. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
 
 | Package                                    | What it does                                                                       |
 | ------------------------------------------ | ---------------------------------------------------------------------------------- |
@@ -84,6 +84,7 @@ pnpm web:dev    # http://localhost:5173
 
 - **Code** — [MIT](LICENSE).
 - **Data and documentation** (`data/`, `docs/`) — [CC BY-NC 4.0](LICENSE-DATA): reuse with attribution, non-commercial only.
+- The title screen's pixel font, [Reactor7](https://caveras.net/) by Caveras, is CC BY-NC-SA and ships with its own licence in `apps/web/public/fonts/reactor7/`.
 - _Final Fantasy VII_ and all related names, characters and artwork belong to Square Enix. These licences cover only the original work in this repository. Official artwork shown in the web app is **not** licensed by this project; it's credited on the site's Credits page.
 
 ## Disclaimer

@@ -1,4 +1,5 @@
-import { NavLink, Outlet } from "react-router";
+import { Search, Settings2 } from "lucide-react";
+import { Link, NavLink, Outlet, useLocation, useMatches } from "react-router";
 import {
   CommandPalette,
   SHORTCUT_LABEL,
@@ -6,148 +7,199 @@ import {
 } from "../features/search/CommandPalette";
 import { type PageName, preloadPage } from "../app/pages";
 import { useMotionAttribute } from "../lib/motion";
-import { type MotionSetting, useUi } from "../stores/ui";
+import { useUi } from "../stores/ui";
+import { Backdrop } from "./Backdrop";
+import { BootScreen } from "./BootScreen";
+import { Cursor } from "./Cursor";
 import { SpoilerNotice } from "./SpoilerNotice";
+import { SectionNavLink, Wipe } from "./Wipe";
 
-const NAV: readonly { to: string; label: string; end: boolean; page?: PageName }[] = [
-  { to: "/", label: "Home", end: true },
-  { to: "/timeline", label: "Timeline", end: false, page: "timeline" },
-  { to: "/compare", label: "Compare", end: false, page: "compare" },
-  { to: "/network", label: "Network", end: false, page: "network" },
-  { to: "/divergence", label: "Divergence", end: false, page: "divergence" },
-  { to: "/explore", label: "Explore", end: false, page: "explore" },
-  { to: "/archive", label: "Archive", end: false, page: "archive" },
+/** The sections, in menu order. The home menu lists the same ones (features/home/menu.ts). */
+export const NAV: readonly { to: string; label: string; page: PageName }[] = [
+  { to: "/timeline", label: "Timeline", page: "timeline" },
+  { to: "/compare", label: "Compare", page: "compare" },
+  { to: "/divergence", label: "Divergence", page: "divergence" },
+  { to: "/network", label: "Network", page: "network" },
+  { to: "/explore", label: "Explore", page: "explore" },
+  { to: "/archive", label: "Archive", page: "archive" },
 ];
+
+/** Routes that draw edge to edge (the home menu) set `handle: { bleed: true }`. */
+function useBleed(): boolean {
+  return useMatches().some((match) => (match.handle as { bleed?: boolean } | undefined)?.bleed);
+}
 
 /** Header, navigation, search and footer around every page (blueprint §18, §20, §26). */
 export function AppShell() {
   useSearchShortcut();
   useMotionAttribute();
   const openPalette = useUi((s) => s.setPaletteOpen);
+  const { pathname } = useLocation();
+  const bleed = useBleed();
 
   return (
     <div className="flex min-h-dvh flex-col">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-night-900 focus:p-2"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-paper focus:px-3 focus:py-1.5 focus:font-display focus:font-bold focus:text-ink focus:uppercase"
       >
         Skip to content
       </a>
+      <Backdrop />
       <SpoilerNotice />
-      <header className="border-b border-night-700 bg-night-950/80 backdrop-blur">
-        <div className="mx-auto flex max-w-[96rem] flex-wrap items-center gap-x-8 gap-y-3 px-4 py-3">
-          <NavLink to="/" className="group flex items-center gap-3">
+      <header className="relative z-30 bg-gradient-to-b from-void/95 to-void/60 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-[96rem] flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5 sm:px-6">
+          <Link
+            to="/"
+            className="group flex items-center gap-3"
+            aria-label="Timeline Analyzer — home menu"
+          >
             <span
               aria-hidden="true"
-              className="size-3 rotate-45 border-2 border-mako-400 transition group-hover:bg-mako-400"
+              className="materia size-6 transition-transform group-hover:scale-110"
             />
-            <span className="font-display text-sm font-semibold tracking-[0.18em] text-steel-100 uppercase">
-              FFVII <span className="text-mako-300">Timeline Analyzer</span>
+            <span aria-hidden="true" className="flex flex-col leading-none">
+              <span className="font-mono text-[0.5625rem] tracking-[0.32em] text-mako-300 uppercase">
+                Final Fantasy VII
+              </span>
+              <span className="font-display text-[1.35rem] font-extrabold tracking-wide text-steel-100 uppercase italic transition-colors group-hover:text-mako-200">
+                Timeline Analyzer
+              </span>
             </span>
-          </NavLink>
+          </Link>
           {/* On narrow screens the sections scroll sideways on their own row; the page doesn't. */}
           <nav
             aria-label="Main"
             className="order-last -mx-4 w-screen overflow-x-auto px-4 lg:order-none lg:mx-0 lg:w-auto lg:overflow-visible lg:px-0"
           >
-            <ul className="flex w-max gap-1">
-              {NAV.map((item) => (
+            <ul className="flex w-max gap-0.5">
+              {NAV.map((item, i) => (
                 <li key={item.to}>
-                  <NavLink
+                  <SectionNavLink
                     to={item.to}
-                    end={item.end}
+                    word={item.label}
                     // Start loading the section's code before the click lands.
                     onPointerEnter={() => {
-                      if (item.page) preloadPage(item.page);
+                      preloadPage(item.page);
                     }}
                     onFocus={() => {
-                      if (item.page) preloadPage(item.page);
+                      preloadPage(item.page);
                     }}
                     className={({ isActive }) =>
-                      `block rounded px-3 py-1.5 font-mono text-xs tracking-[0.12em] uppercase transition ${
+                      `slant flex items-baseline gap-1.5 px-4 py-1.5 transition-colors duration-200 ${
                         isActive
-                          ? "bg-mako-900/60 text-mako-200"
-                          : "text-steel-400 hover:text-steel-100"
+                          ? "bg-paper text-ink"
+                          : "text-steel-300 hover:bg-steel-100/10 hover:text-steel-100"
                       }`
                     }
                   >
-                    {item.label}
-                  </NavLink>
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          aria-hidden="true"
+                          className={`font-mono text-[0.5625rem] ${isActive ? "text-mako-700" : "text-mako-400"}`}
+                        >
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="font-display text-[0.9375rem] font-bold tracking-[0.08em] uppercase italic">
+                          {item.label}
+                        </span>
+                      </>
+                    )}
+                  </SectionNavLink>
                 </li>
               ))}
             </ul>
           </nav>
-          <button
-            type="button"
-            onClick={() => {
-              openPalette(true);
-            }}
-            className="btn ml-auto min-w-0 flex-1 justify-between text-steel-400 normal-case sm:min-w-48 sm:flex-none"
-            aria-keyshortcuts="Control+K Meta+K"
-          >
-            <span>Search…</span>
-            <kbd className="hidden rounded border border-night-600 px-1.5 text-[10px] sm:inline">
-              {SHORTCUT_LABEL}
-            </kbd>
-          </button>
+          <div className="ml-auto flex min-w-0 flex-1 items-center justify-end gap-2 sm:flex-none">
+            <button
+              type="button"
+              onClick={() => {
+                openPalette(true);
+              }}
+              className="btn min-w-0 flex-1 justify-between normal-case not-italic sm:min-w-52 sm:flex-none"
+              aria-keyshortcuts="Control+K Meta+K"
+              aria-label="Search"
+            >
+              <span className="flex items-center gap-2 font-sans text-sm font-normal tracking-normal text-steel-300 normal-case">
+                <Search aria-hidden="true" className="size-3.5" />
+                <span className="hidden min-[26rem]:inline">Search…</span>
+              </span>
+              <kbd className="hidden font-mono text-[10px] text-steel-400 not-italic sm:inline">
+                {SHORTCUT_LABEL}
+              </kbd>
+            </button>
+            <NavLink
+              to="/settings"
+              aria-label="Settings"
+              className={({ isActive }) =>
+                `btn px-3! py-1.5! ${isActive ? "bg-paper! text-ink!" : ""}`
+              }
+            >
+              <Settings2 aria-hidden="true" className="size-4" />
+            </NavLink>
+          </div>
         </div>
+        <div aria-hidden="true" className="rule absolute inset-x-0 bottom-0" />
       </header>
 
-      <main id="main" className="mx-auto w-full max-w-[96rem] flex-1 px-4 py-6">
-        <Outlet />
+      <main
+        id="main"
+        className={
+          // Clipped sideways: a page arrives leaning, and mustn't make the window scroll meanwhile.
+          bleed
+            ? "flex flex-1 flex-col overflow-x-clip"
+            : "mx-auto w-full max-w-[96rem] flex-1 overflow-x-clip px-4 py-7 sm:px-6"
+        }
+      >
+        {/* Keyed by path, so each new page settles in; changing only the query doesn't. */}
+        <div key={pathname} className={`page-enter ${bleed ? "flex flex-1 flex-col" : ""}`}>
+          <Outlet />
+        </div>
       </main>
 
-      <footer className="border-t border-night-800 px-4 py-5 text-xs text-steel-400">
-        <div className="mx-auto flex max-w-[96rem] flex-wrap items-center justify-between gap-4">
-          <p>
+      <footer className="relative border-t border-steel-100/10 bg-void/85 px-4 py-4 text-xs text-steel-400 sm:px-6">
+        <div className="mx-auto flex max-w-[96rem] flex-wrap items-center justify-between gap-x-6 gap-y-3">
+          <p className="max-w-3xl">
             Non-commercial fan project. Not affiliated with or endorsed by Square Enix.{" "}
-            <em>Final Fantasy VII</em> and all related names belong to Square Enix.
+            <em>Final Fantasy VII</em> and all related names and artwork belong to Square Enix.
           </p>
-          <MotionControl />
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <p aria-hidden="true" className="hidden items-center gap-5 lg:flex">
+              <span className="hint">
+                <span className="hint-key">{SHORTCUT_LABEL.replace(/\s*K$/, "")}</span>
+                <span className="hint-key">K</span>
+                Search
+              </span>
+              <span className="hint">
+                <span className="hint-key">⇥</span>
+                Move
+              </span>
+              <span className="hint">
+                <span className="hint-key">↵</span>
+                Confirm
+              </span>
+            </p>
+            <Link
+              to="/credits"
+              className="inline-block min-h-6 py-1 font-display text-sm font-bold tracking-widest text-steel-200 uppercase italic hover:text-mako-300"
+            >
+              Credits
+            </Link>
+            <Link
+              to="/settings"
+              className="inline-block min-h-6 py-1 font-display text-sm font-bold tracking-widest text-steel-200 uppercase italic hover:text-mako-300"
+            >
+              Settings
+            </Link>
+          </div>
         </div>
       </footer>
 
       <CommandPalette />
+      <Wipe />
+      <BootScreen />
+      <Cursor />
     </div>
-  );
-}
-
-const MOTION_OPTIONS: readonly { value: MotionSetting; label: string }[] = [
-  { value: "system", label: "System" },
-  { value: "reduced", label: "Reduced" },
-  { value: "full", label: "Full" },
-];
-
-/** The reduced-motion option (blueprint §33): follow the system, or choose. Remembered. */
-function MotionControl() {
-  const motion = useUi((s) => s.motion);
-  const setMotion = useUi((s) => s.setMotion);
-  return (
-    <fieldset className="flex items-center gap-2">
-      <legend className="sr-only">Motion</legend>
-      <span aria-hidden="true" className="label">
-        Motion
-      </span>
-      <div className="flex gap-1">
-        {MOTION_OPTIONS.map((option) => (
-          <label
-            key={option.value}
-            className="btn min-h-6 cursor-pointer px-2 py-0.5 has-checked:border-mako-400 has-checked:text-mako-200 has-focus-visible:outline-2 has-focus-visible:outline-mako-400"
-          >
-            <input
-              type="radio"
-              name="motion"
-              value={option.value}
-              checked={motion === option.value}
-              onChange={() => {
-                setMotion(option.value);
-              }}
-              className="sr-only"
-            />
-            {option.label}
-          </label>
-        ))}
-      </div>
-    </fieldset>
   );
 }

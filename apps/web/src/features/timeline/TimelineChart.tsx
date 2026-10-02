@@ -14,9 +14,12 @@ import type { Marker, TimelineLayout } from "./layout";
 const LANE_LABEL = 128;
 const LANE_HEIGHT = 64;
 const ERA_ROW = 26;
-const LABEL_ROWS = 2;
-const LABEL_ROW = 18;
-const PAD_RIGHT = 24;
+/** Event names are set at an angle, so neighbours a few pixels apart never collide. */
+const LABEL_BAND = 126;
+const LABEL_ANGLE = -56;
+/** Longest label, in pixels along its slant. */
+const LABEL_LENGTH = 150;
+const PAD_RIGHT = 96;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 8;
 
@@ -34,10 +37,10 @@ export function TimelineChart({ layout, selected, onSelect, titleName, eventName
   const zoomRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const width = useWidth(containerRef);
   const [transform, setTransform] = useState<ZoomTransform>(zoomIdentity);
+  const [hovered, setHovered] = useState<{ marker: Marker; cx: number; cy: number } | null>(null);
 
   const hasColumns = layout.columns.length > 0;
-  const top =
-    (layout.eras.length > 0 ? ERA_ROW : 0) + (hasColumns ? LABEL_ROWS * LABEL_ROW + 8 : 8);
+  const top = (layout.eras.length > 0 ? ERA_ROW : 0) + (hasColumns ? LABEL_BAND : 8);
   const height = top + layout.lanes.length * LANE_HEIGHT + 8;
   const plotWidth = Math.max(200, width - LANE_LABEL - PAD_RIGHT);
 
@@ -86,16 +89,6 @@ export function TimelineChart({ layout, selected, onSelect, titleName, eventName
   const laneY = (title: TitleCode) =>
     top + layout.lanes.indexOf(title) * LANE_HEIGHT + LANE_HEIGHT / 2;
 
-  /** Pixels a column label can use: the gap to its neighbours in the same row, on either side. */
-  const labelRoom = (i: number) => {
-    const here = x(layout.columns[i]?.x ?? 0);
-    const gaps = [i - LABEL_ROWS, i + LABEL_ROWS].flatMap((j) => {
-      const other = layout.columns[j];
-      return other ? [Math.abs(x(other.x) - here)] : [];
-    });
-    return gaps.length > 0 ? Math.min(...gaps) - 8 : 220;
-  };
-
   const selectedMarkers = useMemo(
     () => new Set(layout.markers.filter((m) => m.eventId === selected).map((m) => m.title)),
     [layout.markers, selected],
@@ -134,7 +127,7 @@ export function TimelineChart({ layout, selected, onSelect, titleName, eventName
           Reset
         </button>
       </div>
-      <div ref={containerRef} className="panel overflow-hidden">
+      <div ref={containerRef} className="panel relative overflow-hidden">
         <svg
           ref={svgRef}
           width={width}
@@ -222,31 +215,36 @@ export function TimelineChart({ layout, selected, onSelect, titleName, eventName
                   />
                 ))}
 
-            {/* Event labels, alternating between two rows so neighbours don't collide */}
-            {layout.columns.map((column, i) => {
-              const y = (layout.eras.length > 0 ? ERA_ROW : 0) + (i % LABEL_ROWS) * LABEL_ROW + 13;
+            {/* Event labels, slanted so that close neighbours don't collide */}
+            {layout.columns.map((column) => {
+              const cx = x(column.x);
+              const baseline = top - 8;
               const isSelected = column.eventId === selected;
               return (
                 <g key={column.eventId}>
                   <line
-                    x1={x(column.x)}
-                    x2={x(column.x)}
-                    y1={y + 4}
+                    x1={cx}
+                    x2={cx}
+                    y1={baseline + 2}
                     y2={top}
                     className={isSelected ? "stroke-mako-400" : "stroke-night-600"}
                   />
                   <text
-                    x={x(column.x)}
-                    y={y}
-                    textAnchor="middle"
+                    x={cx + 3}
+                    y={baseline}
+                    transform={`rotate(${String(LABEL_ANGLE)} ${String(cx)} ${String(baseline)})`}
                     className={`cursor-pointer text-[11px] ${
-                      isSelected ? "fill-mako-200 font-semibold" : "fill-steel-300"
-                    } ${column.importance === 3 ? "font-medium" : ""}`}
+                      isSelected
+                        ? "fill-mako-200 font-semibold"
+                        : column.importance === 3
+                          ? "fill-steel-200 font-medium"
+                          : "fill-steel-400"
+                    }`}
                     onClick={() => {
                       onSelect(column.eventId);
                     }}
                   >
-                    {fit(column.name, labelRoom(i), 6.1)}
+                    {fit(column.name, LABEL_LENGTH, 6.1)}
                     <title>{column.name}</title>
                   </text>
                 </g>
@@ -277,10 +275,23 @@ export function TimelineChart({ layout, selected, onSelect, titleName, eventName
                 selected={marker.eventId === selected && selectedMarkers.has(marker.title)}
                 label={markerLabel(marker, eventName(marker.eventId), titleName(marker.title))}
                 onSelect={onSelect}
+                onHover={(on) => {
+                  setHovered(on ? { marker, cx: x(marker.x), cy: laneY(marker.title) } : null);
+                }}
               />
             ))}
           </g>
         </svg>
+        {hovered && (
+          <HoverPreview
+            marker={hovered.marker}
+            left={hovered.cx}
+            top={hovered.cy}
+            width={width}
+            event={eventName(hovered.marker.eventId)}
+            title={titleName(hovered.marker.title)}
+          />
+        )}
       </div>
     </div>
   );
@@ -293,6 +304,7 @@ function MarkerGlyph({
   selected,
   label,
   onSelect,
+  onHover,
 }: {
   marker: Marker;
   cx: number;
@@ -300,6 +312,7 @@ function MarkerGlyph({
   selected: boolean;
   label: string;
   onSelect: (id: string) => void;
+  onHover: (on: boolean) => void;
 }) {
   const color = TITLE_COLOR[marker.title];
   const r = selected ? 9 : 7;
@@ -323,11 +336,24 @@ function MarkerGlyph({
           onSelect(marker.eventId);
         }
       }}
+      onPointerEnter={() => {
+        onHover(true);
+      }}
+      onPointerLeave={() => {
+        onHover(false);
+      }}
+      onFocus={() => {
+        onHover(true);
+      }}
+      onBlur={() => {
+        onHover(false);
+      }}
     >
-      <title>{label}</title>
       {/* A generous invisible hit area */}
       <circle cx={cx} cy={cy} r={14} fill="transparent" />
-      {selected && <circle cx={cx} cy={cy} r={16} fill={color} opacity={0.18} />}
+      {selected && (
+        <circle cx={cx} cy={cy} r={16} fill={color} opacity={0.18} className="timeline-glow" />
+      )}
       {unreliable && (
         <circle
           cx={cx}
@@ -368,6 +394,51 @@ function MarkerGlyph({
         <circle cx={cx + r + 3} cy={cy - r - 1} r={2.5} className="fill-ember-400" />
       )}
     </g>
+  );
+}
+
+/**
+ * A preview of a marker on hover or focus (blueprint §21). Decorative for assistive technology:
+ * the marker's own label already says all of this.
+ */
+function HoverPreview({
+  marker,
+  left,
+  top,
+  width,
+  event,
+  title,
+}: {
+  marker: Marker;
+  left: number;
+  top: number;
+  width: number;
+  event: string;
+  title: string;
+}) {
+  const flip = left > width - 240;
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute z-10 w-56 rounded border border-night-600 bg-night-900/95 p-2.5 shadow-lg shadow-black/50 backdrop-blur"
+      style={{
+        left: flip ? left - 232 : left + 16,
+        top: Math.max(4, top - 28),
+        borderLeft: `2px solid ${TITLE_COLOR[marker.title]}`,
+      }}
+    >
+      <p className="text-sm font-semibold text-steel-100">{event}</p>
+      <p className="mt-0.5 font-mono text-[10px] tracking-wider text-steel-400 uppercase">
+        {title} · {STATUS_LABELS[marker.status]}
+        {marker.framing && marker.framing !== "direct"
+          ? ` · ${FRAMING_LABELS[marker.framing]}`
+          : ""}
+      </p>
+      {!marker.worlds.includes("world_main") && (
+        <p className="mt-0.5 text-xs text-steel-300">Only in another world</p>
+      )}
+      <p className="mt-1.5 text-[11px] text-mako-300">Select to inspect</p>
+    </div>
   );
 }
 

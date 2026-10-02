@@ -11,12 +11,16 @@ import {
 import { archiveTitlePath, KIND_LABELS, ENTITY_KINDS, unitPath } from "../lib/paths";
 import { titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
+import { SECTION_ART, TITLE_ART } from "../art/manifest";
+import { Artwork } from "../components/Artwork";
+import { useBackdrop } from "../components/Backdrop";
 
 /**
  * The ARCHIVE section (blueprint §16, §20): the structured catalogue — each title as a source,
  * part by part — the research log behind the facts, and what is still to come.
  */
 export function ArchivePage() {
+  useBackdrop(SECTION_ART.archive, { strength: 0.45, side: "left" });
   const sources = useSources();
   const reference = useReference();
   const research = useResearch();
@@ -26,10 +30,8 @@ export function ArchivePage() {
   return (
     <div className="flex flex-col gap-8">
       <header className="flex flex-col gap-1">
-        <p className="label text-mako-300">Structured catalogue and sources</p>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100">
-          Archive
-        </h1>
+        <p className="eyebrow">Structured catalogue and sources</p>
+        <h1 className="page-title">Archive</h1>
         <p className="max-w-3xl text-sm text-steel-300">
           Every fact here cites the part of a game it comes from: a disc and story segment of the
           original, or a chapter of the Remake series. Browse each title part by part to see what
@@ -38,7 +40,7 @@ export function ArchivePage() {
       </header>
 
       <section aria-labelledby="archive-titles" className="flex flex-col gap-3">
-        <h2 id="archive-titles" className="label">
+        <h2 id="archive-titles" className="section-title">
           The titles as sources
         </h2>
         {sources.isPending ? (
@@ -60,7 +62,7 @@ export function ArchivePage() {
 
       <div className="grid gap-5 lg:grid-cols-2">
         <section aria-labelledby="archive-research" className="panel flex flex-col gap-3 p-4">
-          <h2 id="archive-research" className="label">
+          <h2 id="archive-research" className="section-title">
             Research log
           </h2>
           <p className="text-sm text-steel-300">
@@ -87,7 +89,7 @@ export function ArchivePage() {
         </section>
 
         <section aria-labelledby="archive-dataset" className="panel flex flex-col gap-3 p-4">
-          <h2 id="archive-dataset" className="label">
+          <h2 id="archive-dataset" className="section-title">
             The dataset
           </h2>
           <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -109,7 +111,7 @@ export function ArchivePage() {
       </div>
 
       <section aria-labelledby="archive-future" className="flex flex-col gap-3">
-        <h2 id="archive-future" className="label">
+        <h2 id="archive-future" className="section-title">
           Still to come
         </h2>
         <ul className="grid gap-3 md:grid-cols-3">
@@ -141,9 +143,17 @@ function TitleCard({
   const max = Math.max(1, ...title.units.map((u) => u.citations));
   return (
     <article
-      className="panel flex h-full flex-col gap-2 border-t-2 p-4"
+      className="panel flex h-full flex-col gap-2 overflow-hidden border-t-2 p-4"
       style={{ borderTopColor: TITLE_COLOR[title.code] }}
     >
+      <div aria-hidden="true" className="relative -mx-4 -mt-4 mb-1 h-28 overflow-hidden sm:h-32">
+        <Artwork
+          id={TITLE_ART[title.code]}
+          decorative
+          className="size-full object-cover saturate-[0.85]"
+        />
+        <span className="absolute inset-0 bg-gradient-to-t from-night-900 via-night-900/20 to-transparent" />
+      </div>
       <h3 className="font-display text-lg font-semibold text-steel-100">
         <Link to={archiveTitlePath(title.code)} className="hover:text-mako-300">
           {info?.name ?? titleShort(reference, title.code)}

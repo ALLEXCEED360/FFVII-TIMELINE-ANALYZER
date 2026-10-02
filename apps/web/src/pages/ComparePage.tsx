@@ -7,6 +7,8 @@ import { Empty, ErrorMessage, Loading } from "../components/QueryState";
 import { DifferencesByCategory, TitleSelect } from "../features/compare/parts";
 import { compareTitlesParam, parseCompareTitles } from "../features/compare/titles";
 import { KIND_LABELS, comparePath, isEntityKind } from "../lib/paths";
+import { SECTION_ART } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 
 const CATEGORIES = Object.keys(DIFFERENCE_CATEGORY_LABELS) as DifferenceCategory[];
 
@@ -19,6 +21,7 @@ function isCategory(value: string | null): value is DifferenceCategory {
  * and a way into any entity's side-by-side comparison. /compare?titles=og,rebirth&category=…
  */
 export function ComparePage() {
+  useBackdrop(SECTION_ART.compare, { strength: 0.45, side: "left" });
   const [search, setSearch] = useSearchParams();
   const titles = parseCompareTitles(search.get("titles"));
   const categoryParam = search.get("category");
@@ -64,10 +67,8 @@ export function ComparePage() {
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-1">
-        <p className="label text-mako-300">Version analysis</p>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100">
-          Compare
-        </h1>
+        <p className="eyebrow">Version analysis</p>
+        <h1 className="page-title">Compare</h1>
         <p className="max-w-3xl text-sm text-steel-300">
           Every documented difference between the titles you choose, described neutrally and cited
           on both sides. Open any entity to see its titles side by side.

@@ -1,33 +1,45 @@
 @import "tailwindcss";
-@import "@fontsource-variable/oxanium";
-@import "@fontsource-variable/inter";
-@import "@fontsource-variable/jetbrains-mono";
+@import "./fonts.css";
 
 /*
- * Visual direction (blueprint §19): a serious digital archive influenced by FFVII — a Shinra-era
- * analysis terminal. Night-blue steel, thin grid lines, restrained Mako-green light, technical
- * type. Glow is used sparingly: for the selection and for what matters, never as decoration.
- * This is the foundation; the full design pass is Phase 11.
+ * Visual direction (decision 0015): an Atlus-style game menu — Persona's slanted slabs and
+ * Metaphor's fat-face titles — dressed as a Shinra archive. Near-black ink, off-white "paper" for
+ * the one thing on a screen that must shout, and Mako green as the single loud voice, with Shinra
+ * red as the second stripe of a wipe. Every screen sits over official artwork, dimmed hard on the
+ * side the text lives. Titles are an extended fat-face serif (the Final Fantasy logo's cut),
+ * menus a heavy leaning condensed sans, figures mono. Things lean and cut rather than round and
+ * float; motion is a wipe, not a fade — and stops entirely under reduced motion (lib/motion.ts).
+ *
+ * The class names from the first design (panel, btn, chip, label, eyebrow, page-title…) keep
+ * their meaning; this file retunes what they look like, so every page follows.
  */
 @theme {
-  --color-void: #05080c;
-  --color-night-950: #080d13;
-  --color-night-900: #0c131b;
-  --color-night-850: #101923;
-  --color-night-800: #15212c;
-  --color-night-700: #1f2e3c;
-  --color-night-600: #2e4254;
-  --color-night-500: #4a6175;
-  --color-steel-100: #e4ebf1;
-  --color-steel-200: #c9d4dd;
-  --color-steel-300: #a1b2c0;
-  --color-steel-400: #7c8f9f;
+  --color-void: #05070a;
+  --color-ink: #07090c;
+  --color-night-950: #0a0d11;
+  --color-night-900: #0e1217;
+  --color-night-850: #12171d;
+  --color-night-800: #181e25;
+  --color-night-700: #242c35;
+  --color-night-600: #36414c;
+  --color-night-500: #55616d;
+  /* Text runs from paper white down to a warm grey that still clears 4.5:1 on every panel. */
+  --color-steel-100: #f3ede0;
+  --color-steel-200: #ddd6c7;
+  --color-steel-300: #bcb5a7;
+  --color-steel-400: #979185;
+  --color-paper: #efe7d5;
+  --color-paper-dim: #d9cfba;
   --color-mako-200: #b9f7dc;
   --color-mako-300: #8ef0c6;
   --color-mako-400: #58e0a8;
   --color-mako-500: #2fc48a;
+  --color-mako-600: #1f9a6b;
   --color-mako-700: #1a6b4d;
   --color-mako-900: #0d3325;
+  --color-shinra-400: #ee4458;
+  --color-shinra-500: #d4263a;
+  --color-shinra-700: #8f1422;
   --color-ember-400: #ff8a7a;
   --color-ember-500: #e0584a;
 
@@ -37,16 +49,79 @@
   --color-title-intermission: #ff86b6;
   --color-title-rebirth: #9aa6ff;
 
-  --font-display: "Oxanium Variable", "Eurostile", "Arial Narrow", sans-serif;
+  /* Fat-face for titles; the leaning condensed cut for menus, headings and figures. */
+  --font-title: "Bodoni Moda Variable", "Bodoni MT", Didot, Georgia, serif;
+  --font-display: "Barlow Condensed", "Arial Narrow", ui-sans-serif, sans-serif;
+  /* The original game's pixel text font (kept for the title screen's windows). */
+  --font-ff: "Reactor7", ui-monospace, monospace;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
 
+  /* Cut, not rounded. A hairline survives so antialiasing doesn't leave jagged corners. */
+  --radius-xs: 1px;
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 3px;
+  --radius-2xl: 3px;
+
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-wipe: cubic-bezier(0.76, 0, 0.18, 1);
   --animate-shimmer: shimmer 1.6s linear infinite;
 
   @keyframes shimmer {
     to {
       background-position: -200% 0;
+    }
+  }
+
+  /* A page slides in from the left. (No skew here: the graph and the charts measure their box
+     as the page mounts, and a skewed box reads to them as a scaled one.) */
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      transform: translate3d(-18px, 0, 0);
+    }
+  }
+
+  @keyframes breathe {
+    50% {
+      opacity: 0.32;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translate3d(-18px, 8px, 0) skewX(-6deg);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes art-in {
+    from {
+      opacity: 0;
+      transform: scale(1.04);
+    }
+  }
+
+  @keyframes sweep {
+    from {
+      transform: translateX(-120%) skewX(-20deg);
+    }
+    to {
+      transform: translateX(320%) skewX(-20deg);
     }
   }
 }
@@ -57,16 +132,25 @@
     color: var(--color-steel-200);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    scrollbar-color: var(--color-night-600) transparent;
   }
 
+  /* No background of its own: the page colour is the root's, so the artwork layer behind the
+     content (components/Backdrop.tsx) shows through. */
   body {
     min-height: 100dvh;
-    /* A faint terminal grid under a cold glow from above. */
-    background:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgb(88 224 168 / 0.07), transparent 70%),
-      linear-gradient(rgb(255 255 255 / 0.018) 1px, transparent 1px) 0 0 / 32px 32px,
-      linear-gradient(90deg, rgb(255 255 255 / 0.018) 1px, transparent 1px) 0 0 / 32px 32px,
-      var(--color-void);
+  }
+
+  /* Paper grain over the whole app, like a printed menu. Decorative, never in the way. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   :focus-visible {
@@ -85,17 +169,213 @@
   }
 
   ::selection {
-    background: var(--color-mako-700);
-    color: var(--color-steel-100);
+    background: var(--color-mako-400);
+    color: var(--color-ink);
+  }
+
+  /* The game cursor (components/Cursor.tsx) replaces the pointer once it has mounted; text
+     fields keep the system's I-beam. */
+  :root[data-cursor="game"],
+  :root[data-cursor="game"] *:not(input, textarea, [contenteditable="true"]) {
+    cursor: none !important;
   }
 }
 
 @layer components {
-  /* A framed terminal panel. */
+  /* A panel: near-opaque ink so it reads over the artwork, a hairline edge, and surveyor's
+     brackets at two corners. Not clipped, so popovers inside it are never cut off. */
   .panel {
-    border: 1px solid var(--color-night-700);
-    background: color-mix(in oklab, var(--color-night-900) 88%, transparent);
-    border-radius: 0.375rem;
+    position: relative;
+    border: 1px solid rgb(243 237 224 / 0.1);
+    background: linear-gradient(
+      165deg,
+      color-mix(in oklab, var(--color-night-850) 92%, transparent),
+      color-mix(in oklab, var(--color-night-950) 94%, transparent)
+    );
+    box-shadow: 0 18px 40px -24px rgb(0 0 0 / 0.95);
+    backdrop-filter: blur(8px);
+  }
+  .panel::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    --c: color-mix(in oklab, var(--color-mako-400) 80%, transparent);
+    background:
+      linear-gradient(var(--c) 0 0) top left / 14px 2px no-repeat,
+      linear-gradient(var(--c) 0 0) top left / 2px 14px no-repeat,
+      linear-gradient(var(--c) 0 0) bottom right / 14px 2px no-repeat,
+      linear-gradient(var(--c) 0 0) bottom right / 2px 14px no-repeat;
+  }
+
+  /* A panel that is itself a link: nudged sideways and up, with a hard Mako shadow — a menu item
+     picked out, not a card floating. */
+  .panel-link {
+    transition:
+      border-color 0.18s,
+      box-shadow 0.18s,
+      transform 0.18s var(--ease-out-expo);
+  }
+  .panel-link:hover,
+  .panel-link:focus-visible,
+  .panel-link:focus-within {
+    border-color: var(--color-mako-500);
+    box-shadow: -5px 5px 0 0 var(--color-mako-500);
+    transform: translate(4px, -4px);
+  }
+
+  /* Cut corners (top-right, bottom-left), for cards that hold nothing that overflows. */
+  .cut {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 16px) 0,
+      100% 16px,
+      100% 100%,
+      16px 100%,
+      0 calc(100% - 16px)
+    );
+  }
+
+  /* A parallelogram: the shape of a Persona menu item. */
+  .slant {
+    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  }
+
+  /* Off-white cut-out with ink lettering: the one panel per screen allowed to shout. */
+  .paper {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  /* The fat-face title at the top of every page, like the word bleeding off a game screen. */
+  .page-title {
+    font-family: var(--font-title);
+    font-size: clamp(2.3rem, 5.4vw, 5rem);
+    line-height: 0.88;
+    font-weight: 900;
+    font-variation-settings: "opsz" 96;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+    color: var(--color-steel-100);
+    text-shadow: 0.045em 0.045em 0 var(--color-mako-700);
+  }
+
+  /* Huge stretched lettering for the boot screen, the menu and the wipe. The stretch is a
+     transform, so it's only for single lines whose width is known. */
+  .t-hero {
+    display: inline-block;
+    font-family: var(--font-title);
+    font-weight: 900;
+    font-variation-settings: "opsz" 96;
+    line-height: 0.8;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-steel-100);
+    transform: scaleX(1.32);
+    -webkit-text-stroke: 0.014em currentColor;
+    paint-order: stroke fill;
+  }
+
+  /* Printed-ink texture for the big letters. */
+  .ink-texture {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.11' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 2.6 -0.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mask-size: 420px 420px;
+  }
+
+  /* The label above a title: leaning condensed capitals behind a Mako slash. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mako-300);
+  }
+  .eyebrow::before {
+    content: "";
+    flex: none;
+    width: 0.45rem;
+    height: 1.05em;
+    background: var(--color-mako-400);
+    transform: skewX(-20deg);
+  }
+
+  /* A Mako slash, the mark that punctuates headings. */
+  .slash {
+    display: inline-block;
+    flex: none;
+    width: 0.5rem;
+    height: 1.1em;
+    background: var(--color-mako-400);
+    transform: skewX(-20deg);
+  }
+
+  /* A section heading: leaning condensed capitals with a slash and a rule running out. */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-steel-100);
+  }
+  .section-title::before {
+    content: "";
+    width: 0.5rem;
+    height: 1em;
+    background: var(--color-mako-400);
+    transform: skewX(-20deg);
+  }
+  .section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgb(243 237 224 / 0.28), transparent);
+  }
+
+  /* A hairline that fades in from the edges, with a touch of Mako at its centre. */
+  .rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-night-600) 20%,
+      color-mix(in oklab, var(--color-mako-500) 55%, var(--color-night-600)) 50%,
+      var(--color-night-600) 80%,
+      transparent
+    );
+  }
+
+  /* Print halftone, for large flat surfaces. */
+  .halftone {
+    background-image: radial-gradient(rgb(243 237 224 / 0.09) 1px, transparent 1.3px);
+    background-size: 8px 8px;
+  }
+
+  /* Each page settles in (none under reduced motion). */
+  .page-enter {
+    animation: page-enter 0.42s var(--ease-out-expo) both;
+  }
+
+  /* Staggered entrance for items in a list: set --i on each. */
+  .rise {
+    animation: rise 0.5s var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 45ms + 80ms);
+  }
+
+  /* The selected timeline event breathes gently. */
+  .timeline-glow {
+    animation: breathe 2.4s ease-in-out infinite;
   }
 
   /* Small uppercase technical label. */
@@ -112,7 +392,7 @@
     align-items: center;
     gap: 0.375rem;
     border: 1px solid var(--color-night-600);
-    border-radius: 999px;
+    background: rgb(7 9 12 / 0.55);
     padding: 0.125rem 0.5rem;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
@@ -120,37 +400,75 @@
     color: var(--color-steel-300);
   }
 
+  /* Buttons are parallelograms in the menu voice. The edge is an inset shadow (a border would
+     be clipped away on the slant), and so is the focus ring. */
   .btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    border: 1px solid var(--color-night-600);
-    border-radius: 0.25rem;
-    padding: 0.375rem 0.75rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+    padding: 0.3rem 1rem;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    font-style: italic;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-steel-200);
+    background: rgb(7 9 12 / 0.6);
+    box-shadow: inset 0 0 0 1.5px var(--color-night-500);
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
     transition:
-      border-color 0.15s,
+      background-color 0.15s,
       color 0.15s,
-      background-color 0.15s;
+      box-shadow 0.15s,
+      transform 0.12s;
   }
   .btn:hover {
-    border-color: var(--color-mako-500);
-    color: var(--color-mako-300);
+    background: var(--color-steel-100);
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 1.5px var(--color-steel-100);
   }
+  .btn:active {
+    transform: translate(1px, 1px);
+  }
+  .btn:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--color-mako-400);
+  }
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+  .btn:disabled:hover {
+    background: rgb(7 9 12 / 0.6);
+    color: var(--color-steel-200);
+    box-shadow: inset 0 0 0 1.5px var(--color-night-500);
+  }
+
+  /* The one main action on a screen: solid Mako, ink lettering. */
+  .btn-primary {
+    background: var(--color-mako-400);
+    color: var(--color-ink);
+    box-shadow: none;
+  }
+  .btn-primary:hover {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow: none;
+  }
+  .btn-primary:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--color-ink);
+  }
+
+  /* Pressed and current: filled Mako, like the chosen line of a menu. */
   .btn[aria-pressed="true"],
   .btn[aria-selected="true"],
   .btn[aria-current="page"] {
-    border-color: var(--color-mako-400);
-    background: color-mix(in oklab, var(--color-mako-900) 70%, transparent);
-    color: var(--color-mako-200);
+    background: var(--color-mako-400);
+    color: var(--color-ink);
+    box-shadow: none;
   }
 
   .skeleton {
-    border-radius: 0.25rem;
     background: linear-gradient(
         90deg,
         var(--color-night-800) 25%,
@@ -164,15 +482,74 @@
   .glow-text {
     text-shadow: 0 0 18px rgb(88 224 168 / 0.35);
   }
+
+  /* Control hints: the key in a thin diamond, the action in small caps. */
+  .hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-steel-200);
+  }
+  .hint-key {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    padding: 0 0.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    font-style: normal;
+    letter-spacing: 0;
+    color: var(--color-steel-100);
+  }
+  .hint-key::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1.5px solid currentColor;
+    transform: rotate(45deg) scale(0.9);
+  }
+
+  /* Line art (pencil concept sketches keyed out to light lines, see scripts/fetch_art.py). */
+  .lineart {
+    opacity: 0.55;
+  }
+  .paper .lineart {
+    filter: brightness(0.12);
+    opacity: 0.85;
+  }
+
+  /* A slanted light sweeping across a surface now and then. */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 30%;
+    pointer-events: none;
+    background: linear-gradient(100deg, transparent, rgb(7 9 12 / 0.12), transparent);
+    animation: sweep 4.5s ease-in-out 1.2s infinite;
+  }
 }
 
-/* Reduced motion: chosen in the footer's Motion setting, or the system's preference unless the
-   visitor chose full motion (lib/motion.ts). */
+/* Reduced motion: chosen in Settings, or the system's preference unless the visitor chose full
+   motion (lib/motion.ts). Things that arrive still arrive — they're simply already in place. */
 :root[data-motion="reduced"] *,
 :root[data-motion="reduced"] *::before,
 :root[data-motion="reduced"] *::after {
   animation-duration: 0.01ms !important;
   animation-iteration-count: 1 !important;
+  animation-delay: 0ms !important;
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
 }
@@ -183,7 +560,194 @@
   :root:not([data-motion="full"]) *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Decoration that only exists as movement has no still state worth keeping: hide it. */
+:root[data-motion="reduced"] .motion-only {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .motion-only {
+    display: none;
+  }
+}
+
+/* ── The section wipe (components/Wipe.tsx) ─────────────────────────────────────────────── */
+@keyframes wipe-in {
+  from {
+    transform: translateX(-125%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes wipe-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(125%);
+  }
+}
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6vw) scaleX(1.9);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1.32);
+  }
+}
+@keyframes word-out {
+  from {
+    opacity: 1;
+    transform: scaleX(1.32);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(9vw) scaleX(1.5);
+  }
+}
+.wipe-slab {
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: -15%;
+  width: 135%;
+  transform: translateX(-125%);
+  will-change: transform;
+}
+.wipe[data-phase="cover"] .wipe-slab {
+  animation: wipe-in 330ms var(--ease-wipe) both;
+}
+.wipe[data-phase="reveal"] .wipe-slab {
+  animation: wipe-out 420ms var(--ease-wipe) both;
+}
+.wipe-slab-paper {
+  background: var(--color-paper);
+  clip-path: polygon(0 0, 95% 0, 100% 100%, 8% 100%);
+}
+.wipe-slab-red {
+  background: var(--color-shinra-500);
+  clip-path: polygon(0 0, 92% 0, 100% 100%, 6% 100%);
+}
+.wipe-slab-ink {
+  background: var(--color-ink);
+  clip-path: polygon(0 0, 88% 0, 97% 100%, 3% 100%);
+}
+.wipe-slab-ink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgb(88 224 168 / 0.12) 1px, transparent 1.4px);
+  background-size: 9px 9px;
+}
+.wipe-word {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35em;
+}
+.wipe-word .t-hero {
+  text-shadow: 0.035em 0.035em 0 var(--color-mako-500);
+}
+.wipe[data-phase="cover"] .wipe-word .t-hero {
+  animation: word-in 0.38s var(--ease-out-expo) 0.2s both;
+}
+.wipe[data-phase="reveal"] .wipe-word .t-hero {
+  animation: word-out 0.26s var(--ease-out-expo) both;
+}
+.wipe-sub {
+  font-family: var(--font-mono);
+  font-size: max(0.625rem, 0.07em);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--color-mako-300);
+}
+.wipe[data-phase="cover"] .wipe-sub {
+  animation: fade-in 0.3s ease-out 0.35s both;
+}
+.wipe[data-phase="reveal"] .wipe-sub {
+  animation: fade-out 0.15s ease-out both;
+}
+
+/* ── The game cursor (components/Cursor.tsx) ─────────────────────────────────────────────── */
+.game-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 28px;
+  height: 28px;
+  margin: -3px 0 0 -3px;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    transform 70ms linear,
+    opacity 0.15s;
+}
+.game-cursor[data-shown] {
+  opacity: 1;
+}
+.game-cursor svg {
+  position: absolute;
+  inset: 0;
+  transform-origin: 3px 3px;
+  transition:
+    transform 0.12s var(--ease-out-expo),
+    opacity 0.12s,
+    filter 0.15s;
+}
+.game-cursor-reticle {
+  opacity: 0;
+  transform: translate(-13px, -13px) scale(0.6);
+}
+.game-cursor[data-hover] .game-cursor-arrow {
+  transform: scale(1.18);
+  filter: drop-shadow(0 0 6px rgb(88 224 168 / 0.8));
+}
+.game-cursor[data-pressed] .game-cursor-arrow {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.game-cursor[data-pressed] .game-cursor-reticle {
+  opacity: 1;
+  transform: translate(-13px, -13px) scale(1) rotate(45deg);
+}
+
+/* A materia orb: the brand mark, and a bullet. Its colour comes from --materia (Mako by default). */
+.materia {
+  display: inline-block;
+  flex: none;
+  border-radius: 999px;
+  --materia: var(--color-mako-400);
+  background: radial-gradient(
+    circle at 34% 30%,
+    #f4fffa 0 9%,
+    color-mix(in oklab, var(--materia) 60%, white) 20%,
+    var(--materia) 46%,
+    color-mix(in oklab, var(--materia) 45%, black) 78%,
+    color-mix(in oklab, var(--materia) 20%, black) 100%
+  );
+  box-shadow:
+    0 0 14px color-mix(in oklab, var(--materia) 60%, transparent),
+    inset -2px -3px 5px rgb(0 0 0 / 0.4);
+}
+
+/* Inside a pressed or current button (Mako fill, ink lettering), text keeps the button's colour
+   whatever its own utility says — unlayered, so it wins over utilities. */
+.btn[aria-pressed="true"] *,
+.btn[aria-selected="true"] *,
+.btn[aria-current="page"] *,
+.btn:hover *,
+.btn-primary * {
+  color: inherit;
 }

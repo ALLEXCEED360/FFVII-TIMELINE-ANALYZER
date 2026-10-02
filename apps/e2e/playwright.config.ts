@@ -16,6 +16,8 @@ export default defineConfig({
   use: {
     baseURL: `http://localhost:${String(WEB_PORT)}`,
     trace: "retain-on-failure",
+    // The title screen is switched off, as a returning visitor might; its own tests turn it on.
+    storageState: "./storage.json",
   },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },

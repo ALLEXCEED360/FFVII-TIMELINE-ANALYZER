@@ -15,6 +15,8 @@ import {
 import { entityPath, isEntityKind } from "../lib/paths";
 import { titleShort } from "../lib/reference";
 import { CertaintyBar } from "./ArchivePage";
+import { SECTION_ART } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 
 const QUESTION_ORDER: readonly QuestionKind[] = ["needs_footage", "not_in_dataset", "structure"];
 
@@ -30,6 +32,7 @@ const FACT_KIND_LABELS: Record<Interpretation["kind"], string> = {
  * which facts are interpretation — inferred or deliberately left open — rather than stated.
  */
 export function ResearchPage() {
+  useBackdrop(SECTION_ART.research, { strength: 0.6 });
   const research = useResearch();
   const reference = useReference();
 
@@ -41,9 +44,7 @@ export function ResearchPage() {
             Archive
           </Link>
         </nav>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100">
-          Research log
-        </h1>
+        <h1 className="page-title">Research log</h1>
         <p className="max-w-3xl text-sm text-steel-300">
           A fact goes into the archive only once it has been checked against the game itself. Wikis
           and guides are used only to find where something happens, never as evidence. Everything
@@ -64,7 +65,7 @@ export function ResearchPage() {
               aria-labelledby="research-evidence-levels"
               className="panel flex flex-col gap-3 p-4"
             >
-              <h2 id="research-evidence-levels" className="label">
+              <h2 id="research-evidence-levels" className="section-title">
                 Evidence, best first
               </h2>
               <ol className="flex flex-col gap-2 text-sm">
@@ -90,7 +91,7 @@ export function ResearchPage() {
               </ol>
             </section>
             <section aria-labelledby="research-certainty" className="panel flex flex-col gap-3 p-4">
-              <h2 id="research-certainty" className="label">
+              <h2 id="research-certainty" className="section-title">
                 Certainty
               </h2>
               <CertaintyBar certainty={research.data.certainty} />
@@ -119,7 +120,7 @@ export function ResearchPage() {
           />
 
           <section aria-labelledby="research-questions" className="flex flex-col gap-4">
-            <h2 id="research-questions" className="label">
+            <h2 id="research-questions" className="section-title">
               Open questions{" "}
               <span className="text-steel-300">{research.data.questions.length}</span>
             </h2>
@@ -152,7 +153,7 @@ export function ResearchPage() {
           </section>
 
           <section aria-labelledby="research-interpretations" className="flex flex-col gap-3">
-            <h2 id="research-interpretations" className="label">
+            <h2 id="research-interpretations" className="section-title">
               Inferred and left open{" "}
               <span className="text-steel-300">{research.data.interpretations.length}</span>
             </h2>
@@ -213,7 +214,7 @@ function SourceTable({
 }) {
   return (
     <section aria-labelledby={id} className="flex flex-col gap-3">
-      <h2 id={id} className="label">
+      <h2 id={id} className="section-title">
         {heading} <span className="text-steel-300">{sources.length}</span>
       </h2>
       <ul className="panel divide-y divide-night-800">

@@ -22,6 +22,8 @@ export const PAGES = {
     import("../pages/ArchiveTitlePage").then((m) => ({ Component: m.ArchiveTitlePage })),
   sourceUnit: () =>
     import("../pages/SourceUnitPage").then((m) => ({ Component: m.SourceUnitPage })),
+  credits: () => import("../pages/CreditsPage").then((m) => ({ Component: m.CreditsPage })),
+  settings: () => import("../pages/SettingsPage").then((m) => ({ Component: m.SettingsPage })),
   entity: () => import("../pages/EntityPage").then((m) => ({ Component: m.EntityPage })),
 } satisfies Record<string, () => PageModule>;
 

@@ -13,6 +13,8 @@ import { divergenceSearch, useDivergenceParams } from "../features/divergence/pa
 import { EventInspector } from "../features/inspector/EventInspector";
 import { comparePath, divergencePath, idFromPath, kindOf } from "../lib/paths";
 import { NotFoundPage } from "./NotFoundPage";
+import { SECTION_ART, sceneFor } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 
 /**
  * Where the titles part ways around one event (blueprint §29):
@@ -22,6 +24,7 @@ import { NotFoundPage } from "./NotFoundPage";
 export function DivergenceViewPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);
+  useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.divergence, { strength: 0.45 });
   const { params, update } = useDivergenceParams();
   const divergence = useDivergence(id, params.titles, params.worlds);
   const reference = useReference();
@@ -65,11 +68,9 @@ export function DivergenceViewPage() {
             Divergence
           </Link>
         </nav>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100">
-          {view?.pivot.name ?? "…"}
-        </h1>
+        <h1 className="page-title">{view?.pivot.name ?? "…"}</h1>
         {view && (
-          <p className="label text-mako-300">
+          <p className="eyebrow">
             {formatYearNumber(view.pivot.start)}
             {view.pivot.importance === 3 ? " · Pivotal" : ""}
           </p>
@@ -127,7 +128,7 @@ export function DivergenceViewPage() {
               </section>
               <MarkingLegend />
               <section aria-labelledby="divergence-list" className="flex flex-col gap-3">
-                <h2 id="divergence-list" className="label">
+                <h2 id="divergence-list" className="section-title">
                   As a list
                 </h2>
                 <DivergenceList

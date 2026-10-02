@@ -74,6 +74,27 @@ export default function GraphView({
     };
   }, []);
 
+  // Cytoscape measures its box once, and afterwards only on a window resize. The box settles
+  // after that (fonts arrive, the page finishes its entrance, a column appears), so watch it and
+  // fit the graph to its real size whenever that changes.
+  useEffect(() => {
+    const instance = cy.current;
+    const box = container.current;
+    if (!ready || !instance || !box || typeof ResizeObserver === "undefined") return;
+    let last = `${String(box.clientWidth)}x${String(box.clientHeight)}`;
+    const observer = new ResizeObserver(() => {
+      const size = `${String(box.clientWidth)}x${String(box.clientHeight)}`;
+      if (size === last) return;
+      last = size;
+      instance.resize();
+      instance.fit(undefined, 40);
+    });
+    observer.observe(box);
+    return () => {
+      observer.disconnect();
+    };
+  }, [ready]);
+
   // Node transitions (selection, fading) follow the Motion setting too.
   useEffect(() => {
     const instance = cy.current;

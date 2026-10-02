@@ -9,9 +9,12 @@ import { TimelineList } from "../features/timeline/TimelineList";
 import { layoutTimeline } from "../features/timeline/layout";
 import { useTimelineParams } from "../features/timeline/params";
 import { titleShort } from "../lib/reference";
+import { SECTION_ART } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 
 /** The primary view (blueprint §21–22): the chronology, one lane per title, with an inspector. */
 export function TimelinePage() {
+  useBackdrop(SECTION_ART.timeline, { strength: 0.42 });
   const { params, update, toggleTitle } = useTimelineParams();
   const reference = useReference();
   const timeline = useTimeline(params.titles);
@@ -40,10 +43,8 @@ export function TimelinePage() {
   return (
     <div className="flex flex-col gap-5">
       <header className="flex flex-col gap-1">
-        <p className="label text-mako-300">Chronology</p>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100">
-          Timeline
-        </h1>
+        <p className="eyebrow">Chronology</p>
+        <h1 className="page-title">Timeline</h1>
         <p className="max-w-3xl text-sm text-steel-300">
           {params.view === "world"
             ? "Events in the order they happen in the world of the story, one lane per title. Year 0 is the year the story begins."
@@ -51,7 +52,12 @@ export function TimelinePage() {
         </p>
       </header>
 
-      <div className="grid gap-5 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,1fr)_24rem]">
+      {/* The inspector column only opens once an event is selected; until then the chart has the room. */}
+      <div
+        className={`grid gap-5 lg:grid-cols-[15rem_minmax(0,1fr)] ${
+          params.event ? "xl:grid-cols-[15rem_minmax(0,1fr)_24rem]" : ""
+        }`}
+      >
         <div className="panel h-fit p-4">
           <TimelineFilters
             params={params}
@@ -102,8 +108,13 @@ export function TimelinePage() {
                   arcName={arcName}
                 />
               </div>
-              <div className="hidden sm:block">
+              <div className="hidden flex-wrap items-start justify-between gap-3 sm:flex">
                 <TimelineLegend />
+                {!params.event && (
+                  <p className="text-xs text-steel-400">
+                    Select an event to see how each title shows it.
+                  </p>
+                )}
               </div>
             </>
           ) : (
@@ -129,15 +140,7 @@ export function TimelinePage() {
               }}
             />
           </div>
-        ) : (
-          <div className="panel hidden h-fit p-4 xl:block">
-            <p className="label mb-2">Inspector</p>
-            <p className="text-sm text-steel-400">
-              Select an event to see how each title shows it, what changes between them, and who and
-              where it involves.
-            </p>
-          </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

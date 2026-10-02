@@ -1,0 +1,83 @@
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { join, relative } from "node:path";
+import { describe, expect, it } from "vitest";
+import { ARTWORK, SECTION_ART, TITLE_ART, artFor, artwork } from "./manifest";
+
+const ROOT = join(import.meta.dirname, "..", "..");
+const PUBLIC_ART = join(ROOT, "public", "art");
+const DATA = join(ROOT, "..", "..", "data");
+
+function filesUnder(dir: string): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
+    entry.isDirectory() ? filesUnder(join(dir, entry.name)) : [join(dir, entry.name)],
+  );
+}
+
+/** A WebP's pixel size, from its header (VP8, VP8L or VP8X). */
+function webpSize(path: string): [number, number] {
+  const b = readFileSync(path);
+  const chunk = b.toString("ascii", 12, 16);
+  if (chunk === "VP8X") return [1 + b.readUIntLE(24, 3), 1 + b.readUIntLE(27, 3)];
+  if (chunk === "VP8L") {
+    const bits = b.readUInt32LE(21);
+    return [1 + (bits & 0x3fff), 1 + ((bits >> 14) & 0x3fff)];
+  }
+  return [b.readUInt16LE(26) & 0x3fff, b.readUInt16LE(28) & 0x3fff];
+}
+
+const ENTITY_IDS = new Set(
+  ["characters", "events", "locations", "organizations"].flatMap((dir) =>
+    readdirSync(join(DATA, dir)).map((file) => file.replace(/\.yaml$/, "")),
+  ),
+);
+
+describe("art manifest", () => {
+  it("lists every image in public/art, and nothing that isn't there", () => {
+    const files = filesUnder(PUBLIC_ART)
+      .map((path) =>
+        relative(PUBLIC_ART, path)
+          .replaceAll("\\", "/")
+          .replace(/\.webp$/, ""),
+      )
+      .sort();
+    expect(ARTWORK.map((entry) => entry.id).sort()).toEqual(files);
+  });
+
+  it("records each image's real size, so the page can reserve its space", () => {
+    for (const entry of ARTWORK) {
+      const path = join(PUBLIC_ART, `${entry.id}.webp`);
+      expect(existsSync(path)).toBe(true);
+      expect([entry.id, ...webpSize(path)]).toEqual([entry.id, entry.width, entry.height]);
+    }
+  });
+
+  it("names only real entities as subjects", () => {
+    for (const entry of ARTWORK) {
+      for (const subject of entry.subjects)
+        expect([entry.id, ENTITY_IDS.has(subject)]).toEqual([entry.id, true]);
+    }
+  });
+
+  it("describes and credits every image", () => {
+    for (const entry of ARTWORK) {
+      expect(entry.alt.length).toBeGreaterThan(20);
+      expect(entry.title).not.toBe("");
+      // Every image says where it came from: a wiki file, or a note.
+      if (entry.wiki === undefined) expect(entry.source).toBeTruthy();
+      else expect(entry.wiki).toMatch(/\.(png|jpe?g)$/);
+    }
+  });
+
+  it("gives every section and title a backdrop that exists", () => {
+    for (const id of [...Object.values(SECTION_ART), ...Object.values(TITLE_ART)]) {
+      expect(artwork(id)).toBeDefined();
+    }
+  });
+
+  it("pairs each character's modern look with the original's artwork where both exist", () => {
+    const characters = [...ENTITY_IDS].filter((id) => id.startsWith("character_"));
+    for (const id of characters) expect([id, artFor(id).main?.era]).toEqual([id, "modern"]);
+    expect(artFor("character_cloud_strife").original?.id).toBe("characters/cloud-og");
+    expect(artFor("character_jenova").original).toBeUndefined();
+  });
+});

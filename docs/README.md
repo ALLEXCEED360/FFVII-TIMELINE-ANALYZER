@@ -40,3 +40,6 @@ One short record per architecture decision, numbered in order.
 | 0011 | [The divergence view](decisions/0011-divergence.md)                                                    |
 | 0012 | [The archive and sources](decisions/0012-archive-and-sources.md)                                       |
 | 0013 | [Hardening: end-to-end tests, accessibility and performance](decisions/0013-hardening.md)              |
+| 0014 | [The design pass](decisions/0014-design-pass.md)                                                       |
+| 0015 | [A game-menu design, with official artwork](decisions/0015-game-menu-design.md)                        |
+| 0016 | [The title screen, engraved](decisions/0016-title-screen.md)                                           |

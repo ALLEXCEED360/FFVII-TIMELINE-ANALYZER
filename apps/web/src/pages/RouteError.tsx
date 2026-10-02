@@ -22,7 +22,7 @@ export function RouteError() {
       <p className="label text-ember-400">
         {status === null ? "Something went wrong" : `Error ${String(status)}`}
       </p>
-      <h1 className="font-display text-3xl font-semibold text-steel-100">
+      <h1 className="page-title">
         {chunk ? "This page couldn't be loaded" : "This page ran into a problem"}
       </h1>
       <p className="max-w-2xl text-steel-300">

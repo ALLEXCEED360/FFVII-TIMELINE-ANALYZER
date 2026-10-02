@@ -23,6 +23,8 @@ import {
 import { titleShort, worldName } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import { NotFoundPage } from "./NotFoundPage";
+import { SECTION_ART, TITLE_ART } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 
 /**
  * One unit of a title as a source (blueprint §16): /archive/remake/chapter-8, /archive/og/kalm.
@@ -31,6 +33,7 @@ import { NotFoundPage } from "./NotFoundPage";
 export function SourceUnitPage() {
   const params = useParams();
   const unit = unitFromPath(params.title, params.unit);
+  useBackdrop(unit ? TITLE_ART[unit.title] : SECTION_ART.archive, { strength: 0.35 });
   const query = useSourceUnit(unit?.title, unit?.key);
   const reference = useReference();
 
@@ -81,9 +84,7 @@ function UnitView({
           {unitContext(reference, title, unit)}
           {label !== unit.name && label !== `Chapter ${unit.key}` ? ` · ${label}` : ""}
         </p>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100">
-          {unit.name}
-        </h1>
+        <h1 className="page-title">{unit.name}</h1>
         {unit.summary && <p className="max-w-3xl text-steel-300">{unit.summary}</p>}
         {(arc !== undefined || retold.length > 0) && (
           <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-steel-400">
@@ -123,7 +124,7 @@ function UnitView({
 
       {appearances.length > 0 && (
         <section aria-labelledby="unit-shown" className="flex flex-col gap-3">
-          <h2 id="unit-shown" className="label">
+          <h2 id="unit-shown" className="section-title">
             Shown here <span className="text-steel-300">{appearances.length}</span>
           </h2>
           <div className="grid gap-4 lg:grid-cols-2">
@@ -185,7 +186,7 @@ function UnitView({
 
       {differences.length > 0 && (
         <section aria-labelledby="unit-differences" className="flex flex-col gap-3">
-          <h2 id="unit-differences" className="label">
+          <h2 id="unit-differences" className="section-title">
             Differences cited here <span className="text-steel-300">{differences.length}</span>
           </h2>
           <ul className="flex flex-col gap-2">
@@ -217,7 +218,7 @@ function UnitView({
 
       {relationships.length > 0 && (
         <section aria-labelledby="unit-relationships" className="flex flex-col gap-3">
-          <h2 id="unit-relationships" className="label">
+          <h2 id="unit-relationships" className="section-title">
             Relationships shown here <span className="text-steel-300">{relationships.length}</span>
           </h2>
           <ul className="panel divide-y divide-night-800">
@@ -251,7 +252,7 @@ function UnitView({
 
       {worlds.length > 0 && (
         <section aria-labelledby="unit-worlds" className="flex flex-col gap-3">
-          <h2 id="unit-worlds" className="label">
+          <h2 id="unit-worlds" className="section-title">
             Worlds shown here
           </h2>
           <ul className="flex flex-col gap-2">
@@ -270,7 +271,7 @@ function UnitView({
 
       {questions.length > 0 && (
         <section aria-labelledby="unit-questions" className="flex flex-col gap-3">
-          <h2 id="unit-questions" className="label">
+          <h2 id="unit-questions" className="section-title">
             Open questions here
           </h2>
           <OpenQuestionList questions={questions} reference={reference} />

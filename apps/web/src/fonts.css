@@ -1,0 +1,110 @@
+/* The typefaces, Latin only (the archive is in English): one face per weight and style in use,
+   rather than every script each package ships. Files come from the @fontsource packages. */
+@font-face {
+  font-family: "Bodoni Moda Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url("@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 600;
+  src: url("@fontsource/barlow-condensed/files/barlow-condensed-latin-600-italic.woff2")
+    format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700;
+  src: url("@fontsource/barlow-condensed/files/barlow-condensed-latin-700-italic.woff2")
+    format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 800;
+  src: url("@fontsource/barlow-condensed/files/barlow-condensed-latin-800-italic.woff2")
+    format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "JetBrains Mono Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url("@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Reactor7 by Caveras (CC BY-NC-SA): the original PlayStation game's text font, recreated. Served
+   from public/fonts/reactor7 with its licence and readme, as the licence asks. A pixel font, so
+   it's set at multiples of 16 px. */
+@font-face {
+  font-family: "Reactor7";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/reactor7/Reactor7.woff") format("woff");
+}
+/* The Final Fantasy logo's lettering, recreated by Juan Pablo Reyes Altamirano (capitals only).
+   Served as finalf-web.ttf: the 1999 file with its empty Mac character maps dropped, which modern
+   browsers otherwise refuse; the glyphs are untouched. */
+@font-face {
+  font-family: "FF Logo";
+  font-display: swap;
+  src: url("/fonts/ff-logo/finalf-web.ttf") format("truetype");
+}
+/* Optimus Princeps by Manfred Klein: engraved Roman capitals. */
+@font-face {
+  font-family: "Optimus Princeps";
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/optimus-princeps/OptimusPrinceps.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Optimus Princeps";
+  font-display: swap;
+  font-weight: 600;
+  src: url("/fonts/optimus-princeps/OptimusPrincepsSemiBold.ttf") format("truetype");
+}

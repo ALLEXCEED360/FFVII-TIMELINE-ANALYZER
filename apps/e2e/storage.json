@@ -1,0 +1,14 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://localhost:4173",
+      "localStorage": [
+        {
+          "name": "ffvii-ui",
+          "value": "{\"state\":{\"noticeDismissed\":false,\"motion\":\"system\",\"boot\":\"off\",\"cursor\":\"game\"},\"version\":2}"
+        }
+      ]
+    }
+  ]
+}

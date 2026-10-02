@@ -116,7 +116,10 @@ Two structures are defined by this project, not by the games, and live in `data/
 - **Differences are described neutrally**: "In X … ; in Y …". Never judge which version is better.
 - **Artwork.** Official Square Enix artwork (key art, character renders, promotional images) may be used in the web app as decoration, under these rules:
   - Artwork is never a source of facts.
-  - Every image is listed in an art manifest in the web app, with its source, and credited on a Credits page.
-  - No game files are extracted (models, textures, music, audio). No music is used.
+  - Every image is listed in the web app's art manifest (`apps/web/src/art/manifest.ts`), with its artist and source, and credited on the Credits page. `apps/web/scripts/fetch_art.py` reproduces each file.
+  - Each download is approved by the owner first, from a list naming every file, its source and its size.
+  - No game files are extracted (models, textures, music, audio), no in-game screenshots are used, and no image is AI-generated. No music is used.
+  - Images may be resized, cropped (to remove printed titles and logos), have a flat background keyed out, or have a pencil sketch's paper keyed out; the drawing itself is never altered.
+  - Fan art is used only with its artist's permission, and credited to them.
   - Artwork is not covered by this project's licences and is removed on request of the rights holder.
 - Unverified facts never go into `data/` as facts. Open questions about them go in `data/research/open-questions.yaml`.

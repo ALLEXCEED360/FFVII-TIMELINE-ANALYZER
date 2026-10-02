@@ -50,6 +50,7 @@ const FIXTURES: Record<string, unknown> = {
   "/sources/rebirth/14": sourceRebirth14,
   "/sources/og/og_forgotten_capital": sourceOgForgottenCapital,
   "/research": research,
+  "/health": { status: "ok" },
 };
 
 /** Search answers by query; anything else finds nothing. */
@@ -69,8 +70,8 @@ export function stubApi(override?: Responder) {
   const requests: URL[] = [];
   vi.stubGlobal(
     "fetch",
-    vi.fn((input: Request) => {
-      const url = new URL(input.url);
+    vi.fn((input: Request | string) => {
+      const url = new URL(typeof input === "string" ? input : input.url);
       requests.push(url);
       const answer = override?.(url) ?? answerFor(url);
       return Promise.resolve(

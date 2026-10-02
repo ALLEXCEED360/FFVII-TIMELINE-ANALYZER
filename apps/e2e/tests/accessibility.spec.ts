@@ -27,6 +27,8 @@ const PAGES: { name: string; path: string; ready: (page: Page) => Promise<void> 
   { name: "archive title", path: "/archive/og", ready: heading("Final Fantasy VII") },
   { name: "archive unit", path: "/archive/rebirth/chapter-14", ready: heading("End of the World") },
   { name: "research log", path: "/archive/research", ready: heading("Research log") },
+  { name: "credits", path: "/credits", ready: heading("Credits") },
+  { name: "settings", path: "/settings", ready: heading("Settings") },
   { name: "not found", path: "/nowhere/at-all", ready: heading("No record found") },
 ];
 
@@ -66,6 +68,15 @@ for (const { name, path, ready } of PAGES) {
   test(`${name} has no accessibility violations @mobile`, async ({ page }) => {
     await page.goto(path);
     await ready(page);
+    // Measure the page as it rests: entrances fade and lean in, and a half-faded label would
+    // fail the contrast check. Endless decorative loops never finish, so they're left out.
+    await page.waitForFunction(() =>
+      document
+        .getAnimations()
+        .every(
+          (a) => a.playState !== "running" || a.effect?.getComputedTiming().iterations === Infinity,
+        ),
+    );
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();

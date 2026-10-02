@@ -16,6 +16,9 @@ import { titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { NotFoundPage } from "./NotFoundPage";
+import { SECTION_ART, artFor, sceneFor } from "../art/manifest";
+import { Artwork } from "../components/Artwork";
+import { useBackdrop } from "../components/Backdrop";
 
 /**
  * How the chosen titles present one entity, side by side (blueprint §24, §48):
@@ -24,6 +27,7 @@ import { NotFoundPage } from "./NotFoundPage";
 export function ComparisonPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);
+  useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.compare, { strength: 0.45 });
   const [search, setSearch] = useSearchParams();
   const titles = parseCompareTitles(search.get("titles"));
   const comparison = useComparison(id, titles);
@@ -86,6 +90,14 @@ function ComparisonView({
   const major = differences.filter((d) => d.magnitude === "major").length;
   const specific = relationships.filter((r) => !r.shared).length;
 
+  // A character drawn in both eras: the original's artwork over its column, the new look over
+  // the others — how the look changed, beside how the story did.
+  const art = artFor(entity.id);
+  const figures =
+    art.original && art.main?.kind === "cutout"
+      ? { original: art.original, main: art.main }
+      : undefined;
+
   return (
     <article className="flex flex-col gap-8" aria-busy={updating}>
       <header className="flex flex-col gap-3">
@@ -95,9 +107,7 @@ function ComparisonView({
           </Link>{" "}
           / {KIND_LABELS[kind].many}
         </nav>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100 sm:text-4xl">
-          {entity.name}
-        </h1>
+        <h1 className="page-title">{entity.name}</h1>
         <p className="max-w-3xl text-steel-300">{entity.summary}</p>
         <div className="flex flex-wrap items-center gap-2">
           {comparison.isNew && (
@@ -134,6 +144,14 @@ function ComparisonView({
                 >
                   {titleShort(reference, column.title)}
                 </h2>
+                {figures && (
+                  <div className="halftone flex h-56 items-end justify-center overflow-hidden border-b border-steel-100/10 bg-gradient-to-b from-transparent to-night-900/60">
+                    <Artwork
+                      entry={column.title === "og" ? figures.original : figures.main}
+                      className="max-h-full w-auto object-contain drop-shadow-[0_14px_18px_rgb(0_0_0/0.8)]"
+                    />
+                  </div>
+                )}
                 <ColumnView column={column} reference={reference} />
               </section>
             ))}
@@ -144,7 +162,7 @@ function ComparisonView({
       </section>
 
       <section aria-labelledby="compare-differences" className="flex flex-col gap-3">
-        <h2 id="compare-differences" className="label">
+        <h2 id="compare-differences" className="section-title">
           Documented differences
           <span className="ml-2 text-steel-300">
             {differences.length} · {major} major
@@ -160,7 +178,7 @@ function ComparisonView({
       </section>
 
       <section aria-labelledby="compare-connections" className="flex flex-col gap-3">
-        <h2 id="compare-connections" className="label">
+        <h2 id="compare-connections" className="section-title">
           Connections
           <span className="ml-2 text-steel-300">
             {relationships.length - specific} shared · {specific} version-specific

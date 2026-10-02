@@ -37,6 +37,8 @@ import {
 import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import { NotFoundPage } from "./NotFoundPage";
+import { SECTION_ART, sceneFor } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 
 const GraphView = lazy(() => import("../features/network/GraphView"));
 
@@ -59,6 +61,7 @@ function withPath(network: MergedNetwork, path: PathResult | undefined): MergedN
 export function NetworkPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);
+  useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.network, { strength: 0.4 });
   const { params, update } = useNetworkParams();
   const filter = { titles: params.titles, categories: params.categories };
   const reference = useReference();
@@ -111,9 +114,7 @@ export function NetworkPage() {
             Network
           </Link>
         </nav>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-steel-100">
-          {centerName}
-        </h1>
+        <h1 className="page-title">{centerName}</h1>
         <p className="max-w-3xl text-sm text-steel-300">
           Everything within {params.depth} relationship{params.depth > 1 ? "s" : ""} of {centerName}
           . Click an entity to light up its immediate network, double-click to centre on it, or
@@ -314,7 +315,7 @@ export function NetworkPage() {
 
       {network && (
         <section aria-labelledby="network-list" className="flex flex-col gap-3">
-          <h2 id="network-list" className="label">
+          <h2 id="network-list" className="section-title">
             As a list
           </h2>
           <NetworkList
@@ -348,7 +349,7 @@ function PathPanel({
   return (
     <section aria-label="Path" className="panel flex flex-col gap-3 p-4">
       <div className="flex items-center justify-between gap-2">
-        <h2 className="label">Strongest path</h2>
+        <h2 className="section-title">Strongest path</h2>
         <button type="button" className="btn px-2 py-0.5" onClick={onClear}>
           Clear
         </button>
