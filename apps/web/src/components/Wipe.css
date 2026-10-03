@@ -1,0 +1,152 @@
+/* The transition between sections, as one of the original game's windows (Wipe.tsx, decision
+   0018). It never plays under reduced motion, so nothing here needs a still state. */
+
+/* The screen dims behind the window, and lights again as it folds away. */
+.wipe-dim {
+  position: absolute;
+  inset: 0;
+  background: #02040f;
+}
+.wipe[data-phase="cover"] .wipe-dim {
+  animation: wipe-dim-in 650ms linear both;
+}
+.wipe[data-phase="reveal"] .wipe-dim {
+  animation: wipe-dim-out 600ms linear 200ms both;
+}
+@keyframes wipe-dim-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes wipe-dim-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* The window: the menu's blue gradient in its pale bevelled frame. It draws as a line, unfolds
+   from its middle in the game's few steps, and folds back the same way. */
+.wipe-window {
+  position: absolute;
+  inset: 9vh 8vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.2rem;
+  border: 3px solid #d6d6de;
+  border-radius: 9px;
+  background: linear-gradient(140deg, #1f5fc4, #0c2f8e 38%, #061a63 70%, #020b30);
+  box-shadow:
+    inset 0 0 0 1px #5c5c78,
+    0 0 0 1px #111118,
+    0 20px 50px rgb(0 0 0 / 0.7);
+  font-family: "Reactor7", ui-monospace, monospace;
+  color: #fff;
+  text-shadow: 3px 3px 0 #10102a;
+  -webkit-font-smoothing: none;
+}
+.wipe[data-phase="cover"] .wipe-window {
+  animation: wipe-open 650ms steps(10) both;
+}
+.wipe[data-phase="reveal"] .wipe-window {
+  animation: wipe-close 520ms steps(8) both;
+}
+@keyframes wipe-open {
+  0% {
+    transform: scale(0.02, 0.006);
+  }
+  40% {
+    transform: scale(1, 0.006);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+@keyframes wipe-close {
+  60% {
+    transform: scale(1, 0.006);
+  }
+  100% {
+    transform: scale(0, 0.006);
+    opacity: 0;
+  }
+}
+
+/* Where you're going, with the glove pointing at it. A pixel font: sized in steps of 16 px. */
+.wipe-name {
+  position: relative;
+  font-size: 32px;
+  line-height: 1;
+}
+@media (min-width: 40rem) {
+  .wipe-name {
+    font-size: 64px;
+  }
+}
+@media (min-width: 80rem) {
+  .wipe-name {
+    font-size: 96px;
+  }
+}
+.wipe-hand {
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-right: 0.3em;
+  font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;
+  font-size: 0.8em;
+  transform: translateY(-50%);
+  animation: wipe-glove 0.5s steps(2) infinite;
+}
+@keyframes wipe-glove {
+  50% {
+    transform: translate(-6px, -50%);
+  }
+}
+
+/* An ATB gauge that fills while the page loads: full by the time the window may close, and
+   flashing as a full gauge does if the page is still on its way. */
+.wipe-gauge-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 16px;
+}
+@media (min-width: 80rem) {
+  .wipe-gauge-row {
+    font-size: 24px;
+  }
+}
+.wipe-label {
+  color: #8ad7ff;
+}
+.wipe-gauge {
+  position: relative;
+  width: min(42vw, 26rem);
+  height: 0.75em;
+  border: 2px solid #9aa0c8;
+  background: #10153a;
+}
+.wipe-gauge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #fff6c2, #f0c440 55%, #c88a1c);
+  transform-origin: left;
+}
+.wipe[data-phase="cover"] .wipe-gauge::after {
+  animation:
+    wipe-fill 750ms ease-out 400ms both,
+    wipe-ready 0.4s steps(2) 1150ms infinite;
+}
+@keyframes wipe-fill {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes wipe-ready {
+  50% {
+    filter: brightness(1.6);
+  }
+}

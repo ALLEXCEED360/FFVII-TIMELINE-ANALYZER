@@ -44,3 +44,4 @@ One short record per architecture decision, numbered in order.
 | 0015 | [A game-menu design, with official artwork](decisions/0015-game-menu-design.md)                        |
 | 0016 | [The title screen, engraved](decisions/0016-title-screen.md)                                           |
 | 0017 | [The home menu, as the original's pause menu](decisions/0017-home-menu.md)                             |
+| 0018 | [Moving between sections, through one of the original's windows](decisions/0018-window-transition.md)  |

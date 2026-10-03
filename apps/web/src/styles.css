@@ -5,10 +5,11 @@
  * Visual direction (decision 0015): an Atlus-style game menu — Persona's slanted slabs and
  * Metaphor's fat-face titles — dressed as a Shinra archive. Near-black ink, off-white "paper" for
  * the one thing on a screen that must shout, and Mako green as the single loud voice, with Shinra
- * red as the second stripe of a wipe. Every screen sits over official artwork, dimmed hard on the
- * side the text lives. Titles are an extended fat-face serif (the Final Fantasy logo's cut),
- * menus a heavy leaning condensed sans, figures mono. Things lean and cut rather than round and
- * float; motion is a wipe, not a fade — and stops entirely under reduced motion (lib/motion.ts).
+ * red as a second accent. Every screen sits over official artwork, dimmed hard on the side the
+ * text lives. Titles are an extended fat-face serif (the Final Fantasy logo's cut), menus a heavy
+ * leaning condensed sans, figures mono. Things lean and cut rather than round and float. Moving
+ * between sections opens one of the original's windows (decision 0018, components/Wipe.css);
+ * all motion stops under reduced motion (lib/motion.ts).
  *
  * The class names from the first design (panel, btn, chip, label, eyebrow, page-title…) keep
  * their meaning; this file retunes what they look like, so every page follows.
@@ -260,28 +261,6 @@
     overflow-wrap: anywhere;
     color: var(--color-steel-100);
     text-shadow: 0.045em 0.045em 0 var(--color-mako-700);
-  }
-
-  /* Huge stretched lettering for the boot screen, the menu and the wipe. The stretch is a
-     transform, so it's only for single lines whose width is known. */
-  .t-hero {
-    display: inline-block;
-    font-family: var(--font-title);
-    font-weight: 900;
-    font-variation-settings: "opsz" 96;
-    line-height: 0.8;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: var(--color-steel-100);
-    transform: scaleX(1.32);
-    -webkit-text-stroke: 0.014em currentColor;
-    paint-order: stroke fill;
-  }
-
-  /* Printed-ink texture for the big letters. */
-  .ink-texture {
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.11' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 2.6 -0.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    mask-size: 420px 420px;
   }
 
   /* The label above a title: leaning condensed capitals behind a Mako slash. */
@@ -575,108 +554,6 @@
   :root:not([data-motion="full"]) .motion-only {
     display: none;
   }
-}
-
-/* ── The section wipe (components/Wipe.tsx) ─────────────────────────────────────────────── */
-@keyframes wipe-in {
-  from {
-    transform: translateX(-125%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-@keyframes wipe-out {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(125%);
-  }
-}
-@keyframes word-in {
-  from {
-    opacity: 0;
-    transform: translateX(-6vw) scaleX(1.9);
-  }
-  to {
-    opacity: 1;
-    transform: scaleX(1.32);
-  }
-}
-@keyframes word-out {
-  from {
-    opacity: 1;
-    transform: scaleX(1.32);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(9vw) scaleX(1.5);
-  }
-}
-.wipe-slab {
-  position: absolute;
-  top: -20%;
-  bottom: -20%;
-  left: -15%;
-  width: 135%;
-  transform: translateX(-125%);
-  will-change: transform;
-}
-.wipe[data-phase="cover"] .wipe-slab {
-  animation: wipe-in 330ms var(--ease-wipe) both;
-}
-.wipe[data-phase="reveal"] .wipe-slab {
-  animation: wipe-out 420ms var(--ease-wipe) both;
-}
-.wipe-slab-paper {
-  background: var(--color-paper);
-  clip-path: polygon(0 0, 95% 0, 100% 100%, 8% 100%);
-}
-.wipe-slab-red {
-  background: var(--color-shinra-500);
-  clip-path: polygon(0 0, 92% 0, 100% 100%, 6% 100%);
-}
-.wipe-slab-ink {
-  background: var(--color-ink);
-  clip-path: polygon(0 0, 88% 0, 97% 100%, 3% 100%);
-}
-.wipe-slab-ink::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgb(88 224 168 / 0.12) 1px, transparent 1.4px);
-  background-size: 9px 9px;
-}
-.wipe-word {
-  position: relative;
-  z-index: 4;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35em;
-}
-.wipe-word .t-hero {
-  text-shadow: 0.035em 0.035em 0 var(--color-mako-500);
-}
-.wipe[data-phase="cover"] .wipe-word .t-hero {
-  animation: word-in 0.38s var(--ease-out-expo) 0.2s both;
-}
-.wipe[data-phase="reveal"] .wipe-word .t-hero {
-  animation: word-out 0.26s var(--ease-out-expo) both;
-}
-.wipe-sub {
-  font-family: var(--font-mono);
-  font-size: max(0.625rem, 0.07em);
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--color-mako-300);
-}
-.wipe[data-phase="cover"] .wipe-sub {
-  animation: fade-in 0.3s ease-out 0.35s both;
-}
-.wipe[data-phase="reveal"] .wipe-sub {
-  animation: fade-out 0.15s ease-out both;
 }
 
 /* ── The game cursor (components/Cursor.tsx) ─────────────────────────────────────────────── */
