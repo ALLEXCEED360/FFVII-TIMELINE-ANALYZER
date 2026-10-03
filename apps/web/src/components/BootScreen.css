@@ -7,7 +7,7 @@
 .boot-city {
   opacity: 0.5;
   mask-image: linear-gradient(to top, #000 45%, transparent);
-  animation: fade-in 2s ease-out 0.2s both;
+  animation: boot-appear 2s ease-out 0.2s both;
 }
 .boot-stars {
   background-image:
@@ -31,7 +31,7 @@
   right: 5%;
   width: min(40vw, 50rem, 68vh);
   opacity: 0.24;
-  animation: fade-in 3s ease-out 0.6s both;
+  animation: boot-appear 3s ease-out 0.6s both;
 }
 .boot-mote {
   position: absolute;
@@ -53,7 +53,7 @@
   position: absolute;
   inset: 0;
   background: var(--color-ink);
-  animation: fade-out 1.2s ease-out 0.15s both;
+  animation: boot-from-black 1.2s ease-out 0.15s both;
 }
 
 /* ── The title, engraved ────────────────────────────────────────────────────────────────── */
@@ -242,6 +242,17 @@
   animation: boot-out 0.56s var(--ease-wipe) both;
 }
 
+/* The scene's own fades: Tailwind keeps theme keyframes only while styles.css uses them. */
+@keyframes boot-appear {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes boot-from-black {
+  to {
+    opacity: 0;
+  }
+}
 @keyframes twinkle {
   50% {
     opacity: 0.25;

@@ -1,5 +1,6 @@
 // Usage: node scripts/check-bundle.ts (after `vite build`) — fails if the build outgrows its
-// budgets (docs/decisions/0013-hardening.md). Sizes are gzipped, as browsers download them.
+// budgets (docs/decisions/0013-hardening.md), or if any animation names keyframes the build left
+// out. Sizes are gzipped, as browsers download them.
 import { readFile, readdir } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
 
@@ -39,7 +40,40 @@ report("CSS", cssSize, CSS_BUDGET);
 for (const file of pages.sort())
   report(file.replace(/-[\w-]+\.js$/, ""), await gzipped(`assets/${file}`), PAGE_BUDGET);
 
+// Every animation must have its keyframes. Tailwind keeps a theme's keyframes only while
+// styles.css itself uses them, so a component sheet borrowing one can silently lose it — as the
+// title screen's fade from black once did, leaving its scene hidden.
+const sheets = (await readdir(new URL("assets/", DIST))).filter((f) => f.endsWith(".css"));
+let allCss = "";
+for (const file of sheets) allCss += await readFile(new URL(`assets/${file}`, DIST), "utf8");
+const defined = new Set([...allCss.matchAll(/@keyframes\s+([\w-]+)/g)].map((m) => m[1]));
+const NOT_NAMES = new Set(
+  "none normal reverse alternate alternate-reverse forwards backwards both infinite running paused linear ease ease-in ease-out ease-in-out step-start step-end inherit initial unset".split(
+    " ",
+  ),
+);
+const missing = new Set<string>();
+for (const [, value = ""] of allCss.matchAll(/animation(?:-name)?:([^;}]+)/g)) {
+  // Drop functions (timing functions, var() fallbacks), then take each layer's name.
+  let plain = value;
+  while (/[\w-]+\([^()]*\)/.test(plain)) plain = plain.replace(/[\w-]+\([^()]*\)/g, "");
+  for (const layer of plain.split(",")) {
+    const name = layer
+      .trim()
+      .split(/\s+/)
+      .find((token) => /^-?[a-z_][\w-]*$/i.test(token) && !NOT_NAMES.has(token));
+    if (name && !defined.has(name)) missing.add(name);
+  }
+}
+if (missing.size > 0) {
+  console.error(`
+Animations with no keyframes in the build: ${[...missing].join(", ")}`);
+  failures.push("keyframes");
+} else {
+  console.log("ok   every animation has its keyframes");
+}
+
 if (failures.length > 0) {
-  console.error(`\nOver budget: ${failures.join(", ")}`);
+  console.error(`\nFailed: ${failures.join(", ")}`);
   process.exit(1);
 }
