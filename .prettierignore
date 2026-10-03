@@ -12,3 +12,6 @@ apps/web/src/api/schema.d.ts
 
 # third-party font files, shipped as their author distributes them
 apps/web/public/fonts/
+
+# the third-party cursor, shipped as Cursors-4U distributes it (credit header included)
+apps/web/public/cursors/

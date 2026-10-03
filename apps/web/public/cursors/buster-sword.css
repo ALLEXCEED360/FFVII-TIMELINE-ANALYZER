@@ -1,0 +1,34 @@
+@charset "UTF-8";
+/*
+ *   ██████╗██╗   ██╗██████╗ ███████╗ ██████╗ ██████╗ ███████╗
+ *  ██╔════╝██║   ██║██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
+ *  ██║     ██║   ██║██████╔╝███████╗██║   ██║██████╔╝███████╗
+ *  ██║     ██║   ██║██╔══██╗╚════██║██║   ██║██╔══██╗╚════██║
+ *  ╚██████╗╚██████╔╝██║  ██║███████║╚██████╔╝██║  ██║███████║
+ *   ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+ *                         ██╗  ██╗██╗   ██╗
+ *                         ██║  ██║██║   ██║
+ *  ████████████████████   ███████║██║   ██║
+ *                         ╚════██║██║   ██║
+ *                              ██║╚██████╔╝
+ *                              ╚═╝ ╚═════╝
+ *
+ *  Brought to you by https://www.cursors-4u.com
+ *
+ *  Cursor: Final Fantasy 7 - Cloud's Buster Sword
+ *  URL: https://www.cursors-4u.com/cursor/final-fantasy-7-cloud-s-buster-sword
+ */
+@keyframes cursor-anim {
+  0.00% { cursor: url("data:image/webp;base64,UklGRvQAAABXRUJQVlA4TOgAAAAvH8AHEKdgEJKUA3iBjOJIO4EATiEHM23bBEBZlMzOAR+QAQgAg2wjFeDBnuPpH2AA858gS0HKlgHuaDSa+9ezkvHhMLLVuMFHBL5BsfrvFfAMv4OI/its27ZRZKAz7R0jFw+0WGAegTGBeQXGBAUb8hUgcrscRH7aFXQBltsVmABHwu7NgGvtCkyARu0Kam6pkev8i0ajMHhrw9yoqTpVAyU67QXsJ9ERmFDNbsykas5RMjVKm9SVyo/GZk75UeZvyo9GFsCU3zoDeqZlXstDOuLGtABDSt/5DOv1Ge6gs+4D8wYz9n0M") 7 0, auto; }
+  91.82% { cursor: url("data:image/webp;base64,UklGRvYAAABXRUJQVlA4TOkAAAAvH8AHELdgJgAZZcTQPwo//75lMBqAjF80h/j/AV23PjNt25g/xCLo3/2b/wS8f92ktTt/WlUYwDCIwGHbRo40e/Pv3Ytz8bf/UtM9xh1E9F9h27aNIgPp7h25ry2ztRkNjCYYDYwjBcBISLepQrmtnWrEYJ0aMGJ6nT4VNf+WagPmBWFYpwbMD7rWubhPCAHVBpwOVV2nhl8o1hiJxaESReaKV1XMIksDJj6h2yYxNhafUHSLKt8o2dl2i6/42rb4J97FloewO/G7T8Ka6zlvdytLO1EkWum+82r99WoP0jMemXMkk48jZwA=") 7 0, auto; }
+  92.73% { cursor: url("data:image/webp;base64,UklGRvAAAABXRUJQVlA4TOMAAAAvH8AHELdgJgAZZcTQPwo//85VMBOAjC4+QfQv4CbA/plp28b8IZZAC2D/5j8B759bu/NkU4UBDIMIHEaS1EYH6BfZQ/bJP1RbdZtBRP8Vtm3bKDKQ7t6R+9LMliaaOdFMiQU+0fhEAkepK0j1qDpGnY/VuyYxfayu076lEwjJTNNXkOz4Y60Y23OdAFdtwKh3rtkgBI4YK8EsEEU2EIsem8jeXyY2AVWJsbHbnBD6RflFySYRusU+NgOC6hhz2/IRhpb/exPWPN/9mlvZ24ki0Ur3naG119BepHe8MudCJl9XzgA=") 7 0, auto; }
+  93.64% { cursor: url("data:image/webp;base64,UklGRvAAAABXRUJQVlA4TOMAAAAvH8AHEK9gJgAZZcTQPwo//75lMBOAjC4+QfQv4J4A/plp28b8IZbACqD/5j8B75/vbJPWNl9aVRjAMIjAYWSrcQMoSL6Qb/XfaoQ8w+8gov8K27ZtFBlId+9oY1lDyypMqTBaYbTCpAoDtTZ3oNa22ZG4Vra5o3Gt6NCyVGCLty5wrLeDwEUuB91n0eStMGDytjAiq8pWRBSQWYgWVU2ARKujlaKaUc7OGlVTJloS/TKFH12I1jHhR83GRE2qngdwyHufgD3Xc97hllY/8RdoafjOp43Xpz1Az3w0zAlMO47WAAA=") 7 0, auto; }
+  94.55% { cursor: url("data:image/webp;base64,UklGRu4AAABXRUJQVlA4TOEAAAAvH8AHELdgJgAZZcTQPwo//85VMBOAjC4+QfQv4CbA/plp28b8IZZAC2D/5j8B759bu/NkU4UBDIMIHLZt5Eiz4Wcu57vtv9Rf7wLjDiL6z8Bt2ziKvCv1HlLa2Qo7204z7DRpp9GdRneatDNMgHFbJ6A78VJNKBCf1yk1BeLI2hWIWlPQvBM/QkE1ujzaY80yeM21hiVhQm01IwQmMmtwG4POIkuMUJyGbROzWFncRiyj/EyKVyy7+Jdt/CryMiLfcxHW3O/1uB9lQeMv8SiCXvfon+7xJL3sLJwjmXKepQAA") 7 0, auto; }
+  95.45% { cursor: url("data:image/webp;base64,UklGRvoAAABXRUJQVlA4TO4AAAAvH8AHEJ9gEJKUA3iAzyiOtBMI4BGCMAzZygMIoPuX6Rh4IAE8AINsIxXgAB7pOZ7+AQ5g/hNkKVDYMMCdWLFi3b+epYrvHmAYSWobnARyVOq/WD2e4TuI6L/Ctm0bRQG65xfDhw421Gg+o6lG042mGgtX1AcwanomjPqlBzQjmtMDqhFDYJuLEdPSA6oRC6UHxMx+oeRWCoqFIOixol8olTI/KCooInfthO0WuUA1idmqqpRSJ1dIt5DrlFYkvCk6fYY3Vf1neFPkRujy2FfCmcu27uGiXJixbERR3HF+xXj8iifpWs7B+ZI5znMM") 7 0, auto; }
+  96.36% { cursor: url("data:image/webp;base64,UklGRuwAAABXRUJQVlA4TOAAAAAvH8AHEK9gJgAZZcTQPwo3y7AMZBoQuvgE0b+A320CkEnbxL/EKdg9JmD+E7CbtO73pzWFAQyDCBxGtho3CAf5BN/qv9WAPMPvIKL/Ctu2bRQFSPc4o/WhDQ01GDGYYjBgqWMRMRBQnR1I3TrZgMY2B2JA9zYPDlt+ihuIZZEwEMsjXZkc3OfADSRpcXmbg6wBb7UCg0ElWpyszLwQrYEYJR1UqdZgTTqIxCDTr1JL6cRgn8n/F1btMy1L5APYrXjvE9Dzes47XdIaK/4CJXXX+ZT5+JQH6FmPhjmB2Y6jNQ==") 7 0, auto; }
+  97.27% { cursor: url("data:image/webp;base64,UklGRvgAAABXRUJQVlA4TOsAAAAvH8AHEK9gpraNb/8FNJJDbQUEeLtJBzNtpJwAXLwZVnwjBAG3Y6Ztm/QvsOEY+gHIv/lPwfsXEwkcTNBAu1Ao1N6pHq76YNi2jaN8z30/X9l/1b/cA/EGEf1X2LZto8hAko5Dal9a2dJA8waaHFgwBJohkJDqDVLd7gajvts9DCaxJtUXnUAJbkwDwc+w3Q1nu98ZGJoGfNpt0yAEthgbxakRRS77zO8lcvafiU9AVWI0Tp8ZpT+UFKW6ROkO+7i0j1T/cbeWmbBY1mUibBnnaXG3ctqLT6IVsXe/1l+/9iCd4lE5HzL1OGoFAA==") 7 0, auto; }
+  98.18% { cursor: url("data:image/webp;base64,UklGRuoAAABXRUJQVlA4TN4AAAAvH8AHEK9gJgAZZcTQPwo//75lMBOAjC4+QfQv4CbA/plp28b8IZZAC2D/5j8B759b2ezOm00VBjAMInAY2WrcgAnyCb7Vf6sR8gy/g4j+K2zbtlFkIN29o/ZlFS1zmNFh1GHUYcRhoNbmBtTaNgdDXhu3uaHswHTXMjuwJdoQONbaTuCikJPu86ASLTOgRDsiMqtyqHmjiBZVFUCiNVCnrGZUSrBmVSlEi9CvUE3ZWIjWPulHzfpkFdXIA9jlvU/Alus573RLa5z4C7TUfefT5uvTHqBnOSrmBKYeR60=") 7 0, auto; }
+  99.09% { cursor: url("data:image/webp;base64,UklGRvQAAABXRUJQVlA4TOcAAAAvH8AHEKdgpraNb/8FNJJDbQUEeLtJBzNtpJwAXLwZVnwjBAG3Y6Ztm/QvsOEY+gHIv/lPwfsXEwkcTNBAu1Ao1N6pHq56cBhJbtsAylkCTPRfq/nkDL6DiP4rbNu2UWSgyz0k2tmCnW2n+XaastP4TuM7TdkZHsC4rU+FKWxftaBAHK9PaQrEk7UrELWmUJfER+tTcU15tM+aS81bUHBG1FYzQmAit2taVb9FLlUoSXXbxAxcaRWXKj+TyIrLLvnLNnkdmRiRZR4Ja4ZpnNNLudD4SyxF0OuW+emWJ+loZ3C+ZOI8IwAA") 7 0, auto; }
+}
+html { animation: cursor-anim 3630ms step-end infinite; }
+a,button,input,textarea,label,[role=button],select,option{cursor:inherit!important}

@@ -7,7 +7,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 export type MotionSetting = "system" | "reduced" | "full";
 /** The title screen: on every visit, once per browser session, or never. */
 export type BootSetting = "always" | "session" | "off";
-/** The pointer: the game's Mako arrowhead, or the system's own. */
+/** The pointer: Cloud's Buster Sword, or the system's own. */
 export type CursorSetting = "game" | "system";
 
 interface UiState {

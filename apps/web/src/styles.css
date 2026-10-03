@@ -174,11 +174,12 @@
     color: var(--color-ink);
   }
 
-  /* The game cursor (components/Cursor.tsx) replaces the pointer once it has mounted; text
-     fields keep the system's I-beam. */
-  :root[data-cursor="game"],
-  :root[data-cursor="game"] *:not(input, textarea, [contenteditable="true"]) {
-    cursor: none !important;
+  /* The Buster Sword cursor (components/Cursor.tsx) animates the page's own cursor; while it's
+     on, everything takes it, rather than the system's hand over some controls. */
+  :root[data-cursor="sword"] *,
+  :root[data-cursor="sword"] *::before,
+  :root[data-cursor="sword"] *::after {
+    cursor: inherit !important;
   }
 }
 
@@ -554,50 +555,6 @@
   :root:not([data-motion="full"]) .motion-only {
     display: none;
   }
-}
-
-/* ── The game cursor (components/Cursor.tsx) ─────────────────────────────────────────────── */
-.game-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  width: 28px;
-  height: 28px;
-  margin: -3px 0 0 -3px;
-  pointer-events: none;
-  opacity: 0;
-  transition:
-    transform 70ms linear,
-    opacity 0.15s;
-}
-.game-cursor[data-shown] {
-  opacity: 1;
-}
-.game-cursor svg {
-  position: absolute;
-  inset: 0;
-  transform-origin: 3px 3px;
-  transition:
-    transform 0.12s var(--ease-out-expo),
-    opacity 0.12s,
-    filter 0.15s;
-}
-.game-cursor-reticle {
-  opacity: 0;
-  transform: translate(-13px, -13px) scale(0.6);
-}
-.game-cursor[data-hover] .game-cursor-arrow {
-  transform: scale(1.18);
-  filter: drop-shadow(0 0 6px rgb(88 224 168 / 0.8));
-}
-.game-cursor[data-pressed] .game-cursor-arrow {
-  opacity: 0;
-  transform: scale(0.6);
-}
-.game-cursor[data-pressed] .game-cursor-reticle {
-  opacity: 1;
-  transform: translate(-13px, -13px) scale(1) rotate(45deg);
 }
 
 /* A materia orb: the brand mark, and a bullet. Its colour comes from --materia (Mako by default). */

@@ -133,6 +133,38 @@ export function CreditsPage() {
         </ul>
       </section>
 
+      <section aria-labelledby="credits-pieces" className="flex max-w-4xl flex-col gap-3">
+        <h2 id="credits-pieces" className="section-title">
+          Icon and cursor
+        </h2>
+        <ul className="panel divide-y divide-night-800 text-sm">
+          <li className="flex flex-wrap justify-between gap-2 p-3">
+            <span className="text-steel-100">
+              Site icon{" "}
+              <span className="text-steel-400">
+                the Meteor emblem from the series&apos; logo, by Yoshitaka Amano
+              </span>
+            </span>
+            <span className="text-steel-400">© Square Enix</span>
+          </li>
+          <li className="flex flex-wrap justify-between gap-2 p-3">
+            <span className="text-steel-100">
+              Cursor{" "}
+              <span className="text-steel-400">
+                &ldquo;Final Fantasy 7 – Cloud&apos;s Buster Sword&rdquo; from{" "}
+                <a
+                  href="https://www.cursors-4u.com/cursor/final-fantasy-7-cloud-s-buster-sword"
+                  className="underline underline-offset-2 hover:text-mako-300"
+                >
+                  Cursors-4U
+                </a>
+              </span>
+            </span>
+            <span className="text-steel-400">Free cursor, credited as Cursors-4U asks</span>
+          </li>
+        </ul>
+      </section>
+
       <section aria-labelledby="credits-project" className="flex max-w-4xl flex-col gap-3">
         <h2 id="credits-project" className="section-title">
           This project

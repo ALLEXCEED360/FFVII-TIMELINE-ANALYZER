@@ -61,7 +61,7 @@ const BOOT: readonly { value: BootSetting; label: string }[] = [
   { value: "off", label: "Never" },
 ];
 const CURSOR: readonly { value: CursorSetting; label: string }[] = [
-  { value: "game", label: "Game" },
+  { value: "game", label: "Buster Sword" },
   { value: "system", label: "System" },
 ];
 
@@ -98,7 +98,7 @@ export function SettingsPage() {
         <Choice
           name="cursor"
           legend="Cursor"
-          help="The Mako arrowhead, or your system's own pointer. Only on devices with a mouse."
+          help="Cloud's Buster Sword, or your system's own pointer. Only on devices with a mouse."
           value={ui.cursor}
           options={CURSOR}
           onChange={ui.setCursor}
