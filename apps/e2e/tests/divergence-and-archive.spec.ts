@@ -53,18 +53,21 @@ test("from a citation to its part of the game, and on through the archive", asyn
   );
 });
 
-test("on a phone: the timeline as a list, and a comparison as tabs @mobile", async ({
+test("on a phone: an event opens under itself, and a comparison is tabs @mobile", async ({
   page,
   isMobile,
 }) => {
   test.skip(!isMobile, "phone layout");
   await page.goto("/timeline");
-  await expect(page.getByRole("group", { name: /Timeline chart/ })).toHaveCount(0);
-  await page
-    .getByRole("button", { name: /Nibelheim Incident/ })
-    .first()
-    .click();
+  const event = page.getByRole("button", { name: /^Nibelheim Incident/ });
+  await event.click();
   await expect(page).toHaveURL(/event=event_nibelheim_incident/);
+  // The event's window opens inside its own row, not off to the side.
+  await expect(
+    page.getByRole("listitem").filter({ has: event }).getByRole("complementary", {
+      name: "Event details",
+    }),
+  ).toContainText("How each game tells it");
 
   await page.goto("/compare/event/aerith-death");
   const tabs = page.getByRole("tablist", { name: "Titles" });

@@ -25,23 +25,25 @@ The research log (sources used and open questions) is data, in [`data/research/`
 
 One short record per architecture decision, numbered in order.
 
-| #    | Decision                                                                                               |
-| ---- | ------------------------------------------------------------------------------------------------------ |
-| 0001 | [Internal packages export TypeScript source](decisions/0001-internal-packages-as-typescript-source.md) |
-| 0002 | [Pin TypeScript to 6.0.x](decisions/0002-pin-typescript-6.md)                                          |
-| 0003 | [Run TypeScript directly on Node](decisions/0003-run-typescript-natively-on-node.md)                   |
-| 0004 | [Data files are the source of truth](decisions/0004-data-files-are-the-source-of-truth.md)             |
-| 0005 | [Database schema](decisions/0005-database-schema.md)                                                   |
-| 0006 | [API design and deployment](decisions/0006-api-design.md)                                              |
-| 0007 | [Web app architecture and the first timeline](decisions/0007-web-app.md)                               |
-| 0008 | [Entity explorer and search](decisions/0008-explorer-and-search.md)                                    |
-| 0009 | [The comparison view](decisions/0009-comparison-view.md)                                               |
-| 0010 | [The relationship network](decisions/0010-network.md)                                                  |
-| 0011 | [The divergence view](decisions/0011-divergence.md)                                                    |
-| 0012 | [The archive and sources](decisions/0012-archive-and-sources.md)                                       |
-| 0013 | [Hardening: end-to-end tests, accessibility and performance](decisions/0013-hardening.md)              |
-| 0014 | [The design pass](decisions/0014-design-pass.md)                                                       |
-| 0015 | [A game-menu design, with official artwork](decisions/0015-game-menu-design.md)                        |
-| 0016 | [The title screen, engraved](decisions/0016-title-screen.md)                                           |
-| 0017 | [The home menu, as the original's pause menu](decisions/0017-home-menu.md)                             |
-| 0018 | [Moving between sections, through one of the original's windows](decisions/0018-window-transition.md)  |
+| #    | Decision                                                                                                   |
+| ---- | ---------------------------------------------------------------------------------------------------------- |
+| 0001 | [Internal packages export TypeScript source](decisions/0001-internal-packages-as-typescript-source.md)     |
+| 0002 | [Pin TypeScript to 6.0.x](decisions/0002-pin-typescript-6.md)                                              |
+| 0003 | [Run TypeScript directly on Node](decisions/0003-run-typescript-natively-on-node.md)                       |
+| 0004 | [Data files are the source of truth](decisions/0004-data-files-are-the-source-of-truth.md)                 |
+| 0005 | [Database schema](decisions/0005-database-schema.md)                                                       |
+| 0006 | [API design and deployment](decisions/0006-api-design.md)                                                  |
+| 0007 | [Web app architecture and the first timeline](decisions/0007-web-app.md)                                   |
+| 0008 | [Entity explorer and search](decisions/0008-explorer-and-search.md)                                        |
+| 0009 | [The comparison view](decisions/0009-comparison-view.md)                                                   |
+| 0010 | [The relationship network](decisions/0010-network.md)                                                      |
+| 0011 | [The divergence view](decisions/0011-divergence.md)                                                        |
+| 0012 | [The archive and sources](decisions/0012-archive-and-sources.md)                                           |
+| 0013 | [Hardening: end-to-end tests, accessibility and performance](decisions/0013-hardening.md)                  |
+| 0014 | [The design pass](decisions/0014-design-pass.md)                                                           |
+| 0015 | [A game-menu design, with official artwork](decisions/0015-game-menu-design.md)                            |
+| 0016 | [The title screen, engraved](decisions/0016-title-screen.md)                                               |
+| 0017 | [The home menu, as the original's pause menu](decisions/0017-home-menu.md)                                 |
+| 0018 | [Moving between sections, through one of the original's windows](decisions/0018-window-transition.md)      |
+| 0019 | [The timeline, for someone meeting the story for the first time](decisions/0019-timeline-for-beginners.md) |
+| 0020 | [A modern look everywhere but the home menu, and no footer](decisions/0020-modern-look.md)                 |

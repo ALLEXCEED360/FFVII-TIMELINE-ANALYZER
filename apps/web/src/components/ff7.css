@@ -1,0 +1,138 @@
+/* The original game's windows and text (decision 0017), used by the bar across every page, the
+   home menu and the pages redone in the game's look. Keyframes and the font variable are set here:
+   Tailwind drops theme variables and keyframes its own sheet doesn't use. Every movement stops
+   under reduced motion (styles.css). */
+
+.ff7 {
+  --font-ff: "Reactor7", ui-monospace, monospace;
+}
+
+/* A window: the original's blue gradient in a pale bevelled frame, unfolding from its middle. */
+.ff7-window {
+  position: relative;
+  border: 3px solid #d6d6de;
+  border-radius: 7px;
+  /* A little translucent, as the PC original's Config allowed, so the artwork shows through. */
+  background: linear-gradient(
+    140deg,
+    rgb(31 95 196 / 0.72) 0%,
+    rgb(12 47 142 / 0.74) 38%,
+    rgb(6 26 99 / 0.78) 70%,
+    rgb(2 11 48 / 0.82) 100%
+  );
+  backdrop-filter: blur(3px);
+  box-shadow:
+    inset 0 0 0 1px #5c5c78,
+    0 0 0 1px #111118,
+    0 14px 36px rgb(0 0 0 / 0.6);
+  animation: ff7-open 0.26s steps(5) var(--open, 0.1s) both;
+}
+@keyframes ff7-open {
+  from {
+    transform: scaleY(0.04);
+  }
+}
+/* The game's pixel text: white with a hard shadow, labels in its pale cyan. */
+.ff7-text {
+  font-family: var(--font-ff);
+  font-weight: normal;
+  letter-spacing: 0;
+  -webkit-font-smoothing: none;
+  color: #fff;
+  text-shadow: 2px 2px 0 #10102a;
+}
+.ff7-label {
+  color: #8ad7ff;
+}
+
+/* The white glove that points at the chosen command, nudging as it waits. */
+.ff7-hand {
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-right: 0.25em;
+  font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;
+  font-size: 1.05em;
+  line-height: 1;
+  color: #fff;
+  transform: translateY(-50%);
+  visibility: hidden;
+}
+@keyframes glove {
+  50% {
+    transform: translate(-4px, -50%);
+  }
+}
+
+/* ── The home menu's bar (SiteBar.tsx): one of its windows, at its width and scale ───────── */
+
+.site-bar {
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  max-width: min(94vw, 172vh);
+  margin: 0 auto;
+  padding: 1rem 1rem 0;
+  font-size: clamp(14px, min(1.4vw, 2.35vh), 34px);
+}
+.site-bar-window {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+  padding: 0.45em 1.2em 0.45em 1em;
+  --open: 0s;
+}
+.site-bar-logo {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.7em;
+}
+.site-bar-orb {
+  width: 1.5em;
+  height: 1.5em;
+}
+.site-bar-series {
+  font-size: 0.7em;
+  line-height: 1.25;
+}
+.site-bar-name {
+  font-size: 1.35em;
+  line-height: 1.1;
+}
+.site-bar-tools {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 2.4em;
+  margin-left: auto;
+}
+.site-bar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: 1.1em;
+  white-space: nowrap;
+}
+.site-bar-item:focus-visible {
+  outline: 2px dashed #fff;
+  outline-offset: 4px;
+}
+.site-bar-item:hover .ff7-hand,
+.site-bar-item:focus-visible .ff7-hand {
+  visibility: visible;
+  animation: glove 0.9s steps(2) infinite;
+}
+.site-bar-item svg {
+  width: 1em;
+  height: 1em;
+}
+@media (max-width: 40rem) {
+  .site-bar {
+    font-size: 15px;
+  }
+  .site-bar-tools {
+    gap: 1.6em;
+  }
+}

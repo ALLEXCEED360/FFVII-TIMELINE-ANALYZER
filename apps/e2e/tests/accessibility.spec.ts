@@ -7,12 +7,12 @@ import { type Page, expect, test } from "@playwright/test";
 
 const PAGES: { name: string; path: string; ready: (page: Page) => Promise<void> }[] = [
   { name: "home", path: "/", ready: heading("One story.") },
-  { name: "timeline", path: "/timeline", ready: chart },
-  { name: "timeline (play order)", path: "/timeline?view=play", ready: chart },
+  { name: "timeline", path: "/timeline", ready: story },
+  { name: "timeline (play order)", path: "/timeline?view=play", ready: story },
   {
-    name: "timeline with inspector",
+    name: "timeline with an event open",
     path: "/timeline?event=event_nibelheim_incident",
-    ready: inspector,
+    ready: eventWindow,
   },
   { name: "explore", path: "/explore", ready: heading("Explore") },
   { name: "character", path: "/character/cloud-strife", ready: heading("Cloud Strife") },
@@ -39,20 +39,22 @@ function heading(name: string) {
   };
 }
 
-/** The chart on wide screens; on phones, the list layout instead. */
-async function chart(page: Page) {
+/** The story's first chapter (or a game's play order) has arrived. */
+async function story(page: Page) {
   await expect(page.getByRole("heading", { level: 1, name: "Timeline" })).toBeVisible();
   await expect(page.getByRole("status")).toHaveCount(0);
   await expect(
     page
-      .getByRole("group", { name: /Timeline chart/ })
-      .or(page.getByRole("list"))
+      .getByRole("region", { name: /The Distant Past|OG/ })
+      .getByRole("listitem")
       .first(),
   ).toBeVisible();
 }
 
-async function inspector(page: Page) {
-  await expect(page.getByRole("complementary", { name: "Inspector" })).toContainText("Nibelheim");
+async function eventWindow(page: Page) {
+  await expect(page.getByRole("complementary", { name: "Event details" })).toContainText(
+    "How each game tells it",
+  );
   await expect(page.getByRole("status")).toHaveCount(0);
 }
 

@@ -4,64 +4,87 @@ import axe from "axe-core";
 import { describe, expect, it } from "vitest";
 import { renderAt, stubApi } from "../test/render";
 
+const eventRow = async (name: string) => {
+  const button = await screen.findByRole("button", { name: new RegExp(`^${name}`) });
+  const row = button.closest("li");
+  if (!row) throw new Error(`no row for ${name}`);
+  return row;
+};
+
 describe("timeline page", () => {
-  it("draws a marker in each lane that shows an event", async () => {
+  it("tells the story in chapters, with which games tell each event", async () => {
     stubApi();
     renderAt("/timeline");
-    const og = await screen.findByRole("button", {
-      name: /Nibelheim Incident — OG: Depicted · False account/,
-    });
-    expect(og).toBeTruthy();
-    expect(
-      screen.getByRole("button", { name: /Nibelheim Incident — Remake: Referenced · Vision/ }),
-    ).toBeTruthy();
-    expect(
-      screen.getByRole("button", {
-        name: /Nibelheim Incident — Rebirth: Depicted · Disputed account/,
-      }),
-    ).toBeTruthy();
-    // Rebirth only mentions the plate fall in another world.
-    expect(
-      screen.getByRole("button", {
-        name: /Fall of the Sector 7 Plate — Rebirth: Referenced · Mentioned · in another world/,
-      }),
-    ).toBeTruthy();
+    expect(await screen.findByRole("heading", { name: "The Distant Past" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Midgar" })).toBeTruthy();
+
+    const row = await eventRow("Nibelheim Incident");
+    expect(row.textContent).toContain("5 years before the story");
+    const marks = within(row).getByRole("list", { name: "Which games tell it" });
+    expect(marks.textContent).toContain("OG: Shows it");
+    expect(marks.textContent).toContain("Remake: Only mentions it");
+    expect(marks.textContent).toContain("INTERmission: Not in this game");
   });
 
-  it("opens the inspector for a selected event and puts it in the URL", async () => {
+  it("opens an event's window, in plain words, and puts it in the URL", async () => {
     stubApi();
     const { router } = renderAt("/timeline");
-    await userEvent.click(await screen.findByRole("button", { name: /Death of Aerith — Rebirth/ }));
+    await userEvent.click(await screen.findByRole("button", { name: /^Death of Aerith/ }));
 
-    const inspector = await screen.findByRole("complementary", { name: "Inspector" });
-    await within(inspector).findByRole("heading", { name: "Death of Aerith" });
-    expect(within(inspector).getAllByText("Left open").length).toBeGreaterThan(0);
-    expect(within(inspector).getAllByText(/Rebirth · Ch\. 14/).length).toBeGreaterThan(0);
+    const details = await screen.findByRole("complementary", { name: "Event details" });
+    await within(details).findByRole("heading", { name: "Death of Aerith" });
+    expect(within(details).getByText("How each game tells it")).toBeTruthy();
+    expect(within(details).getAllByText("Shown as it happens").length).toBe(2);
+    expect(within(details).getAllByText("Not in this game").length).toBe(2);
+    expect(within(details).getByText("The game leaves this open.")).toBeTruthy();
+    expect(within(details).getByRole("link", { name: /Compare the games/ })).toBeTruthy();
     expect(router.state.location.search).toBe("?event=event_aerith_death");
 
-    await userEvent.click(within(inspector).getByRole("button", { name: "Close inspector" }));
+    await userEvent.click(within(details).getByRole("button", { name: "Close" }));
     expect(router.state.location.search).toBe("");
+    expect(screen.getByText("Choose an event")).toBeTruthy();
   });
 
-  it("asks the API for the chosen titles", async () => {
-    const requests = stubApi();
-    renderAt("/timeline");
-    await userEvent.click(await screen.findByRole("button", { name: /INTERmission/ }));
-    await waitFor(() => {
-      expect(
-        requests.some((url) => url.searchParams.get("titles") === "og,remake,intermission,rebirth"),
-      ).toBe(true);
-    });
-  });
-
-  it("lists events with every title's status in the list layout", async () => {
+  it("hides the events only the games you turn off tell, keeping at least one game", async () => {
     stubApi();
-    renderAt("/timeline?layout=list");
-    const item = (await screen.findByRole("button", { name: "Cloud's Memories Restored" })).closest(
-      "li",
+    const { router } = renderAt("/timeline");
+    await eventRow("Yuffie's Raid on Shinra Headquarters");
+    const games = screen.getByRole("group", { name: "Games" });
+
+    await userEvent.click(within(games).getByRole("button", { name: /INTERmission/ }));
+    expect(router.state.location.search).toBe("?titles=og%2Cremake%2Crebirth");
+    expect(screen.queryByRole("button", { name: /^Yuffie's Raid/ })).toBeNull();
+
+    for (const name of [/^OG/, /^Remake/]) {
+      await userEvent.click(within(games).getByRole("button", { name }));
+    }
+    expect(within(games).getByRole("button", { name: /Rebirth/ })).toHaveProperty("disabled", true);
+  });
+
+  it("follows the order one game shows things in", async () => {
+    stubApi();
+    const { router } = renderAt("/timeline");
+    await userEvent.click(await screen.findByRole("button", { name: "As you play it" }));
+    await userEvent.click(
+      within(screen.getByRole("group", { name: "Game" })).getByRole("button", { name: /Rebirth/ }),
     );
-    expect(item?.textContent).toMatch(/OG\s*Depicted/);
-    expect(item?.textContent).toMatch(/Rebirth\s*—/);
+    expect(router.state.location.search).toBe("?view=play&game=rebirth");
+
+    const list = await screen.findByRole("region", { name: "Rebirth" });
+    const first = within(list).getAllByRole("listitem")[0];
+    expect(first?.textContent).toMatch(/1\.\s*Fall of the Sector 7 Plate/);
+    expect(first?.textContent).toContain("Only mentioned, in another world");
+  });
+
+  it("can keep to the key moments", async () => {
+    stubApi();
+    renderAt("/timeline");
+    await eventRow("Death of Ifalna");
+    await userEvent.click(screen.getByRole("button", { name: /Key moments only/ }));
+    await waitFor(() => {
+      expect(screen.queryByRole("button", { name: /^Death of Ifalna/ })).toBeNull();
+    });
+    expect(screen.getByRole("button", { name: /^Death of Aerith/ })).toBeTruthy();
   });
 
   it("shows an error with a retry when the API is down", async () => {

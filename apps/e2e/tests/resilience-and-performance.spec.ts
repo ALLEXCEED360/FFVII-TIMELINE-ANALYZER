@@ -14,7 +14,7 @@ test("an unreachable API shows an error with a retry, and recovers", async ({ pa
 
   await page.unroute("**/timeline?**");
   await alert.getByRole("button", { name: /Retry|Try again/ }).click();
-  await expect(page.getByRole("group", { name: /Timeline chart/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The Distant Past" })).toBeVisible();
 });
 
 test("a page whose code fails to download offers a reload, inside the site", async ({ page }) => {
@@ -45,7 +45,7 @@ test("the graph library loads only on network pages", async ({ page }) => {
     .getByRole("navigation", { name: "Sections" })
     .getByRole("link", { name: "Timeline" })
     .click();
-  await expect(page.getByRole("group", { name: /Timeline chart/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The Distant Past" })).toBeVisible();
   await page.goto("/character/cloud-strife");
   await expect(page.getByRole("heading", { level: 1, name: "Cloud Strife" })).toBeVisible();
   expect(graphLibrary()).toBe(false);

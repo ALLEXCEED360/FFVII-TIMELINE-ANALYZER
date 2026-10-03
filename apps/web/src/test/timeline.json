@@ -1,12 +1,159 @@
 {
   "items": [
     {
+      "id": "event_jenova_calamity",
+      "name": "The Calamity from the Skies",
+      "summary": "About two thousand years ago, Jenova falls to the planet in the north, wounding it, and turns on the Cetra who try to heal the wound.",
+      "importance": 3,
+      "arcId": "arc_meteor",
+      "seq": null,
+      "start": { "earliest": -2000, "latest": -2000 },
+      "end": { "earliest": -2000, "latest": -2000 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 24,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 17,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 13,
+          "framing": "flashback",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_ifalna_death",
+      "name": "Death of Ifalna",
+      "summary": "Having escaped Shinra's laboratory with her young daughter Aerith, the Cetra Ifalna dies at a station in Midgar, leaving Aerith in the care of Elmyra Gainsborough.",
+      "importance": 2,
+      "arcId": "arc_midgar",
+      "seq": null,
+      "start": { "earliest": -15, "latest": -15 },
+      "end": { "earliest": -15, "latest": -15 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 6,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 13,
+          "framing": "flashback",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 6,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_water_tower_promise",
+      "name": "The Promise at the Water Tower",
+      "summary": "One night in Nibelheim, before leaving to join SOLDIER, Cloud promises Tifa that if she is ever in trouble he will come and save her.",
+      "importance": 2,
+      "arcId": "arc_midgar",
+      "seq": null,
+      "start": { "earliest": -7, "latest": -7 },
+      "end": { "earliest": -7, "latest": -7 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 1,
+          "framing": "flashback",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 4,
+          "framing": "flashback",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 2,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_sephiroth_learns_of_jenova_project",
+      "name": "Sephiroth Learns of the Jenova Project",
+      "summary": "During the Nibelheim mission, Sephiroth shuts himself in the Shinra Mansion's basement library and reads Professor Gast's records of Jenova and the Jenova Project, concluding that he was created by it.",
+      "importance": 2,
+      "arcId": "arc_the_journey_begins",
+      "seq": 10,
+      "start": { "earliest": -5, "latest": -5 },
+      "end": { "earliest": -5, "latest": -5 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 8,
+          "framing": "false_account",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 1,
+          "framing": "disputed_account",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
       "id": "event_nibelheim_incident",
       "name": "Nibelheim Incident",
       "summary": "Five years before the story, Sephiroth burns Cloud and Tifa's hometown during a Shinra mission to its Mako reactor.",
       "importance": 3,
       "arcId": "arc_the_journey_begins",
-      "seq": null,
+      "seq": 20,
       "start": { "earliest": -5, "latest": -5 },
       "end": { "earliest": -5, "latest": -5 },
       "appearances": [
@@ -45,7 +192,7 @@
       "summary": "AVALANCHE's attack on Shinra's Mako Reactor 1 in Midgar, the opening mission of the story.",
       "importance": 2,
       "arcId": "arc_midgar",
-      "seq": 10,
+      "seq": 100,
       "start": { "earliest": 0, "latest": 0 },
       "end": { "earliest": 0, "latest": 0 },
       "appearances": [
@@ -70,12 +217,192 @@
       ]
     },
     {
+      "id": "event_cloud_meets_aerith",
+      "name": "Cloud Meets Aerith",
+      "summary": "In Sector 8, just after the bombing of Mako Reactor 1, Cloud meets Aerith as she sells flowers in the street.",
+      "importance": 2,
+      "arcId": "arc_midgar",
+      "seq": 110,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 0,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 2,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 4,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_sector_7_6_annex_raid",
+      "name": "Raid on the Sector 7-6 Annex",
+      "summary": "Between the reactor bombings, Jessie takes Cloud, Biggs and Wedge above the plate to steal blasting agent for the next bomb from a Shinra warehouse.",
+      "importance": 1,
+      "arcId": "arc_midgar",
+      "seq": 115,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 4,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_mako_reactor_5_bombing",
+      "name": "Bombing of Mako Reactor 5",
+      "summary": "AVALANCHE's second reactor raid, on Mako Reactor 5, which Shinra has turned into a trap.",
+      "importance": 2,
+      "arcId": "arc_midgar",
+      "seq": 120,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 2,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 7,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "intermission",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 1,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_aerith_hires_cloud",
+      "name": "Aerith Hires Cloud as Her Bodyguard",
+      "summary": "Cloud falls through the roof of the Sector 5 church into Aerith's flower bed. When the Turks come for her, she hires him as a bodyguard to take her home, for the price of one date.",
+      "importance": 2,
+      "arcId": "arc_midgar",
+      "seq": 125,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 3,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 8,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_corneo_audition",
+      "name": "Don Corneo's Audition",
+      "summary": "In Wall Market, Cloud, disguised as a woman, joins Tifa and Aerith among Don Corneo's prospective brides, and the three force him to reveal Shinra's plan to drop the Sector 7 plate.",
+      "importance": 2,
+      "arcId": "arc_midgar",
+      "seq": 130,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 4,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 9,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_yuffie_raid_on_shinra",
+      "name": "Yuffie's Raid on Shinra Headquarters",
+      "summary": "Yuffie and Sonon, agents of Wutai, infiltrate the Shinra Building to steal its \"ultimate materia\"; the operation ends with Sonon's death.",
+      "importance": 2,
+      "arcId": "arc_midgar",
+      "seq": 135,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "intermission",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 2,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
       "id": "event_sector_7_plate_fall",
       "name": "Fall of the Sector 7 Plate",
       "summary": "Shinra brings the upper plate of Sector 7 down onto the slums beneath it.",
       "importance": 3,
       "arcId": "arc_midgar",
-      "seq": 20,
+      "seq": 140,
       "start": { "earliest": 0, "latest": 0 },
       "end": { "earliest": 0, "latest": 0 },
       "appearances": [
@@ -98,6 +425,15 @@
           "end": null
         },
         {
+          "title": "intermission",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 2,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        },
+        {
           "title": "rebirth",
           "world": "world_zack_survives",
           "status": "referenced",
@@ -109,12 +445,261 @@
       ]
     },
     {
+      "id": "event_shinra_building_raid",
+      "name": "Raid on the Shinra Building",
+      "summary": "Cloud, Tifa and Barret break into Shinra's headquarters to rescue Aerith from Hojo's laboratory, and meet Red XIII there.",
+      "importance": 2,
+      "arcId": "arc_midgar",
+      "seq": 150,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 7,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 16,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 4,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_president_shinra_death",
+      "name": "Death of President Shinra",
+      "summary": "On the night of the raid on the Shinra Building, President Shinra is killed in his office, and his son Rufus takes his place.",
+      "importance": 3,
+      "arcId": "arc_midgar",
+      "seq": 155,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 7,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 17,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "referenced",
+          "playPosition": 4,
+          "framing": "mention",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_escape_from_midgar",
+      "name": "Escape from Midgar",
+      "summary": "Fleeing the Shinra Building, the party races Shinra's pursuers along the Midgar Expressway and leaves the city to follow Sephiroth.",
+      "importance": 2,
+      "arcId": "arc_midgar",
+      "seq": 160,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 7,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 18,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_battle_at_destinys_crossroads",
+      "name": "Battle at Destiny's Crossroads",
+      "summary": "At the end of the Midgar Expressway, the party passes through a wall of Whispers to fight the arbiters of fate, then faces Sephiroth at the edge of creation.",
+      "importance": 3,
+      "arcId": "arc_midgar",
+      "seq": 165,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "remake",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 18,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_junon_parade",
+      "name": "Rufus's Welcoming Parade in Junon",
+      "summary": "Junon holds a parade to welcome the new President, Rufus Shinra, and Cloud marches in it disguised as a Shinra trooper.",
+      "importance": 2,
+      "arcId": "arc_the_journey_begins",
+      "seq": 210,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 10,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 4,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_jenova_on_the_cargo_ship",
+      "name": "Jenova on the Cargo Ship",
+      "summary": "Crossing the sea from Junon, the party confronts Sephiroth in the ship's engine room and fights a form of Jenova.",
+      "importance": 2,
+      "arcId": "arc_across_the_sea",
+      "seq": 220,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 11,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 5,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_truth_about_seto",
+      "name": "The Truth About Seto",
+      "summary": "In Cosmo Canyon, Bugenhagen shows Nanaki that his father Seto, whom he believed a coward, died defending the canyon from the Gi and still stands guard, turned to stone.",
+      "importance": 2,
+      "arcId": "arc_across_the_sea",
+      "seq": 230,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 17,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 10,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_race_for_the_black_materia",
+      "name": "Race for the Black Materia",
+      "summary": "At the Temple of the Ancients, Sephiroth and the party both seek the black materia, which can summon Meteor.",
+      "importance": 3,
+      "arcId": "arc_the_promised_land",
+      "seq": 240,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 21,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        },
+        {
+          "title": "rebirth",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 13,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
       "id": "event_aerith_death",
       "name": "Death of Aerith",
       "summary": "Sephiroth kills Aerith as she prays at the altar in the Forgotten Capital.",
       "importance": 3,
       "arcId": "arc_the_promised_land",
-      "seq": 30,
+      "seq": 250,
       "start": { "earliest": 0, "latest": 0 },
       "end": { "earliest": 0, "latest": 0 },
       "appearances": [
@@ -139,12 +724,33 @@
       ]
     },
     {
+      "id": "event_meteor_summoned",
+      "name": "Meteor Is Summoned",
+      "summary": "At the Northern Crater, Cloud hands the black materia to Sephiroth, who uses it to summon Meteor. The Weapons awaken.",
+      "importance": 3,
+      "arcId": "arc_meteor",
+      "seq": 300,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 25,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
       "id": "event_cloud_memories_restored",
       "name": "Cloud's Memories Restored",
       "summary": "In the Lifestream, Cloud recovers his true memories of the past five years.",
       "importance": 3,
       "arcId": "arc_the_lifestream",
-      "seq": 40,
+      "seq": 310,
       "start": { "earliest": 0, "latest": 0 },
       "end": { "earliest": 0, "latest": 0 },
       "appearances": [
@@ -153,6 +759,27 @@
           "world": "world_main",
           "status": "depicted",
           "playPosition": 30,
+          "framing": "direct",
+          "start": null,
+          "end": null
+        }
+      ]
+    },
+    {
+      "id": "event_defeat_of_sephiroth",
+      "name": "Defeat of Sephiroth",
+      "summary": "In the depths of the Northern Crater, the party defeats Sephiroth, while Holy, called by Aerith's prayer, and the Lifestream rise against Meteor.",
+      "importance": 3,
+      "arcId": "arc_the_final_battle",
+      "seq": 400,
+      "start": { "earliest": 0, "latest": 0 },
+      "end": { "earliest": 0, "latest": 0 },
+      "appearances": [
+        {
+          "title": "og",
+          "world": "world_main",
+          "status": "depicted",
+          "playPosition": 38,
           "framing": "direct",
           "start": null,
           "end": null

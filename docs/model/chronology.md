@@ -96,9 +96,11 @@ Segment order for `og` comes from the segment list in `data/reference/`.
 
 ## 8. Timeline views
 
-- **In-universe** (default) — events on the era axis; one lane per title; an event shown by several titles is drawn once per lane and connected across lanes. A title's `when` override (§5) moves the event in that title's lane only, which makes chronology changes visible at a glance.
-- **Play order** — one lane per title, each in its own play order. Shows where each title chooses to reveal things.
-- Both views highlight the same selection, so switching views keeps the context.
+The timeline is written for someone new to the story ([ADR 0019](../decisions/0019-timeline-for-beginners.md)).
+
+- **As it happened** (default) — the story top to bottom in chapters: before the story by era (§4), the story itself (year 0) by arc, anything after by era. Each event shows, for each chosen title, whether it shows the event, only mentions it, or leaves it out. A title's `when` override (§5) always comes with a chronology difference, and those are listed with the event's other changes when it's opened.
+- **As you play it** — one chosen title's events, numbered in its play order (§7). Shows where the title chooses to reveal things: flashbacks jump back in time.
+- Both views keep the same selection, so switching views keeps the context.
 
 ## 9. Summary for the Phase 1 schema
 

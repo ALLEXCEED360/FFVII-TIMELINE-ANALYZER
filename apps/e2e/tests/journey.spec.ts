@@ -60,7 +60,7 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
     .click();
   await page.getByRole("link", { name: "Show on timeline" }).click();
   await expect(page).toHaveURL(/\/timeline\?event=event_nibelheim_incident/);
-  await expect(page.getByRole("complementary", { name: "Inspector" })).toContainText(
+  await expect(page.getByRole("complementary", { name: "Event details" })).toContainText(
     "Nibelheim Incident",
   );
 });

@@ -2,48 +2,6 @@
    keyframes are set here: Tailwind drops theme variables and keyframes its own sheet doesn't use.
    Every movement stops under reduced motion (styles.css). */
 
-.ff7 {
-  --font-ff: "Reactor7", ui-monospace, monospace;
-}
-
-/* A window: the original's blue gradient in a pale bevelled frame, unfolding from its middle. */
-.ff7-window {
-  position: relative;
-  border: 3px solid #d6d6de;
-  border-radius: 7px;
-  /* A little translucent, as the PC original's Config allowed, so the artwork shows through. */
-  background: linear-gradient(
-    140deg,
-    rgb(31 95 196 / 0.72) 0%,
-    rgb(12 47 142 / 0.74) 38%,
-    rgb(6 26 99 / 0.78) 70%,
-    rgb(2 11 48 / 0.82) 100%
-  );
-  backdrop-filter: blur(3px);
-  box-shadow:
-    inset 0 0 0 1px #5c5c78,
-    0 0 0 1px #111118,
-    0 14px 36px rgb(0 0 0 / 0.6);
-  animation: ff7-open 0.26s steps(5) var(--open, 0.1s) both;
-}
-@keyframes ff7-open {
-  from {
-    transform: scaleY(0.04);
-  }
-}
-/* The game's pixel text: white with a hard shadow, labels in its pale cyan. */
-.ff7-text {
-  font-family: var(--font-ff);
-  font-weight: normal;
-  letter-spacing: 0;
-  -webkit-font-smoothing: none;
-  color: #fff;
-  text-shadow: 2px 2px 0 #10102a;
-}
-.ff7-label {
-  color: #8ad7ff;
-}
-
 /* Everything is measured from one base size that grows with the screen, so the menu fills most
    of it on a large display and still fits a small one. */
 .classic {
@@ -218,27 +176,10 @@
 .classic-command:focus-visible {
   outline: none;
 }
-.ff7-hand {
-  position: absolute;
-  top: 50%;
-  right: 100%;
-  margin-right: 0.25em;
-  font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;
-  font-size: 1.05em;
-  line-height: 1;
-  color: #fff;
-  transform: translateY(-50%);
-  visibility: hidden;
-}
 .classic-command[aria-current] .ff7-hand,
 .classic-command:focus-visible .ff7-hand {
   visibility: visible;
   animation: glove 0.9s steps(2) infinite;
-}
-@keyframes glove {
-  50% {
-    transform: translate(-4px, -50%);
-  }
 }
 .classic-time {
   display: grid;
@@ -300,76 +241,5 @@
   .classic-portrait {
     width: 5.5em;
     height: 4.1em;
-  }
-}
-
-/* The bar across the top of the home menu: one of its windows, at the same width and scale. */
-.home-bar {
-  position: relative;
-  z-index: 30;
-  width: 100%;
-  max-width: min(94vw, 172vh);
-  margin: 0 auto;
-  padding: 1rem 1rem 0;
-  font-size: clamp(14px, min(1.4vw, 2.35vh), 34px);
-}
-.home-bar-window {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5em;
-  padding: 0.45em 1.2em 0.45em 1em;
-  --open: 0s;
-}
-.home-bar-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.7em;
-}
-.home-bar-orb {
-  width: 1.5em;
-  height: 1.5em;
-}
-.home-bar-series {
-  font-size: 0.7em;
-  line-height: 1.25;
-}
-.home-bar-name {
-  font-size: 1.35em;
-  line-height: 1.1;
-}
-.home-bar-tools {
-  display: flex;
-  align-items: center;
-  gap: 2.4em;
-}
-.home-bar-item {
-  position: relative;
-  display: flex;
-  align-items: baseline;
-  gap: 0.6em;
-  font-size: 1.1em;
-}
-.home-bar-item:focus-visible {
-  outline: none;
-}
-.home-bar-item:hover .ff7-hand,
-.home-bar-item:focus-visible .ff7-hand {
-  visibility: visible;
-  animation: glove 0.9s steps(2) infinite;
-}
-.home-bar-kbd {
-  font-family: var(--font-ff);
-  font-size: 0.65em;
-}
-@media (max-width: 40rem) {
-  .home-bar {
-    font-size: 15px;
-  }
-  .home-bar-kbd {
-    display: none;
-  }
-  .home-bar-tools {
-    gap: 1.8em;
   }
 }

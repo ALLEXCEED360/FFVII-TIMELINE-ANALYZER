@@ -9,7 +9,7 @@ function isChunkLoadError(error: unknown): boolean {
 }
 
 /**
- * Shown when a page fails to load or render, inside the site's header and footer, so the rest of
+ * Shown when a page fails to load or render, under the site's bar, so the rest of
  * the site stays reachable. Never a blank screen.
  */
 export function RouteError() {

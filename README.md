@@ -42,7 +42,7 @@ Dataset research ran alongside Phases 4–9 and reached the MVP scope before Pha
 
 TypeScript throughout, in a pnpm monorepo.
 
-- **Web:** React, Vite, React Router, Tailwind CSS, TanStack Query, Zustand, D3 (timeline), Cytoscape.js (network)
+- **Web:** React, Vite, React Router, Tailwind CSS, TanStack Query, Zustand, Cytoscape.js (network)
 - **API:** Fastify, Zod
 - **Data:** YAML files in `data/` (the source of truth), PostgreSQL via Drizzle ORM
 - **Testing:** Vitest, Playwright, axe-core

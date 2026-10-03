@@ -15,14 +15,15 @@ test("the skip link jumps past the navigation", async ({ page }) => {
 
 test("timeline events can be chosen with the keyboard", async ({ page }) => {
   await page.goto("/timeline");
-  const marker = page.getByRole("button", { name: /Nibelheim Incident/ }).first();
-  await marker.focus();
-  await expect(marker).toBeFocused();
+  const event = page.getByRole("button", { name: /^Nibelheim Incident/ });
+  await event.focus();
+  await expect(event).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/event=event_nibelheim_incident/);
-  await expect(page.getByRole("complementary", { name: "Inspector" })).toContainText(
-    "Nibelheim Incident",
-  );
+  const details = page.getByRole("complementary", { name: "Event details" });
+  await expect(details).toContainText("Nibelheim Incident");
+  await details.getByRole("button", { name: "Close" }).click();
+  await expect(page).toHaveURL(/\/timeline$/);
 });
 
 test("the search palette works from the keyboard alone", async ({ page }) => {
@@ -119,18 +120,12 @@ test("keyboard focus is always visible", async ({ page }) => {
   }
 });
 
-test("timeline markers preview their event on hover and focus", async ({ page }) => {
-  await page.goto("/timeline");
-  const marker = page.getByRole("button", { name: /^Death of Aerith — Rebirth/ });
-  await marker.hover();
-  const preview = page.locator('[aria-hidden="true"]').filter({ hasText: "Select to inspect" });
-  await expect(preview).toContainText("Death of Aerith");
-  await expect(preview).toContainText("Rebirth");
-  await page.mouse.move(0, 0);
-  await expect(preview).toHaveCount(0);
-
-  await marker.focus();
-  await expect(preview).toContainText("Death of Aerith");
+test("a link to an event on the timeline goes straight to it", async ({ page }) => {
+  await page.goto("/timeline?event=event_defeat_of_sephiroth");
+  await expect(page.getByRole("complementary", { name: "Event details" })).toContainText(
+    "Defeat of Sephiroth",
+  );
+  await expect(page.getByRole("button", { name: /^Defeat of Sephiroth/ })).toBeInViewport();
 });
 
 test("moving between sections plays the wipe, but not under reduced motion", async ({ page }) => {
@@ -153,14 +148,16 @@ test("moving between sections plays the wipe, but not under reduced motion", asy
   await expect(page.locator(".wipe")).toHaveCount(0);
 });
 
-test("the home menu shows no site navigation or footer, other pages do", async ({ page }) => {
+test("only pages other than the home menu show the site navigation; none has a footer", async ({
+  page,
+}) => {
   await page.goto("/");
   await expect(page.getByRole("navigation", { name: "Sections" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Main" })).toHaveCount(0);
   await expect(page.getByRole("contentinfo")).toHaveCount(0);
   await page.goto("/timeline");
   await expect(page.getByRole("navigation", { name: "Main" })).toBeVisible();
-  await expect(page.getByRole("contentinfo")).toBeVisible();
+  await expect(page.getByRole("contentinfo")).toHaveCount(0);
 });
 
 test("the home menu is driven with the arrow keys", async ({ page }) => {

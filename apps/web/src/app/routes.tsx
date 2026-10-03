@@ -7,7 +7,7 @@ import { RouteError } from "../pages/RouteError";
 import { PAGES } from "./pages";
 
 // The home page ships with the app; other pages load on first visit, so the first screen doesn't
-// wait for code it may never need (the timeline's chart and zoom, later the graph…).
+// wait for code it may never need (the graph library, the divergence map…).
 
 /** A page whose code loads on first visit, with a loading panel while it arrives. */
 function lazyPage(
