@@ -51,8 +51,8 @@ function shouldPlay(): boolean {
 
 /**
  * The title screen (decision 0016). Midgar at night under a sky of stars, Amano's Meteor faint
- * above, the Lifestream's motes rising; the title as the series sets its own, in engraved silver
- * capitals with the series' lettering ruled above; and the request for a button, quiet between
+ * above, the Lifestream's motes rising; the title in outlined Roman capitals with the Lifestream's
+ * light rising and ebbing inside them, the series' lettering ruled above; and the request for a button, quiet between
  * two hairlines. Meanwhile it wakes the API (the free host sleeps) and reports how that went.
  *
  * On the home page it waits for a key or a tap, as a title screen does; opened on any other page

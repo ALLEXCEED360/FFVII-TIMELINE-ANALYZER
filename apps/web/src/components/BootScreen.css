@@ -72,8 +72,7 @@
   }
 }
 
-/* The series' own lettering, small, between hairlines tipped with Mako; beneath it the name in
-   engraved Roman capitals of brushed silver, a glint of light crossing them now and then. */
+/* The series' own lettering, small, between hairlines tipped with Mako. */
 .en-ff {
   display: flex;
   align-items: center;
@@ -96,6 +95,11 @@
   margin-left: -0.24em;
   transform: scaleX(-1);
 }
+
+/* Beneath it the name in Roman capitals drawn as silver outlines, hollow like glass, with the
+   Lifestream's light inside them: a tide of Mako that slowly rises and ebbs, and over it a paler
+   current drifting across, the glow around the letters swelling as the tide comes in. Without
+   motion the tide rests at its height. */
 .en-name {
   margin-top: 0.3em;
   font-family: var(--font-engraved);
@@ -105,29 +109,68 @@
   letter-spacing: 0.06em;
   margin-right: -0.06em;
   text-transform: uppercase;
-  background:
-    linear-gradient(105deg, transparent 42%, rgb(255 255 255 / 0.95) 50%, transparent 58%) 130% 0 /
-      250% 100% no-repeat,
-    linear-gradient(180deg, #ffffff 0%, #eef1f2 50%, #b5c0c5 75%, #f3f5f6 100%);
+  background-image:
+    linear-gradient(100deg, transparent 38%, rgb(214 255 236 / 0.55) 50%, transparent 62%),
+    linear-gradient(
+      0deg,
+      rgb(88 224 168 / 0.95) 0%,
+      rgb(150 242 204 / 0.7) 26%,
+      rgb(88 224 168 / 0.18) 46%,
+      transparent 58%
+    ),
+    linear-gradient(rgb(6 24 20 / 0.45), rgb(6 24 20 / 0.45));
+  background-size:
+    260% 100%,
+    100% 220%,
+    100% 100%;
+  background-repeat: no-repeat;
+  background-position:
+    var(--current) 0,
+    0 var(--tide),
+    0 0;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 22px rgb(150 230 200 / 0.22)) drop-shadow(0 2px 0 rgb(0 0 0 / 0.8));
+  -webkit-text-stroke: max(1.5px, 0.012em) rgb(226 240 236 / 0.92);
+  filter: drop-shadow(0 0 var(--glow) rgb(88 224 168 / 0.4)) drop-shadow(0 2px 0 rgb(0 0 0 / 0.7));
   animation:
     title-in 2s ease-out 1s both,
-    glint 7s ease-in-out 3.5s infinite;
+    tide 6s ease-in-out 1s infinite alternate,
+    current 9s ease-in-out 3s infinite;
 }
-@keyframes glint {
-  0% {
-    background-position:
-      130% 0,
-      0 0;
+/* Registered, so the two movements can each animate their own layer. */
+@property --tide {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --current {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 120%;
+}
+@property --glow {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 20px;
+}
+@keyframes tide {
+  from {
+    --tide: 25%;
+    --glow: 8px;
   }
-  30%,
+  to {
+    --tide: 100%;
+    --glow: 26px;
+  }
+}
+@keyframes current {
+  0% {
+    --current: 120%;
+  }
+  45%,
   100% {
-    background-position:
-      -30% 0,
-      0 0;
+    --current: -20%;
   }
 }
 
