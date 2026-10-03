@@ -168,43 +168,46 @@ export function AppShell() {
         </div>
       </main>
 
-      <footer className="relative border-t border-steel-100/10 bg-void/85 px-4 py-4 text-xs text-steel-400 sm:px-6">
-        <div className="mx-auto flex max-w-[96rem] flex-wrap items-center justify-between gap-x-6 gap-y-3">
-          <p className="max-w-3xl">
-            Non-commercial fan project. Not affiliated with or endorsed by Square Enix.{" "}
-            <em>Final Fantasy VII</em> and all related names and artwork belong to Square Enix.
-          </p>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <p aria-hidden="true" className="hidden items-center gap-5 lg:flex">
-              <span className="hint">
-                <span className="hint-key">{SHORTCUT_LABEL.replace(/\s*K$/, "")}</span>
-                <span className="hint-key">K</span>
-                Search
-              </span>
-              <span className="hint">
-                <span className="hint-key">⇥</span>
-                Move
-              </span>
-              <span className="hint">
-                <span className="hint-key">↵</span>
-                Confirm
-              </span>
+      {/* The home menu has its own windows for all of this; the footer would only repeat them. */}
+      {!isHome && (
+        <footer className="relative border-t border-steel-100/10 bg-void/85 px-4 py-4 text-xs text-steel-400 sm:px-6">
+          <div className="mx-auto flex max-w-[96rem] flex-wrap items-center justify-between gap-x-6 gap-y-3">
+            <p className="max-w-3xl">
+              Non-commercial fan project. Not affiliated with or endorsed by Square Enix.{" "}
+              <em>Final Fantasy VII</em> and all related names and artwork belong to Square Enix.
             </p>
-            <Link
-              to="/credits"
-              className="inline-block min-h-6 py-1 font-display text-sm font-bold tracking-widest text-steel-200 uppercase italic hover:text-mako-300"
-            >
-              Credits
-            </Link>
-            <Link
-              to="/settings"
-              className="inline-block min-h-6 py-1 font-display text-sm font-bold tracking-widest text-steel-200 uppercase italic hover:text-mako-300"
-            >
-              Settings
-            </Link>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <p aria-hidden="true" className="hidden items-center gap-5 lg:flex">
+                <span className="hint">
+                  <span className="hint-key">{SHORTCUT_LABEL.replace(/\s*K$/, "")}</span>
+                  <span className="hint-key">K</span>
+                  Search
+                </span>
+                <span className="hint">
+                  <span className="hint-key">⇥</span>
+                  Move
+                </span>
+                <span className="hint">
+                  <span className="hint-key">↵</span>
+                  Confirm
+                </span>
+              </p>
+              <Link
+                to="/credits"
+                className="inline-block min-h-6 py-1 font-display text-sm font-bold tracking-widest text-steel-200 uppercase italic hover:text-mako-300"
+              >
+                Credits
+              </Link>
+              <Link
+                to="/settings"
+                className="inline-block min-h-6 py-1 font-display text-sm font-bold tracking-widest text-steel-200 uppercase italic hover:text-mako-300"
+              >
+                Settings
+              </Link>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+      )}
 
       <CommandPalette />
       <Wipe />

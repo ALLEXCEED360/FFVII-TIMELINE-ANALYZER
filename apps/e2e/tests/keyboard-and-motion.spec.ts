@@ -153,12 +153,14 @@ test("moving between sections plays the wipe, but not under reduced motion", asy
   await expect(page.locator(".wipe")).toHaveCount(0);
 });
 
-test("the home menu shows no navigation of its own, other pages do", async ({ page }) => {
+test("the home menu shows no site navigation or footer, other pages do", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("navigation", { name: "Sections" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Main" })).toHaveCount(0);
+  await expect(page.getByRole("contentinfo")).toHaveCount(0);
   await page.goto("/timeline");
   await expect(page.getByRole("navigation", { name: "Main" })).toBeVisible();
+  await expect(page.getByRole("contentinfo")).toBeVisible();
 });
 
 test("the home menu is driven with the arrow keys", async ({ page }) => {

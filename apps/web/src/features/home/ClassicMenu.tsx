@@ -1,6 +1,6 @@
 import { type CSSProperties, useEffect, useState } from "react";
 import { Link } from "react-router";
-import type { TitleCode } from "../../api/client";
+import type { Reference, TitleCode } from "../../api/client";
 import { useEntities, useReference, useSources } from "../../api/queries";
 import { TITLE_ART, artSrc, artwork } from "../../art/manifest";
 import { useBackdrop } from "../../components/Backdrop";
@@ -28,9 +28,26 @@ function usePlayTime(): string {
   return `${String(h)}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
+/** Where a game's story runs, first part to last. */
+function spanOf(reference: Reference, code: TitleCode): [string, string] | undefined {
+  const segment = (id: string) => reference.segments.find((s) => s.id === id)?.name ?? id;
+  const title = reference.titles.find((t) => t.code === code);
+  if (!title) return undefined;
+  if (code === "og") {
+    const first = reference.segments[0];
+    const last = reference.segments.at(-1);
+    return first && last ? [first.name, last.name] : undefined;
+  }
+  if (title.coverage) return [segment(title.coverage.from), segment(title.coverage.to)];
+  const first = title.units[0];
+  const last = title.units.at(-1);
+  return first && last ? [first.name, last.name] : undefined;
+}
+
 /**
  * The home menu, as the original's pause menu (decision 0017). The four games are the party: a
- * portrait of each, its year as LV, its parts as HP, and how many of them the archive cites as MP.
+ * portrait of each, its year as LV, where its story runs, its parts as HP, and how many of them
+ * the archive cites as MP.
  * The sections are the commands, chosen with the glove; the help window along the top says what
  * the highlighted command or game is; the side windows keep the play time, the archive's size and
  * where you are. Every window unfolds from its middle, one after another, as the game's do.
@@ -75,6 +92,7 @@ export function ClassicMenu() {
             const units = sources.data?.titles.find((t) => t.code === title.code)?.units ?? [];
             const total = units.length || title.units.length;
             const cited = units.filter((u) => u.citations > 0).length;
+            const span = reference.data && spanOf(reference.data, title.code);
             return (
               <li key={title.code} style={{ "--i": i } as CSSProperties} className="classic-member">
                 <Link
@@ -109,6 +127,15 @@ export function ClassicMenu() {
                       <span className="ff7-label">LV</span>
                       <span>{title.released.slice(0, 4)}</span>
                     </span>
+                    {span && (
+                      <span className="ff7-text classic-span">
+                        <span className="sr-only">Runs from </span>
+                        <span>{span[0]}</span>
+                        <span aria-hidden="true" className="classic-span-track" />
+                        <span className="sr-only"> to </span>
+                        <span>{span[1]}</span>
+                      </span>
+                    )}
                   </span>
                   <span className="classic-member-stats">
                     <span className="ff7-text classic-stat">
