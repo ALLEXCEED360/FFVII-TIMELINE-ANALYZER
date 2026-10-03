@@ -21,7 +21,8 @@ import "../features/timeline/timeline.css";
  * It can also follow the order one game shows things in.
  */
 export function TimelinePage() {
-  useBackdrop(SECTION_ART.timeline, { strength: 0.55 });
+  // Across the whole screen: the panels keep the text readable, and the art shows around them.
+  useBackdrop(SECTION_ART.timeline, { strength: 0.7, side: "full" });
   const { params, update, toggleTitle } = useTimelineParams();
   const reference = useReference();
   // Every game is always fetched: the play view can follow any of them.

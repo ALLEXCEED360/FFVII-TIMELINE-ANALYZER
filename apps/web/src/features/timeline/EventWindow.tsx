@@ -65,12 +65,10 @@ function EventDetails({
   return (
     <div className="tl-detail-body">
       {art && (
-        <div aria-hidden="true" className="tl-detail-art">
-          <Artwork
-            entry={art}
-            decorative
-            className={`size-full ${art.kind === "cutout" ? "object-contain object-top" : "object-cover"}`}
-          />
+        // Full width, at the picture's own proportions; only a very tall one is cropped, around
+        // its focus, so it is seen whole rather than as a strip.
+        <div aria-hidden="true" className="tl-detail-art" data-kind={art.kind}>
+          <Artwork entry={art} decorative eager />
         </div>
       )}
 

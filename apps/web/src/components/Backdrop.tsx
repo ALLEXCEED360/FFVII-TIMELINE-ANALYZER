@@ -43,15 +43,28 @@ export function useBackdrop(
   );
 }
 
+/** How long a new artwork takes to fade in (the art-in animation below). */
+const FADE_MS = 700;
+
 export function Backdrop() {
   const { id, strength, side } = useBackdropStore();
   // The artwork shown before this one stays underneath while the new one fades in over it, so a
-  // change is a crossfade rather than a flash of the page colour.
+  // change is a crossfade rather than a flash of the page colour — and then goes. Both are drawn
+  // dimmed, so one left underneath would show through and blend into the new one.
   const [layers, setLayers] = useState<{ current: string | null; previous: string | null }>({
     current: id,
     previous: null,
   });
   if (layers.current !== id) setLayers({ current: id, previous: layers.current });
+  useEffect(() => {
+    if (layers.previous === null) return;
+    const done = window.setTimeout(() => {
+      setLayers((now) => ({ ...now, previous: null }));
+    }, FADE_MS);
+    return () => {
+      window.clearTimeout(done);
+    };
+  }, [layers]);
 
   const layer = (layerId: string | null, fading: boolean) => {
     const entry = layerId === null ? undefined : artwork(layerId);

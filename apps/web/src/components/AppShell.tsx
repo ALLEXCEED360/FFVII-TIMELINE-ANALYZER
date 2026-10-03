@@ -41,7 +41,7 @@ export function AppShell() {
           // Clipped sideways: a page arrives leaning, and mustn't make the window scroll meanwhile.
           bleed
             ? "flex flex-1 flex-col overflow-x-clip"
-            : "mx-auto w-full max-w-[96rem] flex-1 overflow-x-clip px-4 py-7 sm:px-6"
+            : "mx-auto w-full max-w-(--page-max) flex-1 overflow-x-clip px-(--page-pad) py-8"
         }
       >
         {/* Keyed by path, so each new page settles in; changing only the query doesn't. */}

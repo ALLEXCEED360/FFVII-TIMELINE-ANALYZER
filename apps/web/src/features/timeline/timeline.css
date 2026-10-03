@@ -148,6 +148,14 @@
     grid-template-columns: 13rem minmax(0, 1fr) 26rem;
   }
 }
+@media (min-width: 100rem) {
+  .tl-body {
+    grid-template-columns: minmax(0, 1fr) 32rem;
+  }
+  .tl-body[data-chapters] {
+    grid-template-columns: 15rem minmax(0, 1fr) 34rem;
+  }
+}
 .tl-contents,
 .tl-side {
   position: sticky;
@@ -201,6 +209,7 @@
 .tl-chapter {
   padding: 1rem 0.6rem 0.5rem;
   scroll-margin-top: 1rem;
+  container-type: inline-size;
 }
 .tl-chapter-head {
   padding: 0 0.7rem 0.65rem;
@@ -280,6 +289,36 @@
   color: #c8f0ff;
 }
 
+/* With room to spare, an event reads in two columns: its story on the left, and which games
+   tell it on the right, one per line. */
+@container (min-width: 50rem) {
+  .tl-event {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    column-gap: 2rem;
+    align-items: start;
+  }
+  .tl-event > :not(.tl-marks, .tl-how) {
+    grid-column: 1;
+  }
+  .tl-event > .tl-marks,
+  .tl-event > .tl-how {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+    margin-top: 0;
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--m-line);
+  }
+  .tl-event > .tl-marks {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .tl-summary {
+    font-size: 0.95rem;
+  }
+}
+
 /* ── The chosen event's panel ─────────────────────────────────────────────────────────────── */
 .tl-detail {
   padding: 1rem 1.1rem 1.1rem;
@@ -311,11 +350,28 @@
   outline-offset: 2px;
 }
 .tl-detail-art {
-  height: 9rem;
-  margin: -1rem -1.1rem 0.8rem;
+  margin: -1rem -1.1rem 0.9rem;
   overflow: hidden;
   border-radius: 5px 5px 0 0;
-  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 82%, transparent);
+}
+/* The frame is always the panel's full width; the picture's height follows its proportions,
+   up to a limit, past which it is cropped around its focus. */
+.tl-detail-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 22rem;
+  object-fit: cover;
+}
+/* A figure on transparency: whole and centred, on a soft light, never cropped. */
+.tl-detail-art[data-kind="cutout"] {
+  background: radial-gradient(ellipse at 50% 60%, rgb(127 214 255 / 0.16), transparent 70%);
+}
+.tl-detail-art[data-kind="cutout"] img {
+  max-height: 20rem;
+  object-fit: contain;
+  object-position: 50% 50% !important;
 }
 .tl-detail-name {
   padding-right: 4.5rem;

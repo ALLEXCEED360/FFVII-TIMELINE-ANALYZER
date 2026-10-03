@@ -1,4 +1,15 @@
-import { Menu, Search, X } from "lucide-react";
+import {
+  Columns3,
+  Compass,
+  GitBranch,
+  Hourglass,
+  Library,
+  type LucideIcon,
+  Menu,
+  Search,
+  Waypoints,
+  X,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { type PageName, preloadPage } from "../app/pages";
@@ -10,13 +21,13 @@ import "./ff7.css";
 import "./modern.css";
 
 /** The sections, in menu order. The home menu lists the same ones (features/home/menu.ts). */
-export const NAV: readonly { to: string; label: string; page: PageName }[] = [
-  { to: "/timeline", label: "Timeline", page: "timeline" },
-  { to: "/compare", label: "Compare", page: "compare" },
-  { to: "/divergence", label: "Divergence", page: "divergence" },
-  { to: "/network", label: "Network", page: "network" },
-  { to: "/explore", label: "Explore", page: "explore" },
-  { to: "/archive", label: "Archive", page: "archive" },
+export const NAV: readonly { to: string; label: string; page: PageName; icon: LucideIcon }[] = [
+  { to: "/timeline", label: "Timeline", page: "timeline", icon: Hourglass },
+  { to: "/compare", label: "Compare", page: "compare", icon: Columns3 },
+  { to: "/divergence", label: "Divergence", page: "divergence", icon: GitBranch },
+  { to: "/network", label: "Network", page: "network", icon: Waypoints },
+  { to: "/explore", label: "Explore", page: "explore", icon: Compass },
+  { to: "/archive", label: "Archive", page: "archive", icon: Library },
 ];
 
 /**
@@ -84,7 +95,7 @@ function MenuBar() {
  */
 function ModernBar({ pathname }: { pathname: string }) {
   const openSearch = useOpenSearch();
-  const wide = useMediaQuery("(min-width: 64rem)");
+  const wide = useMediaQuery("(min-width: 80rem)");
   // The Menu panel belongs to the page it was opened on, so going somewhere closes it.
   const [menuOn, setMenuOn] = useState<string | null>(null);
   const menuOpen = menuOn === pathname;
@@ -105,8 +116,9 @@ function ModernBar({ pathname }: { pathname: string }) {
       <div className="mbar-inner">
         <Link to="/" aria-label="Timeline Analyzer — home menu" className="mbar-logo">
           <span aria-hidden="true" className="materia mbar-orb" />
-          <span aria-hidden="true" className="ff7-text mbar-name">
-            Timeline Analyzer
+          <span aria-hidden="true" className="mbar-title">
+            <span className="mbar-series">Final Fantasy VII</span>
+            <span className="ff7-text mbar-name">Timeline Analyzer</span>
           </span>
         </Link>
 
@@ -131,6 +143,7 @@ function ModernBar({ pathname }: { pathname: string }) {
                     }}
                     className="ff7-text mbar-link"
                   >
+                    <item.icon aria-hidden="true" className="mbar-icon" />
                     {item.label}
                   </SectionNavLink>
                 </li>
@@ -147,7 +160,7 @@ function ModernBar({ pathname }: { pathname: string }) {
             aria-label="Search"
             className="mbar-search"
           >
-            <Search aria-hidden="true" className="size-4" />
+            <Search aria-hidden="true" className="mbar-icon" />
             <span className="mbar-search-text">Search the archive…</span>
           </button>
           {!wide && (
@@ -161,9 +174,9 @@ function ModernBar({ pathname }: { pathname: string }) {
               className="ff7-text mbar-menu"
             >
               {menuOpen ? (
-                <X aria-hidden="true" className="size-4" />
+                <X aria-hidden="true" className="mbar-icon" />
               ) : (
-                <Menu aria-hidden="true" className="size-4" />
+                <Menu aria-hidden="true" className="mbar-icon" />
               )}
               Menu
             </button>
