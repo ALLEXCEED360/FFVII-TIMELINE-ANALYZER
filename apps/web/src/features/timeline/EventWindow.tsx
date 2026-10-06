@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { Appearance, EntityDetail, Reference, TitleCode } from "../../api/client";
 import { Link } from "react-router";
 import { useEntity } from "../../api/queries";
@@ -5,9 +6,10 @@ import { artFor, sceneFor } from "../../art/manifest";
 import { Artwork } from "../../components/Artwork";
 import { ErrorMessage, Loading } from "../../components/QueryState";
 import { comparePath, divergencePath, entityPath } from "../../lib/paths";
-import { TITLE_ORDER, describeLocator, titleShort } from "../../lib/reference";
+import { TITLE_ORDER, describeLocator, notYetReached, titleShort } from "../../lib/reference";
 import { TITLE_COLOR } from "../../lib/titles";
 import { MAIN_WORLD, tellingOf } from "./story";
+import "./timeline.css";
 
 /**
  * The chosen event, in one of the game's windows: what happens, how each of the four games tells
@@ -18,10 +20,13 @@ export function EventWindow({
   id,
   reference,
   onClose,
+  action,
 }: {
   id: string;
   reference: Reference | undefined;
   onClose: () => void;
+  /** Takes the place of "See where the stories split", e.g. on the divergence page itself. */
+  action?: ReactNode;
 }) {
   const query = useEntity(id);
   return (
@@ -34,7 +39,7 @@ export function EventWindow({
       ) : query.isError ? (
         <ErrorMessage error={query.error} onRetry={() => void query.refetch()} />
       ) : (
-        <EventDetails entity={query.data} reference={reference} />
+        <EventDetails entity={query.data} reference={reference} action={action} />
       )}
     </aside>
   );
@@ -49,9 +54,11 @@ function mainAppearance(entity: EntityDetail, title: TitleCode): Appearance | un
 function EventDetails({
   entity,
   reference,
+  action,
 }: {
   entity: EntityDetail;
   reference: Reference | undefined;
+  action?: ReactNode;
 }) {
   const art = sceneFor(entity.id) ?? artFor(entity.id).main;
   const people = entity.relationships.filter(
@@ -110,7 +117,9 @@ function EventDetails({
                             depiction?.framing ?? (a.status === "referenced" ? "mention" : null),
                           world: a.world,
                         })
-                      : "Not in this game"}
+                      : notYetReached(reference, title, entity.ogSegmentId)
+                        ? "Not reached yet"
+                        : "Not in this game"}
                   </span>
                 </p>
                 {a && <p className="tl-detail-text">{a.summary}</p>}
@@ -165,9 +174,11 @@ function EventDetails({
         <Link to={comparePath(entity.id)} className="m-row-link">
           Compare the games side by side
         </Link>
-        <Link to={divergencePath(entity.id)} className="m-row-link">
-          See where the stories split
-        </Link>
+        {action ?? (
+          <Link to={divergencePath(entity.id)} className="m-row-link">
+            See where the stories split
+          </Link>
+        )}
         <Link to={entityPath(entity.id)} className="m-row-link">
           Everything about this event
         </Link>

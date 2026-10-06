@@ -37,3 +37,25 @@ export function describeLocator(reference: Reference | undefined, locator: Locat
 export function worldName(reference: Reference | undefined, id: string): string {
   return reference?.worlds.find((w) => w.id === id)?.name ?? id;
 }
+
+/**
+ * Whether a game of the Remake series simply hasn't reached this part of the original yet, rather
+ * than leaving it out: the original segment lies beyond everything the series has retold so far.
+ * (The same rule the API applies to its "not yet reached" status.)
+ */
+export function notYetReached(
+  reference: Reference | undefined,
+  code: TitleCode,
+  ogSegmentId: string | null | undefined,
+): boolean {
+  if (!reference || !ogSegmentId) return false;
+  const title = reference.titles.find((t) => t.code === code);
+  if (title?.series !== "remake" || !title.coverage) return false;
+  const order = reference.segments.map((s) => s.id);
+  const furthest = Math.max(
+    ...reference.titles
+      .filter((t) => t.series === "remake" && t.coverage)
+      .map((t) => order.indexOf(t.coverage?.to ?? "")),
+  );
+  return order.indexOf(ogSegmentId) > furthest;
+}

@@ -12,13 +12,7 @@ import type {
 import type { ArtEntry } from "../../art/manifest";
 import { Artwork } from "../../components/Artwork";
 import { Citation, Citations } from "../../components/Citation";
-import {
-  ENTITY_KINDS,
-  type EntityKind,
-  KIND_LABELS,
-  comparePath,
-  entityPath,
-} from "../../lib/paths";
+import { ENTITY_KINDS, type EntityKind, KIND_LABELS, entityPath } from "../../lib/paths";
 import { CHANGE_WORDS, STATUS_SENTENCES, STATUS_WORDS, tellingOf } from "../../lib/plain";
 import { TITLE_ORDER, describeLocator, titleShort, worldName } from "../../lib/reference";
 import { TITLE_COLOR } from "../../lib/titles";
@@ -358,32 +352,37 @@ export function Connections({
   );
 }
 
-/** Anything told by two games or more, found by name or kind, opening its side-by-side view. */
+/** Anything told by two games or more, found by name or kind, opening where `pathFor` says. */
 export function ThingPicker({
   entities,
   reference,
-  withTitles,
+  pathFor,
+  title = "Compare anything side by side",
+  kinds = ENTITY_KINDS,
 }: {
   entities: readonly EntityList["items"][number][];
   reference: Reference | undefined;
-  withTitles: (path: string) => string;
+  pathFor: (id: string) => string;
+  title?: string;
+  /** The kinds offered; with one, there are no kind choices. */
+  kinds?: readonly EntityKind[];
 }) {
   const [text, setText] = useState("");
-  const [kind, setKind] = useState<EntityKind>("event");
+  const [kind, setKind] = useState<EntityKind>(kinds[0] ?? "event");
   const query = text.trim().toLowerCase();
   const shown = useMemo(
     () =>
       entities
-        .filter((e) => e.titles.length >= 2)
-        // A search looks across every kind; otherwise the chosen kind.
+        .filter((e) => e.titles.length >= 2 && (kinds as readonly string[]).includes(e.kind))
+        // A search looks across every kind offered; otherwise the chosen kind.
         .filter((e) => (query ? e.name.toLowerCase().includes(query) : e.kind === kind))
         .sort((a, b) => a.name.localeCompare(b.name)),
-    [entities, query, kind],
+    [entities, query, kind, kinds],
   );
   return (
     <section aria-labelledby="cmp-pick" className="m-panel cmp-pick">
       <h2 id="cmp-pick" className="m-label">
-        Compare anything side by side
+        {title}
       </h2>
       <input
         type="search"
@@ -392,12 +391,14 @@ export function ThingPicker({
           setText(event.target.value);
         }}
         aria-label="Find something to compare"
-        placeholder="Find a character, event or place…"
+        placeholder={
+          kinds.length === 1 ? "Find a moment by name…" : "Find a character, event or place…"
+        }
         className="cmp-search"
       />
-      {!query && (
+      {!query && kinds.length > 1 && (
         <div role="group" aria-label="Kinds" className="m-choices">
-          {ENTITY_KINDS.map((k) => (
+          {kinds.map((k) => (
             <button
               key={k}
               type="button"
@@ -418,7 +419,7 @@ export function ThingPicker({
         <ul aria-label="Things to compare" className="cmp-pick-list">
           {shown.map((entity) => (
             <li key={entity.id}>
-              <Link to={withTitles(comparePath(entity.id))} className="cmp-pick-item">
+              <Link to={pathFor(entity.id)} className="cmp-pick-item">
                 <span>{entity.name}</span>
                 <span aria-hidden="true" className="cmp-pick-games">
                   {TITLE_ORDER.filter((t) => entity.titles.includes(t)).map((t) => (

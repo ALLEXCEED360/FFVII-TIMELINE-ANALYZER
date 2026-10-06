@@ -1,36 +1,36 @@
-import { formatYearNumber } from "@ffvii/shared/labels";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { ApiError } from "../api/client";
-import { useDivergence, useReference } from "../api/queries";
-import { ErrorMessage, Loading } from "../components/QueryState";
-import { TitleSelect } from "../features/compare/parts";
-import { DivergenceList } from "../features/divergence/DivergenceList";
-import { DivergenceMap } from "../features/divergence/DivergenceMap";
-import { MarkingLegend } from "../features/divergence/Legend";
-import { layoutDivergence } from "../features/divergence/layout";
-import { divergenceSearch, useDivergenceParams } from "../features/divergence/params";
-import { EventInspector } from "../features/inspector/EventInspector";
-import { comparePath, divergencePath, idFromPath, kindOf } from "../lib/paths";
-import { NotFoundPage } from "./NotFoundPage";
+import { useDivergence, useEntity, useReference } from "../api/queries";
 import { SECTION_ART, sceneFor } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
+import { ErrorMessage, Loading } from "../components/QueryState";
+import { GamePicker } from "../features/compare/pieces";
+import { SplitView } from "../features/divergence/SplitView";
+import { divergenceSearch, useDivergenceParams } from "../features/divergence/params";
+import { EventWindow } from "../features/timeline/EventWindow";
+import { comparePath, divergencePath, idFromPath, kindOf } from "../lib/paths";
+import { useMediaQuery } from "../lib/useMediaQuery";
+import { NotFoundPage } from "./NotFoundPage";
+import "../features/compare/compare.css";
+import "../features/divergence/divergence.css";
 
 /**
- * Where the titles part ways around one event (blueprint §29):
- * /divergence/event/aerith-death?titles=og,rebirth&worlds=1
- * The shared history before it is one line; at the event it forks into a line per title.
+ * Where the games part ways around one moment (decision 0022), for someone new to the story:
+ * the story so far, the turning point, and where each game goes after it, read top to bottom.
+ * /divergence/event/aerith-death?titles=og,rebirth&worlds=1&node=event_x
  */
 export function DivergenceViewPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);
-  useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.divergence, { strength: 0.45 });
+  useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.divergence, { strength: 0.6, side: "full" });
   const { params, update } = useDivergenceParams();
   const divergence = useDivergence(id, params.titles, params.worlds);
+  const pivot = useEntity(id);
   const reference = useReference();
   const navigate = useNavigate();
+  const wide = useMediaQuery("(min-width: 64rem)");
   const view = divergence.data;
-  const layout = useMemo(() => (view ? layoutDivergence(view) : null), [view]);
 
   // A retired ID is redirected by the API; show the canonical URL for what came back.
   const returnedId = view?.pivot.id;
@@ -59,115 +59,130 @@ export function DivergenceViewPage() {
     const query = divergenceSearch({ ...params, node: null }).toString();
     void navigate(`${divergencePath(eventId)}${query ? `?${query}` : ""}`);
   };
+  const hasOtherWorlds = (reference.data?.worlds.length ?? 0) > 1;
 
-  return (
-    <div className="flex flex-col gap-5">
-      <header className="flex flex-col gap-2">
-        <nav aria-label="Breadcrumb" className="label">
-          <Link to="/divergence" className="hover:text-mako-300">
-            Divergence
-          </Link>
-        </nav>
-        <h1 className="page-title">{view?.pivot.name ?? "…"}</h1>
-        {view && (
-          <p className="eyebrow">
-            {formatYearNumber(view.pivot.start)}
-            {view.pivot.importance === 3 ? " · Pivotal" : ""}
-          </p>
-        )}
-        <p className="max-w-3xl text-sm text-steel-300">
-          The line on the left is the history before this event; at the event it forks into a line
-          per title. Each station shows how that title tells the event. Select a station for
-          details, or re-root the map on it.
-        </p>
-        <div className="flex flex-wrap items-center gap-2">
-          <Link to={comparePath(id)} className="btn">
-            Compare titles
-          </Link>
+  const detail = selected ? (
+    <EventWindow
+      key={selected}
+      id={selected}
+      reference={reference.data}
+      onClose={() => {
+        update({ node: null });
+      }}
+      action={
+        selected === view?.pivot.id ? (
+          false
+        ) : (
           <button
             type="button"
-            className="btn"
-            aria-pressed={params.worlds}
+            className="m-row-link"
             onClick={() => {
-              update({ worlds: !params.worlds });
+              reroot(selected);
             }}
           >
-            Show other worlds
+            Make this the turning point
           </button>
+        )
+      }
+    />
+  ) : null;
+
+  return (
+    <div className="dv">
+      <header>
+        <p className="m-label">Divergence · A turning point</p>
+        <h1 className="m-heading m-title dv-title">
+          {view?.pivot.name ?? pivot.data?.name ?? "…"}
+        </h1>
+        {pivot.data && <p className="m-intro">{pivot.data.summary}</p>}
+        <p className="m-intro dv-guide">
+          Read it in three steps: the story so far, the turning point, then where each game goes
+          next. Tap any moment to see its details.
+        </p>
+        <div className="cmp-hero-links">
+          <Link to={comparePath(id)} className="m-pill-link">
+            Compare the games side by side
+          </Link>
+          <Link to={`/timeline?event=${id}`} className="m-pill-link">
+            See it on the timeline
+          </Link>
         </div>
-        <TitleSelect
-          titles={params.titles}
-          reference={reference.data}
-          onChange={(titles) => {
-            update({ titles });
-          }}
-        />
       </header>
 
-      {divergence.isPending ? (
-        <Loading variant="panel" label="Loading the divergence…" />
-      ) : divergence.isError ? (
-        <div className="panel p-4">
-          <ErrorMessage error={divergence.error} onRetry={() => void divergence.refetch()} />
+      <div className="m-panel cmp-controls dv-controls">
+        <div className="cmp-control">
+          <p className="m-label">Which games</p>
+          <GamePicker
+            titles={params.titles}
+            reference={reference.data}
+            onChange={(titles) => {
+              update({ titles });
+            }}
+          />
         </div>
-      ) : (
-        layout &&
-        view && (
-          <div
-            className={`grid gap-5 ${selected ? "xl:grid-cols-[minmax(0,1fr)_22rem]" : ""}`}
-            aria-busy={divergence.isPlaceholderData}
-          >
-            <div className="flex min-w-0 flex-col gap-5">
-              <section aria-label="Map">
-                <DivergenceMap
-                  layout={layout}
-                  reference={reference.data}
-                  selected={selected}
-                  onSelect={select}
-                />
-              </section>
-              <MarkingLegend />
-              <section aria-labelledby="divergence-list" className="flex flex-col gap-3">
-                <h2 id="divergence-list" className="section-title">
-                  As a list
-                </h2>
-                <DivergenceList
-                  view={view}
-                  reference={reference.data}
-                  selected={selected}
-                  onSelect={select}
-                />
-              </section>
-            </div>
-            {selected && (
-              <EventInspector
-                key={selected}
-                id={selected}
-                reference={reference.data}
-                onClose={() => {
-                  update({ node: null });
+        {hasOtherWorlds && (
+          <div className="cmp-control">
+            <p className="m-label" id="dv-worlds">
+              Other worlds
+            </p>
+            <div role="group" aria-labelledby="dv-worlds" className="m-choices">
+              <button
+                type="button"
+                aria-pressed={params.worlds}
+                onClick={() => {
+                  update({ worlds: !params.worlds });
                 }}
-                // The map is already rooted on the pivot: no action for it.
-                action={
-                  selected === view.pivot.id ? (
-                    false
-                  ) : (
-                    <button
-                      type="button"
-                      className="btn px-2 py-0.5"
-                      onClick={() => {
-                        reroot(selected);
-                      }}
-                    >
-                      Re-root here
-                    </button>
-                  )
-                }
+                className="m-choice"
+              >
+                <span aria-hidden="true" className="m-choice-box" />
+                Include other worlds
+              </button>
+            </div>
+            <p className="dv-help">
+              The Remake series also shows another world, where Zack survived. Turn this on to
+              follow it as a line of its own.
+            </p>
+          </div>
+        )}
+      </div>
+
+      <div className="dv-body">
+        <div className="dv-main">
+          {!wide && detail}
+          {divergence.isPending ? (
+            <Loading variant="panel" label="Finding where the games part ways…" />
+          ) : divergence.isError ? (
+            <div className="m-panel dv-stage">
+              <ErrorMessage error={divergence.error} onRetry={() => void divergence.refetch()} />
+            </div>
+          ) : (
+            <div aria-busy={divergence.isPlaceholderData}>
+              <SplitView
+                view={divergence.data}
+                reference={reference.data}
+                selected={selected}
+                onSelect={select}
               />
+            </div>
+          )}
+        </div>
+        {wide && (
+          <div className="dv-side">
+            {detail ?? (
+              <div className="m-panel dv-side-empty">
+                <span aria-hidden="true" className="dv-side-arrow">
+                  ‹
+                </span>
+                <p className="m-heading">Tap any moment</p>
+                <p className="dv-stage-text">
+                  Every moment on the left is a card. Tap one, or its Details button, and how each
+                  game tells it opens here — with a way to make it the turning point.
+                </p>
+              </div>
             )}
           </div>
-        )
-      )}
+        )}
+      </div>
     </div>
   );
 }

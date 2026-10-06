@@ -1,4 +1,4 @@
-import type { DifferenceCategory, DisplayStatus } from "../api/client";
+import type { DifferenceCategory, DisplayStatus, DivergenceView } from "../api/client";
 
 // The archive in plain words, for someone new to the story (decisions 0019, 0021). The data's
 // own terms ("depicted", "false account", "participants") stay in the data and the API; pages
@@ -73,4 +73,28 @@ export const CHANGE_WORDS: Record<DifferenceCategory, string> = {
   relationship: "Relationships",
   context: "What surrounds it",
   gameplay: "Gameplay",
+};
+
+/** How one game tells a moment, measured against the others (the divergence view). */
+export type Marking = NonNullable<DivergenceView["events"][number]["stations"][number]>["marking"];
+
+export const SPLIT_WORDS: Record<Marking, string> = {
+  shared: "Told the same",
+  changed: "Told differently",
+  only_here: "Only this game shows it",
+  not_yet_retold: "Only this game has told it so far",
+  omitted: "Left out",
+  not_yet_reached: "Not reached yet",
+  undocumented: "Not recorded yet",
+};
+
+/** The same, said in a sentence where there's room. */
+export const SPLIT_SENTENCES: Record<Marking, string> = {
+  shared: "This game tells it the same way as the others.",
+  changed: "This game tells it, but differently from the others.",
+  only_here: "Only this game shows it; the others cover this part of the story without it.",
+  not_yet_retold: "This game tells it; the others haven't reached this part of the story yet.",
+  omitted: "This game covers this part of the story but leaves this out.",
+  not_yet_reached: "This game hasn't reached this part of the story yet.",
+  undocumented: "This game covers this, but the archive hasn't recorded how yet.",
 };

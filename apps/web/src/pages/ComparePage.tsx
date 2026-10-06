@@ -194,7 +194,7 @@ export function ComparePage() {
         <ThingPicker
           entities={entities.data?.items ?? []}
           reference={reference.data}
-          withTitles={withTitles}
+          pathFor={(id) => withTitles(comparePath(id))}
         />
       </div>
     </div>

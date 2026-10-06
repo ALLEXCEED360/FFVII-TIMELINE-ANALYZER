@@ -3,18 +3,22 @@ import { expect, test } from "@playwright/test";
 // The signature view and the source trail: from an event to where its titles part ways, and from
 // a citation to everything else that part of the game backs.
 
-test("from an event to its divergence map, re-rooted on an earlier event", async ({ page }) => {
+test("from an event to where the games part ways, then from an earlier moment", async ({
+  page,
+}) => {
   await page.goto("/event/aerith-death");
   await page.getByRole("main").getByRole("link", { name: "Divergence", exact: true }).click();
   await expect(page).toHaveURL(/\/divergence\/event\/aerith-death$/);
 
-  const map = page.getByRole("group", { name: /Divergence map/ });
-  await expect(map.getByRole("button", { name: /^Death of Aerith — OG: Changed$/ })).toBeVisible();
+  const turn = page.getByRole("region", { name: "Death of Aerith" });
+  await expect(turn.getByRole("listitem").first()).toContainText("Told differently");
 
-  await map.getByRole("button", { name: /^Fall of the Sector 7 Plate — before the pivot/ }).click();
+  const before = page.getByRole("region", { name: "The story so far" });
+  await before.getByRole("button", { name: /Show the \d+ earlier moments/ }).click();
+  await before.getByRole("button", { name: /^Fall of the Sector 7 Plate/ }).click();
   await page
-    .getByRole("complementary", { name: "Inspector" })
-    .getByRole("button", { name: "Re-root here" })
+    .getByRole("complementary", { name: "Event details" })
+    .getByRole("button", { name: "Make this the turning point" })
     .click();
   await expect(page).toHaveURL(/\/divergence\/event\/sector-7-plate-fall/);
   await expect(

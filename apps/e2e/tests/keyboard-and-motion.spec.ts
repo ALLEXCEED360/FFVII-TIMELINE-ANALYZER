@@ -39,20 +39,22 @@ test("the search palette works from the keyboard alone", async ({ page }) => {
   await expect(page.getByRole("dialog", { name: "Search the archive" })).toHaveCount(0);
 });
 
-test("divergence stations can be chosen with the keyboard", async ({ page }) => {
+test("divergence moments can be chosen with the keyboard", async ({ page }) => {
   await page.goto("/divergence/event/aerith-death");
-  const station = page
-    .getByRole("group", { name: /Divergence map/ })
-    .getByRole("button", { name: /^Death of Aerith — OG/ });
+  const moment = page
+    .getByRole("region", { name: "Death of Aerith" })
+    .getByRole("button", { name: /See the details of this moment/ });
   // Reach it by keyboard (Shift+Tab, Tab), so it matches :focus-visible.
-  await station.focus();
+  await moment.focus();
   await page.keyboard.press("Shift+Tab");
   await page.keyboard.press("Tab");
-  await expect(station).toBeFocused();
-  // SVG stations draw their own focus ring.
-  await expect(station.locator(".focus-ring")).not.toHaveCSS("stroke", "none");
+  await expect(moment).toBeFocused();
+  await expect(moment).not.toHaveCSS("outline-style", "none");
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/node=event_aerith_death/);
+  await expect(page.getByRole("complementary", { name: "Event details" })).toContainText(
+    "How each game tells it",
+  );
 });
 
 /** Choose a Motion option in Settings, clicking its label as a visitor would (the radio is hidden). */
@@ -208,4 +210,22 @@ test.describe("title screen", () => {
     await expect(page.getByRole("dialog")).toHaveCount(0, { timeout: 10_000 });
     await expect(page.getByRole("heading", { level: 1, name: "Cloud Strife" })).toBeVisible();
   });
+});
+
+test("the Back button follows you down a long page", async ({ page }) => {
+  await page.goto("/divergence");
+  await page
+    .getByRole("region", { name: "The big turning points" })
+    .getByRole("link")
+    .first()
+    .click();
+  await expect(page).toHaveURL(/\/divergence\/event\//);
+  const backs = page.getByRole("button", { name: "Back" });
+  await expect(backs).toHaveCount(1);
+  // Scrolled past the one at the top, the same button floats in the corner.
+  await page.mouse.wheel(0, 3000);
+  await expect(backs).toHaveCount(2);
+  await expect(page.locator(".m-back-float")).toBeInViewport();
+  await page.locator(".m-back-float").click();
+  await expect(page).toHaveURL(/\/divergence$/);
 });

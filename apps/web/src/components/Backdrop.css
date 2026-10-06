@@ -1,0 +1,21 @@
+/* The artwork behind every page (Backdrop.tsx): a change is a slow crossfade, the old artwork
+   fading out as the new one fades in. Its keyframes live here: Tailwind keeps theme keyframes only
+   while styles.css itself uses them. Under reduced motion the change is immediate (styles.css). */
+
+.backdrop-in {
+  animation: backdrop-in 1s ease-in-out both;
+}
+.backdrop-out {
+  animation: backdrop-out 1s ease-in-out both;
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+}
+@keyframes backdrop-out {
+  to {
+    opacity: 0;
+  }
+}

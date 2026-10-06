@@ -1,6 +1,7 @@
-import { Outlet, useLocation, useMatches } from "react-router";
+import { Outlet, ScrollRestoration, useLocation, useMatches } from "react-router";
 import { CommandPalette, useSearchShortcut } from "../features/search/CommandPalette";
 import { useMotionAttribute } from "../lib/motion";
+import { BackButton } from "./BackButton";
 import { Backdrop } from "./Backdrop";
 import { BootScreen } from "./BootScreen";
 import { Cursor } from "./Cursor";
@@ -44,12 +45,17 @@ export function AppShell() {
             : "mx-auto w-full max-w-(--page-max) flex-1 overflow-x-clip px-(--page-pad) py-8"
         }
       >
+        {/* Every page but the home menu (which bleeds to the edges) has a way back. */}
+        {!bleed && <BackButton />}
         {/* Keyed by path, so each new page settles in; changing only the query doesn't. */}
         <div key={pathname} className={`page-enter ${bleed ? "flex flex-1 flex-col" : ""}`}>
           <Outlet />
         </div>
       </main>
 
+      {/* A new page opens at its top; Back returns to where you were on the page before. Keyed by
+          the page, so a change of choices within it (an event chosen, a game shown) stays put. */}
+      <ScrollRestoration getKey={(location) => location.pathname} />
       <CommandPalette />
       <Wipe />
       <BootScreen />

@@ -159,16 +159,6 @@
     outline-offset: 2px;
   }
 
-  /* SVG stations draw their own focus ring (outlines don't follow SVG shapes). */
-  svg [role="button"]:focus-visible {
-    outline: none;
-  }
-
-  svg [role="button"]:focus-visible .focus-ring {
-    stroke: var(--color-mako-300);
-    stroke-width: 2;
-  }
-
   ::selection {
     background: var(--color-mako-400);
     color: var(--color-ink);
@@ -351,11 +341,6 @@
   .rise {
     animation: rise 0.5s var(--ease-out-expo) both;
     animation-delay: calc(var(--i, 0) * 45ms + 80ms);
-  }
-
-  /* The selected timeline event breathes gently. */
-  .timeline-glow {
-    animation: breathe 2.4s ease-in-out infinite;
   }
 
   /* Small uppercase technical label. */

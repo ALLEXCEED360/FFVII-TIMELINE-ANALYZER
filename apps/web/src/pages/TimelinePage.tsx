@@ -12,7 +12,6 @@ import { MARK_WORDS, playOrder, storyChapters } from "../features/timeline/story
 import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { useReducedMotion } from "../lib/motion";
-import "../features/timeline/timeline.css";
 
 /**
  * The timeline (decision 0019): the story of FFVII told top to bottom in chapters, in the

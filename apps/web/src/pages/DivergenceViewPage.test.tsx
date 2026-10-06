@@ -2,55 +2,59 @@ import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import aerithDeath from "../test/entity-aerith-death.json";
 import { renderAt, stubApi } from "../test/render";
 
-const map = () => screen.getByRole("group", { name: /Divergence map/ });
+/** What each moment says, without the "Details" on its button. */
+const items = (region: HTMLElement) =>
+  within(region)
+    .getAllByRole("listitem")
+    .map((li) => li.textContent.replace(/(Details|Open) ›$/, ""));
 
 describe("divergence view", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
   });
 
-  it("draws the trunk and a line per branch, with a station per event shown", async () => {
+  it("follows the story so far, in plain words", async () => {
     stubApi();
     renderAt("/divergence/event/aerith-death");
-    await screen.findByRole("heading", { level: 1, name: "Death of Aerith" });
-    const stations = within(map())
-      .getAllByRole("button")
-      .map((b) => b.getAttribute("aria-label"));
-    expect(stations).toEqual([
-      "Nibelheim Incident — before the pivot: told differently",
-      "Bombing of Mako Reactor 1 — before the pivot: told differently",
-      "Fall of the Sector 7 Plate — before the pivot: told differently",
-      "Death of Aerith — OG: Changed",
-      "Death of Aerith — Rebirth: Changed",
-      "Cloud's Memories Restored — OG: Not yet retold elsewhere",
-      "Cloud's Memories Restored — Remake: Not yet reached",
-      "Cloud's Memories Restored — Rebirth: Not yet reached",
-    ]);
+    const before = await screen.findByRole("region", { name: "The story so far" });
+    const moments = items(before);
+    expect(moments).toHaveLength(3);
+    expect(moments[0]).toMatch(/^Nibelheim Incident5 years before the storyTold differently/);
+    expect(moments[0]).toContain("Big change");
+    expect(moments[0]).toContain("What changes: How it's shown");
   });
 
-  it("gives the same information as a list", async () => {
+  it("says at the turning point what each game does with it", async () => {
     stubApi();
     renderAt("/divergence/event/aerith-death");
-    const og = await screen.findByRole("region", { name: "OG — from the pivot" });
-    expect(
-      within(og)
-        .getAllByRole("listitem")
-        .map((li) => li.textContent),
-    ).toEqual([
-      "Death of AerithChangedContext (major), Presentation (major)",
-      "Cloud's Memories RestoredNot yet retold elsewhere",
-    ]);
-    expect(
-      screen.getByRole("region", { name: "Rebirth · Zack survives — from the pivot" }).textContent,
-    ).toContain("Doesn't show the pivot or anything after it.");
+    const turn = await screen.findByRole("region", { name: "Death of Aerith" });
+    const games = within(turn).getByRole("list", { name: "How each game tells it" });
+    const lines = items(games);
+    expect(lines[0]).toMatch(/^OGTold differently/);
+    expect(lines[0]).toContain("Big change");
+    expect(lines[1]).toMatch(/^RemakeNot in this game/);
+    expect(lines[3]).toMatch(/^Rebirth · Zack survivesNot in this game/);
+  });
+
+  it("follows each game's own line after it", async () => {
+    stubApi();
+    renderAt("/divergence/event/aerith-death");
+    const og = await screen.findByRole("region", { name: "OG" });
+    expect(items(og)).toEqual(["Cloud's Memories RestoredOnly this game has told it so far"]);
+    const remake = screen.getByRole("region", { name: "Remake" });
+    expect(items(remake)).toEqual(["Cloud's Memories RestoredNot reached yet"]);
+    expect(screen.getByRole("region", { name: "Rebirth · Zack survives" }).textContent).toContain(
+      "Nothing after this moment in this game yet.",
+    );
   });
 
   it("asks for other worlds when they're switched on", async () => {
     const requests = stubApi();
     const { router } = renderAt("/divergence/event/aerith-death");
-    await userEvent.click(await screen.findByRole("button", { name: "Show other worlds" }));
+    await userEvent.click(await screen.findByRole("button", { name: "Include other worlds" }));
     expect(router.state.location.search).toBe("?worlds=1");
     await waitFor(() => {
       expect(requests.some((u) => u.searchParams.get("worlds") === "true")).toBe(true);
@@ -58,29 +62,40 @@ describe("divergence view", () => {
     expect(requests[0]?.searchParams.get("worlds")).toBe("false");
   });
 
-  it("selects a station into the inspector, and re-roots the map on it", async () => {
-    stubApi();
-    const { router } = renderAt("/divergence/event/aerith-death?titles=og,rebirth");
-    await screen.findByRole("heading", { level: 1, name: "Death of Aerith" });
-    await userEvent.click(
-      within(map()).getByRole("button", { name: /^Nibelheim Incident — before the pivot/ }),
+  it("opens a moment, and can make it the turning point", async () => {
+    // The fixtures hold one event's details; Nibelheim borrows them under its own name.
+    stubApi((url) =>
+      url.pathname === "/entities/event_nibelheim_incident"
+        ? {
+            status: 200,
+            body: { ...aerithDeath, id: "event_nibelheim_incident", name: "Nibelheim Incident" },
+          }
+        : undefined,
     );
+    const { router } = renderAt("/divergence/event/aerith-death?titles=og,rebirth");
+    const before = await screen.findByRole("region", { name: "The story so far" });
+    // The whole card is the button; its name starts with the moment's.
+    await userEvent.click(within(before).getByRole("button", { name: /^Nibelheim Incident/ }));
     expect(router.state.location.search).toBe("?titles=og%2Crebirth&node=event_nibelheim_incident");
-    const inspector = screen.getByRole("complementary", { name: "Inspector" });
-    await userEvent.click(within(inspector).getByRole("button", { name: "Re-root here" }));
+    const details = screen.getByRole("complementary", { name: "Event details" });
+    await userEvent.click(
+      await within(details).findByRole("button", { name: "Make this the turning point" }),
+    );
     await waitFor(() => {
       expect(router.state.location.pathname).toBe("/divergence/event/nibelheim-incident");
     });
     expect(router.state.location.search).toBe("?titles=og%2Crebirth");
   });
 
-  it("offers no re-root for the pivot itself", async () => {
+  it("offers nothing to re-root on the turning point itself", async () => {
     stubApi();
     renderAt("/divergence/event/aerith-death?node=event_aerith_death");
-    const inspector = await screen.findByRole("complementary", { name: "Inspector" });
-    await within(inspector).findByRole("heading", { level: 2, name: "Death of Aerith" });
-    expect(within(inspector).queryByRole("button", { name: "Re-root here" })).toBeNull();
-    expect(within(inspector).queryByRole("link", { name: "Divergence" })).toBeNull();
+    const details = await screen.findByRole("complementary", { name: "Event details" });
+    await within(details).findByRole("heading", { level: 2, name: "Death of Aerith" });
+    expect(
+      within(details).queryByRole("button", { name: "Make this the turning point" }),
+    ).toBeNull();
+    expect(within(details).queryByRole("link", { name: /See where the stories split/ })).toBeNull();
   });
 
   it("shows not found for an unknown event", async () => {
@@ -98,8 +113,8 @@ describe("divergence view", () => {
   it("has no accessibility violations", async () => {
     stubApi();
     const { container } = renderAt("/divergence/event/aerith-death?node=event_aerith_death");
-    const inspector = await screen.findByRole("complementary", { name: "Inspector" });
-    await within(inspector).findByRole("heading", { level: 2, name: "Death of Aerith" });
+    const details = await screen.findByRole("complementary", { name: "Event details" });
+    await within(details).findByRole("heading", { level: 2, name: "Death of Aerith" });
     const results = await axe.run(container, { rules: { "color-contrast": { enabled: false } } });
     expect(results.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
   });

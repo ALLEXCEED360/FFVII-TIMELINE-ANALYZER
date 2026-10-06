@@ -100,12 +100,7 @@ function ComparisonView({
       {/* Its scene is the page's backdrop (above), so the header is words alone. */}
       <header className="cmp-hero">
         <div>
-          <nav aria-label="Breadcrumb" className="m-label">
-            <Link to="/compare" className="cmp-crumb">
-              Compare
-            </Link>{" "}
-            / {KIND_LABELS[kind].many}
-          </nav>
+          <p className="m-label">Compare · {KIND_LABELS[kind].one}</p>
           <h1 className="m-heading m-title">{entity.name}</h1>
           <p className="m-intro">{entity.summary}</p>
           <div className="cmp-hero-links">

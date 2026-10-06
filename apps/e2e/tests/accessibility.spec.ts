@@ -22,7 +22,7 @@ const PAGES: { name: string; path: string; ready: (page: Page) => Promise<void> 
   { name: "network overview", path: "/network", ready: heading("Network") },
   { name: "network", path: "/network/character/cloud-strife", ready: graph },
   { name: "divergence", path: "/divergence", ready: heading("Divergence") },
-  { name: "divergence map", path: "/divergence/event/aerith-death?worlds=1", ready: map },
+  { name: "divergence view", path: "/divergence/event/aerith-death?worlds=1", ready: split },
   { name: "archive", path: "/archive", ready: heading("Archive") },
   { name: "archive title", path: "/archive/og", ready: heading("Final Fantasy VII") },
   { name: "archive unit", path: "/archive/rebirth/chapter-14", ready: heading("End of the World") },
@@ -62,8 +62,10 @@ async function graph(page: Page) {
   await expect(page.getByRole("list", { name: "Entities and their connections" })).toBeVisible();
 }
 
-async function map(page: Page) {
-  await expect(page.getByRole("group", { name: /Divergence map/ })).toBeVisible();
+/** The turning point and the games' lines after it have arrived. */
+async function split(page: Page) {
+  await expect(page.getByRole("region", { name: "Where each game goes" })).toBeVisible();
+  await expect(page.getByRole("status")).toHaveCount(0);
 }
 
 for (const { name, path, ready } of PAGES) {

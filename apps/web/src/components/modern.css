@@ -11,6 +11,11 @@
   --m-dim: #a9b3c6;
   /* The series' own logo lettering (capitals only; its fallback sets the figures). */
   --font-series: "FF Logo", "Optimus Princeps", Georgia, serif;
+  /* Names, headings and labels: the title screen's engraved Roman letters (its lowercase is
+     small capitals), readable at any length. The series' lettering is kept for the bar. */
+  --font-heading: "Optimus Princeps", Georgia, serif;
+  --heading-weight: 600;
+  --heading-spacing: 0.02em;
   /* The page uses nearly the whole screen, with gutters that grow with it. */
   --page-max: 150rem;
   --page-pad: clamp(1rem, 2.5vw, 3rem);
@@ -39,24 +44,21 @@
   pointer-events: none;
 }
 
-/* Names and headings: the series' lettering, in capitals. Its letters are narrow and set tight,
-   so it's spaced out well beyond the usual to stay easy to read. */
+/* Names and headings, in upper and lower case so long ones read easily. */
 .m-heading {
-  font-family: var(--font-series);
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  word-spacing: 0.2em;
-  text-transform: uppercase;
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-spacing);
   color: #fff;
   text-shadow: 0 1px 10px rgb(0 0 0 / 0.7);
 }
 
-/* A small heading over a group: the series' lettering, spaced, in the accent colour. */
+/* A small heading over a group: short, so in spaced capitals, in the accent colour. */
 .m-label {
-  font-family: var(--font-series);
-  font-size: 1.05rem;
-  letter-spacing: 0.16em;
-  word-spacing: 0.15em;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: var(--heading-weight);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--m-accent);
 }
@@ -426,4 +428,62 @@
   .m-title {
     font-size: 32px;
   }
+}
+
+/* ── Back (BackButton.tsx) ─────────────────────────────────────────────────────────────────── */
+.m-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 1.1rem;
+  padding: 0.45rem 1rem 0.45rem 0.75rem;
+  border: 1px solid var(--m-line);
+  border-radius: 999px;
+  background: rgb(7 9 15 / 0.6);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: var(--heading-weight);
+  letter-spacing: 0.08em;
+  color: var(--m-text);
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background-color 0.2s;
+}
+.m-back:hover {
+  border-color: rgb(127 214 255 / 0.6);
+  background-color: rgb(127 214 255 / 0.1);
+  color: #fff;
+}
+.m-back:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.m-back-anchor {
+  display: block;
+}
+/* Once the page has scrolled past it: the same button, floating in the corner. */
+.m-back-float {
+  position: fixed;
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  left: max(1rem, env(safe-area-inset-left));
+  z-index: 40;
+  margin: 0;
+  border-color: rgb(127 214 255 / 0.45);
+  background: rgb(7 9 15 / 0.9);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.55);
+  animation: m-back-in 0.25s ease-out both;
+}
+@keyframes m-back-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+.m-back-arrow {
+  font-family: Georgia, serif;
+  font-size: 1.4em;
+  line-height: 0.8;
+  color: var(--m-accent);
 }

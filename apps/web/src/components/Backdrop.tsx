@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./Backdrop.css";
 import { create } from "zustand";
 import { artSrc, artwork } from "../art/manifest";
 
@@ -26,6 +27,14 @@ const useBackdropStore = create<BackdropState>()((set) => ({
   set,
 }));
 
+/**
+ * A page that leaves takes its artwork with it — but not at once: the next page sets its own
+ * almost immediately (or once its code has loaded), and clearing in between would flash the bare
+ * page colour. So the clearing waits, and the next page's artwork cancels it.
+ */
+let clearing: number | undefined;
+const RELEASE_MS = 1500;
+
 /** Show this artwork behind the page while it's mounted. */
 export function useBackdrop(
   id: string | undefined,
@@ -33,29 +42,41 @@ export function useBackdrop(
 ): void {
   const set = useBackdropStore((s) => s.set);
   useEffect(() => {
+    window.clearTimeout(clearing);
     set({ id: id ?? null, strength, side });
   }, [id, strength, side, set]);
   useEffect(
     () => () => {
-      set({ id: null, strength: 0.5, side: "left" });
+      window.clearTimeout(clearing);
+      clearing = window.setTimeout(() => {
+        set({ id: null, strength: 0.5, side: "left" });
+      }, RELEASE_MS);
     },
     [set],
   );
 }
 
-/** How long a new artwork takes to fade in (the art-in animation below). */
-const FADE_MS = 700;
+/** How long a change of artwork takes: the old fades out as the new fades in (Backdrop.css). */
+const FADE_MS = 1000;
+
+interface Layer {
+  id: string | null;
+  strength: number;
+}
 
 export function Backdrop() {
   const { id, strength, side } = useBackdropStore();
-  // The artwork shown before this one stays underneath while the new one fades in over it, so a
-  // change is a crossfade rather than a flash of the page colour — and then goes. Both are drawn
-  // dimmed, so one left underneath would show through and blend into the new one.
-  const [layers, setLayers] = useState<{ current: string | null; previous: string | null }>({
-    current: id,
+  // A change is a crossfade: the artwork shown before fades out, at the strength it had, while
+  // the new one fades in over it — and then goes, so the two never stay blended.
+  const [layers, setLayers] = useState<{ current: Layer; previous: Layer | null }>({
+    current: { id, strength },
     previous: null,
   });
-  if (layers.current !== id) setLayers({ current: id, previous: layers.current });
+  if (layers.current.id !== id) {
+    setLayers({ current: { id, strength }, previous: layers.current });
+  } else if (layers.current.strength !== strength) {
+    setLayers({ ...layers, current: { id, strength } });
+  }
   useEffect(() => {
     if (layers.previous === null) return;
     const done = window.setTimeout(() => {
@@ -66,22 +87,22 @@ export function Backdrop() {
     };
   }, [layers]);
 
-  const layer = (layerId: string | null, fading: boolean) => {
+  const layer = ({ id: layerId, strength: layerStrength }: Layer, leaving: boolean) => {
     const entry = layerId === null ? undefined : artwork(layerId);
     if (!entry) return null;
     const lineart = entry.kind === "lineart";
     return (
       <img
-        key={`${fading ? "in" : "under"}-${entry.id}`}
+        key={`${leaving ? "out" : "in"}-${entry.id}`}
         src={artSrc(entry)}
         alt=""
         decoding="async"
-        className={`absolute inset-0 size-full ${fading ? "animate-[art-in_0.7s_var(--ease-out-expo)_both]" : ""} ${
+        className={`backdrop-art absolute inset-0 size-full ${leaving ? "backdrop-out" : "backdrop-in"} ${
           lineart ? "object-contain object-right-top p-[6vh]" : "object-cover"
         }`}
         style={{
           objectPosition: lineart ? undefined : entry.focus,
-          opacity: lineart ? strength * 0.55 : strength,
+          opacity: lineart ? layerStrength * 0.55 : layerStrength,
           maskImage:
             side === "full"
               ? undefined
@@ -93,8 +114,8 @@ export function Backdrop() {
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      {layers.previous !== layers.current && layer(layers.previous, false)}
-      {layer(layers.current, true)}
+      {layers.previous && layers.previous.id !== layers.current.id && layer(layers.previous, true)}
+      {layer(layers.current, false)}
       {/* Darkest where the text is. */}
       <div
         className="absolute inset-0"
