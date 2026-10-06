@@ -19,7 +19,7 @@ const PAGES: { name: string; path: string; ready: (page: Page) => Promise<void> 
   { name: "event", path: "/event/aerith-death", ready: heading("Death of Aerith") },
   { name: "compare", path: "/compare", ready: heading("Compare") },
   { name: "comparison", path: "/compare/event/aerith-death", ready: heading("Death of Aerith") },
-  { name: "network overview", path: "/network", ready: heading("Network") },
+  { name: "network overview", path: "/network", ready: heading("Who's linked to whom") },
   { name: "network", path: "/network/character/cloud-strife", ready: graph },
   { name: "divergence", path: "/divergence", ready: heading("Divergence") },
   { name: "divergence view", path: "/divergence/event/aerith-death?worlds=1", ready: split },
@@ -58,8 +58,11 @@ async function eventWindow(page: Page) {
   await expect(page.getByRole("status")).toHaveCount(0);
 }
 
+/** The web has settled, with the centre chosen beside it. */
 async function graph(page: Page) {
-  await expect(page.getByRole("list", { name: "Entities and their connections" })).toBeVisible();
+  await expect(page.getByRole("complementary", { name: "Chosen in the web" })).toBeVisible();
+  await expect(page.getByRole("img", { name: /The web of links/ })).toBeVisible();
+  await expect(page.getByRole("status")).toHaveCount(0);
 }
 
 /** The turning point and the games' lines after it have arrived. */

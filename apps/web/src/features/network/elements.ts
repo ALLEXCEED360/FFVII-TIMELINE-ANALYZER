@@ -1,5 +1,14 @@
 import type { ElementDefinition } from "cytoscape";
 import type { Network, NetworkEdge, NetworkNode, TitleCode } from "../../api/client";
+import { artFor, artSrc } from "../../art/manifest";
+
+/** A person's portrait for their orb: the modern look where there is one, else the original's. */
+export function portraitOf(id: string, kind: string): string | undefined {
+  if (kind !== "character") return undefined;
+  const art = artFor(id);
+  const entry = art.main?.kind === "cutout" ? art.main : art.original;
+  return entry ? artSrc(entry) : undefined;
+}
 
 // What the graph shows, as Cytoscape elements. Pure (a type-only Cytoscape import), so it's tested
 // without a browser.
@@ -64,6 +73,7 @@ export function toElements(network: MergedNetwork, highlight: Highlight): Elemen
 
   const nodeClasses = (node: ViewNode) => {
     const classes: string[] = [node.kind];
+    if (portraitOf(node.id, node.kind)) classes.push("portrait");
     if (node.id === center) classes.push("center");
     if (node.depth === null) classes.push("expanded");
     if (node.id === selected) classes.push("selected");
@@ -85,7 +95,12 @@ export function toElements(network: MergedNetwork, highlight: Highlight): Elemen
   return [
     ...[...network.nodes.values()].map((node) => ({
       group: "nodes" as const,
-      data: { id: node.id, label: node.name, kind: node.kind },
+      data: {
+        id: node.id,
+        label: node.name,
+        kind: node.kind,
+        ...(portraitOf(node.id, node.kind) ? { image: portraitOf(node.id, node.kind) } : {}),
+      },
       classes: nodeClasses(node),
     })),
     ...[...network.edges.values()].map((edge) => ({

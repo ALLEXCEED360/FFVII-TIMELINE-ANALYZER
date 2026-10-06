@@ -51,7 +51,7 @@ test("the graph library loads only on network pages", async ({ page }) => {
   expect(graphLibrary()).toBe(false);
 
   await page.getByRole("main").getByRole("link", { name: "Network", exact: true }).click();
-  await expect(page.getByRole("list", { name: "Entities and their connections" })).toBeVisible();
+  await expect(page.getByRole("complementary", { name: "Chosen in the web" })).toBeVisible();
   await expect.poll(graphLibrary).toBe(true);
 });
 

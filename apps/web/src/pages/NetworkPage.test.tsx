@@ -50,8 +50,9 @@ describe("network page", () => {
     stubApi();
     renderAt("/network/character/cloud-strife");
     await screen.findByTestId("graph");
-    expect(classesOf("character_cloud_strife")).toBe("character center");
-    const list = screen.getByRole("list", { name: "Entities and their connections" });
+    expect(classesOf("character_cloud_strife")).toContain("center");
+    expect(classesOf("character_cloud_strife")).toContain("portrait");
+    const list = screen.getByRole("list", { name: "Everything in the web and its links" });
     expect(
       within(list)
         .getAllByRole("button", { name: /./ })
@@ -70,11 +71,15 @@ describe("network page", () => {
     expect(classesOf("character_cloud_strife")).toContain("near");
     expect(classesOf("location_nibelheim")).toContain("faded");
 
-    const selection = screen.getByRole("complementary", { name: "Selection" });
-    expect(within(selection).getByRole("link", { name: "Open page" }).getAttribute("href")).toBe(
-      "/event/aerith-death",
-    );
-    await userEvent.click(within(selection).getByRole("button", { name: "Expand" }));
+    const chosen = screen.getByRole("complementary", { name: "Chosen in the web" });
+    expect(within(chosen).getByRole("heading", { name: "Death of Aerith" })).toBeTruthy();
+    expect(within(chosen).getByText("Who took part")).toBeTruthy();
+    expect(
+      within(chosen)
+        .getByRole("link", { name: "Everything about Death of Aerith" })
+        .getAttribute("href"),
+    ).toBe("/event/aerith-death");
+    await userEvent.click(within(chosen).getByRole("button", { name: "Show their own links too" }));
     expect(router.state.location.search).toContain("expand=event_aerith_death");
   });
 
@@ -93,11 +98,13 @@ describe("network page", () => {
     renderAt("/network/character/cloud-strife");
     await screen.findByTestId("graph");
     await userEvent.selectOptions(
-      screen.getByLabelText("Strongest path to…"),
+      screen.getByLabelText("How is Cloud Strife linked to…"),
       "character_sephiroth",
     );
-    const panel = await screen.findByRole("region", { name: "Path" });
-    await within(panel).findByRole("link", { name: "Death of Aerith" });
+    const panel = await screen.findByRole("region", {
+      name: "How Cloud Strife is linked to Sephiroth",
+    });
+    await within(panel).findByRole("button", { name: "Death of Aerith" });
     expect(within(panel).getByText(/2 steps/)).toBeTruthy();
     expect(classesOf("event_aerith_death")).toContain("on-path");
     const path = requests.find((u) => u.pathname === "/network/path");
@@ -108,9 +115,9 @@ describe("network page", () => {
     const requests = stubApi();
     renderAt("/network/character/cloud-strife");
     await screen.findByTestId("graph");
-    await userEvent.click(screen.getByRole("button", { name: "2" }));
+    await userEvent.click(screen.getByRole("button", { name: "Two steps away" }));
     await userEvent.click(screen.getByRole("button", { name: /INTERmission/ }));
-    await userEvent.click(screen.getByRole("button", { name: /Structural/ }));
+    await userEvent.click(screen.getByRole("button", { name: /Family, homes and groups/ }));
     await waitFor(() => {
       const last = requests.filter((u) => u.pathname.startsWith("/network/character")).at(-1);
       expect(Object.fromEntries(last?.searchParams ?? [])).toEqual({
@@ -131,28 +138,32 @@ describe("network page", () => {
 });
 
 describe("network overview", () => {
-  it("shows the shape of the data and its separate groups", async () => {
+  it("offers everyone to start with, most linked first, keeping the chosen games", async () => {
     stubApi();
     renderAt("/network?titles=intermission");
-    const shape = await screen.findByRole("region", { name: "Shape of the data" });
-    await within(shape).findByText("Groups");
-    expect(within(shape).getByRole("link", { name: "Midgar" }).getAttribute("href")).toBe(
-      "/network/location/midgar?titles=intermission",
-    );
+    const cast = await screen.findByRole("list", { name: "Whose web to see" });
+    const cloud = await within(cast).findByRole("link", { name: /Cloud Strife/ });
+    expect(cloud.getAttribute("href")).toBe("/network/character/cloud-strife?titles=intermission");
+    await userEvent.click(screen.getByRole("button", { name: "Places" }));
+    expect(
+      within(screen.getByRole("list", { name: "Whose web to see" }))
+        .getByRole("link", { name: /Midgar/ })
+        .getAttribute("href"),
+    ).toBe("/network/location/midgar?titles=intermission");
   });
 
   it("opens a path search in the network view", async () => {
     stubApi();
     const { router } = renderAt("/network");
-    await screen.findByRole("region", { name: "Shape of the data" });
+    await screen.findByRole("region", { name: "How are they linked?" });
     await waitFor(() => {
       expect(
-        within(screen.getByLabelText("From")).getByRole("option", { name: "Tifa Lockhart" }),
+        within(screen.getByLabelText("First")).getByRole("option", { name: "Tifa Lockhart" }),
       ).toBeTruthy();
     });
-    await userEvent.selectOptions(screen.getByLabelText("From"), "character_tifa_lockhart");
-    await userEvent.selectOptions(screen.getByLabelText("To"), "character_sephiroth");
-    await userEvent.click(screen.getByRole("button", { name: "Find path" }));
+    await userEvent.selectOptions(screen.getByLabelText("First"), "character_tifa_lockhart");
+    await userEvent.selectOptions(screen.getByLabelText("Second"), "character_sephiroth");
+    await userEvent.click(screen.getByRole("button", { name: "Show how they're linked" }));
     await waitFor(() => {
       expect(router.state.location.pathname).toBe("/network/character/tifa-lockhart");
     });

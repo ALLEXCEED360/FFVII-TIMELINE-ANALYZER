@@ -40,16 +40,13 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
   await page.getByRole("link", { name: "Everything about it" }).click();
   await page.getByRole("main").getByRole("link", { name: "Network", exact: true }).click();
   await expect(page).toHaveURL(/\/network\/event\/aerith-death/);
-  const list = page.getByRole("list", { name: "Entities and their connections" });
-  await expect(list).toBeVisible();
+  const chosen = page.getByRole("complementary", { name: "Chosen in the web" });
+  await expect(chosen.getByRole("heading", { name: "Death of Aerith" })).toBeVisible();
 
-  // 8. Follow a relationship: select Sephiroth and open his page.
-  await list.getByRole("button", { name: "Sephiroth", exact: true }).click();
+  // 8. Follow a link: choose Sephiroth from the moment's links and open his page.
+  await chosen.getByRole("button", { name: "Sephiroth", exact: true }).click();
   await expect(page).toHaveURL(/node=character_sephiroth/);
-  await page
-    .getByRole("complementary", { name: "Selection" })
-    .getByRole("link", { name: "Open page" })
-    .click();
+  await chosen.getByRole("link", { name: "Everything about Sephiroth" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Sephiroth" })).toBeVisible();
 
   // 9. Return to the timeline, on an event he takes part in.

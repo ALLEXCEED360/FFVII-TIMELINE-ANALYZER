@@ -1,21 +1,31 @@
-import { useState } from "react";
+import { type CSSProperties, useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import type { TitleCode } from "../api/client";
 import { useEntities, useNetworkMetrics, useReference } from "../api/queries";
+import { SECTION_ART, artFor, sceneFor } from "../art/manifest";
+import { Artwork } from "../components/Artwork";
+import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
+import { Orb } from "../features/network/LinkPanel";
 import { toggle } from "../features/network/params";
-import { KIND_LABELS, isEntityKind, networkPath } from "../lib/paths";
+import { KIND_WORDS, MATERIA } from "../features/network/words";
+import { ENTITY_KINDS, type EntityKind, networkPath } from "../lib/paths";
 import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
-import { SECTION_ART } from "../art/manifest";
-import { useBackdrop } from "../components/Backdrop";
+import "../features/network/network.css";
+
+/** A thing's picture for its card: a person's portrait, else a painting of it, if there is one. */
+function pictureOf(id: string, kind: string) {
+  const art = artFor(id);
+  return kind === "character" ? (art.main ?? art.original) : (sceneFor(id) ?? art.main);
+}
 
 /**
- * The NETWORK section (blueprint §20, §28): how the dataset is connected — the most directly
- * connected entities, any disconnected groups — and entry points into the graph and path finder.
+ * The web of links (decision 0023), for someone new to the story: pick someone to see everything
+ * linked to them, or pick two things to see how they're linked. /network?titles=og,rebirth
  */
 export function NetworkOverviewPage() {
-  useBackdrop(SECTION_ART.network, { strength: 0.45 });
+  useBackdrop(SECTION_ART.network, { strength: 0.5, side: "full" });
   const [search, setSearch] = useSearchParams();
   const titlesParam = search.get("titles")?.split(",") ?? [];
   const chosen = TITLE_ORDER.filter((t) => titlesParam.includes(t));
@@ -24,6 +34,8 @@ export function NetworkOverviewPage() {
   const reference = useReference();
   const entities = useEntities();
   const navigate = useNavigate();
+  const [kind, setKind] = useState<EntityKind>("character");
+  const [text, setText] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
@@ -33,67 +45,153 @@ export function NetworkOverviewPage() {
       replace: true,
     });
   };
-  const items = entities.data?.items ?? [];
-  const top = metrics.data?.centrality.slice(0, 10) ?? [];
-  const maxDegree = Math.max(1, ...top.map((c) => c.degree));
+  const items = useMemo(() => entities.data?.items ?? [], [entities.data]);
+  const byName = useMemo(() => [...items].sort((a, b) => a.name.localeCompare(b.name)), [items]);
+
+  // Most linked first, so the story's centre comes first.
+  const query = text.trim().toLowerCase();
+  const cast = useMemo(() => {
+    const links = new Map(metrics.data?.centrality.map((c) => [c.id, c.degree]));
+    return items
+      .filter((e) => (query ? e.name.toLowerCase().includes(query) : e.kind === kind))
+      .map((e) => ({ ...e, links: links.get(e.id) ?? 0 }))
+      .sort((a, b) => b.links - a.links || a.name.localeCompare(b.name));
+  }, [items, metrics.data, query, kind]);
 
   return (
-    <div className="flex flex-col gap-6">
-      <header className="flex flex-col gap-1">
-        <p className="eyebrow">Relationship graph</p>
-        <h1 className="page-title">Network</h1>
-        <p className="max-w-3xl text-sm text-steel-300">
-          How the dataset's characters, events, places and organizations connect. These are measures
-          of the data — how much is recorded and linked — not rankings of the story.
+    <div className="nw">
+      <header>
+        <p className="m-label nw-kicker">
+          <Orb kind="character" />
+          The web of links
+        </p>
+        <h1 className="m-heading m-title nw-title">Who's linked to whom</h1>
+        <p className="m-intro">
+          Everyone and everything in the story is linked: who took part in what, where it happened,
+          who belongs where, and what led to what. Pick someone to see their web.
         </p>
       </header>
 
-      <div role="group" aria-label="Titles" className="flex flex-wrap gap-1.5">
-        {TITLE_ORDER.map((code) => (
-          <button
-            key={code}
-            type="button"
-            className="btn"
-            aria-pressed={titles.includes(code)}
-            onClick={() => {
-              setTitles(toggle(titles, code, TITLE_ORDER));
-            }}
-          >
-            <span
-              aria-hidden="true"
-              className="size-2 rotate-45"
-              style={{ background: TITLE_COLOR[code] }}
-            />
-            {titleShort(reference.data, code)}
-          </button>
-        ))}
+      <div className="m-panel nw-controls nw-controls-row">
+        <div className="nw-control">
+          <p className="m-label" id="nw-games">
+            Games
+          </p>
+          <div role="group" aria-labelledby="nw-games" className="m-choices">
+            {TITLE_ORDER.map((code) => (
+              <button
+                key={code}
+                type="button"
+                className="m-choice"
+                aria-pressed={titles.includes(code)}
+                onClick={() => {
+                  setTitles(toggle(titles, code, TITLE_ORDER));
+                }}
+                style={{ "--c": TITLE_COLOR[code] } as CSSProperties}
+              >
+                <span aria-hidden="true" className="m-choice-box" />
+                {titleShort(reference.data, code)}
+              </button>
+            ))}
+          </div>
+        </div>
+        <p className="nw-text nw-key-inline">
+          {ENTITY_KINDS.map((k) => (
+            <span key={k}>
+              <Orb kind={k} />
+              {KIND_WORDS[k].many}
+            </span>
+          ))}
+        </p>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-2">
-        <section aria-labelledby="network-start" className="panel flex flex-col gap-4 p-4">
-          <h2 id="network-start" className="section-title">
-            Explore the graph
-          </h2>
-          <label className="flex flex-col gap-1.5">
-            <span className="text-sm text-steel-300">Start from</span>
-            <select
-              value=""
-              onChange={(e) => {
-                if (e.target.value) void navigate(`${networkPath(e.target.value)}${titlesQuery}`);
+      <div className="nw-start">
+        <section aria-labelledby="nw-cast" className="m-panel nw-cast-panel">
+          <div className="nw-cast-head">
+            <h2 id="nw-cast" className="m-heading nw-section-title">
+              Start with someone
+            </h2>
+            <input
+              type="search"
+              value={text}
+              onChange={(event) => {
+                setText(event.target.value);
               }}
-              className="rounded border border-night-600 bg-night-900 px-2 py-1.5 text-sm text-steel-100"
-            >
-              <option value="">Choose an entity…</option>
-              {items.map((e) => (
-                <option key={e.id} value={e.id}>
-                  {e.name}
-                </option>
+              aria-label="Find someone or something"
+              placeholder="Find someone or something by name…"
+              className="nw-search"
+            />
+          </div>
+          {!query && (
+            <div role="group" aria-label="Kinds" className="m-choices">
+              {ENTITY_KINDS.map((k) => (
+                <button
+                  key={k}
+                  type="button"
+                  aria-pressed={kind === k}
+                  onClick={() => {
+                    setKind(k);
+                  }}
+                  className="m-choice"
+                >
+                  <Orb kind={k} />
+                  {KIND_WORDS[k].many}
+                </button>
               ))}
-            </select>
-          </label>
+            </div>
+          )}
+          {entities.isPending ? (
+            <Loading />
+          ) : entities.isError ? (
+            <ErrorMessage error={entities.error} onRetry={() => void entities.refetch()} />
+          ) : cast.length === 0 ? (
+            <p className="nw-text">Nothing by that name.</p>
+          ) : (
+            <ul aria-label="Whose web to see" className="nw-cast">
+              {cast.map((entity) => {
+                const picture = pictureOf(entity.id, entity.kind);
+                const materia = (MATERIA as Record<string, { color: string } | undefined>)[
+                  entity.kind
+                ];
+                return (
+                  <li key={entity.id}>
+                    <Link
+                      to={`${networkPath(entity.id)}${titlesQuery}`}
+                      className="nw-card"
+                      style={{ "--materia": materia?.color ?? "#7fd6ff" } as CSSProperties}
+                    >
+                      <span aria-hidden="true" className="nw-card-art" data-kind={picture?.kind}>
+                        {picture ? (
+                          <Artwork entry={picture} decorative />
+                        ) : (
+                          <Orb kind={entity.kind} size="2.4rem" />
+                        )}
+                      </span>
+                      <span className="nw-card-name">{entity.name}</span>
+                      <span className="nw-card-links">
+                        {entity.links === 1 ? "1 link" : `${String(entity.links)} links`}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {metrics.isError && (
+            <ErrorMessage error={metrics.error} onRetry={() => void metrics.refetch()} />
+          )}
+        </section>
 
+        <section aria-labelledby="nw-how" className="m-panel nw-finder">
+          <h2 id="nw-how" className="m-heading nw-section-title">
+            How are they linked?
+          </h2>
+          <p className="nw-text">
+            Pick any two — say, Cloud and Sephiroth — to see the chain that links them, one step at
+            a time.
+          </p>
           <form
-            className="flex flex-col gap-2 border-t border-night-700 pt-4"
+            className="nw-finder-form"
             onSubmit={(event) => {
               event.preventDefault();
               if (from && to) {
@@ -103,136 +201,58 @@ export function NetworkOverviewPage() {
               }
             }}
           >
-            <span className="text-sm text-steel-300">
-              Find the strongest path between two entities
-            </span>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <label className="nw-control">
+              <span className="m-label">First</span>
               <select
-                aria-label="From"
                 value={from}
                 onChange={(e) => {
                   setFrom(e.target.value);
                 }}
-                className="rounded border border-night-600 bg-night-900 px-2 py-1.5 text-sm text-steel-100"
+                className="nw-select"
               >
-                <option value="">From…</option>
-                {items.map((e) => (
-                  <option key={e.id} value={e.id}>
-                    {e.name}
-                  </option>
+                <option value="">Choose…</option>
+                {ENTITY_KINDS.map((k) => (
+                  <optgroup key={k} label={KIND_WORDS[k].many}>
+                    {byName
+                      .filter((e) => e.kind === k)
+                      .map((e) => (
+                        <option key={e.id} value={e.id}>
+                          {e.name}
+                        </option>
+                      ))}
+                  </optgroup>
                 ))}
               </select>
+            </label>
+            <label className="nw-control">
+              <span className="m-label">Second</span>
               <select
-                aria-label="To"
                 value={to}
                 onChange={(e) => {
                   setTo(e.target.value);
                 }}
-                className="rounded border border-night-600 bg-night-900 px-2 py-1.5 text-sm text-steel-100"
+                className="nw-select"
               >
-                <option value="">To…</option>
-                {items
-                  .filter((e) => e.id !== from)
-                  .map((e) => (
-                    <option key={e.id} value={e.id}>
-                      {e.name}
-                    </option>
-                  ))}
+                <option value="">Choose…</option>
+                {ENTITY_KINDS.map((k) => (
+                  <optgroup key={k} label={KIND_WORDS[k].many}>
+                    {byName
+                      .filter((e) => e.kind === k && e.id !== from)
+                      .map((e) => (
+                        <option key={e.id} value={e.id}>
+                          {e.name}
+                        </option>
+                      ))}
+                  </optgroup>
+                ))}
               </select>
-            </div>
-            <button type="submit" className="btn self-start" disabled={!from || !to}>
-              Find path
+            </label>
+            <button type="submit" className="nw-action nw-action-main" disabled={!from || !to}>
+              Show how they're linked
             </button>
           </form>
         </section>
-
-        <section aria-labelledby="network-shape" className="panel flex flex-col gap-3 p-4">
-          <h2 id="network-shape" className="section-title">
-            Shape of the data
-          </h2>
-          {metrics.isPending ? (
-            <Loading />
-          ) : metrics.isError ? (
-            <ErrorMessage error={metrics.error} onRetry={() => void metrics.refetch()} />
-          ) : (
-            <>
-              <dl className="grid grid-cols-3 gap-3">
-                {[
-                  ["Entities", metrics.data.nodeCount],
-                  ["Relationships", metrics.data.edgeCount],
-                  ["Groups", metrics.data.components.length],
-                ].map(([label, value]) => (
-                  <div key={label}>
-                    <dt className="label">{label}</dt>
-                    <dd className="font-display text-2xl font-semibold text-steel-100">{value}</dd>
-                  </div>
-                ))}
-              </dl>
-              {metrics.data.components.length > 1 && (
-                <div className="flex flex-col gap-2">
-                  <p className="text-sm text-steel-300">
-                    Not everything connects with these titles. Separate groups:
-                  </p>
-                  <ol className="flex flex-col gap-1.5 text-sm">
-                    {metrics.data.components.map((group, i) => (
-                      <li key={group.members[0]?.id ?? i} className="text-steel-300">
-                        <span className="label mr-2">{group.size}</span>
-                        {group.members.map((m, j) => (
-                          <span key={m.id}>
-                            {j > 0 && ", "}
-                            <Link
-                              to={`${networkPath(m.id)}${titlesQuery}`}
-                              className="text-steel-100 hover:text-mako-300"
-                            >
-                              {m.name}
-                            </Link>
-                          </span>
-                        ))}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              )}
-            </>
-          )}
-        </section>
       </div>
-
-      <section aria-labelledby="network-central" className="flex flex-col gap-3">
-        <h2 id="network-central" className="section-title">
-          Most directly connected
-        </h2>
-        {metrics.data && (
-          <ol className="panel divide-y divide-night-800">
-            {top.map((entry) => (
-              <li
-                key={entry.id}
-                className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)_3rem] items-center gap-3 p-3 text-sm"
-              >
-                <Link
-                  to={`${networkPath(entry.id)}${titlesQuery}`}
-                  className="truncate text-steel-100 hover:text-mako-300"
-                >
-                  {entry.name}
-                  <span className="label ml-2">
-                    {isEntityKind(entry.kind) ? KIND_LABELS[entry.kind].one : entry.kind}
-                  </span>
-                </Link>
-                <span aria-hidden="true" className="h-1.5 rounded bg-night-800">
-                  <span
-                    className="block h-full rounded bg-mako-500"
-                    style={{ width: `${String((entry.degree / maxDegree) * 100)}%` }}
-                  />
-                </span>
-                <span className="text-right font-mono text-xs text-steel-300">
-                  {entry.degree}
-                  <span className="sr-only"> direct connections</span>
-                </span>
-              </li>
-            ))}
-          </ol>
-        )}
-      </section>
     </div>
   );
 }

@@ -1,0 +1,616 @@
+/* The web of links (NetworkPage.tsx, NetworkOverviewPage.tsx, LinkPanel.tsx, decision 0023), in
+   the modern panels (components/modern.css). Every thing is a materia orb in its kind's colour;
+   the web floats in a faint Mako glow. Names and headings in the heading face; reading text in
+   the site's sans. */
+
+.nw {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  font-size: 16px;
+}
+.nw-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.5rem;
+}
+.nw-title {
+  overflow-wrap: anywhere;
+}
+.nw-guide {
+  color: var(--m-dim);
+}
+.nw-text {
+  font-size: 0.925rem;
+  line-height: 1.55;
+  color: var(--m-text);
+}
+.nw-section-title {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+/* ── Choices ──────────────────────────────────────────────────────────────────────────────── */
+.nw-controls {
+  display: grid;
+  gap: 1.1rem 1.6rem;
+  padding: 1rem 1.15rem 1.1rem;
+}
+@media (min-width: 64rem) {
+  .nw-controls {
+    grid-template-columns: auto auto minmax(0, 1fr);
+  }
+  .nw-controls > .nw-find {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 110rem) {
+  .nw-controls {
+    grid-template-columns: auto auto auto minmax(16rem, 1fr);
+  }
+  .nw-controls > .nw-find {
+    grid-column: auto;
+  }
+}
+.nw-controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.nw-control {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.nw-select,
+.nw-search {
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0 0.85rem;
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  background: rgb(5 8 13 / 0.6);
+  font-size: 0.9rem;
+  color: var(--m-text);
+}
+.nw-select option,
+.nw-select optgroup {
+  background: #0b1018;
+}
+.nw-search::placeholder {
+  color: #8d97aa;
+}
+.nw-select:focus-visible,
+.nw-search:focus-visible {
+  border-color: var(--m-accent);
+  outline: 2px solid var(--m-accent);
+  outline-offset: 1px;
+}
+
+/* A line in a link kind's colour, for its choice and the colour key. */
+.nw-line {
+  display: inline-block;
+  flex: none;
+  width: 1.4rem;
+  height: 3px;
+  border-radius: 2px;
+}
+.nw-line-dashed {
+  background: repeating-linear-gradient(90deg, var(--m-dim) 0 5px, transparent 5px 9px);
+}
+
+/* ── The web, with the chosen thing beside it ─────────────────────────────────────────────── */
+.nw-body {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+@media (min-width: 64rem) {
+  .nw-body {
+    grid-template-columns: minmax(0, 1fr) 24rem;
+  }
+  .nw-body > .nw-panel {
+    position: sticky;
+    top: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+@media (min-width: 100rem) {
+  .nw-body {
+    grid-template-columns: minmax(0, 1fr) 28rem;
+  }
+}
+.nw-main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.nw-graph {
+  height: clamp(28rem, 70vh, 58rem);
+  overflow: hidden;
+  /* A faint Mako glow under the web, as if it floats in the Lifestream. */
+  background:
+    radial-gradient(ellipse at 50% 45%, rgb(142 240 198 / 0.12), transparent 60%),
+    radial-gradient(ellipse at 20% 90%, rgb(127 214 255 / 0.08), transparent 55%),
+    linear-gradient(180deg, rgb(10 16 26 / 0.72), rgb(4 7 12 / 0.84));
+}
+.nw-graph-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  letter-spacing: 0.08em;
+  color: var(--m-accent);
+}
+.nw-graph-hint {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.9rem;
+  right: 12rem;
+  font-size: 0.8125rem;
+  color: var(--m-dim);
+  text-shadow: 0 1px 4px rgb(0 0 0 / 0.9);
+  pointer-events: none;
+}
+.nw-graph-tools {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  display: flex;
+  gap: 0.35rem;
+}
+.nw-tool {
+  min-width: 2.4rem;
+  min-height: 2.4rem;
+  padding: 0 0.6rem;
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  background: rgb(8 11 18 / 0.85);
+  font-size: 1.1rem;
+  color: var(--m-text);
+  cursor: pointer;
+}
+.nw-tool-wide {
+  font-size: 0.875rem;
+}
+.nw-tool:hover {
+  border-color: rgb(127 214 255 / 0.6);
+  color: #fff;
+}
+.nw-tool:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+
+/* What the colours mean. */
+.nw-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  background: rgb(5 8 13 / 0.6);
+  font-size: 0.85rem;
+  color: var(--m-text);
+}
+.nw-key li,
+.nw-key-inline span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.nw-key-note {
+  color: var(--m-dim);
+}
+.nw-key-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+}
+
+/* ── The chosen thing (LinkPanel) ─────────────────────────────────────────────────────────── */
+.nw-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem 1.15rem;
+}
+.nw-panel-art {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  margin: -1rem -1.1rem 0;
+  border-radius: 6px 6px 0 0;
+}
+.nw-panel-art img {
+  width: 100%;
+  height: auto;
+  max-height: 14rem;
+  object-fit: cover;
+}
+/* A figure on transparency: whole and centred, on a soft light, never cropped. */
+.nw-panel-art[data-kind="cutout"] {
+  background: radial-gradient(ellipse at 50% 70%, rgb(63 210 138 / 0.22), transparent 70%);
+}
+.nw-panel-art[data-kind="cutout"] img {
+  max-height: 16rem;
+  object-fit: contain;
+  object-position: 50% 50% !important;
+}
+.nw-panel-kind {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.nw-panel-name {
+  font-size: 28px;
+  line-height: 1.15;
+}
+.nw-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.nw-action {
+  min-height: 2.5rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgb(127 214 255 / 0.35);
+  border-radius: 6px;
+  background: rgb(127 214 255 / 0.07);
+  font-size: 0.9rem;
+  text-align: left;
+  color: var(--m-text);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+.nw-action:hover {
+  border-color: rgb(127 214 255 / 0.75);
+  background: var(--m-accent-soft);
+  color: #fff;
+}
+.nw-action:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.nw-action[aria-pressed="true"] {
+  border-color: var(--m-accent);
+  background: var(--m-accent-soft);
+}
+.nw-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.nw-action-main {
+  align-self: flex-start;
+  border-color: rgb(142 240 198 / 0.6);
+  background: rgb(142 240 198 / 0.12);
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  letter-spacing: 0.04em;
+}
+.nw-panel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--m-line);
+}
+.nw-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.nw-group-name {
+  margin-bottom: 0.35rem;
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  font-size: 0.95rem;
+  color: #fff;
+}
+.nw-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.nw-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2rem;
+  padding: 0.15rem 0.75rem 0.15rem 0.55rem;
+  border: 1px solid var(--m-line);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.04);
+  font-size: 0.85rem;
+  color: var(--m-text);
+  cursor: pointer;
+}
+.nw-chip:hover {
+  border-color: rgb(127 214 255 / 0.6);
+  color: #fff;
+}
+.nw-chip:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.nw-more {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--m-line);
+}
+
+/* ── How two things are linked (PathChain) ────────────────────────────────────────────────── */
+.nw-path {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.15rem 1.15rem;
+  border-color: rgb(142 240 198 / 0.4);
+}
+.nw-path-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.nw-path-name {
+  margin-top: 0.3rem;
+  font-size: 24px;
+  line-height: 1.2;
+}
+.nw-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-left: 1.4rem;
+  list-style: decimal;
+  color: var(--m-text);
+}
+.nw-step::marker {
+  font-family: var(--font-heading);
+  color: #8ef0c6;
+}
+.nw-chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+.nw-chain-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.nw-chain-arrow {
+  color: #8ef0c6;
+}
+
+/* ── Every link as a list (NetworkList) ───────────────────────────────────────────────────── */
+.nw-list {
+  padding: 0.9rem 1.1rem;
+}
+.nw-list-summary {
+  cursor: pointer;
+  font-size: 20px;
+}
+.nw-list-summary .nw-text {
+  font-size: 0.9rem;
+  color: var(--m-dim);
+}
+.nw-list[open] .nw-list-summary {
+  margin-bottom: 0.75rem;
+}
+.nw-rows {
+  display: grid;
+  gap: 0.5rem;
+}
+@media (min-width: 64rem) {
+  .nw-rows {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 110rem) {
+  .nw-rows {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.nw-row {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--m-line);
+  border-radius: 5px;
+  background: rgb(255 255 255 / 0.02);
+}
+.nw-row-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.75rem;
+}
+.nw-row-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  text-align: left;
+  color: #fff;
+  cursor: pointer;
+}
+.nw-row-name:hover {
+  color: var(--m-accent);
+}
+.nw-row-kind {
+  font-size: 0.8rem;
+  color: var(--m-dim);
+}
+.nw-row-centre {
+  margin-left: auto;
+}
+.nw-row-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.45rem;
+  font-size: 0.85rem;
+  color: var(--m-text);
+}
+.nw-row-links li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.5rem;
+}
+.nw-row-phrase {
+  color: var(--m-dim);
+}
+.nw-row-games {
+  margin-left: auto;
+}
+
+/* ── The landing page: someone to start with, and the link finder ────────────────────────── */
+.nw-start {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+@media (min-width: 64rem) {
+  .nw-start {
+    grid-template-columns: minmax(0, 1fr) 24rem;
+  }
+  .nw-start > .nw-finder {
+    position: sticky;
+    top: 1rem;
+  }
+}
+@media (min-width: 100rem) {
+  .nw-start {
+    grid-template-columns: minmax(0, 1fr) 28rem;
+  }
+}
+.nw-cast-panel,
+.nw-finder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1rem 1.15rem 1.2rem;
+}
+.nw-cast-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+}
+.nw-cast-head .nw-search {
+  width: min(100%, 22rem);
+}
+.nw-cast {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0.6rem;
+}
+.nw-card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.03);
+  color: var(--m-text);
+  transition:
+    border-color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.nw-card:hover {
+  border-color: var(--materia);
+  box-shadow: 0 0 18px color-mix(in oklab, var(--materia) 35%, transparent);
+  transform: translateY(-2px);
+}
+.nw-card:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.nw-card-art {
+  display: flex;
+  height: 9rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse at 50% 75%,
+    color-mix(in oklab, var(--materia) 30%, transparent),
+    transparent 70%
+  );
+  border-bottom: 2px solid color-mix(in oklab, var(--materia) 70%, transparent);
+}
+.nw-card-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.nw-card-art[data-kind="cutout"] img {
+  object-fit: contain;
+  object-position: 50% 0% !important;
+}
+.nw-card-name {
+  padding: 0.5rem 0.65rem 0;
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  font-size: 0.95rem;
+  line-height: 1.25;
+  color: #fff;
+}
+.nw-card-links {
+  padding: 0.15rem 0.65rem 0.55rem;
+  font-size: 0.78rem;
+  color: var(--m-dim);
+}
+.nw-finder-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nw-card,
+  .nw-action {
+    transition: none;
+  }
+  .nw-card:hover {
+    transform: none;
+  }
+}
+
+/* The web fades in once its first layout has settled (GraphView.tsx). */
+.nw-graph-canvas {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.nw-graph-canvas.is-settled {
+  opacity: 1;
+}
+@media (max-width: 40rem) {
+  .nw-graph {
+    height: 26rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nw-graph-canvas {
+    transition: none;
+  }
+}

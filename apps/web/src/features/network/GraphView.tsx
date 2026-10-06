@@ -3,9 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "../../lib/motion";
 import { GRAPH_STYLE } from "./style";
 
-// The interactive graph (blueprint §27): Cytoscape with the fcose layout, loaded on demand so it
-// never weighs down other pages. One Cytoscape instance lives for the component's lifetime;
+// The interactive web (decisions 0010, 0023): Cytoscape with the fcose layout, loaded on demand so
+// it never weighs down other pages. One Cytoscape instance lives for the component's lifetime;
 // changes are applied as a diff, and the layout reruns only when the set of entities changes.
+// Pointing at a thing lights it and its links and dims the rest. The page scrolls as usual over
+// it; zooming is on the buttons, or Ctrl/⌘ + scroll.
 
 type Cytoscape = typeof import("cytoscape");
 
@@ -36,6 +38,9 @@ export default function GraphView({
   const container = useRef<HTMLDivElement>(null);
   const cy = useRef<Core | null>(null);
   const [ready, setReady] = useState(false);
+  // Hidden until its first layout settles, so it never shows as a heap in one corner.
+  const [settled, setSettled] = useState(false);
+  const settledRef = useRef(false);
   const reducedMotion = useReducedMotion();
   // Cytoscape's listeners are attached once; they call whatever handlers are current.
   const handlers = useRef({ onSelect, onFocus });
@@ -53,7 +58,22 @@ export default function GraphView({
         style: GRAPH_STYLE,
         minZoom: 0.25,
         maxZoom: 3,
-        wheelSensitivity: 0.3,
+        // A plain scroll scrolls the page, not the web; see the wheel handler below.
+        userZoomingEnabled: false,
+      });
+      instance.on("mouseover", "node", (event) => {
+        const hood = (event.target as NodeSingular).closedNeighborhood();
+        instance.batch(() => {
+          instance.elements().not(hood).addClass("dim");
+          hood.edges().addClass("lit");
+        });
+        if (container.current) container.current.style.cursor = "pointer";
+      });
+      instance.on("mouseout", "node", () => {
+        instance.batch(() => {
+          instance.elements().removeClass("dim lit");
+        });
+        if (container.current) container.current.style.cursor = "";
       });
       instance.on("tap", "node", (event) => {
         handlers.current.onSelect((event.target as NodeSingular).id());
@@ -92,6 +112,26 @@ export default function GraphView({
     observer.observe(box);
     return () => {
       observer.disconnect();
+    };
+  }, [ready]);
+
+  // Ctrl/⌘ + scroll zooms around the pointer; a plain scroll is left to the page.
+  useEffect(() => {
+    const box = container.current;
+    if (!ready || !box) return;
+    const onWheel = (event: WheelEvent) => {
+      const instance = cy.current;
+      if (!instance || !(event.ctrlKey || event.metaKey)) return;
+      event.preventDefault();
+      const rect = box.getBoundingClientRect();
+      instance.zoom({
+        level: instance.zoom() * (event.deltaY < 0 ? 1.15 : 1 / 1.15),
+        renderedPosition: { x: event.clientX - rect.left, y: event.clientY - rect.top },
+      });
+    };
+    box.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      box.removeEventListener("wheel", onWheel);
     };
   }, [ready]);
 
@@ -134,14 +174,27 @@ export default function GraphView({
   useEffect(() => {
     const instance = cy.current;
     if (!ready || !instance || instance.nodes().empty()) return;
+    // Measure the box afresh, and fit the web to it once the layout settles: laid out before the
+    // box had its final size, it would sit squashed in a corner.
+    instance.resize();
+    instance.one("layoutstop", () => {
+      instance.resize();
+      instance.fit(undefined, 50);
+      settledRef.current = true;
+      setSettled(true);
+    });
     instance
       .layout({
         name: "fcose",
-        animate: !reducedMotion,
+        // The first web appears already laid out; later ones (adding a thing's own links) grow.
+        animate: settledRef.current && !reducedMotion,
         animationDuration: 400,
         randomize: true,
-        nodeRepulsion: () => 9000,
-        idealEdgeLength: () => 110,
+        // Room enough that names don't run into each other.
+        nodeRepulsion: () => 26000,
+        idealEdgeLength: () => 170,
+        nodeSeparation: 120,
+        nodeDimensionsIncludeLabels: true,
         padding: 40,
       } as never)
       .run();
@@ -157,23 +210,26 @@ export default function GraphView({
   };
 
   return (
-    <div className="panel relative h-[60vh] min-h-96 overflow-hidden">
+    <div className="m-panel nw-graph">
       <div
         ref={container}
         // Cytoscape makes its container position: relative, so size it explicitly.
-        className="h-full w-full"
+        className={`nw-graph-canvas h-full w-full ${settled ? "is-settled" : ""}`}
         role="img"
-        aria-label="Relationship graph. The list below the graph has the same information as text."
+        aria-label="The web of links. The panel beside it and the list below it say the same in words."
       />
-      {!ready && (
-        <div role="status" className="absolute inset-0 flex items-center justify-center">
-          <span className="label">Loading the graph…</span>
+      {!settled && (
+        <div role="status" className="nw-graph-loading">
+          Drawing the web…
         </div>
       )}
-      <div className="absolute top-2 right-2 flex gap-1">
+      <p aria-hidden="true" className="nw-graph-hint">
+        Tap anything to see its links · double-tap to put it in the centre · drag to move around
+      </p>
+      <div className="nw-graph-tools">
         <button
           type="button"
-          className="btn bg-night-900 px-2.5"
+          className="nw-tool"
           aria-label="Zoom in"
           onClick={() => {
             zoom(1.3);
@@ -183,7 +239,7 @@ export default function GraphView({
         </button>
         <button
           type="button"
-          className="btn bg-night-900 px-2.5"
+          className="nw-tool"
           aria-label="Zoom out"
           onClick={() => {
             zoom(1 / 1.3);
@@ -193,10 +249,10 @@ export default function GraphView({
         </button>
         <button
           type="button"
-          className="btn bg-night-900"
-          onClick={() => cy.current?.fit(undefined, 40)}
+          className="nw-tool nw-tool-wide"
+          onClick={() => cy.current?.fit(undefined, 50)}
         >
-          Fit
+          Show all
         </button>
       </div>
     </div>

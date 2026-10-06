@@ -1,46 +1,46 @@
-import { Suspense, lazy, useMemo } from "react";
-import { Link, useNavigate, useParams } from "react-router";
-import type { NetworkEdge, PathResult, Reference, TitleCode } from "../api/client";
+import { type CSSProperties, Suspense, lazy, useMemo } from "react";
+import { useNavigate, useParams } from "react-router";
+import type { PathResult, TitleCode } from "../api/client";
 import { ApiError } from "../api/client";
 import {
   useEntities,
+  useEntity,
   useNetwork,
   useNetworkExpansions,
   usePath,
   useReference,
 } from "../api/queries";
+import { SECTION_ART, sceneFor } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
-import { TitleDots } from "../features/entity/parts";
+import { LinkPanel, Orb, PathChain } from "../features/network/LinkPanel";
+import { NetworkList } from "../features/network/NetworkList";
 import {
   type MergedNetwork,
   layoutKey,
   mergeNetworks,
   toElements,
 } from "../features/network/elements";
-import { NetworkList } from "../features/network/NetworkList";
 import {
-  EDGE_CATEGORY_LABELS,
   EDGE_CATEGORY_ORDER,
   networkSearch,
   toggle,
   useNetworkParams,
 } from "../features/network/params";
-import { CATEGORY_COLOR, KIND_STYLE } from "../features/network/style";
-import {
-  KIND_LABELS,
-  comparePath,
-  entityPath,
-  idFromPath,
-  isEntityKind,
-  networkPath,
-} from "../lib/paths";
+import { CATEGORY_WORDS, KIND_WORDS, MATERIA, isKind } from "../features/network/words";
+import { ENTITY_KINDS, idFromPath, networkPath } from "../lib/paths";
 import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import { NotFoundPage } from "./NotFoundPage";
-import { SECTION_ART, sceneFor } from "../art/manifest";
-import { useBackdrop } from "../components/Backdrop";
+import "../features/network/network.css";
 
 const GraphView = lazy(() => import("../features/network/GraphView"));
+
+const DEPTHS = [
+  { value: 1, label: "Direct links" },
+  { value: 2, label: "Two steps away" },
+  { value: 3, label: "Three steps away" },
+] as const;
 
 /** Adds a path's entities and relationships to the view, so the whole path is always visible. */
 function withPath(network: MergedNetwork, path: PathResult | undefined): MergedNetwork {
@@ -54,18 +54,20 @@ function withPath(network: MergedNetwork, path: PathResult | undefined): MergedN
 }
 
 /**
- * An entity's relationship network (blueprint §27): /network/character/cloud-strife?depth=2…
- * Click to select (its immediate network lights up), double-click to recentre, expand nodes to
- * grow the view, and find the strongest path to any entity.
+ * Someone's — or something's — web of links (decision 0023), for someone new to the story:
+ * /network/character/cloud-strife?depth=2&titles=og,rebirth&categories=event&expand=…&to=…&node=…
+ * Every thing is a materia orb in its kind's colour; tap one to read its links in plain words,
+ * put it in the centre, add its own links, or ask how it's linked to the centre.
  */
 export function NetworkPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);
-  useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.network, { strength: 0.4 });
+  useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.network, { strength: 0.5, side: "full" });
   const { params, update } = useNetworkParams();
   const filter = { titles: params.titles, categories: params.categories };
   const reference = useReference();
   const entities = useEntities();
+  const centerEntity = useEntity(id);
   const main = useNetwork(id, params.depth, filter);
   const expansions = useNetworkExpansions(params.expand, filter);
   const path = usePath(id, params.to, filter);
@@ -91,7 +93,7 @@ export function NetworkPage() {
     [network, id, selected, params.titles, path.data],
   );
 
-  // Recentring keeps the filters but starts a fresh view.
+  // Putting something else in the centre keeps the choices but starts a fresh web.
   const filtersOnly = networkSearch({ ...params, expand: [], to: null, node: null }).toString();
   const keep = filtersOnly ? `?${filtersOnly}` : "";
   const recentre = (target: string) => {
@@ -103,127 +105,149 @@ export function NetworkPage() {
     return <NotFoundPage />;
   }
 
-  const centerName = network?.nodes.get(id)?.name ?? "…";
-  const selectedNode = selected ? network?.nodes.get(selected) : undefined;
+  const centerNode = network?.nodes.get(id);
+  const centerName = centerNode?.name ?? centerEntity.data?.name ?? "…";
+  const centerKind = isKind(kind ?? "") ? (kind as keyof typeof KIND_WORDS) : "character";
+  const toName = params.to
+    ? (network?.nodes.get(params.to)?.name ??
+      entities.data?.items.find((e) => e.id === params.to)?.name ??
+      "…")
+    : "";
 
   return (
-    <div className="flex flex-col gap-5">
-      <header className="flex flex-col gap-1">
-        <nav aria-label="Breadcrumb" className="label">
-          <Link to="/network" className="hover:text-mako-300">
-            Network
-          </Link>
-        </nav>
-        <h1 className="page-title">{centerName}</h1>
-        <p className="max-w-3xl text-sm text-steel-300">
-          Everything within {params.depth} relationship{params.depth > 1 ? "s" : ""} of {centerName}
-          . Click an entity to light up its immediate network, double-click to centre on it, or
-          expand it to add its own connections.
+    <div className="nw">
+      <header>
+        <p className="m-label nw-kicker">
+          <Orb kind={centerKind} />
+          The web of links · {KIND_WORDS[centerKind].one}
+        </p>
+        <h1 className="m-heading m-title nw-title">{centerName}</h1>
+        {centerEntity.data && <p className="m-intro">{centerEntity.data.summary}</p>}
+        <p className="m-intro nw-guide">
+          Everything linked to {centerName}: who and what took part, where things happened, who
+          belongs where, and what led to what. Tap anything in the web to read its links.
         </p>
       </header>
 
-      <div className="grid gap-5 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,1fr)_20rem]">
-        <aside aria-label="Network settings" className="panel flex h-fit flex-col gap-5 p-4">
-          <fieldset>
-            <legend className="label mb-2">Depth</legend>
-            <div className="grid grid-cols-3 gap-1.5">
-              {([1, 2, 3] as const).map((d) => (
-                <button
-                  key={d}
-                  type="button"
-                  className="btn justify-center"
-                  aria-pressed={params.depth === d}
-                  onClick={() => {
-                    update({ depth: d });
-                  }}
-                >
-                  {d}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend className="label mb-2">Titles</legend>
-            <div className="flex flex-col gap-1.5">
-              {TITLE_ORDER.map((code: TitleCode) => (
-                <button
-                  key={code}
-                  type="button"
-                  className="btn justify-start"
-                  aria-pressed={params.titles.includes(code)}
-                  onClick={() => {
-                    update({ titles: toggle(params.titles, code, TITLE_ORDER) });
-                  }}
-                >
-                  <span
-                    aria-hidden="true"
-                    className="size-2 rotate-45"
-                    style={{ background: TITLE_COLOR[code] }}
-                  />
-                  {titleShort(reference.data, code)}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend className="label mb-2">Relationships</legend>
-            <div className="flex flex-col gap-1.5">
-              {EDGE_CATEGORY_ORDER.map((category) => (
-                <button
-                  key={category}
-                  type="button"
-                  className="btn justify-start"
-                  aria-pressed={params.categories.includes(category)}
-                  onClick={() => {
-                    update({
-                      categories: toggle(params.categories, category, EDGE_CATEGORY_ORDER),
-                    });
-                  }}
-                >
-                  <span
-                    aria-hidden="true"
-                    className="h-0.5 w-3"
-                    style={{ background: CATEGORY_COLOR[category] }}
-                  />
-                  {EDGE_CATEGORY_LABELS[category]}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="path-to" className="label">
-              Strongest path to…
-            </label>
-            <select
-              id="path-to"
-              value={params.to ?? ""}
-              onChange={(e) => {
-                update({ to: e.target.value || null });
-              }}
-              className="rounded border border-night-600 bg-night-900 px-2 py-1.5 text-sm text-steel-100"
-            >
-              <option value="">No path</option>
-              {(entities.data?.items ?? [])
-                .filter((e) => e.id !== id)
-                .map((e) => (
-                  <option key={e.id} value={e.id}>
-                    {e.name}
-                  </option>
-                ))}
-            </select>
+      <div className="m-panel nw-controls">
+        <div className="nw-control">
+          <p className="m-label" id="nw-depth">
+            How far
+          </p>
+          <div role="group" aria-labelledby="nw-depth" className="m-choices">
+            {DEPTHS.map((d) => (
+              <button
+                key={d.value}
+                type="button"
+                aria-pressed={params.depth === d.value}
+                onClick={() => {
+                  update({ depth: d.value });
+                }}
+                className="m-choice"
+              >
+                {d.label}
+              </button>
+            ))}
           </div>
-          <Legend />
-        </aside>
+        </div>
+        <div className="nw-control">
+          <p className="m-label" id="nw-games">
+            Games
+          </p>
+          <div role="group" aria-labelledby="nw-games" className="m-choices">
+            {TITLE_ORDER.map((code: TitleCode) => (
+              <button
+                key={code}
+                type="button"
+                aria-pressed={params.titles.includes(code)}
+                onClick={() => {
+                  update({ titles: toggle(params.titles, code, TITLE_ORDER) });
+                }}
+                className="m-choice"
+                style={{ "--c": TITLE_COLOR[code] } as CSSProperties}
+              >
+                <span aria-hidden="true" className="m-choice-box" />
+                {titleShort(reference.data, code)}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="nw-control">
+          <p className="m-label" id="nw-kinds">
+            Kinds of link
+          </p>
+          <div role="group" aria-labelledby="nw-kinds" className="m-choices">
+            {EDGE_CATEGORY_ORDER.map((category) => (
+              <button
+                key={category}
+                type="button"
+                aria-pressed={params.categories.includes(category)}
+                onClick={() => {
+                  update({ categories: toggle(params.categories, category, EDGE_CATEGORY_ORDER) });
+                }}
+                className="m-choice"
+              >
+                <span
+                  aria-hidden="true"
+                  className="nw-line"
+                  style={{ background: CATEGORY_WORDS[category].color }}
+                />
+                {CATEGORY_WORDS[category].name}
+              </button>
+            ))}
+          </div>
+        </div>
+        <label className="nw-control nw-find">
+          <span className="m-label">How is {centerName} linked to…</span>
+          <select
+            value={params.to ?? ""}
+            onChange={(e) => {
+              update({ to: e.target.value || null });
+            }}
+            className="nw-select"
+          >
+            <option value="">Choose someone or something…</option>
+            {ENTITY_KINDS.map((k) => (
+              <optgroup key={k} label={KIND_WORDS[k].many}>
+                {(entities.data?.items ?? [])
+                  .filter((e) => e.kind === k && e.id !== id)
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((e) => (
+                    <option key={e.id} value={e.id}>
+                      {e.name}
+                    </option>
+                  ))}
+              </optgroup>
+            ))}
+          </select>
+        </label>
+      </div>
 
-        <section aria-label="Graph" className="flex min-w-0 flex-col gap-3">
+      {params.to && (
+        <PathChain
+          path={path.data}
+          pending={path.isPending}
+          fromName={centerName}
+          toName={toName}
+          onSelect={(node) => {
+            update({ node });
+          }}
+          onClear={() => {
+            update({ to: null });
+          }}
+        />
+      )}
+
+      <div className="nw-body">
+        <section aria-label="The web" className="nw-main">
           {main.isPending ? (
-            <Loading variant="panel" label="Loading the network…" />
+            <Loading variant="panel" label="Drawing the web…" />
           ) : main.isError ? (
-            <div className="panel p-4">
+            <div className="m-panel nw-panel">
               <ErrorMessage error={main.error} onRetry={() => void main.refetch()} />
             </div>
           ) : (
-            <Suspense fallback={<Loading variant="panel" label="Loading the graph…" />}>
+            <Suspense fallback={<Loading variant="panel" label="Drawing the web…" />}>
               <GraphView
                 elements={elements}
                 layoutKey={network ? layoutKey(network) : ""}
@@ -234,90 +258,64 @@ export function NetworkPage() {
               />
             </Suspense>
           )}
-          {params.to && (
-            <PathPanel
-              path={path.data}
-              pending={path.isPending}
-              error={path.error}
-              reference={reference.data}
-              onClear={() => {
-                update({ to: null });
-              }}
-            />
-          )}
+          <ul aria-label="What the colours mean" className="nw-key">
+            {ENTITY_KINDS.map((k) => (
+              <li key={k}>
+                <Orb kind={k} />
+                {KIND_WORDS[k].many}
+                <span className="nw-key-note"> ({MATERIA[k].name} materia)</span>
+              </li>
+            ))}
+            {EDGE_CATEGORY_ORDER.map((category) => (
+              <li key={category}>
+                <span
+                  aria-hidden="true"
+                  className="nw-line"
+                  style={{ background: CATEGORY_WORDS[category].color }}
+                />
+                {CATEGORY_WORDS[category].name}
+              </li>
+            ))}
+            {params.titles.length > 1 && (
+              <li>
+                <span aria-hidden="true" className="nw-line nw-line-dashed" />
+                Dashed: only one of the chosen games shows that link
+              </li>
+            )}
+          </ul>
         </section>
 
-        <aside
-          aria-label="Selection"
-          className="panel flex h-fit flex-col gap-3 p-4 lg:col-span-2 xl:col-span-1"
-        >
-          <span className="label">Selected</span>
-          {selectedNode ? (
-            <>
-              <p className="font-display text-lg font-semibold text-steel-100">
-                {selectedNode.name}
-              </p>
-              <p className="label">
-                {isEntityKind(selectedNode.kind)
-                  ? KIND_LABELS[selectedNode.kind].one
-                  : selectedNode.kind}
-              </p>
-              <div className="flex flex-wrap gap-1.5">
-                <Link to={entityPath(selectedNode.id)} className="btn">
-                  Open page
-                </Link>
-                <Link to={comparePath(selectedNode.id)} className="btn">
-                  Compare
-                </Link>
-                {selectedNode.id !== id && (
-                  <>
-                    <button
-                      type="button"
-                      className="btn"
-                      onClick={() => {
-                        recentre(selectedNode.id);
-                      }}
-                    >
-                      Centre here
-                    </button>
-                    <button
-                      type="button"
-                      className="btn"
-                      aria-pressed={params.expand.includes(selectedNode.id)}
-                      onClick={() => {
-                        update({
-                          expand: params.expand.includes(selectedNode.id)
-                            ? params.expand.filter((e) => e !== selectedNode.id)
-                            : [...params.expand, selectedNode.id],
-                        });
-                      }}
-                    >
-                      {params.expand.includes(selectedNode.id) ? "Collapse" : "Expand"}
-                    </button>
-                    <button
-                      type="button"
-                      className="btn"
-                      onClick={() => {
-                        update({ to: selectedNode.id });
-                      }}
-                    >
-                      Path from {centerName}
-                    </button>
-                  </>
-                )}
-              </div>
-            </>
-          ) : (
-            <p className="text-sm text-steel-400">Select an entity in the graph or the list.</p>
-          )}
-        </aside>
+        {network && (
+          <LinkPanel
+            key={selected ?? id}
+            id={selected ?? id}
+            center={id}
+            network={network}
+            expanded={params.expand.includes(selected ?? "")}
+            onSelect={(node) => {
+              update({ node });
+            }}
+            onCentre={recentre}
+            onExpand={(node) => {
+              update({
+                expand: params.expand.includes(node)
+                  ? params.expand.filter((e) => e !== node)
+                  : [...params.expand, node],
+              });
+            }}
+            onPath={(node) => {
+              update({ to: node });
+            }}
+          />
+        )}
       </div>
 
       {network && (
-        <section aria-labelledby="network-list" className="flex flex-col gap-3">
-          <h2 id="network-list" className="section-title">
-            As a list
-          </h2>
+        <details className="m-panel nw-list">
+          <summary className="nw-list-summary">
+            <span className="m-heading">Every link as a list</span>
+            <span className="nw-text"> — the same web, written out</span>
+          </summary>
           <NetworkList
             network={network}
             reference={reference.data}
@@ -327,89 +325,8 @@ export function NetworkPage() {
             }}
             search={keep}
           />
-        </section>
+        </details>
       )}
-    </div>
-  );
-}
-
-function PathPanel({
-  path,
-  pending,
-  error,
-  reference,
-  onClear,
-}: {
-  path: PathResult | undefined;
-  pending: boolean;
-  error: unknown;
-  reference: Reference | undefined;
-  onClear: () => void;
-}) {
-  return (
-    <section aria-label="Path" className="panel flex flex-col gap-3 p-4">
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="section-title">Strongest path</h2>
-        <button type="button" className="btn px-2 py-0.5" onClick={onClear}>
-          Clear
-        </button>
-      </div>
-      {error ? (
-        <ErrorMessage error={error} />
-      ) : pending || !path ? (
-        <Loading label="Finding a path…" />
-      ) : !path.found ? (
-        <p className="text-sm text-steel-400">
-          No connection with the current titles and relationships.
-        </p>
-      ) : (
-        <ol className="flex flex-col gap-1.5 text-sm">
-          {path.nodes.map((node, i) => {
-            const edge: NetworkEdge | undefined = path.edges[i];
-            const next = path.nodes[i + 1];
-            return (
-              <li key={node.id} className="flex flex-col">
-                <Link to={entityPath(node.id)} className="text-steel-100 hover:text-mako-300">
-                  {node.name}
-                </Link>
-                {edge && next && (
-                  <span className="flex items-center gap-2 pl-3 text-xs text-steel-400">
-                    ↓ {edge.source === node.id ? edge.label : `${edge.label} (from ${next.name})`}
-                    <TitleDots titles={edge.titles} reference={reference} />
-                  </span>
-                )}
-              </li>
-            );
-          })}
-          <li className="label mt-1">
-            {path.edges.length} step{path.edges.length === 1 ? "" : "s"} · strength cost {path.cost}
-          </li>
-        </ol>
-      )}
-    </section>
-  );
-}
-
-function Legend() {
-  return (
-    <div className="flex flex-col gap-2 text-xs text-steel-400" aria-label="Legend">
-      <span className="label">Legend</span>
-      <ul className="grid grid-cols-2 gap-1.5">
-        {Object.entries(KIND_STYLE).map(([kind, { color }]) => (
-          <li key={kind} className="flex items-center gap-1.5">
-            <span
-              aria-hidden="true"
-              className={`size-2.5 ${kind === "event" ? "rotate-45" : kind === "character" ? "rounded-full" : "rounded-sm"}`}
-              style={{ background: color }}
-            />
-            {isEntityKind(kind) ? KIND_LABELS[kind].many : kind}
-          </li>
-        ))}
-      </ul>
-      <p>
-        Dashed line: only one of the chosen titles establishes it. Dashed outline: added by
-        expanding.
-      </p>
     </div>
   );
 }

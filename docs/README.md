@@ -49,3 +49,4 @@ One short record per architecture decision, numbered in order.
 | 0020 | [A modern look everywhere but the home menu, and no footer](decisions/0020-modern-look.md)                             |
 | 0021 | [The compare section, for someone meeting the story for the first time](decisions/0021-compare-for-beginners.md)       |
 | 0022 | [The divergence section, for someone meeting the story for the first time](decisions/0022-divergence-for-beginners.md) |
+| 0023 | [The web of links, for someone meeting the story for the first time](decisions/0023-network-for-beginners.md)          |
