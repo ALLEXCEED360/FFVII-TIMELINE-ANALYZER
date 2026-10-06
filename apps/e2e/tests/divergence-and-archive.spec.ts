@@ -70,7 +70,7 @@ test("on a phone: an event opens under itself, and a comparison is tabs @mobile"
   ).toContainText("How each game tells it");
 
   await page.goto("/compare/event/aerith-death");
-  const tabs = page.getByRole("tablist", { name: "Titles" });
+  const tabs = page.getByRole("tablist", { name: "Games" });
   await expect(tabs.getByRole("tab", { name: "OG" })).toHaveAttribute("aria-selected", "true");
   await tabs.getByRole("tab", { name: "Rebirth" }).click();
   await expect(page.getByRole("tabpanel")).toContainText(/Rebirth|Cloud/);

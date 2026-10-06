@@ -78,10 +78,10 @@ export function TimelinePage() {
   const row = { selected: params.event, onSelect: select, detail: wide ? null : detail };
 
   return (
-    <div className="ff7 tl">
+    <div className="tl">
       <header className="tl-head">
-        <h1 className="ff7-text tl-title">Timeline</h1>
-        <p className="tl-intro">
+        <h1 className="m-heading m-title">Timeline</h1>
+        <p className="m-intro">
           {play
             ? `The events in the order you meet them playing ${titleName(params.game)}. Games often save the past for later, as flashbacks, so this order can jump around in time.`
             : "The story of Final Fantasy VII, from its distant past to its end, in the order it happens. Choose any event to see how each game tells it."}
@@ -167,7 +167,7 @@ export function TimelinePage() {
           <div className="tl-side">
             {detail ?? (
               <div className="m-panel tl-detail tl-detail-empty">
-                <p className="ff7-text">Choose an event</p>
+                <p className="m-heading">Choose an event</p>
                 <p className="tl-detail-text">
                   Its story, and how each of the four games tells it, will open here.
                 </p>

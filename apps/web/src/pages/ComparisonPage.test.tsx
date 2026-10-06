@@ -4,9 +4,10 @@ import axe from "axe-core";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { renderAt, stubApi } from "../test/render";
 
+/** What a game's panel says it does with the subject. */
 function statusOf(title: string) {
-  const column = screen.getByRole("heading", { level: 2, name: title }).parentElement;
-  return column!.querySelector(".chip")?.textContent;
+  const panel = screen.getByRole("region", { name: title });
+  return panel.querySelector(".cmp-status")?.textContent;
 }
 
 describe("comparison page", () => {
@@ -14,30 +15,31 @@ describe("comparison page", () => {
     vi.unstubAllGlobals();
   });
 
-  it("shows a column per title with its stored or derived status", async () => {
+  it("shows a panel per game saying, in plain words, what it does with the subject", async () => {
     stubApi();
     renderAt("/compare/event/aerith-death");
     await screen.findByRole("heading", { level: 1, name: "Death of Aerith" });
-    expect(statusOf("OG")).toBe("Depicted");
-    expect(statusOf("Remake")).toBe("Not in this title");
-    expect(statusOf("Rebirth")).toBe("Depicted");
-    expect(screen.getByText("Changed")).toBeTruthy();
+    expect(statusOf("OG")).toBe("Shows it");
+    expect(statusOf("Remake")).toBe("Not in this game");
+    expect(statusOf("Rebirth")).toBe("Shows it");
+    expect(screen.getByText("Told differently")).toBeTruthy();
+    expect(screen.getAllByText("Shown as it happens")).toHaveLength(2);
   });
 
   it("says when the Remake series hasn't reached an event yet", async () => {
     stubApi();
     renderAt("/compare/event/cloud-memories-restored");
     await screen.findByRole("heading", { level: 1, name: "Cloud's Memories Restored" });
-    expect(statusOf("Remake")).toBe("Not yet reached");
-    expect(statusOf("Rebirth")).toBe("Not yet reached");
+    expect(statusOf("Remake")).toBe("Hasn't reached this part yet");
+    expect(statusOf("Rebirth")).toBe("Hasn't reached this part yet");
   });
 
-  it("groups differences by category and cites both sides", async () => {
+  it("groups changes by kind, in plain words, and cites both sides", async () => {
     stubApi();
     renderAt("/compare/event/aerith-death");
-    const section = await screen.findByRole("region", { name: /Documented differences/ });
-    expect(within(section).getByRole("heading", { name: "Presentation" })).toBeTruthy();
-    expect(within(section).getByRole("heading", { name: "Context" })).toBeTruthy();
+    const section = await screen.findByRole("region", { name: /What changes/ });
+    expect(within(section).getByRole("heading", { name: "How it's shown" })).toBeTruthy();
+    expect(within(section).getByRole("heading", { name: "What surrounds it" })).toBeTruthy();
     // Each difference cites both sides, linked to their place in the archive.
     const og = within(section).getAllByRole("link", {
       name: "OG · Disc 1 · The Forgotten Capital",
@@ -50,26 +52,24 @@ describe("comparison page", () => {
     expect(rebirth).toHaveLength(2);
   });
 
-  it("marks a connection version-specific only where a title depicts both ends", async () => {
+  it("says a connection differs only where a game shows both ends without it", async () => {
     stubApi();
     renderAt("/compare/location/sector-7?titles=og,remake");
-    const table = await screen.findByRole("table", {
-      name: "Which titles establish each connection",
-    });
+    const table = await screen.findByRole("table", { name: "Which games show each connection" });
     const midgar = within(table).getByRole("row", { name: /Midgar/ });
-    expect(within(midgar).getByText("Version-specific")).toBeTruthy();
-    expect(within(midgar).getByText("Not established")).toBeTruthy();
+    expect(within(midgar).getByText("Differs between games")).toBeTruthy();
+    expect(within(midgar).getByText("Shows both, but not connected")).toBeTruthy();
   });
 
-  it("doesn't count a connection against a title that doesn't depict both ends", async () => {
+  it("doesn't count a connection against a game that doesn't show both ends", async () => {
     stubApi();
     renderAt("/compare/character/tifa-lockhart?titles=og,rebirth");
-    const tifaTable = await screen.findByRole("table", {
-      name: "Which titles establish each connection",
-    });
-    const memories = within(tifaTable).getByRole("row", { name: /Cloud's Memories Restored/ });
-    expect(within(memories).getByText("Shared")).toBeTruthy();
-    expect(within(memories).getByText(/Not applicable/)).toBeTruthy();
+    const table = await screen.findByRole("table", { name: "Which games show each connection" });
+    const memories = within(table).getByRole("row", { name: /Cloud's Memories Restored/ });
+    expect(within(memories).getByText("In every game")).toBeTruthy();
+    expect(within(memories).getByText("Doesn't show both")).toBeTruthy();
+    // A person isn't "shown as it happens": that line is for events.
+    expect(screen.queryByText("Shown as it happens")).toBeNull();
   });
 
   it("switches titles with presets, keeping them in the URL", async () => {
@@ -94,6 +94,7 @@ describe("comparison page", () => {
     renderAt("/compare/event/aerith-death");
     const tabs = await screen.findAllByRole("tab");
     expect(tabs.map((t) => t.textContent)).toEqual(["OG", "Remake", "Rebirth"]);
+    expect(screen.getByRole("tablist", { name: "Games" })).toBeTruthy();
     await userEvent.click(tabs[2]!);
     expect(tabs[2]?.getAttribute("aria-selected")).toBe("true");
     expect(within(screen.getByRole("tabpanel")).getByText(/Cloud appears to block/)).toBeTruthy();

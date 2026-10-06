@@ -10,19 +10,6 @@
 }
 
 /* ── The heading and the one-sentence guide ──────────────────────────────────────────────── */
-.tl-title {
-  font-size: 48px;
-  line-height: 1;
-}
-.tl-intro {
-  max-width: 62ch;
-  margin-top: 0.6rem;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: var(--m-text);
-  text-shadow: 0 1px 6px rgb(0 0 0 / 0.8);
-}
-
 /* ── The choices ──────────────────────────────────────────────────────────────────────────── */
 .tl-controls {
   display: flex;
@@ -42,53 +29,6 @@
   margin-right: 0.9rem;
   padding: 0;
   line-height: 2.1rem;
-}
-.tl-choices {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-.tl-choice {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  min-height: 2.1rem;
-  padding: 0.2rem 0.9rem 0.2rem 0.7rem;
-  border: 1px solid var(--m-line);
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.03);
-  font-size: 0.875rem;
-  color: var(--m-dim);
-  cursor: pointer;
-  transition:
-    border-color 0.2s,
-    color 0.2s,
-    background-color 0.2s;
-}
-.tl-choice:hover {
-  border-color: rgb(127 214 255 / 0.5);
-  color: #fff;
-}
-.tl-choice:focus-visible {
-  outline: 2px solid var(--m-accent);
-  outline-offset: 2px;
-}
-.tl-choice[aria-pressed="true"] {
-  border-color: rgb(127 214 255 / 0.75);
-  background: var(--m-accent-soft);
-  color: #fff;
-}
-.tl-choice:disabled {
-  cursor: not-allowed;
-}
-.tl-choice-box {
-  width: 0.6rem;
-  height: 0.6rem;
-  border: 2px solid var(--c, var(--m-accent));
-  transform: rotate(45deg);
-}
-.tl-choice[aria-pressed="true"] .tl-choice-box {
-  background: var(--c, var(--m-accent));
 }
 .tl-star {
   color: #ffd75e;
@@ -248,7 +188,7 @@
   outline-offset: -2px;
 }
 .tl-event-button {
-  font-size: 20px;
+  font-size: 22px;
   line-height: 1.3;
   text-align: left;
   outline: none;
@@ -375,7 +315,7 @@
 }
 .tl-detail-name {
   padding-right: 4.5rem;
-  font-size: 24px;
+  font-size: 26px;
   line-height: 1.2;
 }
 .tl-detail-art + .tl-detail-head .tl-detail-name {
@@ -451,23 +391,6 @@
   flex-wrap: wrap;
   gap: 0.4rem;
 }
-.tl-who-link {
-  display: inline-block;
-  padding: 0.2rem 0.7rem;
-  border: 1px solid var(--m-line);
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.03);
-  font-size: 0.8125rem;
-  color: var(--m-text);
-}
-.tl-who-link:hover {
-  border-color: rgb(127 214 255 / 0.6);
-  color: #fff;
-}
-.tl-who-link:focus-visible {
-  outline: 2px solid var(--m-accent);
-  outline-offset: 2px;
-}
 
 /* Where to go next: full-width rows, each ending in an arrow. */
 .tl-more {
@@ -475,34 +398,6 @@
   flex-direction: column;
   gap: 0.4rem;
   margin-top: 1.3rem;
-}
-.tl-more-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.6rem 0.85rem;
-  border: 1px solid var(--m-line);
-  border-radius: 5px;
-  background: rgb(255 255 255 / 0.03);
-  font-size: 0.875rem;
-  color: var(--m-text);
-  transition:
-    border-color 0.2s,
-    background-color 0.2s;
-}
-.tl-more-link::after {
-  content: "→";
-  color: var(--m-accent);
-}
-.tl-more-link:hover {
-  border-color: rgb(127 214 255 / 0.6);
-  background-color: var(--m-accent-soft);
-  color: #fff;
-}
-.tl-more-link:focus-visible {
-  outline: 2px solid var(--m-accent);
-  outline-offset: 2px;
 }
 .tl-detail-empty {
   display: flex;
@@ -513,9 +408,6 @@
 }
 
 @media (max-width: 40rem) {
-  .tl-title {
-    font-size: 32px;
-  }
   .tl-chapter {
     padding: 0.8rem 0.3rem 0.4rem;
   }
@@ -526,7 +418,7 @@
     padding-left: 0.8rem;
   }
   .tl-event-button {
-    font-size: 16px;
+    font-size: 18px;
   }
   .tl-controls {
     gap: 0.8rem;

@@ -34,10 +34,10 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
   await expect(page).toHaveURL(/titles=og%2Crebirth/);
   await expect(page.getByRole("heading", { level: 2, name: "OG" })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "Rebirth" })).toBeVisible();
-  await expect(page.getByRole("region", { name: /Documented differences/ })).toContainText("Major");
+  await expect(page.getByRole("region", { name: /What changes/ })).toContainText("Big change");
 
   // 7. Open the graph around the event.
-  await page.getByRole("link", { name: "Entity page" }).click();
+  await page.getByRole("link", { name: "Everything about it" }).click();
   await page.getByRole("main").getByRole("link", { name: "Network", exact: true }).click();
   await expect(page).toHaveURL(/\/network\/event\/aerith-death/);
   const list = page.getByRole("list", { name: "Entities and their connections" });

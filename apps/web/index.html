@@ -8,6 +8,15 @@
       content="Explore and compare how Final Fantasy VII, Remake, INTERmission and Rebirth tell the same story."
     />
     <meta name="color-scheme" content="dark" />
+    <!-- The series' lettering sets the bar and every heading (4 kB): load it with the page, so
+         the wider fallback never shows first. -->
+    <link
+      rel="preload"
+      href="/fonts/ff-logo/finalf-web.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
     <link rel="icon" href="/favicon.ico" sizes="16x16 24x24 32x32 48x48 256x256" />
     <title>Final Fantasy VII: Timeline Analyzer</title>
   </head>

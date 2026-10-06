@@ -1,15 +1,4 @@
-import {
-  Columns3,
-  Compass,
-  GitBranch,
-  Hourglass,
-  Library,
-  type LucideIcon,
-  Menu,
-  Search,
-  Waypoints,
-  X,
-} from "lucide-react";
+import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { type PageName, preloadPage } from "../app/pages";
@@ -21,13 +10,13 @@ import "./ff7.css";
 import "./modern.css";
 
 /** The sections, in menu order. The home menu lists the same ones (features/home/menu.ts). */
-export const NAV: readonly { to: string; label: string; page: PageName; icon: LucideIcon }[] = [
-  { to: "/timeline", label: "Timeline", page: "timeline", icon: Hourglass },
-  { to: "/compare", label: "Compare", page: "compare", icon: Columns3 },
-  { to: "/divergence", label: "Divergence", page: "divergence", icon: GitBranch },
-  { to: "/network", label: "Network", page: "network", icon: Waypoints },
-  { to: "/explore", label: "Explore", page: "explore", icon: Compass },
-  { to: "/archive", label: "Archive", page: "archive", icon: Library },
+export const NAV: readonly { to: string; label: string; page: PageName }[] = [
+  { to: "/timeline", label: "Timeline", page: "timeline" },
+  { to: "/compare", label: "Compare", page: "compare" },
+  { to: "/divergence", label: "Divergence", page: "divergence" },
+  { to: "/network", label: "Network", page: "network" },
+  { to: "/explore", label: "Explore", page: "explore" },
+  { to: "/archive", label: "Archive", page: "archive" },
 ];
 
 /**
@@ -89,9 +78,9 @@ function MenuBar() {
 }
 
 /**
- * Every other page's bar, in the modern games' style: the name (back to the home menu), the
- * sections with the one you're in lit, and a search box. Too narrow for a row of sections, they
- * fold into a Menu panel.
+ * Every other page's bar, in the modern games' style and the series' own logo lettering: the
+ * name (back to the home menu), the sections with the one you're in lit, and a search box. Too
+ * narrow for a row of sections, they fold into a Menu panel.
  */
 function ModernBar({ pathname }: { pathname: string }) {
   const openSearch = useOpenSearch();
@@ -118,7 +107,7 @@ function ModernBar({ pathname }: { pathname: string }) {
           <span aria-hidden="true" className="materia mbar-orb" />
           <span aria-hidden="true" className="mbar-title">
             <span className="mbar-series">Final Fantasy VII</span>
-            <span className="ff7-text mbar-name">Timeline Analyzer</span>
+            <span className="mbar-name">Timeline Analyzer</span>
           </span>
         </Link>
 
@@ -141,9 +130,8 @@ function ModernBar({ pathname }: { pathname: string }) {
                     onFocus={() => {
                       preloadPage(item.page);
                     }}
-                    className="ff7-text mbar-link"
+                    className="mbar-link"
                   >
-                    <item.icon aria-hidden="true" className="mbar-icon" />
                     {item.label}
                   </SectionNavLink>
                 </li>
@@ -171,14 +159,9 @@ function ModernBar({ pathname }: { pathname: string }) {
               onClick={() => {
                 setMenuOn(menuOpen ? null : pathname);
               }}
-              className="ff7-text mbar-menu"
+              className="mbar-menu"
             >
-              {menuOpen ? (
-                <X aria-hidden="true" className="mbar-icon" />
-              ) : (
-                <Menu aria-hidden="true" className="mbar-icon" />
-              )}
-              Menu
+              {menuOpen ? "Close" : "Menu"}
             </button>
           )}
         </div>

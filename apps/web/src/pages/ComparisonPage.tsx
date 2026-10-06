@@ -1,33 +1,29 @@
-import { type KeyboardEvent, useEffect, useState } from "react";
+import { type CSSProperties, type KeyboardEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 import type { Comparison, Reference, TitleCode } from "../api/client";
 import { ApiError } from "../api/client";
 import { useComparison, useReference } from "../api/queries";
+import { SECTION_ART, artFor, sceneFor } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 import { Empty, ErrorMessage, Loading } from "../components/QueryState";
-import {
-  ColumnView,
-  DifferencesByCategory,
-  RelationshipMatrix,
-  TitleSelect,
-} from "../features/compare/parts";
+import { ChangesByKind, Connections, GameColumn, GamePicker } from "../features/compare/pieces";
 import { compareTitlesParam, parseCompareTitles } from "../features/compare/titles";
-import { comparePath, entityPath, idFromPath, KIND_LABELS, kindOf } from "../lib/paths";
+import { KIND_LABELS, comparePath, entityPath, idFromPath, kindOf } from "../lib/paths";
 import { titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { NotFoundPage } from "./NotFoundPage";
-import { SECTION_ART, artFor, sceneFor } from "../art/manifest";
-import { Artwork } from "../components/Artwork";
-import { useBackdrop } from "../components/Backdrop";
+import "../features/compare/compare.css";
 
 /**
- * How the chosen titles present one entity, side by side (blueprint §24, §48):
+ * How the chosen games tell one thing, side by side (decision 0021), for someone new to the
+ * story: what each game does with it, in plain words, what changes, and what it's connected to.
  * /compare/event/nibelheim-incident?titles=og,rebirth
  */
 export function ComparisonPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);
-  useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.compare, { strength: 0.45 });
+  useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.compare, { strength: 0.55, side: "full" });
   const [search, setSearch] = useSearchParams();
   const titles = parseCompareTitles(search.get("titles"));
   const comparison = useComparison(id, titles);
@@ -54,7 +50,7 @@ export function ComparisonPage() {
       return <NotFoundPage />;
     }
     return (
-      <div className="panel p-4">
+      <div className="m-panel cmp-group">
         <ErrorMessage error={comparison.error} onRetry={() => void comparison.refetch()} />
       </div>
     );
@@ -87,126 +83,123 @@ function ComparisonView({
   const { entity, columns, differences, relationships } = comparison;
   const kind = kindOf(entity.id) ?? "event";
   const wide = useMediaQuery("(min-width: 768px)");
-  const major = differences.filter((d) => d.magnitude === "major").length;
-  const specific = relationships.filter((r) => !r.shared).length;
+  const big = differences.filter((d) => d.magnitude === "major").length;
 
-  // A character drawn in both eras: the original's artwork over its column, the new look over
-  // the others — how the look changed, beside how the story did.
+  // A character drawn in both eras: the original's look over its panel, the new look over the
+  // others — how the look changed, beside how the story did.
   const art = artFor(entity.id);
   const figures =
     art.original && art.main?.kind === "cutout"
       ? { original: art.original, main: art.main }
       : undefined;
+  const figureFor = (title: TitleCode) =>
+    figures && (title === "og" ? figures.original : figures.main);
 
   return (
-    <article className="flex flex-col gap-8" aria-busy={updating}>
-      <header className="flex flex-col gap-3">
-        <nav aria-label="Breadcrumb" className="label">
-          <Link to="/compare" className="hover:text-mako-300">
-            Compare
-          </Link>{" "}
-          / {KIND_LABELS[kind].many}
-        </nav>
-        <h1 className="page-title">{entity.name}</h1>
-        <p className="max-w-3xl text-steel-300">{entity.summary}</p>
-        <div className="flex flex-wrap items-center gap-2">
-          {comparison.isNew && (
-            <span className="chip border-mako-500 text-mako-300">New in the Remake series</span>
-          )}
-          <Link to={entityPath(entity.id)} className="btn">
-            Entity page
-          </Link>
-          {entity.event && (
-            <Link to={`/timeline?event=${entity.id}`} className="btn">
-              Show on timeline
+    <article className="cmp" aria-busy={updating}>
+      {/* Its scene is the page's backdrop (above), so the header is words alone. */}
+      <header className="cmp-hero">
+        <div>
+          <nav aria-label="Breadcrumb" className="m-label">
+            <Link to="/compare" className="cmp-crumb">
+              Compare
+            </Link>{" "}
+            / {KIND_LABELS[kind].many}
+          </nav>
+          <h1 className="m-heading m-title">{entity.name}</h1>
+          <p className="m-intro">{entity.summary}</p>
+          <div className="cmp-hero-links">
+            {comparison.isNew && <span className="cmp-tag cmp-big">New in the Remake series</span>}
+            {entity.event && (
+              <Link to={`/timeline?event=${entity.id}`} className="m-pill-link">
+                See it on the timeline
+              </Link>
+            )}
+            <Link to={entityPath(entity.id)} className="m-pill-link">
+              Everything about it
             </Link>
-          )}
+          </div>
         </div>
-        <TitleSelect titles={titles} reference={reference} onChange={onTitles} />
       </header>
 
-      <section aria-label="Side by side" className="flex flex-col gap-3">
+      <div className="m-panel cmp-controls cmp-controls-row">
+        <p className="m-label">Which games</p>
+        <GamePicker titles={titles} reference={reference} onChange={onTitles} />
+      </div>
+
+      <section aria-label="Side by side">
         {wide ? (
           <div
-            className="grid gap-4"
+            className="cmp-cols"
             style={{ gridTemplateColumns: `repeat(${String(columns.length)}, minmax(0, 1fr))` }}
           >
             {columns.map((column) => (
-              <section
+              <GameColumn
                 key={column.title}
-                aria-labelledby={`col-${column.title}`}
-                className="flex flex-col gap-3"
-              >
-                <h2
-                  id={`col-${column.title}`}
-                  className="border-b-2 pb-2 font-display text-lg font-semibold tracking-wider text-steel-100 uppercase"
-                  style={{ borderColor: TITLE_COLOR[column.title] }}
-                >
-                  {titleShort(reference, column.title)}
-                </h2>
-                {figures && (
-                  <div className="halftone flex h-56 items-end justify-center overflow-hidden border-b border-steel-100/10 bg-gradient-to-b from-transparent to-night-900/60">
-                    <Artwork
-                      entry={column.title === "og" ? figures.original : figures.main}
-                      className="max-h-full w-auto object-contain drop-shadow-[0_14px_18px_rgb(0_0_0/0.8)]"
-                    />
-                  </div>
-                )}
-                <ColumnView column={column} reference={reference} />
-              </section>
+                column={column}
+                reference={reference}
+                event={kind === "event"}
+                figure={figureFor(column.title)}
+              />
             ))}
           </div>
         ) : (
-          <ColumnTabs comparison={comparison} reference={reference} />
-        )}
-      </section>
-
-      <section aria-labelledby="compare-differences" className="flex flex-col gap-3">
-        <h2 id="compare-differences" className="section-title">
-          Documented differences
-          <span className="ml-2 text-steel-300">
-            {differences.length} · {major} major
-          </span>
-        </h2>
-        {differences.length > 0 ? (
-          <DifferencesByCategory differences={differences} reference={reference} />
-        ) : (
-          <div className="panel">
-            <Empty>No documented differences between these titles.</Empty>
-          </div>
-        )}
-      </section>
-
-      <section aria-labelledby="compare-connections" className="flex flex-col gap-3">
-        <h2 id="compare-connections" className="section-title">
-          Connections
-          <span className="ml-2 text-steel-300">
-            {relationships.length - specific} shared · {specific} version-specific
-          </span>
-        </h2>
-        {relationships.length > 0 ? (
-          <RelationshipMatrix
-            relationships={relationships}
-            columns={columns}
+          <GameTabs
+            comparison={comparison}
             reference={reference}
+            event={kind === "event"}
+            figureFor={figureFor}
           />
-        ) : (
-          <div className="panel">
-            <Empty>No connections documented for these titles.</Empty>
-          </div>
         )}
       </section>
+
+      <div className="cmp-after">
+        <section aria-labelledby="cmp-changes" className="cmp-after-part">
+          <h2 id="cmp-changes" className="m-heading cmp-section">
+            What changes{" "}
+            <span className="cmp-section-count">
+              {differences.length === 0 ? "" : `${String(differences.length)} · ${String(big)} big`}
+            </span>
+          </h2>
+          {differences.length > 0 ? (
+            <div className="m-panel cmp-group">
+              <ChangesByKind differences={differences} reference={reference} />
+            </div>
+          ) : (
+            <div className="m-panel cmp-group">
+              <Empty>No changes recorded between these games.</Empty>
+            </div>
+          )}
+        </section>
+
+        <section aria-labelledby="cmp-connections" className="cmp-after-part">
+          <h2 id="cmp-connections" className="m-heading cmp-section">
+            Connections
+          </h2>
+          {relationships.length > 0 ? (
+            <Connections relationships={relationships} columns={columns} reference={reference} />
+          ) : (
+            <div className="m-panel cmp-group">
+              <Empty>No connections recorded for these games.</Empty>
+            </div>
+          )}
+        </section>
+      </div>
     </article>
   );
 }
 
-/** On narrow screens, one title at a time (blueprint §24). */
-function ColumnTabs({
+/** On narrow screens, one game at a time. */
+function GameTabs({
   comparison,
   reference,
+  event,
+  figureFor,
 }: {
   comparison: Comparison;
   reference: Reference | undefined;
+  event: boolean;
+  figureFor: (title: TitleCode) => ReturnType<typeof artFor>["main"];
 }) {
   const [selected, setSelected] = useState(0);
   const columns = comparison.columns;
@@ -218,8 +211,8 @@ function ColumnTabs({
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      <div role="tablist" aria-label="Titles" className="flex gap-1" onKeyDown={onKeyDown}>
+    <div className="cmp-tabs">
+      <div role="tablist" aria-label="Games" className="m-choices" onKeyDown={onKeyDown}>
         {columns.map((column, i) => (
           <button
             key={column.title}
@@ -229,19 +222,26 @@ function ColumnTabs({
             aria-selected={column === current}
             aria-controls="compare-tabpanel"
             tabIndex={column === current ? 0 : -1}
-            className="btn flex-1 justify-center"
-            style={column === current ? { borderColor: TITLE_COLOR[column.title] } : undefined}
+            className="m-choice"
+            style={{ "--c": TITLE_COLOR[column.title] } as CSSProperties}
             onClick={() => {
               setSelected(i);
             }}
           >
+            <span aria-hidden="true" className="m-choice-box" />
             {titleShort(reference, column.title)}
           </button>
         ))}
       </div>
       {current && (
         <div role="tabpanel" id="compare-tabpanel" aria-labelledby={`tab-${current.title}`}>
-          <ColumnView column={current} reference={reference} />
+          <GameColumn
+            column={current}
+            reference={reference}
+            event={event}
+            figure={figureFor(current.title)}
+            labelled={false}
+          />
         </div>
       )}
     </div>

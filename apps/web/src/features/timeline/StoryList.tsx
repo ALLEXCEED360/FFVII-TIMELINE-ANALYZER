@@ -32,7 +32,7 @@ export function StoryChapters({
         >
           <header className="tl-chapter-head">
             <p className="m-label tl-part">{chapter.part}</p>
-            <h2 id={`chapter-${chapter.id}-name`} className="ff7-text tl-chapter-name">
+            <h2 id={`chapter-${chapter.id}-name`} className="m-heading tl-chapter-name">
               {chapter.name}
             </h2>
           </header>
@@ -68,7 +68,7 @@ export function PlayList({
     >
       <header className="tl-chapter-head">
         <p className="m-label tl-part">In the order you play it</p>
-        <h2 id="play-order-name" className="ff7-text tl-chapter-name">
+        <h2 id="play-order-name" className="m-heading tl-chapter-name">
           {titleName(game)}
         </h2>
       </header>
@@ -104,7 +104,7 @@ function EventRow({
         onClick={() => {
           onSelect(event.id);
         }}
-        className="ff7-text tl-event-button"
+        className="m-heading tl-event-button"
       >
         {number !== undefined && <span className="tl-number">{number}.</span>}
         {event.name}

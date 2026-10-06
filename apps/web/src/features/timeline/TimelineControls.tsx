@@ -24,7 +24,7 @@ export function TimelineControls({
     <div className="m-panel tl-controls">
       <fieldset className="tl-control">
         <legend className="m-label">Order</legend>
-        <div className="tl-choices">
+        <div className="m-choices">
           <Choice
             on={!play}
             onClick={() => {
@@ -46,7 +46,7 @@ export function TimelineControls({
 
       <fieldset className="tl-control">
         <legend className="m-label">{play ? "Game" : "Games"}</legend>
-        <div className="tl-choices">
+        <div className="m-choices">
           {TITLE_ORDER.map((code) => {
             const on = play ? params.game === code : params.titles.includes(code);
             return (
@@ -72,7 +72,7 @@ export function TimelineControls({
         <span aria-hidden="true" className="m-label tl-control-label">
           Show
         </span>
-        <div className="tl-choices">
+        <div className="m-choices">
           <Choice
             on={params.keyOnly}
             onClick={() => {
@@ -109,10 +109,10 @@ function Choice({
       aria-pressed={on}
       disabled={disabled}
       onClick={onClick}
-      className="tl-choice"
+      className="m-choice"
       style={color ? ({ "--c": color } as CSSProperties) : undefined}
     >
-      <span aria-hidden="true" className="tl-choice-box" />
+      <span aria-hidden="true" className="m-choice-box" />
       {children}
     </button>
   );

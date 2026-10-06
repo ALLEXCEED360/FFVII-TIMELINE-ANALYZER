@@ -30,40 +30,7 @@ export function markOf(event: TimelineEvent, title: TitleCode): Mark {
   return a.status === "depicted" ? "shown" : "mentioned";
 }
 
-/** How a game tells an event, in a few plain words: "Shown in a flashback", "Only mentioned". */
-export function tellingOf(appearance: {
-  status: string;
-  framing?: string | null;
-  world: string;
-}): string {
-  const { status, framing } = appearance;
-  let words: string;
-  if (status === "omitted") words = "Left out";
-  else if (status === "depicted") {
-    words =
-      framing === "flashback"
-        ? "Shown in a flashback"
-        : framing === "false_account"
-          ? "Shown, but as a false memory"
-          : framing === "disputed_account"
-            ? "Shown, but the game casts doubt on it"
-            : framing === "vision"
-              ? "Seen in a vision"
-              : framing === "glimpse"
-                ? "Glimpsed"
-                : "Shown as it happens";
-  } else {
-    words =
-      framing === "vision"
-        ? "Only seen in a vision"
-        : framing === "glimpse"
-          ? "Only glimpsed"
-          : framing === "flashback"
-            ? "Briefly recalled"
-            : "Only mentioned";
-  }
-  return appearance.world === MAIN_WORLD ? words : `${words}, in another world`;
-}
+export { tellingOf } from "../../lib/plain";
 
 /** When an event happens, for someone who doesn't know the story: "15 years before the story". */
 export function whenOf(event: TimelineEvent): string | null {

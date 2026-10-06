@@ -73,7 +73,7 @@ function EventDetails({
       )}
 
       <header className="tl-detail-head">
-        <h2 className="ff7-text tl-detail-name">{entity.name}</h2>
+        <h2 className="m-heading tl-detail-name">{entity.name}</h2>
         <p className="m-label tl-detail-meta">
           {year < 0
             ? `${Math.abs(year).toLocaleString("en-US")} years before the story`
@@ -101,7 +101,7 @@ function EventDetails({
                 style={{ borderLeftColor: a ? TITLE_COLOR[title] : undefined }}
               >
                 <p className="tl-telling-head">
-                  <span className="ff7-text">{titleShort(reference, title)}</span>
+                  <span className="m-heading">{titleShort(reference, title)}</span>
                   <span className={a ? "tl-telling-how" : "tl-telling-none"}>
                     {a
                       ? tellingOf({
@@ -152,7 +152,7 @@ function EventDetails({
           <ul className="tl-who">
             {[...people, ...places].map((r) => (
               <li key={r.id}>
-                <Link to={entityPath(r.other.id)} className="tl-who-link">
+                <Link to={entityPath(r.other.id)} className="m-pill-link">
                   {r.other.name}
                 </Link>
               </li>
@@ -162,13 +162,13 @@ function EventDetails({
       )}
 
       <nav aria-label="Learn more" className="tl-more">
-        <Link to={comparePath(entity.id)} className="tl-more-link">
+        <Link to={comparePath(entity.id)} className="m-row-link">
           Compare the games side by side
         </Link>
-        <Link to={divergencePath(entity.id)} className="tl-more-link">
+        <Link to={divergencePath(entity.id)} className="m-row-link">
           See where the stories split
         </Link>
-        <Link to={entityPath(entity.id)} className="tl-more-link">
+        <Link to={entityPath(entity.id)} className="m-row-link">
           Everything about this event
         </Link>
       </nav>

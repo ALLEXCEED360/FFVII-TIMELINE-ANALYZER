@@ -1,0 +1,488 @@
+/* The compare section (ComparePage.tsx, ComparisonPage.tsx, decision 0021), in the modern
+   panels (components/modern.css). Names and headings in the game's pixel font; reading text in
+   the site's sans. */
+
+.cmp {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  font-size: 16px;
+}
+
+/* ── The landing page: choices, the changes, and anything side by side ───────────────────── */
+.cmp-body {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+  grid-template-areas: "controls" "pick" "main";
+}
+@media (min-width: 64rem) {
+  .cmp-body {
+    grid-template-columns: 22rem minmax(0, 1fr);
+    grid-template-areas: "controls main" "pick main";
+  }
+}
+@media (min-width: 100rem) {
+  .cmp-body {
+    grid-template-columns: 22rem minmax(0, 1fr) 24rem;
+    grid-template-areas: "controls main pick";
+  }
+  .cmp-body > .cmp-controls,
+  .cmp-body > .cmp-pick {
+    position: sticky;
+    top: 1rem;
+  }
+}
+.cmp-body > .cmp-controls {
+  grid-area: controls;
+}
+.cmp-body > .cmp-main {
+  grid-area: main;
+}
+.cmp-body > .cmp-pick {
+  grid-area: pick;
+}
+
+.cmp-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding: 1rem 1.1rem 1.1rem;
+}
+.cmp-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.cmp-count {
+  margin-left: 0.15rem;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* Which games: the usual pairs as large buttons, then each game. */
+.cmp-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.cmp-pairs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+.cmp-pair {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.03);
+  font-size: 0.875rem;
+  text-align: left;
+  color: var(--m-dim);
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background-color 0.2s;
+}
+.cmp-pair:hover {
+  border-color: rgb(127 214 255 / 0.5);
+  color: #fff;
+}
+.cmp-pair:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.cmp-pair[aria-pressed="true"] {
+  border-color: rgb(127 214 255 / 0.75);
+  background: var(--m-accent-soft);
+  color: #fff;
+}
+.cmp-pair-marks {
+  display: flex;
+  gap: 0.2rem;
+}
+/* In a row across the comparison page. */
+.cmp-controls-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.4rem;
+  padding: 0.85rem 1.2rem;
+}
+.cmp-controls-row .cmp-picker {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.4rem;
+}
+.cmp-controls-row .cmp-pairs {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* A game: its coloured diamond and its name. */
+.cmp-game {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #fff;
+}
+.cmp-game-mark {
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: none;
+  background: var(--c);
+  transform: rotate(45deg);
+}
+.cmp-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.55rem;
+  border: 1px solid rgb(255 255 255 / 0.2);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  color: var(--m-dim);
+}
+.cmp-big {
+  border-color: rgb(255 215 94 / 0.55);
+  color: #ffd75e;
+}
+
+/* The changes, by moment. */
+.cmp-main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 1rem;
+}
+.cmp-summary {
+  min-height: 1.2rem;
+  font-size: 0.85rem;
+  color: var(--m-dim);
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.9);
+}
+.cmp-group {
+  padding: 1rem 1.1rem 0.4rem;
+}
+.cmp-group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.7rem 1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--m-line);
+}
+.cmp-group-name {
+  margin-top: 0.2rem;
+  font-size: 24px;
+  line-height: 1.15;
+}
+.cmp-open {
+  width: auto;
+  gap: 0.8rem;
+  padding: 0.45rem 0.8rem;
+}
+.cmp-changes {
+  display: flex;
+  flex-direction: column;
+}
+.cmp-change {
+  padding: 0.85rem 0.2rem;
+}
+.cmp-change + .cmp-change {
+  border-top: 1px solid rgb(255 255 255 / 0.06);
+}
+.cmp-change-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin-bottom: 0.45rem;
+}
+.cmp-arrow {
+  color: var(--m-accent);
+}
+.cmp-text {
+  max-width: 78ch;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--m-text);
+}
+.cmp-note {
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #b0b9cb;
+}
+.cmp-sources {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: #9ca6b9;
+}
+
+/* Anything side by side: a search and a list. */
+.cmp-pick {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+}
+.cmp-search {
+  min-height: 2.6rem;
+  padding: 0 0.85rem;
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  background: rgb(0 0 0 / 0.25);
+  font-size: 0.9rem;
+  color: var(--m-text);
+}
+.cmp-search::placeholder {
+  color: #8d97aa;
+}
+.cmp-search:focus-visible {
+  border-color: var(--m-accent);
+  outline: 2px solid var(--m-accent);
+  outline-offset: 1px;
+}
+.cmp-pick-list {
+  display: flex;
+  max-height: 26rem;
+  flex-direction: column;
+  gap: 0.1rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.cmp-pick-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: var(--m-text);
+  transition: background-color 0.2s;
+}
+.cmp-pick-item:hover {
+  background-color: rgb(127 214 255 / 0.1);
+  color: #fff;
+}
+.cmp-pick-item:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: -2px;
+}
+.cmp-pick-games {
+  display: flex;
+  flex: none;
+  gap: 0.3rem;
+}
+.cmp-empty {
+  padding: 0.8rem;
+  border: 1px dashed rgb(255 255 255 / 0.18);
+  border-radius: 5px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--m-dim);
+}
+
+/* ── One thing side by side ───────────────────────────────────────────────────────────────── */
+.cmp-crumb:hover {
+  color: #fff;
+}
+.cmp-hero .m-title {
+  margin-top: 0.4rem;
+}
+.cmp-hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.cmp-cols {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+.cmp-col {
+  padding: 1rem 1.1rem 1.1rem;
+  border-top: 3px solid var(--c);
+}
+.cmp-col-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.8rem;
+}
+.cmp-col-name {
+  font-size: 24px;
+}
+.cmp-status {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #c8f0ff;
+}
+.cmp-status:is([data-status="omitted"], [data-status="absent"], [data-status="undocumented"]) {
+  color: #9ca6b9;
+}
+.cmp-status[data-status="not_yet_reached"] {
+  color: #ffd75e;
+}
+.cmp-figure {
+  display: flex;
+  height: 15rem;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 0.8rem;
+  background: radial-gradient(ellipse at 50% 70%, rgb(127 214 255 / 0.14), transparent 70%);
+}
+.cmp-figure img {
+  width: auto;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 18px rgb(0 0 0 / 0.8));
+}
+.cmp-telling,
+.cmp-col > .cmp-empty {
+  margin-top: 0.85rem;
+}
+.cmp-how {
+  margin-bottom: 0.3rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #c8f0ff;
+}
+.cmp-role {
+  margin-bottom: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--m-accent);
+}
+.cmp-other {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--m-line);
+}
+.cmp-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* What changes, and what it's connected to: side by side where there's room. */
+.cmp-after {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (min-width: 90rem) {
+  .cmp-after {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  }
+}
+.cmp-after-part {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.cmp-section {
+  font-size: 24px;
+}
+.cmp-section-count {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--m-dim);
+  text-shadow: none;
+}
+.cmp-kinds {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-bottom: 0.4rem;
+}
+.cmp-kind {
+  margin-top: 0.3rem;
+}
+
+.cmp-links {
+  padding: 1rem 1.1rem 0.6rem;
+}
+.cmp-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.3rem;
+  font-size: 0.8rem;
+  color: var(--m-dim);
+}
+.cmp-key > li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.cmp-yes {
+  color: var(--m-accent);
+}
+.cmp-maybe {
+  color: #ffd75e;
+}
+.cmp-no {
+  color: #e8edf6;
+}
+.cmp-na {
+  color: #6f7a8c;
+}
+.cmp-table-wrap {
+  margin-top: 0.8rem;
+  overflow-x: auto;
+}
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.cmp-table :is(th, td) {
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid rgb(255 255 255 / 0.06);
+}
+.cmp-table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+.cmp-table thead th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--m-dim);
+}
+.cmp-table thead th:first-child,
+.cmp-table tbody th {
+  text-align: left;
+}
+.cmp-table td {
+  text-align: center;
+}
+.cmp-table td:last-child {
+  text-align: right;
+}
+.cmp-link-name {
+  color: var(--m-text);
+}
+.cmp-link-name:hover {
+  color: var(--m-accent);
+}
+.cmp-link-name:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.cmp-link-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #9ca6b9;
+}
