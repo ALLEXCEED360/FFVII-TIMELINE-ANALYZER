@@ -106,7 +106,9 @@ test.describe("reduced motion", () => {
 
 test("keyboard focus is always visible", async ({ page }) => {
   await page.goto("/archive");
-  await expect(page.getByRole("heading", { level: 1, name: "Archive" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "The games, chapter by chapter" }),
+  ).toBeVisible();
   // Walk the first stops of the page and check each shows a focus outline.
   for (let i = 0; i < 15; i += 1) {
     await page.keyboard.press("Tab");
@@ -177,7 +179,9 @@ test("the home menu is driven with the arrow keys", async ({ page }) => {
   await page.keyboard.press("ArrowUp");
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/archive$/);
-  await expect(page.getByRole("heading", { level: 1, name: "Archive" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "The games, chapter by chapter" }),
+  ).toBeVisible();
 });
 
 test.describe("title screen", () => {

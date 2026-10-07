@@ -6,9 +6,9 @@ import { titleShort } from "../../lib/reference";
 export type QuestionKind = "needs_footage" | "not_in_dataset" | "structure";
 
 export const QUESTION_KIND_LABELS: Record<QuestionKind, string> = {
-  needs_footage: "Needs checking against footage",
-  not_in_dataset: "Not yet in the dataset",
-  structure: "Structure",
+  needs_footage: "To check against video of the game",
+  not_in_dataset: "Not in the archive yet",
+  structure: "How the games are divided",
 };
 
 export const SOURCE_KIND_LABELS: Record<string, string> = {
@@ -36,15 +36,22 @@ export const EVIDENCE_LEVELS = [
 ] as const;
 
 export const CERTAINTY_LABELS = {
-  stated: "Stated",
-  inferred: "Inferred",
-  ambiguous: "Left open",
+  stated: "Shown or said outright",
+  inferred: "Worked out from what's shown",
+  ambiguous: "Left open by the game",
+} as const;
+
+/** The colour of each, for its dot and bar. */
+export const CERTAINTY_COLORS = {
+  stated: "#8ef0c6",
+  inferred: "#a9b3c6",
+  ambiguous: "#f2c94c",
 } as const;
 
 export const CERTAINTY_DESCRIPTIONS = {
-  stated: "The title shows or says it directly.",
-  inferred: "Derived from stated facts; the note shows the reasoning.",
-  ambiguous: "The title deliberately leaves it open; the note says what is shown.",
+  stated: "The game shows it or says it directly.",
+  inferred: "Not said outright, but follows from what is; each says how.",
+  ambiguous: "The game leaves it open on purpose; each says what is shown, without guessing.",
 } as const;
 
 /** Titles not yet in the archive (canon-and-sources.md §2): "future content". */
@@ -67,7 +74,7 @@ export function unitLabel(key: string, name: string): string {
 export function structureOf(title: CatalogueTitle): string {
   if (title.code === "og") {
     const discs = new Set(title.units.map((u) => u.disc)).size;
-    return `${String(title.units.length)} story segments on ${String(discs)} discs`;
+    return `${String(title.units.length)} parts on ${String(discs)} discs`;
   }
   const chapters = title.units.filter((u) => /^\d+$/.test(u.key)).length;
   const parts = title.units.length - chapters;
@@ -78,6 +85,21 @@ export function structureOf(title: CatalogueTitle): string {
         ? " and an unnumbered part"
         : ` and ${String(parts)} unnumbered parts`;
   return `${String(chapters)} chapters${extra}`;
+}
+
+/** A unit's number on its chapter-select row: the chapter, or its place on its disc. */
+export function unitNumber(title: CatalogueTitle, key: string): string {
+  if (/^\d+$/.test(key)) return key;
+  if (title.code !== "og") return "✦";
+  const unit = title.units.find((u) => u.key === key);
+  const disc = title.units.filter((u) => u.disc === unit?.disc);
+  return String(disc.findIndex((u) => u.key === key) + 1);
+}
+
+/** How much a unit shows, in words. */
+export function shownText(subjects: number): string {
+  if (subjects === 0) return "Nothing recorded yet";
+  return subjects === 1 ? "Shows 1 person or thing" : `Shows ${String(subjects)} people and things`;
 }
 
 /** The Remake-series titles that retell an original segment. */

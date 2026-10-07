@@ -4,2264 +4,2686 @@
  */
 
 export interface paths {
-    "/health": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Whether the API and its database are up */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /** @enum {string} */
-                            status: "ok";
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  "/health": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/reference": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Titles, original segments, arcs, eras and worlds
-         * @description Everything needed to label and lay out the rest of the data. It changes only when the dataset is redeployed.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
+    /** Whether the API and its database are up */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              /** @enum {string} */
+              status: "ok";
             };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            titles: {
-                                /** @enum {string} */
-                                code: "og" | "remake" | "intermission" | "rebirth";
-                                name: string;
-                                shortName: string;
-                                released: string;
-                                /** @enum {string} */
-                                series: "original" | "remake";
-                                units: {
-                                    key: string;
-                                    name: string;
-                                    position: number;
-                                }[];
-                                /** @description The original segments this title retells; null if it retells none. */
-                                coverage: {
-                                    from: string;
-                                    to: string;
-                                    segments: string[];
-                                    notes: string | null;
-                                } | null;
-                            }[];
-                            segments: {
-                                id: string;
-                                name: string;
-                                disc: number;
-                                summary: string;
-                            }[];
-                            arcs: {
-                                id: string;
-                                name: string;
-                                summary: string;
-                                og: {
-                                    from: string;
-                                    to: string;
-                                };
-                                chapters: {
-                                    [key: string]: (number)[];
-                                };
-                            }[];
-                            eras: {
-                                id: string;
-                                name: string;
-                                start: number;
-                                end: number;
-                                weight: number;
-                            }[];
-                            worlds: {
-                                id: string;
-                                name: string;
-                                summary: string;
-                                firstShown: ({
-                                    /** @enum {string} */
-                                    title: "og";
-                                    disc: number;
-                                    segment: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    chapter: number;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    part: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                }) | null;
-                                branchesFrom: string | null;
-                                sources: ({
-                                    /** @enum {string} */
-                                    title: "og";
-                                    disc: number;
-                                    segment: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    chapter: number;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    part: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                })[] | null;
-                                /** @enum {string|null} */
-                                certainty: "stated" | "inferred" | "ambiguous" | null;
-                                notes: string | null;
-                            }[];
-                        };
-                    };
-                };
-            };
+          };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+      };
     };
-    "/entities": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List entities, optionally one kind or only those a title shows */
-        get: {
-            parameters: {
-                query?: {
-                    kind?: "character" | "event" | "location" | "organization";
-                    /** @description Only entities this title shows. */
-                    title?: "og" | "remake" | "intermission" | "rebirth";
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            items: {
-                                id: string;
-                                /** @enum {string} */
-                                kind: "character" | "event" | "location" | "organization";
-                                name: string;
-                                summary: string;
-                                /** @description Titles it appears in. */
-                                titles: ("og" | "remake" | "intermission" | "rebirth")[];
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/reference": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/entities/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** One entity: its appearances in every title, differences and relationships */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description An entity ID, e.g. `character_cloud_strife`. */
-                    id: string;
+    /**
+     * Titles, original segments, arcs, eras and worlds
+     * @description Everything needed to label and lay out the rest of the data. It changes only when the dataset is redeployed.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              titles: {
+                /** @enum {string} */
+                code: "og" | "remake" | "intermission" | "rebirth";
+                name: string;
+                shortName: string;
+                released: string;
+                /** @enum {string} */
+                series: "original" | "remake";
+                units: {
+                  key: string;
+                  name: string;
+                  position: number;
+                }[];
+                /** @description The original segments this title retells; null if it retells none. */
+                coverage: {
+                  from: string;
+                  to: string;
+                  segments: string[];
+                  notes: string | null;
+                } | null;
+              }[];
+              segments: {
+                id: string;
+                name: string;
+                disc: number;
+                summary: string;
+              }[];
+              arcs: {
+                id: string;
+                name: string;
+                summary: string;
+                og: {
+                  from: string;
+                  to: string;
                 };
-                cookie?: never;
+                chapters: {
+                  [key: string]: number[];
+                };
+              }[];
+              eras: {
+                id: string;
+                name: string;
+                start: number;
+                end: number;
+                weight: number;
+              }[];
+              worlds: {
+                id: string;
+                name: string;
+                summary: string;
+                firstShown:
+                  | (
+                      | {
+                          /** @enum {string} */
+                          title: "og";
+                          disc: number;
+                          segment: string;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        }
+                      | {
+                          /** @enum {string} */
+                          title: "remake" | "intermission" | "rebirth";
+                          chapter: number;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        }
+                      | {
+                          /** @enum {string} */
+                          title: "remake" | "intermission" | "rebirth";
+                          part: string;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        }
+                    )
+                  | null;
+                branchesFrom: string | null;
+                sources:
+                  | (
+                      | {
+                          /** @enum {string} */
+                          title: "og";
+                          disc: number;
+                          segment: string;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        }
+                      | {
+                          /** @enum {string} */
+                          title: "remake" | "intermission" | "rebirth";
+                          chapter: number;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        }
+                      | {
+                          /** @enum {string} */
+                          title: "remake" | "intermission" | "rebirth";
+                          part: string;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        }
+                    )[]
+                  | null;
+                /** @enum {string|null} */
+                certainty: "stated" | "inferred" | "ambiguous" | null;
+                notes: string | null;
+              }[];
             };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/entities": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** List entities, optionally one kind or only those a title shows */
+    get: {
+      parameters: {
+        query?: {
+          kind?: "character" | "event" | "location" | "organization";
+          /** @description Only entities this title shows. */
+          title?: "og" | "remake" | "intermission" | "rebirth";
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              items: {
+                id: string;
+                /** @enum {string} */
+                kind: "character" | "event" | "location" | "organization";
+                name: string;
+                summary: string;
+                /** @description Titles it appears in. */
+                titles: ("og" | "remake" | "intermission" | "rebirth")[];
+              }[];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/entities/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** One entity: its appearances in every title, differences and relationships */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description An entity ID, e.g. `character_cloud_strife`. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              id: string;
+              /** @enum {string} */
+              kind: "character" | "event" | "location" | "organization";
+              name: string;
+              aliases: string[];
+              summary: string;
+              notes: string | null;
+              ogSegmentId: string | null;
+              event: {
+                when:
+                  | (
+                      | {
+                          year: number;
+                          /** @enum {boolean} */
+                          approx?: true;
+                        }
+                      | {
+                          between: (
+                            | {
+                                year: number;
+                                /** @enum {boolean} */
+                                approx?: true;
+                              }
+                            | {
+                                year: number;
+                                /** @enum {boolean} */
+                                approx?: true;
+                              }
+                          )[];
+                        }
+                    )
+                  | {
+                      start:
+                        | {
+                            year: number;
+                            /** @enum {boolean} */
+                            approx?: true;
+                          }
+                        | {
+                            between: (
+                              | {
+                                  year: number;
+                                  /** @enum {boolean} */
+                                  approx?: true;
+                                }
+                              | {
+                                  year: number;
+                                  /** @enum {boolean} */
+                                  approx?: true;
+                                }
+                            )[];
+                          };
+                      end:
+                        | {
+                            year: number;
+                            /** @enum {boolean} */
+                            approx?: true;
+                          }
+                        | {
+                            between: (
+                              | {
+                                  year: number;
+                                  /** @enum {boolean} */
+                                  approx?: true;
+                                }
+                              | {
+                                  year: number;
+                                  /** @enum {boolean} */
+                                  approx?: true;
+                                }
+                            )[];
+                          };
                     };
-                    content: {
-                        "application/json": {
-                            id: string;
-                            /** @enum {string} */
-                            kind: "character" | "event" | "location" | "organization";
-                            name: string;
-                            aliases: string[];
-                            summary: string;
-                            notes: string | null;
-                            ogSegmentId: string | null;
-                            event: {
-                                when: ({
+                start: {
+                  earliest: number;
+                  latest: number;
+                };
+                end: {
+                  earliest: number;
+                  latest: number;
+                };
+                seq: number | null;
+                importance: number;
+                arc: {
+                  id: string;
+                  name: string;
+                };
+              } | null;
+              /** @description One per title and world, in release order. */
+              appearances: {
+                /** @enum {string} */
+                title: "og" | "remake" | "intermission" | "rebirth";
+                world: string;
+                /** @enum {string} */
+                status: "depicted" | "referenced" | "omitted";
+                summary: string;
+                role: string | null;
+                when:
+                  | (
+                      | (
+                          | {
+                              year: number;
+                              /** @enum {boolean} */
+                              approx?: true;
+                            }
+                          | {
+                              between: (
+                                | {
                                     year: number;
                                     /** @enum {boolean} */
                                     approx?: true;
-                                } | {
-                                    between: ({
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    })[];
-                                }) | {
-                                    start: {
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        between: ({
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        })[];
-                                    };
-                                    end: {
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        between: ({
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        })[];
-                                    };
-                                };
-                                start: {
-                                    earliest: number;
-                                    latest: number;
-                                };
-                                end: {
-                                    earliest: number;
-                                    latest: number;
-                                };
-                                seq: number | null;
-                                importance: number;
-                                arc: {
-                                    id: string;
-                                    name: string;
-                                };
-                            } | null;
-                            /** @description One per title and world, in release order. */
-                            appearances: {
-                                /** @enum {string} */
-                                title: "og" | "remake" | "intermission" | "rebirth";
-                                world: string;
-                                /** @enum {string} */
-                                status: "depicted" | "referenced" | "omitted";
-                                summary: string;
-                                role: string | null;
-                                when: (({
+                                  }
+                                | {
                                     year: number;
                                     /** @enum {boolean} */
                                     approx?: true;
-                                } | {
-                                    between: ({
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    })[];
-                                }) | {
-                                    start: {
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        between: ({
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        })[];
-                                    };
-                                    end: {
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        between: ({
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        })[];
-                                    };
-                                }) | null;
-                                playPosition: number | null;
-                                sources: ({
-                                    /** @enum {string} */
-                                    title: "og";
-                                    disc: number;
-                                    segment: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    chapter: number;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    part: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                })[];
-                                /** @enum {string} */
-                                certainty: "stated" | "inferred" | "ambiguous";
-                                notes: string | null;
-                                depictions: {
-                                    locator: {
-                                        /** @enum {string} */
-                                        title: "og";
-                                        disc: number;
-                                        segment: string;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    } | {
-                                        /** @enum {string} */
-                                        title: "remake" | "intermission" | "rebirth";
-                                        chapter: number;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    } | {
-                                        /** @enum {string} */
-                                        title: "remake" | "intermission" | "rebirth";
-                                        part: string;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    };
-                                    /** @enum {string} */
-                                    framing: "direct" | "flashback" | "false_account" | "disputed_account" | "vision" | "mention" | "glimpse";
-                                    seq: number | null;
-                                    isPrimary: boolean;
-                                    note: string | null;
-                                    playPosition: number;
-                                }[];
-                            }[];
-                            differences: {
-                                id: string;
-                                key: string;
-                                from: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                };
-                                to: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                };
-                                /** @enum {string} */
-                                category: "presentation" | "participants" | "setting" | "chronology" | "outcome" | "role" | "relationship" | "context" | "gameplay";
-                                /** @enum {string} */
-                                magnitude: "minor" | "major";
-                                summary: string;
-                                sources: ({
-                                    /** @enum {string} */
-                                    title: "og";
-                                    disc: number;
-                                    segment: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    chapter: number;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    part: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                })[];
-                                /** @enum {string} */
-                                certainty: "stated" | "inferred" | "ambiguous";
-                                notes: string | null;
-                                related: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                }[];
-                            }[];
-                            relationships: {
-                                id: string;
-                                /** @enum {string} */
-                                type: "parent_of" | "sibling_of" | "spouse_of" | "member_of" | "leads" | "part_of" | "hometown" | "lives_in" | "based_at" | "controls" | "participated_in" | "occurred_at" | "sub_event_of" | "killed" | "caused" | "experimented_on" | "acted_through";
-                                /** @enum {string} */
-                                category: "structural" | "event" | "causal";
-                                /** @enum {string} */
-                                direction: "out" | "in";
-                                /** @description Read from this entity's side, e.g. `took part in` or `killed by`. */
-                                label: string;
-                                other: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                };
-                                attributes: {
-                                    [key: string]: unknown;
-                                };
-                                from: (({
+                                  }
+                              )[];
+                            }
+                        )
+                      | {
+                          start:
+                            | {
+                                year: number;
+                                /** @enum {boolean} */
+                                approx?: true;
+                              }
+                            | {
+                                between: (
+                                  | {
+                                      year: number;
+                                      /** @enum {boolean} */
+                                      approx?: true;
+                                    }
+                                  | {
+                                      year: number;
+                                      /** @enum {boolean} */
+                                      approx?: true;
+                                    }
+                                )[];
+                              };
+                          end:
+                            | {
+                                year: number;
+                                /** @enum {boolean} */
+                                approx?: true;
+                              }
+                            | {
+                                between: (
+                                  | {
+                                      year: number;
+                                      /** @enum {boolean} */
+                                      approx?: true;
+                                    }
+                                  | {
+                                      year: number;
+                                      /** @enum {boolean} */
+                                      approx?: true;
+                                    }
+                                )[];
+                              };
+                        }
+                    )
+                  | null;
+                playPosition: number | null;
+                sources: (
+                  | {
+                      /** @enum {string} */
+                      title: "og";
+                      disc: number;
+                      segment: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      chapter: number;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      part: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                )[];
+                /** @enum {string} */
+                certainty: "stated" | "inferred" | "ambiguous";
+                notes: string | null;
+                depictions: {
+                  locator:
+                    | {
+                        /** @enum {string} */
+                        title: "og";
+                        disc: number;
+                        segment: string;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                    | {
+                        /** @enum {string} */
+                        title: "remake" | "intermission" | "rebirth";
+                        chapter: number;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                    | {
+                        /** @enum {string} */
+                        title: "remake" | "intermission" | "rebirth";
+                        part: string;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      };
+                  /** @enum {string} */
+                  framing:
+                    | "direct"
+                    | "flashback"
+                    | "false_account"
+                    | "disputed_account"
+                    | "vision"
+                    | "mention"
+                    | "glimpse";
+                  seq: number | null;
+                  isPrimary: boolean;
+                  note: string | null;
+                  playPosition: number;
+                }[];
+              }[];
+              differences: {
+                id: string;
+                key: string;
+                from: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                };
+                to: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                };
+                /** @enum {string} */
+                category:
+                  | "presentation"
+                  | "participants"
+                  | "setting"
+                  | "chronology"
+                  | "outcome"
+                  | "role"
+                  | "relationship"
+                  | "context"
+                  | "gameplay";
+                /** @enum {string} */
+                magnitude: "minor" | "major";
+                summary: string;
+                sources: (
+                  | {
+                      /** @enum {string} */
+                      title: "og";
+                      disc: number;
+                      segment: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      chapter: number;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      part: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                )[];
+                /** @enum {string} */
+                certainty: "stated" | "inferred" | "ambiguous";
+                notes: string | null;
+                related: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                }[];
+              }[];
+              relationships: {
+                id: string;
+                /** @enum {string} */
+                type:
+                  | "parent_of"
+                  | "sibling_of"
+                  | "spouse_of"
+                  | "member_of"
+                  | "leads"
+                  | "part_of"
+                  | "hometown"
+                  | "lives_in"
+                  | "based_at"
+                  | "controls"
+                  | "participated_in"
+                  | "occurred_at"
+                  | "sub_event_of"
+                  | "killed"
+                  | "caused"
+                  | "experimented_on"
+                  | "acted_through";
+                /** @enum {string} */
+                category: "structural" | "event" | "causal";
+                /** @enum {string} */
+                direction: "out" | "in";
+                /** @description Read from this entity's side, e.g. `took part in` or `killed by`. */
+                label: string;
+                other: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                };
+                attributes: {
+                  [key: string]: unknown;
+                };
+                from:
+                  | (
+                      | (
+                          | {
+                              year: number;
+                              /** @enum {boolean} */
+                              approx?: true;
+                            }
+                          | {
+                              between: (
+                                | {
                                     year: number;
                                     /** @enum {boolean} */
                                     approx?: true;
-                                } | {
-                                    between: ({
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    })[];
-                                }) | {
-                                    event: string;
-                                    /** @enum {string} */
-                                    at?: "start" | "end";
-                                }) | null;
-                                until: (({
+                                  }
+                                | {
                                     year: number;
                                     /** @enum {boolean} */
                                     approx?: true;
-                                } | {
-                                    between: ({
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    })[];
-                                }) | {
-                                    event: string;
-                                    /** @enum {string} */
-                                    at?: "start" | "end";
-                                }) | null;
-                                titles: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                    sources: ({
-                                        /** @enum {string} */
-                                        title: "og";
-                                        disc: number;
-                                        segment: string;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    } | {
-                                        /** @enum {string} */
-                                        title: "remake" | "intermission" | "rebirth";
-                                        chapter: number;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    } | {
-                                        /** @enum {string} */
-                                        title: "remake" | "intermission" | "rebirth";
-                                        part: string;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    })[];
-                                    /** @enum {string} */
-                                    certainty: "stated" | "inferred" | "ambiguous";
-                                    notes: string | null;
-                                }[];
-                            }[];
-                            /** @description Research questions about this entity (facts awaiting a stronger check, gaps). */
-                            openQuestions: {
-                                id: string;
-                                /** @enum {string} */
-                                kind: "needs_footage" | "not_in_dataset" | "structure";
-                                summary: string;
-                                details: string;
-                                /** @description Where in the titles to look. */
-                                sources: ({
-                                    /** @enum {string} */
-                                    title: "og";
-                                    disc: number;
-                                    segment: string;
-                                    scene?: string;
+                                  }
+                              )[];
+                            }
+                        )
+                      | {
+                          event: string;
+                          /** @enum {string} */
+                          at?: "start" | "end";
+                        }
+                    )
+                  | null;
+                until:
+                  | (
+                      | (
+                          | {
+                              year: number;
+                              /** @enum {boolean} */
+                              approx?: true;
+                            }
+                          | {
+                              between: (
+                                | {
+                                    year: number;
                                     /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    chapter: number;
-                                    scene?: string;
+                                    approx?: true;
+                                  }
+                                | {
+                                    year: number;
                                     /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    part: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                })[];
-                                entities: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                }[];
-                                worlds: {
-                                    id: string;
-                                    name: string;
-                                }[];
-                            }[];
-                        };
-                    };
-                };
-                /** @description Default Response */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                            message: string;
-                        };
-                    };
-                };
+                                    approx?: true;
+                                  }
+                              )[];
+                            }
+                        )
+                      | {
+                          event: string;
+                          /** @enum {string} */
+                          at?: "start" | "end";
+                        }
+                    )
+                  | null;
+                titles: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                  sources: (
+                    | {
+                        /** @enum {string} */
+                        title: "og";
+                        disc: number;
+                        segment: string;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                    | {
+                        /** @enum {string} */
+                        title: "remake" | "intermission" | "rebirth";
+                        chapter: number;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                    | {
+                        /** @enum {string} */
+                        title: "remake" | "intermission" | "rebirth";
+                        part: string;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                  )[];
+                  /** @enum {string} */
+                  certainty: "stated" | "inferred" | "ambiguous";
+                  notes: string | null;
+                }[];
+              }[];
+              /** @description Research questions about this entity (facts awaiting a stronger check, gaps). */
+              openQuestions: {
+                id: string;
+                /** @enum {string} */
+                kind: "needs_footage" | "not_in_dataset" | "structure";
+                summary: string;
+                details: string;
+                /** @description Where in the titles to look. */
+                sources: (
+                  | {
+                      /** @enum {string} */
+                      title: "og";
+                      disc: number;
+                      segment: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      chapter: number;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      part: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                )[];
+                entities: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                }[];
+                worlds: {
+                  id: string;
+                  name: string;
+                }[];
+              }[];
             };
+          };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: string;
+              message: string;
+            };
+          };
+        };
+      };
     };
-    "/timeline": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Events in in-universe order, with how each title shows them
-         * @description Year 0 is the year the main story begins; earlier years are negative. Events sort by (earliest year, seq, id). Only events shown in at least one of `titles` are returned, each with its appearances in those titles.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
-                    titles?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            items: {
-                                id: string;
-                                name: string;
-                                summary: string;
-                                importance: number;
-                                arcId: string;
-                                seq: number | null;
-                                start: {
-                                    earliest: number;
-                                    latest: number;
-                                };
-                                end: {
-                                    earliest: number;
-                                    latest: number;
-                                };
-                                appearances: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                    /** @enum {string} */
-                                    status: "depicted" | "referenced" | "omitted";
-                                    playPosition: number | null;
-                                    /** @enum {string|null} */
-                                    framing: "direct" | "flashback" | "false_account" | "disputed_account" | "vision" | "mention" | "glimpse" | null;
-                                    /** @description This title's own time, when it differs. */
-                                    start: {
-                                        earliest: number;
-                                        latest: number;
-                                    } | null;
-                                    end: {
-                                        earliest: number;
-                                        latest: number;
-                                    } | null;
-                                }[];
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/timeline": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/play-order/{title}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    /**
+     * Events in in-universe order, with how each title shows them
+     * @description Year 0 is the year the main story begins; earlier years are negative. Events sort by (earliest year, seq, id). Only events shown in at least one of `titles` are returned, each with its appearances in those titles.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+          titles?: string;
         };
-        /** What a title shows, in the order the player sees it */
-        get: {
-            parameters: {
-                query?: {
-                    world?: string;
-                    kind?: "character" | "event" | "location" | "organization";
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              items: {
+                id: string;
+                name: string;
+                summary: string;
+                importance: number;
+                arcId: string;
+                seq: number | null;
+                start: {
+                  earliest: number;
+                  latest: number;
                 };
-                header?: never;
-                path: {
-                    title: "og" | "remake" | "intermission" | "rebirth";
+                end: {
+                  earliest: number;
+                  latest: number;
                 };
-                cookie?: never;
+                appearances: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                  /** @enum {string} */
+                  status: "depicted" | "referenced" | "omitted";
+                  playPosition: number | null;
+                  /** @enum {string|null} */
+                  framing:
+                    | "direct"
+                    | "flashback"
+                    | "false_account"
+                    | "disputed_account"
+                    | "vision"
+                    | "mention"
+                    | "glimpse"
+                    | null;
+                  /** @description This title's own time, when it differs. */
+                  start: {
+                    earliest: number;
+                    latest: number;
+                  } | null;
+                  end: {
+                    earliest: number;
+                    latest: number;
+                  } | null;
+                }[];
+              }[];
             };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            items: {
-                                id: string;
-                                /** @enum {string} */
-                                kind: "character" | "event" | "location" | "organization";
-                                name: string;
-                                /** @enum {string} */
-                                status: "depicted" | "referenced" | "omitted";
-                                playPosition: number;
-                                /** @enum {string} */
-                                framing: "direct" | "flashback" | "false_account" | "disputed_account" | "vision" | "mention" | "glimpse";
-                                locator: {
-                                    /** @enum {string} */
-                                    title: "og";
-                                    disc: number;
-                                    segment: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    chapter: number;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    part: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                };
-                            }[];
-                        };
-                    };
-                };
-            };
+          };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+      };
     };
-    "/compare/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/play-order/{title}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** What a title shows, in the order the player sees it */
+    get: {
+      parameters: {
+        query?: {
+          world?: string;
+          kind?: "character" | "event" | "location" | "organization";
         };
-        /** How the chosen titles present one entity, side by side */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
-                    titles?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description An entity ID, e.g. `character_cloud_strife`. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
+        header?: never;
+        path: {
+          title: "og" | "remake" | "intermission" | "rebirth";
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              items: {
+                id: string;
+                /** @enum {string} */
+                kind: "character" | "event" | "location" | "organization";
+                name: string;
+                /** @enum {string} */
+                status: "depicted" | "referenced" | "omitted";
+                playPosition: number;
+                /** @enum {string} */
+                framing:
+                  | "direct"
+                  | "flashback"
+                  | "false_account"
+                  | "disputed_account"
+                  | "vision"
+                  | "mention"
+                  | "glimpse";
+                locator:
+                  | {
+                      /** @enum {string} */
+                      title: "og";
+                      disc: number;
+                      segment: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      chapter: number;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      part: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
                     };
-                    content: {
-                        "application/json": {
-                            entity: {
-                                id: string;
-                                /** @enum {string} */
-                                kind: "character" | "event" | "location" | "organization";
-                                name: string;
-                                aliases: string[];
-                                summary: string;
-                                notes: string | null;
-                                ogSegmentId: string | null;
-                                event: {
-                                    when: ({
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        between: ({
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        })[];
-                                    }) | {
-                                        start: {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            between: ({
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            } | {
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            })[];
-                                        };
-                                        end: {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            between: ({
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            } | {
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            })[];
-                                        };
-                                    };
-                                    start: {
-                                        earliest: number;
-                                        latest: number;
-                                    };
-                                    end: {
-                                        earliest: number;
-                                        latest: number;
-                                    };
-                                    seq: number | null;
-                                    importance: number;
-                                    arc: {
-                                        id: string;
-                                        name: string;
-                                    };
-                                } | null;
+              }[];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/compare/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** How the chosen titles present one entity, side by side */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+          titles?: string;
+        };
+        header?: never;
+        path: {
+          /** @description An entity ID, e.g. `character_cloud_strife`. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              entity: {
+                id: string;
+                /** @enum {string} */
+                kind: "character" | "event" | "location" | "organization";
+                name: string;
+                aliases: string[];
+                summary: string;
+                notes: string | null;
+                ogSegmentId: string | null;
+                event: {
+                  when:
+                    | (
+                        | {
+                            year: number;
+                            /** @enum {boolean} */
+                            approx?: true;
+                          }
+                        | {
+                            between: (
+                              | {
+                                  year: number;
+                                  /** @enum {boolean} */
+                                  approx?: true;
+                                }
+                              | {
+                                  year: number;
+                                  /** @enum {boolean} */
+                                  approx?: true;
+                                }
+                            )[];
+                          }
+                      )
+                    | {
+                        start:
+                          | {
+                              year: number;
+                              /** @enum {boolean} */
+                              approx?: true;
+                            }
+                          | {
+                              between: (
+                                | {
+                                    year: number;
+                                    /** @enum {boolean} */
+                                    approx?: true;
+                                  }
+                                | {
+                                    year: number;
+                                    /** @enum {boolean} */
+                                    approx?: true;
+                                  }
+                              )[];
                             };
-                            /** @description Appears in the Remake series but not in the original. */
-                            isNew: boolean;
-                            columns: {
-                                /** @enum {string} */
-                                title: "og" | "remake" | "intermission" | "rebirth";
-                                /**
-                                 * @description Stored (`depicted`, `referenced`, `omitted`) or derived (`not_yet_reached`, `undocumented`, `absent`) — docs/model/appearances.md §3.
-                                 * @enum {string}
-                                 */
-                                status: "depicted" | "referenced" | "omitted" | "not_yet_reached" | "undocumented" | "absent";
-                                /** @description A documented difference targets this title. */
-                                changed: boolean;
-                                /** @description The main-world appearance, if any. */
-                                appearance: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                    /** @enum {string} */
-                                    status: "depicted" | "referenced" | "omitted";
-                                    summary: string;
-                                    role: string | null;
-                                    when: (({
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        between: ({
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        })[];
-                                    }) | {
-                                        start: {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            between: ({
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            } | {
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            })[];
-                                        };
-                                        end: {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            between: ({
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            } | {
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            })[];
-                                        };
-                                    }) | null;
-                                    playPosition: number | null;
-                                    sources: ({
-                                        /** @enum {string} */
-                                        title: "og";
-                                        disc: number;
-                                        segment: string;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    } | {
-                                        /** @enum {string} */
-                                        title: "remake" | "intermission" | "rebirth";
-                                        chapter: number;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    } | {
-                                        /** @enum {string} */
-                                        title: "remake" | "intermission" | "rebirth";
-                                        part: string;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    })[];
-                                    /** @enum {string} */
-                                    certainty: "stated" | "inferred" | "ambiguous";
-                                    notes: string | null;
-                                    depictions: {
-                                        locator: {
-                                            /** @enum {string} */
-                                            title: "og";
-                                            disc: number;
-                                            segment: string;
-                                            scene?: string;
-                                            /** @enum {boolean} */
-                                            optional?: true;
-                                        } | {
-                                            /** @enum {string} */
-                                            title: "remake" | "intermission" | "rebirth";
-                                            chapter: number;
-                                            scene?: string;
-                                            /** @enum {boolean} */
-                                            optional?: true;
-                                        } | {
-                                            /** @enum {string} */
-                                            title: "remake" | "intermission" | "rebirth";
-                                            part: string;
-                                            scene?: string;
-                                            /** @enum {boolean} */
-                                            optional?: true;
-                                        };
-                                        /** @enum {string} */
-                                        framing: "direct" | "flashback" | "false_account" | "disputed_account" | "vision" | "mention" | "glimpse";
-                                        seq: number | null;
-                                        isPrimary: boolean;
-                                        note: string | null;
-                                        playPosition: number;
-                                    }[];
-                                } | null;
-                                otherWorlds: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                    /** @enum {string} */
-                                    status: "depicted" | "referenced" | "omitted";
-                                    summary: string;
-                                    role: string | null;
-                                    when: (({
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        between: ({
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        })[];
-                                    }) | {
-                                        start: {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            between: ({
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            } | {
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            })[];
-                                        };
-                                        end: {
-                                            year: number;
-                                            /** @enum {boolean} */
-                                            approx?: true;
-                                        } | {
-                                            between: ({
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            } | {
-                                                year: number;
-                                                /** @enum {boolean} */
-                                                approx?: true;
-                                            })[];
-                                        };
-                                    }) | null;
-                                    playPosition: number | null;
-                                    sources: ({
-                                        /** @enum {string} */
-                                        title: "og";
-                                        disc: number;
-                                        segment: string;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    } | {
-                                        /** @enum {string} */
-                                        title: "remake" | "intermission" | "rebirth";
-                                        chapter: number;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    } | {
-                                        /** @enum {string} */
-                                        title: "remake" | "intermission" | "rebirth";
-                                        part: string;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    })[];
-                                    /** @enum {string} */
-                                    certainty: "stated" | "inferred" | "ambiguous";
-                                    notes: string | null;
-                                    depictions: {
-                                        locator: {
-                                            /** @enum {string} */
-                                            title: "og";
-                                            disc: number;
-                                            segment: string;
-                                            scene?: string;
-                                            /** @enum {boolean} */
-                                            optional?: true;
-                                        } | {
-                                            /** @enum {string} */
-                                            title: "remake" | "intermission" | "rebirth";
-                                            chapter: number;
-                                            scene?: string;
-                                            /** @enum {boolean} */
-                                            optional?: true;
-                                        } | {
-                                            /** @enum {string} */
-                                            title: "remake" | "intermission" | "rebirth";
-                                            part: string;
-                                            scene?: string;
-                                            /** @enum {boolean} */
-                                            optional?: true;
-                                        };
-                                        /** @enum {string} */
-                                        framing: "direct" | "flashback" | "false_account" | "disputed_account" | "vision" | "mention" | "glimpse";
-                                        seq: number | null;
-                                        isPrimary: boolean;
-                                        note: string | null;
-                                        playPosition: number;
-                                    }[];
-                                }[];
-                            }[];
-                            /** @description Only those with both sides among the compared titles. */
-                            differences: {
-                                id: string;
-                                key: string;
-                                from: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                };
-                                to: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                };
-                                /** @enum {string} */
-                                category: "presentation" | "participants" | "setting" | "chronology" | "outcome" | "role" | "relationship" | "context" | "gameplay";
-                                /** @enum {string} */
-                                magnitude: "minor" | "major";
-                                summary: string;
-                                sources: ({
-                                    /** @enum {string} */
-                                    title: "og";
-                                    disc: number;
-                                    segment: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    chapter: number;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    part: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                })[];
-                                /** @enum {string} */
-                                certainty: "stated" | "inferred" | "ambiguous";
-                                notes: string | null;
-                                related: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                }[];
-                            }[];
-                            relationships: {
-                                id: string;
-                                /** @enum {string} */
-                                type: "parent_of" | "sibling_of" | "spouse_of" | "member_of" | "leads" | "part_of" | "hometown" | "lives_in" | "based_at" | "controls" | "participated_in" | "occurred_at" | "sub_event_of" | "killed" | "caused" | "experimented_on" | "acted_through";
-                                /** @enum {string} */
-                                category: "structural" | "event" | "causal";
-                                /** @enum {string} */
-                                direction: "out" | "in";
-                                /** @description Read from this entity's side, e.g. `took part in` or `killed by`. */
-                                label: string;
-                                other: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                };
-                                attributes: {
-                                    [key: string]: unknown;
-                                };
-                                from: (({
+                        end:
+                          | {
+                              year: number;
+                              /** @enum {boolean} */
+                              approx?: true;
+                            }
+                          | {
+                              between: (
+                                | {
                                     year: number;
                                     /** @enum {boolean} */
                                     approx?: true;
-                                } | {
-                                    between: ({
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    } | {
-                                        year: number;
-                                        /** @enum {boolean} */
-                                        approx?: true;
-                                    })[];
-                                }) | {
-                                    event: string;
-                                    /** @enum {string} */
-                                    at?: "start" | "end";
-                                }) | null;
-                                until: (({
+                                  }
+                                | {
                                     year: number;
                                     /** @enum {boolean} */
                                     approx?: true;
-                                } | {
-                                    between: ({
+                                  }
+                              )[];
+                            };
+                      };
+                  start: {
+                    earliest: number;
+                    latest: number;
+                  };
+                  end: {
+                    earliest: number;
+                    latest: number;
+                  };
+                  seq: number | null;
+                  importance: number;
+                  arc: {
+                    id: string;
+                    name: string;
+                  };
+                } | null;
+              };
+              /** @description Appears in the Remake series but not in the original. */
+              isNew: boolean;
+              columns: {
+                /** @enum {string} */
+                title: "og" | "remake" | "intermission" | "rebirth";
+                /**
+                 * @description Stored (`depicted`, `referenced`, `omitted`) or derived (`not_yet_reached`, `undocumented`, `absent`) — docs/model/appearances.md §3.
+                 * @enum {string}
+                 */
+                status:
+                  | "depicted"
+                  | "referenced"
+                  | "omitted"
+                  | "not_yet_reached"
+                  | "undocumented"
+                  | "absent";
+                /** @description A documented difference targets this title. */
+                changed: boolean;
+                /** @description The main-world appearance, if any. */
+                appearance: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                  /** @enum {string} */
+                  status: "depicted" | "referenced" | "omitted";
+                  summary: string;
+                  role: string | null;
+                  when:
+                    | (
+                        | (
+                            | {
+                                year: number;
+                                /** @enum {boolean} */
+                                approx?: true;
+                              }
+                            | {
+                                between: (
+                                  | {
+                                      year: number;
+                                      /** @enum {boolean} */
+                                      approx?: true;
+                                    }
+                                  | {
+                                      year: number;
+                                      /** @enum {boolean} */
+                                      approx?: true;
+                                    }
+                                )[];
+                              }
+                          )
+                        | {
+                            start:
+                              | {
+                                  year: number;
+                                  /** @enum {boolean} */
+                                  approx?: true;
+                                }
+                              | {
+                                  between: (
+                                    | {
                                         year: number;
                                         /** @enum {boolean} */
                                         approx?: true;
-                                    } | {
+                                      }
+                                    | {
                                         year: number;
                                         /** @enum {boolean} */
                                         approx?: true;
-                                    })[];
-                                }) | {
-                                    event: string;
-                                    /** @enum {string} */
-                                    at?: "start" | "end";
-                                }) | null;
-                                titles: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                    sources: ({
-                                        /** @enum {string} */
-                                        title: "og";
-                                        disc: number;
-                                        segment: string;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    } | {
-                                        /** @enum {string} */
-                                        title: "remake" | "intermission" | "rebirth";
-                                        chapter: number;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    } | {
-                                        /** @enum {string} */
-                                        title: "remake" | "intermission" | "rebirth";
-                                        part: string;
-                                        scene?: string;
-                                        /** @enum {boolean} */
-                                        optional?: true;
-                                    })[];
-                                    /** @enum {string} */
-                                    certainty: "stated" | "inferred" | "ambiguous";
-                                    notes: string | null;
-                                }[];
-                                /** @description Compared titles that show both ends of the relationship — the only titles that could establish it. */
-                                applicable: ("og" | "remake" | "intermission" | "rebirth")[];
-                                /** @description Every applicable title establishes it. */
-                                shared: boolean;
-                            }[];
-                        };
-                    };
-                };
-                /** @description Default Response */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                            message: string;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/differences": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Every documented difference between the chosen titles
-         * @description Events come first, in in-universe order; then other entities by name.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
-                    titles?: string;
-                    category?: "presentation" | "participants" | "setting" | "chronology" | "outcome" | "role" | "relationship" | "context" | "gameplay";
-                    magnitude?: "minor" | "major";
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            items: {
-                                id: string;
-                                key: string;
-                                from: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
+                                      }
+                                  )[];
                                 };
-                                to: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
+                            end:
+                              | {
+                                  year: number;
+                                  /** @enum {boolean} */
+                                  approx?: true;
+                                }
+                              | {
+                                  between: (
+                                    | {
+                                        year: number;
+                                        /** @enum {boolean} */
+                                        approx?: true;
+                                      }
+                                    | {
+                                        year: number;
+                                        /** @enum {boolean} */
+                                        approx?: true;
+                                      }
+                                  )[];
                                 };
-                                /** @enum {string} */
-                                category: "presentation" | "participants" | "setting" | "chronology" | "outcome" | "role" | "relationship" | "context" | "gameplay";
-                                /** @enum {string} */
-                                magnitude: "minor" | "major";
-                                summary: string;
-                                sources: ({
-                                    /** @enum {string} */
-                                    title: "og";
-                                    disc: number;
-                                    segment: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    chapter: number;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    part: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                })[];
-                                /** @enum {string} */
-                                certainty: "stated" | "inferred" | "ambiguous";
-                                notes: string | null;
-                                related: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                }[];
-                                entity: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
+                          }
+                      )
+                    | null;
+                  playPosition: number | null;
+                  sources: (
+                    | {
+                        /** @enum {string} */
+                        title: "og";
+                        disc: number;
+                        segment: string;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                    | {
+                        /** @enum {string} */
+                        title: "remake" | "intermission" | "rebirth";
+                        chapter: number;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                    | {
+                        /** @enum {string} */
+                        title: "remake" | "intermission" | "rebirth";
+                        part: string;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                  )[];
+                  /** @enum {string} */
+                  certainty: "stated" | "inferred" | "ambiguous";
+                  notes: string | null;
+                  depictions: {
+                    locator:
+                      | {
+                          /** @enum {string} */
+                          title: "og";
+                          disc: number;
+                          segment: string;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        }
+                      | {
+                          /** @enum {string} */
+                          title: "remake" | "intermission" | "rebirth";
+                          chapter: number;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        }
+                      | {
+                          /** @enum {string} */
+                          title: "remake" | "intermission" | "rebirth";
+                          part: string;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        };
+                    /** @enum {string} */
+                    framing:
+                      | "direct"
+                      | "flashback"
+                      | "false_account"
+                      | "disputed_account"
+                      | "vision"
+                      | "mention"
+                      | "glimpse";
+                    seq: number | null;
+                    isPrimary: boolean;
+                    note: string | null;
+                    playPosition: number;
+                  }[];
+                } | null;
+                otherWorlds: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                  /** @enum {string} */
+                  status: "depicted" | "referenced" | "omitted";
+                  summary: string;
+                  role: string | null;
+                  when:
+                    | (
+                        | (
+                            | {
+                                year: number;
+                                /** @enum {boolean} */
+                                approx?: true;
+                              }
+                            | {
+                                between: (
+                                  | {
+                                      year: number;
+                                      /** @enum {boolean} */
+                                      approx?: true;
+                                    }
+                                  | {
+                                      year: number;
+                                      /** @enum {boolean} */
+                                      approx?: true;
+                                    }
+                                )[];
+                              }
+                          )
+                        | {
+                            start:
+                              | {
+                                  year: number;
+                                  /** @enum {boolean} */
+                                  approx?: true;
+                                }
+                              | {
+                                  between: (
+                                    | {
+                                        year: number;
+                                        /** @enum {boolean} */
+                                        approx?: true;
+                                      }
+                                    | {
+                                        year: number;
+                                        /** @enum {boolean} */
+                                        approx?: true;
+                                      }
+                                  )[];
                                 };
-                            }[];
+                            end:
+                              | {
+                                  year: number;
+                                  /** @enum {boolean} */
+                                  approx?: true;
+                                }
+                              | {
+                                  between: (
+                                    | {
+                                        year: number;
+                                        /** @enum {boolean} */
+                                        approx?: true;
+                                      }
+                                    | {
+                                        year: number;
+                                        /** @enum {boolean} */
+                                        approx?: true;
+                                      }
+                                  )[];
+                                };
+                          }
+                      )
+                    | null;
+                  playPosition: number | null;
+                  sources: (
+                    | {
+                        /** @enum {string} */
+                        title: "og";
+                        disc: number;
+                        segment: string;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                    | {
+                        /** @enum {string} */
+                        title: "remake" | "intermission" | "rebirth";
+                        chapter: number;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                    | {
+                        /** @enum {string} */
+                        title: "remake" | "intermission" | "rebirth";
+                        part: string;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                  )[];
+                  /** @enum {string} */
+                  certainty: "stated" | "inferred" | "ambiguous";
+                  notes: string | null;
+                  depictions: {
+                    locator:
+                      | {
+                          /** @enum {string} */
+                          title: "og";
+                          disc: number;
+                          segment: string;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        }
+                      | {
+                          /** @enum {string} */
+                          title: "remake" | "intermission" | "rebirth";
+                          chapter: number;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
+                        }
+                      | {
+                          /** @enum {string} */
+                          title: "remake" | "intermission" | "rebirth";
+                          part: string;
+                          scene?: string;
+                          /** @enum {boolean} */
+                          optional?: true;
                         };
-                    };
+                    /** @enum {string} */
+                    framing:
+                      | "direct"
+                      | "flashback"
+                      | "false_account"
+                      | "disputed_account"
+                      | "vision"
+                      | "mention"
+                      | "glimpse";
+                    seq: number | null;
+                    isPrimary: boolean;
+                    note: string | null;
+                    playPosition: number;
+                  }[];
+                }[];
+              }[];
+              /** @description Only those with both sides among the compared titles. */
+              differences: {
+                id: string;
+                key: string;
+                from: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
                 };
+                to: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                };
+                /** @enum {string} */
+                category:
+                  | "presentation"
+                  | "participants"
+                  | "setting"
+                  | "chronology"
+                  | "outcome"
+                  | "role"
+                  | "relationship"
+                  | "context"
+                  | "gameplay";
+                /** @enum {string} */
+                magnitude: "minor" | "major";
+                summary: string;
+                sources: (
+                  | {
+                      /** @enum {string} */
+                      title: "og";
+                      disc: number;
+                      segment: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      chapter: number;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      part: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                )[];
+                /** @enum {string} */
+                certainty: "stated" | "inferred" | "ambiguous";
+                notes: string | null;
+                related: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                }[];
+              }[];
+              relationships: {
+                id: string;
+                /** @enum {string} */
+                type:
+                  | "parent_of"
+                  | "sibling_of"
+                  | "spouse_of"
+                  | "member_of"
+                  | "leads"
+                  | "part_of"
+                  | "hometown"
+                  | "lives_in"
+                  | "based_at"
+                  | "controls"
+                  | "participated_in"
+                  | "occurred_at"
+                  | "sub_event_of"
+                  | "killed"
+                  | "caused"
+                  | "experimented_on"
+                  | "acted_through";
+                /** @enum {string} */
+                category: "structural" | "event" | "causal";
+                /** @enum {string} */
+                direction: "out" | "in";
+                /** @description Read from this entity's side, e.g. `took part in` or `killed by`. */
+                label: string;
+                other: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                };
+                attributes: {
+                  [key: string]: unknown;
+                };
+                from:
+                  | (
+                      | (
+                          | {
+                              year: number;
+                              /** @enum {boolean} */
+                              approx?: true;
+                            }
+                          | {
+                              between: (
+                                | {
+                                    year: number;
+                                    /** @enum {boolean} */
+                                    approx?: true;
+                                  }
+                                | {
+                                    year: number;
+                                    /** @enum {boolean} */
+                                    approx?: true;
+                                  }
+                              )[];
+                            }
+                        )
+                      | {
+                          event: string;
+                          /** @enum {string} */
+                          at?: "start" | "end";
+                        }
+                    )
+                  | null;
+                until:
+                  | (
+                      | (
+                          | {
+                              year: number;
+                              /** @enum {boolean} */
+                              approx?: true;
+                            }
+                          | {
+                              between: (
+                                | {
+                                    year: number;
+                                    /** @enum {boolean} */
+                                    approx?: true;
+                                  }
+                                | {
+                                    year: number;
+                                    /** @enum {boolean} */
+                                    approx?: true;
+                                  }
+                              )[];
+                            }
+                        )
+                      | {
+                          event: string;
+                          /** @enum {string} */
+                          at?: "start" | "end";
+                        }
+                    )
+                  | null;
+                titles: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                  sources: (
+                    | {
+                        /** @enum {string} */
+                        title: "og";
+                        disc: number;
+                        segment: string;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                    | {
+                        /** @enum {string} */
+                        title: "remake" | "intermission" | "rebirth";
+                        chapter: number;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                    | {
+                        /** @enum {string} */
+                        title: "remake" | "intermission" | "rebirth";
+                        part: string;
+                        scene?: string;
+                        /** @enum {boolean} */
+                        optional?: true;
+                      }
+                  )[];
+                  /** @enum {string} */
+                  certainty: "stated" | "inferred" | "ambiguous";
+                  notes: string | null;
+                }[];
+                /** @description Compared titles that show both ends of the relationship — the only titles that could establish it. */
+                applicable: ("og" | "remake" | "intermission" | "rebirth")[];
+                /** @description Every applicable title establishes it. */
+                shared: boolean;
+              }[];
             };
+          };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: string;
+              message: string;
+            };
+          };
+        };
+      };
     };
-    "/network/metrics": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Structure of the whole relationship graph: groups and degree centrality */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
-                    titles?: string;
-                    /** @description Comma-separated relationship categories (`structural,event,causal`). Defaults to all. */
-                    categories?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            nodeCount: number;
-                            edgeCount: number;
-                            /** @description Groups of entities connected to each other, largest first. */
-                            components: {
-                                size: number;
-                                members: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                }[];
-                            }[];
-                            /** @description Degree centrality, highest first — a dataset metric, not a ranking of characters. */
-                            centrality: {
-                                id: string;
-                                /** @enum {string} */
-                                kind: "character" | "event" | "location" | "organization";
-                                name: string;
-                                /** @description Distinct entities it's directly related to. */
-                                degree: number;
-                                /** @description Degree ÷ (entities − 1), 0–1. */
-                                centrality: number;
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/differences": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/network/path": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    /**
+     * Every documented difference between the chosen titles
+     * @description Events come first, in in-universe order; then other entities by name.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+          titles?: string;
+          category?:
+            | "presentation"
+            | "participants"
+            | "setting"
+            | "chronology"
+            | "outcome"
+            | "role"
+            | "relationship"
+            | "context"
+            | "gameplay";
+          magnitude?: "minor" | "major";
         };
-        /**
-         * The strongest chain of relationships between two entities
-         * @description Weighted shortest path (docs/model/relationships.md §6): family, killings, causes and experiments are strong links; membership and residence are weak. Use `avoid` to route around large hubs.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description An entity ID, e.g. `character_cloud_strife`. */
-                    from: string;
-                    /** @description An entity ID, e.g. `character_cloud_strife`. */
-                    to: string;
-                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
-                    titles?: string;
-                    /** @description Comma-separated relationship categories (`structural,event,causal`). Defaults to all. */
-                    categories?: string;
-                    /** @description Comma-separated entity IDs to leave out, e.g. to find a path that avoids them. */
-                    avoid?: string;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              items: {
+                id: string;
+                key: string;
+                from: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
                 };
-                header?: never;
-                path?: never;
-                cookie?: never;
+                to: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                };
+                /** @enum {string} */
+                category:
+                  | "presentation"
+                  | "participants"
+                  | "setting"
+                  | "chronology"
+                  | "outcome"
+                  | "role"
+                  | "relationship"
+                  | "context"
+                  | "gameplay";
+                /** @enum {string} */
+                magnitude: "minor" | "major";
+                summary: string;
+                sources: (
+                  | {
+                      /** @enum {string} */
+                      title: "og";
+                      disc: number;
+                      segment: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      chapter: number;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      part: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                )[];
+                /** @enum {string} */
+                certainty: "stated" | "inferred" | "ambiguous";
+                notes: string | null;
+                related: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                }[];
+                entity: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                };
+              }[];
             };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            found: boolean;
-                            /** @description Sum of the weights along the path. */
-                            cost: number | null;
-                            /** @description From start to end. */
-                            nodes: {
-                                id: string;
-                                /** @enum {string} */
-                                kind: "character" | "event" | "location" | "organization";
-                                name: string;
-                            }[];
-                            /** @description `edges[i]` joins `nodes[i]` and `nodes[i + 1]`. */
-                            edges: {
-                                id: string;
-                                source: string;
-                                target: string;
-                                /** @enum {string} */
-                                type: "parent_of" | "sibling_of" | "spouse_of" | "member_of" | "leads" | "part_of" | "hometown" | "lives_in" | "based_at" | "controls" | "participated_in" | "occurred_at" | "sub_event_of" | "killed" | "caused" | "experimented_on" | "acted_through";
-                                /** @enum {string} */
-                                category: "structural" | "event" | "causal";
-                                /** @description Read from source to target, e.g. `took part in`. */
-                                label: string;
-                                /** @description Cost in shortest-path search; lower is a stronger link. */
-                                weight: number;
-                                /** @description Which requested titles establish it. */
-                                titles: ("og" | "remake" | "intermission" | "rebirth")[];
-                            }[];
-                        };
-                    };
-                };
-                /** @description Default Response */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                            message: string;
-                        };
-                    };
-                };
-                /** @description Default Response */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                            message: string;
-                        };
-                    };
-                };
-            };
+          };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+      };
     };
-    "/network/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/network/metrics": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Structure of the whole relationship graph: groups and degree centrality */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+          titles?: string;
+          /** @description Comma-separated relationship categories (`structural,event,causal`). Defaults to all. */
+          categories?: string;
         };
-        /**
-         * An entity's neighbourhood in the relationship graph
-         * @description Every entity within `depth` relationships of `id`, and the relationships among them, following only relationships that one of `titles` establishes, in the chosen `categories`.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    depth?: number;
-                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
-                    titles?: string;
-                    /** @description Comma-separated relationship categories (`structural,event,causal`). Defaults to all. */
-                    categories?: string;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              nodeCount: number;
+              edgeCount: number;
+              /** @description Groups of entities connected to each other, largest first. */
+              components: {
+                size: number;
+                members: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                }[];
+              }[];
+              /** @description Degree centrality, highest first — a dataset metric, not a ranking of characters. */
+              centrality: {
+                id: string;
+                /** @enum {string} */
+                kind: "character" | "event" | "location" | "organization";
+                name: string;
+                /** @description Distinct entities it's directly related to. */
+                degree: number;
+                /** @description Degree ÷ (entities − 1), 0–1. */
+                centrality: number;
+              }[];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/network/path": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * The strongest chain of relationships between two entities
+     * @description Weighted shortest path (docs/model/relationships.md §6): family, killings, causes and experiments are strong links; membership and residence are weak. Use `avoid` to route around large hubs.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description An entity ID, e.g. `character_cloud_strife`. */
+          from: string;
+          /** @description An entity ID, e.g. `character_cloud_strife`. */
+          to: string;
+          /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+          titles?: string;
+          /** @description Comma-separated relationship categories (`structural,event,causal`). Defaults to all. */
+          categories?: string;
+          /** @description Comma-separated entity IDs to leave out, e.g. to find a path that avoids them. */
+          avoid?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              found: boolean;
+              /** @description Sum of the weights along the path. */
+              cost: number | null;
+              /** @description From start to end. */
+              nodes: {
+                id: string;
+                /** @enum {string} */
+                kind: "character" | "event" | "location" | "organization";
+                name: string;
+              }[];
+              /** @description `edges[i]` joins `nodes[i]` and `nodes[i + 1]`. */
+              edges: {
+                id: string;
+                source: string;
+                target: string;
+                /** @enum {string} */
+                type:
+                  | "parent_of"
+                  | "sibling_of"
+                  | "spouse_of"
+                  | "member_of"
+                  | "leads"
+                  | "part_of"
+                  | "hometown"
+                  | "lives_in"
+                  | "based_at"
+                  | "controls"
+                  | "participated_in"
+                  | "occurred_at"
+                  | "sub_event_of"
+                  | "killed"
+                  | "caused"
+                  | "experimented_on"
+                  | "acted_through";
+                /** @enum {string} */
+                category: "structural" | "event" | "causal";
+                /** @description Read from source to target, e.g. `took part in`. */
+                label: string;
+                /** @description Cost in shortest-path search; lower is a stronger link. */
+                weight: number;
+                /** @description Which requested titles establish it. */
+                titles: ("og" | "remake" | "intermission" | "rebirth")[];
+              }[];
+            };
+          };
+        };
+        /** @description Default Response */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: string;
+              message: string;
+            };
+          };
+        };
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: string;
+              message: string;
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/network/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * An entity's neighbourhood in the relationship graph
+     * @description Every entity within `depth` relationships of `id`, and the relationships among them, following only relationships that one of `titles` establishes, in the chosen `categories`.
+     */
+    get: {
+      parameters: {
+        query?: {
+          depth?: number;
+          /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+          titles?: string;
+          /** @description Comma-separated relationship categories (`structural,event,causal`). Defaults to all. */
+          categories?: string;
+        };
+        header?: never;
+        path: {
+          /** @description An entity ID, e.g. `character_cloud_strife`. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              center: string;
+              nodes: {
+                id: string;
+                /** @enum {string} */
+                kind: "character" | "event" | "location" | "organization";
+                name: string;
+                /** @description Steps from the centre. */
+                depth: number;
+              }[];
+              edges: {
+                id: string;
+                source: string;
+                target: string;
+                /** @enum {string} */
+                type:
+                  | "parent_of"
+                  | "sibling_of"
+                  | "spouse_of"
+                  | "member_of"
+                  | "leads"
+                  | "part_of"
+                  | "hometown"
+                  | "lives_in"
+                  | "based_at"
+                  | "controls"
+                  | "participated_in"
+                  | "occurred_at"
+                  | "sub_event_of"
+                  | "killed"
+                  | "caused"
+                  | "experimented_on"
+                  | "acted_through";
+                /** @enum {string} */
+                category: "structural" | "event" | "causal";
+                /** @description Read from source to target, e.g. `took part in`. */
+                label: string;
+                /** @description Cost in shortest-path search; lower is a stronger link. */
+                weight: number;
+                /** @description Which requested titles establish it. */
+                titles: ("og" | "remake" | "intermission" | "rebirth")[];
+              }[];
+            };
+          };
+        };
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: string;
+              message: string;
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/divergence": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Divergence points: events where the chosen titles differ */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+          titles?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              items: {
+                id: string;
+                name: string;
+                /** @description Earliest in-universe year; 0 is the year the story begins. */
+                start: number;
+                importance: number;
+                differences: number;
+                major: number;
+              }[];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/divergence/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Where the chosen titles — and optionally worlds — part ways around an event
+     * @description Events before the pivot form the trunk; from the pivot on, each title (and, with `worlds=true`, each other world it shows) is a branch. Each station is marked relative to the other branches: shared, changed, only here, not yet retold, omitted, not yet reached or undocumented.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
+          titles?: string;
+          /** @description Add other worlds as branches. */
+          worlds?: string;
+        };
+        header?: never;
+        path: {
+          /** @description An entity ID, e.g. `character_cloud_strife`. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              pivot: {
+                id: string;
+                name: string;
+                /** @description Earliest in-universe year; 0 is the year the story begins. */
+                start: number;
+                importance: number;
+              };
+              branches: {
+                key: string;
+                /** @enum {string} */
+                title: "og" | "remake" | "intermission" | "rebirth";
+                world: string;
+              }[];
+              /** @description Events before the pivot: the common history. */
+              trunk: {
+                event: {
+                  id: string;
+                  name: string;
+                  /** @description Earliest in-universe year; 0 is the year the story begins. */
+                  start: number;
+                  importance: number;
                 };
-                header?: never;
-                path: {
-                    /** @description An entity ID, e.g. `character_cloud_strife`. */
+                /** @description One per branch, in the order of `branches`; null if that branch doesn't show it. */
+                stations: ({
+                  /**
+                   * @description How this branch shows the event, relative to the other branches.
+                   * @enum {string}
+                   */
+                  marking:
+                    | "shared"
+                    | "changed"
+                    | "only_here"
+                    | "not_yet_retold"
+                    | "omitted"
+                    | "not_yet_reached"
+                    | "undocumented";
+                  differences: {
                     id: string;
+                    /** @enum {string} */
+                    category:
+                      | "presentation"
+                      | "participants"
+                      | "setting"
+                      | "chronology"
+                      | "outcome"
+                      | "role"
+                      | "relationship"
+                      | "context"
+                      | "gameplay";
+                    /** @enum {string} */
+                    magnitude: "minor" | "major";
+                  }[];
+                  /** @description Branches (`title/world`) that cover this part of the story but don't show it. */
+                  missingIn: string[];
+                } | null)[];
+              }[];
+              /** @description The pivot and everything after it, per branch. */
+              events: {
+                event: {
+                  id: string;
+                  name: string;
+                  /** @description Earliest in-universe year; 0 is the year the story begins. */
+                  start: number;
+                  importance: number;
                 };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            center: string;
-                            nodes: {
-                                id: string;
-                                /** @enum {string} */
-                                kind: "character" | "event" | "location" | "organization";
-                                name: string;
-                                /** @description Steps from the centre. */
-                                depth: number;
-                            }[];
-                            edges: {
-                                id: string;
-                                source: string;
-                                target: string;
-                                /** @enum {string} */
-                                type: "parent_of" | "sibling_of" | "spouse_of" | "member_of" | "leads" | "part_of" | "hometown" | "lives_in" | "based_at" | "controls" | "participated_in" | "occurred_at" | "sub_event_of" | "killed" | "caused" | "experimented_on" | "acted_through";
-                                /** @enum {string} */
-                                category: "structural" | "event" | "causal";
-                                /** @description Read from source to target, e.g. `took part in`. */
-                                label: string;
-                                /** @description Cost in shortest-path search; lower is a stronger link. */
-                                weight: number;
-                                /** @description Which requested titles establish it. */
-                                titles: ("og" | "remake" | "intermission" | "rebirth")[];
-                            }[];
-                        };
-                    };
-                };
-                /** @description Default Response */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                            message: string;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/divergence": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Divergence points: events where the chosen titles differ */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
-                    titles?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            items: {
-                                id: string;
-                                name: string;
-                                /** @description Earliest in-universe year; 0 is the year the story begins. */
-                                start: number;
-                                importance: number;
-                                differences: number;
-                                major: number;
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/divergence/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Where the chosen titles — and optionally worlds — part ways around an event
-         * @description Events before the pivot form the trunk; from the pivot on, each title (and, with `worlds=true`, each other world it shows) is a branch. Each station is marked relative to the other branches: shared, changed, only here, not yet retold, omitted, not yet reached or undocumented.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Comma-separated title codes (`og,remake,intermission,rebirth`). Defaults to all. */
-                    titles?: string;
-                    /** @description Add other worlds as branches. */
-                    worlds?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description An entity ID, e.g. `character_cloud_strife`. */
+                /** @description One per branch, in the order of `branches`; null if that branch doesn't show it. */
+                stations: ({
+                  /**
+                   * @description How this branch shows the event, relative to the other branches.
+                   * @enum {string}
+                   */
+                  marking:
+                    | "shared"
+                    | "changed"
+                    | "only_here"
+                    | "not_yet_retold"
+                    | "omitted"
+                    | "not_yet_reached"
+                    | "undocumented";
+                  differences: {
                     id: string;
-                };
-                cookie?: never;
+                    /** @enum {string} */
+                    category:
+                      | "presentation"
+                      | "participants"
+                      | "setting"
+                      | "chronology"
+                      | "outcome"
+                      | "role"
+                      | "relationship"
+                      | "context"
+                      | "gameplay";
+                    /** @enum {string} */
+                    magnitude: "minor" | "major";
+                  }[];
+                  /** @description Branches (`title/world`) that cover this part of the story but don't show it. */
+                  missingIn: string[];
+                } | null)[];
+              }[];
             };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            pivot: {
-                                id: string;
-                                name: string;
-                                /** @description Earliest in-universe year; 0 is the year the story begins. */
-                                start: number;
-                                importance: number;
-                            };
-                            branches: {
-                                key: string;
-                                /** @enum {string} */
-                                title: "og" | "remake" | "intermission" | "rebirth";
-                                world: string;
-                            }[];
-                            /** @description Events before the pivot: the common history. */
-                            trunk: {
-                                event: {
-                                    id: string;
-                                    name: string;
-                                    /** @description Earliest in-universe year; 0 is the year the story begins. */
-                                    start: number;
-                                    importance: number;
-                                };
-                                /** @description One per branch, in the order of `branches`; null if that branch doesn't show it. */
-                                stations: ({
-                                    /**
-                                     * @description How this branch shows the event, relative to the other branches.
-                                     * @enum {string}
-                                     */
-                                    marking: "shared" | "changed" | "only_here" | "not_yet_retold" | "omitted" | "not_yet_reached" | "undocumented";
-                                    differences: {
-                                        id: string;
-                                        /** @enum {string} */
-                                        category: "presentation" | "participants" | "setting" | "chronology" | "outcome" | "role" | "relationship" | "context" | "gameplay";
-                                        /** @enum {string} */
-                                        magnitude: "minor" | "major";
-                                    }[];
-                                    /** @description Branches (`title/world`) that cover this part of the story but don't show it. */
-                                    missingIn: string[];
-                                } | null)[];
-                            }[];
-                            /** @description The pivot and everything after it, per branch. */
-                            events: {
-                                event: {
-                                    id: string;
-                                    name: string;
-                                    /** @description Earliest in-universe year; 0 is the year the story begins. */
-                                    start: number;
-                                    importance: number;
-                                };
-                                /** @description One per branch, in the order of `branches`; null if that branch doesn't show it. */
-                                stations: ({
-                                    /**
-                                     * @description How this branch shows the event, relative to the other branches.
-                                     * @enum {string}
-                                     */
-                                    marking: "shared" | "changed" | "only_here" | "not_yet_retold" | "omitted" | "not_yet_reached" | "undocumented";
-                                    differences: {
-                                        id: string;
-                                        /** @enum {string} */
-                                        category: "presentation" | "participants" | "setting" | "chronology" | "outcome" | "role" | "relationship" | "context" | "gameplay";
-                                        /** @enum {string} */
-                                        magnitude: "minor" | "major";
-                                    }[];
-                                    /** @description Branches (`title/world`) that cover this part of the story but don't show it. */
-                                    missingIn: string[];
-                                } | null)[];
-                            }[];
-                        };
-                    };
-                };
-                /** @description Default Response */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                            message: string;
-                        };
-                    };
-                };
-            };
+          };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: string;
+              message: string;
+            };
+          };
+        };
+      };
     };
-    "/sources": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Every unit of every title, with how many citations point into it */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            titles: {
-                                /** @enum {string} */
-                                code: "og" | "remake" | "intermission" | "rebirth";
-                                units: {
-                                    /** @description The original's segment ID, a chapter number, or a part's key. */
-                                    key: string;
-                                    name: string;
-                                    /** @description The original's disc; null for chaptered titles. */
-                                    disc: number | null;
-                                    position: number;
-                                    citations: number;
-                                    /** @description Distinct entities and worlds cited. */
-                                    subjects: number;
-                                }[];
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/sources": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/sources/{title}/{unit}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** One unit of a title (segment, chapter or part) and every fact that cites it */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    title: "og" | "remake" | "intermission" | "rebirth";
-                    unit: string;
-                };
-                cookie?: never;
+    /** Every unit of every title, with how many citations point into it */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              titles: {
+                /** @enum {string} */
+                code: "og" | "remake" | "intermission" | "rebirth";
+                units: {
+                  /** @description The original's segment ID, a chapter number, or a part's key. */
+                  key: string;
+                  name: string;
+                  /** @description The original's disc; null for chaptered titles. */
+                  disc: number | null;
+                  position: number;
+                  citations: number;
+                  /** @description Distinct entities and worlds cited. */
+                  subjects: number;
+                }[];
+              }[];
             };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /** @enum {string} */
-                            title: "og" | "remake" | "intermission" | "rebirth";
-                            unit: {
-                                /** @description The original's segment ID, a chapter number, or a part's key. */
-                                key: string;
-                                name: string;
-                                /** @description The original's disc; null for chaptered titles. */
-                                disc: number | null;
-                                position: number;
-                                summary: string | null;
-                            };
-                            previous: {
-                                /** @description The original's segment ID, a chapter number, or a part's key. */
-                                key: string;
-                                name: string;
-                                /** @description The original's disc; null for chaptered titles. */
-                                disc: number | null;
-                                position: number;
-                            } | null;
-                            next: {
-                                /** @description The original's segment ID, a chapter number, or a part's key. */
-                                key: string;
-                                name: string;
-                                /** @description The original's disc; null for chaptered titles. */
-                                disc: number | null;
-                                position: number;
-                            } | null;
-                            appearances: {
-                                entity: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                };
-                                world: string;
-                                /** @enum {string} */
-                                status: "depicted" | "referenced" | "omitted";
-                                role: string | null;
-                                summary: string;
-                                /** @enum {string} */
-                                certainty: "stated" | "inferred" | "ambiguous";
-                                /** @description The appearance's own sources cite this unit. */
-                                cited: boolean;
-                                /** @description Depictions set in this unit. */
-                                depictions: {
-                                    /** @enum {string} */
-                                    framing: "direct" | "flashback" | "false_account" | "disputed_account" | "vision" | "mention" | "glimpse";
-                                    note: string | null;
-                                }[];
-                                /** @description Scenes named by the citations. */
-                                scenes: string[];
-                            }[];
-                            differences: {
-                                id: string;
-                                entity: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                };
-                                from: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                };
-                                to: {
-                                    /** @enum {string} */
-                                    title: "og" | "remake" | "intermission" | "rebirth";
-                                    world: string;
-                                };
-                                /** @enum {string} */
-                                category: "presentation" | "participants" | "setting" | "chronology" | "outcome" | "role" | "relationship" | "context" | "gameplay";
-                                /** @enum {string} */
-                                magnitude: "minor" | "major";
-                                summary: string;
-                                /** @enum {string} */
-                                certainty: "stated" | "inferred" | "ambiguous";
-                                /** @description Scenes named by the citations. */
-                                scenes: string[];
-                            }[];
-                            relationships: {
-                                id: string;
-                                /** @enum {string} */
-                                type: "parent_of" | "sibling_of" | "spouse_of" | "member_of" | "leads" | "part_of" | "hometown" | "lives_in" | "based_at" | "controls" | "participated_in" | "occurred_at" | "sub_event_of" | "killed" | "caused" | "experimented_on" | "acted_through";
-                                label: string;
-                                source: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                };
-                                target: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                };
-                                world: string;
-                                /** @enum {string} */
-                                certainty: "stated" | "inferred" | "ambiguous";
-                                /** @description Scenes named by the citations. */
-                                scenes: string[];
-                            }[];
-                            worlds: {
-                                id: string;
-                                name: string;
-                                /** @enum {string} */
-                                certainty: "stated" | "inferred" | "ambiguous";
-                                /** @description Scenes named by the citations. */
-                                scenes: string[];
-                            }[];
-                        };
-                    };
-                };
-                /** @description Default Response */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                            message: string;
-                        };
-                    };
-                };
-            };
+          };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+      };
     };
-    "/research": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** The research log: sources used, open questions, and facts by certainty */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            sources: {
-                                id: string;
-                                name: string;
-                                /** @enum {string} */
-                                kind: "play" | "footage" | "transcript" | "walkthrough" | "chapter_list" | "press";
-                                /** @enum {string} */
-                                role: "evidence" | "locating";
-                                covers: ("og" | "remake" | "intermission" | "rebirth")[];
-                                usedFor: string;
-                                url: string | null;
-                                accessed: string | null;
-                                notes: string | null;
-                            }[];
-                            questions: {
-                                id: string;
-                                /** @enum {string} */
-                                kind: "needs_footage" | "not_in_dataset" | "structure";
-                                summary: string;
-                                details: string;
-                                /** @description Where in the titles to look. */
-                                sources: ({
-                                    /** @enum {string} */
-                                    title: "og";
-                                    disc: number;
-                                    segment: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    chapter: number;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    part: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                })[];
-                                entities: {
-                                    id: string;
-                                    /** @enum {string} */
-                                    kind: "character" | "event" | "location" | "organization";
-                                    name: string;
-                                }[];
-                                worlds: {
-                                    id: string;
-                                    name: string;
-                                }[];
-                            }[];
-                            /** @description Facts by certainty: appearances, differences, relationships per title, worlds. */
-                            certainty: {
-                                stated: number;
-                                inferred: number;
-                                ambiguous: number;
-                            };
-                            /** @description Facts that are inferred or ambiguous, with the notes that explain them. */
-                            interpretations: {
-                                /** @enum {string} */
-                                kind: "appearance" | "difference" | "relationship" | "world";
-                                /** @enum {string} */
-                                certainty: "inferred" | "ambiguous";
-                                notes: string;
-                                subject: {
-                                    id: string;
-                                    name: string;
-                                    kind: string;
-                                };
-                                titles: ("og" | "remake" | "intermission" | "rebirth")[];
-                                label: string;
-                                sources: ({
-                                    /** @enum {string} */
-                                    title: "og";
-                                    disc: number;
-                                    segment: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    chapter: number;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                } | {
-                                    /** @enum {string} */
-                                    title: "remake" | "intermission" | "rebirth";
-                                    part: string;
-                                    scene?: string;
-                                    /** @enum {boolean} */
-                                    optional?: true;
-                                })[];
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/sources/{title}/{unit}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    /** One unit of a title (segment, chapter or part) and every fact that cites it */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          title: "og" | "remake" | "intermission" | "rebirth";
+          unit: string;
         };
-        /**
-         * Find entities by name, summary or connection
-         * @description Every word must match the entity's names or aliases (typos tolerated), its summary, how a title presents it, or the name of an entity it's related to. Exact and prefix name matches rank first.
-         */
-        get: {
-            parameters: {
-                query: {
-                    q: string;
-                    limit?: number;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              /** @enum {string} */
+              title: "og" | "remake" | "intermission" | "rebirth";
+              unit: {
+                /** @description The original's segment ID, a chapter number, or a part's key. */
+                key: string;
+                name: string;
+                /** @description The original's disc; null for chaptered titles. */
+                disc: number | null;
+                position: number;
+                summary: string | null;
+              };
+              previous: {
+                /** @description The original's segment ID, a chapter number, or a part's key. */
+                key: string;
+                name: string;
+                /** @description The original's disc; null for chaptered titles. */
+                disc: number | null;
+                position: number;
+              } | null;
+              next: {
+                /** @description The original's segment ID, a chapter number, or a part's key. */
+                key: string;
+                name: string;
+                /** @description The original's disc; null for chaptered titles. */
+                disc: number | null;
+                position: number;
+              } | null;
+              appearances: {
+                entity: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
                 };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /** @description The words searched for. */
-                            terms: string[];
-                            items: {
-                                id: string;
-                                /** @enum {string} */
-                                kind: "character" | "event" | "location" | "organization";
-                                name: string;
-                                /** @enum {string} */
-                                reason: "name" | "summary" | "appearance" | "connection";
-                                /** @description The matched name, the title code, or the connected entity's name. */
-                                detail: string | null;
-                                score: number;
-                            }[];
-                        };
-                    };
+                world: string;
+                /** @enum {string} */
+                status: "depicted" | "referenced" | "omitted";
+                role: string | null;
+                summary: string;
+                /** @enum {string} */
+                certainty: "stated" | "inferred" | "ambiguous";
+                /** @description The appearance's own sources cite this unit. */
+                cited: boolean;
+                /** @description Depictions set in this unit. */
+                depictions: {
+                  /** @enum {string} */
+                  framing:
+                    | "direct"
+                    | "flashback"
+                    | "false_account"
+                    | "disputed_account"
+                    | "vision"
+                    | "mention"
+                    | "glimpse";
+                  note: string | null;
+                }[];
+                /** @description Scenes named by the citations. */
+                scenes: string[];
+              }[];
+              differences: {
+                id: string;
+                entity: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
                 };
+                from: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                };
+                to: {
+                  /** @enum {string} */
+                  title: "og" | "remake" | "intermission" | "rebirth";
+                  world: string;
+                };
+                /** @enum {string} */
+                category:
+                  | "presentation"
+                  | "participants"
+                  | "setting"
+                  | "chronology"
+                  | "outcome"
+                  | "role"
+                  | "relationship"
+                  | "context"
+                  | "gameplay";
+                /** @enum {string} */
+                magnitude: "minor" | "major";
+                summary: string;
+                /** @enum {string} */
+                certainty: "stated" | "inferred" | "ambiguous";
+                /** @description Scenes named by the citations. */
+                scenes: string[];
+              }[];
+              relationships: {
+                id: string;
+                /** @enum {string} */
+                type:
+                  | "parent_of"
+                  | "sibling_of"
+                  | "spouse_of"
+                  | "member_of"
+                  | "leads"
+                  | "part_of"
+                  | "hometown"
+                  | "lives_in"
+                  | "based_at"
+                  | "controls"
+                  | "participated_in"
+                  | "occurred_at"
+                  | "sub_event_of"
+                  | "killed"
+                  | "caused"
+                  | "experimented_on"
+                  | "acted_through";
+                label: string;
+                source: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                };
+                target: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                };
+                world: string;
+                /** @enum {string} */
+                certainty: "stated" | "inferred" | "ambiguous";
+                /** @description Scenes named by the citations. */
+                scenes: string[];
+              }[];
+              worlds: {
+                id: string;
+                name: string;
+                /** @enum {string} */
+                certainty: "stated" | "inferred" | "ambiguous";
+                /** @description Scenes named by the citations. */
+                scenes: string[];
+              }[];
             };
+          };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: string;
+              message: string;
+            };
+          };
+        };
+      };
     };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/research": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** The research log: sources used, open questions, and facts by certainty */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              sources: {
+                id: string;
+                name: string;
+                /** @enum {string} */
+                kind: "play" | "footage" | "transcript" | "walkthrough" | "chapter_list" | "press";
+                /** @enum {string} */
+                role: "evidence" | "locating";
+                covers: ("og" | "remake" | "intermission" | "rebirth")[];
+                usedFor: string;
+                url: string | null;
+                accessed: string | null;
+                notes: string | null;
+              }[];
+              questions: {
+                id: string;
+                /** @enum {string} */
+                kind: "needs_footage" | "not_in_dataset" | "structure";
+                summary: string;
+                details: string;
+                /** @description Where in the titles to look. */
+                sources: (
+                  | {
+                      /** @enum {string} */
+                      title: "og";
+                      disc: number;
+                      segment: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      chapter: number;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      part: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                )[];
+                entities: {
+                  id: string;
+                  /** @enum {string} */
+                  kind: "character" | "event" | "location" | "organization";
+                  name: string;
+                }[];
+                worlds: {
+                  id: string;
+                  name: string;
+                }[];
+              }[];
+              /** @description Facts by certainty: appearances, differences, relationships per title, worlds. */
+              certainty: {
+                stated: number;
+                inferred: number;
+                ambiguous: number;
+              };
+              /** @description Facts that are inferred or ambiguous, with the notes that explain them. */
+              interpretations: {
+                /** @enum {string} */
+                kind: "appearance" | "difference" | "relationship" | "world";
+                /** @enum {string} */
+                certainty: "inferred" | "ambiguous";
+                notes: string;
+                subject: {
+                  id: string;
+                  name: string;
+                  kind: string;
+                };
+                titles: ("og" | "remake" | "intermission" | "rebirth")[];
+                label: string;
+                sources: (
+                  | {
+                      /** @enum {string} */
+                      title: "og";
+                      disc: number;
+                      segment: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      chapter: number;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                  | {
+                      /** @enum {string} */
+                      title: "remake" | "intermission" | "rebirth";
+                      part: string;
+                      scene?: string;
+                      /** @enum {boolean} */
+                      optional?: true;
+                    }
+                )[];
+              }[];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/search": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Find entities by name, summary or connection
+     * @description Every word must match the entity's names or aliases (typos tolerated), its summary, how a title presents it, or the name of an entity it's related to. Exact and prefix name matches rank first.
+     */
+    get: {
+      parameters: {
+        query: {
+          q: string;
+          limit?: number;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              /** @description The words searched for. */
+              terms: string[];
+              items: {
+                id: string;
+                /** @enum {string} */
+                kind: "character" | "event" | "location" | "organization";
+                name: string;
+                /** @enum {string} */
+                reason: "name" | "summary" | "appearance" | "connection";
+                /** @description The matched name, the title code, or the connected entity's name. */
+                detail: string | null;
+                score: number;
+              }[];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: never;
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+  schemas: never;
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export type operations = Record<string, never>;

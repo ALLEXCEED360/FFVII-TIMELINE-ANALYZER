@@ -1,0 +1,574 @@
+/* The archive (ArchivePage, ArchiveTitlePage, SourceUnitPage, ResearchPage, decision 0026), in
+   the modern panels (components/modern.css): the games as a chapter select, each chapter with
+   who and what it shows. Each game's colour comes in as --c. */
+
+.ar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  font-size: 16px;
+}
+.ar-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--m-text);
+}
+.ar-dim {
+  color: var(--m-dim);
+}
+.ar-small {
+  font-size: 0.8125rem;
+  color: var(--m-dim);
+}
+.ar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.ar-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--m-line);
+  font-size: 28px;
+  line-height: 1.15;
+}
+.ar-count {
+  font-size: 0.6em;
+  color: var(--m-dim);
+}
+.ar-panel {
+  padding: 1rem 1.15rem 1.1rem;
+}
+.ar-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--m-dim);
+}
+.ar-crumbs a {
+  color: var(--m-accent);
+}
+.ar-crumbs a:hover {
+  text-decoration: underline;
+}
+.ar-crumbs li + li::before {
+  content: "/";
+  margin-right: 0.4rem;
+  color: var(--m-dim);
+}
+.ar-game-label {
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--c) 70%, white);
+}
+.ar-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  min-height: 2.6rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid rgb(127 214 255 / 0.45);
+  border-radius: 6px;
+  background: rgb(8 11 18 / 0.7);
+  font-size: 0.9rem;
+  color: #fff;
+}
+.ar-button::after {
+  content: "→";
+  color: var(--m-accent);
+}
+.ar-button:hover {
+  border-color: var(--m-accent);
+  background: var(--m-accent-soft);
+}
+.ar-button:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+
+/* ── The landing page: a card per game ────────────────────────────────────────────────────── */
+.ar-games {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 48rem) {
+  .ar-games {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 110rem) {
+  .ar-games {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.ar-game {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border-top: 3px solid var(--c);
+  transition:
+    border-color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.ar-game:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 26px color-mix(in oklab, var(--c) 28%, transparent),
+    0 18px 40px rgb(0 0 0 / 0.45);
+}
+.ar-game:focus-within {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.ar-game-art {
+  height: 11rem;
+  overflow: hidden;
+}
+.ar-game-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.ar-game:hover .ar-game-art img {
+  transform: scale(1.04);
+}
+.ar-game-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.9rem 1.1rem 1.1rem;
+}
+.ar-game-name {
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+/* The whole card follows its name's link. */
+.ar-game-name a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.ar-progress {
+  display: flex;
+  height: 0.5rem;
+  gap: 2px;
+  margin-top: auto;
+}
+.ar-progress span {
+  flex: 1;
+  border-radius: 1px;
+  background: rgb(255 255 255 / 0.1);
+}
+.ar-progress span[data-on] {
+  background: var(--c);
+}
+.ar-more {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 0.3rem;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid color-mix(in oklab, var(--c) 60%, transparent);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: #fff;
+}
+.ar-game:hover .ar-more {
+  background: color-mix(in oklab, var(--c) 22%, transparent);
+}
+.ar-pair {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 64rem) {
+  .ar-pair {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: start;
+  }
+}
+.ar-future {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.ar-future li {
+  padding: 0.6rem 0.8rem;
+  border: 1px dashed var(--m-line);
+  border-radius: 5px;
+}
+.ar-future-name {
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ── A game: its chapters, like a chapter select ──────────────────────────────────────────── */
+/* The rows sit on one dark panel, so the artwork behind never shows between them. */
+.ar-chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.4rem;
+  border: 1px solid var(--m-line);
+  border-radius: 8px;
+  background: rgb(5 8 13 / 0.72);
+  backdrop-filter: blur(14px);
+}
+.ar-chapter {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  padding: 0.7rem 1rem 0.7rem 0.7rem;
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgb(24 30 44 / 0.9), rgb(12 16 24 / 0.9));
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+.ar-chapter:hover {
+  border-color: color-mix(in oklab, var(--c) 70%, transparent);
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--c) 18%, rgb(24 30 44 / 0.85)),
+    rgb(8 11 18 / 0.72) 70%
+  );
+}
+.ar-chapter:focus-within {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.ar-chapter[data-empty] {
+  opacity: 0.7;
+}
+.ar-chapter-number {
+  display: flex;
+  height: 2.6rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in oklab, var(--c) 55%, transparent);
+  border-radius: 5px;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: var(--heading-weight);
+  color: color-mix(in oklab, var(--c) 60%, white);
+}
+.ar-chapter-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.ar-chapter-name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: var(--heading-weight);
+  color: #fff;
+}
+.ar-chapter-name::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.ar-chapter-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem 0.9rem;
+  font-size: 0.8125rem;
+  color: var(--m-dim);
+}
+.ar-chapter-count {
+  font-size: 0.8125rem;
+  text-align: right;
+  color: var(--m-text);
+  white-space: nowrap;
+}
+.ar-chapter-count::after {
+  content: " ›";
+  color: var(--m-accent);
+}
+@media (max-width: 40rem) {
+  .ar-chapter {
+    grid-template-columns: 2.6rem minmax(0, 1fr);
+  }
+  .ar-chapter-count {
+    grid-column: 2;
+    text-align: left;
+  }
+}
+.ar-game-inline {
+  font-weight: 600;
+  color: color-mix(in oklab, var(--c) 70%, white);
+}
+
+/* ── A chapter: who and what it shows ─────────────────────────────────────────────────────── */
+.ar-steps {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+@media (min-width: 40rem) {
+  .ar-steps {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.ar-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.75rem 1rem;
+}
+.ar-step[data-side="next"] {
+  grid-column: 2;
+  align-items: flex-end;
+  text-align: right;
+}
+.ar-step:hover {
+  border-color: var(--m-accent);
+}
+.ar-step:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.ar-step-name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: var(--heading-weight);
+  color: #fff;
+}
+@media (max-width: 40rem) {
+  .ar-step[data-side="next"] {
+    grid-column: auto;
+  }
+}
+.ar-kinds {
+  display: grid;
+  gap: 0.85rem;
+  align-items: start;
+}
+@media (min-width: 64rem) {
+  .ar-kinds {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.ar-kind {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1rem 1.1rem 1.1rem;
+}
+.ar-kind-name {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.ar-things {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.ar-thing {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.15rem 0.7rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--m-line);
+}
+.ar-thing:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.ar-thing > :not(:first-child) {
+  grid-column: 2;
+}
+.ar-thing-icon {
+  grid-row: span 4;
+  padding-top: 0.15rem;
+}
+.ar-thing-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.6rem;
+}
+.ar-thing-name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: var(--heading-weight);
+  color: #fff;
+}
+.ar-thing-name:hover {
+  color: var(--m-accent);
+}
+.ar-how {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--c) 65%, white);
+}
+.ar-role {
+  font-size: 0.85rem;
+  color: var(--m-accent);
+}
+.ar-face {
+  display: inline-flex;
+  width: 2.4rem;
+  height: 2.4rem;
+  overflow: hidden;
+  border: 1px solid rgb(63 210 138 / 0.6);
+  border-radius: 999px;
+  background: radial-gradient(circle at 50% 70%, rgb(63 210 138 / 0.35), rgb(8 11 18 / 0.9));
+}
+.ar-face img {
+  width: 100%;
+  height: 160%;
+  object-fit: cover;
+  object-position: 50% 0% !important;
+}
+.ar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.ar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.85rem 1rem;
+}
+.ar-item-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+}
+.ar-link {
+  font-weight: 600;
+  color: #fff;
+}
+.ar-link:hover {
+  color: var(--m-accent);
+}
+.ar-sentence {
+  font-size: 0.95rem;
+  color: var(--m-text);
+}
+.ar-sentence a {
+  font-weight: 600;
+  color: #fff;
+}
+.ar-sentence a:hover {
+  color: var(--m-accent);
+}
+.ar-tag {
+  padding: 0.05rem 0.55rem;
+  border: 1px solid var(--m-line);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--m-dim);
+}
+.ar-tag-big {
+  border-color: rgb(255 143 122 / 0.6);
+  color: #ffb3a5;
+}
+
+/* ── Questions still open (OpenQuestions.tsx) ─────────────────────────────────────────────── */
+.ar-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.ar-question {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--m-line);
+  border-left: 3px solid #f2c94c;
+  border-radius: 5px;
+  background: rgb(8 11 18 / 0.6);
+}
+.ar-question-name {
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ── How the facts were checked ───────────────────────────────────────────────────────────── */
+.ar-ladder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  counter-reset: rung;
+}
+.ar-rung {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr);
+  gap: 0.1rem 0.75rem;
+}
+.ar-rung::before {
+  counter-increment: rung;
+  content: counter(rung);
+  grid-row: span 3;
+  display: flex;
+  height: 2.2rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(142 240 198 / 0.5);
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  color: #8ef0c6;
+}
+.ar-sure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.ar-sure-bar {
+  display: flex;
+  height: 0.6rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.08);
+}
+.ar-sure-key {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.ar-sure-key li {
+  display: grid;
+  grid-template-columns: 0.75rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--m-text);
+}
+.ar-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ar-game,
+  .ar-game-art img,
+  .ar-chapter {
+    transition: none;
+  }
+  .ar-game:hover,
+  .ar-game:hover .ar-game-art img {
+    transform: none;
+  }
+}

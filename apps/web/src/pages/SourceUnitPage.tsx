@@ -1,53 +1,75 @@
-import {
-  DIFFERENCE_CATEGORY_LABELS,
-  FRAMING_LABELS,
-  STATUS_DESCRIPTIONS,
-  STATUS_LABELS,
-} from "@ffvii/shared/labels";
+import type { CSSProperties } from "react";
 import { Link, useParams } from "react-router";
 import type { Reference, SourceUnitDetail, TitleCode } from "../api/client";
 import { ApiError } from "../api/client";
 import { useReference, useResearch, useSourceUnit } from "../api/queries";
-import { Empty, ErrorMessage, Loading } from "../components/QueryState";
+import { SECTION_ART, TITLE_ART, pictureFor } from "../art/manifest";
+import { Artwork } from "../components/Artwork";
+import { useBackdrop } from "../components/Backdrop";
+import { Orb } from "../components/Orb";
+import { ErrorMessage, Loading } from "../components/QueryState";
 import { OpenQuestionList } from "../features/archive/OpenQuestions";
 import { arcOf, retoldBy, unitContext, unitLabel } from "../features/archive/units";
+import { KIND_WORDS } from "../lib/kinds";
 import {
   ENTITY_KINDS,
-  KIND_LABELS,
   archiveTitlePath,
   entityPath,
   sourcePath,
   unitFromPath,
   unitPath,
 } from "../lib/paths";
+import { CHANGE_WORDS, tellingOf } from "../lib/plain";
 import { titleShort, worldName } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import { NotFoundPage } from "./NotFoundPage";
-import { SECTION_ART, TITLE_ART } from "../art/manifest";
-import { useBackdrop } from "../components/Backdrop";
+import "../features/archive/archive.css";
+
+const gameStyle = (code: TitleCode) => ({ "--c": TITLE_COLOR[code] }) as CSSProperties;
 
 /**
- * One unit of a title as a source (blueprint §16): /archive/remake/chapter-8, /archive/og/kalm.
- * Everything the dataset cites it for — who and what it shows, differences, relationships, worlds.
+ * One chapter of a game — or one part of the original — (decision 0026): /archive/remake/
+ * chapter-8, /archive/og/kalm. Who and what it shows, what changes there, the links it shows, and
+ * the other worlds glimpsed in it.
  */
 export function SourceUnitPage() {
   const params = useParams();
   const unit = unitFromPath(params.title, params.unit);
-  useBackdrop(unit ? TITLE_ART[unit.title] : SECTION_ART.archive, { strength: 0.35 });
+  useBackdrop(unit ? TITLE_ART[unit.title] : SECTION_ART.archive, {
+    strength: 0.4,
+    side: "full",
+  });
   const query = useSourceUnit(unit?.title, unit?.key);
   const reference = useReference();
 
   if (unit === undefined) return <NotFoundPage />;
-  if (query.isPending) return <Loading variant="panel" label="Loading…" />;
+  if (query.isPending) return <Loading variant="panel" label="Opening the chapter…" />;
   if (query.isError) {
     if (query.error instanceof ApiError && query.error.status === 404) return <NotFoundPage />;
     return (
-      <div className="panel p-4">
+      <div className="m-panel ar-panel">
         <ErrorMessage error={query.error} onRetry={() => void query.refetch()} />
       </div>
     );
   }
   return <UnitView detail={query.data} reference={reference.data} />;
+}
+
+/** A person's face, or the orb of a thing's kind. */
+function Face({ id, kind }: { id: string; kind: string }) {
+  const art = kind === "character" ? pictureFor(id, kind) : undefined;
+  return art ? (
+    <span aria-hidden="true" className="ar-face">
+      <Artwork entry={art} decorative />
+    </span>
+  ) : (
+    <Orb kind={kind} size="1.4rem" />
+  );
+}
+
+function Scenes({ scenes }: { scenes: readonly string[] }) {
+  if (scenes.length === 0) return null;
+  return <p className="ar-small">In the scene: {scenes.join("; ")}</p>;
 }
 
 function UnitView({
@@ -69,113 +91,124 @@ function UnitView({
     appearances.length + differences.length + relationships.length + worlds.length === 0;
 
   return (
-    <article className="flex flex-col gap-7">
-      <header className="flex flex-col gap-2">
-        <nav aria-label="Breadcrumb" className="label">
-          <Link to="/archive" className="hover:text-mako-300">
-            Archive
-          </Link>{" "}
-          /{" "}
-          <Link to={archiveTitlePath(title)} className="hover:text-mako-300">
-            {titleShort(reference, title)}
-          </Link>
+    <article className="ar" style={gameStyle(title)}>
+      <header>
+        <nav aria-label="Breadcrumb">
+          <ol className="ar-crumbs">
+            <li>
+              <Link to="/archive">Archive</Link>
+            </li>
+            <li>
+              <Link to={archiveTitlePath(title)}>{titleShort(reference, title)}</Link>
+            </li>
+          </ol>
         </nav>
-        <p className="label" style={{ color: TITLE_COLOR[title] }}>
+        <p className="ar-game-label">
           {unitContext(reference, title, unit)}
           {label !== unit.name && label !== `Chapter ${unit.key}` ? ` · ${label}` : ""}
         </p>
-        <h1 className="page-title">{unit.name}</h1>
-        {unit.summary && <p className="max-w-3xl text-steel-300">{unit.summary}</p>}
+        <h1 className="m-heading m-title">{unit.name}</h1>
+        {unit.summary && <p className="m-intro">{unit.summary}</p>}
         {(arc !== undefined || retold.length > 0) && (
-          <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-steel-400">
-            {arc && <span>Arc: {arc.name}</span>}
+          <p className="m-intro ar-dim">
+            {arc && <span>Part of the story: {arc.name}. </span>}
             {retold.length > 0 && (
               <span>
                 Retold in{" "}
                 {retold.map((code: TitleCode, i) => (
                   <span key={code}>
                     {i > 0 && ", "}
-                    <span style={{ color: TITLE_COLOR[code] }}>{titleShort(reference, code)}</span>
+                    <span className="ar-game-inline" style={gameStyle(code)}>
+                      {titleShort(reference, code)}
+                    </span>
                   </span>
                 ))}
               </span>
             )}
           </p>
         )}
-        <nav aria-label="Neighbouring units" className="flex flex-wrap gap-2 pt-1">
-          {detail.previous && (
-            <Link to={unitPath(title, detail.previous.key)} className="btn">
-              ← {detail.previous.name}
-            </Link>
-          )}
-          {detail.next && (
-            <Link to={unitPath(title, detail.next.key)} className="btn">
-              {detail.next.name} →
-            </Link>
-          )}
-        </nav>
+        {(detail.previous ?? detail.next) && (
+          <nav aria-label="Other chapters" className="ar-steps">
+            {detail.previous && (
+              <Link
+                to={unitPath(title, detail.previous.key)}
+                className="m-panel ar-step"
+                data-side="previous"
+              >
+                <span className="m-label">← Before this</span>
+                <span className="ar-step-name">{detail.previous.name}</span>
+              </Link>
+            )}
+            {detail.next && (
+              <Link
+                to={unitPath(title, detail.next.key)}
+                className="m-panel ar-step"
+                data-side="next"
+              >
+                <span className="m-label">After this →</span>
+                <span className="ar-step-name">{detail.next.name}</span>
+              </Link>
+            )}
+          </nav>
+        )}
       </header>
 
       {empty && (
-        <div className="panel">
-          <Empty>Nothing in the dataset cites this part of the game yet.</Empty>
-        </div>
+        <p className="m-panel ar-panel ar-text">
+          Nothing from this part of the game is recorded in the archive yet.
+        </p>
       )}
 
       {appearances.length > 0 && (
-        <section aria-labelledby="unit-shown" className="flex flex-col gap-3">
-          <h2 id="unit-shown" className="section-title">
-            Shown here <span className="text-steel-300">{appearances.length}</span>
+        <section aria-labelledby="ar-shown" className="ar-section">
+          <h2 id="ar-shown" className="m-heading ar-heading">
+            Who and what it shows <span className="ar-count">{appearances.length}</span>
           </h2>
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="ar-kinds">
             {ENTITY_KINDS.map((kind) => {
               const items = appearances.filter((a) => a.entity.kind === kind);
               if (items.length === 0) return null;
               return (
-                <section
-                  key={kind}
-                  aria-labelledby={`unit-${kind}`}
-                  className="flex flex-col gap-2"
-                >
-                  <h3 id={`unit-${kind}`} className="text-sm font-semibold text-steel-200">
-                    {KIND_LABELS[kind].many}
+                <section key={kind} aria-labelledby={`ar-kind-${kind}`} className="m-panel ar-kind">
+                  <h3 id={`ar-kind-${kind}`} className="m-label ar-kind-name">
+                    <Orb kind={kind} />
+                    {KIND_WORDS[kind].many}
                   </h3>
-                  <ul className="flex flex-col gap-2">
-                    {items.map((a) => (
-                      <li
-                        key={`${a.entity.id}-${a.world}`}
-                        className="panel border-l-2 p-3 text-sm"
-                        style={{ borderLeftColor: TITLE_COLOR[title] }}
-                      >
-                        <p className="flex flex-wrap items-center gap-1.5">
-                          <Link
-                            to={entityPath(a.entity.id)}
-                            className="font-semibold text-steel-100 hover:text-mako-300"
-                          >
-                            {a.entity.name}
-                          </Link>
-                          <span className="chip" title={STATUS_DESCRIPTIONS[a.status]}>
-                            {STATUS_LABELS[a.status]}
+                  <ul className="ar-things">
+                    {items.map((a) => {
+                      const depiction = a.depictions[0];
+                      const how =
+                        kind === "event"
+                          ? tellingOf({
+                              status: a.status,
+                              framing: depiction?.framing ?? null,
+                              world: a.world,
+                            })
+                          : a.status === "depicted"
+                            ? a.world === "world_main"
+                              ? "Appears"
+                              : `Appears, in another world: ${worldName(reference, a.world)}`
+                            : "Only mentioned";
+                      return (
+                        <li key={`${a.entity.id}-${a.world}`} className="ar-thing">
+                          <span className="ar-thing-icon">
+                            <Face id={a.entity.id} kind={a.entity.kind} />
                           </span>
-                          {a.world !== "world_main" && (
-                            <span className="chip">{worldName(reference, a.world)}</span>
-                          )}
-                          {a.certainty !== "stated" && (
-                            <span className="chip">
-                              {a.certainty === "ambiguous" ? "Left open" : "Inferred"}
-                            </span>
-                          )}
-                          {a.depictions.map((d, i) => (
-                            <span key={i} className="chip border-mako-700 text-mako-300">
-                              {FRAMING_LABELS[d.framing]}
-                            </span>
-                          ))}
-                        </p>
-                        {a.role && <p className="mt-1 text-xs text-mako-300">{a.role}</p>}
-                        <p className="mt-1 text-steel-300">{a.summary}</p>
-                        <Scenes scenes={a.scenes} />
-                      </li>
-                    ))}
+                          <p className="ar-thing-head">
+                            <Link to={entityPath(a.entity.id)} className="ar-thing-name">
+                              {a.entity.name}
+                            </Link>
+                            <span className="ar-how">{how}</span>
+                            {a.certainty === "ambiguous" && (
+                              <span className="ar-tag">The game leaves this open</span>
+                            )}
+                          </p>
+                          {a.role && <p className="ar-role">{a.role}</p>}
+                          <p className="ar-text">{a.summary}</p>
+                          <Scenes scenes={a.scenes} />
+                        </li>
+                      );
+                    })}
                   </ul>
                 </section>
               );
@@ -185,30 +218,33 @@ function UnitView({
       )}
 
       {differences.length > 0 && (
-        <section aria-labelledby="unit-differences" className="flex flex-col gap-3">
-          <h2 id="unit-differences" className="section-title">
-            Differences cited here <span className="text-steel-300">{differences.length}</span>
+        <section aria-labelledby="ar-changes" className="ar-section">
+          <h2 id="ar-changes" className="m-heading ar-heading">
+            What changes here <span className="ar-count">{differences.length}</span>
           </h2>
-          <ul className="flex flex-col gap-2">
+          <ul className="ar-list">
             {differences.map((d) => (
-              <li key={d.id} className="panel p-3 text-sm">
-                <p className="mb-1 flex flex-wrap items-center gap-1.5">
-                  <Link
-                    to={entityPath(d.entity.id)}
-                    className="font-semibold text-steel-100 hover:text-mako-300"
-                  >
+              <li key={d.id} className="m-panel ar-item">
+                <p className="ar-item-head">
+                  <Link to={entityPath(d.entity.id)} className="ar-link">
                     {d.entity.name}
                   </Link>
-                  <span className="chip">
-                    {titleShort(reference, d.from.title)} → {titleShort(reference, d.to.title)}
+                  <span className="ar-small">
+                    <span className="ar-game-inline" style={gameStyle(d.from.title)}>
+                      {titleShort(reference, d.from.title)}
+                    </span>{" "}
+                    →{" "}
+                    <span className="ar-game-inline" style={gameStyle(d.to.title)}>
+                      {titleShort(reference, d.to.title)}
+                    </span>
                   </span>
-                  <span className="chip">{DIFFERENCE_CATEGORY_LABELS[d.category]}</span>
-                  {d.magnitude === "major" && (
-                    <span className="chip border-mako-500 text-mako-300">Major</span>
+                  <span className="ar-tag">{CHANGE_WORDS[d.category]}</span>
+                  {d.magnitude === "major" && <span className="ar-tag ar-tag-big">Big change</span>}
+                  {d.certainty === "ambiguous" && (
+                    <span className="ar-tag">The game leaves this open</span>
                   )}
-                  {d.certainty === "ambiguous" && <span className="chip">Left open</span>}
                 </p>
-                <p className="text-steel-200">{d.summary}</p>
+                <p className="ar-text">{d.summary}</p>
                 <Scenes scenes={d.scenes} />
               </li>
             ))}
@@ -217,32 +253,26 @@ function UnitView({
       )}
 
       {relationships.length > 0 && (
-        <section aria-labelledby="unit-relationships" className="flex flex-col gap-3">
-          <h2 id="unit-relationships" className="section-title">
-            Relationships shown here <span className="text-steel-300">{relationships.length}</span>
+        <section aria-labelledby="ar-links" className="ar-section">
+          <h2 id="ar-links" className="m-heading ar-heading">
+            Links it shows <span className="ar-count">{relationships.length}</span>
           </h2>
-          <ul className="panel divide-y divide-night-800">
+          <ul className="m-panel ar-panel ar-list">
             {relationships.map((r) => (
-              <li key={r.id} className="flex flex-wrap items-baseline gap-x-2 gap-y-1 p-3 text-sm">
-                <Link to={entityPath(r.source.id)} className="text-steel-100 hover:text-mako-300">
-                  {r.source.name}
-                </Link>
-                <span className="text-steel-400">{r.label}</span>
-                <Link to={entityPath(r.target.id)} className="text-steel-100 hover:text-mako-300">
-                  {r.target.name}
-                </Link>
+              <li key={r.id} className="ar-sentence">
+                <Link to={entityPath(r.source.id)}>{r.source.name}</Link> {r.label}{" "}
+                <Link to={entityPath(r.target.id)}>{r.target.name}</Link>.
                 {r.world !== "world_main" && (
-                  <span className="chip">{worldName(reference, r.world)}</span>
-                )}
-                {r.certainty !== "stated" && (
-                  <span className="chip">
-                    {r.certainty === "ambiguous" ? "Left open" : "Inferred"}
+                  <span className="ar-small">
+                    {" "}
+                    In another world: {worldName(reference, r.world)}.
                   </span>
+                )}
+                {r.certainty === "ambiguous" && (
+                  <span className="ar-small"> The game leaves this open.</span>
                 )}
                 {r.scenes.length > 0 && (
-                  <span className="w-full text-xs text-steel-400">
-                    Scene: {r.scenes.join("; ")}
-                  </span>
+                  <span className="ar-small"> In the scene: {r.scenes.join("; ")}</span>
                 )}
               </li>
             ))}
@@ -251,17 +281,15 @@ function UnitView({
       )}
 
       {worlds.length > 0 && (
-        <section aria-labelledby="unit-worlds" className="flex flex-col gap-3">
-          <h2 id="unit-worlds" className="section-title">
-            Worlds shown here
+        <section aria-labelledby="ar-worlds" className="ar-section">
+          <h2 id="ar-worlds" className="m-heading ar-heading">
+            Other worlds glimpsed here
           </h2>
-          <ul className="flex flex-col gap-2">
+          <ul className="ar-list">
             {worlds.map((w) => (
-              <li key={w.id} className="panel p-3 text-sm">
-                <p className="font-semibold text-steel-100">{w.name}</p>
-                <p className="text-steel-300">
-                  {reference?.worlds.find((x) => x.id === w.id)?.summary}
-                </p>
+              <li key={w.id} className="m-panel ar-item">
+                <p className="ar-link">{w.name}</p>
+                <p className="ar-text">{reference?.worlds.find((x) => x.id === w.id)?.summary}</p>
                 <Scenes scenes={w.scenes} />
               </li>
             ))}
@@ -270,18 +298,13 @@ function UnitView({
       )}
 
       {questions.length > 0 && (
-        <section aria-labelledby="unit-questions" className="flex flex-col gap-3">
-          <h2 id="unit-questions" className="section-title">
-            Open questions here
+        <section aria-labelledby="ar-questions" className="ar-section">
+          <h2 id="ar-questions" className="m-heading ar-heading">
+            Still being checked here
           </h2>
           <OpenQuestionList questions={questions} reference={reference} />
         </section>
       )}
     </article>
   );
-}
-
-function Scenes({ scenes }: { scenes: readonly string[] }) {
-  if (scenes.length === 0) return null;
-  return <p className="mt-1 text-xs text-steel-400">Scene: {scenes.join("; ")}</p>;
 }

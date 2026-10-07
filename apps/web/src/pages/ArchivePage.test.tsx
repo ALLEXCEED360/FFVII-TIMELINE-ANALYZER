@@ -13,10 +13,10 @@ describe("archive", () => {
     vi.unstubAllGlobals();
   });
 
-  it("presents each title as a source, with the research log and what's to come", async () => {
+  it("offers each game to go through, how the facts were checked, and what's to come", async () => {
     stubApi();
     renderAt("/archive");
-    const titles = await screen.findByRole("region", { name: "The titles as sources" });
+    const titles = await screen.findByRole("region", { name: "Pick a game" });
     const cards = await within(titles).findAllByRole("heading", { level: 3 });
     expect(cards.map((h) => h.textContent)).toEqual([
       "Final Fantasy VII",
@@ -25,20 +25,20 @@ describe("archive", () => {
       "Final Fantasy VII Rebirth",
     ]);
     expect(within(cards[0]!).getByRole("link").getAttribute("href")).toBe("/archive/og");
-    expect(within(titles).getByText(/39 story segments on 3 discs/)).toBeTruthy();
+    expect(within(titles).getByText(/39 parts on 3 discs/)).toBeTruthy();
     expect(
       within(titles).getByText("Retells the original from Mako Reactor 1 to The Shinra Building."),
     ).toBeTruthy();
-    expect(screen.getByRole("link", { name: "Open the research log" }).getAttribute("href")).toBe(
-      "/archive/research",
-    );
+    expect(
+      screen.getByRole("link", { name: "See how each fact was checked" }).getAttribute("href"),
+    ).toBe("/archive/research");
     expect(screen.getByText("Final Fantasy VII Revelation")).toBeTruthy();
   });
 
   it("has no accessibility violations", async () => {
     stubApi();
     const { container } = renderAt("/archive");
-    await screen.findByRole("region", { name: "The titles as sources" });
+    await screen.findByRole("region", { name: "Pick a game" });
     await screen.findAllByRole("heading", { level: 3 });
     await noViolations(container);
   });
@@ -49,7 +49,7 @@ describe("a title's units", () => {
     vi.unstubAllGlobals();
   });
 
-  it("lists the original's segments by disc, with arcs, retellings and citation counts", async () => {
+  it("lists the original's parts by disc, with arcs, retellings and how much each shows", async () => {
     stubApi();
     renderAt("/archive/og");
     const disc1 = await screen.findByRole("region", { name: "Disc 1" });
@@ -57,7 +57,7 @@ describe("a title's units", () => {
     expect(capital.getAttribute("href")).toBe("/archive/og/forgotten-capital");
     const row = capital.closest("li")!;
     expect(row.textContent).toContain("Retold in Rebirth");
-    expect(row.textContent).toMatch(/\d+ citations/);
+    expect(row.textContent).toMatch(/Shows \d+ people and things/);
     expect(screen.getByRole("region", { name: "Disc 3" })).toBeTruthy();
   });
 
@@ -91,8 +91,8 @@ describe("a unit as a source", () => {
     expect(await screen.findByRole("heading", { level: 1, name: "End of the World" })).toBeTruthy();
     expect(screen.getByText("Rebirth · Chapter 14")).toBeTruthy();
 
-    const shown = screen.getByRole("region", { name: /^Shown here/ });
-    const characters = within(shown).getByRole("region", { name: "Characters" });
+    const shown = screen.getByRole("region", { name: /^Who and what it shows/ });
+    const characters = within(shown).getByRole("region", { name: "People" });
     expect(
       within(characters)
         .getAllByRole("link")
@@ -102,15 +102,15 @@ describe("a unit as a source", () => {
       "/event/aerith-death",
     );
 
-    const relationships = screen.getByRole("region", { name: /^Relationships shown here/ });
-    expect(relationships.textContent).toContain("SephirothkilledAerith Gainsborough");
-    expect(screen.getByRole("region", { name: "Worlds shown here" }).textContent).toContain(
-      "Zack survives",
-    );
-    const questions = await screen.findByRole("region", { name: "Open questions here" });
+    const relationships = screen.getByRole("region", { name: /^Links it shows/ });
+    expect(relationships.textContent).toContain("Sephiroth killed Aerith Gainsborough.");
+    expect(
+      screen.getByRole("region", { name: "Other worlds glimpsed here" }).textContent,
+    ).toContain("Zack survives");
+    const questions = await screen.findByRole("region", { name: "Still being checked here" });
     expect(questions.textContent).toContain("How Rebirth shows Aerith's death (chapter 14)");
 
-    const neighbours = screen.getByRole("navigation", { name: "Neighbouring units" });
+    const neighbours = screen.getByRole("navigation", { name: "Other chapters" });
     expect(
       within(neighbours)
         .getAllByRole("link")
@@ -138,7 +138,7 @@ describe("a unit as a source", () => {
   it("has no accessibility violations", async () => {
     stubApi();
     const { container } = renderAt("/archive/rebirth/chapter-14");
-    await screen.findByRole("region", { name: "Open questions here" });
+    await screen.findByRole("region", { name: "Still being checked here" });
     await noViolations(container);
   });
 });
@@ -148,26 +148,32 @@ describe("research log", () => {
     vi.unstubAllGlobals();
   });
 
-  it("separates evidence from locating sources, and lists open questions and interpretations", async () => {
+  it("separates what facts were checked against from what only found them, and lists what's open", async () => {
     stubApi();
     renderAt("/archive/research");
-    const evidence = await screen.findByRole("region", { name: /^Evidence 3/ });
+    const evidence = await screen.findByRole("region", { name: /^Checked against 3/ });
     const transcript = within(evidence).getByRole("link", {
       name: /Final Fantasy VII Rebirth script/,
     });
     expect(transcript.getAttribute("target")).toBe("_blank");
     expect(transcript.getAttribute("rel")).toBe("noreferrer");
     expect(evidence.textContent).toContain("Incomplete when accessed");
-    expect(screen.getByRole("region", { name: /^Used only to locate/ })).toBeTruthy();
+    expect(screen.getByRole("region", { name: /^Used only to find things/ })).toBeTruthy();
 
-    const questions = screen.getByRole("region", { name: /^Open questions/ });
+    const questions = screen.getByRole("region", { name: /^Still being checked/ });
     expect(
       within(questions)
         .getAllByRole("heading", { level: 3 })
         .map((h) => h.textContent),
-    ).toEqual(["Needs checking against footage", "Not yet in the dataset", "Structure"]);
+    ).toEqual([
+      "To check against video of the game",
+      "Not in the archive yet",
+      "How the games are divided",
+    ]);
 
-    const interpretations = screen.getByRole("region", { name: /^Inferred and left open/ });
+    const interpretations = screen.getByRole("region", {
+      name: /^What the games don't say outright/,
+    });
     expect(within(interpretations).getAllByRole("listitem").length).toBeGreaterThan(0);
     expect(
       within(interpretations)
@@ -179,7 +185,7 @@ describe("research log", () => {
   it("has no accessibility violations", async () => {
     stubApi();
     const { container } = renderAt("/archive/research");
-    await screen.findByRole("region", { name: /^Evidence \d/ });
+    await screen.findByRole("region", { name: /^Checked against \d/ });
     await noViolations(container);
   });
 });

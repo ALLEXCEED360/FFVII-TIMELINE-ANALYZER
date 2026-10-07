@@ -1,20 +1,31 @@
+import type { CSSProperties } from "react";
 import { Link, useParams } from "react-router";
-import type { CatalogueUnit, Reference, TitleCode } from "../api/client";
+import type { CatalogueTitle, CatalogueUnit, Reference, TitleCode } from "../api/client";
 import { useReference, useSources } from "../api/queries";
+import { SECTION_ART, TITLE_ART } from "../art/manifest";
+import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
-import { arcOf, coverageText, retoldBy, structureOf, unitLabel } from "../features/archive/units";
+import {
+  arcOf,
+  coverageText,
+  retoldBy,
+  shownText,
+  structureOf,
+  unitLabel,
+  unitNumber,
+} from "../features/archive/units";
 import { unitPath } from "../lib/paths";
 import { isTitleCode, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import { NotFoundPage } from "./NotFoundPage";
-import { SECTION_ART, TITLE_ART } from "../art/manifest";
-import { useBackdrop } from "../components/Backdrop";
+import "../features/archive/archive.css";
 
-/** One title as a source (blueprint §16): every segment or chapter, with what cites it. */
+/** One game, chapter by chapter, like its chapter select (decision 0026). */
 export function ArchiveTitlePage() {
   const { title } = useParams();
   useBackdrop(isTitleCode(title ?? "") ? TITLE_ART[title as TitleCode] : SECTION_ART.archive, {
-    strength: 0.45,
+    strength: 0.5,
+    side: "full",
   });
   const sources = useSources();
   const reference = useReference();
@@ -23,7 +34,7 @@ export function ArchiveTitlePage() {
   const catalogue = sources.data?.titles.find((t) => t.code === title);
   const info = reference.data?.titles.find((t) => t.code === title);
 
-  // The original is grouped by disc; chaptered titles are one list.
+  // The original is grouped by disc; the others are one list.
   const groups = catalogue
     ? title === "og"
       ? [1, 2, 3].map((disc) => ({
@@ -34,47 +45,48 @@ export function ArchiveTitlePage() {
     : [];
 
   return (
-    <article className="flex flex-col gap-6">
-      <header className="flex flex-col gap-2">
-        <nav aria-label="Breadcrumb" className="label">
-          <Link to="/archive" className="hover:text-mako-300">
-            Archive
-          </Link>
+    <article className="ar" style={{ "--c": TITLE_COLOR[title] } as CSSProperties}>
+      <header>
+        <nav aria-label="Breadcrumb">
+          <ol className="ar-crumbs">
+            <li>
+              <Link to="/archive">Archive</Link>
+            </li>
+          </ol>
         </nav>
-        <h1
-          className="border-l-4 pl-3 font-display text-3xl font-semibold tracking-wide text-steel-100"
-          style={{ borderColor: TITLE_COLOR[title] }}
-        >
-          {info?.name ?? titleShort(reference.data, title)}
-        </h1>
-        {catalogue && (
-          <p className="label">
-            {info?.released} · {structureOf(catalogue)}
-          </p>
-        )}
-        <p className="max-w-3xl text-sm text-steel-300">{coverageText(reference.data, title)}</p>
+        <p className="ar-game-label">
+          {titleShort(reference.data, title)}
+          {info && ` · ${info.released.slice(0, 4)}`}
+          {catalogue && ` · ${structureOf(catalogue)}`}
+        </p>
+        <h1 className="m-heading m-title">{info?.name ?? titleShort(reference.data, title)}</h1>
+        <p className="m-intro">
+          {coverageText(reference.data, title)} Pick a {title === "og" ? "part" : "chapter"} to see
+          who and what it shows.
+        </p>
       </header>
 
       {sources.isPending ? (
-        <Loading variant="panel" label="Loading the catalogue…" />
+        <Loading variant="panel" label="Opening the chapters…" />
       ) : sources.isError ? (
-        <div className="panel p-4">
+        <div className="m-panel ar-panel">
           <ErrorMessage error={sources.error} onRetry={() => void sources.refetch()} />
         </div>
       ) : (
+        catalogue &&
         groups.map((group) => (
           <section
             key={group.label ?? "units"}
-            aria-label={group.label ?? "Chapters"}
-            className="flex flex-col gap-2"
+            aria-labelledby={`ar-${(group.label ?? "chapters").replace(" ", "-")}`}
+            className="ar-section"
           >
-            {group.label && <h2 className="section-title">{group.label}</h2>}
-            <UnitList
-              title={title}
-              units={group.units}
-              reference={reference.data}
-              max={Math.max(1, ...(catalogue?.units ?? []).map((u) => u.citations))}
-            />
+            <h2
+              id={`ar-${(group.label ?? "chapters").replace(" ", "-")}`}
+              className="m-heading ar-heading"
+            >
+              {group.label ?? "Chapters"}
+            </h2>
+            <ChapterList title={catalogue} units={group.units} reference={reference.data} />
           </section>
         ))
       )}
@@ -82,68 +94,53 @@ export function ArchiveTitlePage() {
   );
 }
 
-function UnitList({
+function ChapterList({
   title,
   units,
   reference,
-  max,
 }: {
-  title: TitleCode;
+  title: CatalogueTitle;
   units: readonly CatalogueUnit[];
   reference: Reference | undefined;
-  max: number;
 }) {
   return (
-    <ol className="panel divide-y divide-night-800">
+    <ol className="ar-chapters">
       {units.map((unit) => {
-        const arc = arcOf(reference, title, unit.key);
-        const retold = title === "og" ? retoldBy(reference, unit.key) : [];
+        const arc = arcOf(reference, title.code, unit.key);
+        const retold = title.code === "og" ? retoldBy(reference, unit.key) : [];
         const label = unitLabel(unit.key, unit.name);
         return (
-          <li
-            key={unit.key}
-            className="grid gap-x-4 gap-y-1 p-3 text-sm sm:grid-cols-[minmax(0,1fr)_12rem]"
-          >
-            <div className="flex min-w-0 flex-col gap-0.5">
-              <Link
-                to={unitPath(title, unit.key)}
-                className={`font-semibold hover:text-mako-300 ${unit.citations > 0 ? "text-steel-100" : "text-steel-400"}`}
-              >
+          <li key={unit.key} className="ar-chapter" data-empty={unit.subjects === 0 || undefined}>
+            <span aria-hidden="true" className="ar-chapter-number">
+              {unitNumber(title, unit.key)}
+            </span>
+            <span className="ar-chapter-text">
+              <Link to={unitPath(title.code, unit.key)} className="ar-chapter-name">
                 {unit.name.startsWith(label) ? unit.name : `${label} · ${unit.name}`}
               </Link>
-              <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-steel-400">
-                {arc && <span>{arc.name}</span>}
-                {retold.length > 0 && (
-                  <span>
-                    Retold in{" "}
-                    {retold.map((code, i) => (
-                      <span key={code}>
-                        {i > 0 && ", "}
-                        <span style={{ color: TITLE_COLOR[code] }}>
-                          {titleShort(reference, code)}
+              {(arc !== undefined || retold.length > 0) && (
+                <span className="ar-chapter-meta">
+                  {arc && <span>{arc.name}</span>}
+                  {retold.length > 0 && (
+                    <span>
+                      Retold in{" "}
+                      {retold.map((code, i) => (
+                        <span key={code}>
+                          {i > 0 && ", "}
+                          <span
+                            className="ar-game-inline"
+                            style={{ "--c": TITLE_COLOR[code] } as CSSProperties}
+                          >
+                            {titleShort(reference, code)}
+                          </span>
                         </span>
-                      </span>
-                    ))}
-                  </span>
-                )}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 text-xs text-steel-400">
-              <span aria-hidden="true" className="h-1.5 flex-1 rounded bg-night-800">
-                <span
-                  className="block h-full rounded"
-                  style={{
-                    width: `${String((unit.citations / max) * 100)}%`,
-                    background: TITLE_COLOR[title],
-                  }}
-                />
-              </span>
-              <span className="w-24 text-right">
-                {unit.citations > 0
-                  ? `${String(unit.citations)} citation${unit.citations === 1 ? "" : "s"}`
-                  : "Nothing yet"}
-              </span>
-            </div>
+                      ))}
+                    </span>
+                  )}
+                </span>
+              )}
+            </span>
+            <span className="ar-chapter-count">{shownText(unit.subjects)}</span>
           </li>
         );
       })}
