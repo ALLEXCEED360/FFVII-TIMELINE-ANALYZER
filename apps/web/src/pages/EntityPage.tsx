@@ -1,32 +1,40 @@
-import { formatYearBounds } from "@ffvii/shared/labels";
-import { useEffect, useMemo } from "react";
+import { type CSSProperties, useEffect, useMemo } from "react";
 import { Link, Navigate, useNavigate, useParams } from "react-router";
-import type { EntityDetail, Reference, Relationship } from "../api/client";
+import type { Appearance, EntityDetail, Reference, Relationship, TitleCode } from "../api/client";
 import { ApiError } from "../api/client";
 import { useEntity, useReference, useTimeline } from "../api/queries";
-import { Empty, ErrorMessage, Loading } from "../components/QueryState";
-import { AppearanceCard, DifferenceList, TitleDots } from "../features/entity/parts";
+import { SECTION_ART, artFor, pictureFor, sceneFor } from "../art/manifest";
+import { Artwork } from "../components/Artwork";
+import { useBackdrop } from "../components/Backdrop";
+import { Citations } from "../components/Citation";
+import { Orb } from "../components/Orb";
+import { ErrorMessage, Loading } from "../components/QueryState";
+import { ChangesByKind, Game, Telling } from "../features/compare/pieces";
+import { Picture, Portrait } from "../features/entity/Portrait";
+import { linkHeading } from "../features/network/words";
+import { byStoryOrder, whenOf } from "../features/timeline/story";
+import { KIND_WORDS, MATERIA } from "../lib/kinds";
 import {
   ENTITY_KINDS,
-  KIND_LABELS,
   comparePath,
+  divergencePath,
   entityPath,
   idFromPath,
   kindOf,
-  divergencePath,
   networkPath,
 } from "../lib/paths";
-import { TITLE_ORDER, describeLocator, titleShort } from "../lib/reference";
+import { TITLE_ORDER, titleShort, worldName } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
-import { OpenQuestionList } from "../features/archive/OpenQuestions";
 import { NotFoundPage } from "./NotFoundPage";
-import { artFor, sceneFor } from "../art/manifest";
-import { useBackdrop } from "../components/Backdrop";
-import { Portrait } from "../features/entity/Portrait";
+import "../features/compare/compare.css";
+import "../features/entity/entity.css";
+
+const MAIN_WORLD = "world_main";
 
 /**
- * One entity in full (blueprint §25): identity, how each title presents it, what changes, and
- * everything it's connected to — at `/character/cloud-strife`, `/event/nibelheim-incident`, …
+ * One character, moment, place or group in full (decision 0025), for someone new to the story —
+ * at `/character/cloud-strife`, `/event/nibelheim-incident`, …: who or what it is, how each game
+ * tells it, what changes between them, and what it's linked to.
  */
 export function EntityPage() {
   const { kind, slug } = useParams();
@@ -46,7 +54,7 @@ export function EntityPage() {
   if (entity.isError) {
     if (entity.error instanceof ApiError && entity.error.status === 404) return <NotFoundPage />;
     return (
-      <div className="panel p-4">
+      <div className="m-panel ent-section">
         <ErrorMessage error={entity.error} onRetry={() => void entity.refetch()} />
       </div>
     );
@@ -54,6 +62,14 @@ export function EntityPage() {
   if (kindOf(entity.data.id) !== kind) return <Navigate to={entityPath(entity.data.id)} replace />;
 
   return <EntityView entity={entity.data} reference={reference.data} />;
+}
+
+/** What a game does with it, in a word or two. */
+function presence(appearance: Appearance | undefined, event: boolean): string {
+  if (!appearance) return "Not in this game";
+  if (appearance.status === "omitted") return "Left out";
+  if (appearance.status === "referenced") return "Only mentioned";
+  return event ? "Shown" : "Appears";
 }
 
 function EntityView({
@@ -64,175 +80,237 @@ function EntityView({
   reference: Reference | undefined;
 }) {
   const kind = kindOf(entity.id) ?? "event";
-  const presentIn = new Set(
-    entity.appearances.filter((a) => a.status !== "omitted").map((a) => a.title),
-  );
+  const event = entity.event !== null;
   const { main, original } = artFor(entity.id);
   const figure = main?.kind === "cutout" ? main : undefined;
-  useBackdrop(sceneFor(entity.id)?.id, { strength: figure ? 0.3 : 0.5 });
+  const picture = figure ? undefined : pictureFor(entity.id, kind);
+  // The scene behind; fainter where the same picture is shown at the top, and the section's own
+  // where there's none.
+  useBackdrop(sceneFor(entity.id)?.id ?? SECTION_ART.explore, {
+    strength: picture ? 0.28 : 0.4,
+    side: "full",
+  });
+
+  // Each game's own telling (the main world's), and any other world's beside it.
+  const byGame = TITLE_ORDER.map((title) => {
+    const all = entity.appearances.filter((a) => a.title === title);
+    return {
+      title,
+      main: all.find((a) => a.world === MAIN_WORLD) ?? all[0],
+      others: all.filter((a) => a.world !== MAIN_WORLD),
+    };
+  });
+  const told = byGame.filter((g) => g.main && g.main.status !== "omitted").length;
+  const when = entity.event ? (whenOf(entity.event) ?? "During the story") : null;
 
   return (
-    <article className="flex flex-col gap-8">
-      <header
-        className={`grid items-end gap-6 ${figure ? "lg:grid-cols-[minmax(0,1fr)_minmax(18rem,28rem)]" : ""}`}
-      >
-        <div className="flex flex-col gap-3">
-          <nav aria-label="Breadcrumb" className="label">
-            <Link to="/explore" className="hover:text-mako-300">
-              Explore
-            </Link>{" "}
-            /{" "}
-            <Link to={`/explore?kind=${kind}`} className="hover:text-mako-300">
-              {KIND_LABELS[kind].many}
-            </Link>
-          </nav>
-          <h1 className="page-title">{entity.name}</h1>
+    <article className="ent" style={{ "--materia": MATERIA[kind].color } as CSSProperties}>
+      <header className={`ent-hero ${figure || picture ? "ent-hero-art" : ""}`}>
+        <div className="ent-hero-text">
+          <p className="m-label ent-kicker">
+            <Orb kind={kind} />
+            {KIND_WORDS[kind].one}
+            {entity.event?.importance === 3 && <span className="ent-key">★ Key moment</span>}
+          </p>
+          <h1 className="m-heading m-title ent-name">{entity.name}</h1>
           {entity.aliases.length > 0 && (
-            <p className="text-sm text-steel-400">Also known as {entity.aliases.join(", ")}</p>
+            <p className="ent-aliases">Also called {entity.aliases.join(", ")}</p>
           )}
           {entity.event && (
-            <p className="eyebrow">
-              {formatYearBounds(entity.event.start)} · {entity.event.arc.name}
-              {entity.event.importance === 3 ? " · Pivotal" : ""}
+            <p className="ent-when">
+              {when} · {entity.event.arc.name}
             </p>
           )}
-          <p className="max-w-3xl text-steel-300">{entity.summary}</p>
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="label mr-1">Appears in</span>
-            {TITLE_ORDER.map((title) => (
-              <span
-                key={title}
-                className="chip"
-                style={
-                  presentIn.has(title)
-                    ? { borderColor: TITLE_COLOR[title], color: "var(--color-steel-100)" }
-                    : {
-                        borderStyle: "dashed",
-                        color: "var(--color-steel-400)",
-                        textDecoration: "line-through",
-                      }
-                }
-              >
-                {titleShort(reference, title)}
-                <span className="sr-only">
-                  {presentIn.has(title) ? "" : " (not in this title)"}
-                </span>
-              </span>
-            ))}
-            <span className="ml-auto flex gap-2">
-              {presentIn.size >= 2 && (
-                <Link to={comparePath(entity.id)} className="btn">
-                  Compare titles
-                </Link>
-              )}
-              {entity.relationships.length > 0 && (
-                <Link to={networkPath(entity.id)} className="btn">
-                  Network
-                </Link>
-              )}
-              {entity.event && (
-                <Link to={divergencePath(entity.id)} className="btn">
-                  Divergence
-                </Link>
-              )}
-              {entity.event && (
-                <Link to={`/timeline?event=${entity.id}`} className="btn">
-                  Show on timeline
-                </Link>
-              )}
-            </span>
-          </div>
+          <p className="m-intro ent-summary">{entity.summary}</p>
+
+          <ul aria-label="In the games" className="ent-games">
+            {byGame.map(({ title, main: appearance }) => {
+              const absent = !appearance || appearance.status === "omitted";
+              return (
+                <li
+                  key={title}
+                  className="ent-game"
+                  data-absent={absent || undefined}
+                  style={{ "--c": TITLE_COLOR[title] } as CSSProperties}
+                >
+                  <span className="ent-game-name">{titleShort(reference, title)}</span>
+                  <span className="ent-game-status">{presence(appearance, event)}</span>
+                </li>
+              );
+            })}
+          </ul>
+
+          <nav aria-label="Where next" className="ent-next">
+            {told >= 2 && (
+              <Link to={comparePath(entity.id)} className="ent-next-link">
+                Compare the games side by side
+              </Link>
+            )}
+            {entity.relationships.length > 0 && (
+              <Link to={networkPath(entity.id)} className="ent-next-link">
+                See the web of links
+              </Link>
+            )}
+            {event && (
+              <Link to={divergencePath(entity.id)} className="ent-next-link">
+                See where the stories split
+              </Link>
+            )}
+            {event && (
+              <Link to={`/timeline?event=${entity.id}`} className="ent-next-link">
+                Show on the timeline
+              </Link>
+            )}
+          </nav>
         </div>
         {figure && <Portrait main={figure} original={original} />}
+        {picture && <Picture entry={picture} />}
       </header>
 
-      {entity.event && <EventContext id={entity.id} />}
+      {event && <BeforeAndAfter id={entity.id} />}
 
-      <section aria-labelledby="entity-titles" className="flex flex-col gap-3">
-        <h2 id="entity-titles" className="section-title">
-          In each title
+      <section aria-labelledby="ent-games" className="ent-section">
+        <h2 id="ent-games" className="m-heading ent-heading">
+          {event ? "How each game tells it" : "In each game"}
         </h2>
-        <div className="grid gap-3 md:grid-cols-2">
-          {entity.appearances.map((appearance) => (
-            <AppearanceCard
-              key={`${appearance.title}-${appearance.world}`}
-              appearance={appearance}
-              reference={reference}
-              headingLevel={3}
-            />
+        <div className="ent-tellings">
+          {byGame.map(({ title, main: appearance, others }) => (
+            <section
+              key={title}
+              aria-labelledby={`ent-game-${title}`}
+              className="m-panel ent-telling"
+              data-absent={!appearance || undefined}
+              style={{ "--c": TITLE_COLOR[title] } as CSSProperties}
+            >
+              <header className="ent-telling-head">
+                <h3 id={`ent-game-${title}`} className="m-heading ent-telling-name">
+                  {titleShort(reference, title)}
+                </h3>
+                <span className="ent-telling-status">{presence(appearance, event)}</span>
+              </header>
+              {appearance ? (
+                <Telling appearance={appearance} reference={reference} event={event} />
+              ) : (
+                <p className="ent-text ent-dim">
+                  {event
+                    ? "This game doesn't tell this part of the story."
+                    : `${entity.name} isn't in this game.`}
+                </p>
+              )}
+              {others.map((other) => (
+                <div key={other.world} className="ent-other-world">
+                  <p className="m-label">In another world: {worldName(reference, other.world)}</p>
+                  <Telling appearance={other} reference={reference} event={event} />
+                </div>
+              ))}
+            </section>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="entity-differences" className="flex flex-col gap-3">
-        <h2 id="entity-differences" className="section-title">
-          Differences between titles
+      <section aria-labelledby="ent-changes" className="ent-section">
+        <h2 id="ent-changes" className="m-heading ent-heading">
+          What changes between the games
         </h2>
         {entity.differences.length > 0 ? (
-          <DifferenceList differences={entity.differences} reference={reference} />
+          <div className="m-panel ent-panel">
+            <ChangesByKind differences={entity.differences} reference={reference} />
+          </div>
         ) : (
-          <p className="text-sm text-steel-400">No differences documented yet.</p>
+          <p className="m-panel ent-panel ent-text">
+            No changes between the games are recorded for {entity.name} yet.
+          </p>
         )}
       </section>
 
-      <Connections entity={entity} reference={reference} />
+      <LinkedTo entity={entity} reference={reference} />
 
       {entity.openQuestions.length > 0 && (
-        <section aria-labelledby="entity-questions" className="flex flex-col gap-3">
-          <h2 id="entity-questions" className="section-title">
-            Open research questions
+        <section aria-labelledby="ent-questions" className="ent-section">
+          <h2 id="ent-questions" className="m-heading ent-heading">
+            Still being checked
           </h2>
-          <p className="text-sm text-steel-400">
-            Parts of this record still awaiting a stronger check. See the{" "}
-            <Link
-              to="/archive/research"
-              className="text-steel-200 underline underline-offset-2 hover:text-mako-300"
-            >
-              research log
-            </Link>
-            .
-          </p>
-          <OpenQuestionList
-            questions={entity.openQuestions}
-            reference={reference}
-            showSubjects={false}
-          />
+          <div className="m-panel ent-panel">
+            <p className="ent-text ent-dim">
+              Parts of this page wait on a closer look at the games. See the{" "}
+              <Link to="/archive/research" className="ent-inline-link">
+                research log
+              </Link>
+              .
+            </p>
+            <ul className="ent-questions">
+              {entity.openQuestions.map((q) => (
+                <li key={q.id} className="ent-question">
+                  <h3 className="ent-question-name">{q.summary}</h3>
+                  <p className="ent-text">{q.details}</p>
+                  {q.sources.length > 0 && (
+                    <p className="cmp-sources">
+                      Where to look: <Citations sources={q.sources} reference={reference} />
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
       )}
     </article>
   );
 }
 
-/** For events: what comes just before and after, in the world of the story (blueprint §25). */
-function EventContext({ id }: { id: string }) {
+/** For moments: what happens just before and just after, in the world of the story. */
+function BeforeAndAfter({ id }: { id: string }) {
   const timeline = useTimeline(TITLE_ORDER);
-  const items = timeline.data?.items ?? [];
+  const items = useMemo(
+    () => [...(timeline.data?.items ?? [])].sort(byStoryOrder),
+    [timeline.data],
+  );
   const index = items.findIndex((e) => e.id === id);
   if (index < 0) return null;
   const neighbours = [
-    { label: "Before", event: items[index - 1] },
-    { label: "After", event: items[index + 1] },
+    { label: "Just before", event: items[index - 1] },
+    { label: "Just after", event: items[index + 1] },
   ];
   if (neighbours.every((n) => n.event === undefined)) return null;
   return (
-    <nav aria-label="Chronology" className="grid gap-3 sm:grid-cols-2">
+    <nav aria-label="Before and after" className="ent-around">
       {neighbours.map(({ label, event }) =>
         event ? (
-          <Link key={label} to={entityPath(event.id)} className="panel panel-link p-3">
-            <span className="label block">{label}</span>
-            <span className="text-steel-100">{event.name}</span>
-            <span className="block text-xs text-steel-400">{formatYearBounds(event.start)}</span>
+          <Link
+            key={label}
+            to={entityPath(event.id)}
+            className="m-panel ent-around-link"
+            data-side={label === "Just before" ? "before" : "after"}
+          >
+            <span className="m-label">{label}</span>
+            <span className="ent-around-name">{event.name}</span>
+            <span className="ent-around-when">{whenOf(event) ?? "During the story"}</span>
           </Link>
         ) : (
-          <div key={label} className="hidden sm:block" />
+          <span key={label} aria-hidden="true" />
         ),
       )}
     </nav>
   );
 }
 
-/** Everything the entity is related to, grouped by what it's related to. */
-function Connections({
+/** A link's other end: a person's face, or the orb of its kind. */
+function Face({ id, kind }: { id: string; kind: string }) {
+  const art = kind === "character" ? pictureFor(id, kind) : undefined;
+  return art ? (
+    <span aria-hidden="true" className="ent-face">
+      <Artwork entry={art} decorative />
+    </span>
+  ) : (
+    <Orb kind={kind} size="1.05rem" />
+  );
+}
+
+/**
+ * Everything it's linked to, grouped by what's at the other end, each link read from this end:
+ * "Took part in", "Comes from", "Member of".
+ */
+function LinkedTo({
   entity,
   reference,
 }: {
@@ -241,45 +319,66 @@ function Connections({
 }) {
   const timeline = useTimeline(TITLE_ORDER);
   const order = useMemo(
-    () => new Map((timeline.data?.items ?? []).map((e, i) => [e.id, i])),
+    () => new Map([...(timeline.data?.items ?? [])].sort(byStoryOrder).map((e, i) => [e.id, i])),
     [timeline.data],
+  );
+  const games = new Set(
+    entity.appearances.filter((a) => a.status !== "omitted").map((a) => a.title),
   );
 
   const groups = ENTITY_KINDS.map((kind) => {
-    const items = entity.relationships.filter((r) => r.other.kind === kind);
-    const sorted =
-      kind === "event"
-        ? [...items].sort((a, b) => (order.get(a.other.id) ?? 0) - (order.get(b.other.id) ?? 0))
-        : items;
-    return { kind, items: sorted };
-  }).filter((g) => g.items.length > 0);
+    const links = entity.relationships
+      .filter((r) => r.other.kind === kind)
+      .sort((a, b) =>
+        kind === "event"
+          ? (order.get(a.other.id) ?? 0) - (order.get(b.other.id) ?? 0)
+          : a.other.name.localeCompare(b.other.name),
+      );
+    const phrases = new Map<string, Relationship[]>();
+    for (const r of links) {
+      const phrase = linkHeading(r.type, r.label, r.direction === "out");
+      phrases.set(phrase, [...(phrases.get(phrase) ?? []), r]);
+    }
+    return { kind, phrases };
+  }).filter((g) => g.phrases.size > 0);
 
   return (
-    <section aria-labelledby="entity-connections" className="flex flex-col gap-3">
-      <h2 id="entity-connections" className="section-title">
+    <section aria-labelledby="ent-links" className="ent-section">
+      <h2 id="ent-links" className="m-heading ent-heading">
         Connections
       </h2>
       {groups.length === 0 ? (
-        <div className="panel">
-          <Empty>No relationships documented yet.</Empty>
-        </div>
+        <p className="m-panel ent-panel ent-text">No links are recorded for {entity.name} yet.</p>
       ) : (
-        <div className="grid gap-3 md:grid-cols-2">
-          {groups.map(({ kind, items }) => (
-            <div key={kind} className="panel p-4">
-              <h3 className="mb-2 font-display text-sm font-semibold tracking-wider text-steel-100 uppercase">
-                {KIND_LABELS[kind].many}
+        <div className="ent-links">
+          {groups.map(({ kind, phrases }) => (
+            <section
+              key={kind}
+              aria-labelledby={`ent-links-${kind}`}
+              className="m-panel ent-links-group"
+            >
+              <h3 id={`ent-links-${kind}`} className="m-label ent-links-kind">
+                <Orb kind={kind} />
+                {KIND_WORDS[kind].many}
               </h3>
-              <ul className="flex flex-col gap-2">
-                {items.map((r) => (
-                  <RelationshipRow
-                    key={`${r.id}-${r.direction}`}
-                    relationship={r}
-                    reference={reference}
-                  />
+              <dl className="ent-phrases">
+                {[...phrases].map(([phrase, links]) => (
+                  <div key={phrase} className="ent-phrase">
+                    <dt className="ent-phrase-name">{phrase}</dt>
+                    <dd className="ent-chips">
+                      {links.map((r) => (
+                        <LinkChip
+                          key={`${r.id}-${r.direction}`}
+                          relationship={r}
+                          games={games}
+                          reference={reference}
+                        />
+                      ))}
+                    </dd>
+                  </div>
                 ))}
-              </ul>
-            </div>
+              </dl>
+            </section>
           ))}
         </div>
       )}
@@ -287,44 +386,32 @@ function Connections({
   );
 }
 
-function RelationshipRow({
+function LinkChip({
   relationship: r,
+  games,
   reference,
 }: {
   relationship: Relationship;
+  /** The games that show this page's subject. */
+  games: ReadonlySet<TitleCode>;
   reference: Reference | undefined;
 }) {
-  const notes = r.titles
-    .filter((t) => t.notes)
-    .map((t) => `${titleShort(reference, t.title)}: ${t.notes ?? ""}`);
-  const uncertain = r.titles.some((t) => t.certainty !== "stated");
+  const role = typeof r.attributes.role === "string" ? r.attributes.role : null;
+  const open = r.titles.some((t) => t.certainty !== "stated");
+  const only = r.titles.length === 1 && games.size > 1 ? r.titles[0]?.title : undefined;
   return (
-    <li className="text-sm">
-      <div className="flex flex-wrap items-baseline gap-x-2">
-        <span className="text-xs text-steel-400">{r.label}</span>
-        <Link to={entityPath(r.other.id)} className="text-steel-100 hover:text-mako-300">
-          {r.other.name}
-        </Link>
-        {typeof r.attributes.role === "string" && (
-          <span className="text-xs text-steel-400">({r.attributes.role})</span>
-        )}
-        {uncertain && <span className="chip">Uncertain</span>}
-        <span className="ml-auto">
-          <TitleDots
-            titles={r.titles.map((t) => t.title)}
-            reference={reference}
-            describe={(title) =>
-              r.titles
-                .find((t) => t.title === title)
-                ?.sources.map((s) => describeLocator(reference, s))
-                .join("; ") ?? ""
-            }
-          />
+    <span className="ent-chip-wrap">
+      <Link to={entityPath(r.other.id)} className="ent-chip">
+        <Face id={r.other.id} kind={r.other.kind} />
+        {r.other.name}
+      </Link>
+      {role && <span className="ent-chip-note">{role}</span>}
+      {only && (
+        <span className="ent-chip-note">
+          only in <Game code={only} reference={reference} />
         </span>
-      </div>
-      {notes.length > 0 && (
-        <p className="mt-0.5 text-xs text-steel-400 italic">{notes.join(" · ")}</p>
       )}
-    </li>
+      {open && <span className="cmp-tag">Left open</span>}
+    </span>
   );
 }

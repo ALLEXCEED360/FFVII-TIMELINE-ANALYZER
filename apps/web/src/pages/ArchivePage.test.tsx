@@ -195,7 +195,7 @@ describe("citations elsewhere", () => {
     await screen.findByRole("heading", { level: 1, name: "Death of Aerith" });
     const citation = screen.getAllByRole("link", { name: "Rebirth · Ch. 14" })[0];
     expect(citation?.getAttribute("href")).toBe("/archive/rebirth/chapter-14");
-    const questions = screen.getByRole("region", { name: "Open research questions" });
+    const questions = screen.getByRole("region", { name: "Still being checked" });
     expect(
       within(questions)
         .getAllByRole("heading", { level: 3 })

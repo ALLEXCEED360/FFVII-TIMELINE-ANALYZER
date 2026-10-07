@@ -33,7 +33,7 @@ export function markOf(event: TimelineEvent, title: TitleCode): Mark {
 export { tellingOf } from "../../lib/plain";
 
 /** When an event happens, for someone who doesn't know the story: "15 years before the story". */
-export function whenOf(event: TimelineEvent): string | null {
+export function whenOf(event: Pick<TimelineEvent, "start">): string | null {
   const year = event.start.earliest;
   if (year === 0) return null;
   const n = Math.abs(year).toLocaleString("en-US");
@@ -52,7 +52,7 @@ export interface Chapter {
   events: TimelineEvent[];
 }
 
-const byStoryOrder = (a: TimelineEvent, b: TimelineEvent) =>
+export const byStoryOrder = (a: TimelineEvent, b: TimelineEvent) =>
   a.start.earliest - b.start.earliest ||
   (a.seq ?? Number.MAX_SAFE_INTEGER) - (b.seq ?? Number.MAX_SAFE_INTEGER) ||
   a.id.localeCompare(b.id);

@@ -30,7 +30,9 @@ test("a page whose code fails to download offers a reload, inside the site", asy
 
   await page.unroute("**/assets/ExplorePage-*.js");
   await alert.getByRole("button", { name: "Reload" }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Explore" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Who's who, and what's what" }),
+  ).toBeVisible();
 });
 
 test("the graph library loads only on network pages", async ({ page }) => {
@@ -50,7 +52,7 @@ test("the graph library loads only on network pages", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "Cloud Strife" })).toBeVisible();
   expect(graphLibrary()).toBe(false);
 
-  await page.getByRole("main").getByRole("link", { name: "Network", exact: true }).click();
+  await page.getByRole("link", { name: "See the web of links" }).click();
   await expect(page.getByRole("complementary", { name: "Chosen in the web" })).toBeVisible();
   await expect.poll(graphLibrary).toBe(true);
 });

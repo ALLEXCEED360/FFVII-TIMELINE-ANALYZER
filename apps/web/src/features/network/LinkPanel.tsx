@@ -1,24 +1,14 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Link } from "react-router";
 import type { PathResult } from "../../api/client";
 import { useEntity } from "../../api/queries";
-import { artFor, sceneFor } from "../../art/manifest";
+import { pictureFor } from "../../art/manifest";
 import { Artwork } from "../../components/Artwork";
+import { Orb } from "../../components/Orb";
+import { KIND_WORDS, isKind } from "../../lib/kinds";
 import { comparePath, entityPath } from "../../lib/paths";
 import type { MergedNetwork } from "./elements";
-import { KIND_WORDS, MATERIA, isKind, linkHeading, linkSentence } from "./words";
-
-/** A small materia orb in a kind's colour. */
-export function Orb({ kind, size = "0.85rem" }: { kind: string; size?: string }) {
-  const materia = isKind(kind) ? MATERIA[kind].color : "#7fd6ff";
-  return (
-    <span
-      aria-hidden="true"
-      className="materia"
-      style={{ width: size, height: size, "--materia": materia } as CSSProperties}
-    />
-  );
-}
+import { linkHeading, linkSentence } from "./words";
 
 /**
  * The thing chosen in the web — or, until something is, its centre: its picture, what it is, and
@@ -49,10 +39,7 @@ export function LinkPanel({
   const centerName = network.nodes.get(center)?.name ?? "the centre";
   if (!node) return null;
   const kind = isKind(node.kind) ? node.kind : "character";
-  const art =
-    kind === "character"
-      ? (artFor(id).main ?? artFor(id).original)
-      : (sceneFor(id) ?? artFor(id).main);
+  const art = pictureFor(id, kind);
 
   // Its links in this web, grouped under how they read from this end.
   const groups = new Map<string, { other: string; name: string; kind: string }[]>();

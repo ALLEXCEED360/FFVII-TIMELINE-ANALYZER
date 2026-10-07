@@ -1,0 +1,243 @@
+/* Who's who, and what's what (ExplorePage.tsx, decision 0024), in the modern panels
+   (components/modern.css): everyone and everything as picture cards, each edged in its kind's
+   materia colour (lib/kinds.ts). Names in the heading face; reading text in the site's sans. */
+
+.ex {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-size: 16px;
+}
+.ex-text {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--m-text);
+}
+.ex-count {
+  margin-left: 0.15rem;
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+/* ── Search and choices ───────────────────────────────────────────────────────────────────── */
+.ex-controls {
+  display: grid;
+  gap: 1.1rem 1.8rem;
+  padding: 1rem 1.15rem 1.1rem;
+}
+@media (min-width: 72rem) {
+  .ex-controls {
+    grid-template-columns: minmax(16rem, 24rem) auto auto;
+    align-items: start;
+  }
+}
+.ex-control {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.ex-search {
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0 0.85rem;
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  background: rgb(5 8 13 / 0.6);
+  font-size: 0.95rem;
+  color: var(--m-text);
+}
+.ex-search::placeholder {
+  color: #8d97aa;
+}
+.ex-search:focus-visible {
+  border-color: var(--m-accent);
+  outline: 2px solid var(--m-accent);
+  outline-offset: 1px;
+}
+.ex-empty {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding: 1.1rem 1.2rem;
+}
+
+/* ── A kind's group ───────────────────────────────────────────────────────────────────────── */
+.ex-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.ex-group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--m-line);
+}
+.ex-group-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 30px;
+  line-height: 1.15;
+}
+.ex-guide {
+  color: var(--m-dim);
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.8);
+}
+
+/* People stand in narrower portrait cards; moments, places and groups in wider picture cards. */
+.ex-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 0.75rem;
+}
+.ex-cards[data-kind="character"] {
+  grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr));
+}
+
+/* ── A card: wholly a link, its picture on top, edged in its kind's colour ───────────────── */
+.ex-card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  background: linear-gradient(180deg, rgb(24 30 44 / 0.72), rgb(8 11 18 / 0.82));
+  backdrop-filter: blur(12px);
+  color: var(--m-text);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.4);
+  transition:
+    border-color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.ex-card:hover {
+  border-color: var(--materia);
+  box-shadow:
+    0 0 22px color-mix(in oklab, var(--materia) 32%, transparent),
+    0 12px 28px rgb(0 0 0 / 0.4);
+  transform: translateY(-3px);
+}
+.ex-card:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.ex-card-art {
+  display: flex;
+  height: 10.5rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse at 50% 80%,
+    color-mix(in oklab, var(--materia) 28%, transparent),
+    transparent 72%
+  );
+  border-bottom: 2px solid color-mix(in oklab, var(--materia) 70%, transparent);
+}
+.ex-card-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.ex-card:hover .ex-card-art img {
+  transform: scale(1.04);
+}
+/* A figure on transparency: whole from the top, never cropped at the sides. */
+.ex-card-art[data-kind="cutout"] img {
+  object-fit: contain;
+  object-position: 50% 0% !important;
+}
+.ex-cards[data-kind="character"] .ex-card-art {
+  height: 15rem;
+  padding-top: 0.5rem;
+}
+.ex-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.75rem 0.9rem 0.8rem;
+}
+.ex-card-when {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: var(--heading-weight);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--materia) 85%, white);
+}
+.ex-card-name {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: var(--heading-weight);
+  line-height: 1.2;
+  color: #fff;
+}
+.ex-card-summary {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--m-text);
+}
+.ex-card-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+.ex-games {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+}
+.ex-game {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--m-dim);
+}
+.ex-game::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--c);
+  transform: rotate(45deg);
+}
+.ex-card-more {
+  padding: 0.15rem 0.6rem;
+  border: 1px solid color-mix(in oklab, var(--materia) 55%, transparent);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: #fff;
+  white-space: nowrap;
+}
+.ex-card:hover .ex-card-more {
+  background: color-mix(in oklab, var(--materia) 22%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ex-card,
+  .ex-card-art img {
+    transition: none;
+  }
+  .ex-card:hover,
+  .ex-card:hover .ex-card-art img {
+    transform: none;
+  }
+}

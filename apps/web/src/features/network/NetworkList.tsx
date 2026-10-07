@@ -3,8 +3,9 @@ import type { Reference } from "../../api/client";
 import { networkPath } from "../../lib/paths";
 import { TitleDots } from "../entity/parts";
 import type { MergedNetwork } from "./elements";
-import { Orb } from "./LinkPanel";
-import { KIND_WORDS, isKind, linkHeading } from "./words";
+import { Orb } from "../../components/Orb";
+import { KIND_WORDS, isKind } from "../../lib/kinds";
+import { linkHeading } from "./words";
 
 /**
  * The web as text (blueprint §33: the graph is never the only way to the information): each

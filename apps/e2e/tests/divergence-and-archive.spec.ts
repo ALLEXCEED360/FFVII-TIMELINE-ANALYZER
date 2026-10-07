@@ -7,7 +7,7 @@ test("from an event to where the games part ways, then from an earlier moment", 
   page,
 }) => {
   await page.goto("/event/aerith-death");
-  await page.getByRole("main").getByRole("link", { name: "Divergence", exact: true }).click();
+  await page.getByRole("link", { name: "See where the stories split" }).click();
   await expect(page).toHaveURL(/\/divergence\/event\/aerith-death$/);
 
   const turn = page.getByRole("region", { name: "Death of Aerith" });

@@ -14,7 +14,7 @@ const PAGES: { name: string; path: string; ready: (page: Page) => Promise<void> 
     path: "/timeline?event=event_nibelheim_incident",
     ready: eventWindow,
   },
-  { name: "explore", path: "/explore", ready: heading("Explore") },
+  { name: "explore", path: "/explore", ready: heading("Who's who, and what's what") },
   { name: "character", path: "/character/cloud-strife", ready: heading("Cloud Strife") },
   { name: "event", path: "/event/aerith-death", ready: heading("Death of Aerith") },
   { name: "compare", path: "/compare", ready: heading("Compare") },

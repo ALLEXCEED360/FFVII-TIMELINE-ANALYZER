@@ -2,23 +2,17 @@ import { type CSSProperties, useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import type { TitleCode } from "../api/client";
 import { useEntities, useNetworkMetrics, useReference } from "../api/queries";
-import { SECTION_ART, artFor, sceneFor } from "../art/manifest";
+import { SECTION_ART, pictureFor } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
-import { Orb } from "../features/network/LinkPanel";
+import { Orb } from "../components/Orb";
 import { toggle } from "../features/network/params";
-import { KIND_WORDS, MATERIA } from "../features/network/words";
+import { KIND_WORDS, MATERIA } from "../lib/kinds";
 import { ENTITY_KINDS, type EntityKind, networkPath } from "../lib/paths";
 import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import "../features/network/network.css";
-
-/** A thing's picture for its card: a person's portrait, else a painting of it, if there is one. */
-function pictureOf(id: string, kind: string) {
-  const art = artFor(id);
-  return kind === "character" ? (art.main ?? art.original) : (sceneFor(id) ?? art.main);
-}
 
 /**
  * The web of links (decision 0023), for someone new to the story: pick someone to see everything
@@ -149,7 +143,7 @@ export function NetworkOverviewPage() {
           ) : (
             <ul aria-label="Whose web to see" className="nw-cast">
               {cast.map((entity) => {
-                const picture = pictureOf(entity.id, entity.kind);
+                const picture = pictureFor(entity.id, entity.kind);
                 const materia = (MATERIA as Record<string, { color: string } | undefined>)[
                   entity.kind
                 ];

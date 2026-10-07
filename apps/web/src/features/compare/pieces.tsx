@@ -153,7 +153,7 @@ export function ChangesByKind({
 }
 
 /** How one game tells it: how (for an event), its own account, where in the game. */
-function Telling({
+export function Telling({
   appearance,
   reference,
   event,

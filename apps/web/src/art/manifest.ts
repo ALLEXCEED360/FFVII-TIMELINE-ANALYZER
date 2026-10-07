@@ -595,3 +595,9 @@ export const TITLE_ART: Record<TitleCode, string> = {
 export function sceneFor(entityId: string): ArtEntry | undefined {
   return ARTWORK.find((entry) => entry.subjects.includes(entityId) && entry.kind !== "cutout");
 }
+
+/** An entity's picture for a card or panel: a person's portrait, else a painting of it. */
+export function pictureFor(entityId: string, kind: string): ArtEntry | undefined {
+  const art = artFor(entityId);
+  return kind === "character" ? (art.main ?? art.original) : (sceneFor(entityId) ?? art.main);
+}

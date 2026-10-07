@@ -1,5 +1,6 @@
 import type { StylesheetJson } from "cytoscape";
-import { CATEGORY_WORDS, MATERIA } from "./words";
+import { MATERIA } from "../../lib/kinds";
+import { CATEGORY_WORDS } from "./words";
 
 // How the web is drawn (decision 0023). Cytoscape can't read CSS variables, so the colours are
 // given here. Every thing is a materia orb — a radial gradient in its kind's colour — and keeps

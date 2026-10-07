@@ -13,7 +13,8 @@ import {
 import { SECTION_ART, sceneFor } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
-import { LinkPanel, Orb, PathChain } from "../features/network/LinkPanel";
+import { Orb } from "../components/Orb";
+import { LinkPanel, PathChain } from "../features/network/LinkPanel";
 import { NetworkList } from "../features/network/NetworkList";
 import {
   type MergedNetwork,
@@ -27,7 +28,8 @@ import {
   toggle,
   useNetworkParams,
 } from "../features/network/params";
-import { CATEGORY_WORDS, KIND_WORDS, MATERIA, isKind } from "../features/network/words";
+import { CATEGORY_WORDS } from "../features/network/words";
+import { KIND_WORDS, MATERIA, isKind } from "../lib/kinds";
 import { ENTITY_KINDS, idFromPath, networkPath } from "../lib/paths";
 import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";

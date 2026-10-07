@@ -28,7 +28,7 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
   await expect(page.getByRole("heading", { level: 1, name: "Death of Aerith" })).toBeVisible();
 
   // 5–6. Compare the titles, then switch versions to the original against Rebirth.
-  await page.getByRole("link", { name: "Compare titles" }).click();
+  await page.getByRole("link", { name: "Compare the games side by side" }).click();
   await expect(page).toHaveURL(/\/compare\/event\/aerith-death/);
   await page.getByRole("button", { name: "OG vs Rebirth" }).click();
   await expect(page).toHaveURL(/titles=og%2Crebirth/);
@@ -38,7 +38,7 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
 
   // 7. Open the graph around the event.
   await page.getByRole("link", { name: "Everything about it" }).click();
-  await page.getByRole("main").getByRole("link", { name: "Network", exact: true }).click();
+  await page.getByRole("link", { name: "See the web of links" }).click();
   await expect(page).toHaveURL(/\/network\/event\/aerith-death/);
   const chosen = page.getByRole("complementary", { name: "Chosen in the web" });
   await expect(chosen.getByRole("heading", { name: "Death of Aerith" })).toBeVisible();
@@ -55,7 +55,7 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
     .getByRole("link", { name: "Nibelheim Incident" })
     .first()
     .click();
-  await page.getByRole("link", { name: "Show on timeline" }).click();
+  await page.getByRole("link", { name: "Show on the timeline" }).click();
   await expect(page).toHaveURL(/\/timeline\?event=event_nibelheim_incident/);
   await expect(page.getByRole("complementary", { name: "Event details" })).toContainText(
     "Nibelheim Incident",
