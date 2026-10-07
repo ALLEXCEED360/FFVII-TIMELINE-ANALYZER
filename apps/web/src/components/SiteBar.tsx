@@ -54,7 +54,7 @@ function MenuBar() {
             <span className="ff7-text site-bar-name">Timeline Analyzer</span>
           </span>
         </Link>
-        <div className="site-bar-tools">
+        <div className="site-bar-tools" data-menu-bar="">
           <button
             type="button"
             onClick={openSearch}

@@ -33,7 +33,8 @@
 .classic-party {
   display: flex;
   align-items: center;
-  padding: 0.9em 1.2em;
+  /* Room on the left for the glove. */
+  padding: 0.9em 1.2em 0.9em 2.4em;
   --open: 0.15s;
 }
 .classic-members {
@@ -52,6 +53,7 @@
   }
 }
 .classic-member-link {
+  position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) minmax(0, 12em);
   align-items: center;
@@ -60,19 +62,77 @@
   outline-offset: 0.25rem;
 }
 .classic-member-link:focus-visible {
-  outline: 1px dashed #fff;
+  outline: none;
 }
 .classic-portrait {
+  position: relative;
+  z-index: 1;
   width: 6.4em;
   height: 4.8em;
   overflow: hidden;
   border: 2px solid #b8b8c4;
   box-shadow: 0 0 0 1px #111118;
-  transition: border-color 0.15s;
+  transform-origin: left center;
+  transition:
+    transform 0.2s ease,
+    border-color 0.15s,
+    box-shadow 0.2s,
+    filter 0.2s;
 }
-.classic-member-link:hover .classic-portrait,
-.classic-member-link:focus-visible .classic-portrait {
+.classic-portrait img {
+  transition: transform 0.3s ease;
+}
+.classic-member-name,
+.classic-member-stats {
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s;
+}
+
+/* The game pointed at or chosen (decision 0028): its cover grows and glows in its colour, the
+   glove points at it, its row is lit, and the other covers step back. */
+.classic-member-link[data-selected] .classic-portrait {
   border-color: #fff;
+  box-shadow:
+    0 0 0 1px #111118,
+    0 0 0.9em color-mix(in oklab, var(--c) 75%, transparent),
+    0 0.4em 1.2em rgb(0 0 0 / 0.6);
+  transform: scale(1.4);
+}
+.classic-member-link[data-selected] .classic-portrait img {
+  transform: scale(1.06);
+}
+.classic-member-link[data-selected] .classic-member-name {
+  transform: translateX(2.4em);
+}
+.classic-member-link[data-selected] .classic-name {
+  color: color-mix(in oklab, var(--c) 35%, white);
+}
+.classic-member-link[data-selected]::before {
+  content: "";
+  position: absolute;
+  inset: -0.35em -0.6em;
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--c) 28%, transparent),
+    transparent 75%
+  );
+}
+.classic-member-link[data-selected] .classic-member-hand {
+  visibility: visible;
+  animation: glove 0.9s steps(2) infinite;
+}
+.classic-party[data-pointing] .classic-member-link:not([data-selected]) .classic-portrait {
+  filter: brightness(0.55) saturate(0.6);
+}
+.classic-party[data-pointing]
+  .classic-member-link:not([data-selected])
+  :is(.classic-member-name, .classic-member-stats) {
+  opacity: 0.6;
+}
+/* One glove (decision 0028): among the games or up in the bar, it leaves the commands. */
+.classic:not([data-zone="commands"]) .classic-command[aria-current] .ff7-hand {
+  visibility: hidden;
 }
 .classic-member-name,
 .classic-member-stats {
@@ -176,8 +236,7 @@
 .classic-command:focus-visible {
   outline: none;
 }
-.classic-command[aria-current] .ff7-hand,
-.classic-command:focus-visible .ff7-hand {
+.classic-command[aria-current] .ff7-hand {
   visibility: visible;
   animation: glove 0.9s steps(2) infinite;
 }
@@ -241,5 +300,13 @@
   .classic-portrait {
     width: 5.5em;
     height: 4.1em;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .classic-portrait,
+  .classic-portrait img,
+  .classic-member-name,
+  .classic-member-stats {
+    transition: none;
   }
 }

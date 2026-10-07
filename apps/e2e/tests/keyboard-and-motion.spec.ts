@@ -174,14 +174,107 @@ test("the home menu is driven with the arrow keys", async ({ page }) => {
   await expect(menu.getByRole("link", { name: /^Config/ })).toBeFocused();
   await page.keyboard.press("ArrowDown");
   await expect(menu.getByRole("link", { name: /^Timeline/ })).toBeFocused();
+  await page.keyboard.press("End");
   await page.keyboard.press("ArrowUp");
-  await expect(menu.getByRole("link", { name: /^Config/ })).toBeFocused();
-  await page.keyboard.press("ArrowUp");
+  await expect(menu.getByRole("link", { name: /^Archive/ })).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/archive$/);
   await expect(
     page.getByRole("heading", { level: 1, name: "The games, chapter by chapter" }),
   ).toBeVisible();
+});
+
+test("W A S D move the glove anywhere on the home menu, and left and right cross to the games", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const menu = page.getByRole("navigation", { name: "Sections" });
+  const games = page.getByRole("list", { name: "The four tellings" });
+  // Nothing focused yet: the keys still work.
+  await page.keyboard.press("s");
+  await expect(menu.getByRole("link", { name: /^Compare/ })).toBeFocused();
+  await page.keyboard.press("w");
+  await expect(menu.getByRole("link", { name: /^Timeline/ })).toBeFocused();
+
+  // Left to the games: the first is chosen, and its cover stands out.
+  await page.keyboard.press("a");
+  const og = games.getByRole("link").first();
+  await expect(og).toBeFocused();
+  await expect(og).toHaveAttribute("data-selected", "");
+  await page.keyboard.press("ArrowDown");
+  await expect(games.getByRole("link").nth(1)).toBeFocused();
+  await expect(og).not.toHaveAttribute("data-selected", "");
+
+  // Right, back to the command the glove left.
+  await page.keyboard.press("d");
+  await expect(menu.getByRole("link", { name: /^Timeline/ })).toBeFocused();
+  await page.keyboard.press("ArrowLeft");
+  await expect(games.getByRole("link").nth(1)).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/archive\/remake$/);
+});
+
+/** The gloves showing on the home menu, by the text of what each points at. */
+async function gloves(page: import("@playwright/test").Page) {
+  return page
+    .locator(".ff7-hand")
+    .evaluateAll((hands) =>
+      hands
+        .filter((hand) => getComputedStyle(hand).visibility === "visible")
+        .map((hand) => (hand.parentElement?.textContent ?? "").replace("☞", "").trim().slice(0, 8)),
+    );
+}
+
+test("the keys and the mouse move one glove on the home menu", async ({ page }) => {
+  await page.goto("/");
+  const menu = page.getByRole("navigation", { name: "Sections" });
+  const games = page.getByRole("list", { name: "The four tellings" });
+  // Quick presses each count.
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowDown");
+  await expect(menu.getByRole("link", { name: /^Network/ })).toBeFocused();
+  expect(await gloves(page)).toEqual(["Network"]);
+
+  // Pointing takes the same glove, and the keys carry on from there.
+  await menu.getByRole("link", { name: /^Timeline/ }).hover();
+  expect(await gloves(page)).toEqual(["Timeline"]);
+  await page.keyboard.press("ArrowDown");
+  await expect(menu.getByRole("link", { name: /^Compare/ })).toBeFocused();
+  expect(await gloves(page)).toEqual(["Compare"]);
+
+  // Into the games, and up to the bar: still one.
+  await games.getByRole("link").nth(2).hover();
+  expect(await gloves(page)).toEqual(["INTERmis"]);
+  await page
+    .getByRole("banner")
+    .getByRole("link", { name: /Credits/ })
+    .hover();
+  expect(await gloves(page)).toEqual(["Credits"]);
+});
+
+test("up from the top of the home menu reaches Search and Credits in the bar", async ({ page }) => {
+  await page.goto("/");
+  const menu = page.getByRole("navigation", { name: "Sections" });
+  const bar = page.getByRole("banner");
+  await page.keyboard.press("ArrowUp");
+  await expect(bar.getByRole("button", { name: "Search" })).toBeFocused();
+  await page.keyboard.press("d");
+  await expect(bar.getByRole("link", { name: /Credits/ })).toBeFocused();
+  // Down goes back to where the glove came from.
+  await page.keyboard.press("s");
+  await expect(menu.getByRole("link", { name: /^Timeline/ })).toBeFocused();
+
+  // From the games too, and Enter opens Search.
+  await page.keyboard.press("a");
+  await page.keyboard.press("w");
+  await page.keyboard.press("ArrowLeft");
+  await expect(bar.getByRole("button", { name: "Search" })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("dialog", { name: "Search the archive" })).toBeVisible();
+  // Typing in the search box types; it doesn't move the glove.
+  await page.keyboard.type("wasd");
+  await expect(page.getByRole("combobox")).toHaveValue("wasd");
 });
 
 test.describe("title screen", () => {

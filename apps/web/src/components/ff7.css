@@ -115,12 +115,12 @@
   font-size: 1.1em;
   white-space: nowrap;
 }
+/* The home menu marks the item its one glove is on (ClassicMenu, decision 0028); the glove is
+   the focus mark, as it is on the commands and the games, so there's no outline as well. */
 .site-bar-item:focus-visible {
-  outline: 2px dashed #fff;
-  outline-offset: 4px;
+  outline: none;
 }
-.site-bar-item:hover .ff7-hand,
-.site-bar-item:focus-visible .ff7-hand {
+.site-bar-item[data-selected] .ff7-hand {
   visibility: visible;
   animation: glove 0.9s steps(2) infinite;
 }

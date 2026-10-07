@@ -1,4 +1,4 @@
-import { type KeyboardEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { type PageName, preloadPage } from "../../app/pages";
 
 /**
@@ -65,7 +65,7 @@ export const SECTIONS: readonly {
   },
 ];
 
-/** The chosen section and arrow-key movement through a list of links (with wrap, Home, End). */
+/** The chosen section, and moving the glove to another (with wrap). */
 export function useMenu() {
   const [active, setActive] = useState(0);
   const links = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -76,19 +76,17 @@ export function useMenu() {
     if (section) preloadPage(section.page);
   };
 
-  const onKeyDown = (event: KeyboardEvent) => {
+  /** Move the glove to a command, wrapping round, and focus it. */
+  const go = (i: number) => {
     const count = SECTIONS.length;
-    const step = { ArrowDown: 1, ArrowUp: -1, Home: -active, End: count - 1 - active }[event.key];
-    if (step === undefined) return;
-    event.preventDefault();
-    const to = (active + step + count) % count;
+    const to = (i + count) % count;
     choose(to);
-    links.current[to]?.focus();
+    links.current[to]?.focus({ preventScroll: true });
   };
 
   const ref = (i: number) => (el: HTMLAnchorElement | null) => {
     links.current[i] = el;
   };
 
-  return { active, choose, onKeyDown, ref, current: SECTIONS[active] ?? SECTIONS[0] };
+  return { active, choose, go, ref, current: SECTIONS[active] ?? SECTIONS[0] };
 }
