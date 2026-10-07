@@ -87,19 +87,19 @@ test.describe("reduced motion", () => {
     await page.goto("/timeline");
     expect(Number.parseFloat(await navTransition(page))).toBeGreaterThan(0.1);
 
-    await chooseMotion(page, "Reduced");
+    await chooseMotion(page, "Less movement");
     await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
     expect(Number.parseFloat(await navTransition(page))).toBeLessThan(0.01);
 
     await page.reload();
-    await expect(page.getByRole("radio", { name: "Reduced" })).toBeChecked();
+    await expect(page.getByRole("radio", { name: "Less movement" })).toBeChecked();
     expect(Number.parseFloat(await navTransition(page))).toBeLessThan(0.01);
   });
 
   test("full motion overrides the system setting", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
-    await chooseMotion(page, "Full");
+    await chooseMotion(page, "Full movement");
     expect(Number.parseFloat(await navTransition(page))).toBeGreaterThan(0.1);
   });
 });

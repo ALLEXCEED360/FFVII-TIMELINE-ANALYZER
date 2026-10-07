@@ -60,7 +60,7 @@ describe("title screen", () => {
     useUi.setState({ boot: "off" });
     stubApi();
     renderAt("/settings");
-    await userEvent.click(await screen.findByRole("button", { name: "Play the title screen" }));
+    await userEvent.click(await screen.findByRole("button", { name: "Play the title screen now" }));
     expect(await screen.findByRole("dialog")).toBeTruthy();
   });
 });

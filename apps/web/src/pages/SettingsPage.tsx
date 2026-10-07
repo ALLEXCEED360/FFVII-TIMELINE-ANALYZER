@@ -1,114 +1,173 @@
+import type { ReactNode } from "react";
 import { SECTION_ART } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { type BootSetting, type CursorSetting, type MotionSetting, useUi } from "../stores/ui";
+import "../features/settings/settings.css";
 
-/** One setting as a row of a game's config screen: a name, what it does, and its choices. */
-function Choice<T extends string>({
+interface Option<T extends string> {
+  value: T;
+  label: string;
+  /** What the choice does, said once it's chosen. */
+  says: string;
+}
+
+/**
+ * One setting as a panel of a game's Config screen (decision 0027): its name, what it's for, its
+ * choices as materia that light when chosen, and what the chosen one does.
+ */
+function Setting<T extends string>({
   name,
   legend,
   help,
   value,
   options,
   onChange,
+  children,
 }: {
   name: string;
   legend: string;
   help: string;
   value: T;
-  options: readonly { value: T; label: string }[];
+  options: readonly Option<T>[];
   onChange: (value: T) => void;
+  children?: ReactNode;
 }) {
+  const chosen = options.find((o) => o.value === value);
   return (
-    <fieldset className="panel p-5">
-      <legend className="float-left w-full font-display text-2xl font-extrabold tracking-wide text-steel-100 uppercase italic">
-        {legend}
-      </legend>
-      <div className="clear-left flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-steel-300">{help}</p>
-        <div className="flex shrink-0 flex-wrap gap-1">
-          {options.map((option) => (
-            <label
-              key={option.value}
-              className="btn min-h-8 cursor-pointer has-checked:bg-mako-400 has-checked:text-ink has-checked:shadow-none has-focus-visible:shadow-[inset_0_0_0_2px_var(--color-steel-100)]"
-            >
-              <input
-                type="radio"
-                name={name}
-                value={option.value}
-                checked={value === option.value}
-                onChange={() => {
-                  onChange(option.value);
-                }}
-                className="sr-only"
-              />
-              {option.label}
-            </label>
-          ))}
-        </div>
+    <fieldset className="m-panel st-setting">
+      <legend className="m-heading st-name">{legend}</legend>
+      <p className="st-help">{help}</p>
+      <div className="st-options">
+        {options.map((option) => (
+          <label key={option.value} className="st-option">
+            <input
+              type="radio"
+              name={name}
+              value={option.value}
+              checked={value === option.value}
+              onChange={() => {
+                onChange(option.value);
+              }}
+              className="sr-only"
+            />
+            <span aria-hidden="true" className="st-orb" />
+            {option.label}
+          </label>
+        ))}
       </div>
+      {chosen && (
+        <p className="st-says" aria-live="polite">
+          {chosen.says}
+        </p>
+      )}
+      {children}
     </fieldset>
   );
 }
 
-const MOTION: readonly { value: MotionSetting; label: string }[] = [
-  { value: "system", label: "System" },
-  { value: "reduced", label: "Reduced" },
-  { value: "full", label: "Full" },
+const MOTION: readonly Option<MotionSetting>[] = [
+  {
+    value: "system",
+    label: "Follow my device",
+    says: "Moves as much as your device's own setting for motion allows.",
+  },
+  {
+    value: "reduced",
+    label: "Less movement",
+    says: "Pages change without sliding or fading, and the title screen holds still.",
+  },
+  {
+    value: "full",
+    label: "Full movement",
+    says: "Every window, fade and glow moves, whatever your device's setting.",
+  },
 ];
-const BOOT: readonly { value: BootSetting; label: string }[] = [
-  { value: "always", label: "Every visit" },
-  { value: "session", label: "Once a session" },
-  { value: "off", label: "Never" },
+const BOOT: readonly Option<BootSetting>[] = [
+  {
+    value: "always",
+    label: "Every visit",
+    says: "The title screen plays each time you open the guide.",
+  },
+  {
+    value: "session",
+    label: "Once a session",
+    says: "The title screen plays the first time you open the guide, until you close the browser.",
+  },
+  { value: "off", label: "Never", says: "The guide opens straight on the menu." },
 ];
-const CURSOR: readonly { value: CursorSetting; label: string }[] = [
-  { value: "game", label: "Buster Sword" },
-  { value: "system", label: "System" },
+const CURSOR: readonly Option<CursorSetting>[] = [
+  {
+    value: "game",
+    label: "Buster Sword",
+    says: "Your pointer is Cloud's Buster Sword, on devices with a mouse.",
+  },
+  { value: "system", label: "My own pointer", says: "Your device's usual pointer." },
 ];
 
-/** How the interface behaves (blueprint §33): motion, the title screen and the pointer. Remembered. */
+/** Settings (decision 0027): how the guide moves, opens and points. Saved in this browser. */
 export function SettingsPage() {
-  useBackdrop(SECTION_ART.settings, { strength: 0.45 });
+  useBackdrop(SECTION_ART.settings, { strength: 0.5, side: "full" });
   const ui = useUi();
 
   return (
-    <div className="flex max-w-4xl flex-col gap-8">
-      <header className="flex flex-col gap-2">
-        <p className="eyebrow">Config</p>
-        <h1 className="page-title">Settings</h1>
-        <p className="text-steel-300">Saved in this browser.</p>
+    <div className="st">
+      <header>
+        <p className="m-label">Config</p>
+        <h1 className="m-heading m-title">Settings</h1>
+        <p className="m-intro">
+          How the guide moves, opens and points. Your choices are saved in this browser.
+        </p>
       </header>
 
-      <div className="flex flex-col gap-3">
-        <Choice
+      <div className="st-grid">
+        <Setting
           name="motion"
           legend="Motion"
-          help="Wipes, arrivals and the title screen's movement. System follows your device's reduced-motion setting."
+          help="How much the pages move: windows opening, fades between pictures, the title screen."
           value={ui.motion}
           options={MOTION}
           onChange={ui.setMotion}
         />
-        <Choice
+        <Setting
           name="boot"
           legend="Title screen"
-          help="The screen that plays when the archive opens, while it wakes the server."
+          help="The opening screen that plays while the guide gets ready."
           value={ui.boot}
           options={BOOT}
           onChange={ui.setBoot}
-        />
-        <Choice
+        >
+          <button type="button" className="st-button" onClick={ui.replayBoot}>
+            Play the title screen now
+          </button>
+        </Setting>
+        <Setting
           name="cursor"
-          legend="Cursor"
-          help="Cloud's Buster Sword, or your system's own pointer. Only on devices with a mouse."
+          legend="Pointer"
+          help="What your mouse pointer looks like."
           value={ui.cursor}
           options={CURSOR}
           onChange={ui.setCursor}
         />
-      </div>
-
-      <div>
-        <button type="button" className="btn btn-primary px-6 py-2" onClick={ui.replayBoot}>
-          Play the title screen
-        </button>
+        <section aria-labelledby="st-spoilers" className="m-panel st-setting">
+          <h2 id="st-spoilers" className="m-heading st-name">
+            Spoiler warning
+          </h2>
+          <p className="st-help">
+            This guide tells the whole story of every game, endings included. The warning at the top
+            says so once, until you close it.
+          </p>
+          <p className="st-says" aria-live="polite">
+            {ui.noticeDismissed ? "You've closed it." : "It's showing at the top of the page."}
+          </p>
+          <button
+            type="button"
+            className="st-button"
+            onClick={ui.showNotice}
+            disabled={!ui.noticeDismissed}
+          >
+            Show the warning again
+          </button>
+        </section>
       </div>
     </div>
   );

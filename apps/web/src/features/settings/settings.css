@@ -1,0 +1,137 @@
+/* Settings (SettingsPage.tsx, decision 0027), as a game's Config screen in the modern panels
+   (components/modern.css): each choice a materia orb that lights when chosen. */
+
+.st {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-size: 16px;
+}
+.st-grid {
+  display: grid;
+  gap: 1rem;
+  align-items: stretch;
+}
+@media (min-width: 64rem) {
+  .st-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.st-setting {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+.st-name {
+  float: left;
+  width: 100%;
+  margin-bottom: 0.1rem;
+  font-size: 26px;
+  line-height: 1.2;
+}
+.st-name + * {
+  clear: left;
+}
+.st-help {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--m-text);
+}
+
+/* The choices: a row of large options, each with a materia orb that lights when chosen. */
+.st-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.st-option {
+  display: inline-flex;
+  min-height: 2.9rem;
+  flex: 1 1 10rem;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.45rem 1rem 0.45rem 0.8rem;
+  border: 1px solid var(--m-line);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.03);
+  font-size: 0.95rem;
+  color: var(--m-dim);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s,
+    color 0.2s;
+}
+.st-option:hover {
+  border-color: rgb(127 214 255 / 0.5);
+  color: #fff;
+}
+.st-option:has(:focus-visible) {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.st-option:has(:checked) {
+  border-color: rgb(142 240 198 / 0.7);
+  background: linear-gradient(90deg, rgb(142 240 198 / 0.16), rgb(142 240 198 / 0.04));
+  color: #fff;
+}
+.st-orb {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / 0.18), rgb(8 11 18 / 0.9));
+}
+.st-option:has(:checked) .st-orb {
+  border-color: transparent;
+  background: radial-gradient(
+    circle at 34% 30%,
+    #f4fffa 0 9%,
+    #9ff5cf 22%,
+    #3fd28a 48%,
+    #0d4a30 100%
+  );
+  box-shadow: 0 0 12px rgb(63 210 138 / 0.7);
+}
+
+.st-says {
+  padding-left: 0.75rem;
+  border-left: 2px solid rgb(142 240 198 / 0.6);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--m-dim);
+}
+.st-button {
+  align-self: flex-start;
+  min-height: 2.6rem;
+  margin-top: auto;
+  padding: 0.4rem 1.1rem;
+  border: 1px solid rgb(127 214 255 / 0.45);
+  border-radius: 6px;
+  background: rgb(8 11 18 / 0.7);
+  font-size: 0.9rem;
+  color: #fff;
+  cursor: pointer;
+}
+.st-button:hover:not(:disabled) {
+  border-color: var(--m-accent);
+  background: var(--m-accent-soft);
+}
+.st-button:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.st-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-option {
+    transition: none;
+  }
+}

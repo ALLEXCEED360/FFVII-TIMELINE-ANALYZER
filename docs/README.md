@@ -53,3 +53,4 @@ One short record per architecture decision, numbered in order.
 | 0024 | [Explore, as who's who and what's what](decisions/0024-explore-for-beginners.md)                                                           |
 | 0025 | [Character, moment, place and group pages, for someone meeting the story for the first time](decisions/0025-entity-pages-for-beginners.md) |
 | 0026 | [The archive, as the games chapter by chapter](decisions/0026-archive-for-beginners.md)                                                    |
+| 0027 | [Settings, as a Config screen in plain words](decisions/0027-settings-for-beginners.md)                                                    |

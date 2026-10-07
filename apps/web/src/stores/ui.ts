@@ -14,6 +14,8 @@ interface UiState {
   /** The one-time spoiler notice has been dismissed (docs/model/spoilers.md). Remembered. */
   noticeDismissed: boolean;
   dismissNotice: () => void;
+  /** Bring the spoiler notice back, from Settings. */
+  showNotice: () => void;
   /** How much the interface animates. Remembered. */
   motion: MotionSetting;
   setMotion: (motion: MotionSetting) => void;
@@ -40,6 +42,9 @@ export const useUi = create<UiState>()(
       noticeDismissed: false,
       dismissNotice: () => {
         set({ noticeDismissed: true });
+      },
+      showNotice: () => {
+        set({ noticeDismissed: false });
       },
       motion: "system",
       setMotion: (motion) => {
