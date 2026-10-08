@@ -198,24 +198,39 @@
 }
 
 /* The prompt between two hairlines on a faint band of Mako, pulsing slowly. */
+/* The prompt: large, and lifted clear of the small print below it. */
 .boot-press {
   position: relative;
-  padding: 0.6rem 2.5rem;
+  margin-bottom: clamp(1.25rem, 6vh, 4.5rem);
+  padding: clamp(0.8rem, 1.6vh, 1.15rem) clamp(2rem, 5vw, 5rem);
   font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 400;
-  letter-spacing: 0.6em;
+  font-size: clamp(1.05rem, 1.55vw, 1.6rem);
+  font-weight: 500;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
   text-transform: uppercase;
   color: #fff;
   border-top: 1px solid rgb(255 255 255 / 0.25);
   border-bottom: 1px solid rgb(255 255 255 / 0.25);
-  background: linear-gradient(90deg, transparent, rgb(88 224 168 / 0.12), transparent);
+  background: linear-gradient(90deg, transparent, rgb(88 224 168 / 0.16), transparent);
+  text-shadow: 0 0 18px rgb(88 224 168 / 0.45);
   outline: none;
   animation:
     title-in 1.2s ease-out 2.2s both,
     press-pulse 2.6s ease-in-out 3.4s infinite;
 }
 /* Keyboard focus shows as the hairlines brightening, not as a box round the prompt. */
+@media (max-width: 30rem) {
+  .boot-press {
+    padding-inline: 1.25rem;
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+  }
+}
+.boot-press {
+  white-space: nowrap;
+}
 .boot-press:focus-visible {
   border-color: rgb(255 255 255 / 0.75);
 }
