@@ -8,7 +8,7 @@ How the web app looks and behaves. It's written for someone meeting the story fo
 - **Lettering.** The series' logo lettering for the top bar; Optimus Princeps for names, headings and labels; Reactor7, the original's pixel font, for the home menu and the window between sections; Inter for reading; JetBrains Mono for where-in-the-game references.
 - **Colour.** Each game has its colour (OG amber, Remake cyan, INTERmission pink, Rebirth periwinkle). Each kind of thing has its materia: green people, yellow moments, blue places, purple groups (`lib/kinds.ts`).
 - **Artwork.** Official Square Enix art only, never AI-made, each credited (`art/manifest.ts`, the Credits page). Every page sits over a picture; a change of picture is a slow crossfade, a layer per picture, so moving on mid-fade never makes one jump (`Backdrop.tsx`).
-- **Moving around.** Changing section opens one of the original's windows with an ATB "Loading" gauge (`Wipe.tsx`). Every page but the home menu has a Back button that follows you down the page. Cloud's Buster Sword is the cursor (Settings can turn it off). Reduced motion, from Settings or the system, makes every change immediate.
+- **Moving around.** Changing section opens one of the original's windows with an ATB "Loading" gauge (`Wipe.tsx`). The page bar carries the sections, search, and — smaller and quieter — Config and Credits. Every page but the home menu has a Back button that follows you down the page. Cloud's Buster Sword is the cursor (Settings can turn it off). Reduced motion, from Settings or the system, makes every change immediate.
 
 ## Title screen
 

@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { type LucideIcon, ScrollText, Search, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { type PageName, preloadPage } from "../app/pages";
@@ -18,6 +18,41 @@ export const NAV: readonly { to: string; label: string; page: PageName }[] = [
   { to: "/explore", label: "Explore", page: "explore" },
   { to: "/archive", label: "Archive", page: "archive" },
 ];
+
+/** Config and Credits: always in the bar, but quieter than the sections. */
+const EXTRAS: readonly { to: string; label: string; page: PageName; icon: LucideIcon }[] = [
+  { to: "/settings", label: "Config", page: "settings", icon: Settings },
+  { to: "/credits", label: "Credits", page: "credits", icon: ScrollText },
+];
+
+/** Config and Credits as small icon links; in the Menu panel, a quieter list under the sections. */
+function Extras({ inPanel = false }: { inPanel?: boolean }) {
+  return (
+    <ul
+      aria-label={inPanel ? "More" : undefined}
+      className={inPanel ? "mbar-extras mbar-extras-panel" : "mbar-extras"}
+    >
+      {EXTRAS.map(({ to, label, page, icon: Icon }) => (
+        <li key={to}>
+          <SectionNavLink
+            to={to}
+            word={label}
+            onPointerEnter={() => {
+              preloadPage(page);
+            }}
+            onFocus={() => {
+              preloadPage(page);
+            }}
+            className="mbar-extra"
+          >
+            <Icon aria-hidden="true" className="mbar-extra-icon" />
+            {label}
+          </SectionNavLink>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 /** The top bar: one of the menu's windows on the home page, the modern bar everywhere else. */
 export function SiteBar() {
@@ -130,6 +165,7 @@ function ModernBar({ pathname }: { pathname: string }) {
                 </li>
               ))}
             </ul>
+            {!wide && <Extras inPanel />}
           </nav>
         )}
 
@@ -142,8 +178,14 @@ function ModernBar({ pathname }: { pathname: string }) {
             className="mbar-search"
           >
             <Search aria-hidden="true" className="mbar-icon" />
-            <span className="mbar-search-text">Search the archive…</span>
+            <span className="mbar-search-text mbar-search-long">Search the archive…</span>
+            <span className="mbar-search-text mbar-search-short">Search</span>
           </button>
+          {wide && (
+            <nav aria-label="More" className="mbar-more">
+              <Extras />
+            </nav>
+          )}
           {!wide && (
             <button
               type="button"
