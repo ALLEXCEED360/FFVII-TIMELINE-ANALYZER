@@ -69,13 +69,16 @@ test("on a phone: an event opens under itself, and a comparison is tabs @mobile"
     page.getByRole("listitem").filter({ has: event }).getByRole("complementary", {
       name: "Event details",
     }),
-  ).toContainText("How each game tells it");
+  ).toContainText("How each telling tells it");
 
   await page.goto("/compare/event/aerith-death");
-  const tabs = page.getByRole("tablist", { name: "Games" });
-  await expect(tabs.getByRole("tab", { name: "OG" })).toHaveAttribute("aria-selected", "true");
-  await tabs.getByRole("tab", { name: "Rebirth" }).click();
-  await expect(page.getByRole("tabpanel")).toContainText(/Rebirth|Cloud/);
+  const tabs = page.getByRole("tablist", { name: "Tellings" });
+  await expect(tabs.getByRole("tab", { name: "Original" })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
+  await tabs.getByRole("tab", { name: "Remake Trilogy" }).click();
+  await expect(page.getByRole("tabpanel")).toContainText("Rebirth");
   // The page never scrolls sideways.
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth,

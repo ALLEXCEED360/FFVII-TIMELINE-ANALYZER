@@ -1,7 +1,8 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { TimelineEvent, TitleCode } from "../../api/client";
+import { TELLING, type Telling } from "../../lib/tellings";
 import { TITLE_COLOR } from "../../lib/titles";
-import { type Chapter, MARK_WORDS, appearanceIn, markOf, tellingOf, whenOf } from "./story";
+import { type Chapter, MARK_WORDS, appearanceIn, tellingMark, tellingOf, whenOf } from "./story";
 
 interface RowProps {
   selected: string | null;
@@ -13,12 +14,12 @@ interface RowProps {
 /** The story in chapters, each a window of events in the order they happen. */
 export function StoryChapters({
   chapters,
-  titles,
+  tellings,
   titleName,
   ...row
 }: RowProps & {
   chapters: readonly Chapter[];
-  titles: readonly TitleCode[];
+  tellings: readonly Telling[];
   titleName: (code: TitleCode) => string;
 }) {
   return (
@@ -39,7 +40,7 @@ export function StoryChapters({
           <ol className="tl-events">
             {chapter.events.map((event) => (
               <EventRow key={event.id} event={event} {...row}>
-                <Marks event={event} titles={titles} titleName={titleName} />
+                <Marks event={event} tellings={tellings} titleName={titleName} />
               </EventRow>
             ))}
           </ol>
@@ -49,55 +50,78 @@ export function StoryChapters({
   );
 }
 
-/** One game's events, numbered in the order you meet them playing it. */
+/** A telling's events in the order you play them: a panel per game, numbered on throughout. */
 export function PlayList({
-  events,
-  game,
+  groups,
   titleName,
   ...row
 }: RowProps & {
-  events: readonly TimelineEvent[];
-  game: TitleCode;
+  groups: readonly { title: TitleCode; events: readonly TimelineEvent[] }[];
   titleName: (code: TitleCode) => string;
 }) {
+  // Numbered on through the telling; a moment met again in a later game is anchored once.
+  const seen = new Set<string>();
+  const numbered = groups.map(({ title, events }) => ({
+    title,
+    rows: [] as { event: TimelineEvent; number: number; anchor: boolean }[],
+    events,
+  }));
+  let count = 0;
+  for (const group of numbered) {
+    for (const event of group.events) {
+      count += 1;
+      group.rows.push({ event, number: count, anchor: !seen.has(event.id) });
+      seen.add(event.id);
+    }
+  }
   return (
-    <section
-      aria-labelledby="play-order-name"
-      className="m-panel tl-chapter"
-      style={{ "--c": TITLE_COLOR[game] } as CSSProperties}
-    >
-      <header className="tl-chapter-head">
-        <p className="m-label tl-part">In the order you play it</p>
-        <h2 id="play-order-name" className="m-heading tl-chapter-name">
-          {titleName(game)}
-        </h2>
-      </header>
-      <ol className="tl-events">
-        {events.map((event, i) => {
-          const a = appearanceIn(event, game);
-          return (
-            <EventRow key={event.id} event={event} number={i + 1} {...row}>
-              {a && <p className="tl-how">{tellingOf(a)}</p>}
-            </EventRow>
-          );
-        })}
-      </ol>
-    </section>
+    <div className="tl-chapters">
+      {numbered.map(({ title, rows }) => (
+        <section
+          key={title}
+          aria-labelledby={`play-${title}`}
+          className="m-panel tl-chapter"
+          style={{ "--c": TITLE_COLOR[title] } as CSSProperties}
+        >
+          <header className="tl-chapter-head">
+            <p className="m-label tl-part">In the order you play it</p>
+            <h2 id={`play-${title}`} className="m-heading tl-chapter-name">
+              {titleName(title)}
+            </h2>
+          </header>
+          <ol className="tl-events">
+            {rows.map(({ event, number, anchor }) => {
+              const a = appearanceIn(event, title);
+              return (
+                <EventRow key={event.id} event={event} number={number} anchor={anchor} {...row}>
+                  {a && <p className="tl-how">{tellingOf(a)}</p>}
+                </EventRow>
+              );
+            })}
+          </ol>
+        </section>
+      ))}
+    </div>
   );
 }
 
 function EventRow({
   event,
   number,
+  anchor = true,
   selected,
   onSelect,
   detail,
   children,
-}: RowProps & { event: TimelineEvent; number?: number; children: ReactNode }) {
+}: RowProps & { event: TimelineEvent; number?: number; anchor?: boolean; children: ReactNode }) {
   const on = event.id === selected;
   const when = whenOf(event);
   return (
-    <li id={`event-${event.id}`} className="tl-event" data-selected={on || undefined}>
+    <li
+      id={anchor ? `event-${event.id}` : undefined}
+      className="tl-event"
+      data-selected={on || undefined}
+    >
       <button
         type="button"
         aria-pressed={on}
@@ -118,35 +142,38 @@ function EventRow({
       {when && <p className="m-label tl-when">{when}</p>}
       <p className="tl-summary">{event.summary}</p>
       {children}
-      {on && detail}
+      {on && anchor && detail}
     </li>
   );
 }
 
-/** Whether each game shows the event, only mentions it, or leaves it out. */
+/** Whether each telling shows the event, only mentions it, or leaves it out — and in which game. */
 function Marks({
   event,
-  titles,
+  tellings,
   titleName,
 }: {
   event: TimelineEvent;
-  titles: readonly TitleCode[];
+  tellings: readonly Telling[];
   titleName: (code: TitleCode) => string;
 }) {
   return (
-    <ul aria-label="Which games tell it" className="tl-marks">
-      {titles.map((title) => {
-        const mark = markOf(event, title);
+    <ul aria-label="Which tellings have it" className="tl-marks">
+      {tellings.map((telling) => {
+        const { mark, titles } = tellingMark(event, telling);
+        const games =
+          telling === "trilogy" && titles.length > 0 ? titles.map(titleName).join(", ") : "";
         return (
           <li
-            key={title}
+            key={telling}
             className="tl-mark"
             data-mark={mark}
-            style={{ "--c": TITLE_COLOR[title] } as CSSProperties}
-            title={`${titleName(title)}: ${MARK_WORDS[mark]}`}
+            style={{ "--c": TELLING[telling].color } as CSSProperties}
+            title={`${TELLING[telling].short}: ${MARK_WORDS[mark]}${games ? ` (${games})` : ""}`}
           >
             <MarkIcon mark={mark} />
-            {titleName(title)}
+            {TELLING[telling].short}
+            {games && <span className="tl-mark-games">{games}</span>}
             <span className="sr-only">: {MARK_WORDS[mark]}</span>
           </li>
         );

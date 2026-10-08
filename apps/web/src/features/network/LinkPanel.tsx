@@ -139,7 +139,7 @@ export function LinkPanel({
           Everything about {node.name}
         </Link>
         <Link to={comparePath(id)} className="m-row-link">
-          Compare the games side by side
+          Compare side by side
         </Link>
       </nav>
     </aside>
@@ -180,7 +180,7 @@ export function PathChain({
         <p className="nw-text">Finding the link…</p>
       ) : !path?.found ? (
         <p className="nw-text">
-          No link between them in these games and kinds of link. Try turning more of them on.
+          No link between them with these choices. Try showing both tellings, or more kinds of link.
         </p>
       ) : (
         <>

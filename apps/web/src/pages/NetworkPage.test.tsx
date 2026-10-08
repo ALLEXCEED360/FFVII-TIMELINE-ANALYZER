@@ -109,18 +109,18 @@ describe("network page", () => {
     expect(path?.searchParams.get("to")).toBe("character_sephiroth");
   });
 
-  it("sends depth, titles and categories to the API", async () => {
+  it("sends depth, the chosen telling's games and categories to the API", async () => {
     const requests = stubApi();
     renderAt("/network/character/cloud-strife");
     await screen.findByTestId("graph");
     await userEvent.click(screen.getByRole("button", { name: "Two steps away" }));
-    await userEvent.click(screen.getByRole("button", { name: /INTERmission/ }));
+    await userEvent.click(screen.getByRole("button", { name: "The Remake Trilogy" }));
     await userEvent.click(screen.getByRole("button", { name: /Family, homes and groups/ }));
     await waitFor(() => {
       const last = requests.filter((u) => u.pathname.startsWith("/network/character")).at(-1);
       expect(Object.fromEntries(last?.searchParams ?? [])).toEqual({
         depth: "2",
-        titles: "og,remake,rebirth",
+        titles: "remake,intermission,rebirth",
         categories: "event,causal",
       });
     });
@@ -136,18 +136,19 @@ describe("network page", () => {
 });
 
 describe("network overview", () => {
-  it("offers everyone to start with, most linked first, keeping the chosen games", async () => {
+  it("offers everyone to start with, most linked first, keeping the chosen telling", async () => {
     stubApi();
     renderAt("/network?titles=intermission");
     const cast = await screen.findByRole("list", { name: "Whose web to see" });
     const cloud = await within(cast).findByRole("link", { name: /Cloud Strife/ });
-    expect(cloud.getAttribute("href")).toBe("/network/character/cloud-strife?titles=intermission");
+    // An older link naming a game of the trilogy means the trilogy.
+    expect(cloud.getAttribute("href")).toBe("/network/character/cloud-strife?in=trilogy");
     await userEvent.click(screen.getByRole("button", { name: "Places" }));
     expect(
       within(screen.getByRole("list", { name: "Whose web to see" }))
         .getByRole("link", { name: /Midgar/ })
         .getAttribute("href"),
-    ).toBe("/network/location/midgar?titles=intermission");
+    ).toBe("/network/location/midgar?in=trilogy");
   });
 
   it("opens a path search in the network view", async () => {

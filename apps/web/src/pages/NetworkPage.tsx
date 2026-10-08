@@ -1,6 +1,6 @@
-import { type CSSProperties, Suspense, lazy, useMemo } from "react";
+import { Suspense, lazy, useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
-import type { PathResult, TitleCode } from "../api/client";
+import type { PathResult } from "../api/client";
 import { ApiError } from "../api/client";
 import {
   useEntities,
@@ -14,6 +14,7 @@ import { SECTION_ART, sceneFor } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
 import { Orb } from "../components/Orb";
+import { TellingChoices } from "../components/TellingChoices";
 import { LinkPanel, PathChain } from "../features/network/LinkPanel";
 import { NetworkList } from "../features/network/NetworkList";
 import {
@@ -31,8 +32,7 @@ import {
 import { CATEGORY_WORDS } from "../features/network/words";
 import { KIND_WORDS, MATERIA, isKind } from "../lib/kinds";
 import { ENTITY_KINDS, idFromPath, networkPath } from "../lib/paths";
-import { TITLE_ORDER, titleShort } from "../lib/reference";
-import { TITLE_COLOR } from "../lib/titles";
+import { titlesOf } from "../lib/tellings";
 import { NotFoundPage } from "./NotFoundPage";
 import "../features/network/network.css";
 
@@ -61,7 +61,8 @@ export function NetworkPage() {
   const id = idFromPath(kind, slug);
   useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.network, { strength: 0.5, side: "full" });
   const { params, update } = useNetworkParams();
-  const filter = { titles: params.titles, categories: params.categories };
+  const titles = useMemo(() => titlesOf(params.tellings), [params.tellings]);
+  const filter = { titles, categories: params.categories };
   const reference = useReference();
   const entities = useEntities();
   const centerEntity = useEntity(id);
@@ -82,12 +83,12 @@ export function NetworkPage() {
         ? toElements(network, {
             center: id,
             selected,
-            titles: params.titles,
+            titles,
             pathNodes: path.data?.nodes.map((n) => n.id),
             pathEdges: path.data?.edges.map((e) => e.id),
           })
         : [],
-    [network, id, selected, params.titles, path.data],
+    [network, id, selected, titles, path.data],
   );
 
   // Putting something else in the centre keeps the choices but starts a fresh web.
@@ -148,26 +149,16 @@ export function NetworkPage() {
           </div>
         </div>
         <div className="nw-control">
-          <p className="m-label" id="nw-games">
-            Games
+          <p aria-hidden="true" className="m-label">
+            Show
           </p>
-          <div role="group" aria-labelledby="nw-games" className="m-choices">
-            {TITLE_ORDER.map((code: TitleCode) => (
-              <button
-                key={code}
-                type="button"
-                aria-pressed={params.titles.includes(code)}
-                onClick={() => {
-                  update({ titles: toggle(params.titles, code, TITLE_ORDER) });
-                }}
-                className="m-choice"
-                style={{ "--c": TITLE_COLOR[code] } as CSSProperties}
-              >
-                <span aria-hidden="true" className="m-choice-box" />
-                {titleShort(reference.data, code)}
-              </button>
-            ))}
-          </div>
+          <TellingChoices
+            label="Show"
+            value={params.tellings}
+            onChange={(tellings) => {
+              update({ tellings });
+            }}
+          />
         </div>
         <div className="nw-control">
           <p className="m-label" id="nw-kinds">
@@ -273,10 +264,10 @@ export function NetworkPage() {
                 {CATEGORY_WORDS[category].name}
               </li>
             ))}
-            {params.titles.length > 1 && (
+            {params.tellings === "both" && (
               <li>
                 <span aria-hidden="true" className="nw-line nw-line-dashed" />
-                Dashed: only one of the chosen games shows that link
+                Dashed: only the original or only the Remake Trilogy shows that link
               </li>
             )}
           </ul>

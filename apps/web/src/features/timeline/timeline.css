@@ -422,3 +422,23 @@
     gap: 0.8rem;
   }
 }
+
+/* Which of the Remake Trilogy's games give a mark, and each game's telling in the event window. */
+.tl-mark-games {
+  margin-left: 0.3rem;
+  font-size: 0.8em;
+  color: var(--m-dim);
+}
+.tl-telling-game {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.tl-telling-game + .tl-telling-game {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--m-line);
+}
+.tl-telling-title {
+  color: #fff;
+}

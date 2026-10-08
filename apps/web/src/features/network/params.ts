@@ -1,16 +1,16 @@
 import { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router";
-import type { EdgeCategory, TitleCode } from "../../api/client";
-import { TITLE_ORDER } from "../../lib/reference";
+import type { EdgeCategory } from "../../api/client";
+import { type TellingChoice, parseTellingChoice, setTellingChoice } from "../../lib/tellings";
 
 // The network view's settings live in the URL, so any view can be shared:
-// /network/character/cloud-strife?depth=2&titles=og,rebirth&categories=event&expand=…&to=…&node=…
+// /network/character/cloud-strife?depth=2&in=trilogy&categories=event&expand=…&to=…&node=…
 
 export const EDGE_CATEGORY_ORDER: readonly EdgeCategory[] = ["structural", "event", "causal"];
 
 export interface NetworkParams {
   depth: 1 | 2 | 3;
-  titles: TitleCode[];
+  tellings: TellingChoice;
   categories: EdgeCategory[];
   /** Entities whose own neighbourhoods are added to the view. */
   expand: string[];
@@ -28,13 +28,12 @@ function list(value: string | null): string[] {
 
 export function parseNetworkParams(search: URLSearchParams): NetworkParams {
   const depth = Number(search.get("depth"));
-  const titles = TITLE_ORDER.filter((t) => list(search.get("titles")).includes(t));
   const categories = EDGE_CATEGORY_ORDER.filter((c) => list(search.get("categories")).includes(c));
   const to = search.get("to");
   const node = search.get("node");
   return {
     depth: depth === 2 || depth === 3 ? depth : 1,
-    titles: titles.length > 0 ? titles : [...TITLE_ORDER],
+    tellings: parseTellingChoice(search),
     categories: categories.length > 0 ? categories : [...EDGE_CATEGORY_ORDER],
     expand: [...new Set(list(search.get("expand")).filter((id) => ID.test(id)))],
     to: to && ID.test(to) ? to : null,
@@ -44,9 +43,8 @@ export function parseNetworkParams(search: URLSearchParams): NetworkParams {
 
 /** Writes settings back, leaving defaults out so URLs stay short. */
 export function networkSearch(params: NetworkParams): URLSearchParams {
-  const search = new URLSearchParams();
+  const search = setTellingChoice(new URLSearchParams(), params.tellings);
   if (params.depth !== 1) search.set("depth", String(params.depth));
-  if (params.titles.length !== TITLE_ORDER.length) search.set("titles", params.titles.join(","));
   if (params.categories.length !== EDGE_CATEGORY_ORDER.length) {
     search.set("categories", params.categories.join(","));
   }

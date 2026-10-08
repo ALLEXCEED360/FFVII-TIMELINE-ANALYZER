@@ -5,6 +5,7 @@ import type {
   ComparedRelationship,
   ComparisonColumn,
   Difference,
+  DisplayStatus,
   EntityList,
   Reference,
   TitleCode,
@@ -14,9 +15,9 @@ import { Artwork } from "../../components/Artwork";
 import { Citation, Citations } from "../../components/Citation";
 import { ENTITY_KINDS, type EntityKind, KIND_LABELS, entityPath } from "../../lib/paths";
 import { CHANGE_WORDS, STATUS_SENTENCES, STATUS_WORDS, tellingOf } from "../../lib/plain";
-import { TITLE_ORDER, describeLocator, titleShort, worldName } from "../../lib/reference";
+import { TITLE_ORDER, titleShort, worldName } from "../../lib/reference";
+import { TELLING, TELLINGS, type Telling as TellingKey } from "../../lib/tellings";
 import { TITLE_COLOR } from "../../lib/titles";
-import { PRESETS, sameTitles, toggleTitle } from "./titles";
 
 // The compare section's pieces, shared with the entity pages.
 
@@ -29,64 +30,6 @@ export function Game({ code, reference }: { code: TitleCode; reference: Referenc
       <span aria-hidden="true" className="cmp-game-mark" />
       {titleShort(reference, code)}
     </span>
-  );
-}
-
-/** Which games to compare: the usual pairs as large buttons, and each game on its own. */
-export function GamePicker({
-  titles,
-  reference,
-  onChange,
-}: {
-  titles: readonly TitleCode[];
-  reference: Reference | undefined;
-  onChange: (titles: TitleCode[]) => void;
-}) {
-  return (
-    <div className="cmp-picker">
-      <div role="group" aria-label="Pairs" className="cmp-pairs">
-        {PRESETS.map((preset) => (
-          <button
-            key={preset.label}
-            type="button"
-            aria-pressed={sameTitles(titles, preset.titles)}
-            onClick={() => {
-              onChange([...preset.titles]);
-            }}
-            className="cmp-pair"
-          >
-            <span aria-hidden="true" className="cmp-pair-marks">
-              {preset.titles.map((code) => (
-                <span key={code} className="cmp-game-mark" style={gameStyle(code)} />
-              ))}
-            </span>
-            {preset.label}
-          </button>
-        ))}
-      </div>
-      <div role="group" aria-label="Games to compare" className="m-choices">
-        {TITLE_ORDER.map((code) => {
-          const on = titles.includes(code);
-          return (
-            <button
-              key={code}
-              type="button"
-              aria-pressed={on}
-              // Two games at least: there's nothing to compare with one.
-              disabled={on && titles.length <= 2}
-              onClick={() => {
-                onChange(toggleTitle(titles, code));
-              }}
-              className="m-choice"
-              style={gameStyle(code)}
-            >
-              <span aria-hidden="true" className="m-choice-box" />
-              {titleShort(reference, code)}
-            </button>
-          );
-        })}
-      </div>
-    </div>
   );
 }
 
@@ -189,71 +132,108 @@ export function Telling({
   );
 }
 
-/** One game's panel: what it does with the subject, and its own account. */
-export function GameColumn({
-  column,
+/** The order a telling's status is chosen in: what its games do with it, most telling first. */
+const STATUS_RANK: readonly DisplayStatus[] = [
+  "depicted",
+  "referenced",
+  "omitted",
+  "not_yet_reached",
+  "undocumented",
+  "absent",
+];
+
+/** A telling's status: the strongest among its games. */
+export function tellingStatus(columns: readonly ComparisonColumn[]): DisplayStatus {
+  return STATUS_RANK.find((status) => columns.some((c) => c.status === status)) ?? "absent";
+}
+
+/**
+ * One telling's panel: what it does with the subject, and each game's own account — within the
+ * Remake Trilogy, every game that tells it, named.
+ */
+export function TellingColumn({
+  telling,
+  columns,
   reference,
   event,
   figure,
   labelled = true,
 }: {
-  column: ComparisonColumn;
+  telling: TellingKey;
+  /** This telling's games' columns. */
+  columns: readonly ComparisonColumn[];
   reference: Reference | undefined;
   event: boolean;
-  /** A character's look in this game, where there's artwork of it. */
+  /** A character's look in this telling, where there's artwork of it. */
   figure?: ArtEntry;
-  /** False inside a tab, which already names the game. */
+  /** False inside a tab, which already names the telling. */
   labelled?: boolean;
 }) {
-  const { appearance, status } = column;
+  const status = tellingStatus(columns);
+  const told = columns.filter((c) => c.appearance);
+  const named = telling === "trilogy";
   return (
     <section
-      aria-labelledby={labelled ? `col-${column.title}` : undefined}
+      aria-labelledby={labelled ? `col-${telling}` : undefined}
       className="m-panel cmp-col"
-      style={gameStyle(column.title)}
+      style={{ "--c": TELLING[telling].color } as CSSProperties}
     >
       <header className="cmp-col-head">
         {labelled && (
-          <h2 id={`col-${column.title}`} className="m-heading cmp-col-name">
-            {titleShort(reference, column.title)}
+          <h2 id={`col-${telling}`} className="m-heading cmp-col-name">
+            {TELLING[telling].name}
           </h2>
         )}
         <p className="cmp-status" data-status={status}>
           {STATUS_WORDS[status]}
         </p>
-        {column.changed && <span className="cmp-tag cmp-big">Told differently</span>}
+        {columns.some((c) => c.changed) && (
+          <span className="cmp-tag cmp-big">Told differently</span>
+        )}
       </header>
       {figure && (
         <div aria-hidden="true" className="cmp-figure">
           <Artwork entry={figure} decorative />
         </div>
       )}
-      {appearance ? (
-        <Telling appearance={appearance} reference={reference} event={event} />
-      ) : (
-        <p className="cmp-empty">{STATUS_SENTENCES[status]}</p>
-      )}
-      {column.otherWorlds.map((other) => (
-        <div key={other.world} className="cmp-other">
-          <p className="m-label">In another world: {worldName(reference, other.world)}</p>
-          <Telling appearance={other} reference={reference} event={event} />
+      {told.length === 0 && <p className="cmp-empty">{STATUS_SENTENCES[status]}</p>}
+      {told.map((column) => (
+        <div key={column.title} className={named ? "cmp-game-telling" : undefined}>
+          {named && (
+            <p className="cmp-game-telling-name">
+              <Game code={column.title} reference={reference} />
+            </p>
+          )}
+          {column.appearance && (
+            <Telling appearance={column.appearance} reference={reference} event={event} />
+          )}
+          {column.otherWorlds.map((other) => (
+            <div key={other.world} className="cmp-other">
+              <p className="m-label">In another world: {worldName(reference, other.world)}</p>
+              <Telling appearance={other} reference={reference} event={event} />
+            </div>
+          ))}
         </div>
       ))}
     </section>
   );
 }
 
-/** Its connections per game: ✓ shown, — both shown but not connected, · not both shown. */
-export function Connections({
-  relationships,
-  columns,
-  reference,
-}: {
-  relationships: readonly ComparedRelationship[];
-  columns: readonly ComparisonColumn[];
-  reference: Reference | undefined;
-}) {
-  const ordered = [...relationships].sort((a, b) => Number(b.shared) - Number(a.shared));
+/**
+ * What the subject is connected to, in each telling: a mark where it shows the connection, a dash
+ * where it shows both but not the connection (a real difference), and a dot where it doesn't show
+ * both, so says nothing about it.
+ */
+export function Connections({ relationships }: { relationships: readonly ComparedRelationship[] }) {
+  const evidenceIn = (r: ComparedRelationship, telling: TellingKey) =>
+    r.titles.filter((t) => TELLING[telling].titles.includes(t.title));
+  const applicableIn = (r: ComparedRelationship, telling: TellingKey) =>
+    r.applicable.some((t) => TELLING[telling].titles.includes(t));
+  const sharedByBoth = (r: ComparedRelationship) =>
+    TELLINGS.every((t) => !applicableIn(r, t) || evidenceIn(r, t).length > 0);
+  const ordered = [...relationships].sort(
+    (a, b) => Number(sharedByBoth(b)) - Number(sharedByBoth(a)),
+  );
   return (
     <div className="m-panel cmp-links">
       <ul aria-label="What the marks mean" className="cmp-key">
@@ -261,7 +241,7 @@ export function Connections({
           <span aria-hidden="true" className="cmp-yes">
             ✓
           </span>
-          The game shows this connection
+          It shows this connection
         </li>
         <li>
           <span aria-hidden="true" className="cmp-no">
@@ -278,17 +258,23 @@ export function Connections({
       </ul>
       <div className="cmp-table-wrap">
         <table className="cmp-table">
-          <caption className="sr-only">Which games show each connection</caption>
+          <caption className="sr-only">Which telling shows each connection</caption>
           <thead>
             <tr>
               <th scope="col">Connected to</th>
-              {columns.map((c) => (
-                <th key={c.title} scope="col">
-                  <Game code={c.title} reference={reference} />
+              {TELLINGS.map((telling) => (
+                <th key={telling} scope="col">
+                  <span
+                    className="cmp-game"
+                    style={{ "--c": TELLING[telling].color } as CSSProperties}
+                  >
+                    <span aria-hidden="true" className="cmp-game-mark" />
+                    {TELLING[telling].short}
+                  </span>
                 </th>
               ))}
               <th scope="col">
-                <span className="sr-only">In every game?</span>
+                <span className="sr-only">In both?</span>
               </th>
             </tr>
           </thead>
@@ -301,25 +287,19 @@ export function Connections({
                   </Link>
                   <span className="cmp-link-label">{r.label}</span>
                 </th>
-                {columns.map((c) => {
-                  const evidence = r.titles.find((t) => t.title === c.title);
+                {TELLINGS.map((telling) => {
+                  const evidence = evidenceIn(r, telling);
+                  const stated = evidence.some((e) => e.certainty === "stated");
                   return (
-                    <td key={c.title}>
-                      {evidence ? (
-                        <span
-                          className={evidence.certainty === "stated" ? "cmp-yes" : "cmp-maybe"}
-                          title={evidence.sources
-                            .map((s) => describeLocator(reference, s))
-                            .join("; ")}
-                        >
-                          {evidence.certainty === "stated" ? "✓" : "?"}
+                    <td key={telling}>
+                      {evidence.length > 0 ? (
+                        <span className={stated ? "cmp-yes" : "cmp-maybe"}>
+                          {stated ? "✓" : "?"}
                           <span className="sr-only">
-                            {evidence.certainty === "stated"
-                              ? "Shows it"
-                              : "Shows it, but leaves it open"}
+                            {stated ? "Shows it" : "Shows it, but leaves it open"}
                           </span>
                         </span>
-                      ) : r.applicable.includes(c.title) ? (
+                      ) : applicableIn(r, telling) ? (
                         <span className="cmp-no">
                           —<span className="sr-only">Shows both, but not connected</span>
                         </span>
@@ -332,10 +312,10 @@ export function Connections({
                   );
                 })}
                 <td>
-                  {r.shared ? (
-                    <span className="cmp-tag">In every game</span>
+                  {sharedByBoth(r) ? (
+                    <span className="cmp-tag">In both</span>
                   ) : (
-                    <span className="cmp-tag cmp-big">Differs between games</span>
+                    <span className="cmp-tag cmp-big">Differs</span>
                   )}
                 </td>
               </tr>
@@ -347,7 +327,7 @@ export function Connections({
   );
 }
 
-/** Anything told by two games or more, found by name or kind, opening where `pathFor` says. */
+/** Anything told by both tellings, found by name or kind, opening where `pathFor` says. */
 export function ThingPicker({
   entities,
   reference,
@@ -368,7 +348,11 @@ export function ThingPicker({
   const shown = useMemo(
     () =>
       entities
-        .filter((e) => e.titles.length >= 2 && (kinds as readonly string[]).includes(e.kind))
+        .filter(
+          (e) =>
+            TELLINGS.every((t) => TELLING[t].titles.some((code) => e.titles.includes(code))) &&
+            (kinds as readonly string[]).includes(e.kind),
+        )
         // A search looks across every kind offered; otherwise the chosen kind.
         .filter((e) => (query ? e.name.toLowerCase().includes(query) : e.kind === kind))
         .sort((a, b) => a.name.localeCompare(b.name)),
@@ -409,7 +393,7 @@ export function ThingPicker({
         </div>
       )}
       {shown.length === 0 ? (
-        <p className="cmp-empty">Nothing by that name is told by two games.</p>
+        <p className="cmp-empty">Nothing by that name is told by both.</p>
       ) : (
         <ul aria-label="Things to compare" className="cmp-pick-list">
           {shown.map((entity) => (

@@ -6,12 +6,12 @@ import { artFor, sceneFor } from "../../art/manifest";
 import { Artwork } from "../../components/Artwork";
 import { ErrorMessage, Loading } from "../../components/QueryState";
 import { comparePath, divergencePath, entityPath } from "../../lib/paths";
-import { TITLE_ORDER, describeLocator, notYetReached, titleShort } from "../../lib/reference";
-import { TITLE_COLOR } from "../../lib/titles";
+import { describeLocator, notYetReached, titleShort } from "../../lib/reference";
+import { TELLING, TELLINGS } from "../../lib/tellings";
 import { MAIN_WORLD, tellingOf } from "./story";
 import "./timeline.css";
 
-/** The chosen event: what happens, how each game tells it, what changes, who and where. */
+/** The chosen event: what happens, how each telling tells it, what changes, who and where. */
 export function EventWindow({
   id,
   reference,
@@ -90,41 +90,39 @@ function EventDetails({
 
       <section aria-labelledby="tl-games" className="tl-detail-section">
         <h3 id="tl-games" className="m-label">
-          How each game tells it
+          How each telling tells it
         </h3>
         <ul className="tl-tellings">
-          {TITLE_ORDER.map((title) => {
-            const a = mainAppearance(entity, title);
-            const depiction = a?.depictions.find((d) => d.isPrimary) ?? a?.depictions[0];
-            const where = depiction?.locator ?? a?.sources[0];
+          {TELLINGS.map((telling) => {
+            const told = TELLING[telling].titles
+              .map((title) => ({ title, a: mainAppearance(entity, title) }))
+              .filter((t) => t.a !== undefined);
+            const reached = TELLING[telling].titles.some(
+              (title) => !notYetReached(reference, title, entity.ogSegmentId),
+            );
             return (
               <li
-                key={title}
+                key={telling}
                 className="tl-telling"
-                style={{ borderLeftColor: a ? TITLE_COLOR[title] : undefined }}
+                style={{ borderLeftColor: told.length > 0 ? TELLING[telling].color : undefined }}
               >
                 <p className="tl-telling-head">
-                  <span className="m-heading">{titleShort(reference, title)}</span>
-                  <span className={a ? "tl-telling-how" : "tl-telling-none"}>
-                    {a
-                      ? tellingOf({
-                          status: a.status,
-                          framing:
-                            depiction?.framing ?? (a.status === "referenced" ? "mention" : null),
-                          world: a.world,
-                        })
-                      : notYetReached(reference, title, entity.ogSegmentId)
-                        ? "Not reached yet"
-                        : "Not in this game"}
-                  </span>
+                  <span className="m-heading">{TELLING[telling].short}</span>
+                  {told.length === 0 && (
+                    <span className="tl-telling-none">
+                      {reached ? "Not in this telling" : "Not reached yet"}
+                    </span>
+                  )}
                 </p>
-                {a && <p className="tl-detail-text">{a.summary}</p>}
-                {a?.certainty === "ambiguous" && (
-                  <p className="tl-telling-note">The game leaves this open.</p>
-                )}
-                {where && (
-                  <p className="tl-telling-note">Where: {describeLocator(reference, where)}</p>
-                )}
+                {told.map(({ title, a }) => (
+                  <Telling
+                    key={title}
+                    title={title}
+                    appearance={a}
+                    reference={reference}
+                    named={telling === "trilogy"}
+                  />
+                ))}
               </li>
             );
           })}
@@ -134,7 +132,7 @@ function EventDetails({
       {entity.differences.length > 0 && (
         <section aria-labelledby="tl-changes" className="tl-detail-section">
           <h3 id="tl-changes" className="m-label">
-            What changes between games
+            What changes in the Remake Trilogy
           </h3>
           <ul className="tl-changes">
             {entity.differences.map((difference) => (
@@ -168,7 +166,7 @@ function EventDetails({
 
       <nav aria-label="Learn more" className="tl-more">
         <Link to={comparePath(entity.id)} className="m-row-link">
-          Compare the games side by side
+          Compare side by side
         </Link>
         {action ?? (
           <Link to={divergencePath(entity.id)} className="m-row-link">
@@ -179,6 +177,39 @@ function EventDetails({
           Everything about this event
         </Link>
       </nav>
+    </div>
+  );
+}
+
+/** One game's telling of the event: how, its account, and where to see it. */
+function Telling({
+  title,
+  appearance: a,
+  reference,
+  named,
+}: {
+  title: TitleCode;
+  appearance: Appearance | undefined;
+  reference: Reference | undefined;
+  /** Name the game (within the Remake Trilogy). */
+  named: boolean;
+}) {
+  if (!a) return null;
+  const depiction = a.depictions.find((d) => d.isPrimary) ?? a.depictions[0];
+  const where = depiction?.locator ?? a.sources[0];
+  return (
+    <div className="tl-telling-game">
+      <p className="tl-telling-how">
+        {named && <span className="tl-telling-title">{titleShort(reference, title)} · </span>}
+        {tellingOf({
+          status: a.status,
+          framing: depiction?.framing ?? (a.status === "referenced" ? "mention" : null),
+          world: a.world,
+        })}
+      </p>
+      <p className="tl-detail-text">{a.summary}</p>
+      {a.certainty === "ambiguous" && <p className="tl-telling-note">The game leaves this open.</p>}
+      {where && <p className="tl-telling-note">Where: {describeLocator(reference, where)}</p>}
     </div>
   );
 }

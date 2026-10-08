@@ -58,7 +58,7 @@ export const CERTAINTY_DESCRIPTIONS = {
 export const FUTURE_TITLES = [
   {
     name: "Final Fantasy VII Revelation",
-    note: "The final part of the Remake series, due Spring 2027. Added after release.",
+    note: "The final part of the Remake Trilogy, due Spring 2027. Added after release.",
   },
   { name: "Crisis Core: Final Fantasy VII", note: "After version 1." },
   { name: "Dirge of Cerberus: Final Fantasy VII", note: "After version 1." },

@@ -5,23 +5,24 @@ import { useDivergence, useEntity, useReference } from "../api/queries";
 import { SECTION_ART, sceneFor } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
-import { GamePicker } from "../features/compare/pieces";
 import { SplitView } from "../features/divergence/SplitView";
+import { byTelling } from "../features/divergence/tellings";
 import { divergenceSearch, useDivergenceParams } from "../features/divergence/params";
 import { EventWindow } from "../features/timeline/EventWindow";
 import { comparePath, divergencePath, idFromPath, kindOf } from "../lib/paths";
+import { TITLE_ORDER, worldName } from "../lib/reference";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { NotFoundPage } from "./NotFoundPage";
 import "../features/compare/compare.css";
 import "../features/divergence/divergence.css";
 
-/** Where the games part ways around one moment. /divergence/event/aerith-death?titles=…&worlds=1 */
+/** Where the original and the Remake Trilogy part ways around one moment. /divergence/event/…?worlds=1 */
 export function DivergenceViewPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);
   useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.divergence, { strength: 0.6, side: "full" });
   const { params, update } = useDivergenceParams();
-  const divergence = useDivergence(id, params.titles, params.worlds);
+  const divergence = useDivergence(id, TITLE_ORDER, params.worlds);
   const pivot = useEntity(id);
   const reference = useReference();
   const navigate = useNavigate();
@@ -92,12 +93,12 @@ export function DivergenceViewPage() {
         </h1>
         {pivot.data && <p className="m-intro">{pivot.data.summary}</p>}
         <p className="m-intro dv-guide">
-          Read it in three steps: the story so far, the turning point, then where each game goes
-          next. Tap any moment to see its details.
+          Read it in three steps: the story so far, the turning point, then where the original and
+          the Remake Trilogy each go next. Tap any moment to see its details.
         </p>
         <div className="cmp-hero-links">
           <Link to={comparePath(id)} className="m-pill-link">
-            Compare the games side by side
+            Compare side by side
           </Link>
           <Link to={`/timeline?event=${id}`} className="m-pill-link">
             See it on the timeline
@@ -105,18 +106,8 @@ export function DivergenceViewPage() {
         </div>
       </header>
 
-      <div className="m-panel cmp-controls dv-controls">
-        <div className="cmp-control">
-          <p className="m-label">Which games</p>
-          <GamePicker
-            titles={params.titles}
-            reference={reference.data}
-            onChange={(titles) => {
-              update({ titles });
-            }}
-          />
-        </div>
-        {hasOtherWorlds && (
+      {hasOtherWorlds && (
+        <div className="m-panel cmp-controls dv-controls">
           <div className="cmp-control">
             <p className="m-label" id="dv-worlds">
               Other worlds
@@ -135,18 +126,18 @@ export function DivergenceViewPage() {
               </button>
             </div>
             <p className="dv-help">
-              The Remake series also shows another world, where Zack survived. Turn this on to
+              The Remake Trilogy also shows another world, where Zack survived. Turn this on to
               follow it as a line of its own.
             </p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="dv-body">
         <div className="dv-main">
           {!wide && detail}
           {divergence.isPending ? (
-            <Loading variant="panel" label="Finding where the games part ways…" />
+            <Loading variant="panel" label="Finding where the tellings part ways…" />
           ) : divergence.isError ? (
             <div className="m-panel dv-stage">
               <ErrorMessage error={divergence.error} onRetry={() => void divergence.refetch()} />
@@ -154,7 +145,7 @@ export function DivergenceViewPage() {
           ) : (
             <div aria-busy={divergence.isPlaceholderData}>
               <SplitView
-                view={divergence.data}
+                view={byTelling(divergence.data, (world) => worldName(reference.data, world))}
                 reference={reference.data}
                 selected={selected}
                 onSelect={select}
@@ -172,7 +163,7 @@ export function DivergenceViewPage() {
                 <p className="m-heading">Tap any moment</p>
                 <p className="dv-stage-text">
                   Every moment on the left is a card. Tap one, or its Details button, and how each
-                  game tells it opens here — with a way to make it the turning point.
+                  telling tells it opens here — with a way to make it the turning point.
                 </p>
               </div>
             )}

@@ -580,3 +580,9 @@
 .dv-landing .dv-moment {
   text-decoration: none;
 }
+
+/* On the Remake Trilogy's line: which of its games tell the moment. */
+.dv-in {
+  font-weight: 400;
+  color: var(--m-dim);
+}

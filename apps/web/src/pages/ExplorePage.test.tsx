@@ -28,14 +28,22 @@ describe("explore page", () => {
     expect(sector7?.getAttribute("href")).toBe("/location/sector-7");
   });
 
-  it("filters by kind, game and text, keeping the choices in the URL", async () => {
+  it("filters by kind, telling and text, keeping the choices in the URL", async () => {
     stubApi();
     const { router } = renderAt("/explore");
-    await userEvent.click(await screen.findByRole("button", { name: /Places/ }));
-    await userEvent.click(screen.getByRole("button", { name: "INTERmission" }));
-    expect(names(screen.getByRole("list", { name: "Places" }))).toEqual(["Midgar", "Sector 7"]);
+    await userEvent.click(await screen.findByRole("button", { name: /Moments/ }));
+    // Only the original has told this one so far.
+    expect(names(screen.getByRole("list", { name: "Moments" }))).toContain(
+      "Cloud's Memories Restored",
+    );
+    await userEvent.click(screen.getByRole("button", { name: "The Remake Trilogy" }));
+    expect(names(screen.getByRole("list", { name: "Moments" }))).not.toContain(
+      "Cloud's Memories Restored",
+    );
+    expect(router.state.location.search).toBe("?kind=event&in=trilogy");
+
+    await userEvent.click(screen.getByRole("button", { name: /Places/ }));
     expect(screen.queryByRole("list", { name: "People" })).toBeNull();
-    expect(router.state.location.search).toBe("?kind=location&title=intermission");
 
     await userEvent.type(screen.getByRole("searchbox"), "seventh");
     expect(within(screen.getByRole("list", { name: "Places" })).getAllByRole("link")).toHaveLength(

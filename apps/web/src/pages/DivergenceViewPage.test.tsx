@@ -27,28 +27,29 @@ describe("divergence view", () => {
     expect(moments[0]).toContain("What changes: How it's shown");
   });
 
-  it("says at the turning point what each game does with it", async () => {
+  it("says at the turning point what each telling does with it, and in which game", async () => {
     stubApi();
     renderAt("/divergence/event/aerith-death");
     const turn = await screen.findByRole("region", { name: "Death of Aerith" });
-    const games = within(turn).getByRole("list", { name: "How each game tells it" });
-    const lines = items(games);
-    expect(lines[0]).toMatch(/^OGTold differently/);
+    const tellings = within(turn).getByRole("list", { name: "How each telling tells it" });
+    const lines = items(tellings);
+    expect(lines).toHaveLength(3);
+    expect(lines[0]).toMatch(/^The originalTold differently/);
     expect(lines[0]).toContain("Big change");
-    expect(lines[1]).toMatch(/^RemakeNot in this game/);
-    expect(lines[3]).toMatch(/^Rebirth · Zack survivesNot in this game/);
+    expect(lines[1]).toMatch(/^The Remake TrilogyTold differently · in Rebirth/);
+    expect(lines[2]).toMatch(/^Remake Trilogy · Zack survivesNot in this telling/);
   });
 
-  it("follows each game's own line after it", async () => {
+  it("follows each telling's own line after it", async () => {
     stubApi();
     renderAt("/divergence/event/aerith-death");
-    const og = await screen.findByRole("region", { name: "OG" });
-    expect(items(og)).toEqual(["Cloud's Memories RestoredOnly this game has told it so far"]);
-    const remake = screen.getByRole("region", { name: "Remake" });
-    expect(items(remake)).toEqual(["Cloud's Memories RestoredNot reached yet"]);
-    expect(screen.getByRole("region", { name: "Rebirth · Zack survives" }).textContent).toContain(
-      "Nothing after this moment in this game yet.",
-    );
+    const og = await screen.findByRole("region", { name: "The original" });
+    expect(items(og)).toEqual(["Cloud's Memories RestoredOnly this telling has told it so far"]);
+    const trilogy = screen.getByRole("region", { name: "The Remake Trilogy" });
+    expect(items(trilogy)).toEqual(["Cloud's Memories RestoredNot reached yet"]);
+    expect(
+      screen.getByRole("region", { name: "Remake Trilogy · Zack survives" }).textContent,
+    ).toContain("Nothing after this moment in this telling yet.");
   });
 
   it("asks for other worlds when they're switched on", async () => {
@@ -72,11 +73,11 @@ describe("divergence view", () => {
           }
         : undefined,
     );
-    const { router } = renderAt("/divergence/event/aerith-death?titles=og,rebirth");
+    const { router } = renderAt("/divergence/event/aerith-death");
     const before = await screen.findByRole("region", { name: "The story so far" });
     // The whole card is the button; its name starts with the moment's.
     await userEvent.click(within(before).getByRole("button", { name: /^Nibelheim Incident/ }));
-    expect(router.state.location.search).toBe("?titles=og%2Crebirth&node=event_nibelheim_incident");
+    expect(router.state.location.search).toBe("?node=event_nibelheim_incident");
     const details = screen.getByRole("complementary", { name: "Event details" });
     await userEvent.click(
       await within(details).findByRole("button", { name: "Make this the turning point" }),
@@ -84,7 +85,7 @@ describe("divergence view", () => {
     await waitFor(() => {
       expect(router.state.location.pathname).toBe("/divergence/event/nibelheim-incident");
     });
-    expect(router.state.location.search).toBe("?titles=og%2Crebirth");
+    expect(router.state.location.search).toBe("");
   });
 
   it("offers nothing to re-root on the turning point itself", async () => {

@@ -1,6 +1,7 @@
 import type { Arc, Era, TimelineAppearance, TimelineEvent, TitleCode } from "../../api/client";
+import { TELLING, type Telling } from "../../lib/tellings";
 
-// The timeline in chapters, and how each game treats each event, in plain words. Pure.
+// The timeline in chapters, and how each telling treats each event, in plain words. Pure.
 
 export const MAIN_WORLD = "world_main";
 
@@ -10,7 +11,7 @@ export type Mark = "shown" | "mentioned" | "none";
 export const MARK_WORDS: Record<Mark, string> = {
   shown: "Shows it",
   mentioned: "Only mentions it",
-  none: "Not in this game",
+  none: "Not in it",
 };
 
 /** The appearance that speaks for a game: the main world's, else the first other world's. */
@@ -26,6 +27,24 @@ export function markOf(event: TimelineEvent, title: TitleCode): Mark {
   const a = appearanceIn(event, title);
   if (!a || a.status === "omitted") return "none";
   return a.status === "depicted" ? "shown" : "mentioned";
+}
+
+const MARK_RANK: Record<Mark, number> = { shown: 2, mentioned: 1, none: 0 };
+
+/** How a telling treats an event: its strongest mark, and which of its games give it. */
+export function tellingMark(
+  event: TimelineEvent,
+  telling: Telling,
+): { mark: Mark; titles: TitleCode[] } {
+  const marks = TELLING[telling].titles.map((title) => ({ title, mark: markOf(event, title) }));
+  const best = marks.reduce<Mark>(
+    (m, x) => (MARK_RANK[x.mark] > MARK_RANK[m] ? x.mark : m),
+    "none",
+  );
+  return {
+    mark: best,
+    titles: best === "none" ? [] : marks.filter((x) => x.mark === best).map((x) => x.title),
+  };
 }
 
 export { tellingOf } from "../../lib/plain";
@@ -98,4 +117,14 @@ export function playOrder(events: readonly TimelineEvent[], title: TitleCode): T
     })
     .sort((a, b) => a.position - b.position || byStoryOrder(a.event, b.event))
     .map(({ event }) => event);
+}
+
+/** A telling's events in the order you play them: one group per game, in release order. */
+export function playGroups(
+  events: readonly TimelineEvent[],
+  telling: Telling,
+): { title: TitleCode; events: TimelineEvent[] }[] {
+  return TELLING[telling].titles
+    .map((title) => ({ title, events: playOrder(events, title) }))
+    .filter((group) => group.events.length > 0);
 }

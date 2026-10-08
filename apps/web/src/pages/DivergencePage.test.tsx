@@ -34,26 +34,23 @@ describe("divergence landing page", () => {
     expect(all.textContent).toContain("5 years before the story");
   });
 
-  it("keeps the chosen games in the URL, the request and the links", async () => {
+  it("always sets the original against the whole Remake Trilogy, with nothing to choose", async () => {
     const requests = stubApi();
-    const { router } = renderAt("/divergence");
-    await userEvent.click(await screen.findByRole("button", { name: "OG vs Rebirth" }));
-    await waitFor(() => {
-      expect(router.state.location.search).toBe("?titles=og%2Crebirth");
-    });
-    await waitFor(() => {
-      expect(
-        requests.some(
-          (u) => u.pathname === "/divergence" && u.searchParams.get("titles") === "og,rebirth",
-        ),
-      ).toBe(true);
-    });
+    renderAt("/divergence");
     const all = await screen.findByRole("region", { name: "Every moment where they differ" });
+    expect(screen.queryByRole("group", { name: "Pairs" })).toBeNull();
+    expect(
+      requests.some(
+        (u) =>
+          u.pathname === "/divergence" &&
+          u.searchParams.get("titles") === "og,remake,intermission,rebirth",
+      ),
+    ).toBe(true);
     expect(
       within(all)
         .getByRole("link", { name: /^Death of Aerith/ })
         .getAttribute("href"),
-    ).toBe("/divergence/event/aerith-death?titles=og,rebirth");
+    ).toBe("/divergence/event/aerith-death");
   });
 
   it("starts from any moment found by name, offering only moments", async () => {

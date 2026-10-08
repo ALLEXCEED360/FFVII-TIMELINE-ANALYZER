@@ -55,7 +55,7 @@ export const STATUS_SENTENCES: Record<DisplayStatus, string> = {
   referenced: "The game only mentions this, or shows it in passing.",
   omitted: "The game covers this part of the story but leaves this out.",
   not_yet_reached:
-    "The Remake series hasn't reached this part of the story yet; a later game may tell it.",
+    "The Remake Trilogy hasn't reached this part of the story yet; a later game may tell it.",
   undocumented: "The game covers this, but the archive hasn't recorded how yet.",
   absent: "This game doesn't tell this part of the story.",
 };
@@ -79,8 +79,8 @@ export type Marking = NonNullable<DivergenceView["events"][number]["stations"][n
 export const SPLIT_WORDS: Record<Marking, string> = {
   shared: "Told the same",
   changed: "Told differently",
-  only_here: "Only this game shows it",
-  not_yet_retold: "Only this game has told it so far",
+  only_here: "Only this telling shows it",
+  not_yet_retold: "Only this telling has told it so far",
   omitted: "Left out",
   not_yet_reached: "Not reached yet",
   undocumented: "Not recorded yet",
@@ -88,11 +88,11 @@ export const SPLIT_WORDS: Record<Marking, string> = {
 
 /** The same, said in a sentence where there's room. */
 export const SPLIT_SENTENCES: Record<Marking, string> = {
-  shared: "This game tells it the same way as the others.",
-  changed: "This game tells it, but differently from the others.",
-  only_here: "Only this game shows it; the others cover this part of the story without it.",
-  not_yet_retold: "This game tells it; the others haven't reached this part of the story yet.",
-  omitted: "This game covers this part of the story but leaves this out.",
-  not_yet_reached: "This game hasn't reached this part of the story yet.",
-  undocumented: "This game covers this, but the archive hasn't recorded how yet.",
+  shared: "Told the same way as in the other telling.",
+  changed: "Told, but differently from the other telling.",
+  only_here: "Only this telling shows it; the other covers this part of the story without it.",
+  not_yet_retold: "This telling has it; the other hasn't reached this part of the story yet.",
+  omitted: "This telling covers this part of the story but leaves this out.",
+  not_yet_reached: "This telling hasn't reached this part of the story yet.",
+  undocumented: "This telling covers this, but the archive hasn't recorded how yet.",
 };

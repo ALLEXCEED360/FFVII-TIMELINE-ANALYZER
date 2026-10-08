@@ -1,13 +1,13 @@
-import { Link, useSearchParams } from "react-router";
-import type { DivergencePoint, TitleCode } from "../api/client";
+import { Link } from "react-router";
+import type { DivergencePoint } from "../api/client";
 import { useDivergencePoints, useEntities, useReference } from "../api/queries";
 import { SECTION_ART, artFor, sceneFor } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
 import { Empty, ErrorMessage, Loading } from "../components/QueryState";
-import { GamePicker, ThingPicker } from "../features/compare/pieces";
-import { compareTitlesParam, parseCompareTitles } from "../features/compare/titles";
+import { ThingPicker } from "../features/compare/pieces";
 import { divergencePath } from "../lib/paths";
+import { TITLE_ORDER } from "../lib/reference";
 import "../features/compare/compare.css";
 import "../features/divergence/divergence.css";
 
@@ -23,21 +23,13 @@ function count(point: DivergencePoint): string {
   return point.major > 0 ? `${all}, ${String(point.major)} big` : all;
 }
 
-/** The moments where the games part ways, big turning points first. */
+/** The moments where the original and the Remake Trilogy part ways, big turning points first. */
 export function DivergencePage() {
   useBackdrop(SECTION_ART.divergence, { strength: 0.6, side: "full" });
-  const [search, setSearch] = useSearchParams();
-  const titles = parseCompareTitles(search.get("titles"));
-  const points = useDivergencePoints(titles);
+  const points = useDivergencePoints(TITLE_ORDER);
   const reference = useReference();
   const entities = useEntities();
 
-  const param = compareTitlesParam(titles);
-  const keep = param === null ? "" : `?titles=${param}`;
-  const setTitles = (next: TitleCode[]) => {
-    const value = compareTitlesParam(next);
-    setSearch(value === null ? {} : { titles: value }, { replace: true });
-  };
   const items = points.data?.items ?? [];
   const turning = items.filter((p) => p.major > 0);
 
@@ -46,30 +38,23 @@ export function DivergencePage() {
       <header>
         <h1 className="m-heading m-title">Divergence</h1>
         <p className="m-intro">
-          The Remake series doesn&apos;t only retell the original. At some moments its games tell
-          things differently, show things the original never did, or hint at another world. Pick a
-          moment to follow the story up to it, and see where each game goes from there.
+          The Remake Trilogy doesn&apos;t only retell the original. At some moments it tells things
+          differently, shows things the original never did, or hints at another world. Pick a moment
+          to follow the story up to it, and see where each telling goes from there.
         </p>
       </header>
-
-      <div className="m-panel cmp-controls dv-controls">
-        <div className="cmp-control">
-          <p className="m-label">Which games</p>
-          <GamePicker titles={titles} reference={reference.data} onChange={setTitles} />
-        </div>
-      </div>
 
       <div className="dv-landing">
         <div className="dv-main">
           {points.isPending ? (
-            <Loading variant="panel" label="Finding where the games part ways…" />
+            <Loading variant="panel" label="Finding where the tellings part ways…" />
           ) : points.isError ? (
             <div className="m-panel dv-stage">
               <ErrorMessage error={points.error} onRetry={() => void points.refetch()} />
             </div>
           ) : items.length === 0 ? (
             <div className="m-panel dv-stage">
-              <Empty>These games don&apos;t part ways anywhere the archive has recorded.</Empty>
+              <Empty>They don&apos;t part ways anywhere the archive has recorded.</Empty>
             </div>
           ) : (
             <>
@@ -79,17 +64,14 @@ export function DivergencePage() {
                     The big turning points
                   </h2>
                   <p className="dv-stage-text">
-                    Where the games change something that matters. Tap one to follow it.
+                    Where the Remake Trilogy changes something that matters. Tap one to follow it.
                   </p>
                   <ul className="dv-cards" aria-busy={points.isPlaceholderData}>
                     {turning.map((point) => {
                       const art = sceneFor(point.id) ?? artFor(point.id).main;
                       return (
                         <li key={point.id}>
-                          <Link
-                            to={`${divergencePath(point.id)}${keep}`}
-                            className="m-panel dv-card"
-                          >
+                          <Link to={divergencePath(point.id)} className="m-panel dv-card">
                             {art && (
                               <span aria-hidden="true" className="dv-card-art" data-kind={art.kind}>
                                 <Artwork entry={art} decorative />
@@ -117,14 +99,14 @@ export function DivergencePage() {
                     Every moment where they differ
                   </h2>
                   <p className="dv-stage-text">
-                    In the order the story happens. Tap any of them to see where the games part ways
-                    there.
+                    In the order the story happens. Tap any of them to see where the tellings part
+                    ways there.
                   </p>
                 </header>
                 <ol className="dv-rail dv-rail-shared" aria-busy={points.isPlaceholderData}>
                   {items.map((point) => (
                     <li key={point.id} className="dv-stop">
-                      <Link to={`${divergencePath(point.id)}${keep}`} className="dv-moment">
+                      <Link to={divergencePath(point.id)} className="dv-moment">
                         <span className="dv-moment-body">
                           <span className="m-heading dv-name">{point.name}</span>
                           <span className="dv-meta">
@@ -149,7 +131,7 @@ export function DivergencePage() {
           reference={reference.data}
           kinds={["event"]}
           title="Start from any moment"
-          pathFor={(id) => `${divergencePath(id)}${keep}`}
+          pathFor={divergencePath}
         />
       </div>
     </div>

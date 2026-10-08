@@ -13,7 +13,7 @@ export const SECTIONS: readonly {
     to: "/timeline",
     page: "timeline",
     name: "Timeline",
-    text: "Every event in the order it happens in the story, or in the order each game shows it.",
+    text: "Every event in the order it happens in the story, or in the order you play it.",
     art: "places/midgar-concept",
   },
   {

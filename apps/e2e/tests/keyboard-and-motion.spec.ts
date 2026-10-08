@@ -53,7 +53,7 @@ test("divergence moments can be chosen with the keyboard", async ({ page }) => {
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/node=event_aerith_death/);
   await expect(page.getByRole("complementary", { name: "Event details" })).toContainText(
-    "How each game tells it",
+    "How each telling tells it",
   );
 });
 

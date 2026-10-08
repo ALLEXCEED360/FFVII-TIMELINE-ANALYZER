@@ -1,41 +1,33 @@
 import { type CSSProperties, type KeyboardEvent, useEffect, useState } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router";
-import type { Comparison, Reference, TitleCode } from "../api/client";
+import { Link, useNavigate, useParams } from "react-router";
+import type { Comparison, Reference } from "../api/client";
 import { ApiError } from "../api/client";
 import { useComparison, useReference } from "../api/queries";
 import { SECTION_ART, artFor, sceneFor } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { Empty, ErrorMessage, Loading } from "../components/QueryState";
-import { ChangesByKind, Connections, GameColumn, GamePicker } from "../features/compare/pieces";
-import { compareTitlesParam, parseCompareTitles } from "../features/compare/titles";
+import { ChangesByKind, Connections, TellingColumn } from "../features/compare/pieces";
 import { KIND_LABELS, comparePath, entityPath, idFromPath, kindOf } from "../lib/paths";
-import { titleShort } from "../lib/reference";
-import { TITLE_COLOR } from "../lib/titles";
+import { TITLE_ORDER } from "../lib/reference";
+import { TELLING, TELLINGS, type Telling } from "../lib/tellings";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { NotFoundPage } from "./NotFoundPage";
 import "../features/compare/compare.css";
 
-/** One thing side by side across games. /compare/event/nibelheim-incident?titles=og,rebirth */
+/** One thing side by side: the original against the Remake Trilogy. /compare/event/nibelheim-incident */
 export function ComparisonPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);
   useBackdrop(sceneFor(id ?? "")?.id ?? SECTION_ART.compare, { strength: 0.55, side: "full" });
-  const [search, setSearch] = useSearchParams();
-  const titles = parseCompareTitles(search.get("titles"));
-  const comparison = useComparison(id, titles);
+  const comparison = useComparison(id, TITLE_ORDER);
   const reference = useReference();
   const navigate = useNavigate();
-
-  const setTitles = (next: TitleCode[]) => {
-    const param = compareTitlesParam(next);
-    setSearch(param === null ? {} : { titles: param }, { replace: true });
-  };
 
   // A retired ID is redirected by the API; show the canonical URL for what came back.
   const returnedId = comparison.data?.entity.id;
   useEffect(() => {
     if (returnedId && id && returnedId !== id) {
-      void navigate(`${comparePath(returnedId)}${window.location.search}`, { replace: true });
+      void navigate(comparePath(returnedId), { replace: true });
     }
   }, [returnedId, id, navigate]);
 
@@ -55,9 +47,7 @@ export function ComparisonPage() {
   return (
     <ComparisonView
       comparison={comparison.data}
-      titles={titles}
       reference={reference.data}
-      onTitles={setTitles}
       updating={comparison.isPlaceholderData}
     />
   );
@@ -65,15 +55,11 @@ export function ComparisonPage() {
 
 function ComparisonView({
   comparison,
-  titles,
   reference,
-  onTitles,
   updating,
 }: {
   comparison: Comparison;
-  titles: TitleCode[];
   reference: Reference | undefined;
-  onTitles: (titles: TitleCode[]) => void;
   updating: boolean;
 }) {
   const { entity, columns, differences, relationships } = comparison;
@@ -82,14 +68,16 @@ function ComparisonView({
   const big = differences.filter((d) => d.magnitude === "major").length;
 
   // A character drawn in both eras: the original's look over its panel, the new look over the
-  // others — how the look changed, beside how the story did.
+  // trilogy's — how the look changed, beside how the story did.
   const art = artFor(entity.id);
   const figures =
     art.original && art.main?.kind === "cutout"
       ? { original: art.original, main: art.main }
       : undefined;
-  const figureFor = (title: TitleCode) =>
-    figures && (title === "og" ? figures.original : figures.main);
+  const figureFor = (telling: Telling) =>
+    figures && (telling === "og" ? figures.original : figures.main);
+  const columnsOf = (telling: Telling) =>
+    columns.filter((c) => TELLING[telling].titles.includes(c.title));
 
   return (
     <article className="cmp" aria-busy={updating}>
@@ -100,7 +88,7 @@ function ComparisonView({
           <h1 className="m-heading m-title">{entity.name}</h1>
           <p className="m-intro">{entity.summary}</p>
           <div className="cmp-hero-links">
-            {comparison.isNew && <span className="cmp-tag cmp-big">New in the Remake series</span>}
+            {comparison.isNew && <span className="cmp-tag cmp-big">New in the Remake Trilogy</span>}
             {entity.event && (
               <Link to={`/timeline?event=${entity.id}`} className="m-pill-link">
                 See it on the timeline
@@ -113,30 +101,23 @@ function ComparisonView({
         </div>
       </header>
 
-      <div className="m-panel cmp-controls cmp-controls-row">
-        <p className="m-label">Which games</p>
-        <GamePicker titles={titles} reference={reference} onChange={onTitles} />
-      </div>
-
       <section aria-label="Side by side">
         {wide ? (
-          <div
-            className="cmp-cols"
-            style={{ gridTemplateColumns: `repeat(${String(columns.length)}, minmax(0, 1fr))` }}
-          >
-            {columns.map((column) => (
-              <GameColumn
-                key={column.title}
-                column={column}
+          <div className="cmp-cols" style={{ gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }}>
+            {TELLINGS.map((telling) => (
+              <TellingColumn
+                key={telling}
+                telling={telling}
+                columns={columnsOf(telling)}
                 reference={reference}
                 event={kind === "event"}
-                figure={figureFor(column.title)}
+                figure={figureFor(telling)}
               />
             ))}
           </div>
         ) : (
-          <GameTabs
-            comparison={comparison}
+          <TellingTabs
+            columnsOf={columnsOf}
             reference={reference}
             event={kind === "event"}
             figureFor={figureFor}
@@ -158,7 +139,7 @@ function ComparisonView({
             </div>
           ) : (
             <div className="m-panel cmp-group">
-              <Empty>No changes recorded between these games.</Empty>
+              <Empty>No changes recorded between the original and the Remake Trilogy.</Empty>
             </div>
           )}
         </section>
@@ -168,10 +149,10 @@ function ComparisonView({
             Connections
           </h2>
           {relationships.length > 0 ? (
-            <Connections relationships={relationships} columns={columns} reference={reference} />
+            <Connections relationships={relationships} />
           ) : (
             <div className="m-panel cmp-group">
-              <Empty>No connections recorded for these games.</Empty>
+              <Empty>No connections recorded.</Empty>
             </div>
           )}
         </section>
@@ -180,61 +161,58 @@ function ComparisonView({
   );
 }
 
-/** On narrow screens, one game at a time. */
-function GameTabs({
-  comparison,
+/** On narrow screens, one telling at a time. */
+function TellingTabs({
+  columnsOf,
   reference,
   event,
   figureFor,
 }: {
-  comparison: Comparison;
+  columnsOf: (telling: Telling) => Comparison["columns"];
   reference: Reference | undefined;
   event: boolean;
-  figureFor: (title: TitleCode) => ReturnType<typeof artFor>["main"];
+  figureFor: (telling: Telling) => ReturnType<typeof artFor>["main"];
 }) {
-  const [selected, setSelected] = useState(0);
-  const columns = comparison.columns;
-  const current = columns[Math.min(selected, columns.length - 1)];
-
-  const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "ArrowRight") setSelected((i) => (i + 1) % columns.length);
-    if (event.key === "ArrowLeft") setSelected((i) => (i - 1 + columns.length) % columns.length);
+  const [current, setCurrent] = useState<Telling>("og");
+  const onKeyDown = (key: KeyboardEvent) => {
+    if (key.key === "ArrowRight" || key.key === "ArrowLeft") {
+      setCurrent((t) => (t === "og" ? "trilogy" : "og"));
+    }
   };
 
   return (
     <div className="cmp-tabs">
-      <div role="tablist" aria-label="Games" className="m-choices" onKeyDown={onKeyDown}>
-        {columns.map((column, i) => (
+      <div role="tablist" aria-label="Tellings" className="m-choices" onKeyDown={onKeyDown}>
+        {TELLINGS.map((telling) => (
           <button
-            key={column.title}
+            key={telling}
             type="button"
             role="tab"
-            id={`tab-${column.title}`}
-            aria-selected={column === current}
+            id={`tab-${telling}`}
+            aria-selected={telling === current}
             aria-controls="compare-tabpanel"
-            tabIndex={column === current ? 0 : -1}
+            tabIndex={telling === current ? 0 : -1}
             className="m-choice"
-            style={{ "--c": TITLE_COLOR[column.title] } as CSSProperties}
+            style={{ "--c": TELLING[telling].color } as CSSProperties}
             onClick={() => {
-              setSelected(i);
+              setCurrent(telling);
             }}
           >
             <span aria-hidden="true" className="m-choice-box" />
-            {titleShort(reference, column.title)}
+            {TELLING[telling].short}
           </button>
         ))}
       </div>
-      {current && (
-        <div role="tabpanel" id="compare-tabpanel" aria-labelledby={`tab-${current.title}`}>
-          <GameColumn
-            column={current}
-            reference={reference}
-            event={event}
-            figure={figureFor(current.title)}
-            labelled={false}
-          />
-        </div>
-      )}
+      <div role="tabpanel" id="compare-tabpanel" aria-labelledby={`tab-${current}`}>
+        <TellingColumn
+          telling={current}
+          columns={columnsOf(current)}
+          reference={reference}
+          event={event}
+          figure={figureFor(current)}
+          labelled={false}
+        />
+      </div>
     </div>
   );
 }

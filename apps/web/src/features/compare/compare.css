@@ -481,3 +481,15 @@
   font-weight: 400;
   color: #9ca6b9;
 }
+
+/* Within the Remake Trilogy's column, each of its games that tells it. */
+.cmp-game-telling {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.cmp-game-telling + .cmp-game-telling {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--m-line);
+}

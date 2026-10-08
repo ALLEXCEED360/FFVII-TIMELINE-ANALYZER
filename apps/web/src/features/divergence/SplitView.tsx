@@ -1,22 +1,13 @@
 import { type CSSProperties, type ReactNode, useState } from "react";
-import type { DivergenceView, Reference } from "../../api/client";
+import type { Reference } from "../../api/client";
 import { CHANGE_WORDS, type Marking, SPLIT_SENTENCES, SPLIT_WORDS } from "../../lib/plain";
-import { titleShort, worldName } from "../../lib/reference";
-import { TITLE_COLOR } from "../../lib/titles";
+import { titleShort } from "../../lib/reference";
+import type { Line, Row, SplitData, Station } from "./tellings";
 
-// Where the games part ways around one moment: the story so far, the turning point, each game after.
-
-type Row = DivergenceView["trunk"][number];
-type Branch = DivergenceView["branches"][number];
-type Station = Row["stations"][number];
+// Where the tellings part ways around one moment: the story so far, the turning point, then each.
 
 /** Earlier moments shown before the rest are asked for. */
 const SHOWN_BEFORE = 6;
-
-export function branchName(reference: Reference | undefined, branch: Branch): string {
-  const game = titleShort(reference, branch.title);
-  return branch.world === "world_main" ? game : `${game} · ${worldName(reference, branch.world)}`;
-}
 
 function when(start: number): string | null {
   if (start === 0) return null;
@@ -26,7 +17,7 @@ function when(start: number): string | null {
 }
 
 /** The kinds of change at a station, in plain words, and whether any is a big one. */
-function changes(station: Station): { words: string[]; big: boolean } {
+function changes(station: Station | null): { words: string[]; big: boolean } {
   const differences = station?.differences ?? [];
   return {
     words: [...new Set(differences.map((d) => CHANGE_WORDS[d.category]))],
@@ -34,7 +25,7 @@ function changes(station: Station): { words: string[]; big: boolean } {
   };
 }
 
-const lane = (branch: Branch) => ({ "--c": TITLE_COLOR[branch.title] }) as CSSProperties;
+const lane = (line: Line) => ({ "--c": line.color }) as CSSProperties;
 
 /** One moment, as a button card (phrasing content only, as a button needs). */
 function Moment({
@@ -94,7 +85,7 @@ export function SplitView({
   selected,
   onSelect,
 }: {
-  view: DivergenceView;
+  view: SplitData;
   reference: Reference | undefined;
   selected: string | null;
   onSelect: (eventId: string) => void;
@@ -114,7 +105,7 @@ export function SplitView({
             The story so far
           </h2>
           <p className="dv-stage-text">
-            What happens before this moment. These games share this part of the story, though not
+            What happens before this moment. Both tellings share this part of the story, though not
             always told the same way. Tap any moment for its details.
           </p>
         </header>
@@ -136,7 +127,7 @@ export function SplitView({
             <ol className="dv-rail dv-rail-shared">
               {before.map((row) => {
                 const alike = row.stations.every((s) => s === null || s.marking === "shared");
-                const told = view.branches.filter((_, b) => row.stations[b] !== null);
+                const told = view.lines.filter((_, b) => row.stations[b] !== null);
                 return (
                   <Moment
                     key={row.event.id}
@@ -144,16 +135,16 @@ export function SplitView({
                     selected={selected}
                     onSelect={onSelect}
                     marking={alike ? "shared" : "changed"}
-                    markingText={alike ? "Told the same in each game" : "Told differently"}
+                    markingText={alike ? "Told the same in both" : "Told differently"}
                     big={row.stations.some((s) => changes(s).big)}
                     kinds={[...new Set(row.stations.flatMap((s) => changes(s).words))]}
                     extra={
                       <span className="dv-games">
                         <span className="dv-games-label">Told in</span>
-                        {told.map((branch) => (
-                          <span key={branch.key} className="dv-game" style={lane(branch)}>
+                        {told.map((line) => (
+                          <span key={line.key} className="dv-game" style={lane(line)}>
                             <span aria-hidden="true" className="dv-game-mark" />
-                            {branchName(reference, branch)}
+                            {line.name}
                           </span>
                         ))}
                       </span>
@@ -174,20 +165,21 @@ export function SplitView({
             {pivot.event.name}
           </h2>
           {when(pivot.event.start) && <p className="dv-when">{when(pivot.event.start)}</p>}
-          <ul aria-label="How each game tells it" className="dv-turn-games">
-            {view.branches.map((branch, b) => {
+          <ul aria-label="How each telling tells it" className="dv-turn-games">
+            {view.lines.map((line, b) => {
               const station = pivot.stations[b] ?? null;
               const { words, big } = changes(station);
               return (
-                <li key={branch.key} className="dv-turn-game" style={lane(branch)}>
-                  <p className="m-heading dv-branch-name">{branchName(reference, branch)}</p>
+                <li key={line.key} className="dv-turn-game" style={lane(line)}>
+                  <p className="m-heading dv-branch-name">{line.name}</p>
                   <p className="dv-mark" data-marking={station?.marking ?? "none"}>
-                    {station ? SPLIT_WORDS[station.marking] : "Not in this game"}
+                    {station ? SPLIT_WORDS[station.marking] : "Not in this telling"}
+                    {station && <InGames station={station} line={line} reference={reference} />}
                   </p>
                   <p className="dv-why">
                     {station
                       ? SPLIT_SENTENCES[station.marking]
-                      : "This game doesn't tell this moment."}
+                      : "This telling doesn't tell this moment."}
                   </p>
                   {words.length > 0 && (
                     <p className="dv-kinds">
@@ -216,30 +208,27 @@ export function SplitView({
         <header className="dv-stage-head">
           <p className="m-label">Step 3 · After</p>
           <h2 id="dv-after" className="m-heading dv-stage-name">
-            Where each game goes
+            Where each telling goes
           </h2>
           <p className="dv-stage-text">
-            From here each game follows its own line. Tap any moment for its details.
+            From here each telling follows its own line. Tap any moment for its details.
           </p>
         </header>
-        <div
-          className="dv-branches"
-          style={{ "--n": String(view.branches.length) } as CSSProperties}
-        >
-          {view.branches.map((branch, b) => {
+        <div className="dv-branches" style={{ "--n": String(view.lines.length) } as CSSProperties}>
+          {view.lines.map((line, b) => {
             const rows = after.filter((row) => row.stations[b]);
             return (
               <section
-                key={branch.key}
-                aria-labelledby={`dv-${branch.key}`}
+                key={line.key}
+                aria-labelledby={`dv-${line.key}`}
                 className="m-panel dv-branch"
-                style={lane(branch)}
+                style={lane(line)}
               >
-                <h3 id={`dv-${branch.key}`} className="m-heading dv-branch-name">
-                  {branchName(reference, branch)}
+                <h3 id={`dv-${line.key}`} className="m-heading dv-branch-name">
+                  {line.name}
                 </h3>
                 {rows.length === 0 ? (
-                  <p className="dv-empty">Nothing after this moment in this game yet.</p>
+                  <p className="dv-empty">Nothing after this moment in this telling yet.</p>
                 ) : (
                   <ol className="dv-rail">
                     {rows.map((row) => {
@@ -256,6 +245,7 @@ export function SplitView({
                           markingText={SPLIT_WORDS[station.marking]}
                           big={big}
                           kinds={words}
+                          extra={<InGames station={station} line={line} reference={reference} />}
                         />
                       );
                     })}
@@ -267,5 +257,24 @@ export function SplitView({
         </div>
       </section>
     </div>
+  );
+}
+
+/** On the Remake Trilogy's line, which of its games tell the moment. */
+function InGames({
+  station,
+  line,
+  reference,
+}: {
+  station: Station;
+  line: Line;
+  reference: Reference | undefined;
+}) {
+  if (line.telling !== "trilogy" || station.in.length === 0) return null;
+  return (
+    <span className="dv-in">
+      {" "}
+      · in {station.in.map((title) => titleShort(reference, title)).join(" and ")}
+    </span>
   );
 }

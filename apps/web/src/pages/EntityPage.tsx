@@ -24,7 +24,7 @@ import {
   networkPath,
 } from "../lib/paths";
 import { TITLE_ORDER, titleShort, worldName } from "../lib/reference";
-import { TITLE_COLOR } from "../lib/titles";
+import { TELLING, TELLINGS, tellingsIn } from "../lib/tellings";
 import { NotFoundPage } from "./NotFoundPage";
 import "../features/compare/compare.css";
 import "../features/entity/entity.css";
@@ -96,7 +96,14 @@ function EntityView({
       others: all.filter((a) => a.world !== MAIN_WORLD),
     };
   });
-  const told = byGame.filter((g) => g.main && g.main.status !== "omitted").length;
+  // The two tellings: each with the games of it that have something to say.
+  const byTelling = TELLINGS.map((telling) => {
+    const games = byGame.filter((g) => TELLING[telling].titles.includes(g.title));
+    const shown = games.filter((g) => g.main && g.main.status !== "omitted");
+    const best = shown[0]?.main ?? games.find((g) => g.main)?.main;
+    return { telling, games, shown, best };
+  });
+  const bothTell = byTelling.every((t) => t.shown.length > 0);
   const when = entity.event ? (whenOf(entity.event) ?? "During the story") : null;
 
   return (
@@ -119,27 +126,29 @@ function EntityView({
           )}
           <p className="m-intro ent-summary">{entity.summary}</p>
 
-          <ul aria-label="In the games" className="ent-games">
-            {byGame.map(({ title, main: appearance }) => {
-              const absent = !appearance || appearance.status === "omitted";
-              return (
-                <li
-                  key={title}
-                  className="ent-game"
-                  data-absent={absent || undefined}
-                  style={{ "--c": TITLE_COLOR[title] } as CSSProperties}
-                >
-                  <span className="ent-game-name">{titleShort(reference, title)}</span>
-                  <span className="ent-game-status">{presence(appearance, event)}</span>
-                </li>
-              );
-            })}
+          <ul aria-label="In each telling" className="ent-games">
+            {byTelling.map(({ telling, shown, best }) => (
+              <li
+                key={telling}
+                className="ent-game"
+                data-absent={shown.length === 0 || undefined}
+                style={{ "--c": TELLING[telling].color } as CSSProperties}
+              >
+                <span className="ent-game-name">{TELLING[telling].short}</span>
+                <span className="ent-game-status">
+                  {presence(shown[0]?.main ?? best, event)}
+                  {telling === "trilogy" && shown.length > 0 && (
+                    <> · {shown.map((g) => titleShort(reference, g.title)).join(", ")}</>
+                  )}
+                </span>
+              </li>
+            ))}
           </ul>
 
           <nav aria-label="Where next" className="ent-next">
-            {told >= 2 && (
+            {bothTell && (
               <Link to={comparePath(entity.id)} className="ent-next-link">
-                Compare the games side by side
+                Compare side by side
               </Link>
             )}
             {entity.relationships.length > 0 && (
@@ -167,38 +176,57 @@ function EntityView({
 
       <section aria-labelledby="ent-games" className="ent-section">
         <h2 id="ent-games" className="m-heading ent-heading">
-          {event ? "How each game tells it" : "In each game"}
+          {event ? "How each telling tells it" : "In each telling"}
         </h2>
         <div className="ent-tellings">
-          {byGame.map(({ title, main: appearance, others }) => (
+          {byTelling.map(({ telling, games, shown, best }) => (
             <section
-              key={title}
-              aria-labelledby={`ent-game-${title}`}
+              key={telling}
+              aria-labelledby={`ent-telling-${telling}`}
               className="m-panel ent-telling"
-              data-absent={!appearance || undefined}
-              style={{ "--c": TITLE_COLOR[title] } as CSSProperties}
+              data-absent={shown.length === 0 || undefined}
+              style={{ "--c": TELLING[telling].color } as CSSProperties}
             >
               <header className="ent-telling-head">
-                <h3 id={`ent-game-${title}`} className="m-heading ent-telling-name">
-                  {titleShort(reference, title)}
+                <h3 id={`ent-telling-${telling}`} className="m-heading ent-telling-name">
+                  {TELLING[telling].name}
                 </h3>
-                <span className="ent-telling-status">{presence(appearance, event)}</span>
+                <span className="ent-telling-status">
+                  {presence(shown[0]?.main ?? best, event)}
+                </span>
               </header>
-              {appearance ? (
-                <Telling appearance={appearance} reference={reference} event={event} />
-              ) : (
+              {games.filter((g) => g.main).length === 0 && (
                 <p className="ent-text ent-dim">
                   {event
-                    ? "This game doesn't tell this part of the story."
-                    : `${entity.name} isn't in this game.`}
+                    ? "This telling doesn't tell this part of the story."
+                    : `${entity.name} isn't in this telling.`}
                 </p>
               )}
-              {others.map((other) => (
-                <div key={other.world} className="ent-other-world">
-                  <p className="m-label">In another world: {worldName(reference, other.world)}</p>
-                  <Telling appearance={other} reference={reference} event={event} />
-                </div>
-              ))}
+              {games
+                .filter((g) => g.main)
+                .map(({ title, main: appearance, others }) => (
+                  <div
+                    key={title}
+                    className={telling === "trilogy" ? "ent-game-telling" : undefined}
+                  >
+                    {telling === "trilogy" && (
+                      <p className="ent-game-telling-name">
+                        <Game code={title} reference={reference} />
+                      </p>
+                    )}
+                    {appearance && (
+                      <Telling appearance={appearance} reference={reference} event={event} />
+                    )}
+                    {others.map((other) => (
+                      <div key={other.world} className="ent-other-world">
+                        <p className="m-label">
+                          In another world: {worldName(reference, other.world)}
+                        </p>
+                        <Telling appearance={other} reference={reference} event={event} />
+                      </div>
+                    ))}
+                  </div>
+                ))}
             </section>
           ))}
         </div>
@@ -206,7 +234,7 @@ function EntityView({
 
       <section aria-labelledby="ent-changes" className="ent-section">
         <h2 id="ent-changes" className="m-heading ent-heading">
-          What changes between the games
+          What changes in the Remake Trilogy
         </h2>
         {entity.differences.length > 0 ? (
           <div className="m-panel ent-panel">
@@ -214,12 +242,12 @@ function EntityView({
           </div>
         ) : (
           <p className="m-panel ent-panel ent-text">
-            No changes between the games are recorded for {entity.name} yet.
+            No changes in the Remake Trilogy are recorded for {entity.name} yet.
           </p>
         )}
       </section>
 
-      <LinkedTo entity={entity} reference={reference} />
+      <LinkedTo entity={entity} />
 
       {entity.openQuestions.length > 0 && (
         <section aria-labelledby="ent-questions" className="ent-section">
@@ -303,13 +331,7 @@ function Face({ id, kind }: { id: string; kind: string }) {
 }
 
 /** Its links, grouped by the other end's kind and read from this end ("Took part in"). */
-function LinkedTo({
-  entity,
-  reference,
-}: {
-  entity: EntityDetail;
-  reference: Reference | undefined;
-}) {
+function LinkedTo({ entity }: { entity: EntityDetail }) {
   const timeline = useTimeline(TITLE_ORDER);
   const order = useMemo(
     () => new Map([...(timeline.data?.items ?? [])].sort(byStoryOrder).map((e, i) => [e.id, i])),
@@ -360,12 +382,7 @@ function LinkedTo({
                     <dt className="ent-phrase-name">{phrase}</dt>
                     <dd className="ent-chips">
                       {links.map((r) => (
-                        <LinkChip
-                          key={`${r.id}-${r.direction}`}
-                          relationship={r}
-                          games={games}
-                          reference={reference}
-                        />
+                        <LinkChip key={`${r.id}-${r.direction}`} relationship={r} games={games} />
                       ))}
                     </dd>
                   </div>
@@ -382,16 +399,17 @@ function LinkedTo({
 function LinkChip({
   relationship: r,
   games,
-  reference,
 }: {
   relationship: Relationship;
   /** The games that show this page's subject. */
   games: ReadonlySet<TitleCode>;
-  reference: Reference | undefined;
 }) {
   const role = typeof r.attributes.role === "string" ? r.attributes.role : null;
   const open = r.titles.some((t) => t.certainty !== "stated");
-  const only = r.titles.length === 1 && games.size > 1 ? r.titles[0]?.title : undefined;
+  // Only one telling shows the link, though both show this page's subject.
+  const linkTellings = tellingsIn(r.titles.map((t) => t.title));
+  const only =
+    linkTellings.length === 1 && tellingsIn([...games]).length > 1 ? linkTellings[0] : undefined;
   return (
     <span className="ent-chip-wrap">
       <Link to={entityPath(r.other.id)} className="ent-chip">
@@ -401,7 +419,11 @@ function LinkChip({
       {role && <span className="ent-chip-note">{role}</span>}
       {only && (
         <span className="ent-chip-note">
-          only in <Game code={only} reference={reference} />
+          only in{" "}
+          <span className="cmp-game" style={{ "--c": TELLING[only].color } as CSSProperties}>
+            <span aria-hidden="true" className="cmp-game-mark" />
+            {TELLING[only].name.replace("The ", "the ")}
+          </span>
         </span>
       )}
       {open && <span className="cmp-tag">Left open</span>}

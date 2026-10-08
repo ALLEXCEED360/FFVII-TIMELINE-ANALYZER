@@ -349,11 +349,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-@media (min-width: 110rem) {
-  .ent-tellings {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
+
 .ent-telling {
   display: flex;
   flex-direction: column;
@@ -513,4 +509,15 @@
   .ent-around-link {
     transition: none;
   }
+}
+
+/* Within the Remake Trilogy's panel, each of its games that tells it. */
+.ent-game-telling {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.ent-game-telling + .ent-game-telling {
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--m-line);
 }

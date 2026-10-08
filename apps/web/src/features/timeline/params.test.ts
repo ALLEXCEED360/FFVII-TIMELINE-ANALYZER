@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { parseTimelineParams, timelineSearch } from "./params";
 
 describe("timeline params", () => {
-  it("defaults to every game, in the order things happen", () => {
+  it("defaults to both tellings, in the order things happen", () => {
     expect(parseTimelineParams(new URLSearchParams())).toEqual({
-      titles: ["og", "remake", "intermission", "rebirth"],
+      tellings: "both",
       view: "story",
       game: "og",
       keyOnly: false,
@@ -12,15 +12,13 @@ describe("timeline params", () => {
     });
   });
 
-  it("keeps titles in release order and drops unknown ones", () => {
-    const params = parseTimelineParams(new URLSearchParams("titles=rebirth,zz,og"));
-    expect(params.titles).toEqual(["og", "rebirth"]);
-  });
-
-  it("falls back to every game when no valid title is left, and to OG for an unknown game", () => {
-    const params = parseTimelineParams(new URLSearchParams("titles=zz&view=play&game=zz"));
-    expect(params.titles).toEqual(["og", "remake", "intermission", "rebirth"]);
-    expect(params.game).toBe("og");
+  it("reads one telling, and understands older links that named games", () => {
+    expect(parseTimelineParams(new URLSearchParams("in=trilogy")).tellings).toBe("trilogy");
+    expect(parseTimelineParams(new URLSearchParams("titles=remake,rebirth")).tellings).toBe(
+      "trilogy",
+    );
+    expect(parseTimelineParams(new URLSearchParams("titles=og,rebirth")).tellings).toBe("both");
+    expect(parseTimelineParams(new URLSearchParams("view=play&game=rebirth")).game).toBe("trilogy");
   });
 
   it("still understands the key-moments setting by its old name", () => {
@@ -29,10 +27,10 @@ describe("timeline params", () => {
 
   it("round-trips, leaving defaults out of the URL", () => {
     const params = parseTimelineParams(
-      new URLSearchParams("titles=og,intermission&view=play&game=rebirth&key=1&event=event_x"),
+      new URLSearchParams("in=original&view=play&game=trilogy&key=1&event=event_x"),
     );
     expect(timelineSearch(params).toString()).toBe(
-      "titles=og%2Cintermission&view=play&game=rebirth&key=1&event=event_x",
+      "in=original&view=play&game=trilogy&key=1&event=event_x",
     );
     expect(timelineSearch(parseTimelineParams(new URLSearchParams())).toString()).toBe("");
   });

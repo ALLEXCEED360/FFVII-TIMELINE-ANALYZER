@@ -1,116 +1,90 @@
-import type { CSSProperties, ReactNode } from "react";
-import type { TitleCode } from "../../api/client";
-import { TITLE_ORDER } from "../../lib/reference";
-import { TITLE_COLOR } from "../../lib/titles";
+import { TellingChoices } from "../../components/TellingChoices";
+import type { Telling } from "../../lib/tellings";
 import type { TimelineParams } from "./params";
 
-/** The timeline's choices: the order, which games, and key moments only. */
+/** The timeline's choices: the order, whose story, and key moments only. */
 export function TimelineControls({
   params,
-  titleName,
-  onToggleTitle,
   onChange,
 }: {
   params: TimelineParams;
-  titleName: (code: TitleCode) => string;
-  onToggleTitle: (code: TitleCode) => void;
   onChange: (change: Partial<TimelineParams>) => void;
 }) {
   const play = params.view === "play";
   return (
     <div className="m-panel tl-controls">
-      <fieldset className="tl-control">
-        <legend className="m-label">Order</legend>
-        <div className="m-choices">
-          <Choice
-            on={!play}
+      <div className="tl-control">
+        <p className="m-label" id="tl-order">
+          Order
+        </p>
+        <div role="group" aria-labelledby="tl-order" className="m-choices">
+          <button
+            type="button"
+            aria-pressed={!play}
             onClick={() => {
               onChange({ view: "story" });
             }}
+            className="m-choice"
           >
             As it happened
-          </Choice>
-          <Choice
-            on={play}
+          </button>
+          <button
+            type="button"
+            aria-pressed={play}
             onClick={() => {
               onChange({ view: "play" });
             }}
+            className="m-choice"
           >
             As you play it
-          </Choice>
+          </button>
         </div>
-      </fieldset>
-
-      <fieldset className="tl-control">
-        <legend className="m-label">{play ? "Game" : "Games"}</legend>
-        <div className="m-choices">
-          {TITLE_ORDER.map((code) => {
-            const on = play ? params.game === code : params.titles.includes(code);
-            return (
-              <Choice
-                key={code}
-                on={on}
-                color={TITLE_COLOR[code]}
-                // At least one game stays shown.
-                disabled={!play && on && params.titles.length === 1}
-                onClick={() => {
-                  if (play) onChange({ game: code });
-                  else onToggleTitle(code);
-                }}
-              >
-                {titleName(code)}
-              </Choice>
-            );
-          })}
-        </div>
-      </fieldset>
+      </div>
 
       <div className="tl-control">
-        <span aria-hidden="true" className="m-label tl-control-label">
-          Show
-        </span>
-        <div className="m-choices">
-          <Choice
-            on={params.keyOnly}
+        <p aria-hidden="true" className="m-label">
+          {play ? "Play through" : "Show"}
+        </p>
+        {play ? (
+          <TellingChoices<Telling>
+            label="Play through"
+            value={params.game}
+            options={["og", "trilogy"]}
+            onChange={(game) => {
+              onChange({ game });
+            }}
+          />
+        ) : (
+          <TellingChoices
+            label="Show"
+            value={params.tellings}
+            onChange={(tellings) => {
+              onChange({ tellings });
+            }}
+          />
+        )}
+      </div>
+
+      <div className="tl-control">
+        <p aria-hidden="true" className="m-label">
+          Moments
+        </p>
+        <div role="group" aria-label="Moments" className="m-choices">
+          <button
+            type="button"
+            aria-pressed={params.keyOnly}
             onClick={() => {
               onChange({ keyOnly: !params.keyOnly });
             }}
+            className="m-choice"
           >
             <span aria-hidden="true" className="tl-star">
               ★
             </span>
             Key moments only
-          </Choice>
+          </button>
         </div>
       </div>
     </div>
-  );
-}
-
-function Choice({
-  on,
-  color,
-  disabled,
-  onClick,
-  children,
-}: {
-  on: boolean;
-  color?: string;
-  disabled?: boolean;
-  onClick: () => void;
-  children: ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={on}
-      disabled={disabled}
-      onClick={onClick}
-      className="m-choice"
-      style={color ? ({ "--c": color } as CSSProperties) : undefined}
-    >
-      <span aria-hidden="true" className="m-choice-box" />
-      {children}
-    </button>
   );
 }

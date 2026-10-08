@@ -105,26 +105,28 @@ describe("toElements", () => {
 });
 
 describe("network params", () => {
-  it("defaults to depth 1, every title and category", () => {
+  it("defaults to depth 1, both tellings and every kind of link", () => {
     const params = parseNetworkParams(new URLSearchParams());
-    expect(params).toMatchObject({ depth: 1, expand: [], to: null, node: null });
-    expect(params.titles).toHaveLength(4);
+    expect(params).toMatchObject({ depth: 1, tellings: "both", expand: [], to: null, node: null });
     expect(networkSearch(params).toString()).toBe("");
   });
 
   it("round-trips, dropping invalid values", () => {
     const params = parseNetworkParams(
       new URLSearchParams(
-        "depth=9&titles=rebirth,og&categories=causal&expand=event_b,Bad!,event_b&to=character_x",
+        "depth=9&in=trilogy&categories=causal&expand=event_b,Bad!,event_b&to=character_x",
       ),
     );
     expect(params).toMatchObject({
       depth: 1,
-      titles: ["og", "rebirth"],
+      tellings: "trilogy",
       categories: ["causal"],
       expand: ["event_b"],
       to: "character_x",
     });
+    expect(networkSearch(params).toString()).toBe(
+      "in=trilogy&categories=causal&expand=event_b&to=character_x",
+    );
   });
 
   it("toggles without emptying a list", () => {

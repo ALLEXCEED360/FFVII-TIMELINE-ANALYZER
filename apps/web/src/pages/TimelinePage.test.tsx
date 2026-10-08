@@ -12,7 +12,7 @@ const eventRow = async (name: string) => {
 };
 
 describe("timeline page", () => {
-  it("tells the story in chapters, with which games tell each event", async () => {
+  it("tells the story in chapters, with how each telling has each event", async () => {
     stubApi();
     renderAt("/timeline");
     expect(await screen.findByRole("heading", { name: "The Distant Past" })).toBeTruthy();
@@ -20,10 +20,12 @@ describe("timeline page", () => {
 
     const row = await eventRow("Nibelheim Incident");
     expect(row.textContent).toContain("5 years before the story");
-    const marks = within(row).getByRole("list", { name: "Which games tell it" });
-    expect(marks.textContent).toContain("OG: Shows it");
-    expect(marks.textContent).toContain("Remake: Only mentions it");
-    expect(marks.textContent).toContain("INTERmission: Not in this game");
+    const marks = within(row).getByRole("list", { name: "Which tellings have it" });
+    const items = within(marks).getAllByRole("listitem");
+    expect(items.map((li) => li.textContent)).toEqual([
+      "Original: Shows it",
+      "Remake TrilogyRebirth: Shows it",
+    ]);
   });
 
   it("opens an event's window, in plain words, and puts it in the URL", async () => {
@@ -33,11 +35,11 @@ describe("timeline page", () => {
 
     const details = await screen.findByRole("complementary", { name: "Event details" });
     await within(details).findByRole("heading", { name: "Death of Aerith" });
-    expect(within(details).getByText("How each game tells it")).toBeTruthy();
+    expect(within(details).getByText("How each telling tells it")).toBeTruthy();
     expect(within(details).getAllByText("Shown as it happens").length).toBe(2);
-    expect(within(details).getAllByText("Not in this game").length).toBe(2);
+    expect(details.textContent).toContain("Rebirth · Shown as it happens");
     expect(within(details).getByText("The game leaves this open.")).toBeTruthy();
-    expect(within(details).getByRole("link", { name: /Compare the games/ })).toBeTruthy();
+    expect(within(details).getByRole("link", { name: "Compare side by side" })).toBeTruthy();
     expect(router.state.location.search).toBe("?event=event_aerith_death");
 
     await userEvent.click(within(details).getByRole("button", { name: "Close" }));
@@ -45,34 +47,39 @@ describe("timeline page", () => {
     expect(screen.getByText("Choose an event")).toBeTruthy();
   });
 
-  it("hides the events only the games you turn off tell, keeping at least one game", async () => {
+  it("shows one telling's events, or both", async () => {
     stubApi();
     const { router } = renderAt("/timeline");
     await eventRow("Yuffie's Raid on Shinra Headquarters");
-    const games = screen.getByRole("group", { name: "Games" });
+    const show = screen.getByRole("group", { name: "Show" });
 
-    await userEvent.click(within(games).getByRole("button", { name: /INTERmission/ }));
-    expect(router.state.location.search).toBe("?titles=og%2Cremake%2Crebirth");
+    await userEvent.click(within(show).getByRole("button", { name: "The original" }));
+    expect(router.state.location.search).toBe("?in=original");
     expect(screen.queryByRole("button", { name: /^Yuffie's Raid/ })).toBeNull();
 
-    for (const name of [/^OG/, /^Remake/]) {
-      await userEvent.click(within(games).getByRole("button", { name }));
-    }
-    expect(within(games).getByRole("button", { name: /Rebirth/ })).toHaveProperty("disabled", true);
+    await userEvent.click(within(show).getByRole("button", { name: "The Remake Trilogy" }));
+    expect(router.state.location.search).toBe("?in=trilogy");
+    expect(await eventRow("Yuffie's Raid on Shinra Headquarters")).toBeTruthy();
   });
 
-  it("follows the order one game shows things in", async () => {
+  it("follows the order you play a telling in, game by game", async () => {
     stubApi();
     const { router } = renderAt("/timeline");
     await userEvent.click(await screen.findByRole("button", { name: "As you play it" }));
     await userEvent.click(
-      within(screen.getByRole("group", { name: "Game" })).getByRole("button", { name: /Rebirth/ }),
+      within(screen.getByRole("group", { name: "Play through" })).getByRole("button", {
+        name: "The Remake Trilogy",
+      }),
     );
-    expect(router.state.location.search).toBe("?view=play&game=rebirth");
+    expect(router.state.location.search).toBe("?view=play&game=trilogy");
 
-    const list = await screen.findByRole("region", { name: "Rebirth" });
-    const first = within(list).getAllByRole("listitem")[0];
-    expect(first?.textContent).toMatch(/1\.\s*Fall of the Sector 7 Plate/);
+    const remake = await screen.findByRole("region", { name: "Remake" });
+    expect(within(remake).getAllByRole("listitem")[0]?.textContent).toMatch(/^1\./);
+    // Numbered on through the trilogy, so Rebirth doesn't start again at 1.
+    const rebirth = screen.getByRole("region", { name: "Rebirth" });
+    const first = within(rebirth).getAllByRole("listitem")[0];
+    expect(first?.textContent).not.toMatch(/^1\./);
+    expect(first?.textContent).toContain("Fall of the Sector 7 Plate");
     expect(first?.textContent).toContain("Only mentioned, in another world");
   });
 

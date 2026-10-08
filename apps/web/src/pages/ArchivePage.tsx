@@ -104,7 +104,7 @@ export function ArchivePage() {
             ))}
           </ul>
           <p className="ar-small">
-            Parts of the story the Remake series hasn&apos;t reached yet are marked “not reached
+            Parts of the story the Remake Trilogy hasn&apos;t reached yet are marked “not reached
             yet”, never as missing.
           </p>
         </section>

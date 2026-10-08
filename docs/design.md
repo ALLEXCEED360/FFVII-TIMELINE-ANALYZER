@@ -2,6 +2,10 @@
 
 How the web app looks and behaves. It's written for someone meeting the story for the first time: plain words over the data's terms (`lib/plain.ts`), one clear thing to tap, nothing an expert alone would need.
 
+## Two tellings
+
+The story is told twice: **the original** (1997) and **the Remake Trilogy** — Remake, INTERmission and Rebirth, one retelling in parts that cover different stretches of the story. Every choice of games on the site is between these two (`lib/tellings.ts`): Compare and Divergence always set the original against the trilogy, and the Timeline, Network and Explore offer one choice, _Both / The original / The Remake Trilogy_ (`?in=original|trilogy`; older `?titles=` links still work). Within the trilogy, a moment still says which of its games tells it ("in Rebirth").
+
 ## Look
 
 - **Two styles.** The home menu is the original game's blue windows (`components/ff7.css`); every other page uses modern glass panels in the spirit of Remake and Rebirth (`components/modern.css`). No footer.
@@ -23,9 +27,9 @@ The original's pause menu. The four games are the party: cover, year as LV, wher
 
 ## Sections
 
-- **Timeline.** The story in chapters, top to bottom; each moment says when it happens and whether each game shows it, only mentions it, or leaves it out. Tap one for how each game tells it. "As it happened" or "As you play it", one game at a time.
-- **Compare.** Pick two games; see what changes between them, moment by moment, or open anything side by side.
-- **Divergence.** Pick a turning point: the story so far on one line of Mako light, the moment itself at a glowing materia, then where each game goes — every moment marked in words (_Told the same_, _Told differently_, _Only this game shows it_…).
+- **Timeline.** The story in chapters, top to bottom; each moment says when it happens and whether each telling shows it, only mentions it, or leaves it out. Tap one for how each telling tells it. "As it happened", or "As you play it" — the original, or the trilogy game by game.
+- **Compare.** What changes from the original to the Remake Trilogy, moment by moment, or anything side by side in two columns.
+- **Divergence.** Pick a turning point: the story so far on one line of Mako light, the moment itself at a glowing materia, then where each telling goes — every moment marked in words (_Told the same_, _Told differently_, _Only this telling shows it_…).
 - **Network.** Start from a portrait. The web is materia orbs, people wearing their portraits; pointing lights a thing's links, tapping reads them as phrases ("Took part in", "Who took part"). "How are they linked?" finds the chain between any two.
 - **Explore.** Who's who and what's what: picture cards by kind, moments in story order.
 - **A character, moment, place or group.** What it is, the games it's in, how each tells it, what changes, and what it's linked to.

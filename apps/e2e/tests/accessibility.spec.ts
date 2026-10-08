@@ -51,7 +51,7 @@ async function story(page: Page) {
 
 async function eventWindow(page: Page) {
   await expect(page.getByRole("complementary", { name: "Event details" })).toContainText(
-    "How each game tells it",
+    "How each telling tells it",
   );
   await expect(page.getByRole("status")).toHaveCount(0);
 }
@@ -65,7 +65,7 @@ async function graph(page: Page) {
 
 /** The turning point and the games' lines after it have arrived. */
 async function split(page: Page) {
-  await expect(page.getByRole("region", { name: "Where each game goes" })).toBeVisible();
+  await expect(page.getByRole("region", { name: "Where each telling goes" })).toBeVisible();
   await expect(page.getByRole("status")).toHaveCount(0);
 }
 

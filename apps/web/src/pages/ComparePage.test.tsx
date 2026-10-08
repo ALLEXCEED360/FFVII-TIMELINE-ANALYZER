@@ -33,24 +33,25 @@ describe("compare page", () => {
     expect(within(list).getAllByText(/^Where to see it:/)).toHaveLength(shown);
   });
 
-  it("asks the API for the chosen games and for big changes only", async () => {
+  it("always compares the original with the whole Remake Trilogy, and can keep to big changes", async () => {
     const requests = stubApi();
     renderAt("/compare");
     await screen.findByRole("region", { name: "Changes" });
-    await userEvent.click(screen.getByRole("button", { name: "OG vs Remake" }));
+    expect(screen.queryByRole("group", { name: "Pairs" })).toBeNull();
+    expect(await screen.findByText(/changes from the original to the Remake Trilogy/)).toBeTruthy();
     await userEvent.click(screen.getByRole("button", { name: "Big changes only" }));
     await waitFor(() => {
       const last = requests.filter((u) => u.pathname === "/differences").at(-1);
       expect(Object.fromEntries(last?.searchParams ?? [])).toEqual({
-        titles: "og,remake",
+        titles: "og,remake,intermission,rebirth",
         magnitude: "major",
       });
     });
   });
 
-  it("finds anything to compare by name, keeping the chosen games", async () => {
+  it("finds anything both tellings have, by name", async () => {
     stubApi();
-    const { router } = renderAt("/compare?titles=og,rebirth");
+    const { router } = renderAt("/compare");
     const picker = await screen.findByRole("region", { name: "Compare anything side by side" });
     await userEvent.type(within(picker).getByRole("searchbox"), "aerith");
     const result = await within(picker).findByRole("link", { name: /Death of Aerith/ });
@@ -60,7 +61,7 @@ describe("compare page", () => {
     await waitFor(() => {
       expect(router.state.location.pathname).toBe("/compare/event/aerith-death");
     });
-    expect(router.state.location.search).toBe("?titles=og,rebirth");
+    expect(router.state.location.search).toBe("");
   });
 
   it("has no accessibility violations", async () => {

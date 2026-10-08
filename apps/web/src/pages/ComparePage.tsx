@@ -1,14 +1,14 @@
 import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router";
-import type { DifferenceCategory, DifferenceListItem, TitleCode } from "../api/client";
+import type { DifferenceCategory, DifferenceListItem } from "../api/client";
 import { useDifferences, useEntities, useReference } from "../api/queries";
 import { SECTION_ART } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { Empty, ErrorMessage, Loading } from "../components/QueryState";
-import { Change, GamePicker, ThingPicker } from "../features/compare/pieces";
-import { compareTitlesParam, parseCompareTitles } from "../features/compare/titles";
+import { Change, ThingPicker } from "../features/compare/pieces";
 import { KIND_LABELS, comparePath, isEntityKind } from "../lib/paths";
 import { CHANGE_WORDS } from "../lib/plain";
+import { TITLE_ORDER } from "../lib/reference";
 import "../features/compare/compare.css";
 
 const KINDS = Object.keys(CHANGE_WORDS) as DifferenceCategory[];
@@ -17,11 +17,10 @@ function isKind(value: string | null): value is DifferenceCategory {
   return (KINDS as (string | null)[]).includes(value);
 }
 
-/** What changes between two games, or anything side by side. /compare?titles=og,rebirth&category=… */
+/** What changes from the original to the Remake Trilogy, or anything side by side. /compare?category=… */
 export function ComparePage() {
   useBackdrop(SECTION_ART.compare, { strength: 0.55, side: "full" });
   const [search, setSearch] = useSearchParams();
-  const titles = parseCompareTitles(search.get("titles"));
   const kindParam = search.get("category");
   const kind = isKind(kindParam) ? kindParam : undefined;
   const big = search.get("magnitude") === "major";
@@ -29,7 +28,7 @@ export function ComparePage() {
   const reference = useReference();
   const entities = useEntities();
   // Every kind of change is fetched, so each filter can say how many it holds.
-  const differences = useDifferences({ titles, magnitude: big ? "major" : undefined });
+  const differences = useDifferences({ titles: TITLE_ORDER, magnitude: big ? "major" : undefined });
 
   const set = (changes: Record<string, string | null>) => {
     const next = new URLSearchParams(search);
@@ -39,8 +38,6 @@ export function ComparePage() {
     }
     setSearch(next, { replace: true });
   };
-  const titlesQuery = compareTitlesParam(titles);
-  const withTitles = (path: string) => (titlesQuery ? `${path}?titles=${titlesQuery}` : path);
 
   const all = useMemo(() => differences.data?.items ?? [], [differences.data]);
   const counts = useMemo(() => {
@@ -64,31 +61,18 @@ export function ComparePage() {
     return [...byEntity.values()];
   }, [all, kind]);
 
-  const titleName = (code: TitleCode) =>
-    reference.data?.titles.find((t) => t.code === code)?.shortName ?? code;
-
   return (
     <div className="cmp">
       <header>
         <h1 className="m-heading m-title">Compare</h1>
         <p className="m-intro">
-          The Remake series retells the original, and not always the same way. Pick the games to
-          compare to see what changes between them, or open anything side by side.
+          The Remake Trilogy — Remake, INTERmission and Rebirth — retells the original, and not
+          always the same way. See what changes, moment by moment, or open anything side by side.
         </p>
       </header>
 
       <div className="cmp-body">
         <div className="m-panel cmp-controls">
-          <div className="cmp-control">
-            <p className="m-label">Which games</p>
-            <GamePicker
-              titles={titles}
-              reference={reference.data}
-              onChange={(next: TitleCode[]) => {
-                set({ titles: compareTitlesParam(next) });
-              }}
-            />
-          </div>
           <div className="cmp-control">
             <p className="m-label" id="cmp-kinds">
               What changes
@@ -142,10 +126,7 @@ export function ComparePage() {
         <section aria-label="Changes" className="cmp-main">
           <p className="cmp-summary">
             {differences.isSuccess &&
-              `${String(groups.reduce((n, g) => n + g.items.length, 0))} changes between ${titles
-                .map(titleName)
-                .join(", ")
-                .replace(/, ([^,]*)$/, " and $1")}`}
+              `${String(groups.reduce((n, g) => n + g.items.length, 0))} changes from the original to the Remake Trilogy`}
           </p>
           {differences.isPending ? (
             <Loading variant="panel" label="Loading the changes…" />
@@ -155,7 +136,7 @@ export function ComparePage() {
             </div>
           ) : groups.length === 0 ? (
             <div className="m-panel cmp-group">
-              <Empty>No changes recorded between these games for these choices.</Empty>
+              <Empty>No changes recorded for these choices.</Empty>
             </div>
           ) : (
             groups.map(({ entity, items }) => (
@@ -173,7 +154,7 @@ export function ComparePage() {
                       {entity.name}
                     </h2>
                   </div>
-                  <Link to={withTitles(comparePath(entity.id))} className="m-row-link cmp-open">
+                  <Link to={comparePath(entity.id)} className="m-row-link cmp-open">
                     See it side by side
                   </Link>
                 </header>
@@ -190,7 +171,7 @@ export function ComparePage() {
         <ThingPicker
           entities={entities.data?.items ?? []}
           reference={reference.data}
-          pathFor={(id) => withTitles(comparePath(id))}
+          pathFor={comparePath}
         />
       </div>
     </div>

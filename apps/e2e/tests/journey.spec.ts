@@ -25,13 +25,11 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
   await expect(page).toHaveURL(/\/event\/aerith-death$/);
   await expect(page.getByRole("heading", { level: 1, name: "Death of Aerith" })).toBeVisible();
 
-  // 5–6. Compare the titles, then switch versions to the original against Rebirth.
-  await page.getByRole("link", { name: "Compare the games side by side" }).click();
+  // 5–6. Compare the original with the Remake Trilogy, side by side.
+  await page.getByRole("link", { name: "Compare side by side" }).click();
   await expect(page).toHaveURL(/\/compare\/event\/aerith-death/);
-  await page.getByRole("button", { name: "OG vs Rebirth" }).click();
-  await expect(page).toHaveURL(/titles=og%2Crebirth/);
-  await expect(page.getByRole("heading", { level: 2, name: "OG" })).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: "Rebirth" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "The original" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "The Remake Trilogy" })).toBeVisible();
   await expect(page.getByRole("region", { name: /What changes/ })).toContainText("Big change");
 
   // 7. Open the graph around the event.

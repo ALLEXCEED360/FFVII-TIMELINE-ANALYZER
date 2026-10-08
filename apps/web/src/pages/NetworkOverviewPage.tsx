@@ -1,28 +1,23 @@
 import { type CSSProperties, useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
-import type { TitleCode } from "../api/client";
-import { useEntities, useNetworkMetrics, useReference } from "../api/queries";
+import { useEntities, useNetworkMetrics } from "../api/queries";
 import { SECTION_ART, pictureFor } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
 import { Orb } from "../components/Orb";
-import { toggle } from "../features/network/params";
+import { TellingChoices } from "../components/TellingChoices";
 import { KIND_WORDS, MATERIA } from "../lib/kinds";
 import { ENTITY_KINDS, type EntityKind, networkPath } from "../lib/paths";
-import { TITLE_ORDER, titleShort } from "../lib/reference";
-import { TITLE_COLOR } from "../lib/titles";
+import { parseTellingChoice, setTellingChoice, titlesOf } from "../lib/tellings";
 import "../features/network/network.css";
 
-/** Start a web from someone, or find how two things are linked. /network?titles=og,rebirth */
+/** Start a web from someone, or find how two things are linked. /network?in=trilogy */
 export function NetworkOverviewPage() {
   useBackdrop(SECTION_ART.network, { strength: 0.5, side: "full" });
   const [search, setSearch] = useSearchParams();
-  const titlesParam = search.get("titles")?.split(",") ?? [];
-  const chosen = TITLE_ORDER.filter((t) => titlesParam.includes(t));
-  const titles = chosen.length > 0 ? chosen : [...TITLE_ORDER];
-  const metrics = useNetworkMetrics(titles);
-  const reference = useReference();
+  const tellings = parseTellingChoice(search);
+  const metrics = useNetworkMetrics(titlesOf(tellings));
   const entities = useEntities();
   const navigate = useNavigate();
   const [kind, setKind] = useState<EntityKind>("character");
@@ -30,12 +25,8 @@ export function NetworkOverviewPage() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
-  const titlesQuery = titles.length === TITLE_ORDER.length ? "" : `?titles=${titles.join(",")}`;
-  const setTitles = (next: TitleCode[]) => {
-    setSearch(next.length === TITLE_ORDER.length ? {} : { titles: next.join(",") }, {
-      replace: true,
-    });
-  };
+  const choice = setTellingChoice(new URLSearchParams(), tellings).toString();
+  const titlesQuery = choice ? `?${choice}` : "";
   const items = useMemo(() => entities.data?.items ?? [], [entities.data]);
   const byName = useMemo(() => [...items].sort((a, b) => a.name.localeCompare(b.name)), [items]);
 
@@ -65,26 +56,16 @@ export function NetworkOverviewPage() {
 
       <div className="m-panel nw-controls nw-controls-row">
         <div className="nw-control">
-          <p className="m-label" id="nw-games">
-            Games
+          <p aria-hidden="true" className="m-label">
+            Show
           </p>
-          <div role="group" aria-labelledby="nw-games" className="m-choices">
-            {TITLE_ORDER.map((code) => (
-              <button
-                key={code}
-                type="button"
-                className="m-choice"
-                aria-pressed={titles.includes(code)}
-                onClick={() => {
-                  setTitles(toggle(titles, code, TITLE_ORDER));
-                }}
-                style={{ "--c": TITLE_COLOR[code] } as CSSProperties}
-              >
-                <span aria-hidden="true" className="m-choice-box" />
-                {titleShort(reference.data, code)}
-              </button>
-            ))}
-          </div>
+          <TellingChoices
+            label="Show"
+            value={tellings}
+            onChange={(next) => {
+              setSearch(setTellingChoice(search, next), { replace: true });
+            }}
+          />
         </div>
         <p className="nw-text nw-key-inline">
           {ENTITY_KINDS.map((k) => (

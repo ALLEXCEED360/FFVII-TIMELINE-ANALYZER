@@ -8,8 +8,9 @@ import { EventWindow } from "../features/timeline/EventWindow";
 import { MarkIcon, PlayList, StoryChapters } from "../features/timeline/StoryList";
 import { TimelineControls } from "../features/timeline/TimelineControls";
 import { useTimelineParams } from "../features/timeline/params";
-import { MARK_WORDS, playOrder, storyChapters } from "../features/timeline/story";
+import { MARK_WORDS, playGroups, storyChapters } from "../features/timeline/story";
 import { TITLE_ORDER, titleShort } from "../lib/reference";
+import { TELLING, TELLINGS, titlesOf } from "../lib/tellings";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { useReducedMotion } from "../lib/motion";
 
@@ -17,9 +18,9 @@ import { useReducedMotion } from "../lib/motion";
 export function TimelinePage() {
   // Across the whole screen: the panels keep the text readable, and the art shows around them.
   useBackdrop(SECTION_ART.timeline, { strength: 0.7, side: "full" });
-  const { params, update, toggleTitle } = useTimelineParams();
+  const { params, update } = useTimelineParams();
   const reference = useReference();
-  // Every game is always fetched: the play view can follow any of them.
+  // Every game is always fetched: the play view can follow either telling.
   const timeline = useTimeline([...TITLE_ORDER]);
   const wide = useMediaQuery("(min-width: 64rem)");
   const xl = useMediaQuery("(min-width: 80rem)");
@@ -30,17 +31,19 @@ export function TimelinePage() {
     [timeline.data, params.keyOnly],
   );
   const play = params.view === "play";
+  const shownTitles = useMemo(() => titlesOf(params.tellings), [params.tellings]);
+  const tellings = params.tellings === "both" ? TELLINGS : [params.tellings];
   const chapters = useMemo(
     () =>
       storyChapters(
-        // In story order, an event shows when one of the chosen games tells it.
-        events.filter((e) => e.appearances.some((a) => params.titles.includes(a.title))),
+        // In story order, an event shows when the chosen telling tells it.
+        events.filter((e) => e.appearances.some((a) => shownTitles.includes(a.title))),
         reference.data?.eras ?? [],
         reference.data?.arcs ?? [],
       ),
-    [events, params.titles, reference.data],
+    [events, shownTitles, reference.data],
   );
-  const played = useMemo(() => playOrder(events, params.game), [events, params.game]);
+  const played = useMemo(() => playGroups(events, params.game), [events, params.game]);
 
   // The list of chapters, to jump between them, where there's room beside the story.
   const contents = !play && xl && chapters.length > 1;
@@ -77,17 +80,12 @@ export function TimelinePage() {
         <h1 className="m-heading m-title">Timeline</h1>
         <p className="m-intro">
           {play
-            ? `The events in the order you meet them playing ${titleName(params.game)}. Games often save the past for later, as flashbacks, so this order can jump around in time.`
-            : "The story of Final Fantasy VII, from its distant past to its end, in the order it happens. Choose any event to see how each game tells it."}
+            ? `The events in the order you meet them playing ${params.game === "og" ? "the original" : "the Remake Trilogy, game by game"}. Games often save the past for later, as flashbacks, so this order can jump around in time.`
+            : "The story of Final Fantasy VII, from its distant past to its end, in the order it happens. Choose any event to see how the original and the Remake Trilogy tell it."}
         </p>
       </header>
 
-      <TimelineControls
-        params={params}
-        titleName={titleName}
-        onToggleTitle={toggleTitle}
-        onChange={update}
-      />
+      <TimelineControls params={params} onChange={update} />
 
       {!play && (
         <ul aria-label="What the marks mean" className="tl-key">
@@ -141,19 +139,14 @@ export function TimelinePage() {
             <div className="m-panel tl-chapter">
               <Empty>
                 {play
-                  ? `No events here from ${titleName(params.game)} yet.`
+                  ? `No events here from ${TELLING[params.game].name.toLowerCase()} yet.`
                   : "No events for these choices."}
               </Empty>
             </div>
           ) : play ? (
-            <PlayList events={played} game={params.game} titleName={titleName} {...row} />
+            <PlayList groups={played} titleName={titleName} {...row} />
           ) : (
-            <StoryChapters
-              chapters={chapters}
-              titles={params.titles}
-              titleName={titleName}
-              {...row}
-            />
+            <StoryChapters chapters={chapters} tellings={tellings} titleName={titleName} {...row} />
           )}
         </section>
 
@@ -163,7 +156,7 @@ export function TimelinePage() {
               <div className="m-panel tl-detail tl-detail-empty">
                 <p className="m-heading">Choose an event</p>
                 <p className="tl-detail-text">
-                  Its story, and how each of the four games tells it, will open here.
+                  Its story, and how the original and the Remake Trilogy tell it, will open here.
                 </p>
               </div>
             )}

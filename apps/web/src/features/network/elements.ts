@@ -1,6 +1,7 @@
 import type { ElementDefinition } from "cytoscape";
 import type { Network, NetworkEdge, NetworkNode, TitleCode } from "../../api/client";
 import { artFor, artSrc } from "../../art/manifest";
+import { tellingsIn } from "../../lib/tellings";
 
 /** A person's portrait for their orb: the modern look where there is one, else the original's. */
 export function portraitOf(id: string, kind: string): string | undefined {
@@ -53,7 +54,7 @@ export interface Highlight {
   pathEdges?: readonly string[];
   /** Entity IDs on the highlighted path, if any. */
   pathNodes?: readonly string[];
-  /** The titles being viewed; when several are, edges only one of them establishes are marked. */
+  /** The titles being viewed; with both tellings, edges only one of them establishes are marked. */
   titles: readonly TitleCode[];
 }
 
@@ -78,7 +79,9 @@ export function toElements(network: MergedNetwork, highlight: Highlight): Elemen
 
   const edgeClasses = (edge: NetworkEdge) => {
     const classes: string[] = [edge.category];
-    if (titles.length > 1 && edge.titles.length === 1) classes.push("single-title");
+    if (tellingsIn(titles).length > 1 && tellingsIn(edge.titles).length === 1) {
+      classes.push("single-title");
+    }
     if (hasPath) classes.push(pathEdges.has(edge.id) ? "on-path" : "faded");
     else if (selected) {
       classes.push(edge.source === selected || edge.target === selected ? "near" : "faded");

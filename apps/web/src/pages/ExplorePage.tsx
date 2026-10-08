@@ -1,17 +1,24 @@
 import { type CSSProperties, useMemo } from "react";
 import { Link, useSearchParams } from "react-router";
-import type { EntityList, Reference, TitleCode } from "../api/client";
-import { useEntities, useReference, useTimeline } from "../api/queries";
+import type { EntityList, TitleCode } from "../api/client";
+import { useEntities, useTimeline } from "../api/queries";
 import { SECTION_ART, pictureFor } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
 import { Orb } from "../components/Orb";
+import { TellingChoices } from "../components/TellingChoices";
 import { ErrorMessage, Loading } from "../components/QueryState";
 import { byStoryOrder, whenOf } from "../features/timeline/story";
 import { KIND_WORDS, MATERIA, type Kind } from "../lib/kinds";
 import { ENTITY_KINDS, entityPath, isEntityKind } from "../lib/paths";
-import { TITLE_ORDER, isTitleCode, titleShort } from "../lib/reference";
-import { TITLE_COLOR } from "../lib/titles";
+import { TITLE_ORDER } from "../lib/reference";
+import {
+  TELLING,
+  parseTellingChoice,
+  setTellingChoice,
+  tellingsIn,
+  titlesOf,
+} from "../lib/tellings";
 import "../features/explore/explore.css";
 
 type Entity = EntityList["items"][number];
@@ -26,33 +33,31 @@ const KIND_GUIDE: Record<Kind, string> = {
 
 const ALL_TITLES = [...TITLE_ORDER];
 
-/** Which games tell it, by name, each with its colour. */
-function Games({ titles, reference }: { titles: readonly TitleCode[]; reference?: Reference }) {
-  const names = TITLE_ORDER.filter((t) => titles.includes(t));
+/** Which tellings have it, each with its colour. */
+function Tellings({ titles }: { titles: readonly TitleCode[] }) {
   return (
     <span className="ex-games">
       <span className="sr-only">In </span>
-      {names.map((t) => (
-        <span key={t} className="ex-game" style={{ "--c": TITLE_COLOR[t] } as CSSProperties}>
-          {titleShort(reference, t)}
+      {tellingsIn(titles).map((t) => (
+        <span key={t} className="ex-game" style={{ "--c": TELLING[t].color } as CSSProperties}>
+          {TELLING[t].short}
         </span>
       ))}
     </span>
   );
 }
 
-/** Everyone and everything as picture cards by kind. /explore?kind=character&title=rebirth&q=… */
+/** Everyone and everything as picture cards by kind. /explore?kind=character&in=trilogy&q=… */
 export function ExplorePage() {
   useBackdrop(SECTION_ART.explore, { strength: 0.5, side: "full" });
   const [search, setSearch] = useSearchParams();
   const kindParam = search.get("kind") ?? undefined;
   const kind = isEntityKind(kindParam) ? kindParam : undefined;
-  const titleParam = search.get("title") ?? "";
-  const title = isTitleCode(titleParam) ? titleParam : undefined;
+  const tellings = parseTellingChoice(search);
+  const shownTitles = titlesOf(tellings);
   const text = search.get("q") ?? "";
 
   const entities = useEntities();
-  const reference = useReference();
   // Moments are shown in story order, and say when they happen.
   const timeline = useTimeline(ALL_TITLES);
 
@@ -74,7 +79,7 @@ export function ExplorePage() {
     const shown = all.filter(
       (e) =>
         (kind === undefined || e.kind === kind) &&
-        (title === undefined || e.titles.includes(title)) &&
+        (tellings === "both" || e.titles.some((t) => shownTitles.includes(t))) &&
         (needle === "" ||
           e.name.toLowerCase().includes(needle) ||
           e.summary.toLowerCase().includes(needle)),
@@ -90,9 +95,9 @@ export function ExplorePage() {
             : a.name.localeCompare(b.name),
         ),
     })).filter((g) => g.items.length > 0);
-  }, [all, kind, title, text, moments]);
+  }, [all, kind, tellings, shownTitles, text, moments]);
   const count = (k?: Kind) => all.filter((e) => k === undefined || e.kind === k).length;
-  const filtered = Boolean(kind ?? title ?? text);
+  const filtered = Boolean(kind ?? text) || tellings !== "both";
 
   return (
     <div className="ex">
@@ -150,36 +155,16 @@ export function ExplorePage() {
           </div>
         </div>
         <div className="ex-control">
-          <p className="m-label" id="ex-games">
-            In which game
+          <p aria-hidden="true" className="m-label">
+            Told in
           </p>
-          <div role="group" aria-labelledby="ex-games" className="m-choices">
-            <button
-              type="button"
-              className="m-choice"
-              aria-pressed={title === undefined}
-              onClick={() => {
-                set("title", undefined);
-              }}
-            >
-              Any game
-            </button>
-            {TITLE_ORDER.map((code) => (
-              <button
-                key={code}
-                type="button"
-                className="m-choice"
-                aria-pressed={title === code}
-                onClick={() => {
-                  set("title", title === code ? undefined : code);
-                }}
-                style={{ "--c": TITLE_COLOR[code] } as CSSProperties}
-              >
-                <span aria-hidden="true" className="m-choice-box" />
-                {titleShort(reference.data, code)}
-              </button>
-            ))}
-          </div>
+          <TellingChoices
+            label="Told in"
+            value={tellings}
+            onChange={(next) => {
+              setSearch(setTellingChoice(search, next), { replace: true });
+            }}
+          />
         </div>
       </div>
 
@@ -242,7 +227,7 @@ export function ExplorePage() {
                         <span className="ex-card-name">{entity.name}</span>
                         <span className="ex-card-summary">{entity.summary}</span>
                         <span className="ex-card-foot">
-                          <Games titles={entity.titles} reference={reference.data} />
+                          <Tellings titles={entity.titles} />
                           <span aria-hidden="true" className="ex-card-more">
                             Read more ›
                           </span>

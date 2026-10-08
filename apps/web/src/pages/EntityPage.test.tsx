@@ -4,23 +4,23 @@ import { describe, expect, it } from "vitest";
 import { renderAt, stubApi } from "../test/render";
 
 describe("entity page", () => {
-  it("shows each game in plain words, with other worlds inside it", async () => {
+  it("shows the original and the Remake Trilogy, with each trilogy game inside", async () => {
     stubApi();
     renderAt("/character/cloud-strife");
     expect(await screen.findByRole("heading", { level: 1, name: "Cloud Strife" })).toBeTruthy();
-    const games = screen.getByRole("list", { name: "In the games" });
+    const tellings = screen.getByRole("list", { name: "In each telling" });
     expect(
-      within(games)
+      within(tellings)
         .getAllByRole("listitem")
         .map((li) => li.textContent),
-    ).toEqual(["OGAppears", "RemakeAppears", "INTERmissionAppears", "RebirthAppears"]);
-    const titles = screen.getByRole("region", { name: "In each game" });
+    ).toEqual(["OriginalAppears", "Remake TrilogyAppears · Remake, INTERmission, Rebirth"]);
+    const panels = screen.getByRole("region", { name: "In each telling" });
     expect(
-      within(titles)
+      within(panels)
         .getAllByRole("heading", { level: 3 })
         .map((h) => h.textContent),
-    ).toEqual(["OG", "Remake", "INTERmission", "Rebirth"]);
-    expect(within(titles).getAllByText(/In another world: Zack survives/)).toHaveLength(2);
+    ).toEqual(["The original", "The Remake Trilogy"]);
+    expect(within(panels).getAllByText(/In another world: Zack survives/)).toHaveLength(2);
   });
 
   it("groups connections by kind and links to their pages", async () => {
