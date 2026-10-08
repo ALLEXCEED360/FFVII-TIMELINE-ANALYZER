@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import "./Backdrop.css";
 import { create } from "zustand";
 import { artSrc, artwork } from "../art/manifest";
@@ -56,66 +56,86 @@ export function useBackdrop(
   );
 }
 
-/** How long a change of artwork takes: the old fades out as the new fades in (Backdrop.css). */
-const FADE_MS = 1000;
+/** How long a change of artwork takes (Backdrop.css), and so how long a picture leaving stays. */
+const FADE_MS = 1200;
 
 interface Layer {
-  id: string | null;
+  key: number;
+  id: string;
   strength: number;
+  leaving: boolean;
 }
 
 export function Backdrop() {
   const { id, strength, side } = useBackdropStore();
-  // A change is a crossfade: the artwork shown before fades out, at the strength it had, while
-  // the new one fades in over it — and then goes, so the two never stay blended.
-  const [layers, setLayers] = useState<{ current: Layer; previous: Layer | null }>({
-    current: { id, strength },
-    previous: null,
-  });
-  if (layers.current.id !== id) {
-    setLayers({ current: { id, strength }, previous: layers.current });
-  } else if (layers.current.strength !== strength) {
-    setLayers({ ...layers, current: { id, strength } });
-  }
+  // A change is a crossfade with a layer per picture: the new one fades in over the others while
+  // they fade out from wherever they are — so moving on before a fade has finished never makes a
+  // picture jump — and each goes once it has faded.
+  const [layers, setLayers] = useState<Layer[]>(() =>
+    id === null ? [] : [{ key: 0, id, strength, leaving: false }],
+  );
+  const serial = useRef(1);
+  const timers = useRef<number[]>([]);
   useEffect(() => {
-    if (layers.previous === null) return;
-    const done = window.setTimeout(() => {
-      setLayers((now) => ({ ...now, previous: null }));
-    }, FADE_MS);
-    return () => {
-      window.clearTimeout(done);
-    };
-  }, [layers]);
+    setLayers((now) => {
+      const top = now.findLast((l) => !l.leaving);
+      if ((top?.id ?? null) === id) {
+        return top && top.strength !== strength
+          ? now.map((l) => (l === top ? { ...l, strength } : l))
+          : now;
+      }
+      const leaving = now.filter((l) => !l.leaving).map((l) => l.key);
+      if (leaving.length > 0) {
+        timers.current.push(
+          window.setTimeout(() => {
+            setLayers((later) => later.filter((l) => !leaving.includes(l.key)));
+          }, FADE_MS),
+        );
+      }
+      const next = now.map((l) => (l.leaving ? l : { ...l, leaving: true }));
+      if (id !== null) next.push({ key: serial.current++, id, strength, leaving: false });
+      return next;
+    });
+  }, [id, strength]);
+  useEffect(
+    () => () => {
+      timers.current.forEach((t) => {
+        window.clearTimeout(t);
+      });
+    },
+    [],
+  );
 
-  const layer = ({ id: layerId, strength: layerStrength }: Layer, leaving: boolean) => {
-    const entry = layerId === null ? undefined : artwork(layerId);
+  const layer = ({ key, id: layerId, strength: layerStrength, leaving }: Layer) => {
+    const entry = artwork(layerId);
     if (!entry) return null;
     const lineart = entry.kind === "lineart";
     return (
       <img
-        key={`${leaving ? "out" : "in"}-${entry.id}`}
+        key={key}
         src={artSrc(entry)}
         alt=""
         decoding="async"
-        className={`backdrop-art absolute inset-0 size-full ${leaving ? "backdrop-out" : "backdrop-in"} ${
+        className={`backdrop-art absolute inset-0 size-full ${leaving ? "is-leaving" : ""} ${
           lineart ? "object-contain object-right-top p-[6vh]" : "object-cover"
         }`}
-        style={{
-          objectPosition: lineart ? undefined : entry.focus,
-          opacity: lineart ? layerStrength * 0.55 : layerStrength,
-          maskImage:
-            side === "full"
-              ? undefined
-              : "linear-gradient(to bottom, #000 0%, #000 30%, transparent 92%)",
-        }}
+        style={
+          {
+            "--o": lineart ? layerStrength * 0.55 : layerStrength,
+            objectPosition: lineart ? undefined : entry.focus,
+            maskImage:
+              side === "full"
+                ? undefined
+                : "linear-gradient(to bottom, #000 0%, #000 30%, transparent 92%)",
+          } as CSSProperties
+        }
       />
     );
   };
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      {layers.previous && layers.previous.id !== layers.current.id && layer(layers.previous, true)}
-      {layer(layers.current, false)}
+      {layers.map(layer)}
       {/* Darkest where the text is. */}
       <div
         className="absolute inset-0"

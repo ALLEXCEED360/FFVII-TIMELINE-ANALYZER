@@ -28,6 +28,23 @@ function usePlayTime(): string {
   return `${String(h)}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
+/**
+ * A value that follows another once it has stopped changing for a moment: the artwork behind the
+ * menu waits for the glove to settle, so holding a key doesn't flicker through every picture.
+ */
+function useSettled<T>(value: T, ms: number): T {
+  const [settled, setSettled] = useState(value);
+  useEffect(() => {
+    const wait = window.setTimeout(() => {
+      setSettled(value);
+    }, ms);
+    return () => {
+      window.clearTimeout(wait);
+    };
+  }, [value, ms]);
+  return settled;
+}
+
 /** Where a game's story runs, first part to last. */
 function spanOf(reference: Reference, code: TitleCode): [string, string] | undefined {
   const segment = (id: string) => reference.segments.find((s) => s.id === id)?.name ?? id;
@@ -95,16 +112,21 @@ export function ClassicMenu() {
   const [memberIndex, setMemberIndex] = useState(0);
   const memberLinks = useRef<(HTMLAnchorElement | null)[]>([]);
   const time = usePlayTime();
-  // Load every command's artwork up front, so moving the glove changes the scene at once.
+  // Load every command's and every game's artwork up front, so moving the glove changes the
+  // scene at once.
   useEffect(() => {
-    for (const section of SECTIONS) {
-      const art = artwork(section.art);
+    for (const id of [...SECTIONS.map((s) => s.art), ...Object.values(TITLE_ART)]) {
+      const art = artwork(id);
       if (art) new Image().src = artSrc(art);
     }
   }, []);
-  useBackdrop(current?.art, { strength: 0.85, side: "full" });
 
   const titles = reference.data?.titles ?? [];
+  // Behind the menu: the chosen game's cover while the glove is among the games, otherwise the
+  // highlighted command's scene — a different picture for each, crossfading as the glove moves.
+  const chosenGame = zone === "party" ? titles[memberIndex] : undefined;
+  const scene = useSettled(chosenGame ? TITLE_ART[chosenGame.code] : current?.art, 90);
+  useBackdrop(scene, { strength: 0.85, side: "full" });
 
   // Where the glove is, kept up to date the moment it moves, so keys pressed quickly (or held)
   // each start from where the last one left it; the state above mirrors it for drawing.
@@ -231,7 +253,7 @@ export function ClassicMenu() {
     };
   }, []);
   const items = entities.data?.items ?? [];
-  const pointed = zone === "party" ? titles[memberIndex] : undefined;
+  const pointed = chosenGame;
   const help = pointed
     ? `${pointed.name}. ${coverageText(reference.data, pointed.code)}`
     : current?.text;
