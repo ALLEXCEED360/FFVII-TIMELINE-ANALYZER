@@ -55,3 +55,4 @@ One short record per architecture decision, numbered in order.
 | 0026 | [The archive, as the games chapter by chapter](decisions/0026-archive-for-beginners.md)                                                    |
 | 0027 | [Settings, as a Config screen in plain words](decisions/0027-settings-for-beginners.md)                                                    |
 | 0028 | [The home menu: arrow keys and W A S D anywhere, and the chosen game's cover forward](decisions/0028-home-menu-keys-and-covers.md)         |
+| 0029 | [Credits, as a staff roll](decisions/0029-credits-as-a-staff-roll.md)                                                                      |

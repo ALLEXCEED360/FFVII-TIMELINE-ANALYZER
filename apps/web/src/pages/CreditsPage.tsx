@@ -1,192 +1,278 @@
+import { type ReactNode, useState } from "react";
 import { Link } from "react-router";
 import { ARTWORK, type ArtEntry, SECTION_ART, artSourceUrl } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
+import "../features/credits/credits.css";
 
+/** Every typeface the site loads: who made it, its licence, and where it's used. */
 const FONTS = [
   {
-    name: "Bodoni Moda",
-    by: "Owen Earl (indestructible type*)",
-    licence: "SIL Open Font License 1.1",
-  },
-  { name: "Barlow Condensed", by: "Jeremy Tribby", licence: "SIL Open Font License 1.1" },
-  {
-    name: "Final Fantasy (logo lettering)",
+    name: "Final Fantasy",
+    family: "'FF Logo'",
     by: "Juan Pablo Reyes Altamirano, after the series' logo",
     licence: "Free font (1999), non-commercial use",
+    use: "The bar along the top, and the series' name on the title screen",
   },
-  { name: "Optimus Princeps", by: "Manfred Klein", licence: "Free font" },
+  {
+    name: "Optimus Princeps",
+    family: "'Optimus Princeps'",
+    by: "Manfred Klein",
+    licence: "Free font",
+    use: "Names, headings and labels, and the title screen's name",
+  },
   {
     name: "Reactor7",
-    by: "Caveras (Cliff Modes), after the original game's text font",
+    family: "Reactor7",
+    by: "Caveras (Cliff Modes), after the original game's text",
     licence: "CC BY-NC-SA 4.0 — caveras.net",
+    use: "The home menu, and the window between sections",
   },
-  { name: "Inter", by: "Rasmus Andersson", licence: "SIL Open Font License 1.1" },
-  { name: "JetBrains Mono", by: "JetBrains", licence: "SIL Open Font License 1.1" },
+  {
+    name: "Inter",
+    family: "'Inter Variable'",
+    by: "Rasmus Andersson",
+    licence: "SIL Open Font License 1.1",
+    use: "Everything you read",
+  },
+  {
+    name: "JetBrains Mono",
+    family: "'JetBrains Mono Variable'",
+    by: "JetBrains",
+    licence: "SIL Open Font License 1.1",
+    use: "Where-in-the-game references, and picture credits",
+  },
+  {
+    name: "Bodoni Moda",
+    family: "'Bodoni Moda Variable'",
+    by: "Owen Earl (indestructible type*)",
+    licence: "SIL Open Font License 1.1",
+    use: "The titles of the error pages",
+  },
+  {
+    name: "Barlow Condensed",
+    family: "'Barlow Condensed'",
+    by: "Jeremy Tribby",
+    licence: "SIL Open Font License 1.1",
+    use: "The “Skip to content” link",
+  },
 ] as const;
 
 const GROUPS: readonly { id: string; name: string; match: (art: ArtEntry) => boolean }[] = [
-  { id: "key", name: "Key art and illustrations", match: (art) => art.id.startsWith("key/") },
+  { id: "all", name: "Everything", match: () => true },
+  { id: "key", name: "Key art", match: (art) => art.id.startsWith("key/") },
   { id: "characters", name: "Characters", match: (art) => art.id.startsWith("characters/") },
   { id: "places", name: "Places", match: (art) => art.id.startsWith("places/") },
 ];
 
-/** Who made what: official artwork, fonts, and the licences of this project's own work. */
+/** The named artists first, then the studio. */
+const ARTISTS = [...new Set(ARTWORK.map((art) => art.artist))].sort(
+  (a, b) => Number(a === "Square Enix") - Number(b === "Square Enix") || a.localeCompare(b),
+);
+
+/** One line of the staff roll: what was done, and by whom. */
+function Role({ role, children }: { role: string; children: ReactNode }) {
+  return (
+    <div className="cr-role">
+      <dt className="m-label">{role}</dt>
+      <dd className="m-heading cr-names">{children}</dd>
+    </div>
+  );
+}
+
+/**
+ * Credits (decision 0029): who made what, read as a game's staff roll, then every picture, every
+ * typeface and the project's own licences.
+ */
 export function CreditsPage() {
-  useBackdrop(SECTION_ART.credits, { strength: 0.45 });
+  useBackdrop(SECTION_ART.credits, { strength: 0.5, side: "full" });
+  const [group, setGroup] = useState("all");
+  const shown = ARTWORK.filter(GROUPS.find((g) => g.id === group)?.match ?? (() => true));
 
   return (
-    <div className="flex flex-col gap-10">
-      <header className="flex max-w-4xl flex-col gap-2">
-        <p className="eyebrow">Acknowledgements</p>
-        <h1 className="page-title">Credits</h1>
-        <p className="text-steel-300">
-          <em>Final Fantasy VII</em> and all related names, characters and artwork belong to Square
-          Enix. This is a non-commercial fan project, not affiliated with or endorsed by Square
-          Enix.
+    <div className="cr">
+      <header>
+        <p className="m-label">Thanks to</p>
+        <h1 className="m-heading m-title">Credits</h1>
+        <p className="m-intro">
+          <em>Final Fantasy VII</em> and all its names, characters and artwork belong to Square
+          Enix. This is a non-commercial fan project, not made, approved or endorsed by Square Enix.
         </p>
       </header>
 
-      <section aria-labelledby="credits-art" className="flex flex-col gap-4">
-        <h2 id="credits-art" className="section-title">
-          Official artwork
+      <section aria-labelledby="cr-roll" className="m-panel cr-roll">
+        <h2 id="cr-roll" className="sr-only">
+          Who made what
         </h2>
-        <p className="max-w-4xl text-sm text-steel-300">
-          Every image is official Square Enix artwork — key art, character renders and
-          illustrations, and concept art — found through the{" "}
-          <a
-            href="https://finalfantasy.fandom.com"
-            target="_blank"
-            rel="noreferrer"
-            className="text-steel-100 underline underline-offset-2 hover:text-mako-300"
-          >
-            Final Fantasy Wiki
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
-          . Artwork is decoration only, never a source of facts. None of it is extracted from the
-          games or generated by AI. Images are resized; flat studio backgrounds around some figures
-          are removed; pencil concept sketches are shown as light lines on the dark page; and
-          printed titles and publisher logos are cropped off. Nothing is covered by this
-          project&apos;s licences, and any image will be removed at the rights holder&apos;s
-          request.
-        </p>
-        {GROUPS.map((group) => (
-          <section
-            key={group.id}
-            aria-labelledby={`credits-${group.id}`}
-            className="flex flex-col gap-3"
-          >
-            <h3 id={`credits-${group.id}`} className="label">
-              {group.name}{" "}
-              <span className="text-steel-300">{ARTWORK.filter(group.match).length}</span>
-            </h3>
-            <ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-              {ARTWORK.filter(group.match).map((art) => (
-                <li key={art.id} className="panel flex gap-3 p-2.5">
-                  <span className="halftone flex h-20 w-24 shrink-0 items-center justify-center overflow-hidden bg-night-950">
-                    <Artwork
-                      entry={art}
-                      decorative
-                      className={`max-h-full ${art.kind === "cutout" ? "object-contain" : "h-full w-full object-cover"}`}
-                    />
-                  </span>
-                  <div className="flex min-w-0 flex-col gap-0.5 text-sm">
-                    <p className="font-semibold text-steel-100">{art.title}</p>
-                    <p className="text-xs text-steel-400">{art.artist} · © Square Enix</p>
-                    {art.wiki === undefined ? (
-                      <p className="text-xs text-steel-300">{art.source}</p>
-                    ) : (
-                      <a
-                        href={artSourceUrl(art)}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-block min-h-6 truncate py-0.5 text-xs text-steel-200 underline underline-offset-2 hover:text-mako-300"
-                      >
-                        Source
-                        <span className="sr-only">
-                          {" "}
-                          for {art.title} on the Final Fantasy Wiki (opens in a new tab)
-                        </span>
-                      </a>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+        <dl className="cr-roles">
+          <Role role="Final Fantasy VII · Remake · INTERmission · Rebirth">Square Enix</Role>
+          <Role role="Artwork">
+            {ARTISTS.map((artist) => (
+              <span key={artist} className="cr-name">
+                {artist}
+              </span>
+            ))}
+          </Role>
+          <Role role="Site icon">
+            <span className="cr-name">The Meteor emblem, by Yoshitaka Amano</span>
+          </Role>
+          <Role role="Pointer">
+            <span className="cr-name">
+              Cloud&apos;s Buster Sword, from{" "}
+              <a
+                href="https://www.cursors-4u.com/cursor/final-fantasy-7-cloud-s-buster-sword"
+                target="_blank"
+                rel="noreferrer"
+                className="cr-link"
+              >
+                Cursors-4U
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </span>
+          </Role>
+          <Role role="Lettering">
+            {FONTS.map((font) => (
+              <span key={font.name} className="cr-name">
+                {font.by.split(",")[0]}
+              </span>
+            ))}
+          </Role>
+          <Role role="Every fact checked against">
+            <span className="cr-name">
+              The games themselves —{" "}
+              <Link to="/archive/research" className="cr-link">
+                see how
+              </Link>
+            </span>
+          </Role>
+        </dl>
       </section>
 
-      <section aria-labelledby="credits-fonts" className="flex max-w-4xl flex-col gap-3">
-        <h2 id="credits-fonts" className="section-title">
-          Typefaces
+      <section aria-labelledby="cr-art" className="cr-section">
+        <h2 id="cr-art" className="m-heading cr-heading">
+          The pictures <span className="cr-count">{ARTWORK.length}</span>
         </h2>
-        <ul className="panel divide-y divide-night-800 text-sm">
-          {FONTS.map((font) => (
-            <li key={font.name} className="flex flex-wrap justify-between gap-2 p-3">
-              <span className="text-steel-100">
-                {font.name} <span className="text-steel-400">by {font.by}</span>
+        <div className="m-panel cr-panel">
+          <p className="cr-text">
+            Every picture is official Square Enix artwork — key art, character renders and
+            illustrations, and concept art — found through the{" "}
+            <a
+              href="https://finalfantasy.fandom.com"
+              target="_blank"
+              rel="noreferrer"
+              className="cr-link"
+            >
+              Final Fantasy Wiki
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+            . None of it is taken from the games&apos; files or made by AI, and the pictures only
+            decorate: no fact here rests on one.
+          </p>
+          <ul className="cr-notes">
+            <li>Resized to load quickly.</li>
+            <li>Plain studio backgrounds around some figures removed.</li>
+            <li>Pencil concept sketches shown as light lines on the dark page.</li>
+            <li>Printed titles and publisher logos cropped off.</li>
+          </ul>
+          <p className="cr-small">
+            None of it is covered by this project&apos;s licences, and any picture will be taken
+            down at the rights holder&apos;s request.
+          </p>
+        </div>
+        <div role="group" aria-label="Show" className="m-choices">
+          {GROUPS.map((g) => (
+            <button
+              key={g.id}
+              type="button"
+              aria-pressed={group === g.id}
+              onClick={() => {
+                setGroup(g.id);
+              }}
+              className="m-choice"
+            >
+              {g.name} <span className="cr-count">{ARTWORK.filter(g.match).length}</span>
+            </button>
+          ))}
+        </div>
+        <ul aria-label="Pictures" className="cr-art">
+          {shown.map((art) => (
+            <li key={art.id} className="m-panel cr-piece">
+              <span className="cr-piece-art" data-kind={art.kind}>
+                <Artwork entry={art} decorative />
               </span>
-              <span className="text-steel-400">{font.licence}</span>
+              <span className="cr-piece-body">
+                <span className="cr-piece-title">{art.title}</span>
+                <span className="cr-small">{art.artist} · © Square Enix</span>
+                {art.wiki === undefined ? (
+                  <span className="cr-small">{art.source}</span>
+                ) : (
+                  <a
+                    href={artSourceUrl(art)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="cr-link cr-source"
+                  >
+                    See the original
+                    <span className="sr-only">
+                      {" "}
+                      of {art.title} on the Final Fantasy Wiki (opens in a new tab)
+                    </span>
+                  </a>
+                )}
+              </span>
             </li>
           ))}
         </ul>
       </section>
 
-      <section aria-labelledby="credits-pieces" className="flex max-w-4xl flex-col gap-3">
-        <h2 id="credits-pieces" className="section-title">
-          Icon and cursor
+      <section aria-labelledby="cr-fonts" className="cr-section">
+        <h2 id="cr-fonts" className="m-heading cr-heading">
+          The lettering <span className="cr-count">{FONTS.length}</span>
         </h2>
-        <ul className="panel divide-y divide-night-800 text-sm">
-          <li className="flex flex-wrap justify-between gap-2 p-3">
-            <span className="text-steel-100">
-              Site icon{" "}
-              <span className="text-steel-400">
-                the Meteor emblem from the series&apos; logo, by Yoshitaka Amano
+        <ul className="cr-fonts">
+          {FONTS.map((font) => (
+            <li key={font.name} className="m-panel cr-font">
+              <span
+                aria-hidden="true"
+                className="cr-font-sample"
+                style={{ fontFamily: font.family }}
+              >
+                {font.name === "Final Fantasy" ? "FINAL FANTASY" : "Final Fantasy VII"}
               </span>
-            </span>
-            <span className="text-steel-400">© Square Enix</span>
-          </li>
-          <li className="flex flex-wrap justify-between gap-2 p-3">
-            <span className="text-steel-100">
-              Cursor{" "}
-              <span className="text-steel-400">
-                &ldquo;Final Fantasy 7 – Cloud&apos;s Buster Sword&rdquo; from{" "}
-                <a
-                  href="https://www.cursors-4u.com/cursor/final-fantasy-7-cloud-s-buster-sword"
-                  className="underline underline-offset-2 hover:text-mako-300"
-                >
-                  Cursors-4U
-                </a>
-              </span>
-            </span>
-            <span className="text-steel-400">Free cursor, credited as Cursors-4U asks</span>
-          </li>
+              <span className="cr-font-name">{font.name}</span>
+              <span className="cr-small">by {font.by}</span>
+              <span className="cr-text">{font.use}</span>
+              <span className="cr-small">{font.licence}</span>
+            </li>
+          ))}
         </ul>
       </section>
 
-      <section aria-labelledby="credits-project" className="flex max-w-4xl flex-col gap-3">
-        <h2 id="credits-project" className="section-title">
+      <section aria-labelledby="cr-project" className="cr-section">
+        <h2 id="cr-project" className="m-heading cr-heading">
           This project
         </h2>
-        <ul className="flex flex-col gap-1.5 text-sm text-steel-300">
-          <li>
-            <span className="text-steel-100">Code</span>: MIT licence.
+        <ul className="cr-licences">
+          <li className="m-panel cr-panel">
+            <p className="cr-font-name">The code</p>
+            <p className="cr-text">MIT licence: use it for anything, with the notice kept.</p>
           </li>
-          <li>
-            <span className="text-steel-100">Data and documentation</span>: Creative Commons
-            Attribution-NonCommercial 4.0 (reuse with attribution, non-commercial only).
+          <li className="m-panel cr-panel">
+            <p className="cr-font-name">The facts and the writing</p>
+            <p className="cr-text">
+              Creative Commons Attribution-NonCommercial 4.0: reuse them with credit, but not to
+              make money.
+            </p>
           </li>
-          <li>
-            <span className="text-steel-100">Research</span>: the sources used to check each fact
-            are listed in the{" "}
-            <Link
-              to="/archive/research"
-              className="text-steel-200 underline underline-offset-2 hover:text-mako-300"
-            >
-              research log
-            </Link>
-            .
+          <li className="m-panel cr-panel">
+            <p className="cr-font-name">The research</p>
+            <p className="cr-text">
+              What each fact was checked against is listed in the{" "}
+              <Link to="/archive/research" className="cr-link">
+                research log
+              </Link>
+              .
+            </p>
           </li>
         </ul>
       </section>

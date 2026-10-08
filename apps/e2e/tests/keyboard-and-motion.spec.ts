@@ -190,6 +190,8 @@ test("W A S D move the glove anywhere on the home menu, and left and right cross
   await page.goto("/");
   const menu = page.getByRole("navigation", { name: "Sections" });
   const games = page.getByRole("list", { name: "The four tellings" });
+  // The games arrive with the API's reference data; wait for them before crossing to them.
+  await expect(games.getByRole("link")).toHaveCount(4);
   // Nothing focused yet: the keys still work.
   await page.keyboard.press("s");
   await expect(menu.getByRole("link", { name: /^Compare/ })).toBeFocused();
@@ -229,6 +231,7 @@ test("the keys and the mouse move one glove on the home menu", async ({ page }) 
   await page.goto("/");
   const menu = page.getByRole("navigation", { name: "Sections" });
   const games = page.getByRole("list", { name: "The four tellings" });
+  await expect(games.getByRole("link")).toHaveCount(4);
   // Quick presses each count.
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("ArrowDown");
@@ -255,6 +258,9 @@ test("the keys and the mouse move one glove on the home menu", async ({ page }) 
 
 test("up from the top of the home menu reaches Search and Credits in the bar", async ({ page }) => {
   await page.goto("/");
+  await expect(page.getByRole("list", { name: "The four tellings" }).getByRole("link")).toHaveCount(
+    4,
+  );
   const menu = page.getByRole("navigation", { name: "Sections" });
   const bar = page.getByRole("banner");
   await page.keyboard.press("ArrowUp");
