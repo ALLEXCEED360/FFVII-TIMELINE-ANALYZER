@@ -23,10 +23,7 @@ export interface MergedNetwork {
   edges: Map<string, NetworkEdge>;
 }
 
-/**
- * The centre's neighbourhood plus the neighbourhoods of any expanded nodes. Entities reached only
- * through an expansion have no depth.
- */
+/** The centre's neighbourhood plus any expanded ones (those have no depth). */
 export function mergeNetworks(main: Network, expansions: readonly Network[]): MergedNetwork {
   const nodes = new Map<string, ViewNode>(main.nodes.map((n) => [n.id, n]));
   const edges = new Map<string, NetworkEdge>(main.edges.map((e) => [e.id, e]));
@@ -60,10 +57,7 @@ export interface Highlight {
   titles: readonly TitleCode[];
 }
 
-/**
- * Cytoscape elements with classes for styling: kind, centre, selected, its immediate network
- * (everything else fades), the path, and edges only one of the viewed titles establishes.
- */
+/** Cytoscape elements, classed by kind, centre, selection, path and single-game edges. */
 export function toElements(network: MergedNetwork, highlight: Highlight): ElementDefinition[] {
   const { center, selected, titles } = highlight;
   const pathEdges = new Set(highlight.pathEdges ?? []);

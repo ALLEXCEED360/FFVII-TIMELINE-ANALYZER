@@ -2,10 +2,8 @@ import type { StylesheetJson } from "cytoscape";
 import { MATERIA } from "../../lib/kinds";
 import { CATEGORY_WORDS } from "./words";
 
-// How the web is drawn (decision 0023). Cytoscape can't read CSS variables, so the colours are
-// given here. Every thing is a materia orb — a radial gradient in its kind's colour — and keeps
-// a shape of its own (a circle for people, a diamond for moments, a rounded square for places, a
-// hexagon for groups), so colour is never the only cue. People wear their portraits on their orb.
+// How the web is drawn (Cytoscape can't read CSS variables). Each kind has a colour and a shape,
+// so colour is never the only cue; people wear their portraits.
 
 export const KIND_SHAPE = {
   character: "ellipse",

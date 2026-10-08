@@ -1,10 +1,7 @@
 import type { TitleCode } from "../api/client";
 
-// Every image the site shows (decision 0015). All of it is official Square Enix artwork — key art,
-// character renders and illustrations, concept art — as hosted on the Final Fantasy Wiki, fetched
-// and converted by scripts/fetch_art.py after the owner approved the list. Artwork is decoration,
-// never a source of facts; each piece is credited on /credits, and any will be removed at the
-// rights holder's request. Nothing is extracted from game files and nothing is AI-generated.
+// Every image the site shows: official Square Enix art from the Final Fantasy Wiki, converted by
+// scripts/fetch_art.py and credited on /credits. Decoration only; never AI-made.
 
 export interface ArtEntry {
   /** Its path under public/art, without extension: "characters/cloud". */
@@ -13,10 +10,7 @@ export interface ArtEntry {
   height: number;
   /** Describes the image for screen readers. */
   alt: string;
-  /**
-   * key: a full illustration, for backdrops and title cards. cutout: a figure on transparency.
-   * scene: a painted place. lineart: a pencil sketch keyed out to light lines on transparency.
-   */
+  /** key: a full illustration. cutout: a figure on transparency. scene: a place. lineart: a sketch. */
   kind: "key" | "cutout" | "scene" | "lineart";
   /** Where to centre it when the layout crops it (CSS object-position). */
   focus?: string;

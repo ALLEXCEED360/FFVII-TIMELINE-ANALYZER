@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useUi } from "../stores/ui";
 import { useMediaQuery } from "./useMediaQuery";
 
-// Reduced motion (blueprint §33): the visitor's Motion setting wins; "system" follows the
+// Reduced motion: the visitor's Motion setting wins; "system" follows the
 // operating system's preference. CSS reads the setting from <html data-motion>.
 
 /** Whether animations should be skipped, for code that animates outside CSS (the graph). */

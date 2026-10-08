@@ -1,6 +1,4 @@
-/* One character, moment, place or group (EntityPage.tsx, Portrait.tsx, decision 0025), in the
-   modern panels (components/modern.css), lit in its kind's materia colour (--materia). How each
-   game tells it and what changes reuse the compare section's pieces (features/compare). */
+/* A character, moment, place or group, lit in its kind's colour (--materia). */
 
 .ent {
   display: flex;

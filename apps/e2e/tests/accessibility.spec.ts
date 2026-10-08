@@ -1,9 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { type Page, expect, test } from "@playwright/test";
 
-// Every kind of page, audited with axe in a real browser against WCAG 2.2 A and AA — including
-// colour contrast, which the unit tests (jsdom) can't measure. Each page is checked once its data
-// has loaded, since loading states are replaced almost at once.
+// Every kind of page, audited with axe against WCAG 2.2 AA (including contrast) once its data loads.
 
 const PAGES: { name: string; path: string; ready: (page: Page) => Promise<void> }[] = [
   { name: "home", path: "/", ready: heading("One story.") },

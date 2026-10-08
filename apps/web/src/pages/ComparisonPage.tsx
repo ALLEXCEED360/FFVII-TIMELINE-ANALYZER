@@ -15,11 +15,7 @@ import { useMediaQuery } from "../lib/useMediaQuery";
 import { NotFoundPage } from "./NotFoundPage";
 import "../features/compare/compare.css";
 
-/**
- * How the chosen games tell one thing, side by side (decision 0021), for someone new to the
- * story: what each game does with it, in plain words, what changes, and what it's connected to.
- * /compare/event/nibelheim-incident?titles=og,rebirth
- */
+/** One thing side by side across games. /compare/event/nibelheim-incident?titles=og,rebirth */
 export function ComparisonPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);

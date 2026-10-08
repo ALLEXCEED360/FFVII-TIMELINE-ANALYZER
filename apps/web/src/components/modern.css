@@ -1,7 +1,4 @@
-/* The modern look (decision 0020), used everywhere but the home menu: in the spirit of the
-   Remake and Rebirth menus — dark glass panels with a hairline edge and a thin light along the
-   top, and a cyan glow on whatever is chosen. The pixel font (components/ff7.css) stays for names
-   and headings; reading text is the site's sans. */
+/* The modern look, everywhere but the home menu: glass panels as in Remake and Rebirth's menus. */
 
 :root {
   --m-accent: #7fd6ff;

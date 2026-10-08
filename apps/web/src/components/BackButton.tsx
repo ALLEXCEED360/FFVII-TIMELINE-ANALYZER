@@ -24,10 +24,8 @@ function parentOf(pathname: string): { to: string; name: string } {
 }
 
 /**
- * Back to where you were: the previous page when you came here within the archive, as the
- * browser's own Back would; otherwise up a level (a section, or the home menu), saying where.
- * It sits at the top of the page; once that has scrolled out of sight, the same button floats
- * in the corner, so it's always within reach.
+ * Back to the previous page, or up a level when there's no history; it floats in the corner once
+ * the top one scrolls away.
  */
 export function BackButton() {
   const location = useLocation();

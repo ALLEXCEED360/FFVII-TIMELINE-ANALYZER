@@ -1,6 +1,4 @@
-/* The title screen (BootScreen.tsx, decision 0016). Every movement here stops under reduced
-   motion (styles.css); decoration that exists only as movement is marked .motion-only. Its
-   keyframes live here: Tailwind only outputs theme keyframes that styles.css itself uses. */
+/* The title screen (BootScreen.tsx). Keyframes live here because Tailwind drops unused theme ones. */
 
 /* ── The scene: Midgar at night, stars, Meteor, and the Lifestream's motes ──────────────── */
 
@@ -96,10 +94,7 @@
   transform: scaleX(-1);
 }
 
-/* Beneath it the name in Roman capitals drawn as silver outlines, hollow like glass, with the
-   Lifestream's light inside them: a tide of Mako that slowly rises and ebbs, and over it a paler
-   current drifting across, the glow around the letters swelling as the tide comes in. Without
-   motion the tide rests at its height. */
+/* The name: hollow silver capitals with a Mako tide rising and ebbing inside. */
 .en-name {
   margin-top: 0.3em;
   font-family: var(--font-engraved);

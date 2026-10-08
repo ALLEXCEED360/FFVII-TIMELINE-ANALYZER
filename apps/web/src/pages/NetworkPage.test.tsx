@@ -5,9 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import networkCloud from "../test/network-cloud.json";
 import { renderAt, stubApi } from "../test/render";
 
-// Cytoscape draws on a canvas, which jsdom can't do. The graph is replaced by a stand-in that
-// exposes what it was given; everything around it — controls, URL state, selection, path, list —
-// is the real thing.
+// jsdom can't draw Cytoscape's canvas, so the graph is a stand-in; everything around it is real.
 vi.mock("../features/network/GraphView", () => ({
   default: ({
     elements,

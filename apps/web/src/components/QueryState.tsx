@@ -13,9 +13,9 @@ export function Loading({
 }) {
   if (variant === "panel") {
     return (
-      <div role="status" className="panel flex h-80 flex-col items-center justify-center gap-3">
+      <div role="status" className="m-panel flex h-80 flex-col items-center justify-center gap-3">
         <span aria-hidden="true" className="size-2.5 rotate-45 animate-pulse bg-mako-400" />
-        <span className="label">{label}</span>
+        <span className="m-label">{label}</span>
       </div>
     );
   }
@@ -38,7 +38,7 @@ export function ErrorMessage({ error, onRetry }: { error: unknown; onRetry?: () 
     <div role="alert" className="flex flex-wrap items-center gap-3 text-sm text-ember-400">
       <span>{message}</span>
       {onRetry && (
-        <button type="button" className="btn" onClick={onRetry}>
+        <button type="button" className="m-choice" onClick={onRetry}>
           Retry
         </button>
       )}

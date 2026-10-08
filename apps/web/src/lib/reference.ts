@@ -38,11 +38,7 @@ export function worldName(reference: Reference | undefined, id: string): string 
   return reference?.worlds.find((w) => w.id === id)?.name ?? id;
 }
 
-/**
- * Whether a game of the Remake series simply hasn't reached this part of the original yet, rather
- * than leaving it out: the original segment lies beyond everything the series has retold so far.
- * (The same rule the API applies to its "not yet reached" status.)
- */
+/** Whether the Remake series hasn't reached this part of the original yet (the API's rule). */
 export function notYetReached(
   reference: Reference | undefined,
   code: TitleCode,

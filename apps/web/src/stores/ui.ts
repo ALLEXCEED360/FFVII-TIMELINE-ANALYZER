@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 // UI state that is neither server data nor part of the URL.
 
-/** Motion: follow the system setting, or the visitor's own choice (blueprint §33). */
+/** Motion: follow the system setting, or the visitor's own choice. */
 export type MotionSetting = "system" | "reduced" | "full";
 /** The title screen: on every visit, once per browser session, or never. */
 export type BootSetting = "always" | "session" | "off";

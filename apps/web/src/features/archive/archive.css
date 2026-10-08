@@ -1,6 +1,4 @@
-/* The archive (ArchivePage, ArchiveTitlePage, SourceUnitPage, ResearchPage, decision 0026), in
-   the modern panels (components/modern.css): the games as a chapter select, each chapter with
-   who and what it shows. Each game's colour comes in as --c. */
+/* The archive pages. A game's colour comes in as --c. */
 
 .ar {
   display: flex;

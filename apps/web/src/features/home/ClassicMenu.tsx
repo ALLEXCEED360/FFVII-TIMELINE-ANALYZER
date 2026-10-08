@@ -28,10 +28,7 @@ function usePlayTime(): string {
   return `${String(h)}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-/**
- * A value that follows another once it has stopped changing for a moment: the artwork behind the
- * menu waits for the glove to settle, so holding a key doesn't flicker through every picture.
- */
+/** Follows `value` once it stops changing, so holding a key doesn't flicker the backdrop. */
 function useSettled<T>(value: T, ms: number): T {
   const [settled, setSettled] = useState(value);
   useEffect(() => {
@@ -91,23 +88,15 @@ function keysAreFree(event: KeyboardEvent): boolean {
 }
 
 /**
- * The home menu, as the original's pause menu (decision 0017). The four games are the party: a
- * portrait of each, its year as LV, where its story runs, its parts as HP, and how many of them
- * the archive cites as MP.
- * The sections are the commands, chosen with the glove; the help window along the top says what
- * the highlighted command or game is; the side windows keep the play time, the archive's size and
- * where you are. Every window unfolds from its middle, one after another, as the game's do.
- * The glove moves with the arrow keys or W A S D anywhere on the screen: up and down within the
- * commands or the games, left to the games, right back to the commands, and up from the top of
- * either to Search and Credits in the bar (decision 0028).
+ * The home menu as the original's pause menu: the games are the party, the sections the commands.
+ * One glove, moved by the mouse or by arrows / W A S D anywhere (docs/design.md).
  */
 export function ClassicMenu() {
   const reference = useReference();
   const entities = useEntities();
   const sources = useSources();
   const { active, choose, go, ref, current } = useMenu();
-  // One glove, wherever it was last moved — by the keys or by pointing (decision 0028): the
-  // column it's in, and the game it last pointed at there.
+  // One glove, moved by keys or pointing: its column, and the game it last pointed at.
   const [zone, setZone] = useState<Zone>("commands");
   const [memberIndex, setMemberIndex] = useState(0);
   const memberLinks = useRef<(HTMLAnchorElement | null)[]>([]);

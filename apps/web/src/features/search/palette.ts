@@ -1,8 +1,7 @@
 import type { Arc, TitleCode } from "../../api/client";
 import { type EntityKind, KIND_LABELS, entityPath, isEntityKind } from "../../lib/paths";
 
-// Turns search results into the palette's groups (blueprint §26: Characters, Events, Locations,
-// Organizations, Arcs). Pure, so it's tested without a browser.
+// Turns search results into the palette's groups. Pure, so it's tested without a browser.
 
 export interface SearchHit {
   id: string;
@@ -54,10 +53,7 @@ export function matchArcs(arcs: readonly Arc[], terms: readonly string[]): Arc[]
   });
 }
 
-/**
- * Groups hits by kind. Groups are ordered by their best hit, so the top result is always in the
- * first group; arcs come last. Within a group, the API's ranking is kept.
- */
+/** Groups hits by kind, ordered by each group's best hit (arcs last); the API's ranking within. */
 export function buildGroups(
   hits: readonly SearchHit[],
   arcs: readonly Arc[],

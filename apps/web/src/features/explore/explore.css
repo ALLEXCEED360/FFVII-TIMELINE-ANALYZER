@@ -1,6 +1,4 @@
-/* Who's who, and what's what (ExplorePage.tsx, decision 0024), in the modern panels
-   (components/modern.css): everyone and everything as picture cards, each edged in its kind's
-   materia colour (lib/kinds.ts). Names in the heading face; reading text in the site's sans. */
+/* Explore: picture cards, each edged in its kind's colour (--materia). */
 
 .ex {
   display: flex;

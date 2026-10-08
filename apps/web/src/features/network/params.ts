@@ -8,12 +8,6 @@ import { TITLE_ORDER } from "../../lib/reference";
 
 export const EDGE_CATEGORY_ORDER: readonly EdgeCategory[] = ["structural", "event", "causal"];
 
-export const EDGE_CATEGORY_LABELS: Record<EdgeCategory, string> = {
-  structural: "Structural",
-  event: "Events",
-  causal: "Causes & experiments",
-};
-
 export interface NetworkParams {
   depth: 1 | 2 | 3;
   titles: TitleCode[];

@@ -1,7 +1,5 @@
-/* The original game's windows and text (decision 0017), used by the bar across every page, the
-   home menu and the pages redone in the game's look. Keyframes and the font variable are set here:
-   Tailwind drops theme variables and keyframes its own sheet doesn't use. Every movement stops
-   under reduced motion (styles.css). */
+/* The original game's windows and text, for the home menu and its bar. Keyframes and the font
+   variable live here because Tailwind drops theme ones its own sheet doesn't use. */
 
 .ff7 {
   --font-ff: "Reactor7", ui-monospace, monospace;
@@ -115,8 +113,7 @@
   font-size: 1.1em;
   white-space: nowrap;
 }
-/* The home menu marks the item its one glove is on (ClassicMenu, decision 0028); the glove is
-   the focus mark, as it is on the commands and the games, so there's no outline as well. */
+/* The home menu marks the bar item its glove is on; the glove is the focus mark, so no outline. */
 .site-bar-item:focus-visible {
   outline: none;
 }

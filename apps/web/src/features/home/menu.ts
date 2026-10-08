@@ -1,13 +1,7 @@
 import { useRef, useState } from "react";
 import { type PageName, preloadPage } from "../../app/pages";
 
-/**
- * The home menu's commands: where each goes, what it does, and the artwork that fills the screen
- * behind the menu while it's highlighted. These are wide pieces, chosen to fill a landscape
- * screen without cropping a figure or blurring: the sections' own page backdrops (SECTION_ART)
- * include tall portraits that suit a page header but not a whole screen. None is a game's own
- * cover (TITLE_ART), which fills the screen while that game is chosen (decision 0028).
- */
+/** The commands, each with a wide picture for the backdrop (none shared with a game's cover). */
 export const SECTIONS: readonly {
   to: string;
   page: PageName;

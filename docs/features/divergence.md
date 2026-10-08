@@ -20,7 +20,7 @@ Title branches are always shown; **Show other worlds** adds a branch for each ot
 
 ## 3. What the user does
 
-The pages are written for someone new to the story ([ADR 0022](../decisions/0022-divergence-for-beginners.md)); the terms in brackets are the data's.
+The pages are written for someone new to the story ([design](../design.md)); the terms in brackets are the data's.
 
 1. Picks a moment (the pivot): a big turning point or any moment where the games differ on `/divergence`, any event found by name there, **See where the stories split** in an event's panel on the timeline, or a URL — `/divergence/event/aerith-death?titles=og,rebirth&worlds=1`.
 2. Reads **the story so far** (the trunk): every event before it in in-universe order (`when` + `seq`) that a chosen branch shows, each saying whether the games tell it the same way or differently, which kinds of change, and which games tell it.

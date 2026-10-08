@@ -1,8 +1,6 @@
 import type { Arc, Era, TimelineAppearance, TimelineEvent, TitleCode } from "../../api/client";
 
-// The timeline as a beginner reads it (decision 0019): the story in chapters, told top to bottom,
-// and for each event whether each game shows it, only mentions it, or leaves it out — in plain
-// words. Pure, so it's tested without a browser.
+// The timeline in chapters, and how each game treats each event, in plain words. Pure.
 
 export const MAIN_WORLD = "world_main";
 
@@ -57,11 +55,7 @@ export const byStoryOrder = (a: TimelineEvent, b: TimelineEvent) =>
   (a.seq ?? Number.MAX_SAFE_INTEGER) - (b.seq ?? Number.MAX_SAFE_INTEGER) ||
   a.id.localeCompare(b.id);
 
-/**
- * The story in chapters: what comes before it by era ("The Distant Past", "Five Years Before"),
- * the story itself by arc ("Midgar", "The Promised Land"), and anything after it by era. Empty
- * chapters are left out.
- */
+/** Chapters: eras before the story, its arcs, then eras after; empty ones left out. */
 export function storyChapters(
   events: readonly TimelineEvent[],
   eras: readonly Era[],

@@ -1,7 +1,5 @@
-/* The artwork behind every page (Backdrop.tsx): a change is a slow crossfade. The new picture
-   fades in over the old, settling from slightly larger as it comes; the old fades out from
-   wherever it is, a little after, so the screen never dips to dark between them. Transitions
-   rather than animations, so a picture interrupted mid-fade carries on from where it was. */
+/* The backdrop crossfade (Backdrop.tsx). Transitions, so an interrupted fade carries on smoothly;
+   the old picture leaves a little late so the screen never dips to dark. */
 
 .backdrop-art {
   opacity: var(--o);

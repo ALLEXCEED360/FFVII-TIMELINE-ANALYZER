@@ -4,10 +4,7 @@ import { TITLE_ORDER } from "../../lib/reference";
 import { TITLE_COLOR } from "../../lib/titles";
 import type { TimelineParams } from "./params";
 
-/**
- * The few choices the timeline offers, in one window: the order (as it happened, or as you play
- * one game), which games to show, and whether to keep to the key moments.
- */
+/** The timeline's choices: the order, which games, and key moments only. */
 export function TimelineControls({
   params,
   titleName,

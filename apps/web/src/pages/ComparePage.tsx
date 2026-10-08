@@ -17,11 +17,7 @@ function isKind(value: string | null): value is DifferenceCategory {
   return (KINDS as (string | null)[]).includes(value);
 }
 
-/**
- * The compare section (decision 0021), for someone new to the story: pick the games, see what
- * changes between them — moment by moment, in plain words — or open anything side by side.
- * /compare?titles=og,rebirth&category=presentation&magnitude=major
- */
+/** What changes between two games, or anything side by side. /compare?titles=og,rebirth&category=… */
 export function ComparePage() {
   useBackdrop(SECTION_ART.compare, { strength: 0.55, side: "full" });
   const [search, setSearch] = useSearchParams();

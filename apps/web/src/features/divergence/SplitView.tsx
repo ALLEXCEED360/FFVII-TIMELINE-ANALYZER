@@ -4,9 +4,7 @@ import { CHANGE_WORDS, type Marking, SPLIT_SENTENCES, SPLIT_WORDS } from "../../
 import { titleShort, worldName } from "../../lib/reference";
 import { TITLE_COLOR } from "../../lib/titles";
 
-// Where the games part ways around one moment (decision 0022), read top to bottom: the story so
-// far as one shared line, the turning point where it splits, and each game's own line after it —
-// every moment labelled in words, and every moment a card that opens its details.
+// Where the games part ways around one moment: the story so far, the turning point, each game after.
 
 type Row = DivergenceView["trunk"][number];
 type Branch = DivergenceView["branches"][number];
@@ -38,10 +36,7 @@ function changes(station: Station): { words: string[]; big: boolean } {
 
 const lane = (branch: Branch) => ({ "--c": TITLE_COLOR[branch.title] }) as CSSProperties;
 
-/**
- * One moment: a card that is wholly a button, with "Details" on it so it plainly opens
- * something. Everything on it is phrasing content, as a button needs.
- */
+/** One moment, as a button card (phrasing content only, as a button needs). */
 function Moment({
   row,
   selected,

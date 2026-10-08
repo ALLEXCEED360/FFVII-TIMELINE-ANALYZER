@@ -1,8 +1,6 @@
 import type { EdgeCategory, EdgeType, TitleCode } from "@ffvii/shared";
 
-// The relationship graph and its algorithms (blueprint §27–28, docs/model/relationships.md §6).
-// Pure and dependency-free at runtime (type imports only), so the API and the browser can share it.
-// These are dataset metrics — how the data is connected — not judgements about the story.
+// The relationship graph and its algorithms (relationships.md §6). Pure, for the API and browser.
 
 export interface GraphNode {
   id: string;
@@ -131,11 +129,7 @@ export interface PathResult {
   edges: GraphEdge[];
 }
 
-/**
- * The strongest chain of relationships between two entities: the path with the lowest total
- * weight (Dijkstra). Ties go to fewer steps, then to alphabetical IDs, so answers are stable.
- * Null if they aren't connected.
- */
+/** The lowest-weight path (Dijkstra); ties go to fewer steps, then IDs. Null if unconnected. */
 export function shortestPath(graph: Graph, from: string, to: string): PathResult | null {
   if (!graph.nodes.has(from) || !graph.nodes.has(to)) return null;
   if (from === to) return { cost: 0, nodes: [from], edges: [] };

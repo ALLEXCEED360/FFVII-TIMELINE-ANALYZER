@@ -22,11 +22,7 @@ import {
 import type { Issue } from "./issues.ts";
 import { type Dataset, type LoadedEdge, REFERENCE_FILES } from "./load.ts";
 
-/**
- * Cross-file rules from the design docs: references, locators, coverage, appearances,
- * differences, relationships, cycles, chronology and reference data. Schema rules run earlier,
- * in `loadDataset`.
- */
+/** Cross-file rules from the docs (schema rules run earlier, in `loadDataset`). */
 export function validateDataset(dataset: Dataset): Issue[] {
   return [
     ...checkRedirects(dataset),

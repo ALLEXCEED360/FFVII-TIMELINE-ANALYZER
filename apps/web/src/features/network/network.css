@@ -1,7 +1,4 @@
-/* The web of links (NetworkPage.tsx, NetworkOverviewPage.tsx, LinkPanel.tsx, decision 0023), in
-   the modern panels (components/modern.css). Every thing is a materia orb in its kind's colour;
-   the web floats in a faint Mako glow. Names and headings in the heading face; reading text in
-   the site's sans. */
+/* The network pages: materia orbs in a faint Mako glow. */
 
 .nw {
   display: flex;

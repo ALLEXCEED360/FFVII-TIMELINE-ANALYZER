@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-// Keyboard use and the reduced-motion option (blueprint §33).
+// Keyboard use and the reduced-motion option.
 
 test("the skip link jumps past the navigation", async ({ page }) => {
   await page.goto("/timeline");

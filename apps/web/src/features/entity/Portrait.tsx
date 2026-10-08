@@ -9,10 +9,7 @@ function lookOf(entry: ArtEntry): string | undefined {
   return "Remake";
 }
 
-/**
- * A person's figure (decision 0025): the Remake/Rebirth look standing in a ring of Mako light,
- * and — for characters the original drew — its artwork on a card beside it. Then and now.
- */
+/** A person's modern look in a ring of light, with the original's art beside it. */
 export function Portrait({ main, original }: { main: ArtEntry; original?: ArtEntry }) {
   const look = lookOf(main);
   return (

@@ -20,7 +20,7 @@ import { TITLE_COLOR } from "../lib/titles";
 import { NotFoundPage } from "./NotFoundPage";
 import "../features/archive/archive.css";
 
-/** One game, chapter by chapter, like its chapter select (decision 0026). */
+/** One game, chapter by chapter, like its chapter select. */
 export function ArchiveTitlePage() {
   const { title } = useParams();
   useBackdrop(isTitleCode(title ?? "") ? TITLE_ART[title as TitleCode] : SECTION_ART.archive, {

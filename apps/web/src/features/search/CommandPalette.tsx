@@ -14,7 +14,7 @@ import { useDebounced } from "../../lib/useDebounced";
 import { useUi } from "../../stores/ui";
 import { buildGroups } from "./palette";
 
-/** Ctrl/⌘ + K from anywhere (blueprint §26). */
+/** Ctrl/⌘ + K from anywhere. */
 export function useSearchShortcut() {
   const setOpen = useUi((s) => s.setPaletteOpen);
   useEffect(() => {
@@ -110,7 +110,7 @@ function Palette() {
         role="dialog"
         aria-modal="true"
         aria-label="Search the archive"
-        className="panel relative flex max-h-[70vh] w-full max-w-xl flex-col overflow-hidden shadow-2xl shadow-black/60"
+        className="m-panel relative flex max-h-[70vh] w-full max-w-xl flex-col overflow-hidden shadow-2xl shadow-black/60"
         onKeyDown={onKeyDown}
       >
         <div className="flex items-center gap-3 border-b border-night-700 px-4 py-3">
@@ -131,7 +131,7 @@ function Palette() {
             }}
             className="flex-1 bg-transparent text-base text-steel-100 outline-none placeholder:text-steel-400"
           />
-          <kbd className="label rounded border border-night-600 px-1.5">Esc</kbd>
+          <kbd className="rounded border border-night-600 px-1.5 text-xs text-steel-400">Esc</kbd>
         </div>
 
         <div className="overflow-y-auto p-2">
@@ -161,7 +161,7 @@ function Palette() {
                   aria-labelledby={`${listId}-${group.key}-label`}
                   className="mb-2"
                 >
-                  <p id={`${listId}-${group.key}-label`} className="label px-2 py-1">
+                  <p id={`${listId}-${group.key}-label`} className="m-label px-2 py-1">
                     {group.label}
                   </p>
                   {group.items.map((item) => {
@@ -194,7 +194,7 @@ function Palette() {
           )}
         </div>
 
-        <p className="label flex gap-4 border-t border-night-700 px-4 py-2">
+        <p className="flex gap-4 border-t border-night-700 px-4 py-2 text-xs text-steel-400">
           <span>↑↓ Move</span>
           <span>↵ Open</span>
           <span>Esc Close</span>

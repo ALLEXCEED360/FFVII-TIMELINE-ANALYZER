@@ -1,8 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-// The journey from blueprint §35: open the app, search for Cloud, open his page, open a related
-// event, switch versions, compare, open the graph, follow a relationship, and return to the
-// timeline — all with the keyboard and mouse a visitor would use.
+// The core journey: search, an entity, a related event, compare, the graph, back to the timeline.
 
 test("from search to comparison, graph and back to the timeline", async ({ page }) => {
   // 1. Open the app.

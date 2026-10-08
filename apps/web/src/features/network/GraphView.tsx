@@ -3,11 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "../../lib/motion";
 import { GRAPH_STYLE } from "./style";
 
-// The interactive web (decisions 0010, 0023): Cytoscape with the fcose layout, loaded on demand so
-// it never weighs down other pages. One Cytoscape instance lives for the component's lifetime;
-// changes are applied as a diff, and the layout reruns only when the set of entities changes.
-// Pointing at a thing lights it and its links and dims the rest. The page scrolls as usual over
-// it; zooming is on the buttons, or Ctrl/⌘ + scroll.
+// The web (Cytoscape + fcose, loaded on demand). Changes apply as a diff; the layout reruns only when
+// the set of entities changes. Plain scroll scrolls the page; Ctrl/⌘ + scroll zooms.
 
 type Cytoscape = typeof import("cytoscape");
 
@@ -94,9 +91,7 @@ export default function GraphView({
     };
   }, []);
 
-  // Cytoscape measures its box once, and afterwards only on a window resize. The box settles
-  // after that (fonts arrive, the page finishes its entrance, a column appears), so watch it and
-  // fit the graph to its real size whenever that changes.
+  // Cytoscape only re-measures on window resize; refit whenever the box itself changes size.
   useEffect(() => {
     const instance = cy.current;
     const box = container.current;

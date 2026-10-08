@@ -1,5 +1,4 @@
-/* Credits (CreditsPage.tsx, decision 0029), in the modern panels (components/modern.css): a
-   staff roll as at the end of the game, then the pictures, the lettering and the licences. */
+/* Credits: a staff roll, then the pictures, the lettering and the licences. */
 
 .cr {
   display: flex;

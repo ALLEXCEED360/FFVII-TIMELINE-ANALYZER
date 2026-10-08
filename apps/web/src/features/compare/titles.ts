@@ -1,11 +1,11 @@
 import type { TitleCode } from "../../api/client";
 import { TITLE_ORDER } from "../../lib/reference";
 
-// Which titles a comparison shows, as `?titles=og,rebirth` (blueprint §48).
+// Which titles a comparison shows, as `?titles=og,rebirth`.
 
 export const DEFAULT_COMPARE: readonly TitleCode[] = ["og", "remake", "rebirth"];
 
-/** The pairs and sets the blueprint names, offered as one-click presets. */
+/** The usual pairs and sets, offered as one-click presets. */
 export const PRESETS: readonly { label: string; titles: readonly TitleCode[] }[] = [
   { label: "OG vs Remake", titles: ["og", "remake"] },
   { label: "Remake vs Rebirth", titles: ["remake", "rebirth"] },

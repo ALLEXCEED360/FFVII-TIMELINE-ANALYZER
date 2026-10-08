@@ -7,10 +7,7 @@ import { Orb } from "../../components/Orb";
 import { KIND_WORDS, isKind } from "../../lib/kinds";
 import { linkHeading } from "./words";
 
-/**
- * The web as text (blueprint §33: the graph is never the only way to the information): each
- * thing in it with its links read from its own end, nearest the centre first.
- */
+/** The web as text, so the graph is never the only way in: nearest the centre first. */
 export function NetworkList({
   network,
   reference,

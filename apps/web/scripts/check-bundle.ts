@@ -1,6 +1,5 @@
-// Usage: node scripts/check-bundle.ts (after `vite build`) — fails if the build outgrows its
-// budgets (docs/decisions/0013-hardening.md), or if any animation names keyframes the build left
-// out. Sizes are gzipped, as browsers download them.
+// After `vite build`: fails if the gzipped build outgrows its budgets (ADR 0013), or if any
+// animation names keyframes the build left out.
 import { readFile, readdir } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
 
@@ -40,9 +39,7 @@ report("CSS", cssSize, CSS_BUDGET);
 for (const file of pages.sort())
   report(file.replace(/-[\w-]+\.js$/, ""), await gzipped(`assets/${file}`), PAGE_BUDGET);
 
-// Every animation must have its keyframes. Tailwind keeps a theme's keyframes only while
-// styles.css itself uses them, so a component sheet borrowing one can silently lose it — as the
-// title screen's fade from black once did, leaving its scene hidden.
+// Tailwind drops theme keyframes styles.css doesn't use, so a component borrowing one can lose it.
 const sheets = (await readdir(new URL("assets/", DIST))).filter((f) => f.endsWith(".css"));
 let allCss = "";
 for (const file of sheets) allCss += await readFile(new URL(`assets/${file}`, DIST), "utf8");

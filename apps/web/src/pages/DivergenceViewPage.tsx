@@ -15,11 +15,7 @@ import { NotFoundPage } from "./NotFoundPage";
 import "../features/compare/compare.css";
 import "../features/divergence/divergence.css";
 
-/**
- * Where the games part ways around one moment (decision 0022), for someone new to the story:
- * the story so far, the turning point, and where each game goes after it, read top to bottom.
- * /divergence/event/aerith-death?titles=og,rebirth&worlds=1&node=event_x
- */
+/** Where the games part ways around one moment. /divergence/event/aerith-death?titles=…&worlds=1 */
 export function DivergenceViewPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);

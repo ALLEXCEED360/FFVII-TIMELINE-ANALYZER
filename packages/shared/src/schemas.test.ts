@@ -10,7 +10,7 @@ import { DifferenceSchema } from "./differences.ts";
 import { EdgeInFileSchema } from "./edges.ts";
 import { EventFileSchema } from "./entities.ts";
 import { EntityIdSchema, kindOfId } from "./ids.ts";
-import { formatLocator, formatYear, formatYearBounds } from "./labels.ts";
+import { formatLocator } from "./labels.ts";
 import { LocatorSchema, playPosition } from "./locators.ts";
 
 const og = { title: "og", disc: 1, segment: "og_kalm" } as const;
@@ -89,13 +89,6 @@ describe("chronology", () => {
       "event_c",
       "event_d",
     ]);
-  });
-
-  it("formats years relative to the story", () => {
-    expect(formatYear({ year: 0 })).toBe("Year 0");
-    expect(formatYear({ year: -5 })).toBe("5 years before");
-    expect(formatYear({ year: -2000, approx: true })).toBe("~2,000 years before");
-    expect(formatYear({ year: 500 })).toBe("500 years after");
   });
 });
 
@@ -248,13 +241,6 @@ describe("labels", () => {
     expect(formatLocator(rebirth1, names)).toBe("Rebirth · Ch. 1");
     expect(formatLocator({ title: "rebirth", part: "interlude" }, names)).toBe(
       "Rebirth · Interlude: A World Apart",
-    );
-  });
-
-  it("formats resolved year bounds", () => {
-    expect(formatYearBounds({ earliest: -5, latest: -5 })).toBe("5 years before");
-    expect(formatYearBounds({ earliest: -30, latest: -25 })).toBe(
-      "30 years before – 25 years before",
     );
   });
 });

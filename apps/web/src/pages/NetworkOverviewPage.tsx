@@ -14,10 +14,7 @@ import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import "../features/network/network.css";
 
-/**
- * The web of links (decision 0023), for someone new to the story: pick someone to see everything
- * linked to them, or pick two things to see how they're linked. /network?titles=og,rebirth
- */
+/** Start a web from someone, or find how two things are linked. /network?titles=og,rebirth */
 export function NetworkOverviewPage() {
   useBackdrop(SECTION_ART.network, { strength: 0.5, side: "full" });
   const [search, setSearch] = useSearchParams();

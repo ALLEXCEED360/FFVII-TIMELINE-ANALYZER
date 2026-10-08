@@ -1,6 +1,4 @@
-/* The timeline (TimelinePage.tsx, decisions 0019 and 0020), in the modern panels
-   (components/modern.css). Event names and headings are in the game's pixel font; what you read
-   at length is in the site's sans. */
+/* The timeline (TimelinePage.tsx). */
 
 .tl {
   display: flex;

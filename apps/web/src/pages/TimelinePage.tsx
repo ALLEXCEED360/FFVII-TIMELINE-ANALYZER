@@ -13,12 +13,7 @@ import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { useReducedMotion } from "../lib/motion";
 
-/**
- * The timeline (decision 0019): the story of FFVII told top to bottom in chapters, in the
- * original game's windows, for someone meeting it for the first time. Each event says when it
- * happens, what happens, and which games show it; choosing one opens how each game tells it.
- * It can also follow the order one game shows things in.
- */
+/** The story in chapters, top to bottom; or in one game's play order. */
 export function TimelinePage() {
   // Across the whole screen: the panels keep the text readable, and the art shows around them.
   useBackdrop(SECTION_ART.timeline, { strength: 0.7, side: "full" });

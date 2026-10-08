@@ -2,7 +2,7 @@ import { z } from "zod";
 import { WhenSchema } from "./chronology.ts";
 import { checkFact, factShape } from "./facts.ts";
 import { MAIN_WORLD, WorldIdSchema } from "./ids.ts";
-import { type Locator, LocatorSchema } from "./locators.ts";
+import { LocatorSchema } from "./locators.ts";
 import { TitleCodeSchema } from "./titles.ts";
 
 // How one title presents an entity, in one world (docs/model/appearances.md §2–4).
@@ -84,9 +84,4 @@ export function primaryDepiction(appearance: Appearance): Depiction | undefined 
 
 export function appearanceKey(title: string, world: string): string {
   return `${title}/${world}`;
-}
-
-/** Every locator an appearance mentions — its citations and its depictions. */
-export function locatorsOf(appearance: Appearance): Locator[] {
-  return [...appearance.sources, ...appearance.depictions.map((d) => d.at)];
 }

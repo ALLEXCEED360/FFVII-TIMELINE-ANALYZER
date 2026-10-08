@@ -31,11 +31,7 @@ import "../features/entity/entity.css";
 
 const MAIN_WORLD = "world_main";
 
-/**
- * One character, moment, place or group in full (decision 0025), for someone new to the story —
- * at `/character/cloud-strife`, `/event/nibelheim-incident`, …: who or what it is, how each game
- * tells it, what changes between them, and what it's linked to.
- */
+/** A character, moment, place or group in full: /character/cloud-strife, /event/…, … */
 export function EntityPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);
@@ -306,10 +302,7 @@ function Face({ id, kind }: { id: string; kind: string }) {
   );
 }
 
-/**
- * Everything it's linked to, grouped by what's at the other end, each link read from this end:
- * "Took part in", "Comes from", "Member of".
- */
+/** Its links, grouped by the other end's kind and read from this end ("Took part in"). */
 function LinkedTo({
   entity,
   reference,

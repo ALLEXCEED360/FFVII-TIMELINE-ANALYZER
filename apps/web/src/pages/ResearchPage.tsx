@@ -28,10 +28,7 @@ const FACT_KIND_WORDS: Record<Interpretation["kind"], string> = {
   world: "Another world",
 };
 
-/**
- * How the facts were checked (decision 0026): what each was checked against, how sure each is,
- * what's still waiting on a closer look, and the facts the games leave unsaid.
- */
+/** How the facts were checked: sources, certainty, open questions, and what's left unsaid. */
 export function ResearchPage() {
   useBackdrop(SECTION_ART.research, { strength: 0.55, side: "full" });
   const research = useResearch();

@@ -18,8 +18,7 @@ import { TITLE_ORDER, describeLocator, titleShort, worldName } from "../../lib/r
 import { TITLE_COLOR } from "../../lib/titles";
 import { PRESETS, sameTitles, toggleTitle } from "./titles";
 
-// The compare section's pieces, for someone new to the story (decision 0021): plain words, the
-// modern panels (components/modern.css), and nothing an expert alone would need.
+// The compare section's pieces, shared with the entity pages.
 
 const gameStyle = (code: TitleCode) => ({ "--c": TITLE_COLOR[code] }) as CSSProperties;
 
@@ -244,11 +243,7 @@ export function GameColumn({
   );
 }
 
-/**
- * What the subject is connected to, and in which games: a mark where the game shows the
- * connection, a dash where it shows both but not the connection (a real difference), and a dot
- * where it doesn't show both, so says nothing about it.
- */
+/** Its connections per game: ✓ shown, — both shown but not connected, · not both shown. */
 export function Connections({
   relationships,
   columns,

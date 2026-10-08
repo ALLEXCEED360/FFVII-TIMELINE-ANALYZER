@@ -1,6 +1,4 @@
-// The four kinds of thing in plain words, each with its materia colour (decisions 0023, 0024), as
-// the original's materia had theirs: green for people, yellow for moments, blue for places,
-// purple for groups.
+// The four kinds in plain words, each with its materia colour.
 
 export type Kind = "character" | "event" | "location" | "organization";
 

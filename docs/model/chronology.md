@@ -96,7 +96,7 @@ Segment order for `og` comes from the segment list in `data/reference/`.
 
 ## 8. Timeline views
 
-The timeline is written for someone new to the story ([ADR 0019](../decisions/0019-timeline-for-beginners.md)).
+The timeline is written for someone new to the story ([design](../design.md)).
 
 - **As it happened** (default) — the story top to bottom in chapters: before the story by era (§4), the story itself (year 0) by arc, anything after by era. Each event shows, for each chosen title, whether it shows the event, only mentions it, or leaves it out. A title's `when` override (§5) always comes with a chronology difference, and those are listed with the event's other changes when it's opened.
 - **As you play it** — one chosen title's events, numbered in its play order (§7). Shows where the title chooses to reveal things: flashbacks jump back in time.

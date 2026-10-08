@@ -6,10 +6,7 @@ export const REMOVED = {
   message: "This entity was removed from the dataset.",
 } as const;
 
-/**
- * Answers a lookup that found a retired ID (docs/conventions/ids.md §6): a permanent redirect to
- * the same route with the replacement ID, or 404 if the entity was removed.
- */
+/** A retired ID (ids.md §6): 308 to the replacement, or 404 if the entity was removed. */
 export function redirectRetired(
   request: FastifyRequest,
   reply: FastifyReply,

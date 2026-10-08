@@ -1,8 +1,5 @@
-/* The divergence section (DivergencePage.tsx, DivergenceViewPage.tsx, decision 0022), in the
-   modern panels (components/modern.css). The story so far runs as a line of Mako light; at the
-   turning point a materia glows, and the line splits into one per game, in its colour. Every
-   moment is a card that plainly opens its details. Its keyframes live here: Tailwind keeps theme
-   keyframes only while styles.css uses them. */
+/* The divergence section: a line of Mako light that splits at a glowing materia, one line per game.
+   Keyframes live here because Tailwind drops unused theme ones. */
 
 .dv {
   --mako: #58e0a8;

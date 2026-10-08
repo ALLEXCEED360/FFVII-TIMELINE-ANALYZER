@@ -55,12 +55,7 @@ function withPath(network: MergedNetwork, path: PathResult | undefined): MergedN
   return { nodes, edges };
 }
 
-/**
- * Someone's — or something's — web of links (decision 0023), for someone new to the story:
- * /network/character/cloud-strife?depth=2&titles=og,rebirth&categories=event&expand=…&to=…&node=…
- * Every thing is a materia orb in its kind's colour; tap one to read its links in plain words,
- * put it in the centre, add its own links, or ask how it's linked to the centre.
- */
+/** One thing's web of links. /network/character/cloud-strife?depth=2&titles=…&expand=…&to=…&node=… */
 export function NetworkPage() {
   const { kind, slug } = useParams();
   const id = idFromPath(kind, slug);

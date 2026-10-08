@@ -14,10 +14,7 @@ import { z } from "zod";
 /** Where the generated JSON Schemas live (referenced by .vscode/settings.json). */
 export const SCHEMA_DIR = new URL("../schemas/", import.meta.url);
 
-/**
- * JSON Schemas for every kind of data file, so the editor can autocomplete and check YAML as
- * it's typed. Cross-file rules can't be expressed here — `pnpm validate` remains the authority.
- */
+/** JSON Schemas for editor checks of the YAML; `pnpm validate` remains the authority. */
 export function generateSchemas(): Map<string, string> {
   const schemas = new Map<string, z.ZodType>([
     ...Object.values(ENTITY_FILE_KINDS).map(

@@ -8,11 +8,7 @@ const FADES = {
   left: "linear-gradient(to right, transparent, #000 40%)",
 } as const;
 
-/**
- * An artwork from the manifest, by id or entry — or nothing at all when there isn't one, so a
- * page looks complete either way. Width and height come from the manifest, so it never shifts
- * the layout as it loads. Line art gets its own class (light lines, dimmed; dark ink on paper).
- */
+/** An image from the manifest, sized up front so it never shifts the layout; nothing if absent. */
 export function Artwork({
   id,
   entry: given,

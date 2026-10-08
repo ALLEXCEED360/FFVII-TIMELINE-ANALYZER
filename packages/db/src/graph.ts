@@ -2,11 +2,7 @@ import { type Graph, type GraphEdge, type GraphNode, createGraph } from "@ffvii/
 import { sql } from "drizzle-orm";
 import type { Db } from "./client.ts";
 
-/**
- * The whole relationship graph, for the in-memory algorithms in graph-core (shortest path,
- * components, centrality). Each node carries the titles that show it; each edge, the titles
- * that establish it.
- */
+/** The whole graph for graph-core, with the titles that show each node and establish each edge. */
 export async function loadGraph(db: Db): Promise<Graph> {
   const nodes = await db.execute<GraphNode & Record<string, unknown>>(sql`
     select e.id, e.kind, e.name,

@@ -32,7 +32,6 @@ export const SegmentRangeSchema = z.strictObject({
   from: SegmentIdSchema,
   to: SegmentIdSchema,
 });
-export type SegmentRange = z.infer<typeof SegmentRangeSchema>;
 
 /** Which original segments each Remake-series title retells (titles-and-worlds.md §4). */
 export const CoverageSchema = z.partialRecord(

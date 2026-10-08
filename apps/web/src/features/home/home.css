@@ -1,6 +1,4 @@
-/* The home menu as the original's pause menu (ClassicMenu.tsx, decision 0017). Fonts and
-   keyframes are set here: Tailwind drops theme variables and keyframes its own sheet doesn't use.
-   Every movement stops under reduced motion (styles.css). */
+/* The home menu (ClassicMenu.tsx). Keyframes live here because Tailwind drops unused theme ones. */
 
 /* Everything is measured from one base size that grows with the screen, so the menu fills most
    of it on a large display and still fits a small one. */
@@ -89,7 +87,7 @@
     opacity 0.2s;
 }
 
-/* The game pointed at or chosen (decision 0028): its cover grows and glows in its colour, the
+/* The game pointed at or chosen: its cover grows and glows in its colour, the
    glove points at it, its row is lit, and the other covers step back. */
 .classic-member-link[data-selected] .classic-portrait {
   border-color: #fff;
@@ -130,7 +128,7 @@
   :is(.classic-member-name, .classic-member-stats) {
   opacity: 0.6;
 }
-/* One glove (decision 0028): among the games or up in the bar, it leaves the commands. */
+/* One glove: among the games or up in the bar, it leaves the commands. */
 .classic:not([data-zone="commands"]) .classic-command[aria-current] .ff7-hand {
   visibility: hidden;
 }

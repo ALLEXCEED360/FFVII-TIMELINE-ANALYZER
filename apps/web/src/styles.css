@@ -1,19 +1,8 @@
 @import "tailwindcss";
 @import "./fonts.css";
 
-/*
- * Visual direction (decision 0015): an Atlus-style game menu — Persona's slanted slabs and
- * Metaphor's fat-face titles — dressed as a Shinra archive. Near-black ink, off-white "paper" for
- * the one thing on a screen that must shout, and Mako green as the single loud voice, with Shinra
- * red as a second accent. Every screen sits over official artwork, dimmed hard on the side the
- * text lives. Titles are an extended fat-face serif (the Final Fantasy logo's cut), menus a heavy
- * leaning condensed sans, figures mono. Things lean and cut rather than round and float. Moving
- * between sections opens one of the original's windows (decision 0018, components/Wipe.css);
- * all motion stops under reduced motion (lib/motion.ts).
- *
- * The class names from the first design (panel, btn, chip, label, eyebrow, page-title…) keep
- * their meaning; this file retunes what they look like, so every page follows.
- */
+/* Site-wide tokens and base styles. Pages use the modern panels (components/modern.css); the home
+   menu uses the original game's windows (components/ff7.css). */
 @theme {
   --color-void: #05070a;
   --color-ink: #07090c;
@@ -24,47 +13,25 @@
   --color-night-700: #242c35;
   --color-night-600: #36414c;
   --color-night-500: #55616d;
-  /* Text runs from paper white down to a warm grey that still clears 4.5:1 on every panel. */
   --color-steel-100: #f3ede0;
   --color-steel-200: #ddd6c7;
   --color-steel-300: #bcb5a7;
   --color-steel-400: #979185;
-  --color-paper: #efe7d5;
-  --color-paper-dim: #d9cfba;
   --color-mako-200: #b9f7dc;
   --color-mako-300: #8ef0c6;
   --color-mako-400: #58e0a8;
   --color-mako-500: #2fc48a;
-  --color-mako-600: #1f9a6b;
-  --color-mako-700: #1a6b4d;
   --color-mako-900: #0d3325;
-  --color-shinra-400: #ee4458;
-  --color-shinra-500: #d4263a;
-  --color-shinra-700: #8f1422;
   --color-ember-400: #ff8a7a;
-  --color-ember-500: #e0584a;
 
-  /* One colour per title, used for its lane, chips and markers. */
+  /* One colour per game. */
   --color-title-og: #eab663;
   --color-title-remake: #5ccfe6;
   --color-title-intermission: #ff86b6;
   --color-title-rebirth: #9aa6ff;
 
-  /* Fat-face for titles; the leaning condensed cut for menus, headings and figures. */
-  --font-title: "Bodoni Moda Variable", "Bodoni MT", Didot, Georgia, serif;
-  --font-display: "Barlow Condensed", "Arial Narrow", ui-sans-serif, sans-serif;
-  /* The original game's pixel text font (kept for the title screen's windows). */
-  --font-ff: "Reactor7", ui-monospace, monospace;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
-
-  /* Cut, not rounded. A hairline survives so antialiasing doesn't leave jagged corners. */
-  --radius-xs: 1px;
-  --radius-sm: 1px;
-  --radius-md: 2px;
-  --radius-lg: 2px;
-  --radius-xl: 3px;
-  --radius-2xl: 3px;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-wipe: cubic-bezier(0.76, 0, 0.18, 1);
@@ -76,53 +43,11 @@
     }
   }
 
-  /* A page slides in from the left. (No skew here: the graph and the charts measure their box
-     as the page mounts, and a skewed box reads to them as a scaled one.) */
+  /* No skew: the graph measures its box as the page mounts. */
   @keyframes page-enter {
     from {
       opacity: 0;
       transform: translate3d(-18px, 0, 0);
-    }
-  }
-
-  @keyframes breathe {
-    50% {
-      opacity: 0.32;
-    }
-  }
-
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translate3d(-18px, 8px, 0) skewX(-6deg);
-    }
-  }
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-  }
-
-  @keyframes fade-out {
-    to {
-      opacity: 0;
-    }
-  }
-
-  @keyframes art-in {
-    from {
-      opacity: 0;
-      transform: scale(1.04);
-    }
-  }
-
-  @keyframes sweep {
-    from {
-      transform: translateX(-120%) skewX(-20deg);
-    }
-    to {
-      transform: translateX(320%) skewX(-20deg);
     }
   }
 }
@@ -136,13 +61,12 @@
     scrollbar-color: var(--color-night-600) transparent;
   }
 
-  /* No background of its own: the page colour is the root's, so the artwork layer behind the
-     content (components/Backdrop.tsx) shows through. */
+  /* No background, so the artwork behind (Backdrop.tsx) shows through. */
   body {
     min-height: 100dvh;
   }
 
-  /* Paper grain over the whole app, like a printed menu. Decorative, never in the way. */
+  /* Faint paper grain over everything. */
   body::after {
     content: "";
     position: fixed;
@@ -164,8 +88,7 @@
     color: var(--color-ink);
   }
 
-  /* The Buster Sword cursor (components/Cursor.tsx) animates the page's own cursor; while it's
-     on, everything takes it, rather than the system's hand over some controls. */
+  /* While the Buster Sword cursor is on (Cursor.tsx), every element shows it. */
   :root[data-cursor="sword"] *,
   :root[data-cursor="sword"] *::before,
   :root[data-cursor="sword"] *::after {
@@ -174,263 +97,13 @@
 }
 
 @layer components {
-  /* A panel: near-opaque ink so it reads over the artwork, a hairline edge, and surveyor's
-     brackets at two corners. Not clipped, so popovers inside it are never cut off. */
-  .panel {
-    position: relative;
-    border: 1px solid rgb(243 237 224 / 0.1);
-    background: linear-gradient(
-      165deg,
-      color-mix(in oklab, var(--color-night-850) 92%, transparent),
-      color-mix(in oklab, var(--color-night-950) 94%, transparent)
-    );
-    box-shadow: 0 18px 40px -24px rgb(0 0 0 / 0.95);
-    backdrop-filter: blur(8px);
-  }
-  .panel::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    pointer-events: none;
-    --c: color-mix(in oklab, var(--color-mako-400) 80%, transparent);
-    background:
-      linear-gradient(var(--c) 0 0) top left / 14px 2px no-repeat,
-      linear-gradient(var(--c) 0 0) top left / 2px 14px no-repeat,
-      linear-gradient(var(--c) 0 0) bottom right / 14px 2px no-repeat,
-      linear-gradient(var(--c) 0 0) bottom right / 2px 14px no-repeat;
-  }
-
-  /* A panel that is itself a link: nudged sideways and up, with a hard Mako shadow — a menu item
-     picked out, not a card floating. */
-  .panel-link {
-    transition:
-      border-color 0.18s,
-      box-shadow 0.18s,
-      transform 0.18s var(--ease-out-expo);
-  }
-  .panel-link:hover,
-  .panel-link:focus-visible,
-  .panel-link:focus-within {
-    border-color: var(--color-mako-500);
-    box-shadow: -5px 5px 0 0 var(--color-mako-500);
-    transform: translate(4px, -4px);
-  }
-
-  /* Cut corners (top-right, bottom-left), for cards that hold nothing that overflows. */
-  .cut {
-    clip-path: polygon(
-      0 0,
-      calc(100% - 16px) 0,
-      100% 16px,
-      100% 100%,
-      16px 100%,
-      0 calc(100% - 16px)
-    );
-  }
-
-  /* A parallelogram: the shape of a Persona menu item. */
-  .slant {
-    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
-  }
-
-  /* Off-white cut-out with ink lettering: the one panel per screen allowed to shout. */
-  .paper {
-    background: var(--color-paper);
-    color: var(--color-ink);
-  }
-
-  /* The fat-face title at the top of every page, like the word bleeding off a game screen. */
-  .page-title {
-    font-family: var(--font-title);
-    font-size: clamp(2.3rem, 5.4vw, 5rem);
-    line-height: 0.88;
-    font-weight: 900;
-    font-variation-settings: "opsz" 96;
-    letter-spacing: -0.005em;
-    text-transform: uppercase;
-    text-wrap: balance;
-    overflow-wrap: anywhere;
-    color: var(--color-steel-100);
-    text-shadow: 0.045em 0.045em 0 var(--color-mako-700);
-  }
-
-  /* The label above a title: leaning condensed capitals behind a Mako slash. */
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    font-family: var(--font-display);
-    font-size: 0.875rem;
-    font-weight: 700;
-    font-style: italic;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-mako-300);
-  }
-  .eyebrow::before {
-    content: "";
-    flex: none;
-    width: 0.45rem;
-    height: 1.05em;
-    background: var(--color-mako-400);
-    transform: skewX(-20deg);
-  }
-
-  /* A Mako slash, the mark that punctuates headings. */
-  .slash {
-    display: inline-block;
-    flex: none;
-    width: 0.5rem;
-    height: 1.1em;
-    background: var(--color-mako-400);
-    transform: skewX(-20deg);
-  }
-
-  /* A section heading: leaning condensed capitals with a slash and a rule running out. */
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 700;
-    font-style: italic;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-steel-100);
-  }
-  .section-title::before {
-    content: "";
-    width: 0.5rem;
-    height: 1em;
-    background: var(--color-mako-400);
-    transform: skewX(-20deg);
-  }
-  .section-title::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, rgb(243 237 224 / 0.28), transparent);
-  }
-
-  /* A hairline that fades in from the edges, with a touch of Mako at its centre. */
-  .rule {
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--color-night-600) 20%,
-      color-mix(in oklab, var(--color-mako-500) 55%, var(--color-night-600)) 50%,
-      var(--color-night-600) 80%,
-      transparent
-    );
-  }
-
-  /* Print halftone, for large flat surfaces. */
   .halftone {
     background-image: radial-gradient(rgb(243 237 224 / 0.09) 1px, transparent 1.3px);
     background-size: 8px 8px;
   }
 
-  /* Each page settles in (none under reduced motion). */
   .page-enter {
     animation: page-enter 0.42s var(--ease-out-expo) both;
-  }
-
-  /* Staggered entrance for items in a list: set --i on each. */
-  .rise {
-    animation: rise 0.5s var(--ease-out-expo) both;
-    animation-delay: calc(var(--i, 0) * 45ms + 80ms);
-  }
-
-  /* Small uppercase technical label. */
-  .label {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-steel-400);
-  }
-
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    border: 1px solid var(--color-night-600);
-    background: rgb(7 9 12 / 0.55);
-    padding: 0.125rem 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.04em;
-    color: var(--color-steel-300);
-  }
-
-  /* Buttons are parallelograms in the menu voice. The edge is an inset shadow (a border would
-     be clipped away on the slant), and so is the focus ring. */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.3rem 1rem;
-    font-family: var(--font-display);
-    font-size: 0.9375rem;
-    font-weight: 700;
-    font-style: italic;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--color-steel-200);
-    background: rgb(7 9 12 / 0.6);
-    box-shadow: inset 0 0 0 1.5px var(--color-night-500);
-    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
-    transition:
-      background-color 0.15s,
-      color 0.15s,
-      box-shadow 0.15s,
-      transform 0.12s;
-  }
-  .btn:hover {
-    background: var(--color-steel-100);
-    color: var(--color-ink);
-    box-shadow: inset 0 0 0 1.5px var(--color-steel-100);
-  }
-  .btn:active {
-    transform: translate(1px, 1px);
-  }
-  .btn:focus-visible {
-    box-shadow: inset 0 0 0 2px var(--color-mako-400);
-  }
-  .btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.45;
-  }
-  .btn:disabled:hover {
-    background: rgb(7 9 12 / 0.6);
-    color: var(--color-steel-200);
-    box-shadow: inset 0 0 0 1.5px var(--color-night-500);
-  }
-
-  /* The one main action on a screen: solid Mako, ink lettering. */
-  .btn-primary {
-    background: var(--color-mako-400);
-    color: var(--color-ink);
-    box-shadow: none;
-  }
-  .btn-primary:hover {
-    background: var(--color-paper);
-    color: var(--color-ink);
-    box-shadow: none;
-  }
-  .btn-primary:focus-visible {
-    box-shadow: inset 0 0 0 2px var(--color-ink);
-  }
-
-  /* Pressed and current: filled Mako, like the chosen line of a menu. */
-  .btn[aria-pressed="true"],
-  .btn[aria-selected="true"],
-  .btn[aria-current="page"] {
-    background: var(--color-mako-400);
-    color: var(--color-ink);
-    box-shadow: none;
   }
 
   .skeleton {
@@ -444,71 +117,13 @@
     animation: var(--animate-shimmer);
   }
 
-  .glow-text {
-    text-shadow: 0 0 18px rgb(88 224 168 / 0.35);
-  }
-
-  /* Control hints: the key in a thin diamond, the action in small caps. */
-  .hint {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-family: var(--font-display);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    font-style: italic;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-steel-200);
-  }
-  .hint-key {
-    position: relative;
-    display: inline-grid;
-    place-items: center;
-    min-width: 1.15rem;
-    height: 1.15rem;
-    padding: 0 0.15rem;
-    font-family: var(--font-mono);
-    font-size: 0.55rem;
-    font-style: normal;
-    letter-spacing: 0;
-    color: var(--color-steel-100);
-  }
-  .hint-key::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border: 1.5px solid currentColor;
-    transform: rotate(45deg) scale(0.9);
-  }
-
-  /* Line art (pencil concept sketches keyed out to light lines, see scripts/fetch_art.py). */
+  /* Pencil sketches keyed out to light lines (scripts/fetch_art.py). */
   .lineart {
     opacity: 0.55;
   }
-  .paper .lineart {
-    filter: brightness(0.12);
-    opacity: 0.85;
-  }
-
-  /* A slanted light sweeping across a surface now and then. */
-  .shimmer {
-    position: relative;
-    overflow: hidden;
-  }
-  .shimmer::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    width: 30%;
-    pointer-events: none;
-    background: linear-gradient(100deg, transparent, rgb(7 9 12 / 0.12), transparent);
-    animation: sweep 4.5s ease-in-out 1.2s infinite;
-  }
 }
 
-/* Reduced motion: chosen in Settings, or the system's preference unless the visitor chose full
-   motion (lib/motion.ts). Things that arrive still arrive — they're simply already in place. */
+/* Reduced motion, from Settings or the system (lib/motion.ts): things arrive already in place. */
 :root[data-motion="reduced"] *,
 :root[data-motion="reduced"] *::before,
 :root[data-motion="reduced"] *::after {
@@ -531,7 +146,7 @@
   }
 }
 
-/* Decoration that only exists as movement has no still state worth keeping: hide it. */
+/* Decoration that only exists as movement. */
 :root[data-motion="reduced"] .motion-only {
   display: none;
 }
@@ -542,7 +157,7 @@
   }
 }
 
-/* A materia orb: the brand mark, and a bullet. Its colour comes from --materia (Mako by default). */
+/* A materia orb, coloured by --materia. */
 .materia {
   display: inline-block;
   flex: none;
@@ -559,14 +174,4 @@
   box-shadow:
     0 0 14px color-mix(in oklab, var(--materia) 60%, transparent),
     inset -2px -3px 5px rgb(0 0 0 / 0.4);
-}
-
-/* Inside a pressed or current button (Mako fill, ink lettering), text keeps the button's colour
-   whatever its own utility says — unlayered, so it wins over utilities. */
-.btn[aria-pressed="true"] *,
-.btn[aria-selected="true"] *,
-.btn[aria-current="page"] *,
-.btn:hover *,
-.btn-primary * {
-  color: inherit;
 }

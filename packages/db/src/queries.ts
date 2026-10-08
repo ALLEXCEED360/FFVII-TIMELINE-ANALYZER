@@ -407,7 +407,7 @@ export interface Comparison {
   relationships: ComparedRelationship[];
 }
 
-/** How the chosen titles present one entity, side by side (blueprint §24, appearances.md). */
+/** How the chosen titles present one entity, side by side (appearances.md). */
 export async function comparison(
   db: Db,
   id: string,
@@ -422,9 +422,7 @@ export async function comparison(
   const chosen = new Set(titles);
   const ordered = TITLES_IN_ORDER.filter((title) => chosen.has(title));
   const compared = differences.filter((d) => chosen.has(d.from.title) && chosen.has(d.to.title));
-  // A title can only reveal a missing relationship if it depicts both ends, in the same world —
-  // the relationship version of "not covered" vs "left out". A mere mention, or an end shown only
-  // in another world, isn't enough to claim the title leaves the relationship out.
+  // Only a title depicting both ends, in the same world, can show a relationship is missing.
   const depicted = await depictedIn(db, [id, ...relationships.map((r) => r.other.id)]);
   const applicableTitles = (other: string, established: ReadonlySet<TitleCode>) =>
     ordered.filter((title) => {
@@ -520,11 +518,7 @@ export interface SearchResult extends EntityRef {
   score: number;
 }
 
-/**
- * Multi-word search. Every word must match the entity's names (with typo tolerance), its summary,
- * one of its appearances' summaries, or the name of an entity it's related to. Results rank by
- * how well each word matched, names first.
- */
+/** Multi-word, typo-tolerant search over names, summaries and related names; names rank first. */
 export async function search(
   db: Db,
   { q, limit = 10 }: { q: string; limit?: number },

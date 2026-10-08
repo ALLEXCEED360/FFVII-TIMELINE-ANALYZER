@@ -10,11 +10,7 @@ import { comparePath, entityPath } from "../../lib/paths";
 import type { MergedNetwork } from "./elements";
 import { linkHeading, linkSentence } from "./words";
 
-/**
- * The thing chosen in the web — or, until something is, its centre: its picture, what it is, and
- * its links in this web read as phrases ("Took part in", "Who took part"), each a way to choose
- * the thing at the other end. Then what you can do from here.
- */
+/** The chosen thing (or the centre): what it is, its links as phrases, and what to do next. */
 export function LinkPanel({
   id,
   center,

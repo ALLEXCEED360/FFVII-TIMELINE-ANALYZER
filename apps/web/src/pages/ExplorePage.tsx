@@ -41,11 +41,7 @@ function Games({ titles, reference }: { titles: readonly TitleCode[]; reference?
   );
 }
 
-/**
- * Who's who and what's what (decision 0024), for someone new to the story: everyone and
- * everything in it, as picture cards grouped by kind, with a search and two plain choices.
- * /explore?kind=character&title=rebirth&q=…
- */
+/** Everyone and everything as picture cards by kind. /explore?kind=character&title=rebirth&q=… */
 export function ExplorePage() {
   useBackdrop(SECTION_ART.explore, { strength: 0.5, side: "full" });
   const [search, setSearch] = useSearchParams();

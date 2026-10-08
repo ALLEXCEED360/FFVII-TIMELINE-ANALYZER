@@ -1,92 +1,116 @@
-# Final Fantasy VII: Timeline Analyzer
+<p align="center">
+  <img src="apps/web/public/art/key/remake.webp" alt="Red XIII, Aerith, Cloud on his motorbike, Barret and Tifa on the broken end of a highway at dusk, Midgar behind them." width="100%">
+  <br>
+  <sub><i>Final Fantasy VII Remake</i> key art © Square Enix</sub>
+</p>
 
-An interactive narrative-analysis app for exploring and comparing the chronology, characters, locations, relationships and story changes across versions of _Final Fantasy VII_ — the 1997 original, _Remake_ (with _Episode INTERmission_) and _Rebirth_.
+<h1 align="center">FINAL FANTASY VII · TIMELINE ANALYZER</h1>
 
-The core question: **how does this piece of FFVII's story appear, change, connect or diverge across versions?**
+<p align="center"><b>One story. Four tellings.</b></p>
 
-## Status
+<p align="center">
+  <img alt="Node 24" src="https://img.shields.io/badge/node-24-58e0a8?style=flat-square">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-6-5ccfe6?style=flat-square">
+  <img alt="React 19" src="https://img.shields.io/badge/React-19-9aa6ff?style=flat-square">
+  <img alt="Code: MIT" src="https://img.shields.io/badge/code-MIT-eab663?style=flat-square">
+  <img alt="Data: CC BY-NC 4.0" src="https://img.shields.io/badge/data-CC%20BY--NC%204.0-ff86b6?style=flat-square">
+</p>
 
-**Phase 11 — design pass (complete).** The archive now looks and plays like an Atlus game menu set in FFVII: a title screen over Midgar at night that wakes the server, a home menu in the original's pause-menu style (the four games as the party, the sections as commands), fat-face titles, slanted slabs, a transition through the original's blue menu window, with each section's name and an ATB gauge, Cloud's Buster Sword as the cursor, the Meteor emblem as the site icon, and Settings for motion, the title screen and the cursor. 71 pieces of official Square Enix artwork (key art, character renders, Nomura's original illustrations, concept art) sit behind every screen, stand in the character roster, and pair each character's original and modern looks. Next: Phase 12, the release. The design lives in [`docs/`](docs/README.md); how to write data is in [`data/`](data/README.md).
+A fan-made guide to how _Final Fantasy VII_'s story is told across the 1997 original, _Remake_, _INTERmission_ and _Rebirth_: what each game shows, what changes, how everyone is connected, and where the stories part ways. It's written for someone meeting the story for the first time, and every fact says where in the game to see it.
 
-| Package                                    | What it does                                                                       |
-| ------------------------------------------ | ---------------------------------------------------------------------------------- |
-| [`@ffvii/shared`](packages/shared)         | Zod schemas and types for all data; titles, locators, chronology, derived statuses |
-| [`@ffvii/data`](packages/data)             | Loads and validates `data/`; generates editor schemas                              |
-| [`@ffvii/graph-core`](packages/graph-core) | Graph algorithms: neighbourhoods, weighted shortest path, groups, centrality       |
-| [`@ffvii/db`](packages/db)                 | PostgreSQL schema, migrations, seeding and queries                                 |
-| [`@ffvii/api`](apps/api)                   | Read-only REST API (Fastify); OpenAPI docs at `/docs`                              |
-| [`@ffvii/web`](apps/web)                   | The web app (React, Vite, Tailwind, D3)                                            |
-| [`@ffvii/e2e`](apps/e2e)                   | End-to-end journeys and accessibility audits (Playwright, axe)                     |
+---
 
-## Roadmap
+## ☞ The party
 
-| Phase | What                                              |
-| ----- | ------------------------------------------------- |
-| 0     | Foundations — tooling, CI, design docs            |
-| 1     | Data model, validator and prototype dataset       |
-| 2     | Database — schema, migrations, seed, core queries |
-| 3     | REST API, deployed early                          |
-| 4     | Web app shell and the first timeline              |
-| 5     | Entity explorer and search                        |
-| 6     | Comparison view                                   |
-| 7     | Relationship network and graph algorithms         |
-| 8     | Divergence view                                   |
-| 9     | Archive and sources                               |
-| 10    | Testing, performance and accessibility hardening  |
-| 11    | Design pass                                       |
-| 12    | Release                                           |
+The four games, as the home menu shows them.
 
-Dataset research ran alongside Phases 4–9 and reached the MVP scope before Phase 10: 25 events, 20 characters, 11 locations and 5 organizations, with 148 relationships, each checked against the games' script transcripts (see the research log at `/archive/research`).
+| Game                                                   | LV   | What the archive holds                                      |
+| ------------------------------------------------------ | ---- | ----------------------------------------------------------- |
+| **Final Fantasy VII**                                  | 1997 | The whole original story: 39 parts on 3 discs               |
+| **Final Fantasy VII Remake**                           | 2020 | 18 chapters, from Mako Reactor 1 to Shinra HQ               |
+| **Final Fantasy VII Remake Intergrade — INTERmission** | 2021 | Yuffie's 2 chapters: a new story beside the first           |
+| **Final Fantasy VII Rebirth**                          | 2024 | 14 chapters and an interlude, Kalm to the Forgotten Capital |
 
-## Stack
+61 characters, moments, places and groups · 171 appearances · 148 links — each checked against the games themselves.
 
-TypeScript throughout, in a pnpm monorepo.
+## ☞ Commands
 
-- **Web:** React, Vite, React Router, Tailwind CSS, TanStack Query, Zustand, Cytoscape.js (network)
-- **API:** Fastify, Zod
-- **Data:** YAML files in `data/` (the source of truth), PostgreSQL via Drizzle ORM
-- **Testing:** Vitest, Playwright, axe-core
-- **Hosting:** Vercel (web), Render (API), Neon (database)
+| Command        | What you'll find                                                                      |
+| -------------- | ------------------------------------------------------------------------------------- |
+| **Timeline**   | The story top to bottom in chapters; tap a moment for how each game tells it          |
+| **Compare**    | What changes between two games, moment by moment, or anything side by side            |
+| **Divergence** | A turning point: the story so far on a line of Mako light, then where each game goes  |
+| **Network**    | A web of materia — people, moments, places, groups — and the chain that links any two |
+| **Explore**    | Who's who and what's what, as picture cards                                           |
+| **Archive**    | Each game chapter by chapter, and how every fact was checked                          |
+| **Config**     | Motion, the title screen, the Buster Sword cursor, the spoiler warning                |
 
-## Development
+Around it: a title screen over Midgar at night, a home menu in the original's pause-menu style that you can drive with the arrows or W A S D, the original's blue window between sections, and 71 pieces of official artwork behind every screen. The full look is in [`docs/design.md`](docs/design.md).
 
-Requires Node 24, pnpm and Docker.
+## ☞ Materia
+
+| Slot     | Equipped                                                                                          |
+| -------- | ------------------------------------------------------------------------------------------------- |
+| Web      | React 19, Vite, React Router, Tailwind CSS, TanStack Query, Zustand, Cytoscape                    |
+| API      | Fastify, Zod, OpenAPI                                                                             |
+| Data     | Hand-written YAML in [`data/`](data/) — the source of truth — seeded into PostgreSQL with Drizzle |
+| Tests    | Vitest, Playwright, axe-core                                                                      |
+| Language | TypeScript throughout, run natively on Node 24, in a pnpm monorepo                                |
+
+## ☞ Save point
+
+Needs Node 24, pnpm and Docker.
 
 ```bash
 pnpm install
 cp .env.example .env
 pnpm db:up && pnpm db:migrate && pnpm db:seed
-pnpm check
-pnpm test:db
-pnpm --filter @ffvii/e2e exec playwright install chromium   # once
-pnpm e2e
 pnpm api:dev    # http://localhost:3000/docs
 pnpm web:dev    # http://localhost:5173
 ```
 
-| Command            | What it does                                                                 |
-| ------------------ | ---------------------------------------------------------------------------- |
-| `pnpm check`       | Everything CI runs without a database: types, lint, format, tests, data      |
-| `pnpm validate`    | Check `data/` against every rule in the design docs                          |
-| `pnpm db:up`       | Start the local Postgres (Docker, port 5433)                                 |
-| `pnpm db:seed`     | Rebuild the database from `data/`                                            |
-| `pnpm db:reset`    | Wipe the database, then migrate and seed from scratch                        |
-| `pnpm test:db`     | Database and API tests (needs `pnpm db:up`)                                  |
-| `pnpm e2e`         | Build the web app and run the Playwright journeys (needs the API's database) |
-| `pnpm web:size`    | Check the built web app against its size budgets                             |
-| `pnpm api:dev`     | Run the API with auto-reload (restart it after `pnpm db:seed`)               |
-| `pnpm web:dev`     | Run the web app (uses `VITE_API_URL`, default `http://localhost:3000`)       |
-| `pnpm api:types`   | Regenerate the web app's API types after changing the API                    |
-| `pnpm db:generate` | Create a migration after changing `packages/db/src/schema.ts`                |
-| `pnpm schemas`     | Regenerate the editor's YAML schemas after changing a Zod schema             |
+| Command         | What it does                                                            |
+| --------------- | ----------------------------------------------------------------------- |
+| `pnpm check`    | Types, lint, format, unit tests and data validation                     |
+| `pnpm test:db`  | Database and API tests (after `pnpm db:up`)                             |
+| `pnpm e2e`      | Build the site and run the Playwright journeys and accessibility audits |
+| `pnpm web:size` | Keep the first load under its size budgets                              |
+| `pnpm validate` | Check `data/` against every rule in the docs                            |
+| `pnpm db:reset` | Rebuild the database from scratch                                       |
 
-## License
+After changing the API, run `pnpm api:types`; after a schema change, `pnpm db:generate`; after a Zod schema change, `pnpm schemas`.
 
-- **Code** — [MIT](LICENSE).
-- **Data and documentation** (`data/`, `docs/`) — [CC BY-NC 4.0](LICENSE-DATA): reuse with attribution, non-commercial only.
-- The title screen's pixel font, [Reactor7](https://caveras.net/) by Caveras, is CC BY-NC-SA and ships with its own licence in `apps/web/public/fonts/reactor7/`.
-- _Final Fantasy VII_ and all related names, characters and artwork belong to Square Enix. These licences cover only the original work in this repository. Official artwork shown in the web app is **not** licensed by this project; it's credited on the site's Credits page.
+## ☞ The map
 
-## Disclaimer
+```
+apps/
+  web/          the site
+  api/          read-only REST API
+  e2e/          Playwright journeys and axe audits
+packages/
+  shared/       schemas, titles, chronology, statuses, divergence
+  data/         loads and validates data/
+  db/           PostgreSQL schema, seeding and queries
+  graph-core/   paths, groups and centrality for the network
+data/           every fact, as YAML, with the research log
+docs/           the model, the design and the decisions
+```
 
-Non-commercial fan project. Not affiliated with or endorsed by Square Enix. Official artwork is shown for non-commercial fan purposes with credit; the rights holder can ask for any of it to be removed, and it will be.
+## ☞ How the facts are checked
+
+Each game is its own canon. A fact goes in only once it's been checked against the game — by playing it, from video of it, or from its script — and it carries where to see it. Fan wikis are used only to find things, never as proof. Anything a game leaves open is marked as such, never settled with a guess. Every source and open question is listed in the app at `/archive/research`; the rules are in [`docs/`](docs/README.md).
+
+## ☞ Credits
+
+- **Final Fantasy VII**, its names, characters and artwork belong to **Square Enix**. Every image is official art, credited on the site's Credits page; none is AI-made, and any will be removed at the rights holder's request.
+- **Lettering:** the series' logo lettering by Juan Pablo Reyes Altamirano, Optimus Princeps by Manfred Klein, [Reactor7](https://caveras.net/) by Caveras (CC BY-NC-SA, licence in `apps/web/public/fonts/reactor7/`), Inter and JetBrains Mono.
+- **Cursor:** Cloud's Buster Sword from [Cursors-4U](https://www.cursors-4u.com/cursor/final-fantasy-7-cloud-s-buster-sword).
+
+## ☞ Licence
+
+- **Code:** [MIT](LICENSE).
+- **Data and docs** (`data/`, `docs/`): [CC BY-NC 4.0](LICENSE-DATA) — reuse with credit, not for profit.
+
+These cover only the original work here, not Square Enix's.
+
+<p align="center"><sub>A non-commercial fan project. Not affiliated with or endorsed by Square Enix.</sub></p>

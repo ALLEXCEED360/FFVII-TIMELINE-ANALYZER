@@ -50,14 +50,8 @@ function shouldPlay(): boolean {
 }
 
 /**
- * The title screen (decision 0016). Midgar at night under a sky of stars, Amano's Meteor faint
- * above, the Lifestream's motes rising; the title in outlined Roman capitals with the Lifestream's
- * light rising and ebbing inside them, the series' lettering ruled above; and the request for a button, quiet between
- * two hairlines. Meanwhile it wakes the API (the free host sleeps) and reports how that went.
- *
- * On the home page it waits for a key or a tap, as a title screen does; opened on any other page
- * (a shared link) it steps aside by itself once the archive has answered. Settings chooses whether
- * it plays on every visit, once per session, or never — and can play it again.
+ * The title screen, which wakes the API while it plays. On the home page it waits for a key; on a
+ * shared link it steps aside once the API answers. Settings chooses how often it plays.
  */
 export function BootScreen() {
   const replay = useUi((s) => s.bootReplay);

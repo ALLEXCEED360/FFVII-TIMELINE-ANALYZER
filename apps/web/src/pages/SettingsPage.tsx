@@ -11,10 +11,7 @@ interface Option<T extends string> {
   says: string;
 }
 
-/**
- * One setting as a panel of a game's Config screen (decision 0027): its name, what it's for, its
- * choices as materia that light when chosen, and what the chosen one does.
- */
+/** One setting: its choices as materia that light when chosen, and what the chosen one does. */
 function Setting<T extends string>({
   name,
   legend,
@@ -104,7 +101,7 @@ const CURSOR: readonly Option<CursorSetting>[] = [
   { value: "system", label: "My own pointer", says: "Your device's usual pointer." },
 ];
 
-/** Settings (decision 0027): how the guide moves, opens and points. Saved in this browser. */
+/** Settings: how the guide moves, opens and points. Saved in this browser. */
 export function SettingsPage() {
   useBackdrop(SECTION_ART.settings, { strength: 0.5, side: "full" });
   const ui = useUi();

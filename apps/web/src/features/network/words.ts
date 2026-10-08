@@ -1,6 +1,6 @@
 import type { EdgeCategory } from "../../api/client";
 
-// The network's links in plain words (decision 0023): every link reads as a phrase from either
+// The network's links in plain words: every link reads as a phrase from either
 // end. The kinds of thing and their materia are in lib/kinds.ts.
 
 /** The three kinds of link, said plainly, each with the colour its lines are drawn in. */
@@ -10,10 +10,7 @@ export const CATEGORY_WORDS: Record<EdgeCategory, { name: string; color: string 
   causal: { name: "Cause and effect", color: "#ff8f7a" },
 };
 
-/**
- * A link's heading, read from one end: "Took part in" from a person, "Who took part" from the
- * moment. Grouped under these, a thing's links read like sentences.
- */
+/** A link read from one end: "Took part in" from a person, "Who took part" from the moment. */
 const PHRASES: Record<string, { out: string; in: string }> = {
   participated_in: { out: "Took part in", in: "Who took part" },
   occurred_at: { out: "Where it happened", in: "What happened here" },

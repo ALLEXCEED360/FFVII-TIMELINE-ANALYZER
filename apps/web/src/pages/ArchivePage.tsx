@@ -19,10 +19,7 @@ import { titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import "../features/archive/archive.css";
 
-/**
- * The archive (decision 0026), for someone new to the story: each game to go through chapter by
- * chapter, how the facts were checked, and the games still to come.
- */
+/** The archive: each game chapter by chapter, how facts were checked, and what's to come. */
 export function ArchivePage() {
   useBackdrop(SECTION_ART.archive, { strength: 0.5, side: "full" });
   const sources = useSources();

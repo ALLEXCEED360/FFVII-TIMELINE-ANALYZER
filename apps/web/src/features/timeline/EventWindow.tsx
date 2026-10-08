@@ -11,11 +11,7 @@ import { TITLE_COLOR } from "../../lib/titles";
 import { MAIN_WORLD, tellingOf } from "./story";
 import "./timeline.css";
 
-/**
- * The chosen event, in one of the game's windows: what happens, how each of the four games tells
- * it, what changes between them, who is there and where — all in plain words — and where to go
- * to learn more.
- */
+/** The chosen event: what happens, how each game tells it, what changes, who and where. */
 export function EventWindow({
   id,
   reference,

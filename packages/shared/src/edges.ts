@@ -12,7 +12,6 @@ import { type TitleCode, TitleCodeSchema } from "./titles.ts";
 export const TitleScopeSchema = z
   .strictObject({ world: WorldIdSchema.default(MAIN_WORLD), ...factShape })
   .superRefine(checkFact);
-export type TitleScope = z.infer<typeof TitleScopeSchema>;
 
 const TitlesSchema = z
   .partialRecord(TitleCodeSchema, TitleScopeSchema)

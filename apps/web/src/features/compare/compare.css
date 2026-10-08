@@ -1,6 +1,4 @@
-/* The compare section (ComparePage.tsx, ComparisonPage.tsx, decision 0021), in the modern
-   panels (components/modern.css). Names and headings in the game's pixel font; reading text in
-   the site's sans. */
+/* The compare section (ComparePage, ComparisonPage). */
 
 .cmp {
   display: flex;
@@ -293,9 +291,6 @@
 }
 
 /* ── One thing side by side ───────────────────────────────────────────────────────────────── */
-.cmp-crumb:hover {
-  color: #fff;
-}
 .cmp-hero .m-title {
   margin-top: 0.4rem;
 }

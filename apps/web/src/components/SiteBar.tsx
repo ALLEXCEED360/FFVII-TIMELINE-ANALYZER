@@ -19,10 +19,7 @@ export const NAV: readonly { to: string; label: string; page: PageName }[] = [
   { to: "/archive", label: "Archive", page: "archive" },
 ];
 
-/**
- * The bar across the top of every page. On the home menu it is one of the menu's own windows, in
- * the original game's style (decision 0017); everywhere else it is the modern bar (decision 0020).
- */
+/** The top bar: one of the menu's windows on the home page, the modern bar everywhere else. */
 export function SiteBar() {
   const { pathname } = useLocation();
   return pathname === "/" ? <MenuBar /> : <ModernBar pathname={pathname} />;
@@ -77,11 +74,7 @@ function MenuBar() {
   );
 }
 
-/**
- * Every other page's bar, in the modern games' style and the series' own logo lettering: the
- * name (back to the home menu), the sections with the one you're in lit, and a search box. Too
- * narrow for a row of sections, they fold into a Menu panel.
- */
+/** The modern bar: home, the sections (in a Menu panel when narrow) and search. */
 function ModernBar({ pathname }: { pathname: string }) {
   const openSearch = useOpenSearch();
   const wide = useMediaQuery("(min-width: 80rem)");

@@ -14,10 +14,7 @@ function useBleed(): boolean {
   return useMatches().some((match) => (match.handle as { bleed?: boolean } | undefined)?.bleed);
 }
 
-/**
- * The bar, search and the overlays around every page (blueprint §18, §20). There is no footer
- * (decision 0020): the disclaimer is on the title screen and the Credits page.
- */
+/** The bar, search and overlays around every page. No footer: the disclaimer is on Credits. */
 export function AppShell() {
   useSearchShortcut();
   useMotionAttribute();
@@ -28,7 +25,7 @@ export function AppShell() {
     <div className="flex min-h-dvh flex-col">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-paper focus:px-3 focus:py-1.5 focus:font-display focus:font-bold focus:text-ink focus:uppercase"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-mako-300 focus:px-3 focus:py-1.5 focus:font-semibold focus:text-ink"
       >
         Skip to content
       </a>

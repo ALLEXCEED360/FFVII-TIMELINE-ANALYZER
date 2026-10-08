@@ -28,7 +28,7 @@ import {
 } from "../schemas.ts";
 import { NOT_FOUND } from "./redirects.ts";
 
-// The relationship network (blueprint §27–28), computed in memory with graph-core on a graph
+// The relationship network, computed in memory with graph-core on a graph
 // loaded from Postgres once (docs/decisions/0010-network.md).
 
 const Categories = z

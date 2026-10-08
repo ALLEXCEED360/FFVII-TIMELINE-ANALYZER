@@ -463,10 +463,7 @@ export const openQuestionWorlds = pgTable(
   (t) => [primaryKey({ columns: [t.questionId, t.worldId] })],
 );
 
-/**
- * Every citation, one row per locator — derived at seed time. The index from a unit of a title
- * (a segment, chapter or part) back to the facts it backs. Which columns are set depends on `kind`.
- */
+/** One row per cited locator (derived at seed time): from a part of a game to the facts it backs. */
 export const citations = pgTable(
   "citations",
   {

@@ -3,19 +3,13 @@ import "./Backdrop.css";
 import { create } from "zustand";
 import { artSrc, artwork } from "../art/manifest";
 
-// The layer behind every screen. A game menu sits over artwork, not over a flat colour, and
-// that is most of what makes it feel like a place rather than a document. Each page names its
-// artwork with `useBackdrop`; the shell draws it, fixed behind everything, dimmed hard on the
-// side where the text lives and faded to ink further down, where the data is.
+// The artwork behind every page: each page names it with `useBackdrop`, the shell draws it.
 
 interface BackdropState {
   id: string | null;
   /** 0–1: how much of the artwork survives the dimming. */
   strength: number;
-  /**
-   * Where the readable column is; that side is darkened most. "full" shows the artwork across the
-   * whole screen under a light veil, for a page that is itself a set of windows (the home menu).
-   */
+  /** The side darkened for text; "full" is a light veil over the whole screen. */
   side: "left" | "right" | "center" | "full";
   set: (next: Omit<BackdropState, "set">) => void;
 }
@@ -27,11 +21,7 @@ const useBackdropStore = create<BackdropState>()((set) => ({
   set,
 }));
 
-/**
- * A page that leaves takes its artwork with it — but not at once: the next page sets its own
- * almost immediately (or once its code has loaded), and clearing in between would flash the bare
- * page colour. So the clearing waits, and the next page's artwork cancels it.
- */
+/** Clearing waits a moment, so the next page's artwork replaces it without a flash of bare page. */
 let clearing: number | undefined;
 const RELEASE_MS = 1500;
 
@@ -68,9 +58,7 @@ interface Layer {
 
 export function Backdrop() {
   const { id, strength, side } = useBackdropStore();
-  // A change is a crossfade with a layer per picture: the new one fades in over the others while
-  // they fade out from wherever they are — so moving on before a fade has finished never makes a
-  // picture jump — and each goes once it has faded.
+  // A layer per picture: the new one fades in over the rest, which fade out from where they are.
   const [layers, setLayers] = useState<Layer[]>(() =>
     id === null ? [] : [{ key: 0, id, strength, leaving: false }],
   );

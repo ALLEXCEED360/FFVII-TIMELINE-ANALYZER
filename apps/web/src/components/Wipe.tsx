@@ -4,15 +4,8 @@ import { create } from "zustand";
 import { useReducedMotion } from "../lib/motion";
 import "./Wipe.css";
 
-// The transition between sections, as one of the original game's windows (decision 0018). The
-// screen dims and a blue window draws across it as a line, then unfolds from its middle to fill
-// it: the white glove points at where you're going, and an ATB gauge fills while the router does
-// its work (including loading the page's code). When the new path has arrived the gauge is full,
-// and the window folds back to a line and is gone, over the new page.
-//
-// Only moving between sections plays it — from the navigation and the home menu. Everything
-// else (links inside a page, back and forward) just arrives. Under reduced motion there is none
-// and navigation is immediate.
+// The transition between sections: one of the original's windows unfolds, an ATB gauge fills
+// while the page loads, and it folds away. Only section links play it; none under reduced motion.
 
 /** The window takes this long to cover the screen; the route changes after. */
 export const COVER_MS = 650;

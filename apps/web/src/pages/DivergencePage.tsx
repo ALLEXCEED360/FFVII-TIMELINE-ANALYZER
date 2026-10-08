@@ -23,10 +23,7 @@ function count(point: DivergencePoint): string {
   return point.major > 0 ? `${all}, ${String(point.major)} big` : all;
 }
 
-/**
- * The divergence section (decision 0022), for someone new to the story: the moments where the
- * games part ways — the big turning points first — and any moment as a starting point.
- */
+/** The moments where the games part ways, big turning points first. */
 export function DivergencePage() {
   useBackdrop(SECTION_ART.divergence, { strength: 0.6, side: "full" });
   const [search, setSearch] = useSearchParams();

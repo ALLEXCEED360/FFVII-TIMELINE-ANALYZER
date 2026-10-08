@@ -18,9 +18,8 @@ import { loadGraph } from "./graph.ts";
 import { comparison, entity, neighborhood, playOrder, search, timeline } from "./queries.ts";
 import { buildSeedRows, seed } from "./seed.ts";
 
-// Integration tests against a real Postgres (`pnpm db:up && pnpm db:migrate` first). They
-// reseed the database from data/, which is safe: the database is a derived copy. Each query is
-// checked against the same answer computed directly from the data files.
+// Against a real Postgres (`pnpm db:up && pnpm db:migrate`), reseeded from data/; each query is
+// checked against the answer computed from the data files.
 
 const DATA_DIR = fileURLToPath(new URL("../../../data/", import.meta.url));
 const { db, close } = connect();

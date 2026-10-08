@@ -27,11 +27,7 @@ import "../features/archive/archive.css";
 
 const gameStyle = (code: TitleCode) => ({ "--c": TITLE_COLOR[code] }) as CSSProperties;
 
-/**
- * One chapter of a game — or one part of the original — (decision 0026): /archive/remake/
- * chapter-8, /archive/og/kalm. Who and what it shows, what changes there, the links it shows, and
- * the other worlds glimpsed in it.
- */
+/** One chapter (or part of the original) and what it shows. /archive/remake/chapter-8 */
 export function SourceUnitPage() {
   const params = useParams();
   const unit = unitFromPath(params.title, params.unit);

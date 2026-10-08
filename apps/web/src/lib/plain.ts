@@ -1,8 +1,6 @@
 import type { DifferenceCategory, DisplayStatus, DivergenceView } from "../api/client";
 
-// The archive in plain words, for someone new to the story (decisions 0019, 0021). The data's
-// own terms ("depicted", "false account", "participants") stay in the data and the API; pages
-// for beginners say what they mean.
+// The data's terms ("depicted", "false account") in plain words for the pages.
 
 const MAIN_WORLD = "world_main";
 

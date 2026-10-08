@@ -1,7 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-// What happens when things go wrong, and what the browser downloads (blueprint §34: don't load
-// the whole universe on every page).
+// What happens when things go wrong, and what the browser downloads.
 
 test("an unreachable API shows an error with a retry, and recovers", async ({ page }) => {
   await page.route("**/timeline?**", (route) => route.abort());

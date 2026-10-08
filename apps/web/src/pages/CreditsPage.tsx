@@ -42,20 +42,6 @@ const FONTS = [
     licence: "SIL Open Font License 1.1",
     use: "Where-in-the-game references, and picture credits",
   },
-  {
-    name: "Bodoni Moda",
-    family: "'Bodoni Moda Variable'",
-    by: "Owen Earl (indestructible type*)",
-    licence: "SIL Open Font License 1.1",
-    use: "The titles of the error pages",
-  },
-  {
-    name: "Barlow Condensed",
-    family: "'Barlow Condensed'",
-    by: "Jeremy Tribby",
-    licence: "SIL Open Font License 1.1",
-    use: "The “Skip to content” link",
-  },
 ] as const;
 
 const GROUPS: readonly { id: string; name: string; match: (art: ArtEntry) => boolean }[] = [
@@ -80,10 +66,7 @@ function Role({ role, children }: { role: string; children: ReactNode }) {
   );
 }
 
-/**
- * Credits (decision 0029): who made what, read as a game's staff roll, then every picture, every
- * typeface and the project's own licences.
- */
+/** Credits as a staff roll, then every picture, typeface and licence. */
 export function CreditsPage() {
   useBackdrop(SECTION_ART.credits, { strength: 0.5, side: "full" });
   const [group, setGroup] = useState("all");

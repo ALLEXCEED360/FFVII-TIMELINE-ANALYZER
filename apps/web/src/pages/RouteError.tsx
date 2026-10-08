@@ -8,10 +8,7 @@ function isChunkLoadError(error: unknown): boolean {
   );
 }
 
-/**
- * Shown when a page fails to load or render, under the site's bar, so the rest of
- * the site stays reachable. Never a blank screen.
- */
+/** A page that failed to load or render, under the site's bar: never a blank screen. */
 export function RouteError() {
   const error = useRouteError();
   const chunk = isChunkLoadError(error);
@@ -19,13 +16,13 @@ export function RouteError() {
 
   return (
     <div role="alert" className="flex flex-col items-start gap-4 py-16">
-      <p className="label text-ember-400">
+      <p className="m-label">
         {status === null ? "Something went wrong" : `Error ${String(status)}`}
       </p>
-      <h1 className="page-title">
+      <h1 className="m-heading m-title">
         {chunk ? "This page couldn't be loaded" : "This page ran into a problem"}
       </h1>
-      <p className="max-w-2xl text-steel-300">
+      <p className="m-intro">
         {chunk
           ? "The site may have been updated since you opened it, or the connection dropped. Reloading usually fixes it."
           : "Try reloading. If it keeps happening, the rest of the archive is still available."}
@@ -33,14 +30,14 @@ export function RouteError() {
       <div className="flex gap-2">
         <button
           type="button"
-          className="btn"
+          className="m-choice"
           onClick={() => {
             window.location.reload();
           }}
         >
           Reload
         </button>
-        <Link to="/" className="btn">
+        <Link to="/" className="m-pill-link">
           Back to home
         </Link>
       </div>

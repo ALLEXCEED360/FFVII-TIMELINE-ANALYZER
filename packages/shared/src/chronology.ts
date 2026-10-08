@@ -48,10 +48,6 @@ export function resolveDate(date: InUniverseDate): YearRange {
   return { earliest: date.year, latest: date.year };
 }
 
-export function isApprox(date: InUniverseDate): boolean {
-  return "between" in date ? false : date.approx === true;
-}
-
 export interface ResolvedWhen {
   start: YearRange;
   end: YearRange;

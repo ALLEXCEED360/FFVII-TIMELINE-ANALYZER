@@ -1,7 +1,7 @@
 import type { Locator, TitleCode } from "../api/client";
 import { isTitleCode } from "./reference";
 
-// Readable URLs for entities (blueprint §39): `character_cloud_strife` ↔ `/character/cloud-strife`.
+// Readable URLs for entities: `character_cloud_strife` ↔ `/character/cloud-strife`.
 // IDs are `<kind>_<slug>` (docs/conventions/ids.md); the path swaps underscores for hyphens.
 
 export const ENTITY_KINDS = ["character", "event", "location", "organization"] as const;
