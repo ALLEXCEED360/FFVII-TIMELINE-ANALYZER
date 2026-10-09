@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import type { DivergencePoint } from "../api/client";
 import { useDivergencePoints, useEntities } from "../api/queries";
-import { SECTION_ART, artFor, sceneFor } from "../art/manifest";
+import { SECTION_ART, pictureFor } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
 import { Empty, ErrorMessage, Loading } from "../components/QueryState";
@@ -67,7 +67,7 @@ export function DivergencePage() {
                   </p>
                   <ul className="dv-cards" aria-busy={points.isPlaceholderData}>
                     {turning.map((point) => {
-                      const art = sceneFor(point.id) ?? artFor(point.id).main;
+                      const art = pictureFor(point.id, "event");
                       return (
                         <li key={point.id}>
                           <Link to={divergencePath(point.id)} className="m-panel dv-card">

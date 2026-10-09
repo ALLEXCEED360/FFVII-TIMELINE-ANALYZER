@@ -1,13 +1,16 @@
 """Download the site's official artwork and convert it to WebP (decision 0015).
 
 Every image is official Square Enix artwork: character renders and illustrations, concept art and
-key art, as hosted on the Final Fantasy Wiki (finalfantasy.fandom.com). Nothing is extracted from
-game files, nothing is AI-generated, and there are no in-game screenshots. Credits live in
+key art, as hosted on the Final Fantasy Wiki (finalfantasy.fandom.com). Nothing is AI-generated.
+There are no in-game screenshots, and nothing extracted from game files, with one exception the
+project's owner chose: moments/ holds a few stills, official promo shots and a fan render of a
+game model, for moments no artwork shows. Credits live in
 src/art/manifest.ts; this script only reproduces the files. (key/remake-title.webp, the Remake
 title screen's artwork, was supplied by the project's owner and isn't fetched here.)
 
     python apps/web/scripts/fetch_art.py --list          # what would be fetched, with sizes
     python apps/web/scripts/fetch_art.py [cache dir]     # fetch and convert
+    python apps/web/scripts/fetch_art.py --only characters/zack,characters/hojo [cache dir]
 
 Needs Pillow. Writes WebP files to apps/web/public/art/.
 """
@@ -56,29 +59,29 @@ ART: dict[str, tuple[str, int]] = {
     "characters/red-xiii-og": ("RedXIII-FFVIIArt.png", 1400),
     "characters/yuffie": ("Yuffie-kisaragi ff7ri--artwork.png", 1400),
     "characters/yuffie-og": ("Yuffie-FFVIIArt.png", 1400),
-    "characters/cait-sith": ("Cait Sith from FFVII Rebirth promo render.png", 1400),
+    "characters/cait-sith": ("Cait Sith moogle from FFVII Revelation promo render.png", 1400),
     "characters/cait-sith-og": ("CaitSith-FFVIIArt.png", 1400),
     "characters/sephiroth": ("Sephiroth from FFVII Rebirth promo render.png", 1400),
     "characters/sephiroth-og": ("Sephiroth-FFVIIArt.png", 1400),
-    "characters/zack": ("Zack Fair from FFVII Remake render.png", 1400),
+    "characters/zack": ("Zack Fair from FFVII Revelation promo render.png", 1400),
     "characters/zack-og": ("Zack FFVII Concept Art.jpg", 1400),
     "characters/president-shinra": ("President Shinra render from FFVII Remake.png", 1400),
     "characters/president-shinra-og": ("FFVII-PresidentShinra-Artwork.jpg", 1400),
     "characters/rufus": ("Rufus Shinra from Final Fantasy VII Remake render.png", 1400),
     "characters/rufus-og": ("Rufus artwork FFVII.png", 1400),
-    "characters/reno": ("Reno from Final Fantasy VII Remake artwork.png", 1400),
+    "characters/reno": ("FF7 Remake Reno Full Body Render.png", 1400),
     "characters/reno-og": ("Reno artwork FF7.png", 1400),
-    "characters/tseng": ("Tseng from Final Fantasy VII Remake artwork.png", 1400),
+    "characters/tseng": ("Tseng Final Fantasy VII Remake render.png", 1400),
     "characters/tseng-og": ("Tseng-artwork.png", 1400),
-    "characters/hojo": ("Hojo from Final Fantasy VII Remake artwork.png", 1400),
+    "characters/hojo": ("Professor Hojo from FFVII Remake.png", 1400),
     "characters/hojo-og": ("Hojo FFVII Concept Art.jpg", 1400),
     "characters/jenova": ("Jenova artwork for FFVII Remake.png", 1400),
     "characters/ifalna": ("Ifalna from Final Fantasy VII Remake artwork.png", 1400),
     "characters/elmyra": ("Elmyra from Final Fantasy VII Remake artwork.png", 1400),
     "characters/elmyra-og": ("Elymra Gainsborough original artwork.png", 1400),
-    "characters/jessie": ("Jessie-FFVIIR-Roberto-Ferrari.png", 1400),
+    "characters/jessie": ("Jessie from Final Fantasy VII Remake render.png", 1400),
     "characters/jessie-og": ("Ff7 jesse artwork.png", 1400),
-    "characters/don-corneo": ("Don Corneo artwork for FFVII Remake.png", 1400),
+    "characters/don-corneo": ("Don Corneo Final Fantasy VII Remake render.png", 1400),
     "characters/bugenhagen": ("Bugenhagen from FFVII Rebirth render.png", 1400),
     "characters/bugenhagen-og": ("FFVII - Bugenhagen Artwork.jpg", 1400),
     # Places: Remake concept art for Midgar, the original's concept art beyond it.
@@ -89,19 +92,32 @@ ART: dict[str, tuple[str, int]] = {
     "places/wall-market": ("Wall Market artwork 2 for Final Fantasy VII Remake.png", 1600),
     "places/shinra-lobby": ("Shinra HQ lobby concept art FFVII Remake.png", 1600),
     "places/hojo-lab": ("Hojo's Laboratory artwork for Final Fantasy VII Remake.png", 1600),
-    "places/reactor-1": ("Mako Reactor 1 interior artwork for FFVII Remake.png", 1600),
     "places/reactor-core": ("Mako Reactor Core artwork for FFVII Remake.png", 1600),
     "places/corneo-mansion": ("Corneo's Mansion artwork for Final Fantasy VII Remake.png", 1600),
     "places/expressway": ("Midgar Expressway artwork 3 for Final Fantasy VII Remake.png", 1600),
     "places/seventh-heaven": ("Seventh Heaven artwork for Final Fantasy VII Remake.png", 1600),
-    "places/aerith-house": ("Aeriths-House-Artwork-FFVIIR.png", 1600),
     "places/junon": ("Junon FFVII CG Art 1.jpg", 1600),
     "places/cosmo-canyon": ("Cosmo Canyon Early FFVII Art.jpg", 1600),
     "places/nibelheim": ("Nibelheim FF7 Art 3.jpg", 1600),
-    "places/nibel-reactor": ("Nibel Reactor Jenova Room FFVII Sketch.jpg", 1400),
     "places/forgotten-capital": ("Forgotten Capital FF7 Art 1.jpg", 1600),
     "places/northern-crater": ("Northern Crater Lifestream Eruption FFVII Sketch.jpg", 1600),
-    "places/seto": ("Seto Artwork.jpg", 1200),
+    # Moments: one picture each, of where (or what) it happens.
+    "places/shinra-mansion": ("DoC Shinra Mansion 1 Artwork.png", 1200),
+    "places/sector-8": ("Sector 8 artwork for FFVII Remake.png", 1600),
+    "places/upper-sector-7": ("Upper Sector 7 artwork for Final Fantasy VII Remake.png", 1600),
+    "places/president-office": ("President-Office-Shinra-HQ-FFVIIR-Art.jpg", 1600),
+    # Moments no artwork shows: stills from the games, Square Enix promo shots, a model render.
+    "moments/second-chance-meeting": ("Second Chance Meeting from FFVII Remake.png", 1600),
+    "moments/black-materia": ("Sephiroth gets the black materia from FFVII Rebirth.png", 1600),
+    "moments/yuffie-sonon": ("FFVII Remake Intergrade promo 3.png", 1600),
+    "moments/lifestream": ("Lifestream-ffvii-fmv-falling.png", 1600),
+    "moments/jenova-lifeclinger": ("JENOVA Lifeclinger from FFVII Rebirth render.png", 1000),
+    "moments/meteor-midgar": ("Meteor descending upon the Shinra Building from FFVII Remake.png", 1600),
+    "moments/reactor-5-trap": ("Cloud hanging in Mako Reactor 5 from FFVII Remake.png", 1600),
+    "moments/scorpion-sentinel": ("Scorpion Sentinel battle artwork for FFVII Remake.png", 1600),
+    "moments/aerith-altar": ("Cloud and Aerith in the ending from FFVII Rebirth.png", 1600),
+    "moments/sephiroth-reborn": ("Sephiroth Reborn in edge of creation from FFVII Rebirth.png", 1600),
+    "moments/nanaki-seto": ("Nanaki finds Seto from FFVII Rebirth.png", 1600),
 }
 
 
@@ -140,16 +156,12 @@ def fetch(url: str, cache: Path) -> bytes:
 CROP = {
     "key/cloud-nomura": (0, 0, 1, 0.66),  # "Welcome back to Midgar" and the logo
     "key/og-poster": (0, 0, 1, 0.94),  # the publisher's logos
+    "places/shinra-mansion": (0.03, 0.625, 0.475, 0.975),  # one panel of a sheet: the mansion's hall
 }
 # knockout: the flat studio background around a render becomes transparent, so every character
 # stands on the page the same way.
 KNOCKOUT = {
     "characters/elmyra",
-    "characters/jessie",
-    "characters/reno",
-    "characters/tseng",
-    "characters/hojo",
-    "characters/don-corneo",
     "characters/jenova",
     "places/sector-5-church",
 }
@@ -164,12 +176,9 @@ SKETCH = {
     "key/shinra-executives",
     "places/midgar",
     "places/forgotten-capital",
-    "places/nibel-reactor",
     "places/nibelheim",
     "places/northern-crater",
-    "places/reactor-1",
     "places/reactor-core",
-    "places/seto",
 }
 
 
@@ -237,7 +246,13 @@ def convert(key: str, data: bytes, longest: int) -> tuple[bytes, int, int]:
 
 
 def main() -> None:
-    titles = [title for title, _ in ART.values()]
+    # --only a,b: just those outputs, so replacing a few pictures fetches only them.
+    args = sys.argv[1:]
+    only = args[args.index("--only") + 1].split(",") if "--only" in args else None
+    if only:
+        args = [a for a in args if a != "--only" and a != ",".join(only)]
+    chosen = {k: v for k, v in ART.items() if only is None or k in only}
+    titles = [title for title, _ in chosen.values()]
     info = image_info(titles)
     missing = [t for t in titles if t not in info]
     if missing:
@@ -247,17 +262,18 @@ def main() -> None:
         total = 0
         print("| Output | Wiki file | Original size | Download |")
         print("| --- | --- | --- | --- |")
-        for key, (title, _) in ART.items():
+        for key, (title, _) in chosen.items():
             i = info[title]
             total += i["size"]
             print(f"| {key}.webp | {title} | {i['width']}×{i['height']} | {i['size'] / 1024:.0f} KB |")
-        print(f"\n{len(ART)} files, {total / 1024 / 1024:.1f} MB to download.")
+        print(f"\n{len(chosen)} files, {total / 1024 / 1024:.1f} MB to download.")
         return
 
-    cache = Path(sys.argv[1]) if len(sys.argv) > 1 else Path.home() / ".cache" / "ffvii-art"
+    args = [a for a in args if a != "--list"]
+    cache = Path(args[0]) if args else Path.home() / ".cache" / "ffvii-art"
     cache.mkdir(parents=True, exist_ok=True)
     sizes = {}
-    for key, (title, longest) in ART.items():
+    for key, (title, longest) in chosen.items():
         webp, width, height = convert(key, fetch(info[title]["url"], cache), longest)
         path = OUT / f"{key}.webp"
         path.parent.mkdir(parents=True, exist_ok=True)

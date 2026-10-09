@@ -1,7 +1,16 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
-import { ARTWORK, SECTION_ART, TITLE_ART, artFor, artwork } from "./manifest";
+import {
+  ARTWORK,
+  MOMENT_ART,
+  SECTION_ART,
+  TITLE_ART,
+  artFor,
+  artwork,
+  pictureFor,
+  sceneFor,
+} from "./manifest";
 
 const ROOT = join(import.meta.dirname, "..", "..");
 const PUBLIC_ART = join(ROOT, "public", "art");
@@ -79,5 +88,14 @@ describe("art manifest", () => {
     for (const id of characters) expect([id, artFor(id).main?.era]).toEqual([id, "modern"]);
     expect(artFor("character_cloud_strife").original?.id).toBe("characters/cloud-og");
     expect(artFor("character_jenova").original).toBeUndefined();
+  });
+
+  it("gives every moment its own picture, and never a figure as a page's backdrop", () => {
+    const moments = [...ENTITY_IDS].filter((id) => id.startsWith("event_"));
+    for (const id of moments)
+      expect([id, artwork(MOMENT_ART[id] ?? "")?.id]).toEqual([id, MOMENT_ART[id]]);
+    const pictures = moments.map((id) => pictureFor(id, "event")?.id);
+    expect(new Set(pictures).size).toBe(moments.length);
+    for (const id of moments) expect(sceneFor(id)?.kind).not.toBe("cutout");
   });
 });

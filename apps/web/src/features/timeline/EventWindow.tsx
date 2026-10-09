@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Appearance, EntityDetail, Reference, TitleCode } from "../../api/client";
 import { Link } from "react-router";
 import { useEntity } from "../../api/queries";
-import { artFor, sceneFor } from "../../art/manifest";
+import { pictureFor } from "../../art/manifest";
 import { Artwork } from "../../components/Artwork";
 import { ErrorMessage, Loading } from "../../components/QueryState";
 import { comparePath, divergencePath, entityPath } from "../../lib/paths";
@@ -56,7 +56,7 @@ function EventDetails({
   reference: Reference | undefined;
   action?: ReactNode;
 }) {
-  const art = sceneFor(entity.id) ?? artFor(entity.id).main;
+  const art = pictureFor(entity.id, "event");
   const people = entity.relationships.filter(
     (r) => r.type === "participated_in" && r.direction === "in",
   );

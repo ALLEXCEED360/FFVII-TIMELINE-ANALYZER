@@ -6,6 +6,8 @@ function lookOf(entry: ArtEntry): string | undefined {
   if (entry.era !== "modern") return undefined;
   if (entry.title.includes("Rebirth")) return "Rebirth";
   if (entry.title.includes("INTERmission")) return "INTERmission";
+  // The trilogy's third game isn't out yet; its promo art shows the trilogy's look.
+  if (entry.title.includes("Revelation")) return "the Remake Trilogy";
   return "Remake";
 }
 

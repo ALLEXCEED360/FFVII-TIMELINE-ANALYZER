@@ -53,7 +53,6 @@ export const ARTWORK: readonly ArtEntry[] = [
   }),
   art("key/og-meteor", "1446x940", "lineart", {
     alt: "Yoshitaka Amano's Meteor: a great sphere trailing a tail of streaks, with a small moon beside it.",
-    subjects: ["event_meteor_summoned"],
     title: "Meteor logo artwork, shown as light on dark",
     artist: "Yoshitaka Amano",
     wiki: "Meteor Logo Art.jpg",
@@ -61,21 +60,18 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("key/remake", "2200x947", "key", {
     alt: "Red XIII, Aerith, Cloud on his motorbike, Barret and Tifa on the broken end of a highway at dusk, Midgar's towers behind them.",
     focus: "60% 50%",
-    subjects: ["event_battle_at_destinys_crossroads", "event_escape_from_midgar"],
     title: "Final Fantasy VII Remake key art (Midgar Highway)",
     wiki: "Final Fantasy VII Remake key art Midgar Highway.png",
   }),
   art("key/intermission", "1920x1080", "key", {
     alt: "Tifa, Barret, Cloud on his motorbike, Aerith and Red XIII, seen from behind on a rooftop, looking out over the cranes beyond Midgar at sunrise.",
     focus: "55% 50%",
-    subjects: ["event_yuffie_raid_on_shinra"],
     title: "Final Fantasy VII Remake Intergrade key visual",
     wiki: "FFVII Remake Intergrade key visual.jpg",
   }),
   art("key/rebirth", "1200x1500", "key", {
     alt: "Cloud and Zack standing either side of a distant Sephiroth in shallow water, beneath a blazing red sky between rock spires.",
     focus: "50% 45%",
-    subjects: ["event_jenova_on_the_cargo_ship", "event_race_for_the_black_materia"],
     title: "Final Fantasy VII Rebirth key art",
     wiki: "Key Art from VIIR2 - No logo.jpg",
   }),
@@ -88,14 +84,14 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("key/aerith", "2200x1724", "key", {
     alt: "Aerith, seen from behind, standing on an open road under a wide blue sky with clouds.",
     focus: "35% 50%",
-    subjects: ["character_aerith_gainsborough", "event_cloud_meets_aerith"],
+    subjects: ["character_aerith_gainsborough"],
     title: "Aerith key art from Final Fantasy VII Remake",
     wiki: "Aerith Key Art from FFVII Remake.jpg",
   }),
   art("key/tifa", "1000x752", "key", {
     alt: "Tifa sitting on top of Nibelheim's water tower under a starry night sky.",
     focus: "50% 55%",
-    subjects: ["event_water_tower_promise", "character_tifa_lockhart"],
+    subjects: ["character_tifa_lockhart"],
     title: "Tifa key art from Final Fantasy VII Remake",
     wiki: "Tifa Lockhart from FFVII Remake key art.jpg",
   }),
@@ -109,7 +105,7 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("key/cloud-nomura", "1000x935", "key", {
     alt: "Cloud in close-up, one arm raised behind his head, the Buster Sword's hilt over his shoulder.",
     focus: "50% 30%",
-    subjects: ["character_cloud_strife", "event_cloud_memories_restored"],
+    subjects: ["character_cloud_strife"],
     title: "Cloud Strife illustration for Final Fantasy VII Remake",
     artist: NOMURA,
     wiki: "Cloud Strife from FFVII Remake by Tetsuya Nomura.png",
@@ -230,12 +226,12 @@ export const ARTWORK: readonly ArtEntry[] = [
     artist: NOMURA,
     wiki: "Yuffie-FFVIIArt.png",
   }),
-  art("characters/cait-sith", "647x737", "cutout", {
-    alt: "Cait Sith in his Rebirth look, crown on his head, megaphone raised.",
+  art("characters/cait-sith", "1112x1400", "cutout", {
+    alt: "Cait Sith in his Remake Trilogy look, crown on his head and megaphone raised, riding his great white moogle.",
     subjects: ["character_cait_sith"],
     era: "modern",
-    title: "Cait Sith, Final Fantasy VII Rebirth render",
-    wiki: "Cait Sith from FFVII Rebirth promo render.png",
+    title: "Cait Sith and his moogle, Final Fantasy VII Revelation render",
+    wiki: "Cait Sith moogle from FFVII Revelation promo render.png",
   }),
   art("characters/cait-sith-og", "992x1173", "cutout", {
     alt: "Cait Sith in the original's artwork, riding his great white moogle.",
@@ -260,12 +256,12 @@ export const ARTWORK: readonly ArtEntry[] = [
     artist: NOMURA,
     wiki: "Sephiroth-FFVIIArt.png",
   }),
-  art("characters/zack", "911x1400", "cutout", {
-    alt: "Zack in his Remake look, the Buster Sword held ready.",
+  art("characters/zack", "603x1400", "cutout", {
+    alt: "Zack in his Remake Trilogy look, standing in his SOLDIER uniform, the Buster Sword on his back.",
     subjects: ["character_zack_fair"],
     era: "modern",
-    title: "Zack Fair, Final Fantasy VII Remake render",
-    wiki: "Zack Fair from FFVII Remake render.png",
+    title: "Zack Fair, Final Fantasy VII Revelation render",
+    wiki: "Zack Fair from FFVII Revelation promo render.png",
   }),
   art("characters/zack-og", "365x561", "lineart", {
     alt: "A pencil sketch of Zack in SOLDIER uniform, sword on his back, with notes in Japanese.",
@@ -304,12 +300,12 @@ export const ARTWORK: readonly ArtEntry[] = [
     artist: NOMURA,
     wiki: "Rufus artwork FFVII.png",
   }),
-  art("characters/reno", "422x1070", "cutout", {
-    alt: "Reno in his Remake look, suit jacket open, his electro-rod in one hand.",
+  art("characters/reno", "371x1286", "cutout", {
+    alt: "Reno in his Remake look, in an open black suit jacket, goggles pushed up into his red hair.",
     subjects: ["character_reno"],
     era: "modern",
-    title: "Reno, Final Fantasy VII Remake artwork",
-    wiki: "Reno from Final Fantasy VII Remake artwork.png",
+    title: "Reno, Final Fantasy VII Remake render",
+    wiki: "FF7 Remake Reno Full Body Render.png",
   }),
   art("characters/reno-og", "441x1255", "cutout", {
     alt: "Reno in the original's artwork, his red hair tied back, rod in hand.",
@@ -319,12 +315,12 @@ export const ARTWORK: readonly ArtEntry[] = [
     artist: NOMURA,
     wiki: "Reno artwork FF7.png",
   }),
-  art("characters/tseng", "508x1078", "cutout", {
-    alt: "Tseng in his Remake look, in a dark suit, hands in his pockets.",
+  art("characters/tseng", "249x820", "cutout", {
+    alt: "Tseng in his Remake look, standing straight in a dark suit and tie.",
     subjects: ["character_tseng"],
     era: "modern",
-    title: "Tseng, Final Fantasy VII Remake artwork",
-    wiki: "Tseng from Final Fantasy VII Remake artwork.png",
+    title: "Tseng, Final Fantasy VII Remake render",
+    wiki: "Tseng Final Fantasy VII Remake render.png",
   }),
   art("characters/tseng-og", "250x657", "cutout", {
     alt: "Tseng in the original's artwork, in his dark blue suit.",
@@ -334,12 +330,12 @@ export const ARTWORK: readonly ArtEntry[] = [
     artist: NOMURA,
     wiki: "Tseng-artwork.png",
   }),
-  art("characters/hojo", "370x1058", "cutout", {
-    alt: "Hojo in his Remake look, in a white lab coat, adjusting his glasses.",
+  art("characters/hojo", "462x1204", "cutout", {
+    alt: "Hojo in his Remake look, in a white lab coat, one hand behind his head.",
     subjects: ["character_hojo"],
     era: "modern",
-    title: "Professor Hojo, Final Fantasy VII Remake artwork",
-    wiki: "Hojo from Final Fantasy VII Remake artwork.png",
+    title: "Professor Hojo, Final Fantasy VII Remake render",
+    wiki: "Professor Hojo from FFVII Remake.png",
   }),
   art("characters/hojo-og", "214x532", "lineart", {
     alt: "A pencil sketch of Hojo from the side, hair tied back, glasses on.",
@@ -350,14 +346,14 @@ export const ARTWORK: readonly ArtEntry[] = [
   }),
   art("characters/jenova", "360x1001", "cutout", {
     alt: "Jenova's headless specimen body, bound in tubes and machinery above a great fleshy mass.",
-    subjects: ["character_jenova", "event_jenova_calamity"],
+    subjects: ["character_jenova"],
     era: "modern",
     title: "Jenova, Final Fantasy VII Remake artwork",
     wiki: "Jenova artwork for FFVII Remake.png",
   }),
   art("characters/ifalna", "355x1007", "cutout", {
     alt: "Ifalna in her Remake look, in a long dark red dress, her hair loose.",
-    subjects: ["character_ifalna", "event_ifalna_death"],
+    subjects: ["character_ifalna"],
     era: "modern",
     title: "Ifalna, Final Fantasy VII Remake artwork",
     wiki: "Ifalna from Final Fantasy VII Remake artwork.png",
@@ -376,13 +372,12 @@ export const ARTWORK: readonly ArtEntry[] = [
     title: "Elmyra Gainsborough, Final Fantasy VII artwork",
     wiki: "Elymra Gainsborough original artwork.png",
   }),
-  art("characters/jessie", "844x1062", "cutout", {
-    alt: "Jessie in her Remake look, front and back, in light armour and a red headband.",
+  art("characters/jessie", "406x1199", "cutout", {
+    alt: "Jessie in her Remake look, in light armour and a red headband, hand on her hip.",
     subjects: ["character_jessie"],
     era: "modern",
-    title: "Jessie Rasberry, Final Fantasy VII Remake artwork",
-    artist: "Roberto Ferrari",
-    wiki: "Jessie-FFVIIR-Roberto-Ferrari.png",
+    title: "Jessie Rasberry, Final Fantasy VII Remake render",
+    wiki: "Jessie from Final Fantasy VII Remake render.png",
   }),
   art("characters/jessie-og", "439x953", "cutout", {
     alt: "Jessie in the original's artwork, waving, in armour and a red headband.",
@@ -391,12 +386,12 @@ export const ARTWORK: readonly ArtEntry[] = [
     title: "Jessie, Final Fantasy VII artwork",
     wiki: "Ff7 jesse artwork.png",
   }),
-  art("characters/don-corneo", "688x1095", "cutout", {
-    alt: "Don Corneo in his Remake look, in a fur-collared red coat, grinning.",
+  art("characters/don-corneo", "624x1068", "cutout", {
+    alt: "Don Corneo in his Remake look, in a fur-collared red coat, arms held wide.",
     subjects: ["character_don_corneo", "event_corneo_audition"],
     era: "modern",
-    title: "Don Corneo, Final Fantasy VII Remake artwork",
-    wiki: "Don Corneo artwork for FFVII Remake.png",
+    title: "Don Corneo, Final Fantasy VII Remake render",
+    wiki: "Don Corneo Final Fantasy VII Remake render.png",
   }),
   art("characters/bugenhagen", "295x762", "cutout", {
     alt: "Bugenhagen in his Rebirth look, floating on a glowing green orb, in long dark robes.",
@@ -430,13 +425,13 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("places/sector-7", "1260x755", "scene", {
     alt: "The Sector 7 slums beneath the plate, lit by lamps and wires, the support pillar towering over them.",
     focus: "40% 50%",
-    subjects: ["location_sector_7", "event_sector_7_plate_fall", "event_sector_7_6_annex_raid"],
+    subjects: ["location_sector_7"],
     title: "Sector 7 pillar concept art, Final Fantasy VII Remake",
     wiki: "Sector 7 Pillar artwork for Final Fantasy VII Remake.png",
   }),
   art("places/sector-5-church", "890x1218", "cutout", {
     alt: "The Sector 5 church: a gothic stone building with twin spires, with a candelabra and chandelier drawn above it.",
-    subjects: ["location_sector_5_church", "event_cloud_meets_aerith"],
+    subjects: ["location_sector_5_church"],
     title: "Sector 5 church concept art, Final Fantasy VII Remake",
     wiki: "Sector 5 Church artwork for FFVII Remake.png",
   }),
@@ -448,37 +443,27 @@ export const ARTWORK: readonly ArtEntry[] = [
   }),
   art("places/shinra-lobby", "1600x968", "scene", {
     alt: "The Shinra Building's lobby: a tall atrium of steel and glass, banners hanging, displays glowing.",
-    subjects: ["location_shinra_building", "event_president_shinra_death"],
+    subjects: ["location_shinra_building"],
     title: "Shinra HQ lobby concept art, Final Fantasy VII Remake",
     wiki: "Shinra HQ lobby concept art FFVII Remake.png",
   }),
   art("places/hojo-lab", "1300x730", "scene", {
     alt: "Hojo's laboratory: tall specimen tanks glowing green in a dark, cluttered room.",
-    subjects: ["event_shinra_building_raid"],
     title: "Hojo's laboratory concept art, Final Fantasy VII Remake",
     wiki: "Hojo's Laboratory artwork for Final Fantasy VII Remake.png",
   }),
-  art("places/reactor-1", "1200x700", "lineart", {
-    alt: "A line drawing of a Mako reactor's interior: a long hall of machinery and a grated floor.",
-    subjects: ["event_mako_reactor_1_bombing"],
-    title: "Mako Reactor 1 interior concept art, Final Fantasy VII Remake",
-    wiki: "Mako Reactor 1 interior artwork for FFVII Remake.png",
-  }),
   art("places/reactor-core", "1200x955", "lineart", {
     alt: "A line drawing of a Mako reactor's core: pipes converging on a great cylinder.",
-    subjects: ["event_mako_reactor_5_bombing"],
     title: "Mako reactor core concept art, Final Fantasy VII Remake",
     wiki: "Mako Reactor Core artwork for FFVII Remake.png",
   }),
   art("places/corneo-mansion", "1002x543", "scene", {
     alt: "Don Corneo's mansion at night, its tiered red-lit roofs rising over Wall Market.",
-    subjects: ["event_corneo_audition"],
     title: "Corneo's mansion concept art, Final Fantasy VII Remake",
     wiki: "Corneo's Mansion artwork for Final Fantasy VII Remake.png",
   }),
   art("places/expressway", "884x505", "scene", {
     alt: "Cloud on his motorbike speeding down a dark elevated expressway.",
-    subjects: ["event_escape_from_midgar"],
     title: "Midgar expressway concept art, Final Fantasy VII Remake",
     wiki: "Midgar Expressway artwork 3 for Final Fantasy VII Remake.png",
   }),
@@ -488,15 +473,9 @@ export const ARTWORK: readonly ArtEntry[] = [
     title: "Seventh Heaven concept art, Final Fantasy VII Remake",
     wiki: "Seventh Heaven artwork for Final Fantasy VII Remake.png",
   }),
-  art("places/aerith-house", "1200x720", "scene", {
-    alt: "The warm, lamplit living room of Aerith's house.",
-    subjects: ["event_aerith_hires_cloud"],
-    title: "Aerith's house concept art, Final Fantasy VII Remake",
-    wiki: "Aeriths-House-Artwork-FFVIIR.png",
-  }),
   art("places/junon", "1403x1053", "scene", {
     alt: "Junon at dusk: the great cannon jutting out over the sea from its fortified cliff.",
-    subjects: ["location_junon", "event_junon_parade"],
+    subjects: ["location_junon"],
     title: "Junon CG artwork, Final Fantasy VII",
     wiki: "Junon FFVII CG Art 1.jpg",
   }),
@@ -507,34 +486,107 @@ export const ARTWORK: readonly ArtEntry[] = [
     wiki: "Cosmo Canyon Early FFVII Art.jpg",
   }),
   art("places/nibelheim", "1568x1291", "lineart", {
-    alt: "A line drawing of Nibelheim's town square seen from above, with its houses and the water tower.",
-    subjects: ["location_nibelheim", "event_nibelheim_incident"],
-    title: "Nibelheim concept sketch, Final Fantasy VII",
+    alt: "A line drawing of a Nibelheim house seen from above: its kitchen, stove and beds.",
+    subjects: ["location_nibelheim"],
+    title: "Nibelheim house concept sketch, Final Fantasy VII",
     wiki: "Nibelheim FF7 Art 3.jpg",
-  }),
-  art("places/nibel-reactor", "613x1122", "lineart", {
-    alt: "A line drawing of the Nibel reactor's inner chamber, the door marked JENOVA at the top of the stairs.",
-    subjects: ["event_sephiroth_learns_of_jenova_project"],
-    title: "Nibel reactor Jenova chamber sketch, Final Fantasy VII",
-    wiki: "Nibel Reactor Jenova Room FFVII Sketch.jpg",
   }),
   art("places/forgotten-capital", "1140x1197", "lineart", {
     alt: "A line drawing of the Forgotten Capital: shell-like buildings spiralling around a sunken centre.",
-    subjects: ["location_forgotten_capital", "event_aerith_death"],
+    subjects: ["location_forgotten_capital"],
     title: "Forgotten Capital concept sketch, Final Fantasy VII",
     wiki: "Forgotten Capital FF7 Art 1.jpg",
   }),
   art("places/northern-crater", "1144x798", "lineart", {
     alt: "A sketch of the Northern Crater with the Lifestream erupting upward from its heart.",
-    subjects: ["location_northern_crater", "event_defeat_of_sephiroth"],
+    subjects: ["location_northern_crater"],
     title: "Northern Crater Lifestream sketch, Final Fantasy VII",
     wiki: "Northern Crater Lifestream Eruption FFVII Sketch.jpg",
   }),
-  art("places/seto", "812x467", "lineart", {
-    alt: "A sketch of Seto, the great beast frozen to stone, arrows still in his hide.",
-    subjects: ["event_truth_about_seto"],
-    title: "Seto concept sketch, Final Fantasy VII",
-    wiki: "Seto Artwork.jpg",
+  art("places/shinra-mansion", "218x143", "scene", {
+    alt: "The Shinra Mansion's ruined hall in teal shadow, light falling through three tall windows above a staircase.",
+    title: "Shinra Mansion concept art, Dirge of Cerberus -Final Fantasy VII-",
+    wiki: "DoC Shinra Mansion 1 Artwork.png",
+  }),
+  art("places/sector-8", "1300x700", "scene", {
+    alt: "Sector 8 just after the bombing: fires burning in the dark street beneath the reactor's towers.",
+    title: "Sector 8 concept art, Final Fantasy VII Remake",
+    wiki: "Sector 8 artwork for FFVII Remake.png",
+  }),
+  art("places/upper-sector-7", "689x352", "scene", {
+    alt: "A wet street on the upper plate of Sector 7 at night, lit by lamps and a glowing billboard.",
+    title: "Upper Sector 7 concept art, Final Fantasy VII Remake",
+    wiki: "Upper Sector 7 artwork for Final Fantasy VII Remake.png",
+  }),
+  art("places/president-office", "1200x710", "scene", {
+    alt: "President Shinra's office: a long red carpet between lit columns, leading to his desk.",
+    title: "President's office concept art, Final Fantasy VII Remake",
+    wiki: "President-Office-Shinra-HQ-FFVIIR-Art.jpg",
+  }),
+  // ── Moments no artwork shows: stills, Square Enix promo shots and a model render ───────────
+  art("moments/second-chance-meeting", "1600x901", "scene", {
+    alt: "Aerith standing over Cloud among the white and yellow flowers of the Sector 5 church, where he has fallen through the roof.",
+    focus: "35% 50%",
+    title: "Aerith and Cloud in the church, Final Fantasy VII Remake (in-game still)",
+    wiki: "Second Chance Meeting from FFVII Remake.png",
+  }),
+  art("moments/yuffie-sonon", "1600x900", "scene", {
+    alt: "Yuffie and Sonon back to back inside the Shinra Building, weapons ready.",
+    focus: "45% 40%",
+    title: "Yuffie and Sonon, Final Fantasy VII Remake Intergrade (Square Enix promo screenshot)",
+    wiki: "FFVII Remake Intergrade promo 3.png",
+  }),
+  art("moments/jenova-lifeclinger", "1000x979", "cutout", {
+    alt: "JENOVA Lifeclinger: a mass of violet, feather-like tendrils spreading from a skeletal body.",
+    title: "JENOVA Lifeclinger, Final Fantasy VII Rebirth (render of the game's model)",
+    artist: "Yare Yare Dong (render of the game's model)",
+    wiki: "JENOVA Lifeclinger from FFVII Rebirth render.png",
+  }),
+  art("moments/black-materia", "1600x897", "scene", {
+    alt: "Sephiroth suspended in a swirling red and violet void as he takes the black materia.",
+    focus: "52% 45%",
+    title: "Sephiroth takes the black materia, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Sephiroth gets the black materia from FFVII Rebirth.png",
+  }),
+  art("moments/meteor-midgar", "1600x898", "scene", {
+    alt: "Meteor striking Midgar: a blinding wall of fire engulfing the Shinra Building's tower.",
+    title: "Meteor descends on Midgar, Final Fantasy VII Remake (in-game still)",
+    wiki: "Meteor descending upon the Shinra Building from FFVII Remake.png",
+  }),
+  art("moments/reactor-5-trap", "1600x900", "scene", {
+    alt: "Cloud in close-up, hanging on in Mako Reactor 5 as it is about to blow, Tifa and Barret behind him.",
+    focus: "60% 40%",
+    title: "Cloud hangs on in Mako Reactor 5, Final Fantasy VII Remake (in-game still)",
+    wiki: "Cloud hanging in Mako Reactor 5 from FFVII Remake.png",
+  }),
+  art("moments/scorpion-sentinel", "1040x560", "scene", {
+    alt: "The fight with the Scorpion Sentinel in Mako Reactor 1: the great machine firing among twisted girders.",
+    title: "Scorpion Sentinel battle concept art, Final Fantasy VII Remake",
+    wiki: "Scorpion Sentinel battle artwork for FFVII Remake.png",
+  }),
+  art("moments/aerith-altar", "1600x900", "scene", {
+    alt: "Cloud holding Aerith close at the altar in the Forgotten Capital, green motes of the Lifestream drifting around them.",
+    focus: "40% 40%",
+    title: "Cloud and Aerith at the altar, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Cloud and Aerith in the ending from FFVII Rebirth.png",
+  }),
+  art("moments/sephiroth-reborn", "1600x899", "scene", {
+    alt: "Cloud, sword raised, facing Sephiroth Reborn, a towering winged form, among floating rocks at the edge of creation.",
+    focus: "55% 45%",
+    title: "Cloud faces Sephiroth Reborn, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Sephiroth Reborn in edge of creation from FFVII Rebirth.png",
+  }),
+  art("moments/nanaki-seto", "1600x896", "scene", {
+    alt: "Seto, turned to stone, silhouetted against a full moon, with Nanaki on the rocks below.",
+    focus: "50% 72%",
+    title: "Nanaki finds Seto, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Nanaki finds Seto from FFVII Rebirth.png",
+  }),
+  art("moments/lifestream", "500x350", "scene", {
+    alt: "Cloud and Tifa falling into the glowing green Lifestream amid the wreckage of Mideel.",
+    title:
+      "Cloud and Tifa fall into the Lifestream, Final Fantasy VII (frame from the game's movie)",
+    wiki: "Lifestream-ffvii-fmv-falling.png",
   }),
 ];
 
@@ -585,13 +637,46 @@ export const TITLE_ART: Record<TitleCode, string> = {
   rebirth: "key/rebirth",
 };
 
+/** Each moment's one picture: where it happens, or what. No two moments share one (manifest.test.ts). */
+export const MOMENT_ART: Readonly<Record<string, string>> = {
+  event_jenova_calamity: "characters/jenova",
+  event_ifalna_death: "characters/ifalna",
+  event_water_tower_promise: "key/tifa",
+  event_sephiroth_learns_of_jenova_project: "places/shinra-mansion",
+  event_nibelheim_incident: "key/anniversary",
+  event_mako_reactor_1_bombing: "moments/scorpion-sentinel",
+  event_cloud_meets_aerith: "places/sector-8",
+  event_sector_7_6_annex_raid: "places/upper-sector-7",
+  event_mako_reactor_5_bombing: "moments/reactor-5-trap",
+  event_aerith_hires_cloud: "moments/second-chance-meeting",
+  event_corneo_audition: "places/corneo-mansion",
+  event_yuffie_raid_on_shinra: "moments/yuffie-sonon",
+  event_sector_7_plate_fall: "places/sector-7",
+  event_shinra_building_raid: "places/hojo-lab",
+  event_president_shinra_death: "places/president-office",
+  event_escape_from_midgar: "places/expressway",
+  event_battle_at_destinys_crossroads: "key/remake",
+  event_junon_parade: "places/junon",
+  event_jenova_on_the_cargo_ship: "moments/jenova-lifeclinger",
+  event_truth_about_seto: "moments/nanaki-seto",
+  event_race_for_the_black_materia: "moments/black-materia",
+  event_aerith_death: "moments/aerith-altar",
+  event_meteor_summoned: "moments/meteor-midgar",
+  event_cloud_memories_restored: "moments/lifestream",
+  event_defeat_of_sephiroth: "moments/sephiroth-reborn",
+};
+
 /** A scene for an entity's page backdrop: key art, a painted place or line art — not a figure. */
 export function sceneFor(entityId: string): ArtEntry | undefined {
+  const moment = BY_ID.get(MOMENT_ART[entityId] ?? "");
+  if (moment) return moment.kind === "cutout" ? undefined : moment;
   return ARTWORK.find((entry) => entry.subjects.includes(entityId) && entry.kind !== "cutout");
 }
 
 /** An entity's picture for a card or panel: a person's portrait, else a painting of it. */
 export function pictureFor(entityId: string, kind: string): ArtEntry | undefined {
+  const moment = BY_ID.get(MOMENT_ART[entityId] ?? "");
+  if (moment) return moment;
   const art = artFor(entityId);
   return kind === "character" ? (art.main ?? art.original) : (sceneFor(entityId) ?? art.main);
 }

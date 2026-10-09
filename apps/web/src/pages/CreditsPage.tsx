@@ -49,6 +49,7 @@ const GROUPS: readonly { id: string; name: string; match: (art: ArtEntry) => boo
   { id: "key", name: "Key art", match: (art) => art.id.startsWith("key/") },
   { id: "characters", name: "Characters", match: (art) => art.id.startsWith("characters/") },
   { id: "places", name: "Places", match: (art) => art.id.startsWith("places/") },
+  { id: "moments", name: "Moments", match: (art) => art.id.startsWith("moments/") },
 ];
 
 /** The named artists first, then the studio. */
@@ -148,14 +149,16 @@ export function CreditsPage() {
               Final Fantasy Wiki
               <span className="sr-only"> (opens in a new tab)</span>
             </a>
-            . None of it is taken from the games&apos; files or made by AI, and the pictures only
-            decorate: no fact here rests on one.
+            . None of it is made by AI, and the pictures only decorate: no fact here rests on one.
+            For a few moments no artwork shows, the picture is a still from the game, a Square Enix
+            promo shot, or a fan&apos;s render of the game&apos;s model, each named below.
           </p>
           <ul className="cr-notes">
             <li>Resized to load quickly.</li>
             <li>Plain studio backgrounds around some figures removed.</li>
             <li>Pencil concept sketches shown as light lines on the dark page.</li>
             <li>Printed titles and publisher logos cropped off.</li>
+            <li>A few cropped to the part that shows the moment.</li>
           </ul>
           <p className="cr-small">
             None of it is covered by this project&apos;s licences, and any picture will be taken
