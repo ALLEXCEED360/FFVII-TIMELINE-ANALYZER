@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import type { DivergencePoint } from "../api/client";
-import { useDivergencePoints, useEntities, useReference } from "../api/queries";
+import { useDivergencePoints, useEntities } from "../api/queries";
 import { SECTION_ART, artFor, sceneFor } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
@@ -27,7 +27,6 @@ function count(point: DivergencePoint): string {
 export function DivergencePage() {
   useBackdrop(SECTION_ART.divergence, { strength: 0.6, side: "full" });
   const points = useDivergencePoints(TITLE_ORDER);
-  const reference = useReference();
   const entities = useEntities();
 
   const items = points.data?.items ?? [];
@@ -128,7 +127,6 @@ export function DivergencePage() {
 
         <ThingPicker
           entities={entities.data?.items ?? []}
-          reference={reference.data}
           kinds={["event"]}
           title="Start from any moment"
           pathFor={divergencePath}

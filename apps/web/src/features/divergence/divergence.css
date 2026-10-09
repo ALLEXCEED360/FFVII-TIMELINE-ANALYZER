@@ -32,10 +32,6 @@
   flex: 1 1 22rem;
   max-width: 44rem;
 }
-.dv-controls .cmp-pairs {
-  display: flex;
-  flex-wrap: wrap;
-}
 .dv-help {
   max-width: 54ch;
   font-size: 0.9rem;

@@ -57,22 +57,20 @@ describe("comparison page", () => {
     expect(rebirth).toHaveLength(2);
   });
 
-  it("says a connection differs only where a telling shows both ends without it", async () => {
+  it("says a connection is only in one telling where the other shows both ends without it", async () => {
     stubApi();
     renderAt("/compare/location/sector-7");
-    const table = await screen.findByRole("table", { name: "Which telling shows each connection" });
-    const midgar = within(table).getByRole("row", { name: /Midgar/ });
-    expect(within(midgar).getByText("Differs")).toBeTruthy();
-    expect(within(midgar).getByText("Shows both, but not connected")).toBeTruthy();
+    const only = await screen.findAllByRole("region", { name: /^Only in/ });
+    expect(only.some((r) => within(r).queryByRole("link", { name: /Midgar/ }))).toBe(true);
+    const both = screen.getByRole("region", { name: "In both" });
+    expect(within(both).queryByRole("link", { name: /Midgar/ })).toBeNull();
   });
 
   it("doesn't count a connection against a telling that doesn't show both ends", async () => {
     stubApi();
     renderAt("/compare/character/tifa-lockhart");
-    const table = await screen.findByRole("table", { name: "Which telling shows each connection" });
-    const memories = within(table).getByRole("row", { name: /Cloud's Memories Restored/ });
-    expect(within(memories).getByText("In both")).toBeTruthy();
-    expect(within(memories).getByText("Doesn't show both")).toBeTruthy();
+    const both = await screen.findByRole("region", { name: "In both" });
+    expect(within(both).getByRole("link", { name: /Cloud's Memories Restored/ })).toBeTruthy();
     // A person isn't "shown as it happens": that line is for events.
     expect(screen.queryByText("Shown as it happens")).toBeNull();
   });

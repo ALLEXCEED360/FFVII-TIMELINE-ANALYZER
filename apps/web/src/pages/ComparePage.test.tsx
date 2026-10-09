@@ -5,32 +5,52 @@ import { describe, expect, it } from "vitest";
 import differences from "../test/differences.json";
 import { renderAt, stubApi } from "../test/render";
 
+/** How many different things the changes belong to. */
+const things = (items: readonly { entity: { id: string } }[]) =>
+  new Set(items.map((d) => d.entity.id)).size;
+
 describe("compare page", () => {
-  it("lists every change, grouped by what it belongs to, with a way to see each side by side", async () => {
+  it("lists each thing that changes, and opens its changes in a window", async () => {
     stubApi();
-    renderAt("/compare");
+    const { router } = renderAt("/compare");
     const list = await screen.findByRole("region", { name: "Changes" });
-    await within(list).findByRole("heading", { level: 2, name: "Nibelheim Incident" });
-    expect(within(list).getAllByText(/^Where to see it:/)).toHaveLength(differences.items.length);
-    const links = within(list).getAllByRole("link", { name: /See it side by side/ });
-    expect(links[0]?.getAttribute("href")).toBe("/compare/event/nibelheim-incident");
+    await within(list).findByRole("button", { name: "Nibelheim Incident" });
+    expect(within(list).getAllByRole("listitem")).toHaveLength(things(differences.items));
+    expect(screen.getByText("Choose anything")).toBeTruthy();
+
+    await userEvent.click(within(list).getByRole("button", { name: "Nibelheim Incident" }));
+    expect(router.state.location.search).toBe("?open=event_nibelheim_incident");
+    const window = screen.getByRole("complementary", { name: "What changes" });
+    expect(
+      within(window).getByRole("heading", { level: 2, name: "Nibelheim Incident" }),
+    ).toBeTruthy();
+    expect(window.textContent).toContain("The original→");
+    expect(within(window).getAllByText(/^Where to see it:/)).toHaveLength(
+      differences.items.filter((d) => d.entity.id === "event_nibelheim_incident").length,
+    );
+    const link = within(window).getByRole("link", { name: "See it side by side" });
+    expect(link.getAttribute("href")).toBe("/compare/event/nibelheim-incident");
+
+    await userEvent.click(within(window).getByRole("button", { name: "Close" }));
+    expect(router.state.location.search).toBe("");
   });
 
   it("filters by kind of change in plain words, saying how many each holds", async () => {
     stubApi();
     const { router } = renderAt("/compare");
     const list = await screen.findByRole("region", { name: "Changes" });
-    await within(list).findByRole("heading", { level: 2, name: "Nibelheim Incident" });
+    await within(list).findByRole("button", { name: "Nibelheim Incident" });
     const kinds = screen.getByRole("group", { name: "What changes" });
     const everything = within(kinds).getByRole("button", { name: /^Everything/ });
     expect(everything.textContent).toContain(String(differences.items.length));
 
-    const shown = differences.items.filter((d) => d.category === "presentation").length;
+    const presented = differences.items.filter((d) => d.category === "presentation");
+    const shown = presented.length;
     const presentation = within(kinds).getByRole("button", { name: /^How it's shown/ });
     expect(presentation.textContent).toContain(String(shown));
     await userEvent.click(presentation);
     expect(router.state.location.search).toBe("?category=presentation");
-    expect(within(list).getAllByText(/^Where to see it:/)).toHaveLength(shown);
+    expect(within(list).getAllByRole("listitem")).toHaveLength(things(presented));
   });
 
   it("always compares the original with the whole Remake Trilogy, and can keep to big changes", async () => {
@@ -66,9 +86,8 @@ describe("compare page", () => {
 
   it("has no accessibility violations", async () => {
     stubApi();
-    const { container } = renderAt("/compare");
-    const list = await screen.findByRole("region", { name: "Changes" });
-    await within(list).findByRole("heading", { level: 2, name: "Nibelheim Incident" });
+    const { container } = renderAt("/compare?open=event_nibelheim_incident");
+    await screen.findByRole("complementary", { name: "What changes" });
     const results = await axe.run(container, { rules: { "color-contrast": { enabled: false } } });
     expect(results.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
   });

@@ -1,4 +1,4 @@
-import { type CSSProperties, type KeyboardEvent, useEffect, useState } from "react";
+import { type KeyboardEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import type { Comparison, Reference } from "../api/client";
 import { ApiError } from "../api/client";
@@ -193,12 +193,10 @@ function TellingTabs({
             aria-controls="compare-tabpanel"
             tabIndex={telling === current ? 0 : -1}
             className="m-choice"
-            style={{ "--c": TELLING[telling].color } as CSSProperties}
             onClick={() => {
               setCurrent(telling);
             }}
           >
-            <span aria-hidden="true" className="m-choice-box" />
             {TELLING[telling].short}
           </button>
         ))}

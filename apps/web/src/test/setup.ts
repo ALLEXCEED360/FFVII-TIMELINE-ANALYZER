@@ -6,6 +6,9 @@ import { useUi } from "../stores/ui";
 // seconds on a busy CI runner. Testing Library's default 1 s wait made tests flaky there.
 configure({ asyncUtilTimeout: 5000 });
 
+// jsdom doesn't scroll; pages that bring a chosen item into view still run.
+Element.prototype.scrollIntoView = () => undefined;
+
 // The title screen covers the app; its own tests turn it back on.
 beforeEach(() => {
   useUi.setState({ boot: "off", bootReplay: 0 });

@@ -15,7 +15,7 @@ import { Artwork } from "../../components/Artwork";
 import { Citation, Citations } from "../../components/Citation";
 import { ENTITY_KINDS, type EntityKind, KIND_LABELS, entityPath } from "../../lib/paths";
 import { CHANGE_WORDS, STATUS_SENTENCES, STATUS_WORDS, tellingOf } from "../../lib/plain";
-import { TITLE_ORDER, titleShort, worldName } from "../../lib/reference";
+import { titleShort, worldName } from "../../lib/reference";
 import { TELLING, TELLINGS, type Telling as TellingKey } from "../../lib/tellings";
 import { TITLE_COLOR } from "../../lib/titles";
 
@@ -33,6 +33,10 @@ export function Game({ code, reference }: { code: TitleCode; reference: Referenc
   );
 }
 
+/** A game in plain words: the original by that name, the trilogy's games by theirs. */
+const gameName = (reference: Reference | undefined, code: TitleCode) =>
+  code === "og" ? TELLING.og.name : titleShort(reference, code);
+
 /** One change between two tellings, in plain words, with where to see it tucked underneath. */
 export function Change({
   difference,
@@ -44,12 +48,12 @@ export function Change({
   return (
     <li className="cmp-change">
       <p className="cmp-change-head">
-        <Game code={difference.from.title} reference={reference} />
+        <span className="cmp-game">{gameName(reference, difference.from.title)}</span>
         <span aria-hidden="true" className="cmp-arrow">
           →
         </span>
         <span className="sr-only">compared with</span>
-        <Game code={difference.to.title} reference={reference} />
+        <span className="cmp-game">{gameName(reference, difference.to.title)}</span>
         {difference.magnitude === "major" && <span className="cmp-tag cmp-big">Big change</span>}
         {difference.certainty === "ambiguous" && (
           <span className="cmp-tag">The game leaves this open</span>
@@ -175,8 +179,8 @@ export function TellingColumn({
   return (
     <section
       aria-labelledby={labelled ? `col-${telling}` : undefined}
-      className="m-panel cmp-col"
-      style={{ "--c": TELLING[telling].color } as CSSProperties}
+      className="ff7-window cmp-col"
+      data-telling={telling}
     >
       <header className="cmp-col-head">
         {labelled && (
@@ -200,9 +204,9 @@ export function TellingColumn({
       {told.map((column) => (
         <div key={column.title} className={named ? "cmp-game-telling" : undefined}>
           {named && (
-            <p className="cmp-game-telling-name">
-              <Game code={column.title} reference={reference} />
-            </p>
+            <h3 className="m-heading cmp-game-telling-name">
+              {titleShort(reference, column.title)}
+            </h3>
           )}
           {column.appearance && (
             <Telling appearance={column.appearance} reference={reference} event={event} />
@@ -220,109 +224,47 @@ export function TellingColumn({
 }
 
 /**
- * What the subject is connected to, in each telling: a mark where it shows the connection, a dash
- * where it shows both but not the connection (a real difference), and a dot where it doesn't show
- * both, so says nothing about it.
+ * What the subject is connected to: in both tellings, or only in one. A telling that doesn't show
+ * both ends says nothing about the connection, so it doesn't count against it.
  */
 export function Connections({ relationships }: { relationships: readonly ComparedRelationship[] }) {
-  const evidenceIn = (r: ComparedRelationship, telling: TellingKey) =>
-    r.titles.filter((t) => TELLING[telling].titles.includes(t.title));
+  const shownIn = (r: ComparedRelationship, telling: TellingKey) =>
+    r.titles.some((t) => TELLING[telling].titles.includes(t.title));
   const applicableIn = (r: ComparedRelationship, telling: TellingKey) =>
     r.applicable.some((t) => TELLING[telling].titles.includes(t));
-  const sharedByBoth = (r: ComparedRelationship) =>
-    TELLINGS.every((t) => !applicableIn(r, t) || evidenceIn(r, t).length > 0);
-  const ordered = [...relationships].sort(
-    (a, b) => Number(sharedByBoth(b)) - Number(sharedByBoth(a)),
-  );
+  const groupOf = (r: ComparedRelationship): "both" | TellingKey => {
+    const missing = TELLINGS.find((t) => applicableIn(r, t) && !shownIn(r, t));
+    if (!missing) return "both";
+    return missing === "og" ? "trilogy" : "og";
+  };
+  const groups = [
+    { key: "both", name: "In both" },
+    { key: "og", name: `Only in ${TELLING.og.name.toLowerCase()}` },
+    { key: "trilogy", name: `Only in ${TELLING.trilogy.name.replace("The", "the")}` },
+  ] as const;
   return (
     <div className="m-panel cmp-links">
-      <ul aria-label="What the marks mean" className="cmp-key">
-        <li>
-          <span aria-hidden="true" className="cmp-yes">
-            ✓
-          </span>
-          It shows this connection
-        </li>
-        <li>
-          <span aria-hidden="true" className="cmp-no">
-            —
-          </span>
-          It shows both, but not connected
-        </li>
-        <li>
-          <span aria-hidden="true" className="cmp-na">
-            ·
-          </span>
-          It doesn&apos;t show both
-        </li>
-      </ul>
-      <div className="cmp-table-wrap">
-        <table className="cmp-table">
-          <caption className="sr-only">Which telling shows each connection</caption>
-          <thead>
-            <tr>
-              <th scope="col">Connected to</th>
-              {TELLINGS.map((telling) => (
-                <th key={telling} scope="col">
-                  <span
-                    className="cmp-game"
-                    style={{ "--c": TELLING[telling].color } as CSSProperties}
-                  >
-                    <span aria-hidden="true" className="cmp-game-mark" />
-                    {TELLING[telling].short}
-                  </span>
-                </th>
-              ))}
-              <th scope="col">
-                <span className="sr-only">In both?</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {ordered.map((r) => (
-              <tr key={`${r.id}-${r.direction}`}>
-                <th scope="row">
-                  <Link to={entityPath(r.other.id)} className="cmp-link-name">
-                    {r.other.name}
+      {groups.map(({ key, name }) => {
+        const shown = relationships.filter((r) => groupOf(r) === key);
+        if (shown.length === 0) return null;
+        return (
+          <section key={key} aria-label={name} className="cmp-links-group" data-group={key}>
+            <h3 className="m-label">
+              {name} <span className="cmp-links-count">{shown.length}</span>
+            </h3>
+            <ul className="cmp-links-list">
+              {shown.map((r) => (
+                <li key={`${r.id}-${r.direction}`}>
+                  <Link to={entityPath(r.other.id)} className="cmp-link">
+                    <span className="cmp-link-name">{r.other.name}</span>
+                    <span className="cmp-link-label">{r.label}</span>
                   </Link>
-                  <span className="cmp-link-label">{r.label}</span>
-                </th>
-                {TELLINGS.map((telling) => {
-                  const evidence = evidenceIn(r, telling);
-                  const stated = evidence.some((e) => e.certainty === "stated");
-                  return (
-                    <td key={telling}>
-                      {evidence.length > 0 ? (
-                        <span className={stated ? "cmp-yes" : "cmp-maybe"}>
-                          {stated ? "✓" : "?"}
-                          <span className="sr-only">
-                            {stated ? "Shows it" : "Shows it, but leaves it open"}
-                          </span>
-                        </span>
-                      ) : applicableIn(r, telling) ? (
-                        <span className="cmp-no">
-                          —<span className="sr-only">Shows both, but not connected</span>
-                        </span>
-                      ) : (
-                        <span className="cmp-na">
-                          ·<span className="sr-only">Doesn&apos;t show both</span>
-                        </span>
-                      )}
-                    </td>
-                  );
-                })}
-                <td>
-                  {sharedByBoth(r) ? (
-                    <span className="cmp-tag">In both</span>
-                  ) : (
-                    <span className="cmp-tag cmp-big">Differs</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })}
     </div>
   );
 }
@@ -330,13 +272,11 @@ export function Connections({ relationships }: { relationships: readonly Compare
 /** Anything told by both tellings, found by name or kind, opening where `pathFor` says. */
 export function ThingPicker({
   entities,
-  reference,
   pathFor,
   title = "Compare anything side by side",
   kinds = ENTITY_KINDS,
 }: {
   entities: readonly EntityList["items"][number][];
-  reference: Reference | undefined;
   pathFor: (id: string) => string;
   title?: string;
   /** The kinds offered; with one, there are no kind choices. */
@@ -370,9 +310,7 @@ export function ThingPicker({
           setText(event.target.value);
         }}
         aria-label="Find something to compare"
-        placeholder={
-          kinds.length === 1 ? "Find a moment by name…" : "Find a character, event or place…"
-        }
+        placeholder={kinds.length === 1 ? "Find a moment by name…" : "Find anything by name…"}
         className="cmp-search"
       />
       {!query && kinds.length > 1 && (
@@ -399,17 +337,10 @@ export function ThingPicker({
           {shown.map((entity) => (
             <li key={entity.id}>
               <Link to={pathFor(entity.id)} className="cmp-pick-item">
-                <span>{entity.name}</span>
-                <span aria-hidden="true" className="cmp-pick-games">
-                  {TITLE_ORDER.filter((t) => entity.titles.includes(t)).map((t) => (
-                    <span
-                      key={t}
-                      className="cmp-game-mark"
-                      style={gameStyle(t)}
-                      title={titleShort(reference, t)}
-                    />
-                  ))}
+                <span aria-hidden="true" className="ff7-hand cmp-pick-glove">
+                  ☞
                 </span>
+                {entity.name}
               </Link>
             </li>
           ))}
