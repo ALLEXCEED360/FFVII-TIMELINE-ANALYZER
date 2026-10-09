@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import {
   ARTWORK,
   MOMENT_ART,
+  PLACE_ART,
   SECTION_ART,
   TITLE_ART,
   artFor,
@@ -97,5 +98,14 @@ describe("art manifest", () => {
     const pictures = moments.map((id) => pictureFor(id, "event")?.id);
     expect(new Set(pictures).size).toBe(moments.length);
     for (const id of moments) expect(sceneFor(id)?.kind).not.toBe("cutout");
+  });
+
+  it("gives each chosen place and group a picture that exists, and shows it on their page", () => {
+    for (const [id, art] of Object.entries(PLACE_ART)) {
+      expect([id, ENTITY_IDS.has(id), artwork(art)?.id]).toEqual([id, true, art]);
+      expect(pictureFor(id, id.split("_")[0] ?? "")?.id).toBe(art);
+      // A cut-out tagged with the place would stand in front of its picture on the page.
+      expect([id, artFor(id).main?.kind]).not.toEqual([id, "cutout"]);
+    }
   });
 });

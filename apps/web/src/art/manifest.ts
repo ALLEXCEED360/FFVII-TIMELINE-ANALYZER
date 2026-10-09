@@ -117,12 +117,6 @@ export const ARTWORK: readonly ArtEntry[] = [
     artist: NOMURA,
     wiki: "FFVII 10th Anniversary Artwork.jpg",
   }),
-  art("key/shinra-executives", "800x446", "lineart", {
-    alt: "A line sketch of Shinra's executives in a row: President Shinra, Heidegger, Scarlet, Palmer, Reeve and Hojo.",
-    subjects: ["organization_shinra"],
-    title: "Shinra executives concept sketch",
-    wiki: "Shin-Ra Executives Artwork.jpg",
-  }),
   art("key/turks", "925x725", "cutout", {
     alt: "The Turks standing in a line in their dark suits — Elena, Tseng, Rude and Reno — with Rufus Shinra in white at the centre.",
     subjects: ["organization_turks"],
@@ -409,12 +403,6 @@ export const ARTWORK: readonly ArtEntry[] = [
   }),
 
   // ── Places ──────────────────────────────────────────────────────────────────────────────────
-  art("places/midgar", "1189x812", "lineart", {
-    alt: "A pencil sketch of Midgar's stacked city blocks rising under the plate's arches.",
-    subjects: ["location_midgar"],
-    title: "Midgar concept sketch, Final Fantasy VII",
-    wiki: "Midgar City FFVII Art.png",
-  }),
   art("places/midgar-concept", "1379x1062", "scene", {
     alt: "Midgar at night from above: the round city on its plate, reactors venting green light around the Shinra Building at its heart.",
     focus: "50% 45%",
@@ -428,12 +416,6 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["location_sector_7"],
     title: "Sector 7 pillar concept art, Final Fantasy VII Remake",
     wiki: "Sector 7 Pillar artwork for Final Fantasy VII Remake.png",
-  }),
-  art("places/sector-5-church", "890x1218", "cutout", {
-    alt: "The Sector 5 church: a gothic stone building with twin spires, with a candelabra and chandelier drawn above it.",
-    subjects: ["location_sector_5_church"],
-    title: "Sector 5 church concept art, Final Fantasy VII Remake",
-    wiki: "Sector 5 Church artwork for FFVII Remake.png",
   }),
   art("places/wall-market", "1002x608", "scene", {
     alt: "Wall Market at night: crowded lanterns and neon signs in a deep street under the plate.",
@@ -467,35 +449,11 @@ export const ARTWORK: readonly ArtEntry[] = [
     title: "Midgar expressway concept art, Final Fantasy VII Remake",
     wiki: "Midgar Expressway artwork 3 for Final Fantasy VII Remake.png",
   }),
-  art("places/seventh-heaven", "860x522", "scene", {
-    alt: "The Seventh Heaven bar in the Sector 7 slums, its lit windows and sign glowing in the dark.",
-    subjects: ["organization_avalanche"],
-    title: "Seventh Heaven concept art, Final Fantasy VII Remake",
-    wiki: "Seventh Heaven artwork for Final Fantasy VII Remake.png",
-  }),
   art("places/junon", "1403x1053", "scene", {
     alt: "Junon at dusk: the great cannon jutting out over the sea from its fortified cliff.",
     subjects: ["location_junon"],
     title: "Junon CG artwork, Final Fantasy VII",
     wiki: "Junon FFVII CG Art 1.jpg",
-  }),
-  art("places/cosmo-canyon", "854x684", "key", {
-    alt: "Cosmo Canyon painted in warm reds: a path through the rock leading to the observatory tower.",
-    subjects: ["location_cosmo_canyon"],
-    title: "Cosmo Canyon early artwork, Final Fantasy VII",
-    wiki: "Cosmo Canyon Early FFVII Art.jpg",
-  }),
-  art("places/nibelheim", "1568x1291", "lineart", {
-    alt: "A line drawing of a Nibelheim house seen from above: its kitchen, stove and beds.",
-    subjects: ["location_nibelheim"],
-    title: "Nibelheim house concept sketch, Final Fantasy VII",
-    wiki: "Nibelheim FF7 Art 3.jpg",
-  }),
-  art("places/forgotten-capital", "1140x1197", "lineart", {
-    alt: "A line drawing of the Forgotten Capital: shell-like buildings spiralling around a sunken centre.",
-    subjects: ["location_forgotten_capital"],
-    title: "Forgotten Capital concept sketch, Final Fantasy VII",
-    wiki: "Forgotten Capital FF7 Art 1.jpg",
   }),
   art("places/northern-crater", "1144x798", "lineart", {
     alt: "A sketch of the Northern Crater with the Lifestream erupting upward from its heart.",
@@ -542,11 +500,85 @@ export const ARTWORK: readonly ArtEntry[] = [
     artist: "Yare Yare Dong (render of the game's model)",
     wiki: "JENOVA Lifeclinger from FFVII Rebirth render.png",
   }),
-  art("moments/black-materia", "1600x897", "scene", {
-    alt: "Sephiroth suspended in a swirling red and violet void as he takes the black materia.",
-    focus: "52% 45%",
-    title: "Sephiroth takes the black materia, Final Fantasy VII Rebirth (in-game still)",
-    wiki: "Sephiroth gets the black materia from FFVII Rebirth.png",
+  art("moments/ifalna-death", "1600x900", "scene", {
+    alt: "Ifalna lying dying at a Midgar station in the rain-dim light, young Aerith beside her as Elmyra comes near.",
+    focus: "50% 55%",
+    title: "Ifalna's death, Final Fantasy VII Remake (in-game still)",
+    wiki: "Ifalna's death from Final Fantasy VII Remake.png",
+  }),
+  art("moments/calamity-meteorite", "1600x900", "scene", {
+    alt: "A blazing meteorite streaking across a starry sky over the clouds, watched from a high peak.",
+    focus: "60% 35%",
+    title: "The meteorite that brought Jenova, Final Fantasy VII Remake (in-game still)",
+    wiki: "Meteorite that destroyed the Cetra from FFVII Remake.png",
+  }),
+  art("moments/sephiroth-black-materia", "1600x898", "scene", {
+    alt: "Sephiroth holding the black materia aloft on a stone causeway in the Temple of the Ancients, Cloud and the party behind him.",
+    focus: "45% 40%",
+    title: "Sephiroth holds the black materia, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Sephiroth and the black materia from FFVII Rebirth.png",
+  }),
+  // ── Places and groups no artwork shows ─────────────────────────────────────────────────────
+  art("places/midgar-remake", "1600x678", "scene", {
+    alt: "Midgar's upper plate: expressways and pipes winding between tall towers in a pale haze.",
+    title: "Midgar, Final Fantasy VII Remake (trailer still)",
+    wiki: "Midgar-FFVII-Remake.png",
+  }),
+  art("places/nibelheim-rebirth", "1600x703", "scene", {
+    alt: "Nibelheim's square at dusk: timbered houses, the water tower and the stairs up to the Shinra Mansion.",
+    title: "Nibelheim, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Nibelheim in chapter 1 from FFVII Rebirth.png",
+  }),
+  art("places/cosmo-canyon-torch", "1600x900", "scene", {
+    alt: "Aerith at the great torch of Cosmo Canyon at night, robed elders with lanterns on either side.",
+    focus: "50% 40%",
+    title: "The torch of Cosmo Canyon, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Aerith at Cosmo Canyon's Torch from FFVII Rebirth.png",
+  }),
+  art("places/northern-crater-ending", "500x238", "scene", {
+    alt: "The Northern Crater in the dark, the Lifestream rising from it in pale green columns.",
+    title: "The Northern Crater, Final Fantasy VII (frame from the game's movie)",
+    wiki: "NorthCrater-ffvii-ending.png",
+  }),
+  art("places/church-remake", "1600x900", "scene", {
+    alt: "Inside the Sector 5 church: light falling through tall windows onto Aerith's flower bed among broken pews.",
+    focus: "55% 55%",
+    title: "The Sector 5 church, Final Fantasy VII Remake (screenshot)",
+    wiki: "Sector 5 Church from FFVII Remake.jpg",
+  }),
+  art("places/forgotten-capital-rebirth", "1600x900", "scene", {
+    alt: "The Forgotten Capital: shell-like towers and coral spires rising over still blue water.",
+    title: "The Forgotten Capital, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "The Forgotten Capital from FFVII Rebirth.png",
+  }),
+  art("places/junon-rebirth", "1600x900", "scene", {
+    alt: "Junon on its cliff over the sea, the great cannon, the Sister Ray, jutting into a blue sky.",
+    focus: "45% 50%",
+    title: "Junon and the Sister Ray, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Junon and the Sister Ray in FFVII Rebirth.png",
+  }),
+  art("places/temple-of-the-ancients", "1600x899", "scene", {
+    alt: "The Temple of the Ancients: a stepped stone pyramid rising from mist-covered jungle.",
+    focus: "60% 50%",
+    title: "The Temple of the Ancients, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Temple of the Ancients from FFVII Rebirth.png",
+  }),
+  art("groups/avalanche-faction", "1600x900", "scene", {
+    alt: "AVALANCHE fighters in combat gear firing on Shinra under floodlights.",
+    focus: "40% 50%",
+    title: "AVALANCHE in action, Final Fantasy VII Remake (in-game still)",
+    wiki: "Avalanche Faction from FFVII Remake.png",
+  }),
+  art("groups/shinra-meeting", "1600x900", "scene", {
+    alt: "Shinra's executives around the long boardroom table, President Shinra at its head.",
+    title: "The Shinra board meeting, Final Fantasy VII Remake (in-game still)",
+    wiki: "Shinra executive meeting room from FFVII Remake.jpg",
+  }),
+  art("groups/wutai-troops", "1600x899", "scene", {
+    alt: "A Wutai soldier in samurai-style armour on a fortress wall at night, a fierce guardian statue behind him.",
+    focus: "45% 35%",
+    title: "Wutai's soldiers, Crisis Core -Final Fantasy VII- Reunion (in-game still)",
+    wiki: "Wutai troops.png",
   }),
   art("moments/meteor-midgar", "1600x898", "scene", {
     alt: "Meteor striking Midgar: a blinding wall of fire engulfing the Shinra Building's tower.",
@@ -639,8 +671,8 @@ export const TITLE_ART: Record<TitleCode, string> = {
 
 /** Each moment's one picture: where it happens, or what. No two moments share one (manifest.test.ts). */
 export const MOMENT_ART: Readonly<Record<string, string>> = {
-  event_jenova_calamity: "characters/jenova",
-  event_ifalna_death: "characters/ifalna",
+  event_jenova_calamity: "moments/calamity-meteorite",
+  event_ifalna_death: "moments/ifalna-death",
   event_water_tower_promise: "key/tifa",
   event_sephiroth_learns_of_jenova_project: "places/shinra-mansion",
   event_nibelheim_incident: "key/anniversary",
@@ -659,7 +691,7 @@ export const MOMENT_ART: Readonly<Record<string, string>> = {
   event_junon_parade: "places/junon",
   event_jenova_on_the_cargo_ship: "moments/jenova-lifeclinger",
   event_truth_about_seto: "moments/nanaki-seto",
-  event_race_for_the_black_materia: "moments/black-materia",
+  event_race_for_the_black_materia: "moments/sephiroth-black-materia",
   event_aerith_death: "moments/aerith-altar",
   event_meteor_summoned: "moments/meteor-midgar",
   event_cloud_memories_restored: "moments/lifestream",
@@ -667,15 +699,33 @@ export const MOMENT_ART: Readonly<Record<string, string>> = {
 };
 
 /** A scene for an entity's page backdrop: key art, a painted place or line art — not a figure. */
+/** The places and groups whose picture is chosen rather than found by subject. */
+export const PLACE_ART: Readonly<Record<string, string>> = {
+  location_midgar: "places/midgar-remake",
+  location_nibelheim: "places/nibelheim-rebirth",
+  location_cosmo_canyon: "places/cosmo-canyon-torch",
+  location_northern_crater: "places/northern-crater-ending",
+  location_sector_5_church: "places/church-remake",
+  location_forgotten_capital: "places/forgotten-capital-rebirth",
+  location_junon: "places/junon-rebirth",
+  location_temple_of_the_ancients: "places/temple-of-the-ancients",
+  organization_avalanche: "groups/avalanche-faction",
+  organization_shinra: "groups/shinra-meeting",
+  organization_wutai: "groups/wutai-troops",
+};
+
+const chosenArt = (entityId: string) =>
+  BY_ID.get(MOMENT_ART[entityId] ?? PLACE_ART[entityId] ?? "");
+
 export function sceneFor(entityId: string): ArtEntry | undefined {
-  const moment = BY_ID.get(MOMENT_ART[entityId] ?? "");
+  const moment = chosenArt(entityId);
   if (moment) return moment.kind === "cutout" ? undefined : moment;
   return ARTWORK.find((entry) => entry.subjects.includes(entityId) && entry.kind !== "cutout");
 }
 
 /** An entity's picture for a card or panel: a person's portrait, else a painting of it. */
 export function pictureFor(entityId: string, kind: string): ArtEntry | undefined {
-  const moment = BY_ID.get(MOMENT_ART[entityId] ?? "");
+  const moment = chosenArt(entityId);
   if (moment) return moment;
   const art = artFor(entityId);
   return kind === "character" ? (art.main ?? art.original) : (sceneFor(entityId) ?? art.main);

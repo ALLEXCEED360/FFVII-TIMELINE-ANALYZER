@@ -45,7 +45,7 @@ The four games, as the home menu shows them.
 | **Archive**    | Each game chapter by chapter, and how every fact was checked                          |
 | **Config**     | Motion, the title screen, the Buster Sword cursor, the spoiler warning                |
 
-Around it: a title screen over Midgar at night, a home menu in the original's pause-menu style that you can drive with the arrows or W A S D, the original's blue window between sections, and 82 official pictures behind every screen. The full look is in [`docs/design.md`](docs/design.md).
+Around it: a title screen over Midgar at night, a home menu in the original's pause-menu style that you can drive with the arrows or W A S D, the original's blue window between sections, and 88 official pictures behind every screen. The full look is in [`docs/design.md`](docs/design.md).
 
 ## ☞ Materia
 
@@ -102,7 +102,7 @@ Each game is its own canon. A fact goes in only once it's been checked against t
 
 ## ☞ Credits
 
-- **Final Fantasy VII**, its names, characters and artwork belong to **Square Enix**. Every image is official Square Enix material, credited on the site's Credits page: artwork, plus a few stills, promo shots and one fan render of a game model for moments no artwork shows. None is AI-made, and any will be removed at the rights holder's request.
+- **Final Fantasy VII**, its names, characters and artwork belong to **Square Enix**. Every image is official Square Enix material, credited on the site's Credits page: artwork, plus a few stills, promo shots and one fan render of a game model for moments, places and groups no artwork shows. None is AI-made, and any will be removed at the rights holder's request.
 - **Lettering:** the series' logo lettering by Juan Pablo Reyes Altamirano, Optimus Princeps by Manfred Klein, [Reactor7](https://caveras.net/) by Caveras (CC BY-NC-SA, licence in `apps/web/public/fonts/reactor7/`), Inter and JetBrains Mono.
 - **Cursor:** Cloud's Buster Sword from [Cursors-4U](https://www.cursors-4u.com/cursor/final-fantasy-7-cloud-s-buster-sword).
 

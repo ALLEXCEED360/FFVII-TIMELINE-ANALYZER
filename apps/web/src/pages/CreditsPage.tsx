@@ -49,6 +49,7 @@ const GROUPS: readonly { id: string; name: string; match: (art: ArtEntry) => boo
   { id: "key", name: "Key art", match: (art) => art.id.startsWith("key/") },
   { id: "characters", name: "Characters", match: (art) => art.id.startsWith("characters/") },
   { id: "places", name: "Places", match: (art) => art.id.startsWith("places/") },
+  { id: "groups", name: "Groups", match: (art) => art.id.startsWith("groups/") },
   { id: "moments", name: "Moments", match: (art) => art.id.startsWith("moments/") },
 ];
 
@@ -150,8 +151,9 @@ export function CreditsPage() {
               <span className="sr-only"> (opens in a new tab)</span>
             </a>
             . None of it is made by AI, and the pictures only decorate: no fact here rests on one.
-            For a few moments no artwork shows, the picture is a still from the game, a Square Enix
-            promo shot, or a fan&apos;s render of the game&apos;s model, each named below.
+            For the moments, places and groups no artwork shows, the picture is a still from the
+            game, a Square Enix promo shot, or a fan&apos;s render of the game&apos;s model, each
+            named below.
           </p>
           <ul className="cr-notes">
             <li>Resized to load quickly.</li>

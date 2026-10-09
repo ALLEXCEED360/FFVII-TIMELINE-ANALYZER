@@ -3,8 +3,8 @@
 Every image is official Square Enix artwork: character renders and illustrations, concept art and
 key art, as hosted on the Final Fantasy Wiki (finalfantasy.fandom.com). Nothing is AI-generated.
 There are no in-game screenshots, and nothing extracted from game files, with one exception the
-project's owner chose: moments/ holds a few stills, official promo shots and a fan render of a
-game model, for moments no artwork shows. Credits live in
+project's owner chose: a few stills, official promo shots and a fan render of a game model,
+for moments (moments/), places and groups no artwork shows as well. Credits live in
 src/art/manifest.ts; this script only reproduces the files. (key/remake-title.webp, the Remake
 title screen's artwork, was supplied by the project's owner and isn't fetched here.)
 
@@ -43,7 +43,6 @@ ART: dict[str, tuple[str, int]] = {
     "key/barret-marlene": ("Barret and Marlene key art from FFVII Remake.jpg", 2200),
     "key/cloud-nomura": ("Cloud Strife from FFVII Remake by Tetsuya Nomura.png", 1416),
     "key/anniversary": ("FFVII 10th Anniversary Artwork.jpg", 800),
-    "key/shinra-executives": ("Shin-Ra Executives Artwork.jpg", 1200),
     "key/turks": ("Turks group artwork from Final Fantasy VII.png", 1200),
     "key/world-map": ("FFVII World Map Concept Art.jpg", 1000),
     # Characters: the Remake/Rebirth look, and the original's artwork by Tetsuya Nomura.
@@ -85,34 +84,41 @@ ART: dict[str, tuple[str, int]] = {
     "characters/bugenhagen": ("Bugenhagen from FFVII Rebirth render.png", 1400),
     "characters/bugenhagen-og": ("FFVII - Bugenhagen Artwork.jpg", 1400),
     # Places: Remake concept art for Midgar, the original's concept art beyond it.
-    "places/midgar": ("Midgar City FFVII Art.png", 1600),
     "places/midgar-concept": ("Midgar FFVII Concept Art.jpg", 1600),
     "places/sector-7": ("Sector 7 Pillar artwork for Final Fantasy VII Remake.png", 1600),
-    "places/sector-5-church": ("Sector 5 Church artwork for FFVII Remake.png", 1400),
     "places/wall-market": ("Wall Market artwork 2 for Final Fantasy VII Remake.png", 1600),
     "places/shinra-lobby": ("Shinra HQ lobby concept art FFVII Remake.png", 1600),
     "places/hojo-lab": ("Hojo's Laboratory artwork for Final Fantasy VII Remake.png", 1600),
     "places/reactor-core": ("Mako Reactor Core artwork for FFVII Remake.png", 1600),
     "places/corneo-mansion": ("Corneo's Mansion artwork for Final Fantasy VII Remake.png", 1600),
     "places/expressway": ("Midgar Expressway artwork 3 for Final Fantasy VII Remake.png", 1600),
-    "places/seventh-heaven": ("Seventh Heaven artwork for Final Fantasy VII Remake.png", 1600),
     "places/junon": ("Junon FFVII CG Art 1.jpg", 1600),
-    "places/cosmo-canyon": ("Cosmo Canyon Early FFVII Art.jpg", 1600),
-    "places/nibelheim": ("Nibelheim FF7 Art 3.jpg", 1600),
-    "places/forgotten-capital": ("Forgotten Capital FF7 Art 1.jpg", 1600),
     "places/northern-crater": ("Northern Crater Lifestream Eruption FFVII Sketch.jpg", 1600),
     # Moments: one picture each, of where (or what) it happens.
     "places/shinra-mansion": ("DoC Shinra Mansion 1 Artwork.png", 1200),
     "places/sector-8": ("Sector 8 artwork for FFVII Remake.png", 1600),
     "places/upper-sector-7": ("Upper Sector 7 artwork for Final Fantasy VII Remake.png", 1600),
     "places/president-office": ("President-Office-Shinra-HQ-FFVIIR-Art.jpg", 1600),
-    # Moments no artwork shows: stills from the games, Square Enix promo shots, a model render.
+    # Moments, places and groups no artwork shows: stills, Square Enix promo shots, a model render.
     "moments/second-chance-meeting": ("Second Chance Meeting from FFVII Remake.png", 1600),
-    "moments/black-materia": ("Sephiroth gets the black materia from FFVII Rebirth.png", 1600),
     "moments/yuffie-sonon": ("FFVII Remake Intergrade promo 3.png", 1600),
     "moments/lifestream": ("Lifestream-ffvii-fmv-falling.png", 1600),
     "moments/jenova-lifeclinger": ("JENOVA Lifeclinger from FFVII Rebirth render.png", 1000),
     "moments/meteor-midgar": ("Meteor descending upon the Shinra Building from FFVII Remake.png", 1600),
+    "moments/ifalna-death": ("Ifalna's death from Final Fantasy VII Remake.png", 1600),
+    "moments/calamity-meteorite": ("Meteorite that destroyed the Cetra from FFVII Remake.png", 1600),
+    "moments/sephiroth-black-materia": ("Sephiroth and the black materia from FFVII Rebirth.png", 1600),
+    "places/midgar-remake": ("Midgar-FFVII-Remake.png", 1600),
+    "places/nibelheim-rebirth": ("Nibelheim in chapter 1 from FFVII Rebirth.png", 1600),
+    "places/church-remake": ("Sector 5 Church from FFVII Remake.jpg", 1600),
+    "places/forgotten-capital-rebirth": ("The Forgotten Capital from FFVII Rebirth.png", 1600),
+    "places/junon-rebirth": ("Junon and the Sister Ray in FFVII Rebirth.png", 1600),
+    "places/temple-of-the-ancients": ("Temple of the Ancients from FFVII Rebirth.png", 1600),
+    "groups/avalanche-faction": ("Avalanche Faction from FFVII Remake.png", 1600),
+    "groups/wutai-troops": ("Wutai troops.png", 1600),
+    "places/cosmo-canyon-torch": ("Aerith at Cosmo Canyon's Torch from FFVII Rebirth.png", 1600),
+    "places/northern-crater-ending": ("NorthCrater-ffvii-ending.png", 1600),
+    "groups/shinra-meeting": ("Shinra executive meeting room from FFVII Remake.jpg", 1600),
     "moments/reactor-5-trap": ("Cloud hanging in Mako Reactor 5 from FFVII Remake.png", 1600),
     "moments/scorpion-sentinel": ("Scorpion Sentinel battle artwork for FFVII Remake.png", 1600),
     "moments/aerith-altar": ("Cloud and Aerith in the ending from FFVII Rebirth.png", 1600),
@@ -156,14 +162,14 @@ def fetch(url: str, cache: Path) -> bytes:
 CROP = {
     "key/cloud-nomura": (0, 0, 1, 0.66),  # "Welcome back to Midgar" and the logo
     "key/og-poster": (0, 0, 1, 0.94),  # the publisher's logos
-    "places/shinra-mansion": (0.03, 0.625, 0.475, 0.975),  # one panel of a sheet: the mansion's hall
+    "places/shinra-mansion": (0.03, 0.625, 0.475, 0.975),
+    "places/nibelheim-rebirth": (0, 0.22, 1, 1),  # the area-name banner
 }
 # knockout: the flat studio background around a render becomes transparent, so every character
 # stands on the page the same way.
 KNOCKOUT = {
     "characters/elmyra",
     "characters/jenova",
-    "places/sector-5-church",
 }
 # sketch: pencil line art on white paper becomes light lines on transparency (the paper is keyed
 # out), so it can sit on the dark page like a blueprint.
@@ -173,10 +179,6 @@ SKETCH = {
     "characters/president-shinra-og",
     "characters/zack-og",
     "key/og-meteor",
-    "key/shinra-executives",
-    "places/midgar",
-    "places/forgotten-capital",
-    "places/nibelheim",
     "places/northern-crater",
     "places/reactor-core",
 }
