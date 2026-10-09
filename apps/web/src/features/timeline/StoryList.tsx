@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import type { TimelineEvent, TitleCode } from "../../api/client";
 import { TELLING, type Telling } from "../../lib/tellings";
 import { TITLE_COLOR } from "../../lib/titles";
-import { type Chapter, MARK_WORDS, appearanceIn, tellingMark, tellingOf, whenOf } from "./story";
+import { type Chapter, appearanceIn, tellingMark, tellingOf, whenOf } from "./story";
 
 interface RowProps {
   selected: string | null;
@@ -15,12 +15,10 @@ interface RowProps {
 export function StoryChapters({
   chapters,
   tellings,
-  titleName,
   ...row
 }: RowProps & {
   chapters: readonly Chapter[];
   tellings: readonly Telling[];
-  titleName: (code: TitleCode) => string;
 }) {
   return (
     <div className="tl-chapters">
@@ -40,7 +38,7 @@ export function StoryChapters({
           <ol className="tl-events">
             {chapter.events.map((event) => (
               <EventRow key={event.id} event={event} {...row}>
-                <Marks event={event} tellings={tellings} titleName={titleName} />
+                <Marks event={event} tellings={tellings} />
               </EventRow>
             ))}
           </ol>
@@ -122,6 +120,11 @@ function EventRow({
       className="tl-event"
       data-selected={on || undefined}
     >
+      {/* The game's white glove: it points at the moment under the pointer, and stays on the
+          chosen one. */}
+      <span aria-hidden="true" className="ff7-hand tl-glove">
+        ☞
+      </span>
       <button
         type="button"
         aria-pressed={on}
@@ -147,49 +150,30 @@ function EventRow({
   );
 }
 
-/** Whether each telling shows the event, only mentions it, or leaves it out — and in which game. */
-function Marks({
-  event,
-  tellings,
-  titleName,
-}: {
-  event: TimelineEvent;
-  tellings: readonly Telling[];
-  titleName: (code: TitleCode) => string;
-}) {
+/** The tellings that have the event, each a filled diamond in its colour. */
+function Marks({ event, tellings }: { event: TimelineEvent; tellings: readonly Telling[] }) {
+  const having = tellings.filter((telling) => tellingMark(event, telling).mark !== "none");
+  if (having.length === 0) return null;
   return (
-    <ul aria-label="Which tellings have it" className="tl-marks">
-      {tellings.map((telling) => {
-        const { mark, titles } = tellingMark(event, telling);
-        const games =
-          telling === "trilogy" && titles.length > 0 ? titles.map(titleName).join(", ") : "";
-        return (
-          <li
-            key={telling}
-            className="tl-mark"
-            data-mark={mark}
-            style={{ "--c": TELLING[telling].color } as CSSProperties}
-            title={`${TELLING[telling].short}: ${MARK_WORDS[mark]}${games ? ` (${games})` : ""}`}
-          >
-            <MarkIcon mark={mark} />
-            {TELLING[telling].short}
-            {games && <span className="tl-mark-games">{games}</span>}
-            <span className="sr-only">: {MARK_WORDS[mark]}</span>
-          </li>
-        );
-      })}
+    <ul aria-label="Told in" className="tl-marks">
+      {having.map((telling) => (
+        <li
+          key={telling}
+          className="tl-mark"
+          style={{ "--c": TELLING[telling].color } as CSSProperties}
+        >
+          <MarkIcon />
+          {TELLING[telling].short}
+        </li>
+      ))}
     </ul>
   );
 }
 
-export function MarkIcon({ mark }: { mark: keyof typeof MARK_WORDS }) {
+export function MarkIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 12 12" className="tl-mark-icon">
-      {mark === "none" ? (
-        <path d="M2.5 6h7" strokeWidth="1.6" />
-      ) : (
-        <path d="M6 1 11 6 6 11 1 6Z" strokeWidth="1.6" data-fill={mark === "shown" || undefined} />
-      )}
+      <path d="M6 1 11 6 6 11 1 6Z" />
     </svg>
   );
 }

@@ -5,10 +5,10 @@ import { SECTION_ART } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { Empty, ErrorMessage, Loading } from "../components/QueryState";
 import { EventWindow } from "../features/timeline/EventWindow";
-import { MarkIcon, PlayList, StoryChapters } from "../features/timeline/StoryList";
+import { PlayList, StoryChapters } from "../features/timeline/StoryList";
 import { TimelineControls } from "../features/timeline/TimelineControls";
 import { useTimelineParams } from "../features/timeline/params";
-import { MARK_WORDS, playGroups, storyChapters } from "../features/timeline/story";
+import { playGroups, storyChapters } from "../features/timeline/story";
 import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { TELLING, TELLINGS, titlesOf } from "../lib/tellings";
 import { useMediaQuery } from "../lib/useMediaQuery";
@@ -70,7 +70,7 @@ export function TimelinePage() {
     update({ event: null });
   };
   const detail = params.event ? (
-    <EventWindow id={params.event} reference={reference.data} onClose={close} />
+    <EventWindow key={params.event} id={params.event} reference={reference.data} onClose={close} />
   ) : null;
   const row = { selected: params.event, onSelect: select, detail: wide ? null : detail };
 
@@ -86,17 +86,6 @@ export function TimelinePage() {
       </header>
 
       <TimelineControls params={params} onChange={update} />
-
-      {!play && (
-        <ul aria-label="What the marks mean" className="tl-key">
-          {(["shown", "mentioned", "none"] as const).map((mark) => (
-            <li key={mark} className="tl-mark" data-mark={mark}>
-              <MarkIcon mark={mark} />
-              {MARK_WORDS[mark]}
-            </li>
-          ))}
-        </ul>
-      )}
 
       <div className="tl-body" data-chapters={contents || undefined}>
         {contents && (
@@ -146,17 +135,21 @@ export function TimelinePage() {
           ) : play ? (
             <PlayList groups={played} titleName={titleName} {...row} />
           ) : (
-            <StoryChapters chapters={chapters} tellings={tellings} titleName={titleName} {...row} />
+            <StoryChapters chapters={chapters} tellings={tellings} {...row} />
           )}
         </section>
 
         {wide && (
           <div className="tl-side">
             {detail ?? (
-              <div className="m-panel tl-detail tl-detail-empty">
-                <p className="m-heading">Choose an event</p>
+              <div className="ff7-window tl-detail tl-detail-empty">
+                <span aria-hidden="true" className="tl-empty-glove">
+                  ☞
+                </span>
+                <p className="m-heading">Choose any moment</p>
                 <p className="tl-detail-text">
-                  Its story, and how the original and the Remake Trilogy tell it, will open here.
+                  Tap a moment on the left. Its story, and how the original and the Remake Trilogy
+                  tell it, opens here.
                 </p>
               </div>
             )}

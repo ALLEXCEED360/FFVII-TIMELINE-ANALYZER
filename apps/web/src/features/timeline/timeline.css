@@ -33,25 +33,17 @@
 }
 
 /* ── The marks: whether a game shows an event, only mentions it, or leaves it out ─────────── */
-.tl-key,
 .tl-marks {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem 1.1rem;
 }
-.tl-key {
-  padding-left: 0.2rem;
-  text-shadow: 0 1px 6px rgb(0 0 0 / 0.9);
-}
 .tl-mark {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   font-size: 0.8125rem;
   color: var(--m-text);
-}
-.tl-mark[data-mark="none"] {
-  color: #8d97aa;
 }
 .tl-mark-icon {
   width: 0.8rem;
@@ -60,14 +52,7 @@
   overflow: visible;
 }
 .tl-mark-icon path {
-  fill: none;
-  stroke: var(--c, #d6dbe6);
-}
-.tl-mark-icon path[data-fill] {
   fill: var(--c, #d6dbe6);
-}
-.tl-mark[data-mark="none"] .tl-mark-icon path {
-  stroke: #8d97aa;
 }
 
 /* ── The layout: chapters, the story, the chosen event ────────────────────────────────────── */
@@ -159,27 +144,89 @@
   line-height: 1.1;
 }
 
-/* An event. The whole row chooses it; the chosen one is lit. */
+/* An event. The whole row chooses it; the chosen one is lit. Its left edge is the glove's own
+   gutter, so the glove never reaches the text. */
 .tl-event {
   position: relative;
-  padding: 0.8rem 0.9rem 0.85rem 1rem;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  isolation: isolate;
+  padding: 0.8rem 0.9rem 0.85rem 3rem;
+  border-radius: 7px;
+  transition: background-color 0.3s ease;
 }
 .tl-event + .tl-event {
   border-top: 1px solid rgb(255 255 255 / 0.06);
 }
-.tl-event:hover {
-  background-color: rgb(255 255 255 / 0.04);
-}
-.tl-event[data-selected] {
+/* The chosen frame — the original's blue, its pale bevelled edge — sits behind the row and
+   fades in and out, so choosing glides rather than snaps. */
+.tl-event::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
   background: linear-gradient(
-    90deg,
-    rgb(127 214 255 / 0.22),
-    rgb(127 214 255 / 0.05) 70%,
-    transparent
+    140deg,
+    rgb(31 95 196 / 0.6),
+    rgb(12 47 142 / 0.55) 45%,
+    rgb(6 26 99 / 0.5)
   );
-  box-shadow: inset 2px 0 0 var(--m-accent);
+  box-shadow:
+    inset 0 0 0 2px #d6d6de,
+    inset 0 0 0 3px #5c5c78,
+    0 10px 28px rgb(0 0 0 / 0.55);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+/* Pointed at: a faint blue light, and the glove. */
+.tl-event:hover,
+.tl-event:has(.tl-event-button:focus-visible) {
+  background-color: rgb(31 95 196 / 0.22);
+}
+.tl-event[data-selected]::before {
+  opacity: 1;
+}
+.tl-event[data-selected],
+.tl-event[data-selected] + .tl-event {
+  border-top-color: transparent;
+}
+.tl-event .tl-event-button,
+.tl-event :is(.tl-summary, .tl-mark, .tl-how) {
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
+}
+.tl-event[data-selected] .tl-event-button {
+  color: #fff;
+  text-shadow: 2px 2px 0 #10102a;
+}
+.tl-event[data-selected] :is(.tl-summary, .tl-mark, .tl-how) {
+  color: #fff;
+}
+
+/* The main menu's glove (.ff7-hand), in the row's gutter level with the name: it fades in on the
+   row pointed at, bobbing as in the menu, and stays on the chosen one. */
+.tl-glove {
+  top: 1.7rem;
+  right: auto;
+  left: 0.4rem;
+  width: 2.2rem;
+  margin: 0;
+  font-size: 1.6rem;
+  text-align: center;
+  text-shadow: 2px 2px 0 #10102a;
+  visibility: visible;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.tl-event:hover .tl-glove,
+.tl-event:has(.tl-event-button:focus-visible) .tl-glove {
+  opacity: 1;
+  animation: glove 0.9s steps(2) infinite;
+}
+.tl-event[data-selected] .tl-glove {
+  opacity: 1;
 }
 .tl-event:has(.tl-event-button:focus-visible) {
   outline: 2px solid var(--m-accent);
@@ -236,7 +283,8 @@
     column-gap: 2rem;
     align-items: start;
   }
-  .tl-event > :not(.tl-marks, .tl-how) {
+  /* Not the glove: placed in a column, it would be measured from the text, not the row's edge. */
+  .tl-event > :not(.tl-marks, .tl-how, .tl-glove) {
     grid-column: 1;
   }
   .tl-event > .tl-marks,
@@ -260,6 +308,46 @@
 /* ── The chosen event's panel ─────────────────────────────────────────────────────────────── */
 .tl-detail {
   padding: 1rem 1.1rem 1.1rem;
+}
+/* The chosen moment opens in one of the game's windows, unfolding from its middle. */
+/* It opens smoothly: unfolding from its middle as the game's windows do, without their steps. */
+.tl-window {
+  transform-origin: 50% 30%;
+  animation: tl-window-open 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes tl-window-open {
+  from {
+    opacity: 0;
+    transform: scaleY(0.06);
+  }
+  45% {
+    opacity: 1;
+  }
+}
+.tl-window .tl-detail-art {
+  margin: -1rem -1.1rem 0.9rem;
+  border-radius: 4px 4px 0 0;
+}
+.tl-window .tl-telling {
+  background: rgb(2 11 48 / 0.45);
+}
+.tl-window .m-label {
+  color: #8ad7ff;
+}
+/* Nothing chosen yet: the glove points the way. */
+.tl-empty-glove {
+  font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 2px 2px 0 #10102a;
+  transform: scaleX(-1);
+  animation: glove-left 0.9s steps(2) infinite;
+}
+@keyframes glove-left {
+  50% {
+    translate: -5px 0;
+  }
 }
 /* Under its event on a narrow screen: above the row's click area, so its links work. */
 .tl-event .tl-detail {
@@ -313,8 +401,9 @@
 }
 .tl-detail-name {
   padding-right: 4.5rem;
-  font-size: 26px;
-  line-height: 1.2;
+  font-size: 28px;
+  line-height: 1.15;
+  text-shadow: 2px 2px 0 #10102a;
 }
 .tl-detail-art + .tl-detail-head .tl-detail-name {
   padding-right: 0;
@@ -413,7 +502,13 @@
     font-size: 24px;
   }
   .tl-event {
-    padding-left: 0.8rem;
+    padding-left: 2.4rem;
+  }
+  .tl-glove {
+    top: 1.5rem;
+    left: 0.25rem;
+    width: 1.8rem;
+    font-size: 1.3rem;
   }
   .tl-event-button {
     font-size: 18px;

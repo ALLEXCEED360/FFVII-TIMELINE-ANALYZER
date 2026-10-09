@@ -20,12 +20,9 @@ describe("timeline page", () => {
 
     const row = await eventRow("Nibelheim Incident");
     expect(row.textContent).toContain("5 years before the story");
-    const marks = within(row).getByRole("list", { name: "Which tellings have it" });
+    const marks = within(row).getByRole("list", { name: "Told in" });
     const items = within(marks).getAllByRole("listitem");
-    expect(items.map((li) => li.textContent)).toEqual([
-      "Original: Shows it",
-      "Remake TrilogyRebirth: Shows it",
-    ]);
+    expect(items.map((li) => li.textContent)).toEqual(["Original", "Remake Trilogy"]);
   });
 
   it("opens an event's window, in plain words, and puts it in the URL", async () => {
@@ -44,7 +41,7 @@ describe("timeline page", () => {
 
     await userEvent.click(within(details).getByRole("button", { name: "Close" }));
     expect(router.state.location.search).toBe("");
-    expect(screen.getByText("Choose an event")).toBeTruthy();
+    expect(screen.getByText("Choose any moment")).toBeTruthy();
   });
 
   it("shows one telling's events, or both", async () => {
@@ -74,11 +71,11 @@ describe("timeline page", () => {
     expect(router.state.location.search).toBe("?view=play&game=trilogy");
 
     const remake = await screen.findByRole("region", { name: "Remake" });
-    expect(within(remake).getAllByRole("listitem")[0]?.textContent).toMatch(/^1\./);
+    expect(within(remake).getAllByRole("listitem")[0]?.textContent).toMatch(/^☞1\./);
     // Numbered on through the trilogy, so Rebirth doesn't start again at 1.
     const rebirth = screen.getByRole("region", { name: "Rebirth" });
     const first = within(rebirth).getAllByRole("listitem")[0];
-    expect(first?.textContent).not.toMatch(/^1\./);
+    expect(first?.textContent).not.toMatch(/^☞1\./);
     expect(first?.textContent).toContain("Fall of the Sector 7 Plate");
     expect(first?.textContent).toContain("Only mentioned, in another world");
   });

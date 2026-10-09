@@ -26,7 +26,7 @@ export function EventWindow({
 }) {
   const query = useEntity(id);
   return (
-    <aside aria-label="Event details" className="m-panel tl-detail">
+    <aside aria-label="Event details" className="ff7-window tl-detail tl-window">
       <button type="button" onClick={onClose} className="tl-close">
         Close
       </button>

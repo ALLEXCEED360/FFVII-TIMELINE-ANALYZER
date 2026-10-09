@@ -27,7 +27,7 @@ The original's pause menu. The four games are the party: cover, year as LV, wher
 
 ## Sections
 
-- **Timeline.** The story in chapters, top to bottom; each moment says when it happens and whether each telling shows it, only mentions it, or leaves it out. Tap one for how each telling tells it. "As it happened", or "As you play it" — the original, or the trilogy game by game.
+- **Timeline.** The story in chapters, top to bottom; each moment says when it happens and whether each telling shows it, only mentions it, or leaves it out. The game's white glove (the main menu's, in its own gutter so it never covers the text) points at the moment under the pointer and rests on the chosen one, framed like a chosen command; its details open in one of the original's blue windows. Each moment shows a filled diamond for each telling that has it. "As it happened", or "As you play it" — the original, or the trilogy game by game.
 - **Compare.** What changes from the original to the Remake Trilogy, moment by moment, or anything side by side in two columns.
 - **Divergence.** Pick a turning point: the story so far on one line of Mako light, the moment itself at a glowing materia, then where each telling goes — every moment marked in words (_Told the same_, _Told differently_, _Only this telling shows it_…).
 - **Network.** Start from a portrait. The web is materia orbs, people wearing their portraits; pointing lights a thing's links, tapping reads them as phrases ("Took part in", "Who took part"). "How are they linked?" finds the chain between any two.
