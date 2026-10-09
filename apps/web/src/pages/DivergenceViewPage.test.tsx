@@ -5,11 +5,11 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import aerithDeath from "../test/entity-aerith-death.json";
 import { renderAt, stubApi } from "../test/render";
 
-/** What each moment says, without the "Details" on its button. */
+/** What each moment says, without the glove beside it. */
 const items = (region: HTMLElement) =>
   within(region)
     .getAllByRole("listitem")
-    .map((li) => li.textContent.replace(/(Details|Open) ›$/, ""));
+    .map((li) => li.textContent.replace(/^☞/, ""));
 
 describe("divergence view", () => {
   afterEach(() => {

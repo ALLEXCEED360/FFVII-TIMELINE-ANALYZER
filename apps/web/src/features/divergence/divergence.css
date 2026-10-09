@@ -77,7 +77,7 @@
   overscroll-behavior: contain;
   padding: 1px;
 }
-/* Until a moment is chosen, the panel says where to tap. */
+/* Until a moment is chosen, one of the original's windows, the glove pointing the way. */
 .dv-side-empty {
   display: flex;
   flex-direction: column;
@@ -86,16 +86,21 @@
   padding: 2.2rem 1.6rem;
   text-align: center;
 }
-.dv-side-arrow {
-  font-family: Georgia, serif;
-  font-size: 3rem;
-  line-height: 1;
-  color: var(--m-accent);
-  animation: dv-nudge 1.8s ease-in-out infinite;
+.dv-side-empty .dv-stage-text {
+  color: var(--m-text);
 }
-@keyframes dv-nudge {
+.dv-empty-glove {
+  font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 2px 2px 0 #10102a;
+  transform: scaleX(-1);
+  animation: dv-glove-left 0.9s steps(2) infinite;
+}
+@keyframes dv-glove-left {
   50% {
-    transform: translateX(-8px);
+    translate: -5px 0;
   }
 }
 .dv-side-empty .m-heading {
@@ -178,44 +183,91 @@
   background: var(--c, var(--mako));
   box-shadow: 0 0 8px var(--c, var(--mako));
   transform: translateY(-50%) rotate(45deg);
+  transition: opacity 0.2s;
 }
 
-/* A moment: one card, wholly a button, with "Details" on it. */
+/* A moment: one card, wholly a button. Pointed at, the main menu's glove takes its place on the
+   line; chosen, it's framed as the original frames a chosen command, fading in. */
 .dv-moment {
+  position: relative;
+  isolation: isolate;
   display: flex;
   width: 100%;
+  height: 100%;
   align-items: center;
   gap: 1rem;
   padding: 0.85rem 1rem;
   border: 1px solid rgb(255 255 255 / 0.12);
   border-radius: 8px;
-  background: rgb(255 255 255 / 0.04);
+  background-color: rgb(255 255 255 / 0.04);
   text-align: left;
   color: inherit;
   cursor: pointer;
   transition:
-    border-color 0.2s,
-    background-color 0.2s,
-    transform 0.2s;
+    border-color 0.3s ease,
+    background-color 0.3s ease;
 }
-.dv-moment:hover {
-  border-color: rgb(127 214 255 / 0.65);
-  background-color: rgb(127 214 255 / 0.09);
-  transform: translateX(3px);
+.dv-moment::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(
+    140deg,
+    rgb(31 95 196 / 0.75),
+    rgb(12 47 142 / 0.72) 45%,
+    rgb(6 26 99 / 0.7)
+  );
+  box-shadow:
+    inset 0 0 0 2px #d6d6de,
+    inset 0 0 0 3px #5c5c78,
+    0 10px 28px rgb(0 0 0 / 0.55);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.dv-moment:hover,
+.dv-moment:focus-visible {
+  border-color: rgb(127 214 255 / 0.5);
+  background-color: rgb(31 95 196 / 0.22);
 }
 .dv-moment:focus-visible {
   outline: 2px solid var(--m-accent);
   outline-offset: 2px;
 }
 .dv-moment[aria-pressed="true"] {
-  border-color: var(--m-accent);
-  background: linear-gradient(
-    90deg,
-    rgb(127 214 255 / 0.24),
-    rgb(127 214 255 / 0.06) 70%,
-    rgb(127 214 255 / 0.03)
-  );
-  box-shadow: 0 0 18px rgb(127 214 255 / 0.18);
+  border-color: transparent;
+}
+.dv-moment[aria-pressed="true"]::before {
+  opacity: 1;
+}
+.dv-moment[aria-pressed="true"] .dv-name {
+  text-shadow: 2px 2px 0 #10102a;
+}
+.dv-moment[aria-pressed="true"] :is(.dv-kinds, .dv-in) {
+  color: #fff;
+}
+.dv-glove {
+  right: auto;
+  left: -2.05rem;
+  z-index: 1;
+  width: 1.9rem;
+  margin: 0;
+  font-size: 1.35rem;
+  text-align: center;
+  text-shadow: 2px 2px 0 #10102a;
+  pointer-events: none;
+}
+.dv-stop:has(.dv-moment:is(:hover, :focus-visible)) .dv-glove {
+  visibility: visible;
+  animation: glove 0.9s steps(2) infinite;
+}
+.dv-stop[data-selected] .dv-glove {
+  visibility: visible;
+}
+.dv-stop:is([data-selected], :has(.dv-moment:is(:hover, :focus-visible)))::before {
+  opacity: 0;
 }
 .dv-moment-body {
   display: flex;
@@ -239,24 +291,9 @@
     background-color 0.2s,
     color 0.2s;
 }
-.dv-moment:hover .dv-details,
-.dv-moment[aria-pressed="true"] .dv-details {
-  background: var(--m-accent);
-  color: #06131c;
-}
 .dv-details-arrow {
   font-size: 1.2em;
   line-height: 1;
-}
-/* In a narrow game column, "Details" sits under the moment rather than beside it, so the
-   moment's name has the column's whole width. */
-.dv-branch .dv-moment {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0.6rem;
-}
-.dv-branch .dv-details {
-  align-self: flex-start;
 }
 .dv-name {
   display: block;
@@ -316,41 +353,26 @@
   line-height: 1.5;
   color: var(--dv-soft);
 }
-.dv-games {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.25rem 0.9rem;
-}
-.dv-games-label {
-  font-size: 0.85rem;
-  color: var(--dv-soft);
-}
-.dv-game {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.875rem;
+.dv-only {
+  font-size: 0.9rem;
   font-weight: 600;
-  color: #fff;
-}
-.dv-game-mark {
-  width: 0.55rem;
-  height: 0.55rem;
-  background: var(--c);
-  transform: rotate(45deg);
+  color: #c8f0ff;
 }
 
 /* ── The turning point: a materia, glowing where the line splits ─────────────────────────── */
 .dv-turn {
   margin-top: 2.6rem;
   padding: 1.7rem 1.5rem 1.5rem;
-  border-color: rgb(88 224 168 / 0.5);
-  background: linear-gradient(180deg, rgb(14 46 40 / 0.8), rgb(7 13 19 / 0.9));
   box-shadow:
-    0 0 40px rgb(88 224 168 / 0.16),
-    0 18px 40px rgb(0 0 0 / 0.45);
+    0 0 46px rgb(88 224 168 / 0.28),
+    0 18px 40px rgb(0 0 0 / 0.5);
   text-align: center;
+}
+.dv-turn .m-label {
+  color: #8ad7ff;
+}
+.dv-turn .dv-when {
+  color: #c8f0ff;
 }
 /* The Lifestream runs down into it from the story so far. */
 .dv-turn::after,
@@ -380,8 +402,9 @@
 }
 .dv-turn-name {
   margin-top: 0.3rem;
-  font-size: 36px;
+  font-size: 40px;
   line-height: 1.15;
+  text-shadow: 3px 3px 0 #10102a;
 }
 .dv-turn > .dv-when {
   margin-top: 0.4rem;
@@ -400,7 +423,7 @@
   padding: 0.9rem 1rem 1rem;
   border-top: 3px solid var(--c);
   border-radius: 0 0 6px 6px;
-  background: rgb(255 255 255 / 0.05);
+  background: rgb(2 11 48 / 0.5);
 }
 .dv-branch-name {
   font-size: 22px;
@@ -417,9 +440,9 @@
   gap: 0.5rem;
   margin-top: 1.4rem;
   padding: 0.75rem 1.5rem;
-  border: 1px solid var(--m-accent);
+  border: 2px solid #d6d6de;
   border-radius: 999px;
-  background: var(--m-accent-soft);
+  background: rgb(2 11 48 / 0.6);
   font-size: 1rem;
   font-weight: 600;
   color: #fff;
@@ -453,8 +476,7 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(var(--n), minmax(0, 1fr));
-  gap: 1rem;
-  align-items: start;
+  gap: 0.5rem 1rem;
   margin-top: 0.4rem;
   padding-top: 1.5rem;
 }
@@ -471,8 +493,33 @@
   box-shadow: 0 0 12px rgb(88 224 168 / 0.6);
 }
 .dv-branch {
+  display: grid;
+  grid-row: 1 / span var(--rows);
+  grid-template-rows: subgrid;
+  align-content: start;
   padding: 1rem 0.9rem 0.8rem;
   border-top: 3px solid var(--c);
+}
+.dv-branch > .dv-rail {
+  display: grid;
+  grid-row: 2 / -1;
+  grid-template-rows: subgrid;
+}
+.dv-branch > .dv-empty {
+  grid-row: 2;
+  align-self: start;
+}
+/* Where a telling doesn't have the moment the others do: the line runs on past a quiet gap. */
+.dv-gap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.6rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px dashed rgb(255 255 255 / 0.14);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #8f99ad;
 }
 .dv-branch::after {
   content: "";
@@ -486,7 +533,7 @@
   transform: translateX(-50%);
 }
 .dv-branch > .dv-branch-name {
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.2rem;
 }
 .dv-branch .dv-name {
   font-size: 20px;
@@ -498,6 +545,17 @@
   }
   .dv-branches::before,
   .dv-branch::after {
+    display: none;
+  }
+  /* One telling under the other: no rows to share, so no gaps to hold them. */
+  .dv-branch {
+    display: block;
+    grid-row: auto;
+  }
+  .dv-branch > .dv-rail {
+    display: flex;
+  }
+  .dv-gap {
     display: none;
   }
   .dv-moment {

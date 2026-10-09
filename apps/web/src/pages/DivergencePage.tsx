@@ -105,6 +105,9 @@ export function DivergencePage() {
                 <ol className="dv-rail dv-rail-shared" aria-busy={points.isPlaceholderData}>
                   {items.map((point) => (
                     <li key={point.id} className="dv-stop">
+                      <span aria-hidden="true" className="ff7-hand dv-glove">
+                        ☞
+                      </span>
                       <Link to={divergencePath(point.id)} className="dv-moment">
                         <span className="dv-moment-body">
                           <span className="m-heading dv-name">{point.name}</span>
@@ -112,9 +115,6 @@ export function DivergencePage() {
                             <span className="dv-when">{when(point.start)}</span>
                             <span className="dv-count">{count(point)}</span>
                           </span>
-                        </span>
-                        <span aria-hidden="true" className="dv-details">
-                          Open <span className="dv-details-arrow">›</span>
                         </span>
                       </Link>
                     </li>

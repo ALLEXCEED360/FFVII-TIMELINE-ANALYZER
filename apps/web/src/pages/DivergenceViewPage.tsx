@@ -156,14 +156,14 @@ export function DivergenceViewPage() {
         {wide && (
           <div className="dv-side">
             {detail ?? (
-              <div className="m-panel dv-side-empty">
-                <span aria-hidden="true" className="dv-side-arrow">
-                  ‹
+              <div className="ff7-window dv-side-empty">
+                <span aria-hidden="true" className="dv-empty-glove">
+                  ☞
                 </span>
-                <p className="m-heading">Tap any moment</p>
+                <p className="m-heading">Choose any moment</p>
                 <p className="dv-stage-text">
-                  Every moment on the left is a card. Tap one, or its Details button, and how each
-                  telling tells it opens here — with a way to make it the turning point.
+                  Tap a moment on the left. How each telling tells it opens here, with a way to make
+                  it the turning point.
                 </p>
               </div>
             )}

@@ -27,6 +27,10 @@ function changes(station: Station | null): { words: string[]; big: boolean } {
 
 const lane = (line: Line) => ({ "--c": line.color }) as CSSProperties;
 
+/** A line's name inside a sentence: "the original", "the Remake Trilogy", or "this world". */
+const inWords = (line: Line) =>
+  line.world === "world_main" ? line.name.replace(/^The /, "the ") : "this world";
+
 /** One moment, as a button card (phrasing content only, as a button needs). */
 function Moment({
   row,
@@ -50,7 +54,10 @@ function Moment({
   const on = row.event.id === selected;
   const time = when(row.event.start);
   return (
-    <li className="dv-stop">
+    <li className="dv-stop" data-selected={on || undefined}>
+      <span aria-hidden="true" className="ff7-hand dv-glove">
+        ☞
+      </span>
       <button
         type="button"
         aria-pressed={on}
@@ -66,13 +73,10 @@ function Moment({
             <span className="dv-mark" data-marking={marking}>
               {markingText}
             </span>
+            {extra}
             {big && <span className="dv-tag">Big change</span>}
           </span>
           {kinds.length > 0 && <span className="dv-kinds">What changes: {kinds.join(", ")}</span>}
-          {extra}
-        </span>
-        <span aria-hidden="true" className="dv-details">
-          {on ? "Open" : "Details"} <span className="dv-details-arrow">›</span>
         </span>
       </button>
     </li>
@@ -92,7 +96,8 @@ export function SplitView({
 }) {
   const [everything, setEverything] = useState(false);
   const pivot = view.events.find((r) => r.event.id === view.pivot.id) ?? view.events[0];
-  const after = view.events.filter((r) => r !== pivot);
+  // After it, every moment any telling has, in one order shared by all of them.
+  const after = view.events.filter((r) => r !== pivot && r.stations.some(Boolean));
   const hidden = everything ? 0 : Math.max(0, view.trunk.length - SHOWN_BEFORE);
   const before = view.trunk.slice(hidden);
 
@@ -128,6 +133,7 @@ export function SplitView({
               {before.map((row) => {
                 const alike = row.stations.every((s) => s === null || s.marking === "shared");
                 const told = view.lines.filter((_, b) => row.stations[b] !== null);
+                const only = told.length === 1 && view.lines.length > 1 ? told[0] : undefined;
                 return (
                   <Moment
                     key={row.event.id}
@@ -138,17 +144,7 @@ export function SplitView({
                     markingText={alike ? "Told the same in both" : "Told differently"}
                     big={row.stations.some((s) => changes(s).big)}
                     kinds={[...new Set(row.stations.flatMap((s) => changes(s).words))]}
-                    extra={
-                      <span className="dv-games">
-                        <span className="dv-games-label">Told in</span>
-                        {told.map((line) => (
-                          <span key={line.key} className="dv-game" style={lane(line)}>
-                            <span aria-hidden="true" className="dv-game-mark" />
-                            {line.name}
-                          </span>
-                        ))}
-                      </span>
-                    }
+                    extra={only && <span className="dv-only">Only in {inWords(only)}</span>}
                   />
                 );
               })}
@@ -158,7 +154,7 @@ export function SplitView({
       </section>
 
       {pivot && (
-        <section aria-labelledby="dv-turn" className="m-panel dv-turn">
+        <section aria-labelledby="dv-turn" className="ff7-window dv-turn">
           <span aria-hidden="true" className="materia dv-orb" />
           <p className="m-label">Step 2 · The turning point</p>
           <h2 id="dv-turn" className="m-heading dv-turn-name">
@@ -211,49 +207,61 @@ export function SplitView({
             Where each telling goes
           </h2>
           <p className="dv-stage-text">
-            From here each telling follows its own line. Tap any moment for its details.
+            From here each telling follows its own line. A moment both have sits side by side; a gap
+            means that telling doesn&apos;t have it there.
           </p>
         </header>
-        <div className="dv-branches" style={{ "--n": String(view.lines.length) } as CSSProperties}>
-          {view.lines.map((line, b) => {
-            const rows = after.filter((row) => row.stations[b]);
-            return (
-              <section
-                key={line.key}
-                aria-labelledby={`dv-${line.key}`}
-                className="m-panel dv-branch"
-                style={lane(line)}
-              >
-                <h3 id={`dv-${line.key}`} className="m-heading dv-branch-name">
-                  {line.name}
-                </h3>
-                {rows.length === 0 ? (
-                  <p className="dv-empty">Nothing after this moment in this telling yet.</p>
-                ) : (
-                  <ol className="dv-rail">
-                    {rows.map((row) => {
-                      const station = row.stations[b] ?? null;
-                      if (!station) return null;
-                      const { words, big } = changes(station);
+        <div
+          className="dv-branches"
+          style={
+            {
+              "--n": String(view.lines.length),
+              "--rows": String(after.length + 1),
+            } as CSSProperties
+          }
+        >
+          {view.lines.map((line, b) => (
+            <section
+              key={line.key}
+              aria-labelledby={`dv-${line.key}`}
+              className="m-panel dv-branch"
+              style={lane(line)}
+            >
+              <h3 id={`dv-${line.key}`} className="m-heading dv-branch-name">
+                {line.name}
+              </h3>
+              {after.every((row) => !row.stations[b]) ? (
+                <p className="dv-empty">Nothing after this moment in this telling yet.</p>
+              ) : (
+                <ol className="dv-rail">
+                  {after.map((row) => {
+                    const station = row.stations[b] ?? null;
+                    if (!station) {
                       return (
-                        <Moment
-                          key={row.event.id}
-                          row={row}
-                          selected={selected}
-                          onSelect={onSelect}
-                          marking={station.marking}
-                          markingText={SPLIT_WORDS[station.marking]}
-                          big={big}
-                          kinds={words}
-                          extra={<InGames station={station} line={line} reference={reference} />}
-                        />
+                        <li key={row.event.id} aria-hidden="true" className="dv-gap">
+                          Not in {inWords(line)}
+                        </li>
                       );
-                    })}
-                  </ol>
-                )}
-              </section>
-            );
-          })}
+                    }
+                    const { words, big } = changes(station);
+                    return (
+                      <Moment
+                        key={row.event.id}
+                        row={row}
+                        selected={selected}
+                        onSelect={onSelect}
+                        marking={station.marking}
+                        markingText={SPLIT_WORDS[station.marking]}
+                        big={big}
+                        kinds={words}
+                        extra={<InGames station={station} line={line} reference={reference} />}
+                      />
+                    );
+                  })}
+                </ol>
+              )}
+            </section>
+          ))}
         </div>
       </section>
     </div>

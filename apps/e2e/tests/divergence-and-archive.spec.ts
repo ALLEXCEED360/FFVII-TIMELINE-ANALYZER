@@ -26,6 +26,22 @@ test("from an event to where the games part ways, then from an earlier moment", 
   ).toBeVisible();
 });
 
+test("after the turning point, a moment both tellings have sits on the same line", async ({
+  page,
+}) => {
+  await page.goto("/divergence/event/nibelheim-incident");
+  const og = page.getByRole("region", { name: "The original" });
+  const trilogy = page.getByRole("region", { name: "The Remake Trilogy" });
+  const shared = /^Bombing of Mako Reactor 5/;
+  const [a, b] = await Promise.all([
+    og.getByRole("button", { name: shared }).boundingBox(),
+    trilogy.getByRole("button", { name: shared }).boundingBox(),
+  ]);
+  expect(a?.y).toBe(b?.y);
+  // Where only the trilogy has a moment, the original holds its place with a gap.
+  await expect(og.getByText("Not in the original").first()).toBeVisible();
+});
+
 test("from a citation to its part of the game, and on through the archive", async ({ page }) => {
   await page.goto("/event/aerith-death");
   await page.getByRole("link", { name: "Rebirth · Ch. 14" }).first().click();
