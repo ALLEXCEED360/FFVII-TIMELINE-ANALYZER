@@ -24,7 +24,8 @@ export function MusicSetting() {
     );
   }
 
-  const length = music.length || now?.length || 0;
+  // The audio's own length once it has loaded (0 until then), else the album's credit.
+  const length = music.length > 0 ? music.length : (now?.length ?? 0);
   const progress = length > 0 ? Math.min(100, (music.time / length) * 100) : 0;
 
   return (

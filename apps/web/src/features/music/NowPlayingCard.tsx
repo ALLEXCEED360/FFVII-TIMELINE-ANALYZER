@@ -13,13 +13,14 @@ const SHOW_MS = 5500;
 export function NowPlayingCard() {
   const started = useMusic((s) => s.started);
   const current = useMusic((s) => s.current);
-  const [shown, setShown] = useState<number | null>(null);
+  // The start it was last hidden after; it shows for any newer one.
+  const [hiddenAfter, setHiddenAfter] = useState(0);
+  const shown = started > hiddenAfter ? started : null;
 
   useEffect(() => {
     if (started === 0) return;
-    setShown(started);
     const hide = window.setTimeout(() => {
-      setShown(null);
+      setHiddenAfter(started);
     }, SHOW_MS);
     return () => {
       window.clearTimeout(hide);
