@@ -1,7 +1,8 @@
 import type { TitleCode } from "../api/client";
 
 // Every image the site shows: official Square Enix art from the Final Fantasy Wiki, converted by
-// scripts/fetch_art.py and credited on /credits. Decoration only; never AI-made.
+// scripts/fetch_art.py. Decoration only; never AI-made. Who made each, and where it came from, is
+// in credits.ts (shown on /credits).
 
 export interface ArtEntry {
   /** Its path under public/art, without extension: "characters/cloud". */
@@ -18,28 +19,17 @@ export interface ArtEntry {
   subjects: readonly string[];
   /** For a character's pair of images: the original's artwork, or the Remake/Rebirth look. */
   era?: "og" | "modern";
-  /** What it is, for the Credits page. */
-  title: string;
-  /** The artist, where the source names one; otherwise the studio. */
-  artist: string;
-  /** The file's name on the Final Fantasy Wiki, where it came from there. */
-  wiki?: string;
-  /** Where it came from otherwise. */
-  source?: string;
 }
-
-const SE = "Square Enix";
-const NOMURA = "Tetsuya Nomura";
 
 function art(
   id: string,
   size: string,
   kind: ArtEntry["kind"],
-  entry: Omit<ArtEntry, "id" | "width" | "height" | "kind" | "subjects" | "artist"> &
-    Partial<Pick<ArtEntry, "subjects" | "artist">>,
+  entry: Omit<ArtEntry, "id" | "width" | "height" | "kind" | "subjects"> &
+    Partial<Pick<ArtEntry, "subjects">>,
 ): ArtEntry {
   const [width = 0, height = 0] = size.split("x").map(Number);
-  return { id, width, height, kind, subjects: [], artist: SE, ...entry };
+  return { id, width, height, kind, subjects: [], ...entry };
 }
 
 export const ARTWORK: readonly ArtEntry[] = [
@@ -47,86 +37,56 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("key/og-poster", "650x916", "key", {
     alt: "The original Final Fantasy VII party in a crowded poster: Cloud with the Buster Sword at the centre, Aerith, Vincent, Yuffie, Barret, Tifa, Red XIII and Cait Sith around him, under a red Shinra emblem.",
     focus: "50% 30%",
-    title: "Final Fantasy VII poster (1997)",
-    artist: NOMURA,
-    wiki: "FFVII Poster.png",
   }),
   art("key/og-meteor", "1446x940", "lineart", {
     alt: "Yoshitaka Amano's Meteor: a great sphere trailing a tail of streaks, with a small moon beside it.",
-    title: "Meteor logo artwork, shown as light on dark",
-    artist: "Yoshitaka Amano",
-    wiki: "Meteor Logo Art.jpg",
   }),
   art("key/remake", "2200x947", "key", {
     alt: "Red XIII, Aerith, Cloud on his motorbike, Barret and Tifa on the broken end of a highway at dusk, Midgar's towers behind them.",
     focus: "60% 50%",
-    title: "Final Fantasy VII Remake key art (Midgar Highway)",
-    wiki: "Final Fantasy VII Remake key art Midgar Highway.png",
   }),
   art("key/intermission", "1920x1080", "key", {
     alt: "Tifa, Barret, Cloud on his motorbike, Aerith and Red XIII, seen from behind on a rooftop, looking out over the cranes beyond Midgar at sunrise.",
     focus: "55% 50%",
-    title: "Final Fantasy VII Remake Intergrade key visual",
-    wiki: "FFVII Remake Intergrade key visual.jpg",
   }),
   art("key/rebirth", "1200x1500", "key", {
     alt: "Cloud and Zack standing either side of a distant Sephiroth in shallow water, beneath a blazing red sky between rock spires.",
     focus: "50% 45%",
-    title: "Final Fantasy VII Rebirth key art",
-    wiki: "Key Art from VIIR2 - No logo.jpg",
   }),
   art("key/rebirth-party", "1200x1600", "key", {
     alt: "Tifa and Aerith standing either side of a distant Sephiroth in shallow water, beneath a blazing red sky between rock spires.",
     focus: "50% 45%",
-    title: "Final Fantasy VII Rebirth key art (September 2023)",
-    wiki: "Key Art from VIIR2 - September 2023 ver.jpg",
   }),
   art("key/aerith", "2200x1724", "key", {
     alt: "Aerith, seen from behind, standing on an open road under a wide blue sky with clouds.",
     focus: "35% 50%",
     subjects: ["character_aerith_gainsborough"],
-    title: "Aerith key art from Final Fantasy VII Remake",
-    wiki: "Aerith Key Art from FFVII Remake.jpg",
   }),
   art("key/tifa", "1000x752", "key", {
     alt: "Tifa sitting on top of Nibelheim's water tower under a starry night sky.",
     focus: "50% 55%",
     subjects: ["character_tifa_lockhart"],
-    title: "Tifa key art from Final Fantasy VII Remake",
-    wiki: "Tifa Lockhart from FFVII Remake key art.jpg",
   }),
   art("key/barret-marlene", "2200x1652", "key", {
     alt: "Barret, seen from behind with Marlene on his shoulders, facing the flowers in the ruined Sector 5 church.",
     focus: "40% 50%",
     subjects: ["character_barret_wallace", "organization_avalanche"],
-    title: "Barret and Marlene key art from Final Fantasy VII Remake",
-    wiki: "Barret and Marlene key art from FFVII Remake.jpg",
   }),
   art("key/cloud-nomura", "1000x935", "key", {
     alt: "Cloud in close-up, one arm raised behind his head, the Buster Sword's hilt over his shoulder.",
     focus: "50% 30%",
     subjects: ["character_cloud_strife"],
-    title: "Cloud Strife illustration for Final Fantasy VII Remake",
-    artist: NOMURA,
-    wiki: "Cloud Strife from FFVII Remake by Tetsuya Nomura.png",
   }),
   art("key/anniversary", "462x554", "key", {
     alt: "Sephiroth, Zack and Cloud in profile, one behind the other, in Nomura's ink-and-colour style.",
     subjects: ["organization_soldier"],
-    title: "Final Fantasy VII 10th anniversary artwork",
-    artist: NOMURA,
-    wiki: "FFVII 10th Anniversary Artwork.jpg",
   }),
   art("key/turks", "925x725", "cutout", {
     alt: "The Turks standing in a line in their dark suits — Elena, Tseng, Rude and Reno — with Rufus Shinra in white at the centre.",
     subjects: ["organization_turks"],
-    title: "The Turks group artwork",
-    wiki: "Turks group artwork from Final Fantasy VII.png",
   }),
   art("key/world-map", "628x498", "key", {
     alt: "An early hand-drawn map of the Planet's continents, labelled in Japanese.",
-    title: "World map concept art",
-    wiki: "FFVII World Map Concept Art.jpg",
   }),
 
   // ── Characters: the Remake/Rebirth look, and the original's artwork ────────────────────────
@@ -134,380 +94,261 @@ export const ARTWORK: readonly ArtEntry[] = [
     alt: "Cloud in his Remake look, the Buster Sword resting on his shoulder.",
     subjects: ["character_cloud_strife"],
     era: "modern",
-    title: "Cloud Strife, Final Fantasy VII Rebirth render",
-    wiki: "Cloud Strife from FFVII Rebirth promo render.png",
   }),
   art("characters/cloud-og", "1024x1238", "cutout", {
     alt: "Cloud in the original's artwork, holding the Buster Sword out to one side.",
     subjects: ["character_cloud_strife"],
     era: "og",
-    title: "Cloud Strife, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Cloud-FFVIIArt.png",
   }),
   art("characters/tifa", "788x1400", "cutout", {
     alt: "Tifa in her Remake look, fists raised in her fighting stance.",
     subjects: ["character_tifa_lockhart"],
     era: "modern",
-    title: "Tifa Lockhart, Final Fantasy VII Remake render",
-    wiki: "Tifa Lockhart from FFVII Remake battle render.png",
   }),
   art("characters/tifa-og", "597x1251", "cutout", {
     alt: "Tifa in the original's artwork, in her white top and gloves.",
     subjects: ["character_tifa_lockhart"],
     era: "og",
-    title: "Tifa Lockhart, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Tifa-FFVIIArt.png",
   }),
   art("characters/aerith", "890x1400", "cutout", {
     alt: "Aerith in her Remake look, holding her staff in both hands.",
     subjects: ["character_aerith_gainsborough"],
     era: "modern",
-    title: "Aerith Gainsborough, Final Fantasy VII Remake render",
-    wiki: "Aerith Gainsborough from FFVII Remake battle render.png",
   }),
   art("characters/aerith-og", "852x1304", "cutout", {
     alt: "Aerith in the original's artwork, in her pink dress, holding her staff.",
     subjects: ["character_aerith_gainsborough"],
     era: "og",
-    title: "Aeris Gainsborough, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Aeris-FFVIIArt.png",
   }),
   art("characters/barret", "671x1239", "cutout", {
     alt: "Barret in his Remake look, wearing sunglasses, his gun-arm at his side.",
     subjects: ["character_barret_wallace"],
     era: "modern",
-    title: "Barret Wallace, Final Fantasy VII Remake render",
-    wiki: "Barret Wallace from FFVII Remake sunglasses render.png",
   }),
   art("characters/barret-og", "1011x1140", "cutout", {
     alt: "Barret in the original's artwork, planted wide with his gun-arm.",
     subjects: ["character_barret_wallace"],
     era: "og",
-    title: "Barret Wallace, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Barret-FFVIIArt.png",
   }),
   art("characters/red-xiii", "937x665", "cutout", {
     alt: "Red XIII in his Rebirth look, prowling low, his flame-tipped tail raised.",
     subjects: ["character_red_xiii"],
     era: "modern",
-    title: "Red XIII, Final Fantasy VII Rebirth render",
-    wiki: "Red XIII from FFVII Rebirth promo render.png",
   }),
   art("characters/red-xiii-og", "404x222", "cutout", {
     alt: "Red XIII in the original's artwork, mid-stride.",
     subjects: ["character_red_xiii"],
     era: "og",
-    title: "Red XIII, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "RedXIII-FFVIIArt.png",
   }),
   art("characters/yuffie", "1032x1400", "cutout", {
     alt: "Yuffie in her INTERmission look, her giant shuriken held behind her.",
     subjects: ["character_yuffie"],
     era: "modern",
-    title: "Yuffie Kisaragi, Final Fantasy VII Remake INTERmission artwork",
-    wiki: "Yuffie-kisaragi ff7ri--artwork.png",
   }),
   art("characters/yuffie-og", "804x1351", "cutout", {
     alt: "Yuffie in the original's artwork, holding her shuriken overhead.",
     subjects: ["character_yuffie"],
     era: "og",
-    title: "Yuffie Kisaragi, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Yuffie-FFVIIArt.png",
   }),
   art("characters/cait-sith", "1112x1400", "cutout", {
     alt: "Cait Sith in his Remake Trilogy look, crown on his head and megaphone raised, riding his great white moogle.",
     subjects: ["character_cait_sith"],
     era: "modern",
-    title: "Cait Sith and his moogle, Final Fantasy VII Revelation render",
-    wiki: "Cait Sith moogle from FFVII Revelation promo render.png",
   }),
   art("characters/cait-sith-og", "992x1173", "cutout", {
     alt: "Cait Sith in the original's artwork, riding his great white moogle.",
     subjects: ["character_cait_sith"],
     era: "og",
-    title: "Cait Sith, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "CaitSith-FFVIIArt.png",
   }),
   art("characters/sephiroth", "511x853", "cutout", {
     alt: "Sephiroth in his Rebirth look, the Masamune held low at his side.",
     subjects: ["character_sephiroth"],
     era: "modern",
-    title: "Sephiroth, Final Fantasy VII Rebirth render",
-    wiki: "Sephiroth from FFVII Rebirth promo render.png",
   }),
   art("characters/sephiroth-og", "1400x1000", "cutout", {
     alt: "Sephiroth in the original's artwork, the Masamune's long blade sweeping out behind him.",
     subjects: ["character_sephiroth"],
     era: "og",
-    title: "Sephiroth, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Sephiroth-FFVIIArt.png",
   }),
   art("characters/zack", "603x1400", "cutout", {
     alt: "Zack in his Remake Trilogy look, standing in his SOLDIER uniform, the Buster Sword on his back.",
     subjects: ["character_zack_fair"],
     era: "modern",
-    title: "Zack Fair, Final Fantasy VII Revelation render",
-    wiki: "Zack Fair from FFVII Revelation promo render.png",
   }),
   art("characters/zack-og", "365x561", "lineart", {
     alt: "A pencil sketch of Zack in SOLDIER uniform, sword on his back, with notes in Japanese.",
     subjects: ["character_zack_fair"],
     era: "og",
-    title: "Zack concept sketch, Final Fantasy VII",
-    artist: NOMURA,
-    wiki: "Zack FFVII Concept Art.jpg",
   }),
   art("characters/president-shinra", "386x1172", "cutout", {
     alt: "President Shinra in his Remake look, in a dark double-breasted suit.",
     subjects: ["character_president_shinra"],
     era: "modern",
-    title: "President Shinra, Final Fantasy VII Remake render",
-    wiki: "President Shinra render from FFVII Remake.png",
   }),
   art("characters/president-shinra-og", "390x800", "lineart", {
     alt: "A line drawing of President Shinra, one finger raised as he speaks.",
     subjects: ["character_president_shinra"],
     era: "og",
-    title: "President Shinra, Final Fantasy VII artwork",
-    wiki: "FFVII-PresidentShinra-Artwork.jpg",
   }),
   art("characters/rufus", "362x1132", "cutout", {
     alt: "Rufus Shinra in his Remake look, in his long white coat.",
     subjects: ["character_rufus_shinra"],
     era: "modern",
-    title: "Rufus Shinra, Final Fantasy VII Remake render",
-    wiki: "Rufus Shinra from Final Fantasy VII Remake render.png",
   }),
   art("characters/rufus-og", "655x1245", "cutout", {
     alt: "Rufus Shinra in the original's artwork, in white, a shotgun at his side.",
     subjects: ["character_rufus_shinra"],
     era: "og",
-    title: "Rufus Shinra, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Rufus artwork FFVII.png",
   }),
   art("characters/reno", "371x1286", "cutout", {
     alt: "Reno in his Remake look, in an open black suit jacket, goggles pushed up into his red hair.",
     subjects: ["character_reno"],
     era: "modern",
-    title: "Reno, Final Fantasy VII Remake render",
-    wiki: "FF7 Remake Reno Full Body Render.png",
   }),
   art("characters/reno-og", "441x1255", "cutout", {
     alt: "Reno in the original's artwork, his red hair tied back, rod in hand.",
     subjects: ["character_reno"],
     era: "og",
-    title: "Reno, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Reno artwork FF7.png",
   }),
   art("characters/tseng", "249x820", "cutout", {
     alt: "Tseng in his Remake look, standing straight in a dark suit and tie.",
     subjects: ["character_tseng"],
     era: "modern",
-    title: "Tseng, Final Fantasy VII Remake render",
-    wiki: "Tseng Final Fantasy VII Remake render.png",
   }),
   art("characters/tseng-og", "250x657", "cutout", {
     alt: "Tseng in the original's artwork, in his dark blue suit.",
     subjects: ["character_tseng"],
     era: "og",
-    title: "Tseng, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Tseng-artwork.png",
   }),
   art("characters/hojo", "462x1204", "cutout", {
     alt: "Hojo in his Remake look, in a white lab coat, one hand behind his head.",
     subjects: ["character_hojo"],
     era: "modern",
-    title: "Professor Hojo, Final Fantasy VII Remake render",
-    wiki: "Professor Hojo from FFVII Remake.png",
   }),
   art("characters/hojo-og", "214x532", "lineart", {
     alt: "A pencil sketch of Hojo from the side, hair tied back, glasses on.",
     subjects: ["character_hojo"],
     era: "og",
-    title: "Hojo concept sketch, Final Fantasy VII",
-    wiki: "Hojo FFVII Concept Art.jpg",
   }),
   art("characters/jenova", "360x1001", "cutout", {
     alt: "Jenova's headless specimen body, bound in tubes and machinery above a great fleshy mass.",
     subjects: ["character_jenova"],
     era: "modern",
-    title: "Jenova, Final Fantasy VII Remake artwork",
-    wiki: "Jenova artwork for FFVII Remake.png",
   }),
   art("characters/ifalna", "355x1007", "cutout", {
     alt: "Ifalna in her Remake look, in a long dark red dress, her hair loose.",
     subjects: ["character_ifalna"],
     era: "modern",
-    title: "Ifalna, Final Fantasy VII Remake artwork",
-    wiki: "Ifalna from Final Fantasy VII Remake artwork.png",
   }),
   art("characters/elmyra", "455x1023", "cutout", {
     alt: "Elmyra in her Remake look, hands on hips, in a green dress and cream apron.",
     subjects: ["character_elmyra_gainsborough"],
     era: "modern",
-    title: "Elmyra Gainsborough, Final Fantasy VII Remake artwork",
-    wiki: "Elmyra from Final Fantasy VII Remake artwork.png",
   }),
   art("characters/elmyra-og", "402x549", "cutout", {
     alt: "Elmyra in the original's artwork, holding a broom, in a green dress and apron.",
     subjects: ["character_elmyra_gainsborough"],
     era: "og",
-    title: "Elmyra Gainsborough, Final Fantasy VII artwork",
-    wiki: "Elymra Gainsborough original artwork.png",
   }),
   art("characters/jessie", "406x1199", "cutout", {
     alt: "Jessie in her Remake look, in light armour and a red headband, hand on her hip.",
     subjects: ["character_jessie"],
     era: "modern",
-    title: "Jessie Rasberry, Final Fantasy VII Remake render",
-    wiki: "Jessie from Final Fantasy VII Remake render.png",
   }),
   art("characters/jessie-og", "439x953", "cutout", {
     alt: "Jessie in the original's artwork, waving, in armour and a red headband.",
     subjects: ["character_jessie"],
     era: "og",
-    title: "Jessie, Final Fantasy VII artwork",
-    wiki: "Ff7 jesse artwork.png",
   }),
   art("characters/don-corneo", "624x1068", "cutout", {
     alt: "Don Corneo in his Remake look, in a fur-collared red coat, arms held wide.",
     subjects: ["character_don_corneo", "event_corneo_audition"],
     era: "modern",
-    title: "Don Corneo, Final Fantasy VII Remake render",
-    wiki: "Don Corneo Final Fantasy VII Remake render.png",
   }),
   art("characters/bugenhagen", "295x762", "cutout", {
     alt: "Bugenhagen in his Rebirth look, floating on a glowing green orb, in long dark robes.",
     subjects: ["character_bugenhagen"],
     era: "modern",
-    title: "Bugenhagen, Final Fantasy VII Rebirth render",
-    wiki: "Bugenhagen from FFVII Rebirth render.png",
   }),
   art("characters/bugenhagen-og", "262x556", "lineart", {
     alt: "A line drawing of Bugenhagen floating on his orb, his beard tied in a knot.",
     subjects: ["character_bugenhagen"],
     era: "og",
-    title: "Bugenhagen, Final Fantasy VII artwork",
-    wiki: "FFVII - Bugenhagen Artwork.jpg",
   }),
   art("characters/vincent", "430x884", "cutout", {
     alt: "Vincent in his Rebirth look, a red cloak around him and a golden claw for a left hand, gun raised.",
     subjects: ["character_vincent_valentine"],
     era: "modern",
-    title: "Vincent Valentine, Final Fantasy VII Rebirth render",
-    wiki: "Vincent Valentine from FFVII Rebirth promo render.png",
   }),
   art("characters/vincent-og", "706x1229", "cutout", {
     alt: "Vincent in the original's artwork, in a tattered red cloak and headband, gun in hand.",
     subjects: ["character_vincent_valentine"],
     era: "og",
-    title: "Vincent Valentine, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Vincent-FFVIIArt.png",
   }),
   art("characters/cid", "306x879", "cutout", {
     alt: "Cid in his Rebirth look, arms folded, in a denim jacket with goggles on his head.",
     subjects: ["character_cid_highwind"],
     era: "modern",
-    title: "Cid Highwind, Final Fantasy VII Rebirth render",
-    wiki: "Cid Highwind from FFVII Rebirth promo render.png",
   }),
   art("characters/cid-og", "984x1253", "cutout", {
     alt: "Cid in the original's artwork, goggles on his head, leaning on a long spear.",
     subjects: ["character_cid_highwind"],
     era: "og",
-    title: "Cid Highwind, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "CidHighwind-FFVIIArt.png",
   }),
   art("characters/rude", "324x1225", "cutout", {
     alt: "Rude in his Remake look, bald, in a black suit and gloves.",
     subjects: ["character_rude"],
     era: "modern",
-    title: "Rude, Final Fantasy VII Remake render",
-    wiki: "FF7 Remake Rude Full Body Render.png",
   }),
   art("characters/rude-og", "253x641", "cutout", {
     alt: "Rude in the original's artwork, bald and in sunglasses, in a blue suit.",
     subjects: ["character_rude"],
     era: "og",
-    title: "Rude, Final Fantasy VII artwork",
-    artist: NOMURA,
-    wiki: "Rude Artwork.png",
   }),
   art("characters/elena", "222x764", "cutout", {
     alt: "Elena in her Rebirth look, blonde, in a dark suit, one hand raised.",
     subjects: ["character_elena"],
     era: "modern",
-    title: "Elena, Final Fantasy VII Rebirth render",
-    wiki: "Elena from FFVII Rebirth promo render.png",
   }),
   art("characters/reeve", "340x1078", "cutout", {
     alt: "Reeve in his Remake look, bearded, in a dark pinstriped suit and red tie.",
     subjects: ["character_reeve_tuesti"],
     era: "modern",
-    title: "Reeve Tuesti, Final Fantasy VII Remake render",
-    wiki: "Reeve Tuesti from Final Fantasy VII Remake render.png",
   }),
   art("characters/scarlet", "460x1158", "cutout", {
     alt: "Scarlet in her Remake look, blonde, in a long red dress, hand on her hip.",
     subjects: ["character_scarlet"],
     era: "modern",
-    title: "Scarlet, Final Fantasy VII Remake render",
-    wiki: "Scarlet from Final Fantasy VII Remake render.png",
   }),
   art("characters/biggs", "363x1209", "cutout", {
     alt: "Biggs in his Remake look, in a red headband and green fatigues, pistol in hand.",
     subjects: ["character_biggs"],
     era: "modern",
-    title: "Biggs, Final Fantasy VII Remake render",
-    wiki: "Biggs FFVII Remake.png",
   }),
   art("characters/biggs-og", "467x973", "cutout", {
     alt: "Biggs in the original's concept art, in a red headband, green shirt and big red gloves.",
     subjects: ["character_biggs"],
     era: "og",
-    title: "Biggs, Final Fantasy VII concept art",
-    wiki: "Biggs from FFVII concept art.png",
   }),
   art("characters/wedge", "531x1185", "cutout", {
     alt: "Wedge in his Remake look, in a red bandana, a grenade launcher on his shoulder, thumbs up.",
     subjects: ["character_wedge"],
     era: "modern",
-    title: "Wedge, Final Fantasy VII Remake render",
-    wiki: "Wedge FFVII Remake.png",
   }),
   art("characters/wedge-og", "530x863", "cutout", {
     alt: "Wedge in the original's concept art, round, in a red bandana and shoulder pads.",
     subjects: ["character_wedge"],
     era: "og",
-    title: "Wedge, Final Fantasy VII concept art",
-    wiki: "Wedge from FFVII concept art.png",
   }),
   art("characters/marlene", "548x1400", "cutout", {
     alt: "Marlene in her Remake look, a little girl in a pink dress with a yellow bow.",
     subjects: ["character_marlene"],
     era: "modern",
-    title: "Marlene Wallace, Final Fantasy VII Remake render",
-    wiki: "Marlene Wallace from FFVII Remake render.png",
   }),
   art("characters/dyne", "389x804", "cutout", {
     alt: "Dyne in his Rebirth look, scarred and stubbled, a gun grafted where his left hand was.",
     subjects: ["character_dyne"],
     era: "modern",
-    title: "Dyne, Final Fantasy VII Rebirth render",
-    wiki: "Dyne from FFVII Rebirth promo render.png",
   }),
 
   // ── Places ──────────────────────────────────────────────────────────────────────────────────
@@ -515,218 +356,140 @@ export const ARTWORK: readonly ArtEntry[] = [
     alt: "Midgar at night from above: the round city on its plate, reactors venting green light around the Shinra Building at its heart.",
     focus: "50% 45%",
     subjects: ["location_midgar"],
-    title: "Midgar concept art, Final Fantasy VII",
-    wiki: "Midgar FFVII Concept Art.jpg",
   }),
   art("places/sector-7", "1260x755", "scene", {
     alt: "The Sector 7 slums beneath the plate, lit by lamps and wires, the support pillar towering over them.",
     focus: "40% 50%",
     subjects: ["location_sector_7"],
-    title: "Sector 7 pillar concept art, Final Fantasy VII Remake",
-    wiki: "Sector 7 Pillar artwork for Final Fantasy VII Remake.png",
   }),
   art("places/wall-market", "1002x608", "scene", {
     alt: "Wall Market at night: crowded lanterns and neon signs in a deep street under the plate.",
     subjects: ["location_wall_market"],
-    title: "Wall Market concept art, Final Fantasy VII Remake",
-    wiki: "Wall Market artwork 2 for Final Fantasy VII Remake.png",
   }),
   art("places/shinra-lobby", "1600x968", "scene", {
     alt: "The Shinra Building's lobby: a tall atrium of steel and glass, banners hanging, displays glowing.",
     subjects: ["location_shinra_building"],
-    title: "Shinra HQ lobby concept art, Final Fantasy VII Remake",
-    wiki: "Shinra HQ lobby concept art FFVII Remake.png",
   }),
   art("places/hojo-lab", "1300x730", "scene", {
     alt: "Hojo's laboratory: tall specimen tanks glowing green in a dark, cluttered room.",
-    title: "Hojo's laboratory concept art, Final Fantasy VII Remake",
-    wiki: "Hojo's Laboratory artwork for Final Fantasy VII Remake.png",
   }),
   art("places/reactor-core", "1200x955", "lineart", {
     alt: "A line drawing of a Mako reactor's core: pipes converging on a great cylinder.",
-    title: "Mako reactor core concept art, Final Fantasy VII Remake",
-    wiki: "Mako Reactor Core artwork for FFVII Remake.png",
   }),
   art("places/corneo-mansion", "1002x543", "scene", {
     alt: "Don Corneo's mansion at night, its tiered red-lit roofs rising over Wall Market.",
-    title: "Corneo's mansion concept art, Final Fantasy VII Remake",
-    wiki: "Corneo's Mansion artwork for Final Fantasy VII Remake.png",
   }),
   art("places/expressway", "884x505", "scene", {
     alt: "Cloud on his motorbike speeding down a dark elevated expressway.",
-    title: "Midgar expressway concept art, Final Fantasy VII Remake",
-    wiki: "Midgar Expressway artwork 3 for Final Fantasy VII Remake.png",
   }),
   art("places/junon", "1403x1053", "scene", {
     alt: "Junon at dusk: the great cannon jutting out over the sea from its fortified cliff.",
     subjects: ["location_junon"],
-    title: "Junon CG artwork, Final Fantasy VII",
-    wiki: "Junon FFVII CG Art 1.jpg",
   }),
   art("places/northern-crater", "1144x798", "lineart", {
     alt: "A sketch of the Northern Crater with the Lifestream erupting upward from its heart.",
     subjects: ["location_northern_crater"],
-    title: "Northern Crater Lifestream sketch, Final Fantasy VII",
-    wiki: "Northern Crater Lifestream Eruption FFVII Sketch.jpg",
   }),
   art("places/shinra-mansion", "218x143", "scene", {
     alt: "The Shinra Mansion's ruined hall in teal shadow, light falling through three tall windows above a staircase.",
-    title: "Shinra Mansion concept art, Dirge of Cerberus -Final Fantasy VII-",
-    wiki: "DoC Shinra Mansion 1 Artwork.png",
   }),
   art("places/sector-8", "1300x700", "scene", {
     alt: "Sector 8 just after the bombing: fires burning in the dark street beneath the reactor's towers.",
-    title: "Sector 8 concept art, Final Fantasy VII Remake",
-    wiki: "Sector 8 artwork for FFVII Remake.png",
   }),
   art("places/upper-sector-7", "689x352", "scene", {
     alt: "A wet street on the upper plate of Sector 7 at night, lit by lamps and a glowing billboard.",
-    title: "Upper Sector 7 concept art, Final Fantasy VII Remake",
-    wiki: "Upper Sector 7 artwork for Final Fantasy VII Remake.png",
   }),
   art("places/president-office", "1200x710", "scene", {
     alt: "President Shinra's office: a long red carpet between lit columns, leading to his desk.",
-    title: "President's office concept art, Final Fantasy VII Remake",
-    wiki: "President-Office-Shinra-HQ-FFVIIR-Art.jpg",
   }),
   // ── Moments no artwork shows: stills, Square Enix promo shots and a model render ───────────
   art("moments/second-chance-meeting", "1600x901", "scene", {
     alt: "Aerith standing over Cloud among the white and yellow flowers of the Sector 5 church, where he has fallen through the roof.",
     focus: "35% 50%",
-    title: "Aerith and Cloud in the church, Final Fantasy VII Remake (in-game still)",
-    wiki: "Second Chance Meeting from FFVII Remake.png",
   }),
   art("moments/yuffie-sonon", "1600x900", "scene", {
     alt: "Yuffie and Sonon back to back inside the Shinra Building, weapons ready.",
     focus: "45% 40%",
-    title: "Yuffie and Sonon, Final Fantasy VII Remake Intergrade (Square Enix promo screenshot)",
-    wiki: "FFVII Remake Intergrade promo 3.png",
   }),
   art("moments/jenova-lifeclinger", "1000x979", "cutout", {
     alt: "JENOVA Lifeclinger: a mass of violet, feather-like tendrils spreading from a skeletal body.",
-    title: "JENOVA Lifeclinger, Final Fantasy VII Rebirth (render of the game's model)",
-    artist: "Yare Yare Dong (render of the game's model)",
-    wiki: "JENOVA Lifeclinger from FFVII Rebirth render.png",
   }),
   art("moments/ifalna-death", "1600x900", "scene", {
     alt: "Ifalna lying dying at a Midgar station in the rain-dim light, young Aerith beside her as Elmyra comes near.",
     focus: "50% 55%",
-    title: "Ifalna's death, Final Fantasy VII Remake (in-game still)",
-    wiki: "Ifalna's death from Final Fantasy VII Remake.png",
   }),
   art("moments/calamity-meteorite", "1600x900", "scene", {
     alt: "A blazing meteorite streaking across a starry sky over the clouds, watched from a high peak.",
     focus: "60% 35%",
-    title: "The meteorite that brought Jenova, Final Fantasy VII Remake (in-game still)",
-    wiki: "Meteorite that destroyed the Cetra from FFVII Remake.png",
   }),
   art("moments/sephiroth-black-materia", "1600x898", "scene", {
     alt: "Sephiroth holding the black materia aloft on a stone causeway in the Temple of the Ancients, Cloud and the party behind him.",
     focus: "45% 40%",
-    title: "Sephiroth holds the black materia, Final Fantasy VII Rebirth (in-game still)",
-    wiki: "Sephiroth and the black materia from FFVII Rebirth.png",
   }),
   // ── Places and groups no artwork shows ─────────────────────────────────────────────────────
   art("places/midgar-remake", "1600x678", "scene", {
     alt: "Midgar's upper plate: expressways and pipes winding between tall towers in a pale haze.",
-    title: "Midgar, Final Fantasy VII Remake (trailer still)",
-    wiki: "Midgar-FFVII-Remake.png",
   }),
   art("places/nibelheim-rebirth", "1600x703", "scene", {
     alt: "Nibelheim's square at dusk: timbered houses, the water tower and the stairs up to the Shinra Mansion.",
-    title: "Nibelheim, Final Fantasy VII Rebirth (in-game still)",
-    wiki: "Nibelheim in chapter 1 from FFVII Rebirth.png",
   }),
   art("places/cosmo-canyon-torch", "1600x900", "scene", {
     alt: "Aerith at the great torch of Cosmo Canyon at night, robed elders with lanterns on either side.",
     focus: "50% 40%",
-    title: "The torch of Cosmo Canyon, Final Fantasy VII Rebirth (in-game still)",
-    wiki: "Aerith at Cosmo Canyon's Torch from FFVII Rebirth.png",
   }),
   art("places/northern-crater-ending", "500x238", "scene", {
     alt: "The Northern Crater in the dark, the Lifestream rising from it in pale green columns.",
-    title: "The Northern Crater, Final Fantasy VII (frame from the game's movie)",
-    wiki: "NorthCrater-ffvii-ending.png",
   }),
   art("places/church-remake", "1600x900", "scene", {
     alt: "Inside the Sector 5 church: light falling through tall windows onto Aerith's flower bed among broken pews.",
     focus: "55% 55%",
-    title: "The Sector 5 church, Final Fantasy VII Remake (screenshot)",
-    wiki: "Sector 5 Church from FFVII Remake.jpg",
   }),
   art("places/forgotten-capital-rebirth", "1600x900", "scene", {
     alt: "The Forgotten Capital: shell-like towers and coral spires rising over still blue water.",
-    title: "The Forgotten Capital, Final Fantasy VII Rebirth (in-game still)",
-    wiki: "The Forgotten Capital from FFVII Rebirth.png",
   }),
   art("places/junon-rebirth", "1600x900", "scene", {
     alt: "Junon on its cliff over the sea, the great cannon, the Sister Ray, jutting into a blue sky.",
     focus: "45% 50%",
-    title: "Junon and the Sister Ray, Final Fantasy VII Rebirth (in-game still)",
-    wiki: "Junon and the Sister Ray in FFVII Rebirth.png",
   }),
   art("places/temple-of-the-ancients", "1600x899", "scene", {
     alt: "The Temple of the Ancients: a stepped stone pyramid rising from mist-covered jungle.",
     focus: "60% 50%",
-    title: "The Temple of the Ancients, Final Fantasy VII Rebirth (in-game still)",
-    wiki: "Temple of the Ancients from FFVII Rebirth.png",
   }),
   art("groups/avalanche-faction", "1600x900", "scene", {
     alt: "AVALANCHE fighters in combat gear firing on Shinra under floodlights.",
     focus: "40% 50%",
-    title: "AVALANCHE in action, Final Fantasy VII Remake (in-game still)",
-    wiki: "Avalanche Faction from FFVII Remake.png",
   }),
   art("groups/shinra-meeting", "1600x900", "scene", {
     alt: "Shinra's executives around the long boardroom table, President Shinra at its head.",
-    title: "The Shinra board meeting, Final Fantasy VII Remake (in-game still)",
-    wiki: "Shinra executive meeting room from FFVII Remake.jpg",
   }),
   art("groups/wutai-troops", "1600x899", "scene", {
     alt: "A Wutai soldier in samurai-style armour on a fortress wall at night, a fierce guardian statue behind him.",
     focus: "45% 35%",
-    title: "Wutai's soldiers, Crisis Core -Final Fantasy VII- Reunion (in-game still)",
-    wiki: "Wutai troops.png",
   }),
   art("moments/meteor-midgar", "1600x898", "scene", {
     alt: "Meteor striking Midgar: a blinding wall of fire engulfing the Shinra Building's tower.",
-    title: "Meteor descends on Midgar, Final Fantasy VII Remake (in-game still)",
-    wiki: "Meteor descending upon the Shinra Building from FFVII Remake.png",
   }),
   art("moments/reactor-5-trap", "1600x900", "scene", {
     alt: "Cloud in close-up, hanging on in Mako Reactor 5 as it is about to blow, Tifa and Barret behind him.",
     focus: "60% 40%",
-    title: "Cloud hangs on in Mako Reactor 5, Final Fantasy VII Remake (in-game still)",
-    wiki: "Cloud hanging in Mako Reactor 5 from FFVII Remake.png",
   }),
   art("moments/scorpion-sentinel", "1040x560", "scene", {
     alt: "The fight with the Scorpion Sentinel in Mako Reactor 1: the great machine firing among twisted girders.",
-    title: "Scorpion Sentinel battle concept art, Final Fantasy VII Remake",
-    wiki: "Scorpion Sentinel battle artwork for FFVII Remake.png",
   }),
   art("moments/aerith-altar", "1600x900", "scene", {
     alt: "Cloud holding Aerith close at the altar in the Forgotten Capital, green motes of the Lifestream drifting around them.",
     focus: "40% 40%",
-    title: "Cloud and Aerith at the altar, Final Fantasy VII Rebirth (in-game still)",
-    wiki: "Cloud and Aerith in the ending from FFVII Rebirth.png",
   }),
   art("moments/sephiroth-reborn", "1600x899", "scene", {
     alt: "Cloud, sword raised, facing Sephiroth Reborn, a towering winged form, among floating rocks at the edge of creation.",
     focus: "55% 45%",
-    title: "Cloud faces Sephiroth Reborn, Final Fantasy VII Rebirth (in-game still)",
-    wiki: "Sephiroth Reborn in edge of creation from FFVII Rebirth.png",
   }),
   art("moments/nanaki-seto", "1600x896", "scene", {
     alt: "Seto, turned to stone, silhouetted against a full moon, with Nanaki on the rocks below.",
     focus: "50% 72%",
-    title: "Nanaki finds Seto, Final Fantasy VII Rebirth (in-game still)",
-    wiki: "Nanaki finds Seto from FFVII Rebirth.png",
   }),
   art("moments/lifestream", "500x350", "scene", {
     alt: "Cloud and Tifa falling into the glowing green Lifestream amid the wreckage of Mideel.",
-    title:
-      "Cloud and Tifa fall into the Lifestream, Final Fantasy VII (frame from the game's movie)",
-    wiki: "Lifestream-ffvii-fmv-falling.png",
   }),
 ];
 
@@ -744,12 +507,6 @@ export function artSrc(entry: ArtEntry): string {
 /** Its small square version, for the network's orbs (made by scripts/make_thumbs.py). */
 export function thumbSrc(entry: ArtEntry): string {
   return `/thumbs/${entry.id}.webp`;
-}
-
-/** Its page on the Final Fantasy Wiki, for the credit. */
-export function artSourceUrl(entry: ArtEntry): string | undefined {
-  if (entry.wiki === undefined) return undefined;
-  return `https://finalfantasy.fandom.com/wiki/File:${encodeURIComponent(entry.wiki.replaceAll(" ", "_"))}`;
 }
 
 /** An entity's images: its main one (the modern look first) and, for characters, the original's. */

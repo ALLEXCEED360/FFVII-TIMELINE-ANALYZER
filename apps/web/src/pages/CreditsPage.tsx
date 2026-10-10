@@ -1,6 +1,7 @@
 import { type ReactNode, useState } from "react";
 import { Link } from "react-router";
-import { ARTWORK, type ArtEntry, SECTION_ART, artSourceUrl } from "../art/manifest";
+import { artSourceUrl, creditFor } from "../art/credits";
+import { ARTWORK, type ArtEntry, SECTION_ART } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
 import "../features/credits/credits.css";
@@ -54,7 +55,7 @@ const GROUPS: readonly { id: string; name: string; match: (art: ArtEntry) => boo
 ];
 
 /** The named artists first, then the studio. */
-const ARTISTS = [...new Set(ARTWORK.map((art) => art.artist))].sort(
+const ARTISTS = [...new Set(ARTWORK.map((art) => creditFor(art).artist))].sort(
   (a, b) => Number(a === "Square Enix") - Number(b === "Square Enix") || a.localeCompare(b),
 );
 
@@ -188,33 +189,36 @@ export function CreditsPage() {
           ))}
         </div>
         <ul aria-label="Pictures" className="cr-art">
-          {shown.map((art) => (
-            <li key={art.id} className="m-panel cr-piece">
-              <span className="cr-piece-art" data-kind={art.kind}>
-                <Artwork entry={art} decorative />
-              </span>
-              <span className="cr-piece-body">
-                <span className="cr-piece-title">{art.title}</span>
-                <span className="cr-small">{art.artist} · © Square Enix</span>
-                {art.wiki === undefined ? (
-                  <span className="cr-small">{art.source}</span>
-                ) : (
-                  <a
-                    href={artSourceUrl(art)}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="cr-link cr-source"
-                  >
-                    See the original
-                    <span className="sr-only">
-                      {" "}
-                      of {art.title} on the Final Fantasy Wiki (opens in a new tab)
-                    </span>
-                  </a>
-                )}
-              </span>
-            </li>
-          ))}
+          {shown.map((art) => {
+            const credit = creditFor(art);
+            return (
+              <li key={art.id} className="m-panel cr-piece">
+                <span className="cr-piece-art" data-kind={art.kind}>
+                  <Artwork entry={art} decorative />
+                </span>
+                <span className="cr-piece-body">
+                  <span className="cr-piece-title">{credit.title}</span>
+                  <span className="cr-small">{credit.artist} · © Square Enix</span>
+                  {credit.wiki === undefined ? (
+                    <span className="cr-small">{credit.source}</span>
+                  ) : (
+                    <a
+                      href={artSourceUrl(credit)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="cr-link cr-source"
+                    >
+                      See the original
+                      <span className="sr-only">
+                        {" "}
+                        of {credit.title} on the Final Fantasy Wiki (opens in a new tab)
+                      </span>
+                    </a>
+                  )}
+                </span>
+              </li>
+            );
+          })}
         </ul>
       </section>
 

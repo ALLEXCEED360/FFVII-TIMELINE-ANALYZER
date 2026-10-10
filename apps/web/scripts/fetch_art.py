@@ -5,7 +5,7 @@ key art, as hosted on the Final Fantasy Wiki (finalfantasy.fandom.com). Nothing 
 There are no in-game screenshots, and nothing extracted from game files, with one exception the
 project's owner chose: a few stills, official promo shots and a fan render of a game model,
 for moments (moments/), places and groups no artwork shows as well. Credits live in
-src/art/manifest.ts; this script only reproduces the files. (key/remake-title.webp, the Remake
+src/art/credits.ts; this script only reproduces the files. (key/remake-title.webp, the Remake
 title screen's artwork, was supplied by the project's owner and isn't fetched here.)
 
     python apps/web/scripts/fetch_art.py --list          # what would be fetched, with sizes

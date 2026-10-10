@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { creditFor } from "../art/credits";
 import { type ArtEntry, artSrc, artwork } from "../art/manifest";
 
 // Fades are masks on the image itself, so it dissolves into whatever is behind it.
@@ -50,7 +51,7 @@ export function ArtCredit({ entry, className = "" }: { entry: ArtEntry; classNam
       to="/credits"
       className={`inline-block min-h-6 py-0.5 font-mono text-[0.625rem] tracking-wider text-steel-400 hover:text-steel-100 ${className}`}
     >
-      Art: {entry.artist} · © Square Enix
+      Art: {creditFor(entry).artist} · © Square Enix
     </Link>
   );
 }

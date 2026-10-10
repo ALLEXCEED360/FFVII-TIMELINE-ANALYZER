@@ -12,6 +12,7 @@ import {
   pictureFor,
   sceneFor,
 } from "./manifest";
+import { CREDITED, creditFor } from "./credits";
 
 const ROOT = join(import.meta.dirname, "..", "..");
 const PUBLIC_ART = join(ROOT, "public", "art");
@@ -76,14 +77,16 @@ describe("art manifest", () => {
     }
   });
 
-  it("describes and credits every image", () => {
+  it("describes and credits every image, and credits nothing else", () => {
     for (const entry of ARTWORK) {
       expect(entry.alt.length).toBeGreaterThan(20);
-      expect(entry.title).not.toBe("");
+      const credit = creditFor(entry);
+      expect(credit.title).not.toBe("");
       // Every image says where it came from: a wiki file, or a note.
-      if (entry.wiki === undefined) expect(entry.source).toBeTruthy();
-      else expect(entry.wiki).toMatch(/\.(png|jpe?g)$/);
+      if (credit.wiki === undefined) expect(credit.source).toBeTruthy();
+      else expect(credit.wiki).toMatch(/\.(png|jpe?g)$/);
     }
+    expect([...CREDITED].sort()).toEqual(ARTWORK.map((entry) => entry.id).sort());
   });
 
   it("gives every section and title a backdrop that exists", () => {

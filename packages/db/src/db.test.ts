@@ -223,11 +223,11 @@ describe("comparison", () => {
     const plate = tifa.relationships.find((r) => r.other.id === "event_sector_7_plate_fall");
     expect(plate).toMatchObject({ applicable: ["og"], shared: true });
 
-    // Remake depicts both Sector 7 and Midgar but doesn't establish the link: version-specific.
-    const sector = await comparison(db, "location_sector_7", ["og", "remake"]);
-    if (sector === undefined || "redirectTo" in sector) throw new Error("not found");
-    const partOf = sector.relationships.find((r) => r.type === "part_of");
-    expect(partOf).toMatchObject({ applicable: ["og", "remake"], shared: false });
+    // Remake depicts both Tseng and the raid but doesn't put him in it: version-specific.
+    const tseng = await comparison(db, "character_tseng", ["og", "remake"]);
+    if (tseng === undefined || "redirectTo" in tseng) throw new Error("not found");
+    const raid = tseng.relationships.find((r) => r.other.id === "event_shinra_building_raid");
+    expect(raid).toMatchObject({ applicable: ["og", "remake"], shared: false });
 
     const ogOnly = await comparison(db, "event_mako_reactor_1_bombing", ["og", "rebirth"]);
     if (ogOnly === undefined || "redirectTo" in ogOnly) throw new Error("not found");

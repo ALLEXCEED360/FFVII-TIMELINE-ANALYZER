@@ -1,13 +1,15 @@
+import { creditFor } from "../../art/credits";
 import type { ArtEntry } from "../../art/manifest";
 import { ArtCredit, Artwork } from "../../components/Artwork";
 
-/** Which look a modern image shows, from its title. */
+/** Which look a modern image shows, from its credited title. */
 function lookOf(entry: ArtEntry): string | undefined {
   if (entry.era !== "modern") return undefined;
-  if (entry.title.includes("Rebirth")) return "Rebirth";
-  if (entry.title.includes("INTERmission")) return "INTERmission";
+  const { title } = creditFor(entry);
+  if (title.includes("Rebirth")) return "Rebirth";
+  if (title.includes("INTERmission")) return "INTERmission";
   // The trilogy's third game isn't out yet; its promo art shows the trilogy's look.
-  if (entry.title.includes("Revelation")) return "the Remake Trilogy";
+  if (title.includes("Revelation")) return "the Remake Trilogy";
   return "Remake";
 }
 
@@ -31,7 +33,9 @@ export function Portrait({ main, original }: { main: ArtEntry; original?: ArtEnt
       </div>
       <figcaption className="ent-credits">
         <ArtCredit entry={main} />
-        {original && original.artist !== main.artist && <ArtCredit entry={original} />}
+        {original && creditFor(original).artist !== creditFor(main).artist && (
+          <ArtCredit entry={original} />
+        )}
       </figcaption>
     </figure>
   );
