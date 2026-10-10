@@ -1,0 +1,69 @@
+id: character_vincent_valentine
+name: Vincent Valentine
+aliases: [Vincent]
+summary: >-
+  A former Turk found sleeping in a coffin beneath the Shinra Mansion, atoning for failing
+  Lucrecia, the woman who gave birth to Sephiroth.
+
+appearances:
+  - title: og
+    status: depicted
+    role: An optional companion, a former Turk
+    summary: >-
+      Found asleep in a coffin in the Shinra Mansion's basement, he says he was once a Turk and
+      asks after Lucrecia, Professor Gast's assistant on the Jenova Project and Sephiroth's
+      mother. He sleeps to atone, and joins the party hoping to meet Hojo.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_nibelheim, optional: true }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_nibelheim,
+          optional: true,
+          scene: "Recruiting Vincent: 'Formerly of the Turks'",
+        }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_nibelheim,
+          optional: true,
+          scene: "Recruiting Vincent: 'The woman who gave birth to Sephiroth'",
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: A mysterious figure who helps the party
+    summary: >-
+      Wakes from a coffin in the Shinra Manor, calls himself its security, and lets the party in
+      once they show Murasaki's keycard. He knows more than he says ("I've been around a while"),
+      guides the party through the Forgotten Capital and sends Cloud after Aerith at the altar.
+    depictions:
+      - { at: { title: rebirth, chapter: 11 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 11, scene: "Search Resumes: 'Vincent Valentine'" }
+      - { title: rebirth, chapter: 12, scene: "Full Speed Ahead" }
+      - { title: rebirth, chapter: 14, scene: "Guided by Fate" }
+      - { title: rebirth, chapter: 14, scene: "Altarbound: 'She needs you. Go.'" }
+    certainty: stated
+
+relationships:
+  - type: member_of
+    target: organization_turks
+    role: formerly
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_nibelheim,
+                optional: true,
+                scene: "Recruiting Vincent: 'Formerly of the Turks'",
+              },
+            ],
+          certainty: stated,
+        }

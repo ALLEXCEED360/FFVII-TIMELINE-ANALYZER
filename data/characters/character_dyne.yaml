@@ -1,0 +1,54 @@
+id: character_dyne
+name: Dyne
+summary: >-
+  Barret's best friend from Corel and Marlene's father, who lost an arm and his family when Shinra
+  burned the town.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Barret's old friend, now the outlaw of Corel Prison
+    summary: >-
+      In Barret's memories he refuses to give Corel's coal mines up for Shinra's reactor, and
+      clings to Barret's hand over a cliff when Shinra attacks the town. Found again in Corel
+      Prison, bitter and wanting to destroy everything, he fights Barret, then gives him his wife
+      Eleanor's pendant for Marlene and dies.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_corel }, framing: flashback }
+      - { at: { title: og, disc: 1, segment: og_corel_prison }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_corel, scene: "'Dyne was my best friend'" }
+      - { title: og, disc: 1, segment: og_corel_prison, scene: "'Give that pendant to Marlene'" }
+      - { title: og, disc: 1, segment: og_corel_prison, scene: "'So Dyne's dead...'" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: Barret starts to recall riding the minecarts with him, and trails off.
+    depictions:
+      - { at: { title: rebirth, chapter: 7 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 7, scene: "Continue Your Search: 'Me and Dyne used to...'" }
+    certainty: stated
+    notes: >-
+      Rebirth's Corel Prison chapter is empty in the transcript used, so anything more it shows of
+      him is left out until checked; see the open question on chapters 8 and 9.
+
+relationships:
+  - type: parent_of
+    target: character_marlene
+    kind: biological
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_corel_prison,
+                scene: "'Marlene wants to see her Mom, don't she?'",
+              },
+            ],
+          certainty: stated,
+        }

@@ -1,0 +1,83 @@
+id: character_marlene
+name: Marlene
+summary: >-
+  A little girl from Corel whom Barret raises as his own daughter; her birth parents are Dyne and
+  Eleanor.
+
+appearances:
+  - title: og
+    status: depicted
+    role: The little girl Barret is raising
+    summary: >-
+      Lives at Seventh Heaven in the Sector 7 slums and runs to Barret calling him Papa. Aerith
+      takes her to Elmyra's house before the plate falls, and Shinra later holds them both to keep
+      Cait Sith in line. At the end, years later, she looks up from Midgar with Elmyra.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_seventh_heaven }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_seventh_heaven, scene: "'Papa!!'" }
+      - { title: og, disc: 1, segment: og_aerith_story, scene: "'I think Marlene is safe'" }
+      - { title: og, disc: 1, segment: og_keystone, scene: "Marlene on the communicator" }
+      - { title: og, disc: 3, segment: og_finale, scene: "'The flower girl?'" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: The little girl Barret is raising
+    summary: >-
+      Lives at Seventh Heaven with Barret and Tifa. Aerith carries her to safety at Elmyra's house
+      as the plate falls, and she stays there while the party goes after Aerith, waiting for
+      Barret at the end.
+    depictions:
+      - { at: { title: remake, chapter: 3 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 3, scene: "Return to Base" }
+      - { title: remake, chapter: 12, scene: "Saving Marlene (continued)" }
+      - { title: remake, chapter: 14, scene: "Resolve" }
+      - { title: remake, chapter: 18, scene: "The Turning Point" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: Aerith wonders how her mother and Marlene are holding up back in Midgar.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "Respite" }
+    certainty: stated
+
+relationships:
+  - type: lives_in
+    target: location_sector_7
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_sector_7_pillar,
+                scene: "'There's a little girl named Marlene there'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake:
+        { sources: [{ title: remake, chapter: 3, scene: "Return to Base" }], certainty: stated }
+
+  - type: participated_in
+    target: event_sector_7_plate_fall
+    role: carried to safety by Aerith
+    titles:
+      og:
+        {
+          sources:
+            [{ title: og, disc: 1, segment: og_aerith_story, scene: "'I think Marlene is safe'" }],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources: [{ title: remake, chapter: 12, scene: "Saving Marlene (continued)" }],
+          certainty: stated,
+        }

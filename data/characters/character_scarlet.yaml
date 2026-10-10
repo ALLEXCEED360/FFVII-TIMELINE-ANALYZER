@@ -1,0 +1,109 @@
+id: character_scarlet
+name: Scarlet
+summary: Shinra's head of Weapons Development, cruel and fond of a loud laugh.
+
+appearances:
+  - title: og
+    status: depicted
+    role: Shinra's head of Weapons Development
+    summary: >-
+      Promised Corel a good living in return for its reactor, in Barret's memories. She hunts big
+      materia at Gongaga and the Northern Crater, plans to execute Tifa and Barret on live
+      television in Junon, gathers the Huge Materia, and fights the party in Midgar.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: direct }
+      - { at: { title: og, disc: 1, segment: og_corel }, framing: flashback }
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building }
+      - { title: og, disc: 1, segment: og_corel, scene: "Barret's Past" }
+      - { title: og, disc: 1, segment: og_gongaga, scene: "'Head of Shinra Weapon Development'" }
+      - { title: og, disc: 2, segment: og_junon_execution, scene: "In a World Approaching Its End" }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_corel_huge_materia,
+          scene: "Struggle for the Huge Materia",
+        }
+      - { title: og, disc: 2, segment: og_midgar_raid, scene: "Mako Cannon Rampage" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: A Shinra executive
+    summary: >-
+      Appears on the public screens in the Sector 5 slums to say Reactor 5 is under control and
+      to blame AVALANCHE for the attack, and is with the executives in the Shinra Building when the
+      party breaks in.
+    depictions:
+      - { at: { title: remake, chapter: 8 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 8, scene: "Sector 5 Slums Monitor" }
+      - { title: remake, chapter: 16, scene: "Reconnaissance" }
+    certainty: stated
+
+  - title: intermission
+    status: depicted
+    role: Shinra's director of Advanced Weaponry
+    summary: >-
+      Meets Yuffie and Sonon in a Shinra Building lift and sends them the wrong way into her
+      weapons, then faces them herself in a battle armour of her own design. Sonon blames one of
+      her machines for the death of Melphie.
+    depictions:
+      - { at: { title: intermission, chapter: 2 }, framing: direct }
+    sources:
+      - {
+          title: intermission,
+          chapter: 2,
+          scene: "Scarlet's Trap: 'director of Advanced Weaponry'",
+        }
+      - { title: intermission, chapter: 2, scene: "A Fateful Confrontation" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: A Shinra executive
+    summary: >-
+      At Rufus's board meeting she scorns hunting materia from monsters, saying Shinra is close to
+      making it, until Rufus says Wutai is after it too; she asks Heidegger for troops.
+    depictions:
+      - { at: { title: rebirth, chapter: 7 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 7, scene: "Split Up" }
+    certainty: stated
+
+relationships:
+  - type: member_of
+    target: organization_shinra
+    role: head of Weapons Development
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_gongaga,
+                scene: "'Head of Shinra Weapon Development'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake:
+        { sources: [{ title: remake, chapter: 16, scene: "Reconnaissance" }], certainty: stated }
+      intermission:
+        {
+          sources: [{ title: intermission, chapter: 2, scene: "Scarlet's Trap" }],
+          certainty: stated,
+        }
+      rebirth: { sources: [{ title: rebirth, chapter: 7, scene: "Split Up" }], certainty: stated }
+
+  - type: participated_in
+    target: event_yuffie_raid_on_shinra
+    role: sets the trap and fights Yuffie
+    titles:
+      intermission:
+        {
+          sources: [{ title: intermission, chapter: 2, scene: "A Fateful Confrontation" }],
+          certainty: stated,
+        }

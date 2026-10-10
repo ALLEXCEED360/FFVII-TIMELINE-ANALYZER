@@ -1,0 +1,103 @@
+id: character_reeve_tuesti
+name: Reeve Tuesti
+aliases: [Reeve]
+summary: >-
+  Head of Shinra's Urban Development Department, the one executive troubled by what the company
+  does to Midgar's people — and the man behind Cait Sith.
+
+appearances:
+  - title: og
+    status: depicted
+    role: A Shinra executive, and Cait Sith's operator
+    summary: >-
+      Objects at the executives' meeting to dropping the Sector 7 plate, and reports the cost of
+      its destruction afterwards. During the battle for Midgar he tries to stop the Sister Ray, and
+      Barret calls Cait Sith by his name: Reeve has been working the robot from Shinra all along.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_wall_market }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_wall_market,
+          scene: "'as head of the Urban Development Department'",
+        }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_shinra_building,
+          scene: "the damage estimates for Sector 7",
+        }
+      - { title: og, disc: 2, segment: og_midgar_raid, scene: "'You're busted, Reeve!'" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: A Shinra executive in charge of Midgar's upkeep
+    summary: >-
+      Begs President Shinra to spare the Sector 7 undercity, or at least warn its people. Later he
+      orders inspections of every reactor and pillar, and brings a damage assessment and a
+      rebuilding plan to the President, who brushes them aside.
+    depictions:
+      - { at: { title: remake, chapter: 10 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 10, scene: "Escape to the Surface" }
+      - { title: remake, chapter: 16, scene: "Playing the Tourist" }
+      - { title: remake, chapter: 16, scene: "Reconnaissance" }
+    certainty: stated
+
+  - title: intermission
+    status: depicted
+    summary: His plea to spare Sector 7 is seen again from the Shinra side.
+    depictions:
+      - { at: { title: intermission, chapter: 2 }, framing: direct }
+    sources:
+      - { title: intermission, chapter: 2, scene: "Scarlet's Trap" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: A Shinra executive
+    summary: >-
+      At Rufus's board meeting he asks why Shinra used AVALANCHE as cover to wreck its own
+      reactors and destroy Sector 7, and whether the promised land was ever real.
+    depictions:
+      - { at: { title: rebirth, chapter: 7 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 7, scene: "Split Up" }
+    certainty: stated
+
+relationships:
+  - type: member_of
+    target: organization_shinra
+    role: head of Urban Development
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_wall_market,
+                scene: "'as head of the Urban Development Department'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources: [{ title: remake, chapter: 16, scene: "Playing the Tourist" }],
+          certainty: stated,
+        }
+      rebirth: { sources: [{ title: rebirth, chapter: 7, scene: "Split Up" }], certainty: stated }
+
+  - type: acted_through
+    target: character_cait_sith
+    titles:
+      og:
+        {
+          sources:
+            [{ title: og, disc: 2, segment: og_midgar_raid, scene: "'You're busted, Reeve!'" }],
+          certainty: stated,
+        }

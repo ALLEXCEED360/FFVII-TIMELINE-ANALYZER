@@ -1,0 +1,80 @@
+id: character_rude
+name: Rude
+summary: A quiet, bald member of the Turks, usually at Reno's side.
+
+appearances:
+  - title: og
+    status: depicted
+    role: A Turk who pursues the party
+    summary: >-
+      Corners the party in the Shinra Building, then hunts them across the world with the Turks,
+      admitting at Gongaga that he has a soft spot for Tifa. During the battle for Midgar he
+      reminds Elena that they are Turks.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_shinra_building }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_shinra_building }
+      - { title: og, disc: 1, segment: og_road_to_junon, scene: "Going After Sephiroth" }
+      - { title: og, disc: 1, segment: og_gongaga }
+      - { title: og, disc: 2, segment: og_midgar_raid, scene: "Mako Cannon Rampage" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    role: A Turk sent after Aerith, who helps drop the Sector 7 plate
+    summary: >-
+      Comes after Aerith in Sector 5, relays the order that approves the plan against Sector 7,
+      and defends the top of the pillar with Reno. Afterwards he asks Reno whether it was all
+      necessary.
+    depictions:
+      - { at: { title: remake, chapter: 8 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 8 }
+      - { title: remake, chapter: 11, scene: "A Train Wreck" }
+      - { title: remake, chapter: 12, scene: "Showdown" }
+      - { title: remake, chapter: 16, scene: "Operation: Save Aerith" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: A Turk on the party's trail
+    summary: >-
+      Tells Elena that Reno has been sent off to rest, drinks with Shinra troopers in Junon, and
+      crosses paths with the party again in the Temple of the Ancients.
+    depictions:
+      - { at: { title: rebirth, chapter: 3 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 3, scene: "Where They Lead" }
+      - { title: rebirth, chapter: 4, scene: "The Seventh Infantry" }
+      - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }
+    certainty: stated
+
+relationships:
+  - type: member_of
+    target: organization_turks
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 2,
+                segment: og_midgar_raid,
+                scene: "Mako Cannon Rampage: 'We're Turks'",
+              },
+            ],
+          certainty: stated,
+        }
+      remake: { sources: [{ title: remake, chapter: 12, scene: "Showdown" }], certainty: stated }
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 7, scene: "Split Up: 'the Turks're back on duty'" }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_sector_7_plate_fall
+    role: defends the pillar with Reno
+    titles:
+      remake: { sources: [{ title: remake, chapter: 12, scene: "Showdown" }], certainty: stated }

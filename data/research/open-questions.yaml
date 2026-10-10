@@ -101,8 +101,10 @@
   details: >-
     The transcript used is empty for chapter 8 and thin for chapter 9, which cover the Gold
     Saucer, Corel Prison and Barret's past — including the burning of Corel, Dyne, and where Cait
-    Sith joins. These are left out until checked against the game.
-  entities: [character_cait_sith, character_barret_wallace]
+    Sith joins. These are left out until checked against the game. Dyne is cited in Rebirth only
+    from Barret's mention of him in chapter 7, and Cid only from chapter 12, which opens with the
+    Tiny Bronco already repaired; where and how Rebirth first brings Cid in needs checking.
+  entities: [character_cait_sith, character_barret_wallace, character_dyne, character_cid_highwind]
   sources:
     - { title: rebirth, chapter: 8 }
     - { title: rebirth, chapter: 9 }
@@ -125,3 +127,13 @@
     Yuffie's and Jessie's family names don't appear in the transcripts used, so they are recorded
     by first name only. Add their full names, with the title that states them, once checked.
   entities: [character_yuffie, character_jessie]
+
+- id: question_rebirth_interludes
+  kind: not_in_dataset
+  summary: Rebirth's interludes with Zack and Biggs
+  details: >-
+    The transcript used marks the interludes in which Zack carries Cloud and meets Biggs as
+    missing, so Biggs's part in them isn't recorded. Check against the game and add it as a
+    Rebirth appearance in the world where Zack survives.
+  entities: [character_biggs, character_zack_fair]
+  sources: [{ title: rebirth, chapter: 10, scene: "Undying Wish" }]

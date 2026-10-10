@@ -1,0 +1,76 @@
+id: character_cid_highwind
+name: Cid Highwind
+aliases: [Cid]
+summary: >-
+  A foul-mouthed pilot from Rocket Town whose dream of going to space was grounded by Shinra; he
+  joins the party and later captains its airship.
+
+appearances:
+  - title: og
+    status: depicted
+    role: A pilot who joins the party, and later its leader
+    summary: >-
+      Called "Captain" in Rocket Town, he is waiting for Rufus to reopen Shinra's space program,
+      which was shelved after he aborted a launch to save his assistant Shera. Hearing the party
+      is up against Shinra, he signs up, and they fly off in his plane, the Tiny Bronco. He later
+      makes the Highwind their airship, is chosen as their leader while Cloud is missing, and rides Shinra's last
+      rocket into space.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_rocket_town }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_rocket_town, scene: "'The name's Cid'" }
+      - { title: og, disc: 1, segment: og_rocket_town, scene: "Shera's story of the failed launch" }
+      - { title: og, disc: 1, segment: og_rocket_town, scene: "'Sign me up!'" }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_junon_execution,
+          scene: "'Welcome to my airship-the Highwind!'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_corel_huge_materia,
+          scene: "'You been chosen to be the new leader'",
+        }
+      - { title: og, disc: 2, segment: og_rocket_launch, scene: "Toward the Sea of Stars" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: A pilot who flies the party
+    summary: >-
+      Flies the party in the patched-up Tiny Bronco, styling himself the captain of their ship,
+      tells Barret he still works with Shinra now and then, and tags along to the Gold Saucer. He
+      is with the party at the Temple of the Ancients and the Forgotten Capital.
+    depictions:
+      - { at: { title: rebirth, chapter: 12 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 12, scene: "'think of me as the captain of your ship'" }
+      - { title: rebirth, chapter: 12, scene: "Full Speed Ahead: 'Still do, on occasion'" }
+      - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }
+      - { title: rebirth, chapter: 14, scene: "Beyond the Wall" }
+    certainty: stated
+    notes: >-
+      He first meets the party earlier in Rebirth, but the transcript used has no lines for him
+      before chapter 12, which opens with the Tiny Bronco already repaired; see the open question.
+
+relationships:
+  - type: member_of
+    target: organization_shinra
+    role: formerly of the Space Program Department
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_nibelheim,
+                optional: true,
+                scene: "Recruiting Vincent: 'Cid, formerly of the Space Program Department'",
+              },
+            ],
+          certainty: stated,
+        }

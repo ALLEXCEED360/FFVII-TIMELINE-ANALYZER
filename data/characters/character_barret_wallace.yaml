@@ -108,3 +108,18 @@ relationships:
     titles:
       rebirth:
         { sources: [{ title: rebirth, chapter: 5, scene: "To Catch a Fiend" }], certainty: stated }
+
+  - type: parent_of
+    target: character_marlene
+    kind: adoptive
+    titles:
+      og:
+        sources:
+          - { title: og, disc: 1, segment: og_seventh_heaven, scene: "'Papa!!'" }
+          - {
+              title: og,
+              disc: 1,
+              segment: og_corel_prison,
+              scene: "'That's when I found her... ...found Marlene'",
+            }
+        certainty: stated

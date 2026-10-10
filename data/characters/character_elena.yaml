@@ -1,0 +1,63 @@
+id: character_elena
+name: Elena
+summary: The newest member of the Turks, eager and talkative, devoted to Tseng.
+
+appearances:
+  - title: og
+    status: depicted
+    role: A Turk on the party's trail
+    summary: >-
+      Introduces herself as the Turks' newest member, promoted because Reno was hurt, and sets out
+      to stop the party. She lets slip how much she admires Tseng, waits with him at the Temple
+      of the Ancients, and is still fighting for Shinra in the battle for Midgar.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_road_to_junon }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_road_to_junon,
+          scene: "Going After Sephiroth: 'I'm the newest member of the Turks'",
+        }
+      - { title: og, disc: 1, segment: og_gongaga }
+      - { title: og, disc: 1, segment: og_temple_of_the_ancients }
+      - { title: og, disc: 2, segment: og_midgar_raid, scene: "Mako Cannon Rampage" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    role: A Turk on the party's trail
+    summary: >-
+      Works with Rude after Reno is sent off to rest, sets a Shinra war machine on Cloud, Aerith
+      and Red XIII at a heliport, and runs into the party again in the Temple of the Ancients.
+    depictions:
+      - { at: { title: rebirth, chapter: 3 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 3, scene: "Where They Lead" }
+      - { title: rebirth, chapter: 4, scene: "The Seventh Infantry" }
+      - { title: rebirth, chapter: 7, scene: "Split Up" }
+      - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }
+    certainty: stated
+
+relationships:
+  - type: member_of
+    target: organization_turks
+    titles:
+      og:
+        {
+          sources:
+            [
+              {
+                title: og,
+                disc: 1,
+                segment: og_road_to_junon,
+                scene: "'I'm the newest member of the Turks'",
+              },
+            ],
+          certainty: stated,
+        }
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 7, scene: "Split Up: 'the Turks're back on duty'" }],
+          certainty: stated,
+        }
