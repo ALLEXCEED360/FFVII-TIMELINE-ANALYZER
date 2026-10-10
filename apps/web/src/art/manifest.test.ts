@@ -53,6 +53,14 @@ describe("art manifest", () => {
     expect(ARTWORK.map((entry) => entry.id).sort()).toEqual(files);
   });
 
+  it("has a small square version of every image, for the network's orbs (make_thumbs.py)", () => {
+    for (const entry of ARTWORK) {
+      const path = join(ROOT, "public", "thumbs", `${entry.id}.webp`);
+      expect([entry.id, existsSync(path)]).toEqual([entry.id, true]);
+      expect([entry.id, ...webpSize(path)]).toEqual([entry.id, 192, 192]);
+    }
+  });
+
   it("records each image's real size, so the page can reserve its space", () => {
     for (const entry of ARTWORK) {
       const path = join(PUBLIC_ART, `${entry.id}.webp`);

@@ -14,35 +14,25 @@ import { SECTION_ART, sceneFor } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
 import { Orb } from "../components/Orb";
-import { TellingChoices } from "../components/TellingChoices";
 import { LinkPanel, PathChain } from "../features/network/LinkPanel";
+import { NetworkFilters } from "../features/network/NetworkFilters";
 import { NetworkList } from "../features/network/NetworkList";
 import {
   type MergedNetwork,
   layoutKey,
   mergeNetworks,
+  onlyKinds,
   toElements,
 } from "../features/network/elements";
-import {
-  EDGE_CATEGORY_ORDER,
-  networkSearch,
-  toggle,
-  useNetworkParams,
-} from "../features/network/params";
-import { CATEGORY_WORDS } from "../features/network/words";
-import { KIND_WORDS, MATERIA, isKind } from "../lib/kinds";
-import { ENTITY_KINDS, idFromPath, networkPath } from "../lib/paths";
+import { networkSearch, useNetworkParams } from "../features/network/params";
+import { KIND_WORDS, isKind } from "../lib/kinds";
+import { idFromPath, networkPath } from "../lib/paths";
 import { titlesOf } from "../lib/tellings";
+import { useMediaQuery } from "../lib/useMediaQuery";
 import { NotFoundPage } from "./NotFoundPage";
 import "../features/network/network.css";
 
 const GraphView = lazy(() => import("../features/network/GraphView"));
-
-const DEPTHS = [
-  { value: 1, label: "Direct links" },
-  { value: 2, label: "Two steps away" },
-  { value: 3, label: "Three steps away" },
-] as const;
 
 /** Adds a path's entities and relationships to the view, so the whole path is always visible. */
 function withPath(network: MergedNetwork, path: PathResult | undefined): MergedNetwork {
@@ -71,10 +61,15 @@ export function NetworkPage() {
   const path = usePath(id, params.to, filter);
   const navigate = useNavigate();
 
-  const network = useMemo(
-    () => (main.data ? withPath(mergeNetworks(main.data, expansions), path.data) : null),
-    [main.data, expansions, path.data],
-  );
+  const wide = useMediaQuery("(min-width: 64rem)");
+
+  // The kinds of thing chosen; the centre and a path being followed always show.
+  const network = useMemo(() => {
+    if (!main.data || !id) return null;
+    const all = withPath(mergeNetworks(main.data, expansions), path.data);
+    const keep = new Set([id, ...(path.data?.nodes.map((n) => n.id) ?? [])]);
+    return onlyKinds(all, params.kinds, keep);
+  }, [main.data, expansions, path.data, params.kinds, id]);
 
   const selected = params.node && network?.nodes.has(params.node) ? params.node : null;
   const elements = useMemo(
@@ -122,112 +117,46 @@ export function NetworkPage() {
         <h1 className="m-heading m-title nw-title">{centerName}</h1>
         {centerEntity.data && <p className="m-intro">{centerEntity.data.summary}</p>}
         <p className="m-intro nw-guide">
-          Everything linked to {centerName}: who and what took part, where things happened, who
-          belongs where, and what led to what. Tap anything in the web to read its links.
+          Everything linked to {centerName}. Tap anything in the web to read its links, and use the
+          window beside it to choose what the web shows.
         </p>
       </header>
 
-      <div className="m-panel nw-controls">
-        <div className="nw-control">
-          <p className="m-label" id="nw-depth">
-            How far
-          </p>
-          <div role="group" aria-labelledby="nw-depth" className="m-choices">
-            {DEPTHS.map((d) => (
-              <button
-                key={d.value}
-                type="button"
-                aria-pressed={params.depth === d.value}
-                onClick={() => {
-                  update({ depth: d.value });
-                }}
-                className="m-choice"
-              >
-                {d.label}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="nw-control">
-          <p aria-hidden="true" className="m-label">
-            Show
-          </p>
-          <TellingChoices
-            label="Show"
-            value={params.tellings}
-            onChange={(tellings) => {
-              update({ tellings });
-            }}
-          />
-        </div>
-        <div className="nw-control">
-          <p className="m-label" id="nw-kinds">
-            Kinds of link
-          </p>
-          <div role="group" aria-labelledby="nw-kinds" className="m-choices">
-            {EDGE_CATEGORY_ORDER.map((category) => (
-              <button
-                key={category}
-                type="button"
-                aria-pressed={params.categories.includes(category)}
-                onClick={() => {
-                  update({ categories: toggle(params.categories, category, EDGE_CATEGORY_ORDER) });
-                }}
-                className="m-choice"
-              >
-                <span
-                  aria-hidden="true"
-                  className="nw-line"
-                  style={{ background: CATEGORY_WORDS[category].color }}
-                />
-                {CATEGORY_WORDS[category].name}
-              </button>
-            ))}
-          </div>
-        </div>
-        <label className="nw-control nw-find">
-          <span className="m-label">How is {centerName} linked to…</span>
-          <select
-            value={params.to ?? ""}
-            onChange={(e) => {
-              update({ to: e.target.value || null });
-            }}
-            className="nw-select"
-          >
-            <option value="">Choose someone or something…</option>
-            {ENTITY_KINDS.map((k) => (
-              <optgroup key={k} label={KIND_WORDS[k].many}>
-                {(entities.data?.items ?? [])
-                  .filter((e) => e.kind === k && e.id !== id)
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((e) => (
-                    <option key={e.id} value={e.id}>
-                      {e.name}
-                    </option>
-                  ))}
-              </optgroup>
-            ))}
-          </select>
-        </label>
-      </div>
-
-      {params.to && (
-        <PathChain
-          path={path.data}
-          pending={path.isPending}
-          fromName={centerName}
-          toName={toName}
-          onSelect={(node) => {
-            update({ node });
-          }}
-          onClear={() => {
-            update({ to: null });
-          }}
-        />
-      )}
-
       <div className="nw-body">
+        <NetworkFilters
+          params={params}
+          update={update}
+          centreId={id}
+          centreName={centerName}
+          entities={entities.data?.items ?? []}
+          folded={!wide}
+        />
+
         <section aria-label="The web" className="nw-main">
+          {params.to && (
+            <PathChain
+              path={path.data}
+              pending={path.isPending}
+              fromName={centerName}
+              toName={toName}
+              onSelect={(node) => {
+                update({ node });
+              }}
+              onClear={() => {
+                update({ to: null });
+              }}
+            />
+          )}
+          {network && (
+            <p className="nw-count">
+              Showing {network.nodes.size} {network.nodes.size === 1 ? "thing" : "things"} and{" "}
+              {network.edges.size} {network.edges.size === 1 ? "link" : "links"}
+              {network.nodes.size === 1 && " — try looking further, or showing more"}
+              {params.depth > 1 &&
+                network.nodes.size > 1 &&
+                ". The small dots further out are further away: point at one to see its name"}
+            </p>
+          )}
           {main.isPending ? (
             <Loading variant="panel" label="Drawing the web…" />
           ) : main.isError ? (
@@ -243,34 +172,10 @@ export function NetworkPage() {
                   update({ node });
                 }}
                 onFocus={recentre}
+                dashed={params.tellings === "both"}
               />
             </Suspense>
           )}
-          <ul aria-label="What the colours mean" className="nw-key">
-            {ENTITY_KINDS.map((k) => (
-              <li key={k}>
-                <Orb kind={k} />
-                {KIND_WORDS[k].many}
-                <span className="nw-key-note"> ({MATERIA[k].name} materia)</span>
-              </li>
-            ))}
-            {EDGE_CATEGORY_ORDER.map((category) => (
-              <li key={category}>
-                <span
-                  aria-hidden="true"
-                  className="nw-line"
-                  style={{ background: CATEGORY_WORDS[category].color }}
-                />
-                {CATEGORY_WORDS[category].name}
-              </li>
-            ))}
-            {params.tellings === "both" && (
-              <li>
-                <span aria-hidden="true" className="nw-line nw-line-dashed" />
-                Dashed: only the original or only the Remake Trilogy shows that link
-              </li>
-            )}
-          </ul>
         </section>
 
         {network && (

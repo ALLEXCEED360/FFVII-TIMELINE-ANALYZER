@@ -49,7 +49,8 @@ describe("network page", () => {
     renderAt("/network/character/cloud-strife");
     await screen.findByTestId("graph");
     expect(classesOf("character_cloud_strife")).toContain("center");
-    expect(classesOf("character_cloud_strife")).toContain("portrait");
+    expect(classesOf("character_cloud_strife")).toContain("pictured");
+    expect(classesOf("event_aerith_death")).toContain("pictured");
     const list = screen.getByRole("list", { name: "Everything in the web and its links" });
     expect(
       within(list)
@@ -113,7 +114,7 @@ describe("network page", () => {
     const requests = stubApi();
     renderAt("/network/character/cloud-strife");
     await screen.findByTestId("graph");
-    await userEvent.click(screen.getByRole("button", { name: "Two steps away" }));
+    await userEvent.click(screen.getByRole("button", { name: /^Two steps away/ }));
     await userEvent.click(screen.getByRole("button", { name: "The Remake Trilogy" }));
     await userEvent.click(screen.getByRole("button", { name: /Family, homes and groups/ }));
     await waitFor(() => {
@@ -124,6 +125,26 @@ describe("network page", () => {
         categories: "event,causal",
       });
     });
+  });
+
+  it("hides kinds of thing from the web, keeping the centre, and resets to the usual view", async () => {
+    stubApi();
+    const { router } = renderAt("/network/character/cloud-strife");
+    await screen.findByTestId("graph");
+    const show = screen.getByRole("group", { name: "Show these" });
+    await userEvent.click(within(show).getByRole("button", { name: "Places" }));
+    expect(router.state.location.search).toBe("?show=character%2Cevent%2Corganization");
+    await waitFor(() => {
+      expect(classesOf("location_nibelheim")).toBeUndefined();
+    });
+    expect(classesOf("character_cloud_strife")).toContain("center");
+    expect(within(show).getByRole("button", { name: "Places" }).getAttribute("aria-pressed")).toBe(
+      "false",
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Back to the usual view" }));
+    expect(router.state.location.search).toBe("");
+    expect(screen.queryByRole("button", { name: "Back to the usual view" })).toBeNull();
   });
 
   it("has no accessibility violations", async () => {

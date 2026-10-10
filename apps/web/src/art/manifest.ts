@@ -633,6 +633,11 @@ export function artSrc(entry: ArtEntry): string {
   return `/art/${entry.id}.webp`;
 }
 
+/** Its small square version, for the network's orbs (made by scripts/make_thumbs.py). */
+export function thumbSrc(entry: ArtEntry): string {
+  return `/thumbs/${entry.id}.webp`;
+}
+
 /** Its page on the Final Fantasy Wiki, for the credit. */
 export function artSourceUrl(entry: ArtEntry): string | undefined {
   if (entry.wiki === undefined) return undefined;

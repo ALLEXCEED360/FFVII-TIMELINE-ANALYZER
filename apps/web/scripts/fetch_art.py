@@ -12,7 +12,8 @@ title screen's artwork, was supplied by the project's owner and isn't fetched he
     python apps/web/scripts/fetch_art.py [cache dir]     # fetch and convert
     python apps/web/scripts/fetch_art.py --only characters/zack,characters/hojo [cache dir]
 
-Needs Pillow. Writes WebP files to apps/web/public/art/.
+Needs Pillow. Writes WebP files to apps/web/public/art/; then run make_thumbs.py for the
+network's small square versions.
 """
 
 import io

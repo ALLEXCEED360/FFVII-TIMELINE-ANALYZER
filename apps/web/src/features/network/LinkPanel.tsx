@@ -53,7 +53,7 @@ export function LinkPanel({
   }
 
   return (
-    <aside aria-label="Chosen in the web" className="m-panel nw-panel">
+    <aside aria-label="Chosen in the web" className="ff7-window nw-panel nw-window">
       {art && (
         <div aria-hidden="true" className="nw-panel-art" data-kind={art.kind}>
           <Artwork entry={art} decorative eager />

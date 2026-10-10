@@ -3,19 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "../../lib/motion";
 import { GRAPH_STYLE } from "./style";
 
-// The web (Cytoscape + fcose, loaded on demand). Changes apply as a diff; the layout reruns only when
-// the set of entities changes. Plain scroll scrolls the page; Ctrl/⌘ + scroll zooms.
+// The web (Cytoscape, loaded on demand), placed in rings by ringLayout (elements.ts). Changes apply
+// as a diff, things gliding to their new places. Plain scroll scrolls the page; Ctrl/⌘ + scroll zooms.
 
 type Cytoscape = typeof import("cytoscape");
 
 let loaded: Promise<Cytoscape> | undefined;
 function loadCytoscape(): Promise<Cytoscape> {
-  loaded ??= Promise.all([import("cytoscape"), import("cytoscape-fcose")]).then(
-    ([{ default: cytoscape }, { default: fcose }]) => {
-      cytoscape.use(fcose);
-      return cytoscape;
-    },
-  );
+  loaded ??= import("cytoscape").then(({ default: cytoscape }) => cytoscape);
   return loaded;
 }
 
@@ -24,9 +19,12 @@ export default function GraphView({
   layoutKey,
   onSelect,
   onFocus,
+  dashed = false,
 }: {
   elements: ElementDefinition[];
-  /** Changes when the set of entities changes, which reruns the layout. */
+  /** Whether a dashed line (a link only one story shows) can appear, to say so under the web. */
+  dashed?: boolean;
+  /** Changes when the set of entities changes, which fits the web to its field again. */
   layoutKey: string;
   onSelect: (id: string | null) => void;
   /** Double-click: make this entity the centre. */
@@ -39,6 +37,8 @@ export default function GraphView({
   const [settled, setSettled] = useState(false);
   const settledRef = useRef(false);
   const reducedMotion = useReducedMotion();
+  // A ring locks on to the chosen thing, pulsing, so it's clear which one the panel is about.
+  const lock = useRef<HTMLSpanElement>(null);
   // Cytoscape's listeners are attached once; they call whatever handlers are current.
   const handlers = useRef({ onSelect, onFocus });
   useEffect(() => {
@@ -55,20 +55,40 @@ export default function GraphView({
         style: GRAPH_STYLE,
         minZoom: 0.25,
         maxZoom: 3,
-        // A plain scroll scrolls the page, not the web; see the wheel handler below.
-        userZoomingEnabled: false,
+        // A plain scroll scrolls the page, not the web (see the wheel handler below); on a touch
+        // screen, where there's no wheel, two fingers pinch to zoom.
+        userZoomingEnabled: window.matchMedia("(hover: none) and (pointer: coarse)").matches,
       });
+      const placeLock = () => {
+        const ring = lock.current;
+        if (!ring) return;
+        const node = instance.$("node.selected");
+        if (node.empty() || !settledRef.current) {
+          ring.style.opacity = "0";
+          return;
+        }
+        const at = node.renderedPosition();
+        const size = node.renderedOuterWidth() + 20;
+        ring.style.opacity = "1";
+        ring.style.left = `${String(at.x)}px`;
+        ring.style.top = `${String(at.y)}px`;
+        ring.style.width = `${String(size)}px`;
+        ring.style.height = `${String(size)}px`;
+      };
+      instance.on("render", placeLock);
       instance.on("mouseover", "node", (event) => {
         const hood = (event.target as NodeSingular).closedNeighborhood();
         instance.batch(() => {
           instance.elements().not(hood).addClass("dim");
           hood.edges().addClass("lit");
+          // The names of what it links to show, even out on the far rings.
+          hood.nodes().addClass("named");
         });
         if (container.current) container.current.style.cursor = "pointer";
       });
       instance.on("mouseout", "node", () => {
         instance.batch(() => {
-          instance.elements().removeClass("dim lit");
+          instance.elements().removeClass("dim lit named");
         });
         if (container.current) container.current.style.cursor = "";
       });
@@ -102,7 +122,7 @@ export default function GraphView({
       if (size === last) return;
       last = size;
       instance.resize();
-      instance.fit(undefined, 40);
+      instance.fit(undefined, 30);
     });
     observer.observe(box);
     return () => {
@@ -157,42 +177,38 @@ export default function GraphView({
         else {
           existing.data(definition.data);
           existing.classes(typeof definition.classes === "string" ? definition.classes : "");
+          const to = definition.position;
+          if (to && existing.isNode()) {
+            const at = existing.position();
+            if (Math.abs(at.x - to.x) > 0.5 || Math.abs(at.y - to.y) > 0.5) {
+              // Glide to its new place once the web is showing; jump there before.
+              if (settledRef.current && !reducedMotion) {
+                existing.animate({ position: to }, { duration: 450, easing: "ease-in-out-cubic" });
+              } else existing.position(to);
+            }
+          }
         }
       }
       // Nodes before edges, so every edge finds its endpoints.
       instance.add(toAdd.filter((e) => e.group === "nodes"));
       instance.add(toAdd.filter((e) => e.group === "edges"));
     });
-  }, [elements, ready]);
+  }, [elements, ready, reducedMotion]);
 
-  // Lay out again when the set of entities changes.
+  // Fit the web to its field whenever the set of entities changes (after things have glided).
   useEffect(() => {
     const instance = cy.current;
     if (!ready || !instance || instance.nodes().empty()) return;
-    // Measure the box afresh, and fit the web to it once the layout settles: laid out before the
-    // box had its final size, it would sit squashed in a corner.
     instance.resize();
-    instance.one("layoutstop", () => {
-      instance.resize();
-      instance.fit(undefined, 50);
+    if (!settledRef.current || reducedMotion) {
+      instance.fit(undefined, 30);
       settledRef.current = true;
       setSettled(true);
-    });
-    instance
-      .layout({
-        name: "fcose",
-        // The first web appears already laid out; later ones (adding a thing's own links) grow.
-        animate: settledRef.current && !reducedMotion,
-        animationDuration: 400,
-        randomize: true,
-        // Room enough that names don't run into each other.
-        nodeRepulsion: () => 26000,
-        idealEdgeLength: () => 170,
-        nodeSeparation: 120,
-        nodeDimensionsIncludeLabels: true,
-        padding: 40,
-      } as never)
-      .run();
+      // The ring waits for the web to settle before it locks on.
+      instance.emit("render");
+      return;
+    }
+    instance.animate({ fit: { eles: instance.elements(), padding: 30 } }, { duration: 450 });
   }, [layoutKey, ready, reducedMotion]);
 
   const zoom = (factor: number) => {
@@ -205,22 +221,45 @@ export default function GraphView({
   };
 
   return (
-    <div className="m-panel nw-graph">
-      <div
-        ref={container}
-        // Cytoscape makes its container position: relative, so size it explicitly.
-        className={`nw-graph-canvas h-full w-full ${settled ? "is-settled" : ""}`}
-        role="img"
-        aria-label="The web of links. The panel beside it and the list below it say the same in words."
-      />
-      {!settled && (
-        <div role="status" className="nw-graph-loading">
-          Drawing the web…
-        </div>
-      )}
-      <p aria-hidden="true" className="nw-graph-hint">
-        Tap anything to see its links · double-tap to put it in the centre · drag to move around
-      </p>
+    <div className="nw-graph">
+      <div className="nw-graph-field">
+        <div
+          ref={container}
+          // Cytoscape makes its container position: relative, so size it explicitly.
+          className={`nw-graph-canvas ${settled ? "is-settled" : ""}`}
+          role="img"
+          aria-label="The web of links. The panel beside it and the list below it say the same in words."
+        />
+        <span ref={lock} aria-hidden="true" className="nw-lock" />
+        {!settled && (
+          <div role="status" className="nw-graph-loading">
+            Drawing the web…
+          </div>
+        )}
+      </div>
+      <ul aria-label="How to use the web" className="nw-how">
+        <li>
+          <kbd>Tap</kbd> see its links
+        </li>
+        <li>
+          <kbd>Double-tap</kbd> put it in the centre
+        </li>
+        <li>
+          <kbd>Drag</kbd> move it, or the whole web
+        </li>
+        <li className="nw-how-mouse">
+          <kbd>Ctrl + scroll</kbd> zoom
+        </li>
+        <li className="nw-how-touch">
+          <kbd>Pinch</kbd> or <kbd>+</kbd> <kbd>−</kbd> zoom
+        </li>
+        {dashed && (
+          <li className="nw-how-key">
+            <span aria-hidden="true" className="nw-line nw-line-dashed" />
+            only one of the two stories shows that link
+          </li>
+        )}
+      </ul>
       <div className="nw-graph-tools">
         <button
           type="button"
@@ -245,7 +284,7 @@ export default function GraphView({
         <button
           type="button"
           className="nw-tool nw-tool-wide"
-          onClick={() => cy.current?.fit(undefined, 50)}
+          onClick={() => cy.current?.fit(undefined, 30)}
         >
           Show all
         </button>
