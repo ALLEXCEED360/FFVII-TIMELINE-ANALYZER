@@ -50,10 +50,52 @@ appearances:
       - { title: rebirth, chapter: 1, scene: "'Finally make First'" }
     certainty: stated
 
+  - title: remake
+    world: world_zack_survives
+    status: referenced
+    summary: Zack, making his last stand, tells himself to protect his honour as a SOLDIER.
+    depictions:
+      - { at: { title: remake, chapter: 18 }, framing: mention }
+    sources:
+      - {
+          title: remake,
+          chapter: 18,
+          scene: "The Turning Point: 'Protect your honor...as a SOLDIER!'",
+        }
+    certainty: stated
+
+  - title: rebirth
+    world: world_zack_survives
+    status: referenced
+    summary: Shinra security hunts Zack through Midgar as an armed ex-SOLDIER.
+    depictions:
+      - { at: { title: rebirth, part: interlude }, framing: mention }
+    sources:
+      - { title: rebirth, part: interlude, scene: "A World Apart: 'the fugitive is an ex-SOLDIER'" }
+    certainty: stated
+
 relationships:
   - type: part_of
     target: organization_shinra
     titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 1,
+              segment: og_reactor_5,
+              scene: "President Shinra: 'You're the one who quit SOLDIER'",
+            }
+          - {
+              title: og,
+              disc: 1,
+              segment: og_kalm,
+              scene: "'After the war it was SOLDIER's duty to put down any resistance against the Shinra'",
+            }
+        certainty: inferred
+        notes: >-
+          The President speaks of a SOLDIER who left him as a traitor, and Cloud describes SOLDIER
+          doing Shinra's work; the transcript doesn't call it a part of Shinra outright.
       remake:
         sources:
           [

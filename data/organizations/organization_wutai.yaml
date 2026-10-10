@@ -5,6 +5,29 @@ summary: >-
   location.)
 
 appearances:
+  - title: og
+    status: referenced
+    summary: >-
+      The far-off land where Shinra fought a war, remembered in Elmyra's story. In the optional
+      visit with Yuffie, losing that war has turned it into a tourist town under her father Godo.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_aerith_story }, framing: mention }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_aerith_story,
+          scene: "'Some far away place called Wutai'",
+        }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_rocket_town,
+          optional: true,
+          scene: "Homecoming of a Miserable Daughter: 'After we lost the war'",
+        }
+    certainty: stated
+
   - title: remake
     status: referenced
     summary: Shinra's sworn enemy, which Shinra claims AVALANCHE serves.

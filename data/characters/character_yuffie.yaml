@@ -50,8 +50,25 @@ appearances:
 relationships:
   - type: member_of
     target: organization_wutai
-    role: special forces operative
+    role: in the Remake trilogy, a special forces operative for its new government
     titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 1,
+              segment: og_rocket_town,
+              optional: true,
+              scene: "Homecoming of a Miserable Daughter: Yuffie and her father Godo in Wutai",
+            }
+          - {
+              title: og,
+              disc: 2,
+              segment: og_aerith_prayer,
+              optional: true,
+              scene: "'I know it's all for Wutai'",
+            }
+        certainty: stated
       intermission:
         {
           sources:

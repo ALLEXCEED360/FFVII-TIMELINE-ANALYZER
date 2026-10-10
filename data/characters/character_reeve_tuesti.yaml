@@ -70,7 +70,7 @@ appearances:
 relationships:
   - type: member_of
     target: organization_shinra
-    role: head of Urban Development
+    role: head of Urban Development (Urban Planning in Remake)
     titles:
       og:
         {

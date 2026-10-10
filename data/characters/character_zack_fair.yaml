@@ -71,6 +71,24 @@ relationships:
         notes: >-
           Cloud's account at Kalm has a SOLDIER sent to Nibelheim with Sephiroth; in the Lifestream
           it emerges that this was Zack, and that Cloud never made it into SOLDIER.
+      remake:
+        world: world_zack_survives
+        sources:
+          - {
+              title: remake,
+              chapter: 18,
+              scene: "The Turning Point: 'Protect your honor...as a SOLDIER!'",
+            }
+        certainty: stated
+      rebirth:
+        world: world_zack_survives
+        sources:
+          - {
+              title: rebirth,
+              part: interlude,
+              scene: "A World Apart: 'the fugitive is an ex-SOLDIER'",
+            }
+        certainty: stated
 
   - type: participated_in
     target: event_nibelheim_incident

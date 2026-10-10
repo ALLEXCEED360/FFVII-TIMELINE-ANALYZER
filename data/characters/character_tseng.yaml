@@ -58,6 +58,18 @@ relationships:
             ],
           certainty: stated,
         }
+      remake:
+        sources:
+          - {
+              title: remake,
+              chapter: 11,
+              scene: "Blocked Road: Tseng radios Reno the plate separation code",
+            }
+          - { title: remake, chapter: 16, scene: "Operation: Save Aerith: 'The VP needs us'" }
+        certainty: inferred
+        notes: >-
+          He gives Reno and Rude, who call themselves Turks, their orders; the transcript doesn't
+          name him a Turk in so many words.
       rebirth:
         { sources: [{ title: rebirth, chapter: 3, scene: "Where They Lead" }], certainty: stated }
 

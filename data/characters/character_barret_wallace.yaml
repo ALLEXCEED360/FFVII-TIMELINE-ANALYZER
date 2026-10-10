@@ -123,3 +123,11 @@ relationships:
               scene: "'That's when I found her... ...found Marlene'",
             }
         certainty: stated
+      remake:
+        sources:
+          - { title: remake, chapter: 3, scene: "Return to Base: 'Daddy! You're home!'" }
+          - { title: remake, chapter: 18, scene: "The Turning Point: 'Daddy...?'" }
+        certainty: inferred
+        notes: >-
+          Marlene calls Barret Daddy and he raises her; Remake doesn't say in the transcript that
+          he isn't her father by birth, which the original establishes.

@@ -37,7 +37,7 @@ appearances:
 relationships:
   - type: participated_in
     target: event_race_for_the_black_materia
-    role: gives up his body to bring out the black materia
+    role: goes into the temple with the party (in the original, gives up his body to bring out the black materia)
     titles:
       og:
         {
@@ -52,3 +52,9 @@ relationships:
             ],
           certainty: stated,
         }
+      rebirth:
+        sources: [{ title: rebirth, chapter: 13, scene: "Within Our Grasp: in the corridors" }]
+        certainty: stated
+        notes: >-
+          The transcript breaks off as the temple begins to fall, so what becomes of him there is
+          an open question.

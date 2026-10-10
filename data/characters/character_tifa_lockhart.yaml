@@ -98,6 +98,15 @@ relationships:
             [{ title: og, disc: 1, segment: og_shinra_building, scene: "Tifa: 'Same here!'" }],
           certainty: stated,
         }
+      remake:
+        sources:
+          - {
+              title: remake,
+              chapter: 10,
+              scene: "Follow the Waterway: 'An Avalanche saying, actually. We use them'",
+            }
+          - { title: remake, chapter: 14, scene: "Tomboy Bandit: 'you three are Avalanche'" }
+        certainty: stated
 
   - type: participated_in
     target: event_mako_reactor_5_bombing

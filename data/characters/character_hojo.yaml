@@ -119,6 +119,14 @@ relationships:
           sources: [{ title: og, disc: 1, segment: og_shinra_building, scene: "'As a specimen'" }],
           certainty: stated,
         }
+      remake:
+        sources:
+          - {
+              title: remake,
+              chapter: 16,
+              scene: "Reconnaissance: 'The specimen is somewhat lacking compared to her pure-blood mother'",
+            }
+        certainty: stated
       rebirth:
         {
           sources: [{ title: rebirth, chapter: 6, scene: "When Evening Comes" }],
@@ -128,6 +136,22 @@ relationships:
   - type: experimented_on
     target: character_ifalna
     titles:
+      remake:
+        sources:
+          - {
+              title: remake,
+              chapter: 16,
+              scene: "Reconnaissance: Aerith's 'pure-blood mother', and 'a second specimen'",
+            }
+          - {
+              title: remake,
+              chapter: 16,
+              scene: "A Helping Hand: 'If she had only trusted me instead of trying to run'",
+            }
+        certainty: inferred
+        notes: >-
+          Hojo measures Aerith against her pure-blood mother and regrets that "she" ran from him;
+          Remake doesn't say in so many words that he experimented on Ifalna.
       rebirth:
         sources: [{ title: rebirth, chapter: 6, scene: '''a "specimen" for his experiments''' }]
         certainty: stated
@@ -148,6 +172,14 @@ relationships:
             ],
           certainty: stated,
         }
+      remake:
+        sources:
+          - {
+              title: remake,
+              chapter: 16,
+              scene: "Operation: Save Aerith: 'The designation given to me by Hojo'",
+            }
+        certainty: stated
 
   - type: participated_in
     target: event_shinra_building_raid

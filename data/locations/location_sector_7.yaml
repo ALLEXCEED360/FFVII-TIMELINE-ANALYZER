@@ -63,3 +63,14 @@ relationships:
               scene: "Sector 7 Slums — Outskirts, on arriving in Midgar",
             }
         certainty: stated
+      remake:
+        sources:
+          - {
+              title: remake,
+              chapter: 10,
+              scene: "Escape to the Surface: Reeve pleads for the Sector 7 undercity",
+            }
+        certainty: inferred
+        notes: >-
+          Remake treats the sector's plate and slums as part of the city throughout; the transcript
+          doesn't say so in one line.

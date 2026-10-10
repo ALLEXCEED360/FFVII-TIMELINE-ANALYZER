@@ -34,6 +34,20 @@ appearances:
     certainty: stated
 
   - title: rebirth
+    status: referenced
+    summary: Aerith, travelling with Cloud, wonders how her mother is holding up back in Midgar.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: mention }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "Respite: 'how Mom and Marlene are holding up'" }
+      - {
+          title: rebirth,
+          chapter: 7,
+          scene: "To the Summit: 'I wonder how my mom's doing back there'",
+        }
+    certainty: stated
+
+  - title: rebirth
     world: world_zack_survives
     status: depicted
     role: Aerith's mother
@@ -60,6 +74,12 @@ relationships:
           sources: [{ title: remake, chapter: 13, scene: "'She's not my daughter. Not by blood'" }],
           certainty: stated,
         }
+      rebirth:
+        sources:
+          [{ title: rebirth, chapter: 4, scene: "Respite: 'how Mom and Marlene are holding up'" }]
+        certainty: inferred
+        notes: >-
+          Aerith calls her Mom; Rebirth doesn't restate in the transcript that Elmyra adopted her.
 
   - type: lives_in
     target: location_midgar
@@ -79,6 +99,15 @@ relationships:
         }
       remake:
         { sources: [{ title: remake, chapter: 8, scene: "To Aerith's House" }], certainty: stated }
+      rebirth:
+        world: world_zack_survives
+        sources:
+          - {
+              title: rebirth,
+              part: interlude,
+              scene: "A World Apart, Sector 5 Undercity: 'I'm going to take her home'",
+            }
+        certainty: stated
 
   - type: participated_in
     target: event_ifalna_death
