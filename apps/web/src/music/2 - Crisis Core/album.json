@@ -1,0 +1,16 @@
+{
+  "title": "Crisis Core",
+  "year": 2007,
+  "subtitle": "Original Soundtrack",
+  "art": "key/anniversary",
+  "tracks": {
+    "01 - The Price of Freedom.mp3": {
+      "composer": "Takeharu Ishimoto",
+      "length": 222
+    },
+    "02 - Theme of CRISIS CORE – Under the Apple Tree.mp3": {
+      "composer": "Takeharu Ishimoto",
+      "length": 243
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "title": "Final Fantasy VII",
+  "year": 1997,
+  "subtitle": "Original Soundtrack",
+  "art": "key/og-poster",
+  "tracks": {
+    "01 - Prelude.mp3": {
+      "composer": "Nobuo Uematsu",
+      "length": 174
+    },
+    "02 - Opening – Bombing Mission.mp3": {
+      "composer": "Nobuo Uematsu",
+      "length": 240
+    },
+    "03 - Main Theme of Final Fantasy VII.mp3": {
+      "composer": "Nobuo Uematsu",
+      "length": 391
+    },
+    "04 - Aerith's Theme.mp3": {
+      "composer": "Nobuo Uematsu",
+      "length": 258
+    },
+    "05 - Cosmo Canyon.mp3": {
+      "composer": "Nobuo Uematsu",
+      "length": 217
+    },
+    "06 - J-E-N-O-V-A.mp3": {
+      "composer": "Nobuo Uematsu",
+      "length": 154
+    },
+    "07 - Those Chosen by the Planet.mp3": {
+      "composer": "Nobuo Uematsu",
+      "length": 198
+    },
+    "08 - One-Winged Angel.mp3": {
+      "composer": "Nobuo Uematsu",
+      "length": 441
+    }
+  }
+}

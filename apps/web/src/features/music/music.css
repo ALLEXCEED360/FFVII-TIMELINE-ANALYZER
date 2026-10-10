@@ -1,0 +1,626 @@
+/* The background music: Config's player (MusicSetting) and the now-playing card (NowPlayingCard). */
+
+.mp-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+}
+
+/* ── The player: one of the original's windows, the whole width of Config ────────────────── */
+.mp {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 1.1rem 1.3rem 1.2rem;
+  --open: 0s;
+}
+.mp-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.2rem 1.2rem;
+}
+.mp-intro {
+  grid-column: 1;
+  font-size: 0.9rem;
+  color: #c9d3ea;
+}
+.mp-switch {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  display: flex;
+  padding: 3px;
+  border: 2px solid #d6d6de;
+  border-radius: 999px;
+  background: rgb(2 11 48 / 0.6);
+}
+.mp-switch-option {
+  min-width: 3.6rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: #9fb0cf;
+  cursor: pointer;
+}
+.mp-switch-option:has(:checked) {
+  background: linear-gradient(140deg, rgb(52 125 230), rgb(12 47 142));
+  box-shadow: 0 0 12px rgb(138 215 255 / 0.5);
+  color: #fff;
+}
+.mp-switch-option:has(:focus-visible) {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* What's playing: the record and the deck. */
+.mp-deck {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1.3rem;
+  padding: 1rem;
+  border-radius: 6px;
+  background: rgb(2 11 48 / 0.55);
+  box-shadow: inset 0 0 0 1px rgb(214 214 222 / 0.25);
+  transition: opacity 0.3s ease;
+}
+.mp-deck[data-off] {
+  opacity: 0.55;
+}
+.mp-cover {
+  display: flex;
+  width: 9.5rem;
+  height: 9.5rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid #d6d6de;
+  border-radius: 6px;
+  background: radial-gradient(circle at 50% 40%, rgb(52 125 230 / 0.5), rgb(2 11 48));
+  box-shadow:
+    0 0 0 1px #5c5c78,
+    0 10px 26px rgb(0 0 0 / 0.6),
+    0 0 28px rgb(138 215 255 / 0.25);
+}
+.mp-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mp-cover-icon {
+  width: 3rem;
+  height: 3rem;
+  color: #8ad7ff;
+}
+.mp-deck-main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.mp-now-label {
+  color: #8ad7ff;
+}
+.mp-now-title {
+  overflow: hidden;
+  font-size: 30px;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 2px 2px 0 #10102a;
+}
+.mp-now-by {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+}
+.mp-now-album {
+  font-weight: 400;
+  color: #b9c6e3;
+}
+.mp-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 0.5rem;
+}
+.mp-time {
+  min-width: 2.6rem;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  color: #c9d3ea;
+}
+.mp-time:last-child {
+  text-align: right;
+}
+/* A slider like the game's gauges: filled in Mako green to where it is. */
+.mp-range {
+  height: 0.45rem;
+  min-width: 0;
+  flex: 1;
+  appearance: none;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #8ef0c6 0 var(--p, 0%),
+    rgb(255 255 255 / 0.15) var(--p, 0%) 100%
+  );
+  cursor: pointer;
+}
+.mp-range::-webkit-slider-thumb {
+  width: 0.95rem;
+  height: 0.95rem;
+  appearance: none;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #3fd28a;
+  box-shadow: 0 0 8px rgb(142 240 198 / 0.8);
+}
+.mp-range::-moz-range-thumb {
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #3fd28a;
+}
+.mp-range:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 4px;
+}
+.mp-range:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.mp-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+.mp-button,
+.mp-mode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border: 2px solid rgb(214 214 222 / 0.7);
+  border-radius: 999px;
+  background: rgb(2 11 48 / 0.6);
+  color: #fff;
+  cursor: pointer;
+}
+.mp-button {
+  width: 2.7rem;
+  height: 2.7rem;
+}
+.mp-play {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-color: #d6d6de;
+  background: linear-gradient(140deg, rgb(52 125 230), rgb(12 47 142));
+  box-shadow: 0 0 16px rgb(138 215 255 / 0.4);
+}
+.mp-play .mp-icon {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.mp-mode {
+  height: 2.4rem;
+  margin-right: 0.4rem;
+  padding: 0 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.mp-button:hover:not(:disabled),
+.mp-mode:hover {
+  background-color: rgb(138 215 255 / 0.25);
+}
+.mp-button:focus-visible,
+.mp-mode:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+.mp-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.mp-volume {
+  display: flex;
+  min-width: 11rem;
+  flex: 0 1 16rem;
+  align-items: center;
+  gap: 0.55rem;
+  margin-left: auto;
+  color: #c9d3ea;
+}
+.mp-volume-value {
+  min-width: 2.6rem;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+/* The library: albums on a shelf beside the chosen one's tracks. */
+.mp-library {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+@media (min-width: 56rem) {
+  .mp-library {
+    grid-template-columns: 17rem minmax(0, 1fr);
+  }
+}
+.mp-shelf {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.mp-album {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.55rem 0.4rem 0.4rem;
+  border-radius: 6px;
+  text-align: left;
+  color: #c9d3ea;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.mp-album:hover {
+  background-color: rgb(255 255 255 / 0.07);
+}
+.mp-album:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: -2px;
+}
+.mp-album[aria-pressed="true"] {
+  background: linear-gradient(90deg, rgb(138 215 255 / 0.28), rgb(138 215 255 / 0.05));
+  box-shadow: inset 3px 0 0 #8ad7ff;
+  color: #fff;
+}
+.mp-album-art {
+  display: flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgb(214 214 222 / 0.5);
+  border-radius: 4px;
+  background: rgb(2 11 48 / 0.7);
+}
+.mp-album-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mp-album-all {
+  color: #8ad7ff;
+}
+.mp-album-text {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+.mp-album-name {
+  font-weight: 600;
+  line-height: 1.25;
+}
+.mp-album-meta {
+  font-size: 0.78rem;
+  color: #9fb0cf;
+}
+.mp-list {
+  min-width: 0;
+  padding: 0.75rem 0.5rem 0.5rem;
+  border-radius: 6px;
+  background: rgb(2 11 48 / 0.45);
+}
+.mp-list-name {
+  padding: 0 0.6rem 0.45rem;
+  font-size: 20px;
+  text-shadow: 2px 2px 0 #10102a;
+}
+.mp-tracks {
+  display: flex;
+  max-height: 26rem;
+  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: rgb(138 215 255 / 0.5) transparent;
+}
+.mp-track {
+  position: relative;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 2.2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 0.8rem 0.5rem 2rem;
+  border-radius: 5px;
+  text-align: left;
+  color: #dfe6f5;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.mp-tracks li + li .mp-track {
+  border-top: 1px solid rgb(255 255 255 / 0.05);
+}
+.mp-track:hover {
+  background-color: rgb(31 95 196 / 0.25);
+}
+.mp-track:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: -2px;
+}
+.mp-track[aria-current] {
+  background: linear-gradient(
+    140deg,
+    rgb(31 95 196 / 0.65),
+    rgb(12 47 142 / 0.6) 45%,
+    rgb(6 26 99 / 0.55)
+  );
+  box-shadow:
+    inset 0 0 0 2px #d6d6de,
+    inset 0 0 0 3px #5c5c78;
+  color: #fff;
+}
+.mp-glove {
+  right: auto;
+  left: 0.35rem;
+  margin: 0;
+  font-size: 1.15rem;
+  text-shadow: 2px 2px 0 #10102a;
+}
+.mp-track:is(:hover, :focus-visible) .mp-glove {
+  visibility: visible;
+  animation: glove 0.9s steps(2) infinite;
+}
+.mp-track-no {
+  display: flex;
+  justify-content: flex-end;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  color: #9fb0cf;
+}
+.mp-track-main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+.mp-track-title {
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mp-track[aria-current] .mp-track-title {
+  text-shadow: 2px 2px 0 #10102a;
+}
+.mp-track-by {
+  overflow: hidden;
+  font-size: 0.8rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #b9c6e3;
+}
+.mp-track-album {
+  color: #8f9bb8;
+}
+.mp-track-length {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  color: #b9c6e3;
+}
+/* Three bars that rise and fall while playing; still when paused. */
+.mp-eq {
+  display: inline-flex;
+  height: 0.95rem;
+  align-items: flex-end;
+  gap: 2px;
+  color: #8ef0c6;
+}
+.mp-eq i {
+  width: 3px;
+  height: 45%;
+  border-radius: 1px;
+  background: currentColor;
+  animation: mp-bar 0.9s ease-in-out infinite;
+}
+.mp-eq i:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.mp-eq i:nth-child(3) {
+  animation-delay: -0.6s;
+}
+.mp-eq[data-paused] i {
+  animation: none;
+}
+@keyframes mp-bar {
+  50% {
+    height: 100%;
+  }
+}
+.mp-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  font-size: 0.8rem;
+  color: #c9d3ea;
+}
+.mp-keys li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.mp-keys span {
+  margin-left: 0.2rem;
+}
+.mp-keys kbd {
+  padding: 0.05rem 0.45rem;
+  border: 1px solid rgb(214 214 222 / 0.55);
+  border-radius: 4px;
+  background: rgb(31 95 196 / 0.35);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+@media (max-width: 40rem) {
+  .mp-deck {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+  .mp-deck-main {
+    width: 100%;
+  }
+  .mp-controls {
+    justify-content: center;
+  }
+  .mp-volume {
+    margin-left: 0;
+  }
+  .mp-now-title {
+    font-size: 24px;
+    white-space: normal;
+  }
+  .mp-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mp-switch {
+    grid-row: auto;
+    grid-column: 1;
+    justify-self: start;
+  }
+}
+
+/* ── The now-playing card: bottom right, as in a sports game's menus ─────────────────────── */
+.np-card {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 45;
+  display: flex;
+  width: min(24rem, calc(100vw - 2rem));
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.7rem 1rem 0.7rem 0.7rem;
+  pointer-events: none;
+  animation: np-card 5.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes np-card {
+  0% {
+    opacity: 0;
+    transform: translateX(110%);
+  }
+  9% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  88% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(110%);
+  }
+}
+.np-art {
+  position: relative;
+  display: flex;
+  width: 4.6rem;
+  height: 4.6rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid #d6d6de;
+  border-radius: 4px;
+  background: rgb(2 11 48);
+  box-shadow: 0 0 0 1px #5c5c78;
+}
+.np-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.np-art-icon {
+  width: 2rem;
+  height: 2rem;
+  color: #8ad7ff;
+}
+.np-bars {
+  position: absolute;
+  right: 0.3rem;
+  bottom: 0.3rem;
+  display: flex;
+  height: 1rem;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 2px 3px;
+  border-radius: 3px;
+  background: rgb(2 11 48 / 0.75);
+  color: #8ef0c6;
+}
+.np-bars i {
+  width: 3px;
+  height: 45%;
+  border-radius: 1px;
+  background: currentColor;
+  animation: mp-bar 0.9s ease-in-out infinite;
+}
+.np-bars i:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.np-bars i:nth-child(3) {
+  animation-delay: -0.6s;
+}
+.np-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+.np-kicker {
+  font-size: 0.7rem;
+  color: #8ad7ff;
+}
+.np-title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 19px;
+  line-height: 1.2;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-shadow: 2px 2px 0 #10102a;
+}
+.np-by {
+  overflow: hidden;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #fff;
+}
+.np-album {
+  overflow: hidden;
+  font-size: 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #b9c6e3;
+}
+@media (max-width: 40rem) {
+  .np-card {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+}

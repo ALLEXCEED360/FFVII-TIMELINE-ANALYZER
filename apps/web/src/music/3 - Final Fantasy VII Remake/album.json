@@ -1,0 +1,45 @@
+{
+  "title": "Final Fantasy VII Remake",
+  "year": 2020,
+  "subtitle": "Original Soundtrack",
+  "art": "key/remake",
+  "tracks": {
+    "01 - The Prelude – Reunion.mp3": {
+      "composer": "Nobuo Uematsu",
+      "arranger": "Yoshitaka Suzuki",
+      "length": 205
+    },
+    "02 - Tifa's Theme – Seventh Heaven.mp3": {
+      "composer": "Nobuo Uematsu",
+      "arranger": "Shotaro Shima",
+      "length": 247
+    },
+    "03 - Flowers Blooming in the Church.mp3": {
+      "composer": "Nobuo Uematsu",
+      "arranger": "Shotaro Shima",
+      "length": 363
+    },
+    "04 - Hollow Skies.mp3": {
+      "composer": "Nobuo Uematsu",
+      "arranger": "Yasunori Nishiki",
+      "length": 175
+    },
+    "05 - J-E-N-O-V-A – Quickening.mp3": {
+      "composer": "Nobuo Uematsu, Tadayoshi Makino",
+      "arranger": "Tadayoshi Makino",
+      "length": 380
+    },
+    "06 - One-Winged Angel – Rebirth.mp3": {
+      "composer": "Nobuo Uematsu, Masashi Hamauzu, Yasunori Nishiki",
+      "arranger": "Yasunori Nishiki",
+      "length": 619
+    },
+    "07 - Hollow.mp3": {
+      "composer": "Nobuo Uematsu",
+      "arranger": "Kenichiro Fukui",
+      "vocals": "Yosh",
+      "lyrics": "Kazushige Nojima",
+      "length": 380
+    }
+  }
+}

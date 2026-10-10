@@ -1,3 +1,4 @@
+import { Suspense, lazy, useEffect, useState } from "react";
 import { Outlet, ScrollRestoration, useLocation, useMatches } from "react-router";
 import { CommandPalette, useSearchShortcut } from "../features/search/CommandPalette";
 import { useMotionAttribute } from "../lib/motion";
@@ -8,6 +9,27 @@ import { Cursor } from "./Cursor";
 import { SpoilerNotice } from "./SpoilerNotice";
 import { SiteBar } from "./SiteBar";
 import { Wipe } from "./Wipe";
+
+// The background music loads at the first press: the "press any button" on the title screen, or a
+// first click or key without it. Browsers only let a page play sound after one.
+const BackgroundMusic = lazy(() => import("../features/music/BackgroundMusic"));
+
+function useFirstPress(): boolean {
+  const [pressed, setPressed] = useState(false);
+  useEffect(() => {
+    if (pressed) return;
+    const press = () => {
+      setPressed(true);
+    };
+    window.addEventListener("pointerdown", press, { once: true });
+    window.addEventListener("keydown", press, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", press);
+      window.removeEventListener("keydown", press);
+    };
+  }, [pressed]);
+  return pressed;
+}
 
 /** Routes that draw edge to edge (the home menu) set `handle: { bleed: true }`. */
 function useBleed(): boolean {
@@ -20,6 +42,7 @@ export function AppShell() {
   useMotionAttribute();
   const { pathname } = useLocation();
   const bleed = useBleed();
+  const pressed = useFirstPress();
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -57,6 +80,11 @@ export function AppShell() {
       <Wipe />
       <BootScreen />
       <Cursor />
+      {pressed && (
+        <Suspense fallback={null}>
+          <BackgroundMusic />
+        </Suspense>
+      )}
     </div>
   );
 }

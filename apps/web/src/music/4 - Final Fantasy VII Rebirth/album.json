@@ -1,0 +1,45 @@
+{
+  "title": "Final Fantasy VII Rebirth",
+  "year": 2024,
+  "subtitle": "Original Soundtrack",
+  "art": "key/rebirth",
+  "tracks": {
+    "01 - The Unknown Journey Continues.mp3": {
+      "composer": "Nobuo Uematsu, Shotaro Shima",
+      "arranger": "Shotaro Shima, Yasunori Nishiki",
+      "length": 199
+    },
+    "02 - Grasslands de Chocobo.mp3": {
+      "composer": "Nobuo Uematsu",
+      "arranger": "Shotaro Shima",
+      "length": 55
+    },
+    "03 - Welcome to the Gold Saucer.mp3": {
+      "composer": "Nobuo Uematsu, Ryo Furukawa",
+      "arranger": "Ryo Furukawa",
+      "length": 115
+    },
+    "04 - No Promises to Keep.mp3": {
+      "composer": "Nobuo Uematsu",
+      "arranger": "Tsutomu Narita",
+      "vocals": "Loren Allred",
+      "lyrics": "Kazushige Nojima",
+      "length": 358
+    },
+    "05 - Aerith's Theme – The White Materia.mp3": {
+      "composer": "Nobuo Uematsu",
+      "arranger": "Yasunori Nishiki",
+      "length": 481
+    },
+    "06 - J-E-N-O-V-A – Tenacity.mp3": {
+      "composer": "Nobuo Uematsu",
+      "arranger": "Yasunori Nishiki",
+      "length": 503
+    },
+    "07 - One-Winged Angel – Reborn.mp3": {
+      "composer": "Nobuo Uematsu",
+      "arranger": "Yasunori Nishiki",
+      "length": 353
+    }
+  }
+}

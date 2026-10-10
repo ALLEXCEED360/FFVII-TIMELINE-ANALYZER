@@ -6,6 +6,16 @@ import { useUi } from "../stores/ui";
 // seconds on a busy CI runner. Testing Library's default 1 s wait made tests flaky there.
 configure({ asyncUtilTimeout: 5000 });
 
+// jsdom can't play sound; the background music's player just records that it was asked to.
+Object.defineProperty(HTMLMediaElement.prototype, "play", {
+  configurable: true,
+  value: () => Promise.resolve(),
+});
+Object.defineProperty(HTMLMediaElement.prototype, "pause", {
+  configurable: true,
+  value: () => undefined,
+});
+
 // jsdom doesn't scroll; pages that bring a chosen item into view still run.
 Element.prototype.scrollIntoView = () => undefined;
 

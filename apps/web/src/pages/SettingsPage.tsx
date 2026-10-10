@@ -1,6 +1,7 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useId } from "react";
 import { SECTION_ART } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
+import { MusicSetting } from "../features/music/MusicSetting";
 import { type BootSetting, type CursorSetting, type MotionSetting, useUi } from "../stores/ui";
 import "../features/settings/settings.css";
 
@@ -11,7 +12,10 @@ interface Option<T extends string> {
   says: string;
 }
 
-/** One setting: its choices as materia that light when chosen, and what the chosen one does. */
+/**
+ * One row of the Config window: its name and what it's for on the left, its choices on the right
+ * (the glove rests on the chosen one), and what the chosen one does beneath them.
+ */
 function Setting<T extends string>({
   name,
   legend,
@@ -30,35 +34,41 @@ function Setting<T extends string>({
   children?: ReactNode;
 }) {
   const chosen = options.find((o) => o.value === value);
+  const id = useId();
   return (
-    <fieldset className="m-panel st-setting">
-      <legend className="m-heading st-name">{legend}</legend>
-      <p className="st-help">{help}</p>
-      <div className="st-options">
-        {options.map((option) => (
-          <label key={option.value} className="st-option">
-            <input
-              type="radio"
-              name={name}
-              value={option.value}
-              checked={value === option.value}
-              onChange={() => {
-                onChange(option.value);
-              }}
-              className="sr-only"
-            />
-            <span aria-hidden="true" className="st-orb" />
-            {option.label}
-          </label>
-        ))}
+    <div role="group" aria-labelledby={id} className="st-row">
+      <div className="st-row-head">
+        <h3 id={id} className="m-heading st-row-name">
+          {legend}
+        </h3>
+        <p className="st-row-help">{help}</p>
       </div>
-      {chosen && (
-        <p className="st-says" aria-live="polite">
-          {chosen.says}
-        </p>
-      )}
-      {children}
-    </fieldset>
+      <div className="st-row-body">
+        <div className="st-options">
+          {options.map((option) => (
+            <label key={option.value} className="st-option">
+              <input
+                type="radio"
+                name={name}
+                value={option.value}
+                checked={value === option.value}
+                onChange={() => {
+                  onChange(option.value);
+                }}
+                className="sr-only"
+              />
+              {option.label}
+            </label>
+          ))}
+        </div>
+        {chosen && (
+          <p className="st-says" aria-live="polite">
+            {chosen.says}
+          </p>
+        )}
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -101,7 +111,7 @@ const CURSOR: readonly Option<CursorSetting>[] = [
   { value: "system", label: "My own pointer", says: "Your device's usual pointer." },
 ];
 
-/** Settings: how the guide moves, opens and points. Saved in this browser. */
+/** Settings: the music, and how the guide moves, opens and points. Saved in this browser. */
 export function SettingsPage() {
   useBackdrop(SECTION_ART.settings, { strength: 0.5, side: "full" });
   const ui = useUi();
@@ -112,11 +122,17 @@ export function SettingsPage() {
         <p className="m-label">Config</p>
         <h1 className="m-heading m-title">Settings</h1>
         <p className="m-intro">
-          How the guide moves, opens and points. Your choices are saved in this browser.
+          The music, and how the guide moves, opens and points. Your choices are saved in this
+          browser.
         </p>
       </header>
 
-      <div className="st-grid">
+      <MusicSetting />
+
+      <section aria-labelledby="st-config" className="ff7-window st-window">
+        <h2 id="st-config" className="m-heading st-window-name">
+          Config
+        </h2>
         <Setting
           name="motion"
           legend="Motion"
@@ -145,27 +161,31 @@ export function SettingsPage() {
           options={CURSOR}
           onChange={ui.setCursor}
         />
-        <section aria-labelledby="st-spoilers" className="m-panel st-setting">
-          <h2 id="st-spoilers" className="m-heading st-name">
-            Spoiler warning
-          </h2>
-          <p className="st-help">
-            This guide tells the whole story of every game, endings included. The warning at the top
-            says so once, until you close it.
-          </p>
-          <p className="st-says" aria-live="polite">
-            {ui.noticeDismissed ? "You've closed it." : "It's showing at the top of the page."}
-          </p>
-          <button
-            type="button"
-            className="st-button"
-            onClick={ui.showNotice}
-            disabled={!ui.noticeDismissed}
-          >
-            Show the warning again
-          </button>
-        </section>
-      </div>
+        <div role="group" aria-labelledby="st-spoilers" className="st-row">
+          <div className="st-row-head">
+            <h3 id="st-spoilers" className="m-heading st-row-name">
+              Spoiler warning
+            </h3>
+            <p className="st-row-help">
+              This guide tells the whole story of every game, endings included. The warning at the
+              top says so once, until you close it.
+            </p>
+          </div>
+          <div className="st-row-body">
+            <p className="st-says" aria-live="polite">
+              {ui.noticeDismissed ? "You've closed it." : "It's showing at the top of the page."}
+            </p>
+            <button
+              type="button"
+              className="st-button"
+              onClick={ui.showNotice}
+              disabled={!ui.noticeDismissed}
+            >
+              Show the warning again
+            </button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

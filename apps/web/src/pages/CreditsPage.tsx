@@ -98,6 +98,11 @@ export function CreditsPage() {
               </span>
             ))}
           </Role>
+          <Role role="Music">
+            <span className="cr-name">
+              Nobuo Uematsu, Takeharu Ishimoto and the arrangers named in Config — © Square Enix
+            </span>
+          </Role>
           <Role role="Site icon">
             <span className="cr-name">The Meteor emblem, by Yoshitaka Amano</span>
           </Role>
