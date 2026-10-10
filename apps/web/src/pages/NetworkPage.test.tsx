@@ -172,6 +172,27 @@ describe("network overview", () => {
     ).toBe("/network/location/midgar?in=trilogy");
   });
 
+  it("comes back to the kind of thing it was left on", async () => {
+    stubApi();
+    const { router } = renderAt("/network");
+    await screen.findByRole("list", { name: "Whose web to see" });
+    await userEvent.click(screen.getByRole("button", { name: "Moments" }));
+    expect(router.state.location.search).toBe("?kind=event");
+    const cast = screen.getByRole("list", { name: "Whose web to see" });
+    await userEvent.click(await within(cast).findByRole("link", { name: /Death of Aerith/ }));
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe("/network/event/aerith-death");
+    });
+
+    await userEvent.click(await screen.findByRole("button", { name: "Back" }));
+    await waitFor(() => {
+      expect(router.state.location.search).toBe("?kind=event");
+    });
+    expect(
+      (await screen.findByRole("button", { name: "Moments" })).getAttribute("aria-pressed"),
+    ).toBe("true");
+  });
+
   it("opens a path search in the network view", async () => {
     stubApi();
     const { router } = renderAt("/network");

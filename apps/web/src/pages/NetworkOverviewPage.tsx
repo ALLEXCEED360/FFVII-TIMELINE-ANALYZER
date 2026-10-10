@@ -8,11 +8,11 @@ import { ErrorMessage, Loading } from "../components/QueryState";
 import { Orb } from "../components/Orb";
 import { TellingChoices } from "../components/TellingChoices";
 import { KIND_WORDS, MATERIA } from "../lib/kinds";
-import { ENTITY_KINDS, type EntityKind, networkPath } from "../lib/paths";
+import { ENTITY_KINDS, type EntityKind, isEntityKind, networkPath } from "../lib/paths";
 import { parseTellingChoice, setTellingChoice, titlesOf } from "../lib/tellings";
 import "../features/network/network.css";
 
-/** Start a web from someone, or find how two things are linked. /network?in=trilogy */
+/** Start a web from someone, or find how two things are linked. /network?kind=event&q=…&in=trilogy */
 export function NetworkOverviewPage() {
   useBackdrop(SECTION_ART.network, { strength: 0.5, side: "full" });
   const [search, setSearch] = useSearchParams();
@@ -20,8 +20,22 @@ export function NetworkOverviewPage() {
   const metrics = useNetworkMetrics(titlesOf(tellings));
   const entities = useEntities();
   const navigate = useNavigate();
-  const [kind, setKind] = useState<EntityKind>("character");
-  const [text, setText] = useState("");
+  // The kind shown and the name searched for live in the URL, so Back returns to them.
+  const kindParam = search.get("kind") ?? undefined;
+  const kind: EntityKind = isEntityKind(kindParam) ? kindParam : "character";
+  const text = search.get("q") ?? "";
+  const remember = (key: string, value: string, usual: string) => {
+    const next = new URLSearchParams(search);
+    if (value === usual) next.delete(key);
+    else next.set(key, value);
+    setSearch(next, { replace: true });
+  };
+  const setKind = (k: EntityKind) => {
+    remember("kind", k, "character");
+  };
+  const setText = (value: string) => {
+    remember("q", value, "");
+  };
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 

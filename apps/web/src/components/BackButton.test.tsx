@@ -11,6 +11,13 @@ describe("back button", () => {
     expect(back.getAttribute("href")).toBe("/divergence");
   });
 
+  it("goes up from a web to the network menu, open on that kind of thing", async () => {
+    stubApi();
+    renderAt("/network/event/aerith-death");
+    const back = await screen.findByRole("link", { name: "Back to Network" });
+    expect(back.getAttribute("href")).toBe("/network?kind=event");
+  });
+
   it("goes back to the menu from a section", async () => {
     stubApi();
     renderAt("/timeline");

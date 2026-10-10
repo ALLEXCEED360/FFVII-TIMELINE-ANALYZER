@@ -19,6 +19,8 @@ function parentOf(pathname: string): { to: string; name: string } {
     divergence: "Divergence",
     network: "Network",
   };
+  // A web opens its menu on the same kind of thing: /network/event/… goes back to /network?kind=event.
+  if (first === "network" && second) return section(`/network?kind=${second}`, "Network");
   if (second && first in names) return section(`/${first}`, names[first] ?? first);
   return section("/", "the menu");
 }
