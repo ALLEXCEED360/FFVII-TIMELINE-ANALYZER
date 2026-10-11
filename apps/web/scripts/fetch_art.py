@@ -62,7 +62,7 @@ ART: dict[str, tuple[str, int]] = {
     "characters/cait-sith": ("Cait Sith moogle from FFVII Revelation promo render.png", 1400),
     "characters/cait-sith-og": ("CaitSith-FFVIIArt.png", 1400),
     "characters/sephiroth": ("Sephiroth from FFVII Rebirth promo render.png", 1400),
-    "characters/sephiroth-og": ("Sephiroth-FFVIIArt.png", 1400),
+    "characters/sephiroth-og": ("Sephiroth-FFVIIArt.png", 600),
     "characters/zack": ("Zack Fair from FFVII Revelation promo render.png", 1400),
     "characters/zack-og": ("Zack FFVII Concept Art.jpg", 1400),
     "characters/president-shinra": ("President Shinra render from FFVII Remake.png", 1400),
@@ -199,6 +199,7 @@ CROP = {
     "places/shinra-mansion": (0.03, 0.625, 0.475, 0.975),
     "places/nibelheim-rebirth": (0, 0.22, 1, 1),  # the area-name banner
     "places/corel-prison": (0, 0, 1, 0.72),  # the subtitle
+    "characters/sephiroth-og": (0, 0, 0.516, 1),  # most of the long sword
     "places/under-junon": (0, 0, 1, 0.66),  # the mini-game's instructions
 }
 # knockout: the flat studio background around a render becomes transparent, so every character

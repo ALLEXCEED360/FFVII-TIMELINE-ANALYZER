@@ -133,7 +133,7 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_sephiroth"],
     era: "modern",
   }),
-  art("characters/sephiroth-og", "1400x1000", "cutout", {
+  art("characters/sephiroth-og", "433x600", "cutout", {
     subjects: ["character_sephiroth"],
     era: "og",
   }),
