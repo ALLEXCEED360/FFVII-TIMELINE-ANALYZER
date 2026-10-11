@@ -10,13 +10,15 @@ import { ENTITY_KINDS, KIND_LABELS, archiveTitlePath } from "../../lib/paths";
 import { TITLE_COLOR } from "../../lib/titles";
 import { SECTIONS, useMenu } from "./menu";
 
-/** Time since the menu opened, counted as the original counts play time. */
+/** Whole seconds since the page loaded: it runs on through other pages, and a refresh resets it. */
+const secondsOpen = () => Math.floor(performance.now() / 1000);
+
+/** Time since the guide was opened, counted as the original counts play time. */
 function usePlayTime(): string {
-  const [seconds, setSeconds] = useState(0);
+  const [seconds, setSeconds] = useState(secondsOpen);
   useEffect(() => {
-    const started = Date.now();
     const tick = window.setInterval(() => {
-      setSeconds(Math.floor((Date.now() - started) / 1000));
+      setSeconds(secondsOpen());
     }, 1000);
     return () => {
       window.clearInterval(tick);
