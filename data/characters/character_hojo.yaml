@@ -197,3 +197,13 @@ relationships:
     target: event_meteor_summoned
     titles:
       og: { sources: [{ title: og, disc: 2, segment: og_northern_crater }], certainty: stated }
+
+  - type: participated_in
+    target: event_hojo_at_costa_del_sol
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_costa_del_sol }]
+        certainty: stated
+      rebirth:
+        sources: [{ title: rebirth, chapter: 6, scene: "Fun While It Lasts" }]
+        certainty: stated

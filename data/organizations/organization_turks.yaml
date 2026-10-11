@@ -58,3 +58,13 @@ relationships:
           sources: [{ title: remake, chapter: 8, scene: "'one of Shinra's Turks'" }],
           certainty: stated,
         }
+
+  - type: participated_in
+    target: event_turks_in_the_mythril_mine
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_road_to_junon, scene: "Going After Sephiroth" }]
+        certainty: stated
+      rebirth:
+        sources: [{ title: rebirth, chapter: 3, scene: "Where They Lead" }]
+        certainty: stated

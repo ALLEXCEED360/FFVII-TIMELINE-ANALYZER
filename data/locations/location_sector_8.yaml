@@ -1,0 +1,59 @@
+id: location_sector_8
+name: Sector 8
+summary: A district of Midgar beside Mako Reactor 1, where Cloud first meets Aerith selling flowers.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      AVALANCHE scatters through its streets after bombing Reactor 1, heading for Sector 8 station;
+      on the way Cloud passes a girl selling flowers.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_reactor_1 }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_reactor_1, scene: "'Rendezvous at Sector 8 station!'" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      Cloud escapes through its business district and residential streets after the bombing,
+      meeting Aerith on Loveless Street on the way to the last train.
+    depictions:
+      - { at: { title: remake, chapter: 2 }, framing: direct }
+    sources:
+      - { title: remake, chapter: 2, scene: "Use the Escape Route: Sector 8 Business District" }
+      - { title: remake, chapter: 2, scene: "Break the Blockade: Sector 8 Residential Area" }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: Aerith reminds Cloud that they first met in Sector 8, over a yellow flower.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: mention }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 4,
+          scene: "Respite: 'The yellow flower? Sector 8?'",
+          optional: true,
+        }
+    certainty: stated
+
+relationships:
+  - type: part_of
+    target: location_midgar
+    titles:
+      og:
+        sources:
+          - { title: og, disc: 1, segment: og_reactor_1, scene: "the city's Sector 8 station" }
+        certainty: inferred
+        notes: >-
+          One of Midgar's numbered sectors, reached on foot from Reactor 1; the transcript doesn't
+          say "Midgar's Sector 8" in one line.
+      remake:
+        sources:
+          - { title: remake, chapter: 2, scene: "Use the Escape Route: Sector 8 Business District" }
+        certainty: inferred
+        notes: >-
+          One of Midgar's numbered sectors; the transcript doesn't say so in one line.

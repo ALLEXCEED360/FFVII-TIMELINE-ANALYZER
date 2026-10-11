@@ -218,3 +218,50 @@ relationships:
     target: event_defeat_of_sephiroth
     titles:
       og: { sources: [{ title: og, disc: 3, segment: og_finale }], certainty: stated }
+
+  - type: participated_in
+    target: event_clouds_story_at_kalm
+    role: tells the story
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_kalm }]
+        certainty: stated
+      rebirth:
+        sources: [{ title: rebirth, chapter: 1, scene: "Kalm / Present Day" }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_turks_in_the_mythril_mine
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_road_to_junon, scene: "Going After Sephiroth" }]
+        certainty: stated
+      rebirth:
+        sources: [{ title: rebirth, chapter: 3, scene: "Where They Lead" }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojo_at_costa_del_sol
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_costa_del_sol }]
+        certainty: stated
+      rebirth:
+        sources: [{ title: rebirth, chapter: 6, scene: "Fun While It Lasts" }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_keystone_stolen
+    role: sees Cait Sith run off with it
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_keystone, scene: "Secret Date" }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_aerith_dream_in_the_sleeping_forest
+    role: dreams of her
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_bone_village, scene: "Parting with Aeris" }]
+        certainty: stated

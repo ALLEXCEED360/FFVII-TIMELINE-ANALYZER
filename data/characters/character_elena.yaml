@@ -61,3 +61,14 @@ relationships:
           sources: [{ title: rebirth, chapter: 7, scene: "Split Up: 'the Turks're back on duty'" }],
           certainty: stated,
         }
+
+  - type: participated_in
+    target: event_turks_in_the_mythril_mine
+    role: introduces herself in the original
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_road_to_junon, scene: "Going After Sephiroth" }]
+        certainty: stated
+      rebirth:
+        sources: [{ title: rebirth, chapter: 3, scene: "Where They Lead" }]
+        certainty: stated

@@ -58,3 +58,11 @@ relationships:
         notes: >-
           The transcript breaks off as the temple begins to fall, so what becomes of him there is
           an open question.
+
+  - type: participated_in
+    target: event_keystone_stolen
+    role: steals it for Shinra
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_keystone, scene: "'Yes, I was a spy'" }]
+        certainty: stated

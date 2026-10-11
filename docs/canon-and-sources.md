@@ -45,7 +45,7 @@ A fact goes into `data/` only after it has been **checked against the game itsel
 
 Wikis and fan resources may be used **only to locate** a fact (which chapter, which scene). They are never the evidence.
 
-**Status of the dataset (v0.2, 2026-09-29):** 25 events, 20 characters, 11 locations and 5 organizations. Every fact was checked against full script transcripts (level 3) — see the research log in `data/research/sources.yaml`. Where a fact depends on what is _shown_ rather than said, it came from the transcripts' stage directions and is listed in `data/research/open-questions.yaml` for checking against footage before v1.0. Nothing was added from the parts of the transcripts that are missing (Rebirth chapters 8–9, and gaps in chapters 13–14); those are open questions too.
+**Status of the dataset (v0.2, 2026-09-29):** 30 events, 30 characters, 25 locations and 5 organizations. Every fact was checked against full script transcripts (level 3) — see the research log in `data/research/sources.yaml`. Where a fact depends on what is _shown_ rather than said, it came from the transcripts' stage directions and is listed in `data/research/open-questions.yaml` for checking against footage before v1.0. Nothing was added from the parts of the transcripts that are missing (Rebirth chapters 8–9, and gaps in chapters 13–14); those are open questions too.
 
 **The research log** (`data/research/`, decision [0012](decisions/0012-archive-and-sources.md)) records every source used, whether it is evidence or only used to locate, and every open question. It is validated with the dataset and shown at `/archive/research`.
 
@@ -116,7 +116,7 @@ Two structures are defined by this project, not by the games, and live in `data/
 - **Differences are described neutrally**: "In X … ; in Y …". Never judge which version is better.
 - **Artwork.** Official Square Enix artwork (key art, character renders, promotional images) may be used in the web app as decoration, under these rules:
   - Artwork is never a source of facts.
-  - Every image is listed in the web app's art manifest (`apps/web/src/art/manifest.ts`), with its artist and source in `apps/web/src/art/credits.ts`, and credited on the Credits page. `apps/web/scripts/fetch_art.py` reproduces each file.
+  - Every image is listed in the web app's art manifest (`apps/web/src/art/manifest.ts`), with its description, artist and source in `apps/web/src/art/details.ts`, and credited on the Credits page. `apps/web/scripts/fetch_art.py` reproduces each file.
   - Each download is approved by the owner first, from a list naming every file, its source and its size.
   - No game files are extracted (models, textures, music, audio), no in-game screenshots are used, and no image is AI-generated. No music is used.
   - Images may be resized, cropped (to remove printed titles and logos), have a flat background keyed out, or have a pencil sketch's paper keyed out; the drawing itself is never altered.

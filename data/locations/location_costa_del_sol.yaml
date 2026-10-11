@@ -1,0 +1,33 @@
+id: location_costa_del_sol
+name: Costa del Sol
+summary: A beach resort town on the western continent, where the ships from Junon put in.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      The cargo ship from Junon docks here, and the party finds Hojo sunbathing on the beach.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_costa_del_sol }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_cargo_ship,
+          scene: "'We will be docking in Costa del Sol in 5 minutes'",
+        }
+      - { title: og, disc: 1, segment: og_costa_del_sol, scene: "Hojo on the beach" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      The ferry from Junon brings the party to the resort, where they spend a day at the beach,
+      run into Hojo, and learn the black-robed figures have headed for Mt. Corel.
+    depictions:
+      - { at: { title: rebirth, chapter: 6 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 6, scene: "Costa del Sol" }
+      - { title: rebirth, chapter: 6, scene: "Hojo's Mojo" }
+      - { title: rebirth, chapter: 6, scene: "When Evening Comes: 'toward Mt. Corel'" }
+    certainty: stated

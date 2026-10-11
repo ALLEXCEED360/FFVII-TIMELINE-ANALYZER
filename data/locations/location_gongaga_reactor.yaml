@@ -1,0 +1,30 @@
+id: location_gongaga_reactor
+name: Gongaga Reactor
+summary: The wrecked mako reactor beside Gongaga, whose explosion killed many of the villagers.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Ruined by its explosion. Scarlet and Tseng come looking for huge materia in it and find only
+      junk.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_gongaga }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_gongaga, scene: "Upon reaching the Meltdown Reactor" }
+      - { title: og, disc: 1, segment: og_gongaga, scene: "'This reactor's a failure'" }
+    certainty: stated
+
+relationships:
+  - type: part_of
+    target: location_gongaga
+    titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 1,
+              segment: og_gongaga,
+              scene: "Villagers: 'Shinra built the reactor, without even thinking about the town's safety'",
+            }
+        certainty: stated

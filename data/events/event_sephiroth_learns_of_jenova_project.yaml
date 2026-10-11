@@ -70,7 +70,7 @@ relationships:
       rebirth: { sources: [{ title: rebirth, chapter: 1 }], certainty: stated }
 
   - type: occurred_at
-    target: location_nibelheim
+    target: location_shinra_manor
     titles:
       og:
         {

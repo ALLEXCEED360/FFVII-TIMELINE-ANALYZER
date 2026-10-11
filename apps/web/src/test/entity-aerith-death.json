@@ -263,5 +263,11 @@
       "entities": [{ "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" }],
       "worlds": []
     }
-  ]
+  ],
+  "statuses": {
+    "og": "depicted",
+    "remake": "absent",
+    "intermission": "absent",
+    "rebirth": "depicted"
+  }
 }

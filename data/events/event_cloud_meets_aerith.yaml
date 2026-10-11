@@ -72,7 +72,7 @@ differences:
 
 relationships:
   - type: occurred_at
-    target: location_midgar
+    target: location_sector_8
     titles:
       og:
         {

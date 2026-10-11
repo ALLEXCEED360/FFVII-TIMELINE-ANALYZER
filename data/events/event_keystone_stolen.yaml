@@ -1,0 +1,44 @@
+id: event_keystone_stolen
+name: Cait Sith Steals the Keystone
+summary: >-
+  At the Gold Saucer, Cait Sith takes the Keystone that opens the Temple of the Ancients and hands
+  it to Tseng, then admits he has been Shinra's spy all along.
+when: { year: 0 }
+seq: 235
+importance: 2
+arc: arc_the_promised_land
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      After the evening at the park, Cloud sees Cait Sith run off with the Keystone and give it to
+      Tseng. Cornered, he owns up to spying for Shinra, and keeps the party with him by playing
+      them Marlene's voice.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_keystone }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_keystone,
+          scene: "Secret Date: 'Is that the...Keystone?'",
+        }
+      - { title: og, disc: 1, segment: og_keystone, scene: "'Yes, I was a spy'" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_gold_saucer
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_keystone }], certainty: stated }
+
+  - type: caused
+    target: event_race_for_the_black_materia
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_keystone, scene: "Tseng: 'Well done.'" }]
+        certainty: inferred
+        notes: >-
+          With the Keystone, Shinra reaches the temple first; the transcript doesn't spell out the
+          connection in one line.

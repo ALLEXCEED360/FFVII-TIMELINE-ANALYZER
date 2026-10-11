@@ -1,0 +1,45 @@
+id: location_kalm
+name: Kalm
+summary: >-
+  A quiet town on the plains northeast of Midgar, where the party regroups after escaping the city
+  and Cloud tells the story of Nibelheim.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Barret names it as the meeting point after the escape from Midgar; at its inn Cloud tells
+      the others what happened in Nibelheim five years before.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_kalm }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_shinra_building,
+          scene: "'Go Northeast to a town called Kalm'",
+        }
+      - { title: og, disc: 1, segment: og_kalm, scene: "Cloud's story at the inn" }
+    certainty: stated
+
+  - title: intermission
+    status: referenced
+    summary: After the escape from Midgar, Tifa and Barret reckon it's another day's walk away.
+    depictions:
+      - { at: { title: intermission, chapter: 2 }, framing: mention }
+    sources:
+      - { title: intermission, chapter: 2, scene: "Dread: 'Kalm's still pretty far'" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      The party rests at its inn while Cloud tells of Nibelheim, then explores the town, its shops
+      and its clock tower before setting out across the grasslands.
+    depictions:
+      - { at: { title: rebirth, chapter: 1 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 1, scene: "Kalm / Present Day" }
+      - { title: rebirth, chapter: 2, scene: "The Inn at Kalm, The Next Morning" }
+      - { title: rebirth, chapter: 2, scene: "A Date with Aerith: Clock Tower" }
+    certainty: stated

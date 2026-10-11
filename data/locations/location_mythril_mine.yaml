@@ -1,0 +1,35 @@
+id: location_mythril_mine
+name: Mythril Mine
+summary: >-
+  An old mine through the mountains between the grasslands and Junon, where the party runs into
+  the Turks.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      The way from the marshes to Junon runs through it; inside, Rude, Elena and Tseng tell the
+      party they are hunting Sephiroth too.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_road_to_junon }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_road_to_junon,
+          scene: "Going After Sephiroth: the front of Mythril Mine",
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      The party follows the black-robed figures into its tunnels, meets Rude and Elena there, and
+      escapes its depths toward Junon.
+    depictions:
+      - { at: { title: rebirth, chapter: 3 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 3, scene: "Mythril Mine / Old Republic Tunnels" }
+      - { title: rebirth, chapter: 3, scene: "Where They Lead" }
+      - { title: rebirth, chapter: 3, scene: "Escape the Depths: Mythril Mine / Mine Depths" }
+    certainty: stated

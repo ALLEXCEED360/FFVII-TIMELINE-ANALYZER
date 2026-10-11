@@ -61,8 +61,8 @@ export function EntityPage() {
 }
 
 /** What a game does with it, in a word or two. */
-function presence(appearance: Appearance | undefined, event: boolean): string {
-  if (!appearance) return "Not in this game";
+function presence(appearance: Appearance | undefined, event: boolean, unrecorded = false): string {
+  if (!appearance) return unrecorded ? "Not recorded yet" : "Not in this game";
   if (appearance.status === "omitted") return "Left out";
   if (appearance.status === "referenced") return "Only mentioned";
   return event ? "Shown" : "Appears";
@@ -101,7 +101,11 @@ function EntityView({
     const games = byGame.filter((g) => TELLING[telling].titles.includes(g.title));
     const shown = games.filter((g) => g.main && g.main.status !== "omitted");
     const best = shown[0]?.main ?? games.find((g) => g.main)?.main;
-    return { telling, games, shown, best };
+    // Games that retell this part of the story without the archive having recorded it yet.
+    const unrecorded = TELLING[telling].titles.filter(
+      (title) => entity.statuses[title] === "undocumented",
+    );
+    return { telling, games, shown, best, unrecorded };
   });
   const bothTell = byTelling.every((t) => t.shown.length > 0);
   const when = entity.event ? (whenOf(entity.event) ?? "During the story") : null;
@@ -127,7 +131,7 @@ function EntityView({
           <p className="m-intro ent-summary">{entity.summary}</p>
 
           <ul aria-label="In each telling" className="ent-games">
-            {byTelling.map(({ telling, shown, best }) => (
+            {byTelling.map(({ telling, shown, best, unrecorded }) => (
               <li
                 key={telling}
                 className="ent-game"
@@ -136,7 +140,7 @@ function EntityView({
               >
                 <span className="ent-game-name">{TELLING[telling].short}</span>
                 <span className="ent-game-status">
-                  {presence(shown[0]?.main ?? best, event)}
+                  {presence(shown[0]?.main ?? best, event, unrecorded.length > 0)}
                   {telling === "trilogy" && shown.length > 0 && (
                     <> · {shown.map((g) => titleShort(reference, g.title)).join(", ")}</>
                   )}
@@ -179,7 +183,7 @@ function EntityView({
           {event ? "How each telling tells it" : "In each telling"}
         </h2>
         <div className="ent-tellings">
-          {byTelling.map(({ telling, games, shown, best }) => (
+          {byTelling.map(({ telling, games, shown, best, unrecorded }) => (
             <section
               key={telling}
               aria-labelledby={`ent-telling-${telling}`}
@@ -192,14 +196,16 @@ function EntityView({
                   {TELLING[telling].name}
                 </h3>
                 <span className="ent-telling-status">
-                  {presence(shown[0]?.main ?? best, event)}
+                  {presence(shown[0]?.main ?? best, event, unrecorded.length > 0)}
                 </span>
               </header>
               {games.filter((g) => g.main).length === 0 && (
                 <p className="ent-text ent-dim">
-                  {event
-                    ? "This telling doesn't tell this part of the story."
-                    : `${entity.name} isn't in this telling.`}
+                  {unrecorded.length > 0
+                    ? `${unrecorded.map((title) => titleShort(reference, title)).join(" and ")} covers this part of the story, but the archive hasn't recorded how yet.`
+                    : event
+                      ? "This telling doesn't tell this part of the story."
+                      : `${entity.name} isn't in this telling.`}
                 </p>
               )}
               {games

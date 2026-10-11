@@ -1,6 +1,6 @@
 import { type ReactNode, useState } from "react";
 import { Link } from "react-router";
-import { artSourceUrl, creditFor } from "../art/credits";
+import { artSourceUrl, detailsFor } from "../art/details";
 import { ARTWORK, type ArtEntry, SECTION_ART } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
@@ -55,7 +55,7 @@ const GROUPS: readonly { id: string; name: string; match: (art: ArtEntry) => boo
 ];
 
 /** The named artists first, then the studio. */
-const ARTISTS = [...new Set(ARTWORK.map((art) => creditFor(art).artist))].sort(
+const ARTISTS = [...new Set(ARTWORK.map((art) => detailsFor(art).artist))].sort(
   (a, b) => Number(a === "Square Enix") - Number(b === "Square Enix") || a.localeCompare(b),
 );
 
@@ -190,7 +190,7 @@ export function CreditsPage() {
         </div>
         <ul aria-label="Pictures" className="cr-art">
           {shown.map((art) => {
-            const credit = creditFor(art);
+            const credit = detailsFor(art);
             return (
               <li key={art.id} className="m-panel cr-piece">
                 <span className="cr-piece-art" data-kind={art.kind}>

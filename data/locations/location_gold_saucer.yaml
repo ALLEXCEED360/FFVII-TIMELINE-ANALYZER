@@ -1,0 +1,58 @@
+id: location_gold_saucer
+name: Gold Saucer
+summary: >-
+  A huge amusement park over the desert, reached by ropeway from North Corel, run by its owner
+  Dio.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      The party rides up from North Corel to find Sephiroth's trail; Cait Sith joins them here,
+      and later Cloud spends an evening at the park on a date.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_gold_saucer }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_corel,
+          scene: "Upon reaching the Ropeway Station in North Corel",
+        }
+      - { title: og, disc: 1, segment: og_gold_saucer, scene: "Sanctuary of Amusement" }
+      - { title: og, disc: 1, segment: og_keystone, scene: "Secret Date" }
+    certainty: stated
+
+  - title: remake
+    status: referenced
+    summary: >-
+      Jessie's letter home says she's an actress there; her father fell ill while she was away
+      performing.
+    depictions:
+      - { at: { title: remake, chapter: 4 }, framing: mention }
+    sources:
+      - {
+          title: remake,
+          chapter: 4,
+          scene: "The Jessie Job: 'I'm working at the Gold Saucer as an actress now'",
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: referenced
+    summary: >-
+      Chocobo ranchers talk of its races, and Cait Sith says its director, Dio, may know where
+      the keystone went.
+    depictions:
+      - { at: { title: rebirth, chapter: 12 }, framing: mention }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 2,
+          scene: "Break in the Saddle: 'win a race or two at the Gold Saucer'",
+        }
+      - { title: rebirth, chapter: 12, scene: "Full Speed Ahead: 'we're bound for the Saucer'" }
+    certainty: stated
+    notes: >-
+      The party visits the park in chapter 8, which is empty in the transcript used; it is cited
+      as referenced until that chapter is checked.

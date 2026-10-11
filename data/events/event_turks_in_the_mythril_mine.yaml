@@ -1,0 +1,64 @@
+id: event_turks_in_the_mythril_mine
+name: The Turks in the Mythril Mine
+summary: >-
+  In the Mythril Mine the party runs into the Turks, who are on Sephiroth's trail too, and meets
+  their newest member, Elena.
+when: { year: 0 }
+seq: 180
+importance: 1
+arc: arc_the_journey_begins
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Rude, Tseng and Elena, newly promoted after Reno was hurt, tell the party they are tracking
+      Sephiroth, and that it's the party who are in their way.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_road_to_junon }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_road_to_junon,
+          scene: "Going After Sephiroth: 'I'm the newest member of the Turks, Elena'",
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Following the black-robed figures through the mine's old tunnels, the party overhears Elena
+      and Rude: Reno has been sent off to rest, and Elena wants to put Cloud down.
+    depictions:
+      - { at: { title: rebirth, chapter: 3 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 3, scene: "Where They Lead: Old Republic Tunnels" }
+    certainty: stated
+
+differences:
+  - key: tseng_absent
+    from: { title: og }
+    to: { title: rebirth }
+    category: participants
+    magnitude: minor
+    summary: >-
+      In OG, Tseng is there with Rude and Elena; in Rebirth, only Rude and Elena are, and Elena
+      speaks of what Tseng would do.
+    sources:
+      - { title: og, disc: 1, segment: og_road_to_junon, scene: "Going After Sephiroth" }
+      - {
+          title: rebirth,
+          chapter: 3,
+          scene: "Where They Lead: 'that's what Tseng would do if he was here'",
+        }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_mythril_mine
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_road_to_junon }], certainty: stated }
+      rebirth:
+        sources: [{ title: rebirth, chapter: 3, scene: "Mythril Mine / Old Republic Tunnels" }]
+        certainty: stated

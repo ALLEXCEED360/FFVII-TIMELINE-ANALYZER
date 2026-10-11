@@ -131,3 +131,26 @@ relationships:
         notes: >-
           Marlene calls Barret Daddy and he raises her; Remake doesn't say in the transcript that
           he isn't her father by birth, which the original establishes.
+
+  - type: hometown
+    target: location_corel
+    titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 1,
+              segment: og_corel,
+              scene: "'My hometown, Corel's always been a coal mining town'",
+            }
+        certainty: stated
+
+  - type: participated_in
+    target: event_clouds_story_at_kalm
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_kalm }]
+        certainty: stated
+      rebirth:
+        sources: [{ title: rebirth, chapter: 1, scene: "Kalm / Present Day" }]
+        certainty: stated

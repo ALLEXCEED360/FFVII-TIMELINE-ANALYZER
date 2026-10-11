@@ -2329,6 +2329,27 @@
                         "additionalProperties": false
                       }
                     },
+                    "statuses": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string",
+                        "enum": [
+                          "depicted",
+                          "referenced",
+                          "omitted",
+                          "not_yet_reached",
+                          "undocumented",
+                          "absent"
+                        ]
+                      },
+                      "required": [
+                        "og",
+                        "remake",
+                        "intermission",
+                        "rebirth"
+                      ],
+                      "description": "Each title's status for it in the main world, stored or derived: a title that retells this part of the story without recording it is `undocumented`, not `absent`."
+                    },
                     "openQuestions": {
                       "type": "array",
                       "items": {
@@ -2536,6 +2557,7 @@
                     "appearances",
                     "differences",
                     "relationships",
+                    "statuses",
                     "openQuestions"
                   ],
                   "additionalProperties": false

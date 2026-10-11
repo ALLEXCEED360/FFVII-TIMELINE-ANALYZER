@@ -93,6 +93,7 @@ describe("reference and entities", () => {
     expect((await get("/entities")).body.items).toHaveLength(dataset.entities.size);
     const { body } = await get("/entities?kind=location&title=intermission");
     expect(body.items.map((e: { id: string }) => e.id)).toEqual([
+      "location_kalm",
       "location_midgar",
       "location_sector_5_church",
       "location_sector_7",
@@ -162,8 +163,9 @@ describe("timeline, comparison, network and search", () => {
         entity.appearances.some((a) => a.title === "rebirth" && a.world === "world_main"),
     );
     expect(ids).toHaveLength(shown.length);
-    // Chapter 1 retells Nibelheim; chapter 14 ends at the Forgotten Capital.
-    expect(ids[0]).toBe("event_nibelheim_incident");
+    // Chapter 1 opens at Kalm, where Cloud retells Nibelheim; chapter 14 ends at the Forgotten Capital.
+    expect(ids[0]).toBe("event_clouds_story_at_kalm");
+    expect(ids.slice(1, 3)).toContain("event_nibelheim_incident");
     expect(ids.at(-1)).toBe("event_aerith_death");
   });
 

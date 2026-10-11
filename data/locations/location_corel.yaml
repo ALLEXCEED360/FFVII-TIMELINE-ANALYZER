@@ -1,0 +1,39 @@
+id: location_corel
+name: Corel
+aliases: [North Corel]
+summary: >-
+  A coal-mining town in the mountains, Barret's home, burned by Shinra after its people let a
+  mako reactor be built there.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Its people, now living in the ruins of North Corel, blame Barret for what happened; he tells
+      how the town agreed to Shinra's reactor and was burned down after an explosion there.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_corel }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_corel, scene: "'It's all your fault North Corel...'" }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_corel,
+          scene: "'My hometown, Corel's always been a coal mining town'",
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      The party crosses the Corel region and climbs Mt. Corel past the coal mines to its mako
+      reactor.
+    depictions:
+      - { at: { title: rebirth, chapter: 7 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 7, scene: "Toward Mt. Corel: Corel Region / Northern Corel" }
+      - { title: rebirth, chapter: 7, scene: "Corel Reactor: 'The Corel reactor.'" }
+    certainty: stated
+    notes: >-
+      The transcript used is empty for chapter 8, where the party goes into the town itself; see
+      the open question on chapters 8 and 9.

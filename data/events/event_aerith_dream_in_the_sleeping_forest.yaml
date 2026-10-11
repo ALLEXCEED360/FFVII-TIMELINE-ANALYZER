@@ -1,0 +1,34 @@
+id: event_aerith_dream_in_the_sleeping_forest
+name: Aerith Speaks in Cloud's Dream
+summary: >-
+  After Aerith goes on alone, Cloud dreams of her in the Sleeping Forest: she tells him the forest
+  leads to the city of the Ancients, and that she will stop Sephiroth herself.
+when: { year: 0 }
+seq: 245
+importance: 1
+arc: arc_the_promised_land
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      In the dream she tells him not to worry about what happened, to look after himself, and to
+      leave Sephiroth to her.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_bone_village }, framing: vision }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_bone_village,
+          scene: "Parting with Aeris: 'This forest leads to the City of the Ancients'",
+        }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_sleeping_forest
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_bone_village, scene: "In the Sleeping Forest" }]
+        certainty: stated

@@ -347,5 +347,11 @@
       ]
     }
   ],
-  "openQuestions": []
+  "openQuestions": [],
+  "statuses": {
+    "og": "depicted",
+    "remake": "depicted",
+    "intermission": "depicted",
+    "rebirth": "depicted"
+  }
 }

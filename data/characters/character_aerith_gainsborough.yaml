@@ -150,3 +150,28 @@ relationships:
       og:
         { sources: [{ title: og, disc: 1, segment: og_temple_of_the_ancients }], certainty: stated }
       rebirth: { sources: [{ title: rebirth, chapter: 13 }], certainty: stated }
+
+  - type: participated_in
+    target: event_clouds_story_at_kalm
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_kalm }]
+        certainty: stated
+      rebirth:
+        sources: [{ title: rebirth, chapter: 1, scene: "Kalm / Present Day" }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojo_at_costa_del_sol
+    titles:
+      rebirth:
+        sources: [{ title: rebirth, chapter: 6, scene: "Fun While It Lasts" }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_aerith_dream_in_the_sleeping_forest
+    role: speaks to Cloud
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_bone_village, scene: "Parting with Aeris" }]
+        certainty: stated

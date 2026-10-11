@@ -1,0 +1,52 @@
+id: location_under_junon
+name: Under Junon
+summary: A poor fishing village in the shadow of Junon, beneath the Shinra city built over it.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      The party arrives in the village below Junon and climbs from it up into the city to join
+      the parade; much later, its submarine dock offers a way back in.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_junon }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_junon, scene: "Upon entering Under Junon" }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_underwater_reactor,
+          scene: "'the submarine dock under Junon'",
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      The party stays at the village's inn under the steel city, then sets out from it to get into
+      Junon for Rufus's inauguration.
+    depictions:
+      - { at: { title: rebirth, chapter: 4 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 4, scene: "Under a Steel Sky: Under Junon" }
+      - { title: rebirth, chapter: 4, scene: "Priscilla's Plan" }
+    certainty: stated
+
+relationships:
+  - type: part_of
+    target: location_junon
+    titles:
+      og:
+        sources:
+          - { title: og, disc: 1, segment: og_junon, scene: "Upon entering Under Junon" }
+        certainty: inferred
+        notes: >-
+          The village beneath the city, joined to it by an elevator; the transcript treats it as
+          Junon's lower town without saying so in one line.
+      rebirth:
+        sources:
+          - { title: rebirth, chapter: 4, scene: "Junon Region; Under a Steel Sky: Under Junon" }
+        certainty: inferred
+        notes: >-
+          Shown as part of the Junon area beneath the city; the transcript doesn't say so in one
+          line.

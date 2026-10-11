@@ -94,3 +94,19 @@ relationships:
     target: event_nibelheim_incident
     titles:
       og: { sources: [{ title: og, disc: 2, segment: og_inside_clouds_mind }], certainty: stated }
+
+  - type: hometown
+    target: location_gongaga
+    titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 1,
+              segment: og_gongaga,
+              scene: "Zack's parents: 'He left saying he's going to join SOLDIER'",
+            }
+        certainty: inferred
+        notes: >-
+          His parents live in Gongaga and say he left home from there to join SOLDIER; the
+          transcript doesn't name it his hometown outright.

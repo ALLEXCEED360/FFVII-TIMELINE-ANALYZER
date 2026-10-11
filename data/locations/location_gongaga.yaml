@@ -1,0 +1,24 @@
+id: location_gongaga
+name: Gongaga
+summary: >-
+  A village in the jungle beside a ruined mako reactor, and Zack's home; its people gave up mako
+  after the reactor blew up.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      An optional stop. Since the reactor's explosion killed many of them, the villagers have
+      turned their backs on mako; Zack's parents still wait for word of the son who left to join
+      SOLDIER.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_gongaga }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_gongaga,
+          scene: "Villagers: 'One day, there was a huge explosion'",
+        }
+      - { title: og, disc: 1, segment: og_gongaga, scene: "The home of Zack's parents" }
+    certainty: stated

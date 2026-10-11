@@ -1,11 +1,11 @@
-import { creditFor } from "../../art/credits";
+import { detailsFor } from "../../art/details";
 import type { ArtEntry } from "../../art/manifest";
 import { ArtCredit, Artwork } from "../../components/Artwork";
 
 /** Which look a modern image shows, from its credited title. */
 function lookOf(entry: ArtEntry): string | undefined {
   if (entry.era !== "modern") return undefined;
-  const { title } = creditFor(entry);
+  const { title } = detailsFor(entry);
   if (title.includes("Rebirth")) return "Rebirth";
   if (title.includes("INTERmission")) return "INTERmission";
   // The trilogy's third game isn't out yet; its promo art shows the trilogy's look.
@@ -33,7 +33,7 @@ export function Portrait({ main, original }: { main: ArtEntry; original?: ArtEnt
       </div>
       <figcaption className="ent-credits">
         <ArtCredit entry={main} />
-        {original && creditFor(original).artist !== creditFor(main).artist && (
+        {original && detailsFor(original).artist !== detailsFor(main).artist && (
           <ArtCredit entry={original} />
         )}
       </figcaption>

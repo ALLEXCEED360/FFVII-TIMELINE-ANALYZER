@@ -1,0 +1,49 @@
+id: location_shinra_manor
+name: Shinra Manor
+aliases: [Shinra Mansion]
+summary: >-
+  Shinra's old mansion in Nibelheim, with a hidden laboratory and library beneath it where the
+  Jenova Project's records were kept.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      In Cloud's account Sephiroth shuts himself in its basement library and reads of the Jenova
+      Project. Back in the present, Vincent sleeps in a coffin in its basement.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_kalm }, framing: false_account }
+      - { at: { title: og, disc: 1, segment: og_nibelheim }, framing: direct, primary: true }
+    sources:
+      - { title: og, disc: 1, segment: og_kalm, scene: "the Shinra Mansion" }
+      - { title: og, disc: 1, segment: og_nibelheim, scene: "Upon reaching the Mansion basement" }
+      - { title: og, disc: 1, segment: og_nibelheim, optional: true, scene: "Recruiting Vincent" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      In Cloud's account Sephiroth disappears into a basement no one in the village knew of, and
+      reads the Jenova Project's records there.
+    depictions:
+      - { at: { title: rebirth, chapter: 1 }, framing: disputed_account }
+    sources:
+      - { title: rebirth, chapter: 1, scene: "To Shinra Manor: Shinra Manor / Entrance" }
+      - { title: rebirth, chapter: 1, scene: "Underground Cavern" }
+    certainty: stated
+    notes: >-
+      Vincent's coffin in chapter 11 is in an unnamed room in the transcript, so that scene isn't
+      cited here.
+
+relationships:
+  - type: part_of
+    target: location_nibelheim
+    titles:
+      og:
+        sources:
+          [{ title: og, disc: 1, segment: og_kalm, scene: "Upon approaching the Shinra Mansion" }]
+        certainty: stated
+      rebirth:
+        sources:
+          [{ title: rebirth, chapter: 1, scene: "Sephiroth's Whereabots: Nibelheim / Night" }]
+        certainty: stated

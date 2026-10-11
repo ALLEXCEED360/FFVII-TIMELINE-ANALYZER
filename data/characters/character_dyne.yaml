@@ -52,3 +52,24 @@ relationships:
             ],
           certainty: stated,
         }
+
+  - type: hometown
+    target: location_corel
+    titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 1,
+              segment: og_corel,
+              scene: "Barret's Past: 'Our coal's been protected for generations'",
+            }
+        certainty: stated
+
+  - type: lives_in
+    target: location_corel_prison
+    titles:
+      og:
+        sources:
+          - { title: og, disc: 1, segment: og_corel_prison, scene: "Upon reaching Dyne's hideout" }
+        certainty: stated

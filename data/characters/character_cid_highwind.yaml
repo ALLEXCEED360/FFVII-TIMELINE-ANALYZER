@@ -74,3 +74,17 @@ relationships:
             ],
           certainty: stated,
         }
+
+  - type: lives_in
+    target: location_rocket_town
+    titles:
+      og:
+        sources:
+          - { title: og, disc: 1, segment: og_rocket_town, scene: "Cid's house beside the rocket" }
+          - {
+              title: og,
+              disc: 2,
+              segment: og_rocket_launch,
+              scene: "'Them Shinra's ar' all gathered at Cid's Rocket Town'",
+            }
+        certainty: stated

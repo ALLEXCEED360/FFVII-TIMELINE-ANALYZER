@@ -1,0 +1,24 @@
+id: location_corel_prison
+name: Corel Prison
+aliases: [Desert Prison]
+summary: >-
+  A natural prison in the desert, ringed by quicksand, where criminals are left to fend for
+  themselves.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      The party is sent down to it, blamed for killings at the Gold Saucer's Battle Arena. Barret finds Dyne living
+      there, fights him, and wins the way out by a chocobo race.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_corel_prison }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_corel_prison,
+          scene: "'a natural prison in the middle of the desert'",
+        }
+      - { title: og, disc: 1, segment: og_corel_prison, scene: "Upon reaching Dyne's hideout" }
+    certainty: stated

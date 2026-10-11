@@ -1,10 +1,11 @@
-import { type Db, entity, listEntities, openQuestionsAbout } from "@ffvii/db";
-import { TitleCodeSchema } from "@ffvii/shared";
+import { type Db, entity, listEntities, loadCoverageIndex, openQuestionsAbout } from "@ffvii/db";
+import { TITLES_IN_ORDER, TitleCodeSchema, displayStatus } from "@ffvii/shared";
 import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
 import { z } from "zod";
 import {
   Appearance,
   Difference,
+  DisplayStatusEnum,
   EntityId,
   EntityInfo,
   EntityKindEnum,
@@ -19,6 +20,11 @@ const EntityDetail = EntityInfo.extend({
   appearances: z.array(Appearance).describe("One per title and world, in release order."),
   differences: z.array(Difference),
   relationships: z.array(Relationship),
+  statuses: z
+    .record(TitleCodeSchema, DisplayStatusEnum)
+    .describe(
+      "Each title's status for it in the main world, stored or derived: a title that retells this part of the story without recording it is `undocumented`, not `absent`.",
+    ),
   openQuestions: z
     .array(OpenQuestion)
     .describe("Research questions about this entity (facts awaiting a stronger check, gaps)."),
@@ -67,7 +73,12 @@ export const entityRoutes: FastifyPluginCallbackZod<{ db: Db }> = (app, { db }, 
       if ("redirectTo" in found) {
         return redirectRetired(request, reply, { oldId: id, newId: found.redirectTo });
       }
-      return { ...found, openQuestions: await openQuestionsAbout(db, found.id) };
+      const index = await loadCoverageIndex(db);
+      const subject = { appearances: found.appearances, ogSegment: found.ogSegmentId ?? undefined };
+      const statuses = Object.fromEntries(
+        TITLES_IN_ORDER.map((title) => [title, displayStatus(subject, title, index)]),
+      ) as Record<(typeof TITLES_IN_ORDER)[number], ReturnType<typeof displayStatus>>;
+      return { ...found, statuses, openQuestions: await openQuestionsAbout(db, found.id) };
     },
   );
   done();

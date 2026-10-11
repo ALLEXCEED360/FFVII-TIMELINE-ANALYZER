@@ -5,7 +5,7 @@ key art, as hosted on the Final Fantasy Wiki (finalfantasy.fandom.com). Nothing 
 There are no in-game screenshots, and nothing extracted from game files, with one exception the
 project's owner chose: a few stills, official promo shots and a fan render of a game model,
 for moments (moments/), places and groups no artwork shows as well. Credits live in
-src/art/credits.ts; this script only reproduces the files. (key/remake-title.webp, the Remake
+src/art/details.ts; this script only reproduces the files. (key/remake-title.webp, the Remake
 title screen's artwork, was supplied by the project's owner and isn't fetched here.)
 
     python apps/web/scripts/fetch_art.py --list          # what would be fetched, with sizes
@@ -113,6 +113,24 @@ ART: dict[str, tuple[str, int]] = {
     # Moments: one picture each, of where (or what) it happens.
     "places/shinra-mansion": ("DoC Shinra Mansion 1 Artwork.png", 1200),
     "places/sector-8": ("Sector 8 artwork for FFVII Remake.png", 1600),
+    "places/kalm": ("Kalm from FFVII Rebirth.png", 1600),
+    "places/gold-saucer": ("Gold Saucer entrance from FFVII Rebirth.png", 1600),
+    "places/gongaga": ("Gongaga memorial from FFVII Rebirth.png", 1600),
+    "places/gongaga-reactor": ("Gongaga mako reactor from FFVII Rebirth.png", 1600),
+    "places/costa-del-sol": ("Kapono welcomes everyone to Costa del Sol from FFVII Rebirth.png", 1600),
+    "places/mythril-mine": ("Mythril Mines from FFVII Rebirth.png", 1600),
+    "places/shinra-manor": ("Shinra Manor library from FFVII Rebirth.png", 1600),
+    "places/corel-prison": ("Garth welcomes Cloud's party to Corel Prison from FFVII Rebirth.png", 1600),
+    "places/sleeping-forest": ("Sleeping forest.png", 1600),
+    "places/train-graveyard": ("Train Graveyard Section A from FFVII Remake.jpg", 1600),
+    "places/under-junon": ("Mouth to Mouth.png", 1600),
+    "places/corel": ("North Corel.jpg", 1600),
+    "places/rocket-town": ("RocketTown.jpg", 1600),
+    "moments/clouds-story-at-kalm": ("The party in Kalm inn from FFVII Rebirth.png", 1600),
+    "moments/turks-in-mythril-mine": ("Turks at the Mythril Mines from FFVII Rebirth.png", 1600),
+    "moments/hojo-at-costa-del-sol": ("Hojo in Costa del Sol from FFVII Rebirth.png", 1600),
+    "moments/keystone-stolen": ("Cait Sith gives the keystone to Tseng from FFVII Rebirth.png", 1600),
+    "moments/aerith-dream": ("Home Wallpaper Voice from the Sleeping Forest from FFVIIEC.png", 1600),
     "places/upper-sector-7": ("Upper Sector 7 artwork for Final Fantasy VII Remake.png", 1600),
     "places/president-office": ("President-Office-Shinra-HQ-FFVIIR-Art.jpg", 1600),
     # Moments, places and groups no artwork shows: stills, Square Enix promo shots, a model render.
@@ -180,6 +198,8 @@ CROP = {
     "key/og-poster": (0, 0, 1, 0.94),  # the publisher's logos
     "places/shinra-mansion": (0.03, 0.625, 0.475, 0.975),
     "places/nibelheim-rebirth": (0, 0.22, 1, 1),  # the area-name banner
+    "places/corel-prison": (0, 0, 1, 0.72),  # the subtitle
+    "places/under-junon": (0, 0, 1, 0.66),  # the mini-game's instructions
 }
 # knockout: the flat studio background around a render becomes transparent, so every character
 # stands on the page the same way.

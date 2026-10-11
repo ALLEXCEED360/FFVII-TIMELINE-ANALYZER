@@ -1,0 +1,28 @@
+id: location_sleeping_forest
+name: Sleeping Forest
+summary: >-
+  A forest past Bone Village that leads to the Forgotten Capital, said to be asleep and to turn
+  back anyone who enters.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Aerith goes on ahead through it alone; in a dream there she tells Cloud it leads to the City
+      of the Ancients, and that she will stop Sephiroth's Meteor.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_bone_village }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_bone_village,
+          scene: "'This forest leads to the City of the Ancients... and is called the Sleeping Forest'",
+        }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_bone_village,
+          scene: "Bone Village: 'Right now the forest is asleep'",
+        }
+    certainty: stated

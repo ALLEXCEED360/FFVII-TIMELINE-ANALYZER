@@ -105,3 +105,18 @@ relationships:
       og:
         { sources: [{ title: og, disc: 1, segment: og_temple_of_the_ancients }], certainty: stated }
       rebirth: { sources: [{ title: rebirth, chapter: 13 }], certainty: stated }
+
+  - type: participated_in
+    target: event_turks_in_the_mythril_mine
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_road_to_junon, scene: "Going After Sephiroth" }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_keystone_stolen
+    role: receives the Keystone
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_keystone, scene: "Tseng: 'Well done.'" }]
+        certainty: stated

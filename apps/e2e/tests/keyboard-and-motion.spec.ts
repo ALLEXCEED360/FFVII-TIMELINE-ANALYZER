@@ -109,6 +109,8 @@ test("keyboard focus is always visible", async ({ page }) => {
   await expect(
     page.getByRole("heading", { level: 1, name: "The games, chapter by chapter" }),
   ).toBeVisible();
+  // The heading comes before the games load; wait for them, or the page may run out of stops.
+  await expect(page.locator('a[href="/archive/og"]').first()).toBeVisible();
   // Walk the first stops of the page and check each shows a focus outline.
   for (let i = 0; i < 15; i += 1) {
     await page.keyboard.press("Tab");
@@ -120,7 +122,7 @@ test("keyboard focus is always visible", async ({ page }) => {
         ? `${el.tagName} ${el.textContent.trim().slice(0, 30)}`
         : "ok";
     });
-    expect(outline).toBe("ok");
+    expect(outline, `Tab stop ${String(i + 1)}`).toBe("ok");
   }
 });
 
@@ -325,9 +327,12 @@ test("the Back button follows you down a long page", async ({ page }) => {
   await expect(page).toHaveURL(/\/divergence\/event\//);
   const backs = page.getByRole("button", { name: "Back" });
   await expect(backs).toHaveCount(1);
-  // Scrolled past the one at the top, the same button floats in the corner.
-  await page.mouse.wheel(0, 3000);
-  await expect(backs).toHaveCount(2);
+  // Scrolled past the one at the top, the same button floats in the corner. Scroll again until it
+  // does: under load the page can still be growing when the first scroll lands.
+  await expect(async () => {
+    await page.mouse.wheel(0, 3000);
+    await expect(backs).toHaveCount(2, { timeout: 1000 });
+  }).toPass();
   await expect(page.locator(".m-back-float")).toBeInViewport();
   await page.locator(".m-back-float").click();
   await expect(page).toHaveURL(/\/divergence$/);

@@ -81,3 +81,19 @@ relationships:
           sources: [{ title: remake, chapter: 12, scene: "Saving Marlene (continued)" }],
           certainty: stated,
         }
+
+  - type: hometown
+    target: location_corel
+    titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 1,
+              segment: og_corel_prison,
+              scene: "'I went back into town... That's when I found her'",
+            }
+        certainty: inferred
+        notes: >-
+          Born to Dyne and Eleanor of Corel, and found by Barret in the burning town; the
+          transcript doesn't call Corel her hometown in so many words.

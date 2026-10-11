@@ -1,0 +1,23 @@
+id: location_rocket_town
+name: Rocket Town
+summary: >-
+  A town built around Shinra's grounded space program, where Cid's rocket still stands on its
+  launch pad.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Cid and Shera live beside the rocket, waiting for Rufus to restart the space program. Later
+      Shinra gathers there to launch the rocket at Meteor.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_rocket_town }, framing: direct }
+    sources:
+      - { title: og, disc: 1, segment: og_rocket_town, scene: "Upon entering Rocket Town" }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_rocket_launch,
+          scene: "'Them Shinra's ar' all gathered at Cid's Rocket Town'",
+        }
+    certainty: stated

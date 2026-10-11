@@ -67,3 +67,20 @@ relationships:
             ],
           certainty: stated,
         }
+
+  - type: lives_in
+    target: location_shinra_manor
+    titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 1,
+              segment: og_nibelheim,
+              optional: true,
+              scene: "Recruiting Vincent: 'My long sleep has given me time to atone'",
+            }
+        certainty: inferred
+        notes: >-
+          Found sleeping in a coffin in the mansion's basement, where he has slept for years to
+          atone; "lives in" is our reading of that.
