@@ -93,7 +93,7 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_aerith_gainsborough"],
     era: "modern",
   }),
-  art("characters/aerith-og", "852x1304", "cutout", {
+  art("characters/aerith-og", "558x1304", "cutout", {
     subjects: ["character_aerith_gainsborough"],
     era: "og",
   }),
@@ -105,7 +105,7 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_barret_wallace"],
     era: "og",
   }),
-  art("characters/red-xiii", "937x665", "cutout", {
+  art("characters/red-xiii", "937x585", "cutout", {
     subjects: ["character_red_xiii"],
     era: "modern",
   }),
@@ -117,7 +117,7 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_yuffie"],
     era: "modern",
   }),
-  art("characters/yuffie-og", "804x1351", "cutout", {
+  art("characters/yuffie-og", "637x1351", "cutout", {
     subjects: ["character_yuffie"],
     era: "og",
   }),
@@ -129,7 +129,7 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_cait_sith"],
     era: "og",
   }),
-  art("characters/sephiroth", "511x853", "cutout", {
+  art("characters/sephiroth", "404x853", "cutout", {
     subjects: ["character_sephiroth"],
     era: "modern",
   }),
@@ -137,11 +137,11 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_sephiroth"],
     era: "og",
   }),
-  art("characters/zack", "603x1400", "cutout", {
+  art("characters/zack", "519x1400", "cutout", {
     subjects: ["character_zack_fair"],
     era: "modern",
   }),
-  art("characters/zack-og", "365x561", "lineart", {
+  art("characters/zack-og", "213x561", "lineart", {
     subjects: ["character_zack_fair"],
     era: "og",
   }),
@@ -157,7 +157,7 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_rufus_shinra"],
     era: "modern",
   }),
-  art("characters/rufus-og", "655x1245", "cutout", {
+  art("characters/rufus-og", "574x1245", "cutout", {
     subjects: ["character_rufus_shinra"],
     era: "og",
   }),
@@ -165,7 +165,7 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_reno"],
     era: "modern",
   }),
-  art("characters/reno-og", "441x1255", "cutout", {
+  art("characters/reno-og", "366x1255", "cutout", {
     subjects: ["character_reno"],
     era: "og",
   }),
@@ -221,7 +221,7 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_bugenhagen"],
     era: "og",
   }),
-  art("characters/vincent", "430x884", "cutout", {
+  art("characters/vincent", "339x884", "cutout", {
     subjects: ["character_vincent_valentine"],
     era: "modern",
   }),
@@ -233,7 +233,7 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_cid_highwind"],
     era: "modern",
   }),
-  art("characters/cid-og", "984x1253", "cutout", {
+  art("characters/cid-og", "554x1253", "cutout", {
     subjects: ["character_cid_highwind"],
     era: "og",
   }),
@@ -279,6 +279,10 @@ export const ARTWORK: readonly ArtEntry[] = [
   }),
   art("characters/dyne", "389x804", "cutout", {
     subjects: ["character_dyne"],
+    era: "modern",
+  }),
+  art("characters/sonon", "412x822", "cutout", {
+    subjects: ["character_sonon_kusakabe"],
     era: "modern",
   }),
 

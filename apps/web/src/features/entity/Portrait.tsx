@@ -18,12 +18,16 @@ export function Portrait({ main, original }: { main: ArtEntry; original?: ArtEnt
   const look = lookOf(main);
   return (
     <figure className="ent-portrait">
-      <div className="ent-portrait-stage">
+      {/* A figure wider than tall (Red XIII) is centred in the ring rather than standing on it. */}
+      <div className="ent-portrait-stage" data-wide={main.width > main.height || undefined}>
         <span aria-hidden="true" className="ent-portrait-ring" />
         <Artwork entry={main} eager className="ent-portrait-figure" />
         {look && <span className="ent-portrait-look">As seen in {look}</span>}
         {original && (
-          <div className="ent-portrait-then">
+          <div
+            className="ent-portrait-then"
+            data-wide={original.width > original.height || undefined}
+          >
             <div className="ent-portrait-then-art">
               <Artwork entry={original} />
             </div>

@@ -228,6 +228,17 @@
   background: linear-gradient(180deg, rgb(24 30 44 / 0.92), rgb(8 11 18 / 0.95));
   box-shadow: 0 14px 30px rgb(0 0 0 / 0.6);
 }
+.ent-portrait-stage[data-wide] {
+  align-items: center;
+}
+/* Wide original art (Red XIII) gets a box its own shape, without empty space above it. */
+.ent-portrait-then[data-wide] .ent-portrait-then-art {
+  height: auto;
+}
+.ent-portrait-then[data-wide] .ent-portrait-then-art img {
+  width: 100%;
+  height: auto;
+}
 .ent-portrait-then-art {
   display: flex;
   height: 9.5rem;

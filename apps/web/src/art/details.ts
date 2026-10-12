@@ -367,6 +367,11 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
     title: "Dyne, Final Fantasy VII Rebirth render",
     wiki: "Dyne from FFVII Rebirth promo render.png",
   },
+  "characters/sonon": {
+    alt: "Sonon in his INTERmission look, in a grey waistcoat and red gauntlets, holding a long staff.",
+    title: "Sonon Kusakabe, Final Fantasy VII Remake Intergrade (INTERmission) render",
+    wiki: "Sonon Kusakabe from FFVII Remake promo render.png",
+  },
   "places/midgar-concept": {
     alt: "Midgar at night from above: the round city on its plate, reactors venting green light around the Shinra Building at its heart.",
     title: "Midgar concept art, Final Fantasy VII",

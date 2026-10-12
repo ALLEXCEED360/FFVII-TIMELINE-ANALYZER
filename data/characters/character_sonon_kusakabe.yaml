@@ -1,0 +1,67 @@
+id: character_sonon_kusakabe
+name: Sonon Kusakabe
+aliases: [Sonon]
+summary: >-
+  A Wutaian fighter trained under Yuffie's father, sent to Midgar as her partner, who calls her
+  "Boss" and carries a grudge against Shinra for his sister's death.
+
+appearances:
+  - title: intermission
+    status: depicted
+    role: Yuffie's partner on Wutai's mission to Midgar
+    summary: >-
+      Meets Yuffie at AVALANCHE's base and becomes her steady, cautious partner, calling her Boss.
+      He tells her his sister Melphie was killed by one of Scarlet's machines, and has to hold
+      himself back when they meet Scarlet in the Shinra Building. After their fight with Nero
+      he is struck down, and his last words urge Yuffie to keep going for them both.
+    depictions:
+      - { at: { title: intermission, chapter: 1 }, framing: direct }
+    sources:
+      - {
+          title: intermission,
+          chapter: 1,
+          scene: "Scout Out Sector 7: 'I'm Sonon Kusakabe. I was lucky enough to learn how to fight from G—'",
+        }
+      - {
+          title: intermission,
+          chapter: 1,
+          scene: "Shinra Building or Bust: 'Who's Melphie?' 'My sister.'",
+        }
+      - {
+          title: intermission,
+          chapter: 2,
+          scene: "Scarlet's Trap: 'It was one of her machines that killed Melphie!'",
+        }
+      - {
+          title: intermission,
+          chapter: 2,
+          scene: "Dread: 'Yuffie.... You gotta keep going...for us.'",
+        }
+    certainty: stated
+    notes: >-
+      His death after Nero's attack is shown rather than said; the transcript has his last words
+      and Yuffie's grief. See the open question.
+
+relationships:
+  - type: member_of
+    target: organization_wutai
+    role: one of the new Wutai government's operatives, with Yuffie
+    titles:
+      intermission:
+        sources:
+          - {
+              title: intermission,
+              chapter: 1,
+              scene: "Save Zhijie: 'I'll show you how Wutaians really party'",
+            }
+        certainty: stated
+
+  - type: participated_in
+    target: event_yuffie_raid_on_shinra
+    role: Yuffie's partner
+    titles:
+      intermission:
+        sources:
+          - { title: intermission, chapter: 2, scene: "Scarlet's Trap" }
+          - { title: intermission, chapter: 2, scene: "A Fateful Confrontation" }
+        certainty: stated

@@ -165,3 +165,13 @@
     - { title: rebirth, chapter: 8 }
     - { title: rebirth, chapter: 9, scene: "'another run-down reactor'" }
     - { title: rebirth, chapter: 11, scene: "Search Resumes" }
+
+- id: question_sonon_death
+  kind: needs_footage
+  summary: How INTERmission shows Sonon's death (chapter 2)
+  details: >-
+    Nero strikes Sonon down after the fight in the Shinra Building's depths. The transcript has his
+    last words to Yuffie and her grief, but the attack itself is shown rather than said. Check the
+    footage before recording it as a death or linking it to Nero.
+  entities: [character_sonon_kusakabe]
+  sources: [{ title: intermission, chapter: 2, scene: "Dread" }]

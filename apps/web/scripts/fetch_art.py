@@ -99,6 +99,7 @@ ART: dict[str, tuple[str, int]] = {
     "characters/wedge-og": ("Wedge from FFVII concept art.png", 1400),
     "characters/marlene": ("Marlene Wallace from FFVII Remake render.png", 1400),
     "characters/dyne": ("Dyne from FFVII Rebirth promo render.png", 1400),
+    "characters/sonon": ("Sonon Kusakabe from FFVII Remake promo render.png", 1400),
     # Places: Remake concept art for Midgar, the original's concept art beyond it.
     "places/midgar-concept": ("Midgar FFVII Concept Art.jpg", 1600),
     "places/sector-7": ("Sector 7 Pillar artwork for Final Fantasy VII Remake.png", 1600),
@@ -200,6 +201,17 @@ CROP = {
     "places/nibelheim-rebirth": (0, 0.22, 1, 1),  # the area-name banner
     "places/corel-prison": (0, 0, 1, 0.72),  # the subtitle
     "characters/sephiroth-og": (0, 0, 0.516, 1),  # most of the long sword
+    "characters/sonon": (0.425, 0, 1, 1),  # centre the figure
+    "characters/red-xiii": (0, 0.12, 1, 1),  # the empty space above him
+    "characters/sephiroth": (0.209, 0, 1, 1),  # centre the figure
+    "characters/vincent": (0, 0, 0.788, 1),  # centre the figure
+    "characters/zack": (0, 0, 0.861, 1),  # centre the figure
+    "characters/cid-og": (0, 0, 0.563, 1),  # centre the figure
+    "characters/aerith-og": (0.345, 0, 1, 1),  # centre the figure
+    "characters/yuffie-og": (0.208, 0, 1, 1),  # centre the figure
+    "characters/reno-og": (0, 0, 0.83, 1),  # centre the figure
+    "characters/rufus-og": (0.124, 0, 1, 1),  # centre the figure
+    "characters/zack-og": (0, 0, 0.584, 1),  # centre the figure
     "places/under-junon": (0, 0, 1, 0.66),  # the mini-game's instructions
 }
 # knockout: the flat studio background around a render becomes transparent, so every character

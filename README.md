@@ -6,7 +6,7 @@
 
 <h1 align="center">FINAL FANTASY VII · TIMELINE ANALYZER</h1>
 
-<p align="center"><b>One story. Four tellings.</b></p>
+<p align="center"><b>One story. Two tellings.</b></p>
 
 <p align="center">
   <img alt="Node 24" src="https://img.shields.io/badge/node-24-58e0a8?style=flat-square">
@@ -16,7 +16,7 @@
   <img alt="Data: CC BY-NC 4.0" src="https://img.shields.io/badge/data-CC%20BY--NC%204.0-ff86b6?style=flat-square">
 </p>
 
-A fan-made guide to how _Final Fantasy VII_'s story is told across the 1997 original, _Remake_, _INTERmission_ and _Rebirth_: what each game shows, what changes, how everyone is connected, and where the stories part ways. It's written for someone meeting the story for the first time, and every fact says where in the game to see it.
+A fan made guide to how _Final Fantasy VII_'s story is told across the 1997 original and Remake series: what each game shows, what changes, how everyone is connected, and where the stories part ways. It's written for someone meeting the story for the first time, and every fact says where in the game to see it.
 
 ---
 
@@ -45,7 +45,7 @@ The four games, as the home menu shows them.
 | **Archive**    | Each game chapter by chapter, and how every fact was checked                             |
 | **Config**     | Background music, motion, the title screen, the Buster Sword cursor, the spoiler warning |
 
-Around it: a title screen over Midgar at night, a home menu in the original's pause-menu style that you can drive with the arrows or W A S D, the original's blue window between sections, and 121 official pictures behind every screen. The full look is in [`docs/design.md`](docs/design.md).
+Around it: a title screen over Midgar at night, a home menu in the original's pause-menu style that you can drive with the arrows or W A S D, the original's blue window between sections, and 122 official pictures behind every screen. The full look is in [`docs/design.md`](docs/design.md).
 
 ## ☞ Materia
 
