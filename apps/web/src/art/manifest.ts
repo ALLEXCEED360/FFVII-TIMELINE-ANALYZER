@@ -13,6 +13,11 @@ export interface ArtEntry {
   kind: "key" | "cutout" | "scene" | "lineart";
   /** Where to centre it when the layout crops it (CSS object-position). */
   focus?: string;
+  /**
+   * For a figure that a long weapon makes lopsided: how far across the picture (0–1) the body is,
+   * so a portrait can stand the body in the middle and let the weapon reach out to one side.
+   */
+  centre?: number;
   /** Entities it depicts or evokes, so their pages can use it. */
   subjects: readonly string[];
   /** For a character's pair of images: the original's artwork, or the Remake/Rebirth look. */
@@ -281,9 +286,10 @@ export const ARTWORK: readonly ArtEntry[] = [
     subjects: ["character_dyne"],
     era: "modern",
   }),
-  art("characters/sonon", "412x822", "cutout", {
+  art("characters/sonon", "716x822", "cutout", {
     subjects: ["character_sonon_kusakabe"],
     era: "modern",
+    centre: 0.729,
   }),
 
   // ── Places ──────────────────────────────────────────────────────────────────────────────────

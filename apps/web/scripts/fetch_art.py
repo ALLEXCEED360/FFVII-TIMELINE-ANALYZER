@@ -201,7 +201,6 @@ CROP = {
     "places/nibelheim-rebirth": (0, 0.22, 1, 1),  # the area-name banner
     "places/corel-prison": (0, 0, 1, 0.72),  # the subtitle
     "characters/sephiroth-og": (0, 0, 0.516, 1),  # most of the long sword
-    "characters/sonon": (0.425, 0, 1, 1),  # centre the figure
     "characters/red-xiii": (0, 0.12, 1, 1),  # the empty space above him
     "characters/sephiroth": (0.209, 0, 1, 1),  # centre the figure
     "characters/vincent": (0, 0, 0.788, 1),  # centre the figure
