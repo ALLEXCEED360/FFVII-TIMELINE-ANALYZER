@@ -224,8 +224,10 @@ function Title({ onDone, replayed }: { onDone: () => void; replayed: boolean }) 
       <div aria-hidden="true" className="boot-veil absolute inset-0" />
 
       <div className="relative z-10 grid h-full w-full grid-rows-[1fr_auto] px-5 pt-6 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-10">
-        <div className="flex flex-col items-center justify-center text-center">
-          <h1 id="boot-title" className="flex flex-col items-center">
+        <div className="boot-head flex flex-col items-center justify-center text-center">
+          <h1 id="boot-title" className="boot-heading flex flex-col items-center">
+            {/* On a phone held upright, Meteor hangs off the title itself. */}
+            {meteor && <img src={artSrc(meteor)} alt="" className="boot-meteor-near" />}
             <span className="en-ff">
               <span aria-hidden="true" className="en-rule" />
               Final Fantasy VII
@@ -235,7 +237,7 @@ function Title({ onDone, replayed }: { onDone: () => void; replayed: boolean }) 
           </h1>
           {tellings}
         </div>
-        <div className="flex flex-col items-center gap-7">
+        <div className="boot-foot flex flex-col items-center">
           <button
             ref={prompt}
             type="button"
@@ -249,7 +251,7 @@ function Title({ onDone, replayed }: { onDone: () => void; replayed: boolean }) 
           <p id="boot-status" aria-live="polite" className="boot-small">
             {statusText}
           </p>
-          <div className="boot-small flex w-full flex-wrap justify-between gap-2">
+          <div className="boot-small boot-legal flex w-full flex-wrap justify-between gap-2">
             <span>Non-commercial fan project · Artwork © Square Enix</span>
             <span>v1.0</span>
           </div>

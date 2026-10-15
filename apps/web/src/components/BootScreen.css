@@ -248,6 +248,82 @@
   animation: title-in 1s ease-out 2.4s both;
 }
 
+.boot-foot {
+  gap: 1.75rem;
+}
+
+/* ── Phones ──────────────────────────────────────────────────────────────────────────────── */
+
+.boot-heading {
+  position: relative;
+  isolation: isolate;
+}
+.boot-meteor-near {
+  display: none;
+}
+
+/* Upright: a larger title nearer the middle, with Meteor at its upper right. */
+@media (orientation: portrait) and (max-width: 48rem) {
+  .boot-head {
+    padding-top: 12vh;
+  }
+  .en-ff {
+    font-size: clamp(1.25rem, 7.2vw, 2.4rem);
+  }
+  .en-rule {
+    width: clamp(1.5rem, 8vw, 4rem);
+  }
+  .en-name {
+    font-size: clamp(2.5rem, 14vw, 6rem);
+  }
+  .boot-meteor {
+    display: none;
+  }
+  .boot-meteor-near {
+    display: block;
+    position: absolute;
+    z-index: -1;
+    left: 52%;
+    bottom: 72%;
+    width: 72%;
+    max-width: none;
+    opacity: 0.26;
+    animation: boot-appear 3s ease-out 0.6s both;
+  }
+  .boot-legal {
+    justify-content: center;
+    text-align: center;
+    letter-spacing: 0.18em;
+  }
+}
+
+/* On its side: everything a size down and spaced out, Meteor smaller in the corner. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .en-ff {
+    font-size: clamp(1rem, 5vh, 1.5rem);
+  }
+  .en-name {
+    font-size: clamp(2rem, 12vh, 4rem);
+  }
+  .boot-tellings {
+    margin-top: 0.9rem;
+    font-size: 0.65rem;
+  }
+  .boot-meteor {
+    top: 2%;
+    right: 2%;
+    width: 27vw;
+  }
+  .boot-foot {
+    gap: 0.6rem;
+  }
+  .boot-press {
+    margin-bottom: 0.4rem;
+    padding-block: 0.55rem;
+    font-size: 0.95rem;
+  }
+}
+
 .boot[data-leaving] {
   animation: boot-out 0.56s var(--ease-wipe) both;
 }
