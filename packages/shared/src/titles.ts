@@ -10,7 +10,7 @@ export type TitleCode = z.infer<typeof TitleCodeSchema>;
 export type Series = "original" | "remake";
 
 /** An unnumbered part of a chaptered title, placed before a given chapter. */
-export interface TitlePart {
+interface TitlePart {
   key: string;
   name: string;
   /** The chapter this part is played before. */

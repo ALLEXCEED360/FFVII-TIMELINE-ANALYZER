@@ -109,8 +109,6 @@ describe("reference and entities", () => {
       "remake",
       "rebirth",
     ]);
-    // Research and open questions stay in data/, out of the API.
-    expect((await get("/entities/event_aerith_death")).body.openQuestions).toBeUndefined();
     expect(await get("/entities/character_nobody")).toMatchObject({
       status: 404,
       body: { error: "not_found" },
@@ -404,10 +402,6 @@ describe("archive", () => {
         });
       }
     }
-  });
-
-  it("has no research log", async () => {
-    expect((await get("/research")).status).toBe(404);
   });
 });
 

@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router";
 // The divergence view's settings live in the URL, so any view can be shared:
 // /divergence/event/aerith-death?worlds=1&node=event_cloud_memories_restored
 
-export interface DivergenceParams {
+interface DivergenceParams {
   /** Whether other worlds (e.g. the world where Zack survives) get their own branches. */
   worlds: boolean;
   /** The selected event, shown in the inspector. */
@@ -13,7 +13,7 @@ export interface DivergenceParams {
 
 const ID = /^[a-z]+_[a-z0-9_]+$/;
 
-export function parseDivergenceParams(search: URLSearchParams): DivergenceParams {
+function parseDivergenceParams(search: URLSearchParams): DivergenceParams {
   const node = search.get("node");
   return {
     worlds: search.get("worlds") === "1",

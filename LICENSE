@@ -19,3 +19,70 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+-------------------------------------------------------------------------------
+
+THIRD-PARTY MATERIAL — NOT COVERED BY THIS LICENCE
+
+The MIT licence above covers only the original source code of this project.
+The data and documentation (data/, docs/) are licensed separately under
+CC BY-NC 4.0 (see LICENSE-DATA). Nothing below is licensed by this project;
+each item belongs to its owner, is used here in a non-commercial fan project,
+and will be removed at the owner's request.
+
+FINAL FANTASY VII
+
+  FINAL FANTASY VII, FINAL FANTASY VII REMAKE, FINAL FANTASY VII REMAKE
+  INTERGRADE, FINAL FANTASY VII REBIRTH and CRISIS CORE -FINAL FANTASY VII-,
+  together with their names, characters, stories, logos and trademarks,
+  © SQUARE ENIX CO., LTD. All Rights Reserved.
+
+  This project is not made, approved, endorsed or sponsored by Square Enix.
+
+Artwork  (apps/web/public/art, apps/web/public/thumbs, apps/web/src/music/*/cover.webp)
+
+  Every picture is official Square Enix material: key art, character renders
+  and illustrations, concept art, in-game stills and promotional screenshots,
+  © SQUARE ENIX CO., LTD. Character design by Tetsuya Nomura (and Roberto
+  Ferrari for the Remake series); FINAL FANTASY VII logo illustration by
+  Yoshitaka Amano. Pictures were found through the Final Fantasy Wiki
+  (https://finalfantasy.fandom.com). Each one is listed, with its title, artist
+  and source, in apps/web/src/art/details.ts and on the site's Credits page.
+
+Music  (apps/web/src/music)
+
+  All music © SQUARE ENIX CO., LTD. All Rights Reserved.
+
+  Final Fantasy VII (1997) ..... composed by Nobuo Uematsu
+  Crisis Core ................... composed by Takeharu Ishimoto
+  Final Fantasy VII Remake ...... original music by Nobuo Uematsu; arranged by
+                                  Yoshitaka Suzuki, Shotaro Shima, Yasunori
+                                  Nishiki, Tadayoshi Makino and Kenichiro Fukui;
+                                  additional composition by Masashi Hamauzu,
+                                  Tadayoshi Makino and Yasunori Nishiki.
+                                  "Hollow": vocals by Yosh,
+                                  lyrics by Kazushige Nojima
+  Final Fantasy VII Rebirth ..... original music by Nobuo Uematsu; arranged by
+                                  Shotaro Shima, Yasunori Nishiki, Ryo Furukawa
+                                  and Tsutomu Narita; additional composition by
+                                  Shotaro Shima and Ryo Furukawa.
+                                  "No Promises to Keep":
+                                  vocals by Loren Allred, lyrics by Kazushige
+                                  Nojima
+
+  Each track's composer, arranger, vocalist and lyricist is credited in its
+  album's album.json and shown in the site's Config window.
+
+Typefaces  (apps/web/public/fonts)
+
+  Final Fantasy, by Juan Pablo Reyes Altamirano — free for non-commercial use
+  Optimus Princeps, by Manfred Klein — free font
+  Reactor7, by Caveras (Cliff Modes) — CC BY-NC-SA 4.0, https://caveras.net
+    (licence in apps/web/public/fonts/reactor7/license.txt)
+  Inter, by Rasmus Andersson — SIL Open Font License 1.1
+  JetBrains Mono, by JetBrains — SIL Open Font License 1.1
+
+Cursor  (apps/web/public/cursors)
+
+  Cloud's Buster Sword, from Cursors-4U
+  https://www.cursors-4u.com/cursor/final-fantasy-7-cloud-s-buster-sword

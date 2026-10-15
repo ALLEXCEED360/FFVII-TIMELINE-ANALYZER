@@ -22,7 +22,7 @@ export interface Track extends Credits {
   url: string;
 }
 
-export interface AlbumInfo {
+interface AlbumInfo {
   title: string;
   subtitle?: string;
   year?: number;
@@ -90,7 +90,7 @@ export const TRACKS: readonly Track[] = Object.entries(AUDIO)
     return trackFromFile(path, url, info, cover);
   });
 
-export interface Album {
+interface Album {
   name: string | undefined;
   subtitle?: string;
   year?: number;

@@ -10,7 +10,7 @@ import "./ff7.css";
 import "./modern.css";
 
 /** The sections, in menu order. The home menu lists the same ones (features/home/menu.ts). */
-export const NAV: readonly { to: string; label: string; page: PageName }[] = [
+const NAV: readonly { to: string; label: string; page: PageName }[] = [
   { to: "/timeline", label: "Timeline", page: "timeline" },
   { to: "/compare", label: "Compare", page: "compare" },
   { to: "/divergence", label: "Divergence", page: "divergence" },

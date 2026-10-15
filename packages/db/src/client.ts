@@ -7,7 +7,7 @@ import * as schema from "./schema.ts";
 const ROOT_ENV = fileURLToPath(new URL("../../../.env", import.meta.url));
 
 /** DATABASE_URL from the environment, falling back to the repository's `.env` file. */
-export function databaseUrl(): string {
+function databaseUrl(): string {
   if (process.env.DATABASE_URL === undefined && existsSync(ROOT_ENV)) {
     process.loadEnvFile(ROOT_ENV);
   }

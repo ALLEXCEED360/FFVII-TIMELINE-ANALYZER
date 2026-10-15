@@ -44,7 +44,7 @@ export function createGraph(nodes: Iterable<GraphNode>, edges: Iterable<GraphEdg
   return { nodes: byId, edges: kept, adjacency };
 }
 
-export interface GraphFilter {
+interface GraphFilter {
   /**
    * Keep edges established by at least one of these titles (with only those titles' evidence),
    * and nodes shown by at least one of them.
@@ -97,7 +97,7 @@ export function neighborhood(graph: Graph, start: string, depth: number): Map<st
   return found;
 }
 
-export interface NetworkSlice {
+interface NetworkSlice {
   center: string;
   /** Entities within the depth, nearest first, then by name. */
   nodes: (GraphNode & { depth: number })[];
@@ -196,7 +196,7 @@ export function connectedComponents(graph: Graph): string[][] {
   return groups.sort((a, b) => b.length - a.length || (a[0] ?? "").localeCompare(b[0] ?? ""));
 }
 
-export interface Centrality {
+interface Centrality {
   /** Distinct entities it's directly related to. */
   degree: number;
   /** Degree divided by the most it could be (n − 1); 0–1. */

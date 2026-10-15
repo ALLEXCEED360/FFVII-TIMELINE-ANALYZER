@@ -106,7 +106,7 @@ export async function timeline(
   return [...rows];
 }
 
-export interface PlayOrderItem {
+interface PlayOrderItem {
   id: string;
   kind: FileEntityKind;
   name: string;
@@ -147,7 +147,7 @@ export interface EntityRef {
   name: string;
 }
 
-export interface DepictionDetail {
+interface DepictionDetail {
   locator: Locator;
   framing: Framing;
   seq: number | null;
@@ -156,7 +156,7 @@ export interface DepictionDetail {
   playPosition: number;
 }
 
-export interface AppearanceDetail {
+interface AppearanceDetail {
   title: TitleCode;
   world: string;
   status: StoredStatus;
@@ -180,13 +180,13 @@ export interface DifferenceDetail {
   related: EntityRef[];
 }
 
-export interface RelationshipTitle {
+interface RelationshipTitle {
   title: TitleCode;
   world: string;
   sources: Locator[];
 }
 
-export interface RelationshipDetail {
+interface RelationshipDetail {
   id: string;
   type: EdgeType;
   category: EdgeCategory;
@@ -201,7 +201,7 @@ export interface RelationshipDetail {
   titles: RelationshipTitle[];
 }
 
-export interface EventDetail {
+interface EventDetail {
   when: When;
   start: YearBounds;
   end: YearBounds;
@@ -226,10 +226,7 @@ export function relationshipLabel(type: EdgeType, direction: "out" | "in"): stri
   return direction === "out" || definition.inverse === null ? definition.label : definition.inverse;
 }
 
-/**
- * Everything about one entity. A retired ID returns `{ redirectTo }` (null if it was removed);
- * an unknown ID returns undefined.
- */
+/** Everything about one entity; `{ redirectTo }` for a retired ID (null if removed), undefined if unknown. */
 export async function entity(
   db: Db,
   id: string,
@@ -501,7 +498,7 @@ export async function neighborhood(
 
 // ─── Search ───────────────────────────────────────────────────────────────────
 
-export interface SearchResult extends EntityRef {
+interface SearchResult extends EntityRef {
   /** Why it matched: its own name, its summary, how a title presents it, or a connection. */
   reason: "name" | "summary" | "appearance" | "connection";
   /** The matched name, the title code, or the connected entity's name. */

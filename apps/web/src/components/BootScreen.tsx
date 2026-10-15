@@ -49,10 +49,8 @@ function shouldPlay(): boolean {
   return boot === "always" || (boot === "session" && !sessionSeen());
 }
 
-/**
- * The title screen, which wakes the API while it plays. On the home page it waits for a key; on a
- * shared link it steps aside once the API answers. Settings chooses how often it plays.
- */
+/** The title screen. It wakes the API while it plays: on the home page it waits for a key; on a
+ *  shared link it steps aside once the API answers. */
 export function BootScreen() {
   const replay = useUi((s) => s.bootReplay);
   // The replay count when it last closed: it's open until then, and again after each replay.

@@ -45,9 +45,9 @@ A fact goes into `data/` only after it has been **checked against the game itsel
 
 Wikis and fan resources may be used **only to locate** a fact (which chapter, which scene). They are never the evidence.
 
-**Status of the dataset (v0.2, 2026-10-15):** 52 events, 31 characters, 27 locations and 5 organizations. Every fact was checked against full script transcripts (level 3) — see the research log in `data/research/sources.yaml`. Where a fact depends on what is _shown_ rather than said, it came from the transcripts' stage directions and is listed in `data/research/open-questions.yaml` for checking against footage before v1.0. Rebirth's chapters 8 to 12, and the gaps in chapters 13–14, missing or thin in its transcript, were added from the subtitles of recorded cutscene footage (level 2). What is only shown there, not said, stays an open question.
+**Status of the dataset (v0.2, 2026-10-15):** 52 events, 31 characters, 27 locations and 5 organizations. Facts were checked against full script transcripts (level 3); where a transcript was missing or thin (Rebirth chapters 8–12 and parts of 13–14), against the subtitles of recorded cutscene footage (level 2), using only lines whose speaker is clear. Anything only _shown_, not said, is listed in `data/research/open-questions.yaml` for a footage check.
 
-**The research log** (`data/research/`, decision [0012](decisions/0012-archive-and-sources.md)) records every source used, whether it is evidence or only used to locate, and every open question. It is validated with the dataset and shown at `/archive/research`.
+**The research log** (`data/research/`, decision [0012](decisions/0012-archive-and-sources.md)) records every source used, whether it is evidence or only used to locate, and every open question. It is validated with the dataset but not shown in the app.
 
 ## 5. Citations
 
@@ -64,7 +64,7 @@ Unnumbered parts of a chaptered title are cited by `part` — so far only _Rebir
 
 - A locator may add a free-text `scene` ("the Kalm inn flashback") to help a reader find the moment. Video timestamps and links go in notes only — they rot.
 - Cite the locator(s) that **show or state** the fact most clearly. A fact may cite several.
-- Optional side content (side quests, optional scenes, collectible text) is cited by the chapter or segment in which it becomes available, and marked `optional: true`.
+- Optional side content (side quests, optional scenes, collectible text) is cited by the chapter or segment in which it becomes available, and marked `optional: true`. The app tags a fact whose citations are all optional as _Optional_ — for example, anything involving Yuffie or Vincent in the original, whom the player may never recruit.
 
 ## 6. Certainty
 

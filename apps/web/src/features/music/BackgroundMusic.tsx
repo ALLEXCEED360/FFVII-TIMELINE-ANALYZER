@@ -5,11 +5,8 @@ import { useMusicKeys } from "./keys";
 import { useMusic } from "./store";
 import "./music.css";
 
-/**
- * The background music, as in a sports game's menus: from the first press, a random track, then
- * another when it ends, playing on from page to page. A card in the corner says what's starting;
- * Config and the keys (C next, X previous, P pause) control it.
- */
+/** Background music: a random track from the first press, then the next, across pages.
+ *  Controlled from Config or the keys C (next), X (previous) and P (pause). */
 export default function BackgroundMusic() {
   const on = useMusic((s) => s.on);
   const current = useMusic((s) => s.current);

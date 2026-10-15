@@ -12,10 +12,7 @@ interface Option<T extends string> {
   says: string;
 }
 
-/**
- * One row of the Config window: its name and what it's for on the left, its choices on the right
- * (the glove rests on the chosen one), and what the chosen one does beneath them.
- */
+/** One Config row: name and purpose on the left, choices on the right, the chosen one explained below. */
 function Setting<T extends string>({
   name,
   legend,

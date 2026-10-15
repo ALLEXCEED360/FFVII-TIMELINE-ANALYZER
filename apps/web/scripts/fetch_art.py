@@ -1,19 +1,14 @@
-"""Download the site's official artwork and convert it to WebP (decision 0015).
+"""Download the site's official artwork from the Final Fantasy Wiki and convert it to WebP.
 
-Every image is official Square Enix artwork: character renders and illustrations, concept art and
-key art, as hosted on the Final Fantasy Wiki (finalfantasy.fandom.com). Nothing is AI-generated.
-There are no in-game screenshots, and nothing extracted from game files, with one exception the
-project's owner chose: a few stills and official promo shots,
-for moments (moments/), places and groups no artwork shows as well. Credits live in
-src/art/details.ts; this script only reproduces the files. (key/remake-title.webp, the Remake
-title screen's artwork, was supplied by the project's owner and isn't fetched here.)
+Every image is official Square Enix material, never AI-made: key art, character renders and
+illustrations, concept art, and, for moments, places and groups no artwork shows, in-game stills
+and promo shots. Credits live in src/art/details.ts; this script only reproduces the files.
 
     python apps/web/scripts/fetch_art.py --list          # what would be fetched, with sizes
     python apps/web/scripts/fetch_art.py [cache dir]     # fetch and convert
     python apps/web/scripts/fetch_art.py --only characters/zack,characters/hojo [cache dir]
 
-Needs Pillow. Writes WebP files to apps/web/public/art/; then run make_thumbs.py for the
-network's small square versions.
+Needs Pillow. Writes to apps/web/public/art/; then run make_thumbs.py for the network's thumbnails.
 """
 
 import io

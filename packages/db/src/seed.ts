@@ -27,7 +27,7 @@ import * as t from "./schema.ts";
 
 type Insert<T extends PgTable> = T["$inferInsert"];
 
-export interface SeedRows {
+interface SeedRows {
   titles: Insert<typeof t.titles>[];
   titleUnits: Insert<typeof t.titleUnits>[];
   ogSegments: Insert<typeof t.ogSegments>[];

@@ -140,14 +140,11 @@ const STATUS_RANK: readonly DisplayStatus[] = [
 ];
 
 /** A telling's status: the strongest among its games. */
-export function tellingStatus(columns: readonly ComparisonColumn[]): DisplayStatus {
+function tellingStatus(columns: readonly ComparisonColumn[]): DisplayStatus {
   return STATUS_RANK.find((status) => columns.some((c) => c.status === status)) ?? "absent";
 }
 
-/**
- * One telling's panel: what it does with the subject, and each game's own account — within the
- * Remake Trilogy, every game that tells it, named.
- */
+/** One telling's panel: what it does with the subject, then each game's own account. */
 export function TellingColumn({
   telling,
   columns,
@@ -216,10 +213,8 @@ export function TellingColumn({
   );
 }
 
-/**
- * What the subject is connected to: in both tellings, or only in one. A telling that doesn't show
- * both ends says nothing about the connection, so it doesn't count against it.
- */
+/** What the subject is connected to, in both tellings or one. A telling that doesn't show both
+ *  ends says nothing about the link, so it doesn't count against it. */
 export function Connections({ relationships }: { relationships: readonly ComparedRelationship[] }) {
   const shownIn = (r: ComparedRelationship, telling: TellingKey) =>
     r.titles.some((t) => TELLING[telling].titles.includes(t.title));

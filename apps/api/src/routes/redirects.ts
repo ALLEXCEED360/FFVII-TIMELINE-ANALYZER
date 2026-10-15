@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 export const NOT_FOUND = { error: "not_found", message: "No such entity." } as const;
-export const REMOVED = {
+const REMOVED = {
   error: "removed",
   message: "This entity was removed from the dataset.",
 } as const;

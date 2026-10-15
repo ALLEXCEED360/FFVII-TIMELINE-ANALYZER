@@ -20,7 +20,7 @@ function titleList(titles: readonly TitleCode[]): SQL {
 
 // ─── Entities ─────────────────────────────────────────────────────────────────
 
-export interface EntityListItem extends EntityRef {
+interface EntityListItem extends EntityRef {
   summary: string;
   /** Titles it appears in (any world, not omitted), in release order. */
   titles: TitleCode[];

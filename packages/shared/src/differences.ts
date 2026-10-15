@@ -19,7 +19,7 @@ export const DIFFERENCE_CATEGORIES = [
 export const DifferenceCategorySchema = z.enum(DIFFERENCE_CATEGORIES);
 export type DifferenceCategory = z.infer<typeof DifferenceCategorySchema>;
 
-export const SideSchema = z.strictObject({
+const SideSchema = z.strictObject({
   title: TitleCodeSchema,
   world: WorldIdSchema.default(MAIN_WORLD),
 });

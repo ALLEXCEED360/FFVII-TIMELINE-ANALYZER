@@ -9,7 +9,7 @@ import { type TitleCode, TitleCodeSchema } from "./titles.ts";
 // (docs/model/relationships.md §2–3). Kind rules are checked by the validator.
 
 /** The evidence for an edge in one title. */
-export const TitleScopeSchema = z
+const TitleScopeSchema = z
   .strictObject({ world: WorldIdSchema.default(MAIN_WORLD), ...factShape })
   .superRefine(checkFact);
 
@@ -47,7 +47,7 @@ function plainEdge<T extends EdgeType, A extends z.ZodRawShape>(type: T, attribu
   return z.strictObject({ type: z.literal(type), ...common, ...attributes });
 }
 
-export const EDGE_SCHEMAS = [
+const EDGE_SCHEMAS = [
   // Structural
   plainEdge("parent_of", { kind: z.enum(["biological", "adoptive"]) }),
   plainEdge("sibling_of", {}),

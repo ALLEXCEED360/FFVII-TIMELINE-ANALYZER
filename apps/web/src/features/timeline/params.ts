@@ -10,7 +10,7 @@ import {
 // The timeline's settings live in the URL, so any view can be shared:
 // /timeline?in=trilogy&key=1&event=event_x, or /timeline?view=play&game=trilogy
 
-export type TimelineView = "story" | "play";
+type TimelineView = "story" | "play";
 
 export interface TimelineParams {
   /** Whose marks show beside each event (story order). */

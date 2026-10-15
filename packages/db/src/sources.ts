@@ -14,7 +14,7 @@ import { type EntityRef, relationshipLabel } from "./queries.ts";
 
 // ─── Units of the titles ──────────────────────────────────────────────────────
 
-export interface SourceUnit {
+interface SourceUnit {
   /** The original's segment ID, a chapter number as text, or a part's key (`unitOf`). */
   key: string;
   name: string;
@@ -65,7 +65,7 @@ export async function sourceCatalogue(db: Db): Promise<CatalogueTitle[]> {
   return codes.map(({ code }) => ({ code, units: titles.get(code) ?? [] }));
 }
 
-export interface CitedAppearance {
+interface CitedAppearance {
   entity: EntityRef;
   world: string;
   status: StoredStatus;
@@ -81,7 +81,7 @@ export interface CitedAppearance {
   scenes: string[];
 }
 
-export interface CitedDifference {
+interface CitedDifference {
   id: string;
   entity: EntityRef;
   from: { title: TitleCode; world: string };
@@ -92,7 +92,7 @@ export interface CitedDifference {
   scenes: string[];
 }
 
-export interface CitedRelationship {
+interface CitedRelationship {
   id: string;
   type: EdgeType;
   label: string;
@@ -106,7 +106,7 @@ export interface CitedRelationship {
   scenes: string[];
 }
 
-export interface CitedWorld {
+interface CitedWorld {
   id: string;
   name: string;
   scenes: string[];

@@ -8,7 +8,7 @@ import "./Wipe.css";
 // while the page loads, and it folds away. Only section links play it; none under reduced motion.
 
 /** The window takes this long to cover the screen; the route changes after. */
-export const COVER_MS = 650;
+const COVER_MS = 650;
 /** The word stays up at least this long, so it can be read even when the page is instant. */
 const HOLD_MS = 500;
 const REVEAL_MS = 700;
@@ -26,7 +26,7 @@ interface WipeState {
 const useWipeStore = create<{ wipe: WipeState | null }>()(() => ({ wipe: null }));
 
 /** Navigate to a section behind the wipe. */
-export function useSectionNavigate() {
+function useSectionNavigate() {
   const navigate = useNavigate();
   const reduced = useReducedMotion();
   const { pathname } = useLocation();

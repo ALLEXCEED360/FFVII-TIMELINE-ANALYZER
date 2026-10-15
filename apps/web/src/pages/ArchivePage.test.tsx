@@ -29,9 +29,6 @@ describe("archive", () => {
     expect(
       within(titles).getByText("Retells the original from Mako Reactor 1 to The Shinra Building."),
     ).toBeTruthy();
-    // How facts were checked isn't shown to readers.
-    expect(screen.queryByText("How the facts were checked")).toBeNull();
-    expect(document.querySelector('a[href="/archive/research"]')).toBeNull();
     expect(screen.getByText("Final Fantasy VII Revelation")).toBeTruthy();
   });
 
@@ -114,7 +111,6 @@ describe("a unit as a source", () => {
     expect(
       screen.getByRole("region", { name: "Other worlds glimpsed here" }).textContent,
     ).toContain("Zack survives");
-    expect(screen.queryByRole("region", { name: /Still being checked/ })).toBeNull();
 
     const neighbours = screen.getByRole("navigation", { name: "Other chapters" });
     expect(
@@ -162,29 +158,16 @@ describe("a unit as a source", () => {
   });
 });
 
-describe("research log", () => {
-  afterEach(() => {
-    vi.unstubAllGlobals();
-  });
-
-  it("isn't part of the app", async () => {
-    stubApi();
-    renderAt("/archive/research");
-    expect(await screen.findByRole("heading", { name: "No record found" })).toBeTruthy();
-  });
-});
-
 describe("citations elsewhere", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
   });
 
-  it("link to their unit, and entity pages show no open questions", async () => {
+  it("link to their unit", async () => {
     stubApi();
     renderAt("/event/aerith-death");
     await screen.findByRole("heading", { level: 1, name: "Death of Aerith" });
     const citation = screen.getAllByRole("link", { name: "Rebirth · Ch. 14" })[0];
     expect(citation?.getAttribute("href")).toBe("/archive/rebirth/chapter-14");
-    expect(screen.queryByRole("region", { name: /Still being checked/ })).toBeNull();
   });
 });

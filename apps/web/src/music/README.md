@@ -13,8 +13,8 @@ another when it ends. Config lists them all to pick from, skip, pause or turn of
   art, on the now-playing card and in Config. An `album.json` names the album (`title`, `subtitle`,
   `year`) and credits each file under `tracks` by its file name: `composer`, `arranger`, `vocals`,
   `lyrics`, and `length` in seconds.
-- **Rights:** only add music you're allowed to share on a public site — your own, or tracks whose
-  licence permits it (and credit the artist in the file name if the licence asks). The Final Fantasy
-  soundtracks belong to Square Enix and can't be used here without a licence.
+- **Rights:** the tracks here are from the Final Fantasy VII soundtracks, © Square Enix, and are
+  credited in each `album.json`, in Config and in the root `LICENSE`. They are not covered by this
+  project's licences and will be removed at Square Enix's request. Credit anything you add.
 
 Nothing else to register: the build finds every file in this folder and its folders.

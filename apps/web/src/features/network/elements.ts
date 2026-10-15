@@ -3,11 +3,8 @@ import type { Network, NetworkEdge, NetworkNode, TitleCode } from "../../api/cli
 import { artFor, pictureFor, thumbSrc } from "../../art/manifest";
 import { tellingsIn } from "../../lib/tellings";
 
-/**
- * The picture a thing's orb wears: a person's portrait (the modern look where there is one), and
- * for a moment, place or group its own picture, so no two look alike.
- */
-export function pictureOf(id: string, kind: string): string | undefined {
+/** An orb's picture: a person's portrait (the modern look if any), else the thing's own picture. */
+function pictureOf(id: string, kind: string): string | undefined {
   if (kind !== "character") {
     const picture = pictureFor(id, kind);
     return picture ? thumbSrc(picture) : undefined;
@@ -20,7 +17,7 @@ export function pictureOf(id: string, kind: string): string | undefined {
 // What the graph shows, as Cytoscape elements. Pure (a type-only Cytoscape import), so it's tested
 // without a browser.
 
-export interface ViewNode extends Omit<NetworkNode, "depth"> {
+interface ViewNode extends Omit<NetworkNode, "depth"> {
   /** Steps from the centre, or null for entities added by expanding another node. */
   depth: number | null;
 }
@@ -59,7 +56,7 @@ export function onlyKinds(
 }
 
 /** Where a thing sits: its ring (0 is the centre), its place, and which side its name goes on. */
-export interface Placed {
+interface Placed {
   ring: number;
   x: number;
   y: number;
@@ -72,11 +69,8 @@ const KIND_ORDER = ["character", "organization", "location", "event"];
 const NAME_ROOM = 98;
 const DOT_ROOM = 44;
 
-/**
- * The web as rings round the centre, like a clock face: what's directly linked on the first ring,
- * grouped by kind; each further step on a wider ring, every thing placed beside what links it in.
- * Names go outside their ring, so they never cover one another.
- */
+/** The web as rings round the centre: direct links on the first ring, grouped by kind, each further
+ *  step on a wider one beside what links it in. Names sit outside their ring so none overlap. */
 export function ringLayout(network: MergedNetwork, center: string): Map<string, Placed> {
   const next = new Map<string, Set<string>>();
   const link = (a: string, b: string) => {
@@ -184,7 +178,7 @@ export function neighboursOf(network: MergedNetwork, id: string): Set<string> {
   return found;
 }
 
-export interface Highlight {
+interface Highlight {
   center: string;
   selected: string | null;
   /** Edge IDs on the highlighted path, if any. */

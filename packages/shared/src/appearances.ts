@@ -19,7 +19,7 @@ export const FRAMINGS = [
 export const FramingSchema = z.enum(FRAMINGS);
 export type Framing = z.infer<typeof FramingSchema>;
 
-export const DepictionSchema = z.strictObject({
+const DepictionSchema = z.strictObject({
   at: LocatorSchema,
   framing: FramingSchema,
   /** Orders several depictions in the same chapter or segment. */

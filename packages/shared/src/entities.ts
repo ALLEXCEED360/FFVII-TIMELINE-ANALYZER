@@ -78,9 +78,9 @@ function plainEntity(kind: EntityKind) {
   });
 }
 
-export const CharacterFileSchema = plainEntity("character");
-export const LocationFileSchema = plainEntity("location");
-export const OrganizationFileSchema = plainEntity("organization");
+const CharacterFileSchema = plainEntity("character");
+const LocationFileSchema = plainEntity("location");
+const OrganizationFileSchema = plainEntity("organization");
 
 /** Kinds stored as one file per entity, and the folder each lives in. */
 export const ENTITY_FILE_KINDS = {
@@ -92,8 +92,8 @@ export const ENTITY_FILE_KINDS = {
 
 export type FileEntityKind = keyof typeof ENTITY_FILE_KINDS;
 
-export type EventFile = z.infer<typeof EventFileSchema>;
-export type PlainEntityFile = z.infer<typeof CharacterFileSchema>;
+type EventFile = z.infer<typeof EventFileSchema>;
+type PlainEntityFile = z.infer<typeof CharacterFileSchema>;
 
 export type Entity =
   | ({ kind: "event" } & EventFile)

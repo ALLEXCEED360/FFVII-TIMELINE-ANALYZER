@@ -170,7 +170,7 @@ function Marks({ event, tellings }: { event: TimelineEvent; tellings: readonly T
   );
 }
 
-export function MarkIcon() {
+function MarkIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 12 12" className="tl-mark-icon">
       <path d="M6 1 11 6 6 11 1 6Z" />

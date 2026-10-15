@@ -109,7 +109,7 @@ export const Relationship = z.object({
   ),
 });
 
-export const EventInfo = z.object({
+const EventInfo = z.object({
   when: WhenSchema,
   start: YearBounds,
   end: YearBounds,

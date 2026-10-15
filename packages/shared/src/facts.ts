@@ -3,8 +3,8 @@ import { type Locator, SourcesSchema } from "./locators.ts";
 
 // Every fact carries citations and a certainty (docs/canon-and-sources.md §5–6).
 
-export const CertaintySchema = z.enum(["stated", "inferred", "ambiguous"]);
-export type Certainty = z.infer<typeof CertaintySchema>;
+const CertaintySchema = z.enum(["stated", "inferred", "ambiguous"]);
+type Certainty = z.infer<typeof CertaintySchema>;
 
 export const NotesSchema = z.string().trim().min(1);
 
@@ -14,7 +14,7 @@ export const factShape = {
   notes: NotesSchema.optional(),
 };
 
-export interface FactFields {
+interface FactFields {
   sources: Locator[];
   certainty: Certainty;
   notes?: string | undefined;

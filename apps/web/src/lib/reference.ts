@@ -21,7 +21,7 @@ export function titleShort(reference: Reference | undefined, code: TitleCode): s
   return reference?.titles.find((t) => t.code === code)?.shortName ?? FALLBACK_SHORT[code];
 }
 
-export function locatorNames(reference: Reference | undefined): LocatorNames {
+function locatorNames(reference: Reference | undefined): LocatorNames {
   return {
     title: (code) => titleShort(reference, code),
     segment: (id) => reference?.segments.find((s) => s.id === id)?.name,

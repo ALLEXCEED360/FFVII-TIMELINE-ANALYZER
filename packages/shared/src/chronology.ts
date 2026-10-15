@@ -4,7 +4,7 @@ import { idOfKind } from "./ids.ts";
 // In-universe time (docs/model/chronology.md). Year 0 is the year the main story begins;
 // earlier years are negative. There are no months or days.
 
-export const YearSchema = z.strictObject({
+const YearSchema = z.strictObject({
   year: z.int(),
   /** The title gives the figure loosely ("about 2,000 years ago"). */
   approx: z.literal(true).optional(),
@@ -38,7 +38,7 @@ export const DateRefSchema = z.union([
 export type DateRef = z.infer<typeof DateRefSchema>;
 
 /** An inclusive range of years. */
-export interface YearRange {
+interface YearRange {
   earliest: number;
   latest: number;
 }
@@ -48,7 +48,7 @@ export function resolveDate(date: InUniverseDate): YearRange {
   return { earliest: date.year, latest: date.year };
 }
 
-export interface ResolvedWhen {
+interface ResolvedWhen {
   start: YearRange;
   end: YearRange;
 }
@@ -59,7 +59,7 @@ export function resolveWhen(when: When): ResolvedWhen {
   return { start: range, end: range };
 }
 
-export interface Chronological {
+interface Chronological {
   id: string;
   when: When;
   seq?: number | undefined;

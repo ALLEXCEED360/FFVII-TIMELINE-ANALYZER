@@ -27,7 +27,7 @@ export interface DivergenceEvent {
 }
 
 /** A line on the map: a title's main world, or another world inside a title. */
-export interface Branch {
+interface Branch {
   title: TitleCode;
   world: string;
 }

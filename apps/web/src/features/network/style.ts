@@ -6,7 +6,7 @@ import { CATEGORY_WORDS } from "./words";
 // so colour is never the only cue; people wear their portraits. Names sit outside their ring, on the
 // side ringLayout chose; the far rings are small dots whose names show when they're pointed at.
 
-export const KIND_SHAPE = {
+const KIND_SHAPE = {
   character: "ellipse",
   event: "diamond",
   location: "round-rectangle",

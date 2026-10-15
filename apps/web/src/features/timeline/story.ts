@@ -6,7 +6,7 @@ import { TELLING, type Telling } from "../../lib/tellings";
 export const MAIN_WORLD = "world_main";
 
 /** How a game treats an event, at a glance. */
-export type Mark = "shown" | "mentioned" | "none";
+type Mark = "shown" | "mentioned" | "none";
 
 /** The appearance that speaks for a game: the main world's, else the first other world's. */
 export function appearanceIn(

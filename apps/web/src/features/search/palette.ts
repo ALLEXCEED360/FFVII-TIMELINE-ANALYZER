@@ -12,9 +12,9 @@ export interface SearchHit {
   score: number;
 }
 
-export type GroupKey = EntityKind | "arc";
+type GroupKey = EntityKind | "arc";
 
-export interface PaletteItem {
+interface PaletteItem {
   key: string;
   href: string;
   label: string;
@@ -22,14 +22,14 @@ export interface PaletteItem {
   hint: string | null;
 }
 
-export interface PaletteGroup {
+interface PaletteGroup {
   key: GroupKey;
   label: string;
   items: PaletteItem[];
 }
 
 /** A short explanation of why a result matched. */
-export function matchHint(hit: SearchHit, titleName: (code: TitleCode) => string): string | null {
+function matchHint(hit: SearchHit, titleName: (code: TitleCode) => string): string | null {
   switch (hit.reason) {
     case "name":
       return hit.detail && hit.detail !== hit.name ? `Also known as ${hit.detail}` : null;
@@ -45,7 +45,7 @@ export function matchHint(hit: SearchHit, titleName: (code: TitleCode) => string
 }
 
 /** Arcs whose name or summary contains every term (arcs aren't entities, so they're matched here). */
-export function matchArcs(arcs: readonly Arc[], terms: readonly string[]): Arc[] {
+function matchArcs(arcs: readonly Arc[], terms: readonly string[]): Arc[] {
   if (terms.length === 0) return [];
   return arcs.filter((arc) => {
     const text = `${arc.name} ${arc.summary}`.toLowerCase();

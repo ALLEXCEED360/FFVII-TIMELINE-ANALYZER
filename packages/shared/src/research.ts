@@ -7,9 +7,9 @@ import { TitleCodeSchema } from "./titles.ts";
 // the facts, and what is still open. Facts cite the games themselves; this records the evidence.
 
 /** How a source was used: as evidence for facts, or only to find where something happens. */
-export const SOURCE_ROLES = ["evidence", "locating"] as const;
+const SOURCE_ROLES = ["evidence", "locating"] as const;
 
-export const SOURCE_KINDS = [
+const SOURCE_KINDS = [
   "play",
   "footage",
   "transcript",
@@ -17,10 +17,10 @@ export const SOURCE_KINDS = [
   "chapter_list",
   "press",
 ] as const;
-export type SourceKind = (typeof SOURCE_KINDS)[number];
+type SourceKind = (typeof SOURCE_KINDS)[number];
 
 /** Evidence levels, best first (canon-and-sources.md §4). Other kinds can only locate. */
-export const EVIDENCE_LEVEL: Partial<Record<SourceKind, 1 | 2 | 3>> = {
+const EVIDENCE_LEVEL: Partial<Record<SourceKind, 1 | 2 | 3>> = {
   play: 1,
   footage: 2,
   transcript: 3,
@@ -51,7 +51,7 @@ export const ResearchSourcesSchema = z.array(
 );
 export type ResearchSources = z.infer<typeof ResearchSourcesSchema>;
 
-export const QUESTION_KINDS = ["needs_footage", "not_in_dataset", "structure"] as const;
+const QUESTION_KINDS = ["needs_footage", "not_in_dataset", "structure"] as const;
 
 export const OpenQuestionsSchema = z.array(
   z.strictObject({

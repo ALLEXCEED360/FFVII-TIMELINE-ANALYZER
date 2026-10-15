@@ -28,7 +28,7 @@ export const OgSegmentsSchema = z.array(
 export type OgSegments = z.infer<typeof OgSegmentsSchema>;
 
 /** A range of original segments, inclusive, in play order. */
-export const SegmentRangeSchema = z.strictObject({
+const SegmentRangeSchema = z.strictObject({
   from: SegmentIdSchema,
   to: SegmentIdSchema,
 });

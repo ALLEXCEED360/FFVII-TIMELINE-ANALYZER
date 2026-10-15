@@ -32,7 +32,6 @@ describe("entity page", () => {
     const nibelheim = within(moments).getByRole("link", { name: "Nibelheim Incident" });
     expect(nibelheim.getAttribute("href")).toBe("/event/nibelheim-incident");
     // How sure each link is isn't shown to readers.
-    expect(within(moments).queryByText("Left open")).toBeNull();
     const places = within(connections).getByRole("region", { name: "Places" });
     expect(within(places).getByText("Comes from")).toBeTruthy();
   });

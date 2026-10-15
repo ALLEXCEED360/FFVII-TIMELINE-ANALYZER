@@ -30,7 +30,7 @@ export interface SourceFile {
   content: string;
 }
 
-export interface LoadedEntity {
+interface LoadedEntity {
   entity: Entity;
   file: string;
 }

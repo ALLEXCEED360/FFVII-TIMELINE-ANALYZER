@@ -149,8 +149,7 @@ export function CreditsPage() {
             </a>
             . None of it is made by AI, and the pictures only decorate: no fact here rests on one.
             For the moments, places and groups no artwork shows, the picture is a still from the
-            game, a Square Enix promo shot, or a fan&apos;s render of the game&apos;s model, each
-            named below.
+            game or a Square Enix promo shot, each named below.
           </p>
           <ul className="cr-notes">
             <li>Resized to load quickly.</li>

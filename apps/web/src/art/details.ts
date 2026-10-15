@@ -3,7 +3,7 @@ import type { ArtEntry } from "./manifest";
 // What each image shows (its alt text) and its credit. Kept out of manifest.ts, which every page
 // loads at once, so the first load stays small (docs/decisions/0013-hardening.md).
 
-export interface ArtDetails {
+interface ArtDetails {
   /** Describes the image for screen readers. */
   alt: string;
   /** What it is. */

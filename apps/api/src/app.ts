@@ -23,7 +23,7 @@ import { searchRoutes } from "./routes/search.ts";
 import { sourceRoutes } from "./routes/sources.ts";
 import { timelineRoutes } from "./routes/timeline.ts";
 
-export interface AppOptions {
+interface AppOptions {
   db: Db;
   /** Allowed browser origin(s) for CORS. */
   corsOrigin?: string | string[];

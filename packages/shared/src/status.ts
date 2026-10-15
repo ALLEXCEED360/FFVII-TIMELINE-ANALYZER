@@ -68,7 +68,7 @@ export function ogSegmentOf(appearances: readonly Appearance[]): string | undefi
 }
 
 /** What status derivation needs to know about an entity — available from files or the database. */
-export interface StatusSubject {
+interface StatusSubject {
   appearances: readonly Pick<Appearance, "title" | "world" | "status">[];
   /** The original segment where the entity is shown (see `ogSegmentOf`). */
   ogSegment: string | undefined;
