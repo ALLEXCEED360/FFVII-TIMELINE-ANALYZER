@@ -24,13 +24,20 @@ appearances:
   - title: remake
     status: depicted
     summary: >-
-      The three infiltrate the building and reach the Drum, Hojo's laboratory, where they free
-      Aerith and meet Red XIII. They wake in the room where Aerith and her mother were held when
-      she was a child, and fight their way through the facility.
+      With grappling guns from Leslie, the three go over the wall into Sector 7 and climb the
+      wreckage of the fallen plate to the top. They infiltrate the building, overhear the board
+      meeting, and reach the Drum, Hojo's laboratory, where they free Aerith and meet Red XIII.
+      They wake in the room where Aerith and her mother were held when she was a child, and fight
+      their way through the facility.
     depictions:
-      - { at: { title: remake, chapter: 16 }, framing: direct }
+      - { at: { title: remake, chapter: 14 }, framing: direct }
+      - { at: { title: remake, chapter: 15 }, framing: direct }
+      - { at: { title: remake, chapter: 16 }, framing: direct, primary: true }
       - { at: { title: remake, chapter: 17 }, framing: direct }
     sources:
+      - { title: remake, chapter: 14, scene: "Over the Wall: Leslie's grappling guns" }
+      - { title: remake, chapter: 15, scene: "To the Top of the Plate" }
+      - { title: remake, chapter: 16, scene: "Reconnaissance: the board meeting" }
       - { title: remake, chapter: 16, scene: "Operation: Save Aerith" }
       - { title: remake, chapter: 17, scene: "A Way Out" }
     certainty: stated

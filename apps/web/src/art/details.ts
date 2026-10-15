@@ -708,6 +708,11 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
     title: "The Gateway to Heaven, Final Fantasy VII (screenshot)",
     wiki: "Gateway to heaven.png",
   },
+  "moments/aerith-tseng-marlene": {
+    alt: "Tseng in a doorway lit by fire, a Shinra trooper behind him, facing Aerith, who keeps a hand on Marlene's head.",
+    title: "Tseng finds Aerith and Marlene, Final Fantasy VII Remake (in-game still)",
+    wiki: "FFVIIR Aerith Tseng Marlene angle.png",
+  },
 };
 
 /** An image's description and credit. */

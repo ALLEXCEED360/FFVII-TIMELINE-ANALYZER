@@ -406,6 +406,9 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("moments/northern-cave", "1600x774", "scene", {}),
   art("places/mideel", "640x480", "scene", {}),
   art("moments/gateway-to-heaven", "432x336", "scene", {}),
+  art("moments/aerith-tseng-marlene", "1600x900", "scene", {
+    focus: "55% 50%",
+  }),
   art("places/fort-condor", "866x1261", "scene", {
     focus: "50% 35%",
   }),
@@ -471,6 +474,7 @@ export const MOMENT_ART: Readonly<Record<string, string>> = {
   event_corneo_audition: "places/corneo-mansion",
   event_yuffie_raid_on_shinra: "moments/yuffie-sonon",
   event_sector_7_plate_fall: "places/sector-7",
+  event_aerith_taken_by_shinra: "moments/aerith-tseng-marlene",
   event_shinra_building_raid: "places/hojo-lab",
   event_president_shinra_death: "places/president-office",
   event_escape_from_midgar: "places/expressway",

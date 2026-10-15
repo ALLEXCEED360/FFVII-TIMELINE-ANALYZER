@@ -170,6 +170,7 @@ ART: dict[str, tuple[str, int]] = {
     "places/mideel": ("FFVII-Mideel.jpg", 1600),
     "places/fort-condor": ("Fort Condor FFVII Concept Art.jpg", 1600),
     "moments/gateway-to-heaven": ("Gateway to heaven.png", 1600),
+    "moments/aerith-tseng-marlene": ("FFVIIR Aerith Tseng Marlene angle.png", 1600),
 }
 
 

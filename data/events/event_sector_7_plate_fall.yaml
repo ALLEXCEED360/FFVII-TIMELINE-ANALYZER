@@ -10,9 +10,11 @@ appearances:
   - title: og
     status: depicted
     summary: >-
-      Reno of the Turks triggers the Emergency Plate Release System at the top of the pillar.
-      Tseng arrives with Aerith as a hostage; Cloud, Tifa and Barret escape by swinging clear on
-      a wire as the plate comes down. Biggs, Wedge and Jessie are left dying at the pillar.
+      Don Corneo lets slip that Shinra means to drop the plate on AVALANCHE's hideout, a plan the
+      President welcomes. At the top of the pillar, Reno of the Turks triggers the Emergency Plate
+      Release System. Tseng arrives with Aerith as a hostage; Cloud, Tifa and Barret escape by
+      swinging clear on a wire as the plate comes down. Biggs, Wedge and Jessie are left dying at
+      the pillar.
     depictions:
       - { at: { title: og, disc: 1, segment: og_sector_7_pillar }, framing: direct }
     sources:
@@ -22,16 +24,31 @@ appearances:
           segment: og_sector_7_pillar,
           scene: "the battle at the top of the pillar",
         }
+      - { title: og, disc: 1, segment: og_wall_market, scene: "Corneo: 'The plate'll go PING'" }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_wall_market,
+          scene: "the President: 'We'll destroy Sector 7 and report that AVALANCHE did it'",
+        }
     certainty: stated
 
   - title: remake
     status: depicted
     summary: >-
-      Reno and Rude fight the party at the top of the pillar. Aerith finds Marlene, then Tseng
-      takes her into custody and addresses the party over a monitor as the plate separates.
+      Corneo lets slip that Shinra will bring down the pillar, and the President overrules Reeve's
+      plea for the 50,000 people below. Cloud, Tifa and Aerith race through the sewers and the
+      train graveyard back to Sector 7. Reno and Rude fight the party at the top of the pillar.
+      Aerith finds Marlene, then Tseng takes her into custody and addresses the party over a
+      monitor as the plate separates.
     depictions:
-      - { at: { title: remake, chapter: 12 }, framing: direct }
+      - { at: { title: remake, chapter: 10 }, framing: direct }
+      - { at: { title: remake, chapter: 11 }, framing: direct }
+      - { at: { title: remake, chapter: 12 }, framing: direct, primary: true }
     sources:
+      - { title: remake, chapter: 9, scene: "Corneo: 'The plate will come crashing down!'" }
+      - { title: remake, chapter: 10, scene: "Escape to the Surface: Reeve's plea" }
+      - { title: remake, chapter: 11, scene: "A Train Wreck: the train graveyard" }
       - { title: remake, chapter: 12, scene: "Showdown at the top of the pillar" }
     certainty: stated
 

@@ -118,6 +118,11 @@ relationships:
       og:
         sources: [{ title: og, disc: 1, segment: og_shinra_building }]
         certainty: stated
+      remake:
+        {
+          sources: [{ title: remake, chapter: 18, scene: "the final scene: 'Mister President'" }],
+          certainty: stated,
+        }
 
   - type: participated_in
     target: event_race_for_the_huge_materia

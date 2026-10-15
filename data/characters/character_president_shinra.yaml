@@ -118,8 +118,26 @@ relationships:
 
   - type: participated_in
     target: event_shinra_building_raid
-    role: holds the board meeting, then questions them once they are caught
+    role: holds the board meeting the party overhears
     titles:
       og:
         sources: [{ title: og, disc: 1, segment: og_shinra_building }]
         certainty: stated
+      remake:
+        { sources: [{ title: remake, chapter: 16, scene: "Reconnaissance" }], certainty: stated }
+
+  - type: participated_in
+    target: event_sector_7_plate_fall
+    role: approves the plan
+    titles:
+      og:
+        {
+          sources:
+            [{ title: og, disc: 1, segment: og_wall_market, scene: "'We'll destroy Sector 7'" }],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources: [{ title: remake, chapter: 10, scene: "'Progress requires sacrifice'" }],
+          certainty: stated,
+        }

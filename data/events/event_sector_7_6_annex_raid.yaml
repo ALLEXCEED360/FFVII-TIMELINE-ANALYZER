@@ -12,13 +12,16 @@ appearances:
   - title: remake
     status: depicted
     summary: >-
-      Unable to reach her supplier, Jessie plans to loot the Sector 7-6 Annex. The group visits her
+      Jessie comes to Cloud's door and asks him to come with her to the Sector 7 plate that night.
+      Unable to reach her supplier, she plans to loot the Sector 7-6 Annex. The group visits her
       parents' home in the Shinra employee housing area, then Cloud, Biggs and Wedge draw the
       guards' attention while Jessie slips inside. They regroup in an empty lot, Wedge singed but
       unhurt.
     depictions:
-      - { at: { title: remake, chapter: 4 }, framing: direct }
+      - { at: { title: remake, chapter: 3 }, framing: direct }
+      - { at: { title: remake, chapter: 4 }, framing: direct, primary: true }
     sources:
+      - { title: remake, chapter: 3, scene: "The Jessie Job: 'come with me to the Sector 7 plate'" }
       - { title: remake, chapter: 4, scene: "The Jessie Job" }
       - { title: remake, chapter: 4, scene: "Sector 7-6 Annex Infiltration" }
       - { title: remake, chapter: 4, scene: "Rendezvous at the Empty Lot" }

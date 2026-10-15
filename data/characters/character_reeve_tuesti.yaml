@@ -117,6 +117,8 @@ relationships:
       og:
         sources: [{ title: og, disc: 1, segment: og_shinra_building }]
         certainty: stated
+      remake:
+        { sources: [{ title: remake, chapter: 16, scene: "Reconnaissance" }], certainty: stated }
 
   - type: participated_in
     target: event_weapon_attacks_midgar
@@ -125,3 +127,13 @@ relationships:
       og:
         sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
         certainty: stated
+
+  - type: participated_in
+    target: event_sector_7_plate_fall
+    role: begs the President not to do it
+    titles:
+      remake:
+        {
+          sources: [{ title: remake, chapter: 10, scene: "Escape to the Surface" }],
+          certainty: stated,
+        }

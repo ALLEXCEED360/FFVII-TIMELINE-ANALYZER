@@ -71,3 +71,19 @@ relationships:
             ],
           certainty: stated,
         }
+
+  - type: participated_in
+    target: event_sector_7_plate_fall
+    role: lets slip Shinra's plan
+    titles:
+      og:
+        {
+          sources:
+            [{ title: og, disc: 1, segment: og_wall_market, scene: "'The plate'll go PING'" }],
+          certainty: stated,
+        }
+      remake:
+        {
+          sources: [{ title: remake, chapter: 9, scene: "'The plate will come crashing down!'" }],
+          certainty: stated,
+        }

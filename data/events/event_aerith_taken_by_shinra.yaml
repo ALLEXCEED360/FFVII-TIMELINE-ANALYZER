@@ -1,0 +1,79 @@
+id: event_aerith_taken_by_shinra
+name: Aerith Taken by Shinra
+summary: >-
+  As the Sector 7 plate falls, Aerith makes sure Marlene is safe, and the Turks take her back into
+  Shinra's custody.
+when: { year: 0 }
+seq: 145
+importance: 2
+arc: arc_midgar
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Tseng arrives at the top of the pillar with Aerith as a hostage, saying his orders were to
+      catch the last remaining Ancient. Before she is taken away she calls to Tifa that "she's all
+      right", meaning Marlene. At her house, Elmyra tells Cloud the Shinra took Aerith from there,
+      and that it was what Aerith wanted.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_sector_7_pillar }, framing: direct }
+      - { at: { title: og, disc: 1, segment: og_aerith_story }, framing: mention }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_sector_7_pillar,
+          scene: "Tseng: 'Our orders were to find and catch the last remaining Ancient'",
+        }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_sector_7_pillar,
+          scene: "Aerith: 'Tifa, don't worry! She's all right!'",
+        }
+      - { title: og, disc: 1, segment: og_aerith_story, scene: "Elmyra: 'They took her from here'" }
+    certainty: stated
+
+  - title: remake
+    status: depicted
+    summary: >-
+      Sent by Tifa to fetch Marlene, Aerith finds her as the Turks close in. Tseng corners them at
+      the door, and Aerith offers him a deal. Marlene ends up safe with Elmyra, Tseng tells the
+      party over a monitor that the Ancient is back in Shinra's custody, and Elmyra tells them
+      Shinra has her daughter now.
+    depictions:
+      - { at: { title: remake, chapter: 12 }, framing: direct }
+      - { at: { title: remake, chapter: 13 }, framing: mention }
+    sources:
+      - { title: remake, chapter: 12, scene: "Saving Marlene: 'How about...we make a deal?'" }
+      - { title: remake, chapter: 12, scene: "Tseng: 'back in our custody where she belongs'" }
+      - { title: remake, chapter: 13, scene: "Words of Hope: Elmyra: 'Shinra has my daughter now'" }
+    certainty: stated
+
+differences:
+  - key: hostage_or_deal
+    from: { title: og }
+    to: { title: remake }
+    category: presentation
+    magnitude: minor
+    summary: >-
+      In OG, Tseng shows Aerith to the party at the top of the pillar as his hostage; in Remake,
+      she is taken out of the party's sight after offering Tseng a deal, and they learn of it from
+      Tseng's message and from Elmyra.
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_sector_7_pillar,
+          scene: "Tseng with Aerith on the pillar",
+        }
+      - { title: remake, chapter: 12, scene: "Saving Marlene" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_sector_7
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_sector_7_pillar }], certainty: stated }
+      remake: { sources: [{ title: remake, chapter: 12 }], certainty: stated }

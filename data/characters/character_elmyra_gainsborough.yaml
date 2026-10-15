@@ -115,3 +115,11 @@ relationships:
     titles:
       og: { sources: [{ title: og, disc: 1, segment: og_aerith_story }], certainty: stated }
       remake: { sources: [{ title: remake, chapter: 13 }], certainty: stated }
+
+  - type: participated_in
+    target: event_aerith_taken_by_shinra
+    role: looks after Marlene, and tells the others Shinra has Aerith
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_aerith_story }], certainty: stated }
+      remake:
+        { sources: [{ title: remake, chapter: 13, scene: "Words of Hope" }], certainty: stated }

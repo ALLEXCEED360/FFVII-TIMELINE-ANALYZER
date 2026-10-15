@@ -111,11 +111,13 @@ relationships:
 
   - type: participated_in
     target: event_president_shinra_death
-    role: tracks the Jenova specimen up to the President's office
+    role: in the President's office that night
     titles:
       og:
         sources: [{ title: og, disc: 1, segment: og_shinra_building }]
         certainty: stated
+      remake:
+        { sources: [{ title: remake, chapter: 17, scene: "The Ominous Trail" }], certainty: stated }
 
   - type: participated_in
     target: event_jenova_on_the_cargo_ship

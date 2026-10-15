@@ -24,12 +24,26 @@ appearances:
   - title: remake
     status: depicted
     summary: >-
-      Cloud, Barret and Tifa plant a bomb with a remote detonator. Heidegger broadcasts the raid
+      Cloud, Barret and Tifa ride the train toward Sector 4 until an emergency ID scan exposes
+      them, jump off, and cross the underside of the plate, where Biggs has secured their way into
+      the reactor. There they plant a bomb with a remote detonator. Heidegger broadcasts the raid
       live across Midgar as a spectacle, and President Shinra, waiting at the end of the walkway,
       calls AVALANCHE allies of Wutai. The party destroys the airbuster, and Cloud falls.
     depictions:
-      - { at: { title: remake, chapter: 7 }, framing: direct }
+      - { at: { title: remake, chapter: 5 }, framing: direct }
+      - { at: { title: remake, chapter: 6 }, framing: direct }
+      - { at: { title: remake, chapter: 7 }, framing: direct, primary: true }
     sources:
+      - {
+          title: remake,
+          chapter: 5,
+          scene: "All Aboard for Sector 4: 'Emergency ID scan in progress'",
+        }
+      - {
+          title: remake,
+          chapter: 6,
+          scene: "To the Cargo Platform: 'securing your route into the reactor'",
+        }
       - { title: remake, chapter: 7, scene: "Heidegger's broadcast and the airbuster" }
     certainty: stated
 

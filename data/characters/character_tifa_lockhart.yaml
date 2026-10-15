@@ -75,7 +75,16 @@ relationships:
     target: event_sector_7_plate_fall
     titles:
       og: { sources: [{ title: og, disc: 1, segment: og_sector_7_pillar }], certainty: stated }
-      remake: { sources: [{ title: remake, chapter: 12 }], certainty: stated }
+      remake:
+        {
+          sources:
+            [
+              { title: remake, chapter: 10 },
+              { title: remake, chapter: 11 },
+              { title: remake, chapter: 12 },
+            ],
+          certainty: stated,
+        }
 
   - type: participated_in
     target: event_nibelheim_incident
@@ -112,7 +121,16 @@ relationships:
     target: event_mako_reactor_5_bombing
     titles:
       og: { sources: [{ title: og, disc: 1, segment: og_reactor_5 }], certainty: stated }
-      remake: { sources: [{ title: remake, chapter: 7 }], certainty: stated }
+      remake:
+        {
+          sources:
+            [
+              { title: remake, chapter: 5 },
+              { title: remake, chapter: 6 },
+              { title: remake, chapter: 7 },
+            ],
+          certainty: stated,
+        }
 
   - type: participated_in
     target: event_corneo_audition
@@ -124,7 +142,16 @@ relationships:
     target: event_shinra_building_raid
     titles:
       og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
-      remake: { sources: [{ title: remake, chapter: 16 }], certainty: stated }
+      remake:
+        {
+          sources:
+            [
+              { title: remake, chapter: 14 },
+              { title: remake, chapter: 15 },
+              { title: remake, chapter: 16 },
+            ],
+          certainty: stated,
+        }
 
   - type: participated_in
     target: event_escape_from_midgar
@@ -199,11 +226,13 @@ relationships:
 
   - type: participated_in
     target: event_president_shinra_death
-    role: finds the President dead
+    role: in the President's office that night
     titles:
       og:
         sources: [{ title: og, disc: 1, segment: og_shinra_building }]
         certainty: stated
+      remake:
+        { sources: [{ title: remake, chapter: 17, scene: "The Ominous Trail" }], certainty: stated }
 
   - type: participated_in
     target: event_jenova_on_the_cargo_ship
@@ -244,3 +273,10 @@ relationships:
       og:
         sources: [{ title: og, disc: 3, segment: og_finale }]
         certainty: stated
+
+  - type: participated_in
+    target: event_aerith_taken_by_shinra
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_sector_7_pillar }], certainty: stated }
+      remake:
+        { sources: [{ title: remake, chapter: 13, scene: "Words of Hope" }], certainty: stated }
