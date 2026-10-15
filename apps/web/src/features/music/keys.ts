@@ -8,10 +8,7 @@ export const MUSIC_KEYS = [
   { key: "P", code: "KeyP", does: "Pause or play" },
 ] as const;
 
-/**
- * C, X and P from anywhere: next, previous, pause. Not while typing in a box, nor with Ctrl, Alt or
- * ⌘ held (so copying and the browser's own keys still work), nor held down.
- */
+/** C, X and P anywhere: next, previous, pause. Not while typing, with Ctrl/Alt/⌘ held, or held. */
 export function useMusicKeys() {
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {

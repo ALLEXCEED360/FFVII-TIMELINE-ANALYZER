@@ -17,7 +17,6 @@ import metricsIntermission from "./metrics-intermission.json";
 import networkCloud from "./network-cloud.json";
 import pathCloudSephiroth from "./path-cloud-sephiroth.json";
 import reference from "./reference.json";
-import research from "./research.json";
 import searchAeris from "./search-aeris.json";
 import searchNibelheim from "./search-nibelheim.json";
 import sourceOgForgottenCapital from "./source-og-forgotten-capital.json";
@@ -49,7 +48,6 @@ const FIXTURES: Record<string, unknown> = {
   "/sources": sources,
   "/sources/rebirth/14": sourceRebirth14,
   "/sources/og/og_forgotten_capital": sourceOgForgottenCapital,
-  "/research": research,
   "/health": { status: "ok" },
 };
 

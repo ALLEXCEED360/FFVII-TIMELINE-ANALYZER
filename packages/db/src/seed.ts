@@ -46,10 +46,6 @@ export interface SeedRows {
   edges: Insert<typeof t.edges>[];
   edgeTitles: Insert<typeof t.edgeTitles>[];
   idRedirects: Insert<typeof t.idRedirects>[];
-  researchSources: Insert<typeof t.researchSources>[];
-  openQuestions: Insert<typeof t.openQuestions>[];
-  openQuestionEntities: Insert<typeof t.openQuestionEntities>[];
-  openQuestionWorlds: Insert<typeof t.openQuestionWorlds>[];
   citations: Insert<typeof t.citations>[];
 }
 
@@ -175,32 +171,6 @@ export function buildSeedRows(dataset: Dataset): SeedRows {
     edges: [],
     edgeTitles: [],
     idRedirects: Object.entries(dataset.redirects).map(([oldId, newId]) => ({ oldId, newId })),
-    researchSources: dataset.researchSources.map((source, index) => ({
-      id: source.id,
-      position: index,
-      name: source.name,
-      kind: source.kind,
-      role: source.role,
-      covers: source.covers ?? [],
-      usedFor: source.usedFor,
-      url: source.url ?? null,
-      accessed: source.accessed ?? null,
-      notes: source.notes ?? null,
-    })),
-    openQuestions: dataset.openQuestions.map((question, index) => ({
-      id: question.id,
-      position: index,
-      kind: question.kind,
-      summary: question.summary,
-      details: question.details,
-      sources: question.sources ?? null,
-    })),
-    openQuestionEntities: dataset.openQuestions.flatMap((question) =>
-      (question.entities ?? []).map((entityId) => ({ questionId: question.id, entityId })),
-    ),
-    openQuestionWorlds: dataset.openQuestions.flatMap((question) =>
-      (question.worlds ?? []).map((worldId) => ({ questionId: question.id, worldId })),
-    ),
     citations: dataset.worlds.flatMap((world) =>
       "firstShown" in world
         ? citationRows(world.sources, { kind: "world", entityId: null, world: world.id })
@@ -384,7 +354,7 @@ export async function seed(db: Db, rows: SeedRows): Promise<void> {
   await db.transaction(async (tx) => {
     await tx.execute(sql`
       truncate ${t.titles}, ${t.ogSegments}, ${t.worlds}, ${t.entities}, ${t.arcs}, ${t.eras},
-        ${t.idRedirects}, ${t.researchSources}, ${t.openQuestions} cascade
+        ${t.idRedirects} cascade
     `);
     const txDb = tx as unknown as Db;
     // Parents before children, so every foreign key already has its target.
@@ -406,10 +376,6 @@ export async function seed(db: Db, rows: SeedRows): Promise<void> {
     await insertAll(txDb, t.edges, rows.edges);
     await insertAll(txDb, t.edgeTitles, rows.edgeTitles);
     await insertAll(txDb, t.idRedirects, rows.idRedirects);
-    await insertAll(txDb, t.researchSources, rows.researchSources);
-    await insertAll(txDb, t.openQuestions, rows.openQuestions);
-    await insertAll(txDb, t.openQuestionEntities, rows.openQuestionEntities);
-    await insertAll(txDb, t.openQuestionWorlds, rows.openQuestionWorlds);
     await insertAll(txDb, t.citations, rows.citations);
   });
 }

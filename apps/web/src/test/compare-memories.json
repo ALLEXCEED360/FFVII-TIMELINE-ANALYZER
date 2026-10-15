@@ -5,7 +5,6 @@
     "name": "Cloud's Memories Restored",
     "aliases": [],
     "summary": "In the Lifestream, Cloud recovers his true memories of the past five years.",
-    "notes": null,
     "ogSegmentId": "og_inside_clouds_mind",
     "event": {
       "when": { "year": 0 },
@@ -38,8 +37,6 @@
             "scene": "Searching for the you of that day"
           }
         ],
-        "certainty": "stated",
-        "notes": null,
         "depictions": [
           {
             "locator": { "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" },
@@ -84,9 +81,7 @@
         {
           "title": "og",
           "world": "world_main",
-          "sources": [{ "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" }],
-          "certainty": "stated",
-          "notes": null
+          "sources": [{ "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" }]
         }
       ],
       "applicable": ["og"],
@@ -106,9 +101,7 @@
         {
           "title": "og",
           "world": "world_main",
-          "sources": [{ "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" }],
-          "certainty": "stated",
-          "notes": null
+          "sources": [{ "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" }]
         }
       ],
       "applicable": ["og"],

@@ -1,12 +1,7 @@
 import {
-  type Certainty,
   type DifferenceCategory,
   type EdgeType,
   type Framing,
-  type Locator,
-  type QuestionKind,
-  type SourceKind,
-  type SourceRole,
   type StoredStatus,
   type TitleCode,
 } from "@ffvii/shared";
@@ -15,7 +10,7 @@ import type { Db } from "./client.ts";
 import { type EntityRef, relationshipLabel } from "./queries.ts";
 
 // The archive (docs/decisions/0012-archive-and-sources.md): the titles as sources — each unit
-// with the facts that cite it — and the research log behind the facts.
+// with the facts that cite it.
 
 // ─── Units of the titles ──────────────────────────────────────────────────────
 
@@ -76,7 +71,6 @@ export interface CitedAppearance {
   status: StoredStatus;
   role: string | null;
   summary: string;
-  certainty: Certainty;
   /** Whether the appearance's own sources cite this unit (not just a depiction). */
   cited: boolean;
   /** Depictions set in this unit. */
@@ -93,7 +87,6 @@ export interface CitedDifference {
   category: DifferenceCategory;
   magnitude: "minor" | "major";
   summary: string;
-  certainty: Certainty;
   scenes: string[];
 }
 
@@ -104,14 +97,12 @@ export interface CitedRelationship {
   source: EntityRef;
   target: EntityRef;
   world: string;
-  certainty: Certainty;
   scenes: string[];
 }
 
 export interface CitedWorld {
   id: string;
   name: string;
-  certainty: Certainty;
   scenes: string[];
 }
 
@@ -152,7 +143,7 @@ export async function sourceUnit(
 
   const appearances = await db.execute<CitedAppearance & Record<string, unknown>>(sql`
     select json_build_object('id', e.id, 'kind', e.kind, 'name', e.name) as entity,
-      a.world, a.status, a.role, a.summary, a.certainty,
+      a.world, a.status, a.role, a.summary,
       bool_or(c.kind = 'appearance') as cited,
       coalesce((
         select json_agg(json_build_object('framing', d.framing, 'note', d.note) order by d.position)
@@ -178,7 +169,7 @@ export async function sourceUnit(
     select d.id, json_build_object('id', e.id, 'kind', e.kind, 'name', e.name) as entity,
       json_build_object('title', d.from_title, 'world', d.from_world) as "from",
       json_build_object('title', d.to_title, 'world', d.to_world) as "to",
-      d.category, d.magnitude, d.summary, d.certainty, ${SCENES} as scenes
+      d.category, d.magnitude, d.summary, ${SCENES} as scenes
     from citations c
     join differences d on d.id = c.difference_id
     join entities e on e.id = d.entity_id
@@ -193,19 +184,19 @@ export async function sourceUnit(
     select x.id, x.type,
       json_build_object('id', s.id, 'kind', s.kind, 'name', s.name) as source,
       json_build_object('id', t.id, 'kind', t.kind, 'name', t.name) as target,
-      et.world, et.certainty, ${SCENES} as scenes
+      et.world, ${SCENES} as scenes
     from citations c
     join edges x on x.id = c.edge_id
     join edge_titles et on et.edge_id = x.id and et.title = c.title
     join entities s on s.id = x.source_id
     join entities t on t.id = x.target_id
     where ${cites} and c.kind = 'relationship'
-    group by x.id, s.id, t.id, et.world, et.certainty
+    group by x.id, s.id, t.id, et.world
     order by x.category, s.name, x.type, t.name
   `);
 
   const worlds = await db.execute<CitedWorld & Record<string, unknown>>(sql`
-    select w.id, w.name, w.certainty, ${SCENES} as scenes
+    select w.id, w.name, ${SCENES} as scenes
     from citations c join worlds w on w.id = c.world
     where ${cites} and c.kind = 'world'
     group by w.id
@@ -221,150 +212,5 @@ export async function sourceUnit(
     differences: [...differences],
     relationships: relationships.map((r) => ({ ...r, label: relationshipLabel(r.type, "out") })),
     worlds: [...worlds],
-  };
-}
-
-// ─── Research log ─────────────────────────────────────────────────────────────
-
-export interface ResearchSourceRow {
-  id: string;
-  name: string;
-  kind: SourceKind;
-  role: SourceRole;
-  covers: TitleCode[];
-  usedFor: string;
-  url: string | null;
-  accessed: string | null;
-  notes: string | null;
-}
-
-export interface OpenQuestionRow {
-  id: string;
-  kind: QuestionKind;
-  summary: string;
-  details: string;
-  sources: Locator[];
-  entities: EntityRef[];
-  worlds: { id: string; name: string }[];
-}
-
-/** A fact that isn't stated outright: inferred or ambiguous, with the note that explains it. */
-export interface Interpretation {
-  kind: "appearance" | "difference" | "relationship" | "world";
-  certainty: Exclude<Certainty, "stated">;
-  notes: string;
-  /** The entity (or world) the fact belongs to. */
-  subject: { id: string; name: string; kind: string };
-  /** The titles the fact is about. */
-  titles: TitleCode[];
-  /** What the fact says, in a line. */
-  label: string;
-  sources: Locator[];
-}
-
-export interface Research {
-  sources: ResearchSourceRow[];
-  questions: OpenQuestionRow[];
-  /** Every fact by certainty: appearances, differences, relationships per title, worlds. */
-  certainty: Record<Certainty, number>;
-  interpretations: Interpretation[];
-}
-
-const QUESTION_FIELDS = sql`
-  q.id, q.kind, q.summary, q.details, coalesce(q.sources, '[]') as sources,
-  coalesce((
-    select json_agg(json_build_object('id', e.id, 'kind', e.kind, 'name', e.name) order by e.name)
-    from open_question_entities qe join entities e on e.id = qe.entity_id
-    where qe.question_id = q.id
-  ), '[]') as entities,
-  coalesce((
-    select json_agg(json_build_object('id', w.id, 'name', w.name) order by w.position)
-    from open_question_worlds qw join worlds w on w.id = qw.world_id
-    where qw.question_id = q.id
-  ), '[]') as worlds
-`;
-
-/** Open questions about one entity. */
-export async function openQuestionsAbout(db: Db, entityId: string): Promise<OpenQuestionRow[]> {
-  const rows = await db.execute<OpenQuestionRow & Record<string, unknown>>(sql`
-    select ${QUESTION_FIELDS} from open_questions q
-    where exists (
-      select 1 from open_question_entities qe
-      where qe.question_id = q.id and qe.entity_id = ${entityId}
-    )
-    order by q.position
-  `);
-  return [...rows];
-}
-
-/** The research log, and how the dataset's facts divide by certainty. */
-export async function research(db: Db): Promise<Research> {
-  const sources = await db.execute<ResearchSourceRow & Record<string, unknown>>(sql`
-    select id, name, kind, role, covers, used_for as "usedFor", url, accessed::text as accessed, notes
-    from research_sources order by position
-  `);
-  const questions = await db.execute<OpenQuestionRow & Record<string, unknown>>(
-    sql`select ${QUESTION_FIELDS} from open_questions q order by q.position`,
-  );
-
-  const counts = await db.execute<{ certainty: Certainty; count: number }>(sql`
-    select certainty, count(*)::int as count from (
-      select certainty from appearances
-      union all select certainty from differences
-      union all select certainty from edge_titles
-      union all select certainty from worlds where certainty is not null
-    ) f
-    group by certainty
-  `);
-  const certainty: Record<Certainty, number> = { stated: 0, inferred: 0, ambiguous: 0 };
-  for (const row of counts) certainty[row.certainty] = row.count;
-
-  const interpretations = await db.execute<
-    Omit<Interpretation, "label"> & { type: EdgeType | null; label: string } & Record<
-        string,
-        unknown
-      >
-  >(sql`
-    select kind, certainty, notes, subject, titles, label, type, sources from (
-      select 'appearance' as kind, a.certainty, a.notes,
-        json_build_object('id', e.id, 'name', e.name, 'kind', e.kind) as subject,
-        json_build_array(a.title) as titles, coalesce(a.role, a.summary) as label,
-        null as type, a.sources, e.name as sort_name, 1 as sort_kind
-      from appearances a join entities e on e.id = a.entity_id
-      where a.certainty <> 'stated'
-      union all
-      select 'difference', d.certainty, d.notes,
-        json_build_object('id', e.id, 'name', e.name, 'kind', e.kind),
-        json_build_array(d.from_title, d.to_title), d.summary, null, d.sources, e.name, 2
-      from differences d join entities e on e.id = d.entity_id
-      where d.certainty <> 'stated'
-      union all
-      select 'relationship', et.certainty, et.notes,
-        json_build_object('id', s.id, 'name', s.name, 'kind', s.kind),
-        json_build_array(et.title), t.name, x.type::text, et.sources, s.name, 3
-      from edge_titles et
-      join edges x on x.id = et.edge_id
-      join entities s on s.id = x.source_id
-      join entities t on t.id = x.target_id
-      where et.certainty <> 'stated'
-      union all
-      select 'world', w.certainty, w.notes,
-        json_build_object('id', w.id, 'name', w.name, 'kind', 'world'),
-        '[]'::json, w.summary, null, w.sources, w.name, 4
-      from worlds w
-      where w.certainty is not null and w.certainty <> 'stated'
-    ) f
-    order by sort_kind, sort_name
-  `);
-
-  return {
-    sources: [...sources],
-    questions: [...questions],
-    certainty,
-    interpretations: interpretations.map(({ type, label, ...fact }) => ({
-      ...fact,
-      // A relationship reads from its source: "<label> <target>", e.g. "killed Aerith".
-      label: type === null ? label : `${relationshipLabel(type, "out")} ${label}`,
-    })),
   };
 }

@@ -1,5 +1,5 @@
 import { type Db, reference } from "@ffvii/db";
-import { CertaintySchema, LocatorSchema, TitleCodeSchema } from "@ffvii/shared";
+import { LocatorSchema, TitleCodeSchema } from "@ffvii/shared";
 import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
 import { z } from "zod";
 
@@ -17,7 +17,6 @@ const Reference = z.object({
           from: z.string(),
           to: z.string(),
           segments: z.array(z.string()),
-          notes: z.string().nullable(),
         })
         .nullable()
         .describe("The original segments this title retells; null if it retells none."),
@@ -52,8 +51,6 @@ const Reference = z.object({
       firstShown: LocatorSchema.nullable(),
       branchesFrom: z.string().nullable(),
       sources: z.array(LocatorSchema).nullable(),
-      certainty: CertaintySchema.nullable(),
-      notes: z.string().nullable(),
     }),
   ),
 });

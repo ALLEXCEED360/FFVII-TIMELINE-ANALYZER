@@ -1,5 +1,4 @@
 import {
-  type Certainty,
   CoverageIndex,
   type Coverage,
   type DateRef,
@@ -166,8 +165,6 @@ export interface AppearanceDetail {
   when: When | null;
   playPosition: number | null;
   sources: Locator[];
-  certainty: Certainty;
-  notes: string | null;
   depictions: DepictionDetail[];
 }
 
@@ -180,8 +177,6 @@ export interface DifferenceDetail {
   magnitude: "minor" | "major";
   summary: string;
   sources: Locator[];
-  certainty: Certainty;
-  notes: string | null;
   related: EntityRef[];
 }
 
@@ -189,8 +184,6 @@ export interface RelationshipTitle {
   title: TitleCode;
   world: string;
   sources: Locator[];
-  certainty: Certainty;
-  notes: string | null;
 }
 
 export interface RelationshipDetail {
@@ -220,7 +213,6 @@ export interface EventDetail {
 export interface EntityDetail extends EntityRef {
   aliases: string[];
   summary: string;
-  notes: string | null;
   ogSegmentId: string | null;
   event: EventDetail | null;
   appearances: AppearanceDetail[];
@@ -245,7 +237,7 @@ export async function entity(
   const [row] = await db.execute<
     Omit<EntityDetail, "appearances" | "differences" | "relationships"> & Record<string, unknown>
   >(sql`
-    select e.id, e.kind, e.name, e.summary, e.notes, e.og_segment_id as "ogSegmentId",
+    select e.id, e.kind, e.name, e.summary, e.og_segment_id as "ogSegmentId",
       coalesce((
         select json_agg(n.name order by n.name) from entity_names n
         where n.entity_id = e.id and not n.is_primary
@@ -275,7 +267,7 @@ export async function entity(
 
   const appearances = await db.execute<AppearanceDetail & Record<string, unknown>>(sql`
     select a.title, a.world, a.status, a.summary, a.role, a.when,
-           a.play_position as "playPosition", a.sources, a.certainty, a.notes,
+           a.play_position as "playPosition", a.sources,
       coalesce((
         select json_agg(json_build_object(
           'locator', d.locator, 'framing', d.framing, 'seq', d.seq, 'isPrimary', d.is_primary,
@@ -295,7 +287,7 @@ export async function entity(
     select d.id, d.key,
       json_build_object('title', d.from_title, 'world', d.from_world) as "from",
       json_build_object('title', d.to_title, 'world', d.to_world) as "to",
-      d.category, d.magnitude, d.summary, d.sources, d.certainty, d.notes,
+      d.category, d.magnitude, d.summary, d.sources,
       coalesce((
         select json_agg(json_build_object('id', e.id, 'kind', e.kind, 'name', e.name) order by e.name)
         from difference_related r join entities e on e.id = r.entity_id
@@ -316,8 +308,7 @@ export async function entity(
       json_build_object('id', o.id, 'kind', o.kind, 'name', o.name) as other,
       (
         select json_agg(json_build_object(
-          'title', et.title, 'world', et.world, 'sources', et.sources,
-          'certainty', et.certainty, 'notes', et.notes
+          'title', et.title, 'world', et.world, 'sources', et.sources
         ) order by t.position)
         from edge_titles et join titles t on t.code = et.title
         where et.edge_id = x.id

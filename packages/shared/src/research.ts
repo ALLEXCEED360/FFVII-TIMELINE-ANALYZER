@@ -8,7 +8,6 @@ import { TitleCodeSchema } from "./titles.ts";
 
 /** How a source was used: as evidence for facts, or only to find where something happens. */
 export const SOURCE_ROLES = ["evidence", "locating"] as const;
-export type SourceRole = (typeof SOURCE_ROLES)[number];
 
 export const SOURCE_KINDS = [
   "play",
@@ -51,10 +50,8 @@ export const ResearchSourcesSchema = z.array(
     }),
 );
 export type ResearchSources = z.infer<typeof ResearchSourcesSchema>;
-export type ResearchSource = ResearchSources[number];
 
 export const QUESTION_KINDS = ["needs_footage", "not_in_dataset", "structure"] as const;
-export type QuestionKind = (typeof QUESTION_KINDS)[number];
 
 export const OpenQuestionsSchema = z.array(
   z.strictObject({
@@ -64,7 +61,7 @@ export const OpenQuestionsSchema = z.array(
     summary: z.string().trim().min(1),
     /** What is known, what isn't, and how to settle it. */
     details: z.string().trim().min(1),
-    /** Entities and worlds it concerns; their pages show the question. */
+    /** Entities and worlds it concerns. */
     entities: z.array(EntityIdSchema).min(1).optional(),
     worlds: z.array(WorldIdSchema).min(1).optional(),
     /** Where in the titles to look. */
@@ -72,4 +69,3 @@ export const OpenQuestionsSchema = z.array(
   }),
 );
 export type OpenQuestions = z.infer<typeof OpenQuestionsSchema>;
-export type OpenQuestion = OpenQuestions[number];

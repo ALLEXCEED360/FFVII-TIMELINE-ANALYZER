@@ -10,10 +10,7 @@ const FADES = {
   left: "linear-gradient(to right, transparent, #000 40%)",
 } as const;
 
-/**
- * How far to move a lopsided figure (a long weapon to one side) so its body stands in the middle of
- * its box: measured from the width the image actually draws at, whatever the box's fitting rules.
- */
+/** Shifts a lopsided figure so its body sits mid-box, measured from the width it actually draws. */
 function useCentring(centre: number | undefined) {
   const ref = useRef<HTMLImageElement>(null);
   const [shift, setShift] = useState(0);

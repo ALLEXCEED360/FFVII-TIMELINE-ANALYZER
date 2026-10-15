@@ -1,20 +1,15 @@
-import { type Db, research, sourceCatalogue, sourceUnit } from "@ffvii/db";
+import { type Db, sourceCatalogue, sourceUnit } from "@ffvii/db";
 import {
-  CertaintySchema,
   DifferenceCategorySchema,
   FramingSchema,
-  LocatorSchema,
-  SOURCE_KINDS,
-  SOURCE_ROLES,
   StoredStatusSchema,
   TitleCodeSchema,
 } from "@ffvii/shared";
 import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { EdgeTypeEnum, EntityRef, ErrorBody, MagnitudeEnum, OpenQuestion } from "../schemas.ts";
+import { EdgeTypeEnum, EntityRef, ErrorBody, MagnitudeEnum } from "../schemas.ts";
 
-// The archive (docs/decisions/0012-archive-and-sources.md): the titles as sources, unit by unit,
-// and the research log.
+// The archive (docs/decisions/0012-archive-and-sources.md): the titles as sources, unit by unit.
 
 const Unit = z.object({
   key: z.string().describe("The original's segment ID, a chapter number, or a part's key."),
@@ -38,7 +33,6 @@ const SourceUnitDetail = z.object({
       status: StoredStatusSchema,
       role: z.string().nullable(),
       summary: z.string(),
-      certainty: CertaintySchema,
       cited: z.boolean().describe("The appearance's own sources cite this unit."),
       depictions: z
         .array(z.object({ framing: FramingSchema, note: z.string().nullable() }))
@@ -55,7 +49,6 @@ const SourceUnitDetail = z.object({
       category: DifferenceCategorySchema,
       magnitude: MagnitudeEnum,
       summary: z.string(),
-      certainty: CertaintySchema,
       scenes: Scenes,
     }),
   ),
@@ -67,46 +60,10 @@ const SourceUnitDetail = z.object({
       source: EntityRef,
       target: EntityRef,
       world: z.string(),
-      certainty: CertaintySchema,
       scenes: Scenes,
     }),
   ),
-  worlds: z.array(
-    z.object({ id: z.string(), name: z.string(), certainty: CertaintySchema, scenes: Scenes }),
-  ),
-});
-
-const Research = z.object({
-  sources: z.array(
-    z.object({
-      id: z.string(),
-      name: z.string(),
-      kind: z.enum(SOURCE_KINDS),
-      role: z.enum(SOURCE_ROLES),
-      covers: z.array(TitleCodeSchema),
-      usedFor: z.string(),
-      url: z.string().nullable(),
-      accessed: z.string().nullable(),
-      notes: z.string().nullable(),
-    }),
-  ),
-  questions: z.array(OpenQuestion),
-  certainty: z
-    .object({ stated: z.number(), inferred: z.number(), ambiguous: z.number() })
-    .describe("Facts by certainty: appearances, differences, relationships per title, worlds."),
-  interpretations: z
-    .array(
-      z.object({
-        kind: z.enum(["appearance", "difference", "relationship", "world"]),
-        certainty: z.enum(["inferred", "ambiguous"]),
-        notes: z.string(),
-        subject: z.object({ id: z.string(), name: z.string(), kind: z.string() }),
-        titles: z.array(TitleCodeSchema),
-        label: z.string(),
-        sources: z.array(LocatorSchema),
-      }),
-    )
-    .describe("Facts that are inferred or ambiguous, with the notes that explain them."),
+  worlds: z.array(z.object({ id: z.string(), name: z.string(), scenes: Scenes })),
 });
 
 export const sourceRoutes: FastifyPluginCallbackZod<{ db: Db }> = (app, { db }, done) => {
@@ -152,16 +109,5 @@ export const sourceRoutes: FastifyPluginCallbackZod<{ db: Db }> = (app, { db }, 
     },
   );
 
-  app.get(
-    "/research",
-    {
-      schema: {
-        tags: ["archive"],
-        summary: "The research log: sources used, open questions, and facts by certainty",
-        response: { 200: Research },
-      },
-    },
-    async () => research(db),
-  );
   done();
 };

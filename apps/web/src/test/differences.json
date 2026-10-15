@@ -13,8 +13,6 @@
         { "title": "og", "disc": 2, "segment": "og_inside_clouds_mind" },
         { "title": "rebirth", "chapter": 1 }
       ],
-      "certainty": "stated",
-      "notes": null,
       "related": [],
       "entity": { "id": "event_nibelheim_incident", "kind": "event", "name": "Nibelheim Incident" }
     },
@@ -30,8 +28,6 @@
         { "title": "og", "disc": 1, "segment": "og_reactor_1" },
         { "title": "remake", "chapter": 2, "scene": "Jessie talks to Cloud about the explosion" }
       ],
-      "certainty": "stated",
-      "notes": null,
       "related": [],
       "entity": {
         "id": "event_mako_reactor_1_bombing",
@@ -56,8 +52,6 @@
         },
         { "title": "remake", "chapter": 1, "scene": "Set the timer" }
       ],
-      "certainty": "stated",
-      "notes": null,
       "related": [],
       "entity": {
         "id": "event_mako_reactor_1_bombing",
@@ -82,8 +76,6 @@
         },
         { "title": "remake", "chapter": 12, "scene": "Saving Marlene; Tseng on the monitor" }
       ],
-      "certainty": "stated",
-      "notes": null,
       "related": [
         {
           "id": "character_aerith_gainsborough",
@@ -109,8 +101,6 @@
         { "title": "og", "disc": 1, "segment": "og_sector_7_pillar" },
         { "title": "remake", "chapter": 12 }
       ],
-      "certainty": "stated",
-      "notes": null,
       "related": [],
       "entity": {
         "id": "event_sector_7_plate_fall",
@@ -135,8 +125,6 @@
         },
         { "title": "rebirth", "chapter": 14, "scene": "leaving the Forgotten Capital" }
       ],
-      "certainty": "ambiguous",
-      "notes": "Rebirth doesn't explain what Cloud is seeing.",
       "related": [
         { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
         { "id": "character_tifa_lockhart", "kind": "character", "name": "Tifa Lockhart" }
@@ -155,8 +143,6 @@
         { "title": "og", "disc": 1, "segment": "og_forgotten_capital" },
         { "title": "rebirth", "chapter": 14 }
       ],
-      "certainty": "ambiguous",
-      "notes": "Which of Rebirth's two outcomes is real is left open.",
       "related": [],
       "entity": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" }
     }

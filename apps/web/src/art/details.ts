@@ -1,9 +1,7 @@
 import type { ArtEntry } from "./manifest";
 
-// The words about each image: what it shows, for screen readers, and who made it and where it came
-// from, for the Credits page and the credit lines under pictures. Kept apart from manifest.ts, which
-// every page needs at once, so the first load stays within its budget
-// (docs/decisions/0013-hardening.md); this loads with the pages that show art.
+// What each image shows (its alt text) and its credit. Kept out of manifest.ts, which every page
+// loads at once, so the first load stays small (docs/decisions/0013-hardening.md).
 
 export interface ArtDetails {
   /** Describes the image for screen readers. */
@@ -397,11 +395,7 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
     title: "Hojo's laboratory concept art, Final Fantasy VII Remake",
     wiki: "Hojo's Laboratory artwork for Final Fantasy VII Remake.png",
   },
-  "places/reactor-core": {
-    alt: "A line drawing of a Mako reactor's core: pipes converging on a great cylinder.",
-    title: "Mako reactor core concept art, Final Fantasy VII Remake",
-    wiki: "Mako Reactor Core artwork for FFVII Remake.png",
-  },
+
   "places/corneo-mansion": {
     alt: "Don Corneo's mansion at night, its tiered red-lit roofs rising over Wall Market.",
     title: "Corneo's mansion concept art, Final Fantasy VII Remake",

@@ -57,7 +57,6 @@ export function Change({
         {difference.magnitude === "major" && <span className="cmp-tag cmp-big">Big change</span>}
       </p>
       <p className="cmp-text">{difference.summary}</p>
-      {difference.notes && <p className="cmp-note">{difference.notes}</p>}
       <p className="cmp-sources">
         Where to see it: <Citations sources={difference.sources} reference={reference} />
       </p>

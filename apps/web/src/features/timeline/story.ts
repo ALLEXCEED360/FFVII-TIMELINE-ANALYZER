@@ -8,12 +8,6 @@ export const MAIN_WORLD = "world_main";
 /** How a game treats an event, at a glance. */
 export type Mark = "shown" | "mentioned" | "none";
 
-export const MARK_WORDS: Record<Mark, string> = {
-  shown: "Shows it",
-  mentioned: "Only mentions it",
-  none: "Not in it",
-};
-
 /** The appearance that speaks for a game: the main world's, else the first other world's. */
 export function appearanceIn(
   event: TimelineEvent,

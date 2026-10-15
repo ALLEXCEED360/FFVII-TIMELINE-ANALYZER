@@ -16,7 +16,6 @@
       "status": "depicted",
       "role": "The legendary SOLDIER the party pursues",
       "summary": "Named first in Cloud and Tifa's memories; shown in Cloud's account of Nibelheim, then as the party's quarry, who kills Aerith.",
-      "certainty": "stated",
       "cited": true,
       "depictions": [],
       "scenes": []
@@ -27,7 +26,6 @@
       "status": "depicted",
       "role": null,
       "summary": "Aerith prays at the altar. Cloud, no longer in control of himself, moves against her until the others stop him; then Sephiroth descends and kills her. The party lays her to rest in the water.",
-      "certainty": "stated",
       "cited": true,
       "depictions": [{ "framing": "direct", "note": null }],
       "scenes": ["the water altar; Cloud's speech afterwards"]
@@ -42,7 +40,6 @@
       "status": "depicted",
       "role": null,
       "summary": "Where Aerith goes alone to pray, and where she is killed.",
-      "certainty": "stated",
       "cited": true,
       "depictions": [{ "framing": "direct", "note": null }],
       "scenes": []
@@ -57,7 +54,6 @@
       "category": "context",
       "magnitude": "major",
       "summary": "In OG, Cloud mourns that Aerith will no longer talk or laugh; in Rebirth, Cloud goes on seeing and hearing her after her funeral, while Tifa does not.",
-      "certainty": "ambiguous",
       "scenes": ["Cloud's words to Sephiroth"]
     },
     {
@@ -68,7 +64,6 @@
       "category": "presentation",
       "magnitude": "major",
       "summary": "In OG, Sephiroth's strike is shown once; in Rebirth, Cloud first appears to deflect it before the scene shows Sephiroth killing Aerith.",
-      "certainty": "ambiguous",
       "scenes": []
     }
   ],
@@ -80,7 +75,6 @@
       "source": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
       "target": { "id": "location_nibelheim", "kind": "location", "name": "Nibelheim" },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": ["I'm Cloud, ex-SOLDIER, born in Nibelheim"]
     },
     {
@@ -94,7 +88,6 @@
       },
       "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": []
     },
     {
@@ -104,7 +97,6 @@
       "source": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
       "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": []
     },
     {
@@ -118,7 +110,6 @@
         "name": "Forgotten Capital"
       },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": []
     },
     {
@@ -128,7 +119,6 @@
       "source": { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" },
       "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": []
     },
     {
@@ -142,7 +132,6 @@
         "name": "Aerith Gainsborough"
       },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": ["Cloud: He … killed Aeris"]
     }
   ],

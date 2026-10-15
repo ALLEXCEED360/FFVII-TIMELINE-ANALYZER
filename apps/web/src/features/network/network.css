@@ -196,15 +196,6 @@
 .nw-setting-name {
   color: #8ad7ff;
 }
-.nw-setting-note {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.2rem;
-  font-size: 0.78rem;
-  line-height: 1.4;
-  color: #c9d3ea;
-}
 .nw-opts {
   display: flex;
   flex-direction: column;

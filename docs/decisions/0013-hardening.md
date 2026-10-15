@@ -17,7 +17,7 @@ Playwright runs against the real stack: the API on a seeded Postgres, and the **
 | Spec                         | Covers                                                                                                                                                                      |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `journey`                    | Blueprint §35 in order: open the app, search Cloud, open him, open a related event, compare, switch versions, open the graph, follow a relationship, return to the timeline |
-| `divergence-and-archive`     | Event → divergence map → re-root; citation → unit page → neighbouring chapter → research log; a phone journey (timeline list, comparison tabs)                              |
+| `divergence-and-archive`     | Event → divergence map → re-root; citation → unit page → neighbouring chapter → the archive; a phone journey (timeline list, comparison tabs)                               |
 | `accessibility`              | axe (WCAG 2.2 A/AA, **including contrast**) on 18 pages, desktop and phone                                                                                                  |
 | `keyboard-and-motion`        | Skip link, timeline and divergence stations by keyboard, the search palette keyboard-only, visible focus on every stop, the Motion setting                                  |
 | `resilience-and-performance` | API outage (error, retry, recovery), a page whose code fails to download, the graph library loading only on network pages, prefetching, a lean home page                    |

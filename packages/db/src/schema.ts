@@ -6,9 +6,6 @@ import {
   type EdgeType,
   type FileEntityKind,
   FRAMINGS,
-  QUESTION_KINDS,
-  SOURCE_KINDS,
-  SOURCE_ROLES,
   STORED_STATUSES,
   TITLE_CODES,
   type TitleCode,
@@ -19,7 +16,6 @@ import {
   boolean,
   check,
   customType,
-  date,
   foreignKey,
   index,
   integer,
@@ -49,9 +45,6 @@ export const differenceCategory = pgEnum("difference_category", DIFFERENCE_CATEG
 export const magnitude = pgEnum("magnitude", ["minor", "major"]);
 export const edgeType = pgEnum("edge_type", EDGE_TYPE_NAMES as [EdgeType, ...EdgeType[]]);
 export const edgeCategory = pgEnum("edge_category", EDGE_CATEGORIES);
-export const sourceKind = pgEnum("source_kind", SOURCE_KINDS);
-export const sourceRole = pgEnum("source_role", SOURCE_ROLES);
-export const questionKind = pgEnum("question_kind", QUESTION_KINDS);
 export const CITATION_KINDS = [
   "appearance",
   "depiction",
@@ -407,61 +400,7 @@ export const idRedirects = pgTable("id_redirects", {
   newId: text().references(() => entities.id, { onDelete: "cascade" }),
 });
 
-// ─── Research log and citations ───────────────────────────────────────────────
-
-/** What was used to find and check the facts (data/research/sources.yaml). */
-export const researchSources = pgTable("research_sources", {
-  id: text().primaryKey(),
-  position: smallint().notNull().unique(),
-  name: text().notNull(),
-  kind: sourceKind().notNull(),
-  role: sourceRole().notNull(),
-  covers: titleCode().array().notNull(),
-  usedFor: text().notNull(),
-  url: text(),
-  accessed: date({ mode: "string" }),
-  notes: text(),
-});
-
-/** Facts awaiting a stronger check, and gaps (data/research/open-questions.yaml). */
-export const openQuestions = pgTable("open_questions", {
-  id: text().primaryKey(),
-  position: smallint().notNull().unique(),
-  kind: questionKind().notNull(),
-  summary: text().notNull(),
-  details: text().notNull(),
-  /** Where in the titles to look, as written. */
-  sources: jsonb(),
-});
-
-export const openQuestionEntities = pgTable(
-  "open_question_entities",
-  {
-    questionId: text()
-      .notNull()
-      .references(() => openQuestions.id, { onDelete: "cascade" }),
-    entityId: text()
-      .notNull()
-      .references(() => entities.id, { onDelete: "cascade" }),
-  },
-  (t) => [
-    primaryKey({ columns: [t.questionId, t.entityId] }),
-    index("open_question_entities_entity_idx").on(t.entityId),
-  ],
-);
-
-export const openQuestionWorlds = pgTable(
-  "open_question_worlds",
-  {
-    questionId: text()
-      .notNull()
-      .references(() => openQuestions.id, { onDelete: "cascade" }),
-    worldId: text()
-      .notNull()
-      .references(() => worlds.id, { onDelete: "cascade" }),
-  },
-  (t) => [primaryKey({ columns: [t.questionId, t.worldId] })],
-);
+// ─── Citations ──────────────────────────────────────────────────────────────────
 
 /** One row per cited locator (derived at seed time): from a part of a game to the facts it backs. */
 export const citations = pgTable(

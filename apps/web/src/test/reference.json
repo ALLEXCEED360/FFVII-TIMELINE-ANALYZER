@@ -47,8 +47,7 @@
           "og_sector_7_pillar",
           "og_aerith_story",
           "og_shinra_building"
-        ],
-        "notes": "Remake retells Midgar, ending with the escape from the city."
+        ]
       }
     },
     {
@@ -106,8 +105,7 @@
           "og_temple_of_the_ancients",
           "og_bone_village",
           "og_forgotten_capital"
-        ],
-        "notes": "Rebirth runs from Kalm to the Forgotten Capital. It also shows Aerith being laid to rest, which in the original opens the second disc (og_icicle_inn); that scene is cited as a depiction of the event rather than extending the coverage."
+        ]
       }
     }
   ],
@@ -426,9 +424,7 @@
       "summary": "The world the story follows, and the only world of the original.",
       "firstShown": null,
       "branchesFrom": null,
-      "sources": null,
-      "certainty": null,
-      "notes": null
+      "sources": null
     },
     {
       "id": "world_zack_survives",
@@ -449,9 +445,7 @@
           "scene": "Zack in Midgar after the expressway collapse"
         },
         { "title": "rebirth", "chapter": 14, "scene": "Zack's final scene in Aerith's church" }
-      ],
-      "certainty": "stated",
-      "notes": "Rebirth states outright that separate worlds exist and part again (chapter 14). Whether the Remake ending, INTERmission's post-credits scene and Rebirth's interlude all show one and the same branch is treated as one world until a title distinguishes them. The branch point (Zack's last stand) is not recorded yet: in the original it is shown only visually, in an optional flashback, and still needs checking against footage."
+      ]
     }
   ]
 }

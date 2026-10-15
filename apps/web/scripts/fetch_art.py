@@ -106,7 +106,6 @@ ART: dict[str, tuple[str, int]] = {
     "places/wall-market": ("Wall Market artwork 2 for Final Fantasy VII Remake.png", 1600),
     "places/shinra-lobby": ("Shinra HQ lobby concept art FFVII Remake.png", 1600),
     "places/hojo-lab": ("Hojo's Laboratory artwork for Final Fantasy VII Remake.png", 1600),
-    "places/reactor-core": ("Mako Reactor Core artwork for FFVII Remake.png", 1600),
     "places/corneo-mansion": ("Corneo's Mansion artwork for Final Fantasy VII Remake.png", 1600),
     "places/expressway": ("Midgar Expressway artwork 3 for Final Fantasy VII Remake.png", 1600),
     "places/junon": ("Junon FFVII CG Art 1.jpg", 1600),
@@ -228,7 +227,6 @@ SKETCH = {
     "characters/zack-og",
     "key/og-meteor",
     "places/northern-crater",
-    "places/reactor-core",
 }
 
 

@@ -1,4 +1,4 @@
-import { type Db, entity, listEntities, loadCoverageIndex, openQuestionsAbout } from "@ffvii/db";
+import { type Db, entity, listEntities, loadCoverageIndex } from "@ffvii/db";
 import { TITLES_IN_ORDER, TitleCodeSchema, displayStatus } from "@ffvii/shared";
 import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
 import { z } from "zod";
@@ -11,7 +11,6 @@ import {
   EntityKindEnum,
   EntityRef,
   ErrorBody,
-  OpenQuestion,
   Relationship,
 } from "../schemas.ts";
 import { NOT_FOUND, redirectRetired } from "./redirects.ts";
@@ -25,9 +24,6 @@ const EntityDetail = EntityInfo.extend({
     .describe(
       "Each title's status for it in the main world, stored or derived: a title that retells this part of the story without recording it is `undocumented`, not `absent`.",
     ),
-  openQuestions: z
-    .array(OpenQuestion)
-    .describe("Research questions about this entity (facts awaiting a stronger check, gaps)."),
 });
 
 export const entityRoutes: FastifyPluginCallbackZod<{ db: Db }> = (app, { db }, done) => {
@@ -78,7 +74,7 @@ export const entityRoutes: FastifyPluginCallbackZod<{ db: Db }> = (app, { db }, 
       const statuses = Object.fromEntries(
         TITLES_IN_ORDER.map((title) => [title, displayStatus(subject, title, index)]),
       ) as Record<(typeof TITLES_IN_ORDER)[number], ReturnType<typeof displayStatus>>;
-      return { ...found, statuses, openQuestions: await openQuestionsAbout(db, found.id) };
+      return { ...found, statuses };
     },
   );
   done();

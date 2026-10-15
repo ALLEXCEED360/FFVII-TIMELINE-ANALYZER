@@ -20,7 +20,6 @@
       "status": "depicted",
       "role": "The last living Cetra, travelling with Cloud",
       "summary": "Travels with the party from Kalm and prays at the altar in the Forgotten Capital.",
-      "certainty": "stated",
       "cited": true,
       "depictions": [],
       "scenes": ["as the last living Cetra"]
@@ -31,7 +30,6 @@
       "status": "depicted",
       "role": "Leads the pursuit of Sephiroth beyond Midgar",
       "summary": "Tells his account of Nibelheim at Kalm and follows Sephiroth to the Forgotten Capital.",
-      "certainty": "stated",
       "cited": true,
       "depictions": [],
       "scenes": []
@@ -42,7 +40,6 @@
       "status": "depicted",
       "role": "The party's quarry",
       "summary": "Shown in Cloud's account of Nibelheim, then pursued to the Forgotten Capital.",
-      "certainty": "stated",
       "cited": true,
       "depictions": [{ "framing": "direct", "note": null }],
       "scenes": []
@@ -53,7 +50,6 @@
       "status": "depicted",
       "role": "Travels with Cloud; questions his account of Nibelheim",
       "summary": "Doubts Cloud's story of Nibelheim, and is present at Aerith's death.",
-      "certainty": "stated",
       "cited": true,
       "depictions": [],
       "scenes": []
@@ -64,7 +60,6 @@
       "status": "depicted",
       "role": null,
       "summary": "At the altar, Cloud appears to block Sephiroth's blade, before the scene resolves into Sephiroth killing Aerith. After she is laid to rest in the pool, Cloud goes on seeing and speaking with her; Tifa does not see her.",
-      "certainty": "ambiguous",
       "cited": true,
       "depictions": [{ "framing": "direct", "note": null }],
       "scenes": ["the altar, the funeral at the pool, the departure"]
@@ -79,7 +74,6 @@
       "status": "depicted",
       "role": null,
       "summary": "The setting of the final chapter.",
-      "certainty": "stated",
       "cited": true,
       "depictions": [{ "framing": "direct", "note": null }],
       "scenes": ["reaching the Forgotten Capital"]
@@ -94,7 +88,6 @@
       "category": "context",
       "magnitude": "major",
       "summary": "In OG, Cloud mourns that Aerith will no longer talk or laugh; in Rebirth, Cloud goes on seeing and hearing her after her funeral, while Tifa does not.",
-      "certainty": "ambiguous",
       "scenes": ["leaving the Forgotten Capital"]
     },
     {
@@ -105,7 +98,6 @@
       "category": "presentation",
       "magnitude": "major",
       "summary": "In OG, Sephiroth's strike is shown once; in Rebirth, Cloud first appears to deflect it before the scene shows Sephiroth killing Aerith.",
-      "certainty": "ambiguous",
       "scenes": []
     }
   ],
@@ -121,7 +113,6 @@
       },
       "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": []
     },
     {
@@ -131,7 +122,6 @@
       "source": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
       "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": []
     },
     {
@@ -145,7 +135,6 @@
         "name": "Forgotten Capital"
       },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": []
     },
     {
@@ -155,7 +144,6 @@
       "source": { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" },
       "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": []
     },
     {
@@ -169,7 +157,6 @@
         "name": "Aerith Gainsborough"
       },
       "world": "world_main",
-      "certainty": "stated",
       "scenes": []
     }
   ],
@@ -177,7 +164,6 @@
     {
       "id": "world_zack_survives",
       "name": "Zack survives",
-      "certainty": "stated",
       "scenes": ["Zack's final scene in Aerith's church"]
     }
   ]

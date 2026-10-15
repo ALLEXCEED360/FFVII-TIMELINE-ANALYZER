@@ -21,8 +21,7 @@
   padding: 0;
   border: 0;
 }
-.tl-control legend,
-.tl-control-label {
+.tl-control legend {
   float: left;
   margin-right: 0.9rem;
   padding: 0;
@@ -518,12 +517,6 @@
   }
 }
 
-/* Which of the Remake Trilogy's games give a mark, and each game's telling in the event window. */
-.tl-mark-games {
-  margin-left: 0.3rem;
-  font-size: 0.8em;
-  color: var(--m-dim);
-}
 .tl-telling-game {
   display: flex;
   flex-direction: column;

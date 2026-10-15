@@ -1,5 +1,4 @@
 import {
-  CertaintySchema,
   DateRefSchema,
   DifferenceCategorySchema,
   EDGE_CATEGORIES,
@@ -9,7 +8,6 @@ import {
   type FileEntityKind,
   FramingSchema,
   LocatorSchema,
-  QUESTION_KINDS,
   StoredStatusSchema,
   TITLES_IN_ORDER,
   TitleCodeSchema,
@@ -75,8 +73,6 @@ export const Appearance = z.object({
   when: WhenSchema.nullable(),
   playPosition: z.number().nullable(),
   sources: z.array(LocatorSchema),
-  certainty: CertaintySchema,
-  notes: z.string().nullable(),
   depictions: z.array(Depiction),
 });
 
@@ -91,8 +87,6 @@ export const Difference = z.object({
   magnitude: MagnitudeEnum,
   summary: z.string(),
   sources: z.array(LocatorSchema),
-  certainty: CertaintySchema,
-  notes: z.string().nullable(),
   related: z.array(EntityRef),
 });
 
@@ -111,20 +105,8 @@ export const Relationship = z.object({
       title: TitleCodeSchema,
       world: z.string(),
       sources: z.array(LocatorSchema),
-      certainty: CertaintySchema,
-      notes: z.string().nullable(),
     }),
   ),
-});
-
-export const OpenQuestion = z.object({
-  id: z.string(),
-  kind: z.enum(QUESTION_KINDS),
-  summary: z.string(),
-  details: z.string(),
-  sources: z.array(LocatorSchema).describe("Where in the titles to look."),
-  entities: z.array(EntityRef),
-  worlds: z.array(z.object({ id: z.string(), name: z.string() })),
 });
 
 export const EventInfo = z.object({
@@ -139,7 +121,6 @@ export const EventInfo = z.object({
 export const EntityInfo = EntityRef.extend({
   aliases: z.array(z.string()),
   summary: z.string(),
-  notes: z.string().nullable(),
   ogSegmentId: z.string().nullable(),
   event: EventInfo.nullable(),
 });

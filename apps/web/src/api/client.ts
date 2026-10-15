@@ -68,6 +68,3 @@ export type SourceCatalogue = Json<"/sources">;
 export type CatalogueTitle = SourceCatalogue["titles"][number];
 export type CatalogueUnit = CatalogueTitle["units"][number];
 export type SourceUnitDetail = Json<"/sources/{title}/{unit}">;
-export type Research = Json<"/research">;
-export type ResearchSource = Research["sources"][number];
-export type Interpretation = Research["interpretations"][number];

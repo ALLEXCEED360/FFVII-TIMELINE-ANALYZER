@@ -1,5 +1,4 @@
 import {
-  type Certainty,
   type DifferenceCategory,
   type DivergenceEvent,
   type FileEntityKind,
@@ -77,7 +76,7 @@ export async function listDifferences(
       json_build_object('id', e.id, 'kind', e.kind, 'name', e.name) as entity,
       json_build_object('title', d.from_title, 'world', d.from_world) as "from",
       json_build_object('title', d.to_title, 'world', d.to_world) as "to",
-      d.category, d.magnitude, d.summary, d.sources, d.certainty, d.notes,
+      d.category, d.magnitude, d.summary, d.sources,
       coalesce((
         select json_agg(json_build_object('id', r.id, 'kind', r.kind, 'name', r.name) order by r.name)
         from difference_related dr join entities r on r.id = dr.entity_id
@@ -108,7 +107,7 @@ export interface ReferenceTitle {
   /** Chapters and unnumbered parts, in play order; empty for the disc-based original. */
   units: { key: string; name: string; position: number }[];
   /** Original segments this title retells; null if it retells none. */
-  coverage: { from: string; to: string; segments: string[]; notes: string | null } | null;
+  coverage: { from: string; to: string; segments: string[] } | null;
 }
 
 export interface Reference {
@@ -129,8 +128,6 @@ export interface Reference {
     firstShown: Locator | null;
     branchesFrom: string | null;
     sources: Locator[] | null;
-    certainty: Certainty | null;
-    notes: string | null;
   }[];
 }
 
@@ -145,7 +142,7 @@ export async function reference(db: Db): Promise<Reference> {
       ), '[]') as units,
       (
         select json_build_object(
-          'from', c.from_segment, 'to', c.to_segment, 'notes', c.notes,
+          'from', c.from_segment, 'to', c.to_segment,
           'segments', (
             select json_agg(cs.segment_id order by s.position)
             from covered_segments cs join og_segments s on s.id = cs.segment_id
@@ -169,7 +166,7 @@ export async function reference(db: Db): Promise<Reference> {
   `);
   const worlds = await db.execute<Reference["worlds"][number] & Record<string, unknown>>(sql`
     select id, name, summary, first_shown as "firstShown", branches_from as "branchesFrom",
-           sources, certainty, notes
+           sources
     from worlds order by position
   `);
   return {

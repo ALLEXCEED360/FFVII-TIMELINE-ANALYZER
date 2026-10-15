@@ -6,10 +6,7 @@ import { useMusic } from "./store";
 /** How long the card stays before sliding away. */
 const SHOW_MS = 5500;
 
-/**
- * As a sports game's menus do when a song starts: a card slides in at the bottom right with its
- * album art, name and composer, then slides away. It shows again when the track changes.
- */
+/** Like a sports game's menus: each new track slides in a card with its art, name and composer. */
 export function NowPlayingCard() {
   const started = useMusic((s) => s.started);
   const current = useMusic((s) => s.current);

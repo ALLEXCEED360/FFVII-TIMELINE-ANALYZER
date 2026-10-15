@@ -57,7 +57,6 @@ describe("basics", () => {
       "/network/{id}",
       "/play-order/{title}",
       "/reference",
-      "/research",
       "/search",
       "/sources",
       "/sources/{title}/{unit}",
@@ -110,11 +109,8 @@ describe("reference and entities", () => {
       "remake",
       "rebirth",
     ]);
-    expect(
-      (await get("/entities/event_aerith_death")).body.openQuestions.map(
-        (q: { id: string }) => q.id,
-      ),
-    ).toEqual(["question_aerith_death_rebirth_visuals", "question_aerith_funeral_og"]);
+    // Research and open questions stay in data/, out of the API.
+    expect((await get("/entities/event_aerith_death")).body.openQuestions).toBeUndefined();
     expect(await get("/entities/character_nobody")).toMatchObject({
       status: 404,
       body: { error: "not_found" },
@@ -366,7 +362,6 @@ describe("archive", () => {
     expect(body.next).toBeNull();
     expect(body.appearances.find((a: any) => a.entity.id === "event_aerith_death")).toMatchObject({
       world: "world_main",
-      certainty: "ambiguous",
       cited: true,
     });
     expect(body.differences.map((d: { id: string }) => d.id)).toContain(
@@ -407,26 +402,8 @@ describe("archive", () => {
     }
   });
 
-  it("returns the research log and the facts that aren't stated outright", async () => {
-    const { status, body } = await get("/research");
-    expect(status).toBe(200);
-    expect(body.sources).toHaveLength(dataset.researchSources.length);
-    expect(body.questions.map((q: { id: string }) => q.id)).toEqual(
-      dataset.openQuestions.map((q) => q.id),
-    );
-    expect(
-      body.questions.find((q: { id: string }) => q.id === "question_zack_last_stand").worlds,
-    ).toEqual([{ id: "world_zack_survives", name: "Zack survives" }]);
-    const { stated, inferred, ambiguous } = body.certainty as {
-      stated: number;
-      inferred: number;
-      ambiguous: number;
-    };
-    expect(stated).toBeGreaterThan(0);
-    expect(body.interpretations).toHaveLength(inferred + ambiguous);
-    expect(body.interpretations.every((f: { certainty: string }) => f.certainty !== "stated")).toBe(
-      true,
-    );
+  it("has no research log", async () => {
+    expect((await get("/research")).status).toBe(404);
   });
 });
 

@@ -1,7 +1,7 @@
 # 0012 — The archive and sources
 
 - **Status:** Accepted
-- **Date:** 2026-09-28
+- **Date:** 2026-09-28 (updated 2026-10-14)
 - **Builds on:** [0004](0004-data-files-are-the-source-of-truth.md), [0005](0005-database-schema.md), [0006](0006-api-design.md)
 
 ## Context
@@ -54,3 +54,7 @@ This covers the blueprint's four categories: verified facts (stated), interpreta
 - ✅ No new stored facts; the citations index is rebuilt with everything else.
 - ❌ Verification is recorded per source, not per fact: the log says which sources were used for what, not which source checked each fact. Per-fact verification would multiply the data entry work; revisit if a fact's evidence is ever disputed.
 - ❌ Relationship evidence still shows as tooltips on entity pages; its citations are browsable from the unit pages.
+
+## Update — 2026-10-14
+
+The research log is no longer shown to readers. It stays as validated data in `data/research/`, but it is no longer seeded, served or displayed: `GET /research` and each entity's `openQuestions` are gone, migration `0003_drop_research` drops their tables, and `/archive/research` and the open-question and certainty notes are removed from the web app. Each fact's `certainty` and `notes` (and entity and coverage notes) are no longer served either; they stay in the data and the database copy.

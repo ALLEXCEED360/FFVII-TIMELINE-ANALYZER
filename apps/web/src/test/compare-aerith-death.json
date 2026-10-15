@@ -5,7 +5,6 @@
     "name": "Death of Aerith",
     "aliases": [],
     "summary": "Sephiroth kills Aerith as she prays at the altar in the Forgotten Capital.",
-    "notes": null,
     "ogSegmentId": "og_forgotten_capital",
     "event": {
       "when": { "year": 0 },
@@ -39,8 +38,6 @@
           },
           { "title": "og", "disc": 2, "segment": "og_icicle_inn", "scene": "the opening cinematic" }
         ],
-        "certainty": "stated",
-        "notes": null,
         "depictions": [
           {
             "locator": { "title": "og", "disc": 1, "segment": "og_forgotten_capital" },
@@ -88,8 +85,6 @@
             "scene": "the altar, the funeral at the pool, the departure"
           }
         ],
-        "certainty": "ambiguous",
-        "notes": "Rebirth shows two outcomes at the altar and then shows Cloud perceiving Aerith when others don't; it doesn't say which perception is real. Visual details here come from transcript stage directions and still need checking against footage.",
         "depictions": [
           {
             "locator": { "title": "rebirth", "chapter": 14 },
@@ -122,8 +117,6 @@
         },
         { "title": "rebirth", "chapter": 14, "scene": "leaving the Forgotten Capital" }
       ],
-      "certainty": "ambiguous",
-      "notes": "Rebirth doesn't explain what Cloud is seeing.",
       "related": [
         { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
         { "id": "character_tifa_lockhart", "kind": "character", "name": "Tifa Lockhart" }
@@ -141,8 +134,6 @@
         { "title": "og", "disc": 1, "segment": "og_forgotten_capital" },
         { "title": "rebirth", "chapter": 14 }
       ],
-      "certainty": "ambiguous",
-      "notes": "Which of Rebirth's two outcomes is real is left open.",
       "related": []
     }
   ],
@@ -165,16 +156,12 @@
         {
           "title": "og",
           "world": "world_main",
-          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }],
-          "certainty": "stated",
-          "notes": null
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }]
         },
         {
           "title": "rebirth",
           "world": "world_main",
-          "sources": [{ "title": "rebirth", "chapter": 14 }],
-          "certainty": "stated",
-          "notes": null
+          "sources": [{ "title": "rebirth", "chapter": 14 }]
         }
       ],
       "applicable": ["og", "rebirth"],
@@ -194,16 +181,12 @@
         {
           "title": "og",
           "world": "world_main",
-          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }],
-          "certainty": "stated",
-          "notes": null
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }]
         },
         {
           "title": "rebirth",
           "world": "world_main",
-          "sources": [{ "title": "rebirth", "chapter": 14 }],
-          "certainty": "stated",
-          "notes": null
+          "sources": [{ "title": "rebirth", "chapter": 14 }]
         }
       ],
       "applicable": ["og", "rebirth"],
@@ -223,16 +206,12 @@
         {
           "title": "og",
           "world": "world_main",
-          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }],
-          "certainty": "stated",
-          "notes": null
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }]
         },
         {
           "title": "rebirth",
           "world": "world_main",
-          "sources": [{ "title": "rebirth", "chapter": 14 }],
-          "certainty": "stated",
-          "notes": null
+          "sources": [{ "title": "rebirth", "chapter": 14 }]
         }
       ],
       "applicable": ["og", "rebirth"],
@@ -256,16 +235,12 @@
         {
           "title": "og",
           "world": "world_main",
-          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }],
-          "certainty": "stated",
-          "notes": null
+          "sources": [{ "title": "og", "disc": 1, "segment": "og_forgotten_capital" }]
         },
         {
           "title": "rebirth",
           "world": "world_main",
-          "sources": [{ "title": "rebirth", "chapter": 14 }],
-          "certainty": "stated",
-          "notes": null
+          "sources": [{ "title": "rebirth", "chapter": 14 }]
         }
       ],
       "applicable": ["og", "rebirth"],

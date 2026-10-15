@@ -25,10 +25,7 @@ function parentOf(pathname: string): { to: string; name: string } {
   return section("/", "the menu");
 }
 
-/**
- * Back to the previous page, or up a level when there's no history; it floats in the corner once
- * the top one scrolls away.
- */
+/** Back, or up a level with no history; it floats in the corner once the top one scrolls away. */
 export function BackButton() {
   const location = useLocation();
   const navigate = useNavigate();
