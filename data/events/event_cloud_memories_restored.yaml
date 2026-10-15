@@ -23,3 +23,17 @@ appearances:
           scene: "Searching for the you of that day",
         }
     certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_mideel
+    titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 2,
+              segment: og_inside_clouds_mind,
+              scene: "'The Lifestream is gushing up from below the surface of the earth!'",
+            }
+        certainty: stated

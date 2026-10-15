@@ -101,3 +101,11 @@ relationships:
             [{ title: og, disc: 2, segment: og_midgar_raid, scene: "'You're busted, Reeve!'" }],
           certainty: stated,
         }
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: tries to stop the Sister Ray from Shinra's side
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated

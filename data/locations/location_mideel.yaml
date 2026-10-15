@@ -1,0 +1,23 @@
+id: location_mideel
+name: Mideel
+summary: >-
+  A quiet island village in the south, where the Lifestream runs close beneath the ground.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Cloud washes up here with severe mako poisoning and is cared for at the clinic, where Tifa
+      finds him and stays at his side. When a Weapon attacks, the Lifestream bursts up through the
+      village and swallows Cloud and Tifa.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_mideel }, framing: direct }
+    sources:
+      - { title: og, disc: 2, segment: og_mideel, scene: "A Shocking Reunion: the clinic" }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_inside_clouds_mind,
+          scene: "'The Lifestream is gushing up from below the surface of the earth!'",
+        }
+    certainty: stated

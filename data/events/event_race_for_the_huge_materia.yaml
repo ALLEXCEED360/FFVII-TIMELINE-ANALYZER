@@ -1,0 +1,71 @@
+id: event_race_for_the_huge_materia
+name: The Race for the Huge Materia
+summary: >-
+  Shinra gathers Huge Materia from its reactors to ram into Meteor, and the party, led by Cid,
+  races to take it first at Corel, Fort Condor and Junon's underwater reactor.
+when: { year: 0 }
+seq: 308
+importance: 2
+arc: arc_the_lifestream
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Scarlet proposes ramming Meteor with Huge Materia, and Barret hands the leadership to Cid. At
+      North Corel the party chases a Shinra train carrying the materia; at Fort Condor they help
+      defend the condor's nest; at Junon's underwater reactor, with Cloud back, they fight their way
+      to Reno's submarine and chase it under the sea. How much they recover depends on the player.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_corel_huge_materia }, framing: direct }
+      - { at: { title: og, disc: 2, segment: og_fort_condor_huge_materia }, framing: direct }
+      - { at: { title: og, disc: 2, segment: og_underwater_reactor }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_corel_huge_materia,
+          scene: "'we've got to collect Huge Materia from each area'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_corel_huge_materia,
+          scene: "'Looks like they're takin' off with the Huge Materia in that train!'",
+        }
+      - { title: og, disc: 2, segment: og_fort_condor_huge_materia, scene: "Fort Condor's defence" }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_underwater_reactor,
+          scene: "Reno: 'My priority is the Huge Materia!'",
+        }
+    certainty: stated
+    notes: >-
+      Whether the party wins each race is up to the player; what is told here holds either way.
+
+relationships:
+  - type: occurred_at
+    target: location_corel
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_corel_huge_materia }], certainty: stated }
+
+  - type: occurred_at
+    target: location_fort_condor
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_fort_condor_huge_materia }]
+        certainty: stated
+
+  - type: occurred_at
+    target: location_junon
+    titles:
+      og:
+        sources:
+          - {
+              title: og,
+              disc: 2,
+              segment: og_underwater_reactor,
+              scene: "Junon's underwater reactor",
+            }
+        certainty: stated

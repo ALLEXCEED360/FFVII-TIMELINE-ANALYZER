@@ -141,3 +141,19 @@ relationships:
         certainty: inferred
         notes: >-
           Palmer says he saw Sephiroth, and Cloud identifies the sword as his. At the Northern Crater, Hojo explains that Jenova and the clones were moved by Sephiroth's will, with Sephiroth himself waiting in the crater, so who struck the blow is left to inference.
+
+  - type: participated_in
+    target: event_aerith_prayer_revealed
+    role: holds Holy back
+    titles:
+      og:
+        sources:
+          [
+            {
+              title: og,
+              disc: 2,
+              segment: og_aerith_prayer,
+              scene: "'Something's getting in its way'",
+            },
+          ]
+        certainty: stated

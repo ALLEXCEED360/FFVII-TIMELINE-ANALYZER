@@ -1,0 +1,41 @@
+id: event_rocket_launch
+name: The Rocket Launched at Meteor
+summary: >-
+  Shinra launches Cid's grounded rocket from Rocket Town, loaded with Huge Materia, to smash into
+  Meteor; Cid finally reaches space aboard it, and Meteor survives.
+when: { year: 0 }
+seq: 330
+importance: 2
+arc: arc_shinras_last_stand
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      The party boards the rocket to take back the Huge Materia, and Palmer launches it with them
+      and Cid inside, its course locked for Meteor. In space, Cid admits Shera was right about the
+      faulty oxygen tank that grounded him years before, and she gets them all out in the escape
+      pod. Rufus's plan fails.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_rocket_launch }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_rocket_launch,
+          scene: "'Yup, it's headed for a collision with Meteor'",
+        }
+      - { title: og, disc: 2, segment: og_rocket_launch, scene: "'Shera... You were right'" }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_cosmo_canyon_return,
+          scene: "'Rufus and the others plan was a failure...'",
+        }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_rocket_town
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_rocket_launch }], certainty: stated }

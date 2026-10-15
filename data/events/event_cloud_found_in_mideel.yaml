@@ -1,0 +1,34 @@
+id: event_cloud_found_in_mideel
+name: Cloud Found in Mideel
+summary: >-
+  Tifa finds Cloud on the island of Mideel, washed ashore and lost in severe mako poisoning, and
+  chooses to stay by his side.
+when: { year: 0 }
+seq: 307
+importance: 2
+arc: arc_the_lifestream
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Following a hunch that the Lifestream might have carried him, the party learns a young man
+      washed up on Mideel's shore a week before. The doctor says he has the worst mako poisoning he
+      has ever seen; Cloud barely responds, and Tifa stays to look after him while the others go on.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_mideel }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_mideel,
+          scene: "'it's been about a week now since he washed up here on the shore'",
+        }
+      - { title: og, disc: 2, segment: og_mideel, scene: "'I......want to be by his side'" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_mideel
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_mideel }], certainty: stated }

@@ -393,6 +393,21 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("moments/hojo-at-costa-del-sol", "1600x900", "scene", {}),
   art("moments/keystone-stolen", "1600x899", "scene", {}),
   art("moments/aerith-dream", "1600x709", "scene", {}),
+  art("moments/junon-gas-chamber", "320x240", "scene", {}),
+  art("moments/shocking-reunion", "1024x476", "scene", {
+    focus: "50% 40%",
+  }),
+  art("moments/shinra-submarine", "470x350", "key", {}),
+  art("moments/shinra-no-26", "568x476", "scene", {}),
+  art("moments/white-materia", "500x350", "scene", {}),
+  art("moments/diamond-weapon", "500x350", "scene", {}),
+  art("moments/sister-ray", "500x350", "scene", {}),
+  art("moments/highwind-boosters", "500x350", "scene", {}),
+  art("moments/northern-cave", "1600x774", "scene", {}),
+  art("places/mideel", "640x480", "scene", {}),
+  art("places/fort-condor", "866x1261", "scene", {
+    focus: "50% 35%",
+  }),
 ];
 
 const BY_ID = new Map(ARTWORK.map((entry) => [entry.id, entry]));
@@ -472,6 +487,15 @@ export const MOMENT_ART: Readonly<Record<string, string>> = {
   event_hojo_at_costa_del_sol: "moments/hojo-at-costa-del-sol",
   event_keystone_stolen: "moments/keystone-stolen",
   event_aerith_dream_in_the_sleeping_forest: "moments/aerith-dream",
+  event_junon_execution: "moments/junon-gas-chamber",
+  event_cloud_found_in_mideel: "moments/shocking-reunion",
+  event_race_for_the_huge_materia: "moments/shinra-submarine",
+  event_rocket_launch: "moments/shinra-no-26",
+  event_aerith_prayer_revealed: "moments/white-materia",
+  event_weapon_attacks_midgar: "moments/diamond-weapon",
+  event_hojos_last_stand: "moments/sister-ray",
+  event_night_before_the_end: "moments/highwind-boosters",
+  event_into_the_northern_cave: "moments/northern-cave",
 };
 
 /** A scene for an entity's page backdrop: key art, a painted place or line art — not a figure. */
@@ -499,6 +523,8 @@ export const PLACE_ART: Readonly<Record<string, string>> = {
   location_under_junon: "places/under-junon",
   location_corel: "places/corel",
   location_rocket_town: "places/rocket-town",
+  location_mideel: "places/mideel",
+  location_fort_condor: "places/fort-condor",
   organization_avalanche: "groups/avalanche-faction",
   organization_shinra: "groups/shinra-meeting",
   organization_wutai: "groups/wutai-troops",

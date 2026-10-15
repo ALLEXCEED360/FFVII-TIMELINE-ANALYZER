@@ -649,6 +649,61 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
     title: "Voice from the Sleeping Forest, Final Fantasy VII Ever Crisis wallpaper",
     wiki: "Home Wallpaper Voice from the Sleeping Forest from FFVIIEC.png",
   },
+  "moments/junon-gas-chamber": {
+    alt: "Junon's gas chamber in the original: a dim metal cell, lit by two lamps, where Tifa is to be executed.",
+    title: "Junon's gas chamber, Final Fantasy VII (screenshot)",
+    wiki: "Junon gas chamber.png",
+  },
+  "moments/shocking-reunion": {
+    alt: "Mideel's clinic in the original: Cloud slumped in a wheelchair, Tifa before him, the doctor and a nurse beside them.",
+    title: "Tifa finds Cloud in Mideel, Final Fantasy VII (screenshot)",
+    wiki: "Shocking Reunion from FFVII.png",
+  },
+  "moments/shinra-submarine": {
+    alt: "Shinra's red submarine, with fins like wings and a railed conning tower.",
+    title: "Submarine concept artwork, Final Fantasy VII",
+    wiki: "FFVII-Submarine.jpg",
+  },
+  "moments/shinra-no-26": {
+    alt: "The Shinra No. 26 rocket: a bundle of rust-brown boosters drifting in dark space.",
+    title: "Shinra No. 26 model, Final Fantasy VII (from the 25th Anniversary Ultimania)",
+    wiki: "Shinra 26 Rocket FFVII Model.jpg",
+  },
+  "moments/white-materia": {
+    alt: "The water altar in the Forgotten Capital, glowing blue, with Aerith's White Materia on its steps.",
+    title: "The White Materia at the altar, Final Fantasy VII (frame from the game's movie)",
+    wiki: "WaterAltar-ffvii-fmv-white.png",
+  },
+  "moments/diamond-weapon": {
+    alt: "Diamond Weapon, a great armoured beast, firing bolts of light from its body.",
+    title: "Diamond Weapon attacks, Final Fantasy VII (frame from the game's movie)",
+    wiki: "DiamondWeapon-ffvii-fmv-attack.png",
+  },
+  "moments/sister-ray": {
+    alt: "The Sister Ray's barrel gathering a swirl of purple and blue energy before it fires.",
+    title: "The Sister Ray charges, Final Fantasy VII (frame from the game's movie)",
+    wiki: "SisterRay-ffvii-fmv-charge.png",
+  },
+  "moments/highwind-boosters": {
+    alt: "The Highwind's rear engines firing as the airship sets off.",
+    title: "The Highwind's boosters, Final Fantasy VII (frame from the game's movie)",
+    wiki: "Highwind-ffvii-fmv-jet.png",
+  },
+  "moments/northern-cave": {
+    alt: "The party, small on a floating island of green rock, deep inside the Northern Cave where the Lifestream glows.",
+    title: "The Northern Cave, Final Fantasy VII Ever Crisis (in-game still)",
+    wiki: "Northern Cave Dungeon Infobox Image.png",
+  },
+  "places/mideel": {
+    alt: "Mideel in the original: timber houses and a windmill joined by wooden walkways in a tropical forest.",
+    title: "Mideel, Final Fantasy VII (screenshot)",
+    wiki: "FFVII-Mideel.jpg",
+  },
+  "places/fort-condor": {
+    alt: "Fort Condor: a giant condor nesting on an egg atop an old reactor on a rocky peak.",
+    title: "Fort Condor concept art, Final Fantasy VII (from the 25th Anniversary Ultimania)",
+    wiki: "Fort Condor FFVII Concept Art.jpg",
+  },
 };
 
 /** An image's description and credit. */

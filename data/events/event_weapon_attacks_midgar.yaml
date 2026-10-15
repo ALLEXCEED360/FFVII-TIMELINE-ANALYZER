@@ -1,0 +1,46 @@
+id: event_weapon_attacks_midgar
+name: Weapon Attacks Midgar
+summary: >-
+  A Weapon comes out of the sea and marches on Midgar. Shinra's new mako cannon, the Sister Ray,
+  fires through it, and in the attack Rufus is reported dead.
+when: { year: 0 }
+seq: 350
+importance: 2
+arc: arc_shinras_last_stand
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Rufus has moved Junon's great cannon to Midgar to fire at Sephiroth. As Weapon closes in, the
+      party fights it on land, then watches the Sister Ray's shot tear through it and break
+      Sephiroth's barrier around the Northern Crater. In the Shinra Building, Heidegger can't reach
+      the President, then declares him dead.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_midgar_raid }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_midgar_raid,
+          scene: "'Weapon came out of the sea and is heading straight for Midgar'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_midgar_raid,
+          scene: "'It went right through Weapon......'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_midgar_raid,
+          scene: "Heidegger: 'The President is dead!'",
+        }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_midgar
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_midgar_raid }], certainty: stated }

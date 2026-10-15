@@ -154,3 +154,34 @@ relationships:
       rebirth:
         sources: [{ title: rebirth, chapter: 1, scene: "Kalm / Present Day" }]
         certainty: stated
+
+  - type: participated_in
+    target: event_junon_execution
+    role: to be executed
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_junon_execution }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_race_for_the_huge_materia
+    role: hands the leadership to Cid
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_corel_huge_materia }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_night_before_the_end
+    role: goes to see Marlene, and comes back
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_highwind }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_into_the_northern_cave
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_northern_cave }]
+        certainty: stated

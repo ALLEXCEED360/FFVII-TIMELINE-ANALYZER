@@ -1,0 +1,47 @@
+id: event_aerith_prayer_revealed
+name: Aerith's Prayer for Holy
+summary: >-
+  Back at the Forgotten Capital, the party learns what Aerith died doing: she had prayed for Holy,
+  the ultimate White Magic that can stand against Meteor, and Sephiroth is holding it back.
+when: { year: 0 }
+seq: 340
+importance: 3
+arc: arc_shinras_last_stand
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Bugenhagen joins the party from Cosmo Canyon and reads the Ancients' knowledge at the
+      Forgotten Capital: in a crisis, seek Holy. With the key the party finds, a vision shows the
+      White Materia glowing, so Aerith's prayer has already reached the planet; Holy hasn't moved
+      because Sephiroth is in its way.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_cosmo_canyon_return }, framing: direct }
+      - { at: { title: og, disc: 2, segment: og_aerith_prayer }, framing: direct, primary: true }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_cosmo_canyon_return,
+          scene: "Bugenhagen: 'Perhaps I'll have you take me there'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_aerith_prayer,
+          scene: "'Holy...the ultimate White Magic'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_aerith_prayer,
+          scene: "'Aeris has already prayed for Holy'",
+        }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_forgotten_capital
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_aerith_prayer }], certainty: stated }

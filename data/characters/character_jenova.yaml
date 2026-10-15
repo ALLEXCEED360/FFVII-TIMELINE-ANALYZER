@@ -80,3 +80,11 @@ relationships:
           sources: [{ title: og, disc: 3, segment: og_finale, scene: "Jenova·SYNTHESIS" }],
           certainty: stated,
         }
+
+  - type: participated_in
+    target: event_into_the_northern_cave
+    role: fought as Jenova·SYNTHESIS
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_northern_cave }]
+        certainty: stated

@@ -207,3 +207,11 @@ relationships:
       rebirth:
         sources: [{ title: rebirth, chapter: 6, scene: "Fun While It Lasts" }]
         certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: fires the Sister Ray and fights with Jenova's cells inside him
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated

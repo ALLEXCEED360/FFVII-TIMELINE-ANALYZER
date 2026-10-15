@@ -165,3 +165,34 @@ relationships:
       rebirth:
         sources: [{ title: rebirth, chapter: 1, scene: "Kalm / Present Day" }]
         certainty: stated
+
+  - type: participated_in
+    target: event_junon_execution
+    role: to be executed; frees herself from the gas chamber
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_junon_execution }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_cloud_found_in_mideel
+    role: finds Cloud and stays by him
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_mideel }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_night_before_the_end
+    role: stays with Cloud through the night
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_highwind }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_into_the_northern_cave
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_northern_cave }]
+        certainty: stated

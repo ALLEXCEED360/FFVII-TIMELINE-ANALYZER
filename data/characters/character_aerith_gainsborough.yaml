@@ -175,3 +175,11 @@ relationships:
       og:
         sources: [{ title: og, disc: 1, segment: og_bone_village, scene: "Parting with Aeris" }]
         certainty: stated
+
+  - type: participated_in
+    target: event_aerith_prayer_revealed
+    role: her prayer for Holy, made before she died
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_aerith_prayer }]
+        certainty: stated

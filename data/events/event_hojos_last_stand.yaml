@@ -1,0 +1,46 @@
+id: event_hojos_last_stand
+name: Hojo's Last Stand
+summary: >-
+  Hojo seizes the Sister Ray to pour Midgar's mako into Sephiroth. Atop the cannon he tells Cloud
+  that Sephiroth is his son, then injects himself with Jenova's cells and is defeated.
+when: { year: 0 }
+seq: 355
+importance: 3
+arc: arc_shinras_last_stand
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      The party parachutes into Midgar and fights through Heidegger and Scarlet's Proud Clod to the
+      Sister Ray, where Hojo is driving the reactors past their limit. He reveals he gave the woman
+      carrying his child to the Jenova Project, making Sephiroth his son, and fights them with
+      Jenova's cells in his own body.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_midgar_raid }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_midgar_raid,
+          scene: "'One or two Midgars? ...it's a small price to pay'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_midgar_raid,
+          scene: "'What will Sephiroth think when he finds out I'm his father?'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_midgar_raid,
+          scene: "'I've injected Jenova's cells into my own body!'",
+        }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_midgar
+    titles:
+      og: { sources: [{ title: og, disc: 2, segment: og_midgar_raid }], certainty: stated }

@@ -38,3 +38,11 @@ relationships:
     titles:
       og: { sources: [{ title: og, disc: 1, segment: og_cosmo_canyon }], certainty: stated }
       rebirth: { sources: [{ title: rebirth, chapter: 10 }], certainty: stated }
+
+  - type: participated_in
+    target: event_aerith_prayer_revealed
+    role: reads the Ancients' message about Holy
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_aerith_prayer }]
+        certainty: stated

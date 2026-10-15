@@ -1,0 +1,40 @@
+id: event_into_the_northern_cave
+name: Into the Northern Cave
+summary: >-
+  The party descends through the Northern Crater toward the centre of the planet, splitting up to
+  hold back its monsters, and fights Jenova one last time before reaching Sephiroth.
+when: { year: 0 }
+seq: 380
+importance: 2
+arc: arc_the_final_battle
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      With Sephiroth's barrier gone, the Highwind flies into the crater. The party splits at its
+      forks and regroups at the bottom; as monsters pour in, the others send Cloud ahead with two
+      companions, who face Jenova·SYNTHESIS at the planet's core.
+    depictions:
+      - { at: { title: og, disc: 3, segment: og_northern_cave }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 3,
+          segment: og_northern_cave,
+          scene: "'The road splits into two. We'll split into two groups.'",
+        }
+      - {
+          title: og,
+          disc: 3,
+          segment: og_northern_cave,
+          scene: "'You take two of us with you and go first'",
+        }
+      - { title: og, disc: 3, segment: og_northern_cave, scene: "Jenova·SYNTHESIS" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_northern_crater
+    titles:
+      og: { sources: [{ title: og, disc: 3, segment: og_northern_cave }], certainty: stated }

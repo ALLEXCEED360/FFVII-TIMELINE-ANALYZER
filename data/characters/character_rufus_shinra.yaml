@@ -86,3 +86,27 @@ relationships:
     target: event_meteor_summoned
     titles:
       og: { sources: [{ title: og, disc: 2, segment: og_northern_crater }], certainty: stated }
+
+  - type: participated_in
+    target: event_junon_execution
+    role: orders the execution
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_junon_execution }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_weapon_attacks_midgar
+    role: reported dead
+    titles:
+      og:
+        sources:
+          [
+            {
+              title: og,
+              disc: 2,
+              segment: og_midgar_raid,
+              scene: "Heidegger: 'The President is dead!'",
+            },
+          ]
+        certainty: stated

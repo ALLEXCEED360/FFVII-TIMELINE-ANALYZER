@@ -45,7 +45,7 @@ The four games, as the home menu shows them.
 | **Archive**    | Each game chapter by chapter, and who and what each one shows                            |
 | **Config**     | Background music, motion, the title screen, the Buster Sword cursor, the spoiler warning |
 
-Around it: a title screen over Midgar at night, a home menu in the original's pause-menu style that you can drive with the arrows or W A S D, the original's blue window between sections, and 121 official pictures behind every screen. The full look is in [`docs/design.md`](docs/design.md).
+Around it: a title screen over Midgar at night, a home menu in the original's pause-menu style that you can drive with the arrows or W A S D, the original's blue window between sections, and 132 official pictures behind every screen. The full look is in [`docs/design.md`](docs/design.md).
 
 ## ☞ Materia
 

@@ -265,3 +265,65 @@ relationships:
       og:
         sources: [{ title: og, disc: 1, segment: og_bone_village, scene: "Parting with Aeris" }]
         certainty: stated
+
+  - type: participated_in
+    target: event_cloud_found_in_mideel
+    role: found with severe mako poisoning
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_mideel }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_race_for_the_huge_materia
+    role: back with the party at the underwater reactor
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_underwater_reactor }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_rocket_launch
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_rocket_launch }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_aerith_prayer_revealed
+    role: realises what Aerith did
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_aerith_prayer }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_weapon_attacks_midgar
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: confronts Hojo
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_night_before_the_end
+    role: sends everyone home to find their reasons
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_highwind }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_into_the_northern_cave
+    role: goes ahead to Sephiroth
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_northern_cave }]
+        certainty: stated

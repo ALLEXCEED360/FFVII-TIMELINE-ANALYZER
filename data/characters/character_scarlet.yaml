@@ -107,3 +107,27 @@ relationships:
           sources: [{ title: intermission, chapter: 2, scene: "A Fateful Confrontation" }],
           certainty: stated,
         }
+
+  - type: participated_in
+    target: event_junon_execution
+    role: stages the execution
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_junon_execution }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_race_for_the_huge_materia
+    role: proposes ramming Meteor with Huge Materia
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_corel_huge_materia }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: fights the party in her Proud Clod
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated

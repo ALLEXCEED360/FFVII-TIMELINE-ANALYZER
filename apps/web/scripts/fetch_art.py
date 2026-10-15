@@ -158,6 +158,17 @@ ART: dict[str, tuple[str, int]] = {
     "moments/aerith-altar": ("Cloud and Aerith in the ending from FFVII Rebirth.png", 1600),
     "moments/sephiroth-reborn": ("Sephiroth Reborn in edge of creation from FFVII Rebirth.png", 1600),
     "moments/nanaki-seto": ("Nanaki finds Seto from FFVII Rebirth.png", 1600),
+    "moments/junon-gas-chamber": ("Junon gas chamber.png", 1600),
+    "moments/shocking-reunion": ("Shocking Reunion from FFVII.png", 1600),
+    "moments/shinra-submarine": ("FFVII-Submarine.jpg", 1600),
+    "moments/shinra-no-26": ("Shinra 26 Rocket FFVII Model.jpg", 1600),
+    "moments/white-materia": ("WaterAltar-ffvii-fmv-white.png", 1600),
+    "moments/diamond-weapon": ("DiamondWeapon-ffvii-fmv-attack.png", 1600),
+    "moments/sister-ray": ("SisterRay-ffvii-fmv-charge.png", 1600),
+    "moments/highwind-boosters": ("Highwind-ffvii-fmv-jet.png", 1600),
+    "moments/northern-cave": ("Northern Cave Dungeon Infobox Image.png", 1600),
+    "places/mideel": ("FFVII-Mideel.jpg", 1600),
+    "places/fort-condor": ("Fort Condor FFVII Concept Art.jpg", 1600),
 }
 
 
@@ -211,6 +222,8 @@ CROP = {
     "characters/rufus-og": (0.124, 0, 1, 1),  # centre the figure
     "characters/zack-og": (0, 0, 0.584, 1),  # centre the figure
     "places/under-junon": (0, 0, 1, 0.66),  # the mini-game's instructions
+    "moments/shocking-reunion": (0, 0, 1, 0.665),  # the dialogue box
+    "moments/northern-cave": (0, 0.14, 1, 1),  # the game's menu button
 }
 # knockout: the flat studio background around a render becomes transparent, so every character
 # stands on the page the same way.

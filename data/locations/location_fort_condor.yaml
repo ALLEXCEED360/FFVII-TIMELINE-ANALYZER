@@ -1,0 +1,22 @@
+id: location_fort_condor
+name: Fort Condor
+summary: >-
+  A fortress built around an old mako reactor where a giant condor nests, defended by local people
+  against Shinra.
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Its defenders hold off Shinra's attack to protect the condor and its egg. Afterwards they hand
+      the party the Huge Materia from the reactor beneath the nest.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_fort_condor_huge_materia }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_fort_condor_huge_materia,
+          scene: "'We weren't protectin' the reactor, we were protectin' the condors'",
+        }
+    certainty: stated

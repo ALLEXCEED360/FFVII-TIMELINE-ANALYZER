@@ -88,3 +88,42 @@ relationships:
               scene: "'Them Shinra's ar' all gathered at Cid's Rocket Town'",
             }
         certainty: stated
+
+  - type: participated_in
+    target: event_junon_execution
+    role: flies the Highwind to their rescue
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_junon_execution }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_race_for_the_huge_materia
+    role: the party's new leader
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_corel_huge_materia }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_rocket_launch
+    role: flies into space at last
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_rocket_launch }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_night_before_the_end
+    role: comes back
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_highwind }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_into_the_northern_cave
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_northern_cave }]
+        certainty: stated

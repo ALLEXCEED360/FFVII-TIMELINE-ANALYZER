@@ -66,3 +66,26 @@ relationships:
       og:
         sources: [{ title: og, disc: 1, segment: og_keystone, scene: "'Yes, I was a spy'" }]
         certainty: stated
+
+  - type: participated_in
+    target: event_junon_execution
+    role: helps Barret and Tifa escape
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_junon_execution }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_night_before_the_end
+    role: comes back
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_highwind }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_into_the_northern_cave
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_northern_cave }]
+        certainty: stated

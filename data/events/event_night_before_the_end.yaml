@@ -1,0 +1,34 @@
+id: event_night_before_the_end
+name: The Night Before the Final Battle
+summary: >-
+  With a week until Meteor falls, Cloud sends everyone home to find their own reason to fight.
+  Tifa stays with him under the Highwind until dawn, and the others all come back.
+when: { year: 0 }
+seq: 360
+importance: 2
+arc: arc_shinras_last_stand
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Cloud admits his fight is personal, and asks the others to leave the ship and make sure of
+      what they are fighting for. Tifa, with no one left to go to, spends the night with him under
+      the airship. In the morning the rest return, and Cloud sets course for the North Cave.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_highwind }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_highwind,
+          scene: "'Get off the ship and find out your reasons for yourselves'",
+        }
+      - { title: og, disc: 2, segment: og_highwind, scene: "Below the Highwind" }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_highwind,
+          scene: "'Our target is the North Cave. Our enemy is......Sephiroth!'",
+        }
+    certainty: stated

@@ -1,0 +1,48 @@
+id: event_junon_execution
+name: The Execution in Junon
+summary: >-
+  Shinra blames Tifa and Barret for Meteor and sets out to execute them on live television in
+  Junon; a Weapon's attack breaks it up, and the Highwind carries them off.
+when: { year: 0 }
+seq: 305
+importance: 2
+arc: arc_meteor
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Rufus orders the execution to give the frightened public someone to blame, and Scarlet stages
+      it in a gas chamber in front of the cameras. Weapon attacks Junon in the middle of it; Cait
+      Sith helps Barret, Tifa frees herself from the gas chamber, and Cid's airship, the Highwind,
+      picks them up.
+    depictions:
+      - { at: { title: og, disc: 2, segment: og_junon_execution }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 2,
+          segment: og_junon_execution,
+          scene: "'You are to be executed for causing this situation'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_junon_execution,
+          scene: "'We will be broadcasting your miserable deaths live on national television'",
+        }
+      - {
+          title: og,
+          disc: 2,
+          segment: og_junon_execution,
+          scene: "'Welcome to my airship-the Highwind!'",
+        }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_junon
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_junon_execution, scene: "In Junon" }]
+        certainty: stated
