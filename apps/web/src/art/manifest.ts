@@ -407,6 +407,8 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("places/mideel", "640x480", "scene", {}),
   art("moments/gateway-to-heaven", "432x336", "scene", {}),
   art("moments/old-corel", "800x224", "scene", {}),
+  art("moments/zacks-parents", "600x295", "scene", {}),
+  art("moments/gongaga-reactor-weapon", "1600x900", "scene", {}),
   art("moments/dyne-attacks", "1600x900", "scene", {
     focus: "45% 35%",
   }),
@@ -497,6 +499,8 @@ export const MOMENT_ART: Readonly<Record<string, string>> = {
   event_framed_at_the_gold_saucer: "moments/gateway-to-heaven",
   event_barret_faces_dyne: "moments/dyne-attacks",
   event_burning_of_corel: "moments/old-corel",
+  event_zacks_parents: "moments/zacks-parents",
+  event_tifa_in_the_lifestream: "moments/gongaga-reactor-weapon",
   event_keystone_stolen: "moments/keystone-stolen",
   event_aerith_dream_in_the_sleeping_forest: "moments/aerith-dream",
   event_junon_execution: "moments/junon-gas-chamber",

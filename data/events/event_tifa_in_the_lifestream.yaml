@@ -1,0 +1,36 @@
+id: event_tifa_in_the_lifestream
+name: Tifa in the Lifestream
+summary: >-
+  In the Gongaga reactor, a voice turns Cloud against Tifa and she ends up in the Lifestream. There
+  she relives the night Cloud stayed with her on Mt. Nibel, and back with the party she tells him
+  it is her turn to save him.
+when: { year: 0 }
+seq: 230
+importance: 2
+arc: arc_across_the_sea
+
+appearances:
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Whispers swarm the reactor, and Scarlet arrives with machines to wipe the party out. As they
+      fight, a voice tells Cloud that Jenova would take anyone's form to fool her prey, and he
+      turns on Tifa, insisting she isn't herself. In the Lifestream, Tifa relives the night she
+      climbed Mt. Nibel to find her mother and sees black Whispers fighting the planet alongside
+      Sephiroth. Back with the others, she tells Cloud she now remembers he stayed with her that
+      night; when he admits he feels he is falling apart, she says he saved her once and now it is
+      her turn.
+    depictions:
+      - { at: { title: rebirth, chapter: 9 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 9, scene: "'Jenova would become anyone to fool her prey'" }
+      - { title: rebirth, chapter: 9, scene: "Tifa: 'when the rest of them ran, you were there'" }
+      - { title: rebirth, chapter: 9, scene: "Cloud: 'I'm falling apart'" }
+    certainty: stated
+    notes: New in the Remake series; the original has no counterpart.
+
+relationships:
+  - type: occurred_at
+    target: location_gongaga_reactor
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 9 }], certainty: stated }

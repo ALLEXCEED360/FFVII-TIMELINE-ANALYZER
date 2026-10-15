@@ -22,3 +22,16 @@ appearances:
         }
       - { title: og, disc: 1, segment: og_gongaga, scene: "The home of Zack's parents" }
     certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      A jungle village famous for its mushrooms. Its reactor failed three years ago after Shinra
+      neglected it, and Shinra put up a memorial. A local militia, the Coalition, keeps watch, and
+      Zack's parents still wait to hear from their son.
+    depictions:
+      - { at: { title: rebirth, chapter: 9 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 9, scene: "'Welcome to Gongaga'" }
+      - { title: rebirth, chapter: 9, scene: "the home of Zack's parents" }
+    certainty: stated

@@ -1,0 +1,66 @@
+id: event_zacks_parents
+name: Zack's Parents
+summary: >-
+  In Gongaga, Zack's parents ask the party whether they know their son, who left home to join
+  SOLDIER and hasn't been in touch since. Cloud doesn't remember him; Aerith tells Cloud that Zack
+  was her first love.
+when: { year: 0 }
+seq: 229
+importance: 1
+arc: arc_across_the_sea
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      An optional visit. Zack's parents ask Cloud whether he has met their son in SOLDIER. If Aerith
+      or Tifa is with him, they ask whether she was the girlfriend Zack wrote about six or seven
+      years ago; Aerith tells Cloud afterwards that Zack was her first love. Cloud finds the name
+      familiar but can't place it.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_gongaga, optional: true }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_gongaga,
+          scene: "'You ever hear of a Zack in SOLDIER?'",
+          optional: true,
+        }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_gongaga,
+          scene: "Aerith: 'He was my first love'",
+          optional: true,
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Seeing a man who looks like Zack, Aerith speaks to him and finds Zack's parents. They ask
+      whether she and Cloud know their son Zack Fair, who left to chase his dreams and stopped
+      writing, and ask them to tell him to get in touch. Afterwards Aerith tells Cloud that Zack
+      was her first love; Cloud doesn't know who he is.
+    depictions:
+      - { at: { title: rebirth, chapter: 9 }, framing: direct }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 9,
+          scene: "'You wouldn't happen to know our son, would you? Zack Fair'",
+        }
+      - { title: rebirth, chapter: 9, scene: "Aerith: 'he was my first love'" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_gongaga
+    titles:
+      og:
+        {
+          sources: [{ title: og, disc: 1, segment: og_gongaga, optional: true }],
+          certainty: stated,
+        }
+      rebirth: { sources: [{ title: rebirth, chapter: 9 }], certainty: stated }

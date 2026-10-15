@@ -51,6 +51,21 @@
     The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
     from what they say were used.
 
+- id: src_youtube_rebirth_chapter_9
+  name: Recorded cutscenes of Final Fantasy VII Rebirth, chapter 9 (YouTube)
+  kind: footage
+  role: evidence
+  covers: [rebirth]
+  usedFor: >-
+    Chapter 9, which the transcript leaves thin: Gongaga, Zack's parents, Tifa in the Lifestream
+    and Cid's first appearance. Read through the videos' automatic subtitles.
+  url: https://www.youtube.com/watch?v=cddn3wviGB4
+  accessed: 2026-10-15
+  notes: >-
+    Checked line by line against a second recording (https://www.youtube.com/watch?v=aV8pFQSGizM).
+    The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
+    from what they say were used.
+
 - id: src_yinza_og_script
   name: Yinza — Final Fantasy VII Complete Script (index)
   kind: transcript

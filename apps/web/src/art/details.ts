@@ -723,6 +723,17 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
     title: "Dyne attacks, Final Fantasy VII Rebirth (in-game still)",
     wiki: "Dyne attacks from FFVII Rebirth.png",
   },
+  "moments/zacks-parents": {
+    alt: "Inside a timber house in Gongaga in the original: the party gathered round a table with Zack's mother and father.",
+    title: "Zack's parents in Gongaga, Final Fantasy VII (screenshot)",
+    wiki: "Gongaga Zack's parents from FFVII.png",
+  },
+  "moments/gongaga-reactor-weapon": {
+    alt: "Inside the ruined Gongaga reactor, a red winged machine faces a huge blue-green Weapon rising from glowing water, black Whispers swirling above.",
+    title:
+      "The Crimson Mare Mk II and the Weapon in the Gongaga reactor, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "The Crimson Mare Mk II and the Weapon in the Gongaga reactor from FFVII Rebirth.png",
+  },
 };
 
 /** An image's description and credit. */

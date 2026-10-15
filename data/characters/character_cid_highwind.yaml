@@ -40,12 +40,16 @@ appearances:
     status: depicted
     role: A pilot who flies the party
     summary: >-
-      Flies the party in the patched-up Tiny Bronco, styling himself the captain of their ship,
+      Introduces himself as the president and pilot of Bronco Airlines when the party sends up
+      smoke at Gongaga's old airstrip, and flies them toward Cosmo Canyon. Later he flies the party
+      in the patched-up Tiny Bronco, styling himself the captain of their ship,
       tells Barret he still works with Shinra now and then, and tags along to the Gold Saucer. He
       is with the party at the Temple of the Ancients and the Forgotten Capital.
     depictions:
+      - { at: { title: rebirth, chapter: 9 }, framing: direct }
       - { at: { title: rebirth, chapter: 12 }, framing: direct }
     sources:
+      - { title: rebirth, chapter: 9, scene: "'president and pilot of Bronco Airlines'" }
       - { title: rebirth, chapter: 12, scene: "'think of me as the captain of your ship'" }
       - { title: rebirth, chapter: 12, scene: "Full Speed Ahead: 'Still do, on occasion'" }
       - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }

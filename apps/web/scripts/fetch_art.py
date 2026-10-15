@@ -173,6 +173,8 @@ ART: dict[str, tuple[str, int]] = {
     "moments/aerith-tseng-marlene": ("FFVIIR Aerith Tseng Marlene angle.png", 1600),
     "moments/old-corel": ("Old Corel.jpg", 1600),
     "moments/dyne-attacks": ("Dyne attacks from FFVII Rebirth.png", 1600),
+    "moments/zacks-parents": ("Gongaga Zack's parents from FFVII.png", 1600),
+    "moments/gongaga-reactor-weapon": ("The Crimson Mare Mk II and the Weapon in the Gongaga reactor from FFVII Rebirth.png", 1600),
 }
 
 
@@ -228,6 +230,7 @@ CROP = {
     "places/under-junon": (0, 0, 1, 0.66),  # the mini-game's instructions
     "moments/shocking-reunion": (0, 0, 1, 0.665),  # the dialogue box
     "moments/northern-cave": (0, 0.14, 1, 1),  # the game's menu button
+    "moments/zacks-parents": (0, 0.3, 1, 1),  # the dialogue box
 }
 # knockout: the flat studio background around a render becomes transparent, so every character
 # stands on the page the same way.

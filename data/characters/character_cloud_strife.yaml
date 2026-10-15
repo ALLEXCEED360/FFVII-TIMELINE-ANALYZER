@@ -377,3 +377,20 @@ relationships:
       og: { sources: [{ title: og, disc: 1, segment: og_sector_7_pillar }], certainty: stated }
       remake:
         { sources: [{ title: remake, chapter: 12, scene: "Tseng's message" }], certainty: stated }
+
+  - type: participated_in
+    target: event_zacks_parents
+    role: doesn't remember Zack
+    titles:
+      og:
+        {
+          sources: [{ title: og, disc: 1, segment: og_gongaga, optional: true }],
+          certainty: stated,
+        }
+      rebirth: { sources: [{ title: rebirth, chapter: 9 }], certainty: stated }
+
+  - type: participated_in
+    target: event_tifa_in_the_lifestream
+    role: turned against Tifa by a voice
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 9 }], certainty: stated }

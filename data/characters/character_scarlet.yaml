@@ -165,3 +165,18 @@ relationships:
       og:
         sources: [{ title: og, disc: 1, segment: og_corel_prison, scene: "Barret's flashback" }]
         certainty: stated
+
+  - type: participated_in
+    target: event_tifa_in_the_lifestream
+    role: sets her machines on the party
+    titles:
+      rebirth:
+        sources:
+          [
+            {
+              title: rebirth,
+              chapter: 9,
+              scene: "'I had the foresight to bring some exterminators'",
+            },
+          ]
+        certainty: stated

@@ -15,6 +15,21 @@ appearances:
       - { title: og, disc: 1, segment: og_gongaga, scene: "'This reactor's a failure'" }
     certainty: stated
 
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Old and never maintained, it failed catastrophically three years ago. Whispers now swarm it,
+      and the party goes in after a sound like a Weapon's, where Scarlet's machines attack them.
+    depictions:
+      - { at: { title: rebirth, chapter: 9 }, framing: direct }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 9,
+          scene: "'3 years ago the reactor here suffered a catastrophic failure'",
+        }
+    certainty: stated
+
 relationships:
   - type: part_of
     target: location_gongaga
