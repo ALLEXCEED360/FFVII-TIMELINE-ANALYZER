@@ -4,7 +4,7 @@ summary: >-
   At the Gold Saucer, Cait Sith takes the Keystone that opens the Temple of the Ancients for Shinra,
   and the party learns he has been working for the company all along.
 when: { year: 0 }
-seq: 235
+seq: 236
 importance: 2
 arc: arc_the_promised_land
 

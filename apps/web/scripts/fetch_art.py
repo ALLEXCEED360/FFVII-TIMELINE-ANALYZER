@@ -178,6 +178,8 @@ ART: dict[str, tuple[str, int]] = {
     "moments/kalm-parachutes": ("Shinra parachute forces in Kalm from FFVII Rebirth.jpg", 1600),
     "moments/mt-nibel": ("Mt Nibel from FFVII Rebirth.png", 1600),
     "moments/midgardsormr": ("Midgardsormr attacks from FFVII Rebirth.png", 1600),
+    "moments/zack-brings-cloud": ("Zack brings Cloud to Midgar from FFVII Rebirth.png", 1600),
+    "moments/corel-reactor": ("Corel reactor.png", 1600),
 }
 
 

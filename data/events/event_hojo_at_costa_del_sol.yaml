@@ -27,7 +27,9 @@ appearances:
     status: depicted
     summary: >-
       He arrives as the Shinra executive the resort has been waiting for, tells Aerith he isn't
-      there for her, and promises a "special" show.
+      there for her, and promises a "special" show. Then he gathers the robed men on the beach
+      for an experiment, delighting that "only a reunion could produce such results", and the
+      party fights what comes of it.
     depictions:
       - { at: { title: rebirth, chapter: 6 }, framing: direct }
     sources:

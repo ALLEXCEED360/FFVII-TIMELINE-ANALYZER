@@ -156,11 +156,12 @@ describe("entity", () => {
     const found = await entity(db, "character_aerith_gainsborough");
     if (found === undefined || "redirectTo" in found) throw new Error("not found");
     expect(found.aliases).toEqual(["Aeris", "Aeris Gainsborough"]);
-    expect(found.appearances.map((a) => a.title)).toEqual([
-      "og",
-      "remake",
-      "intermission",
-      "rebirth",
+    expect(found.appearances.map((a) => [a.title, a.world])).toEqual([
+      ["og", "world_main"],
+      ["remake", "world_main"],
+      ["intermission", "world_main"],
+      ["rebirth", "world_main"],
+      ["rebirth", "world_zack_survives"],
     ]);
     const killed = found.relationships.find((r) => r.type === "killed");
     expect(killed).toMatchObject({

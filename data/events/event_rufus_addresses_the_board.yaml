@@ -1,0 +1,39 @@
+id: event_rufus_addresses_the_board
+name: Rufus Addresses the Board
+summary: >-
+  In a board meeting as President, Rufus sets Shinra hunting the materia carried by the Weapons
+  appearing at its reactors, and answers Reeve's question about Sector 7 by saying Shinra must
+  change.
+when: { year: 0 }
+seq: 227
+importance: 1
+arc: arc_across_the_sea
+
+appearances:
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Rufus tells his executives that simultaneous energy spikes were detected in reactors across
+      the world, and shows them what Hojo recognizes as a Weapon. He launches the Magnus Materia
+      Project to capture the Weapons' materia, over Scarlet's objection that Shinra is close to
+      making such materia itself, because Wutai is after them too. Reeve asks why Shinra used
+      AVALANCHE as cover to sabotage its own reactors and destroy Sector 7; Rufus answers that his
+      father had grown rash in his old age, and that Shinra must change.
+    depictions:
+      - { at: { title: rebirth, chapter: 7 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 7, scene: "Rufus: 'the Magnus Materia Project'" }
+      - { title: rebirth, chapter: 7, scene: "Rufus: 'Wutai is after them'" }
+      - { title: rebirth, chapter: 7, scene: "Reeve: 'We used Avalanche's activities as a cover'" }
+    certainty: stated
+    notes: New in the Remake series; the original has no counterpart.
+
+relationships:
+  - type: occurred_at
+    target: location_shinra_building
+    titles:
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 7, scene: "Executive Boardroom" }],
+          certainty: stated,
+        }

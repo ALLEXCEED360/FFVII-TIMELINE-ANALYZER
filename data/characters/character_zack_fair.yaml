@@ -118,3 +118,14 @@ relationships:
       og:
         sources: [{ title: og, disc: 2, segment: og_inside_clouds_mind }]
         certainty: stated
+
+  - type: participated_in
+    target: event_zack_reaches_aerith
+    role: fights off the troops to reach her
+    titles:
+      rebirth:
+        {
+          world: world_zack_survives,
+          sources: [{ title: rebirth, part: interlude }],
+          certainty: stated,
+        }

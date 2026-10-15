@@ -121,11 +121,12 @@ relationships:
 
   - type: participated_in
     target: event_jenova_on_the_cargo_ship
-    role: aboard in disguise
+    role: aboard the ship
     titles:
       og:
         sources: [{ title: og, disc: 1, segment: og_cargo_ship }]
         certainty: stated
+      rebirth: { sources: [{ title: rebirth, chapter: 5 }], certainty: stated }
 
   - type: participated_in
     target: event_junon_execution
@@ -193,3 +194,22 @@ relationships:
     role: fights the serpent off
     titles:
       rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }
+
+  - type: participated_in
+    target: event_turks_in_the_mythril_mine
+    role: arrives with Barret
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 3 }], certainty: stated }
+
+  - type: participated_in
+    target: event_hojo_at_costa_del_sol
+    role: fights Hojo's specimens
+    titles:
+      rebirth:
+        { sources: [{ title: rebirth, chapter: 6, scene: "Hojo's Mojo" }], certainty: stated }
+
+  - type: participated_in
+    target: event_weapon_at_the_corel_reactor
+    role: explains what a Weapon is
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 7 }], certainty: stated }

@@ -137,3 +137,9 @@ relationships:
           sources: [{ title: remake, chapter: 10, scene: "Escape to the Surface" }],
           certainty: stated,
         }
+
+  - type: participated_in
+    target: event_rufus_addresses_the_board
+    role: asks about Sector 7
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 7 }], certainty: stated }

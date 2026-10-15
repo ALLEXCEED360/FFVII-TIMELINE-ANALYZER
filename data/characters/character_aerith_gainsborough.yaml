@@ -65,6 +65,20 @@ appearances:
       - { title: rebirth, chapter: 14, scene: "as the last living Cetra" }
     certainty: stated
 
+  - title: rebirth
+    world: world_zack_survives
+    status: depicted
+    role: Kept from Shinra by Zack, then taken home by Elmyra
+    summary: >-
+      Shinra troops try to recover her from a downed helicopter; Zack fights them off, and Elmyra
+      brings a wheelchair to take her home.
+    depictions:
+      - { at: { title: rebirth, part: interlude }, framing: direct }
+    sources:
+      - { title: rebirth, part: interlude, scene: "'Protect the Ancient!'" }
+      - { title: rebirth, part: interlude, scene: "Mother and Daughter" }
+    certainty: stated
+
 relationships:
   - type: lives_in
     target: location_midgar
@@ -205,11 +219,12 @@ relationships:
 
   - type: participated_in
     target: event_jenova_on_the_cargo_ship
-    role: aboard in disguise
+    role: aboard the ship
     titles:
       og:
         sources: [{ title: og, disc: 1, segment: og_cargo_ship }]
         certainty: stated
+      rebirth: { sources: [{ title: rebirth, chapter: 5 }], certainty: stated }
 
   - type: participated_in
     target: event_aerith_taken_by_shinra
@@ -253,3 +268,25 @@ relationships:
     role: calls her blood a curse and a blessing
     titles:
       rebirth: { sources: [{ title: rebirth, chapter: 10 }], certainty: stated }
+
+  - type: participated_in
+    target: event_zack_reaches_aerith
+    role: recovered from Shinra's helicopter
+    titles:
+      rebirth:
+        {
+          world: world_zack_survives,
+          sources: [{ title: rebirth, part: interlude }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_turks_in_the_mythril_mine
+    role: fights Elena and Rude
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 3 }], certainty: stated }
+
+  - type: participated_in
+    target: event_weapon_at_the_corel_reactor
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 7 }], certainty: stated }

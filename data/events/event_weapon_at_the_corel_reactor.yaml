@@ -1,0 +1,32 @@
+id: event_weapon_at_the_corel_reactor
+name: A Weapon at the Corel Reactor
+summary: >-
+  At the Corel reactor, the party sees a Weapon, a creature said to appear only when the planet is
+  in grave danger, with a huge materia inside it.
+when: { year: 0 }
+seq: 228
+importance: 1
+arc: arc_across_the_sea
+
+appearances:
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Following the robed men to the reactor on Mt. Corel, the party sees a Weapon rise from the
+      mako. Red XIII explains that such guardians appear only when the planet is in grave danger,
+      and that Hojo has sought them for years; Yuffie claims the giant materia inside it. Barret
+      takes it as proof that AVALANCHE was right about the threat Shinra poses.
+    depictions:
+      - { at: { title: rebirth, chapter: 7 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 7, scene: "State of the Reactor: 'A Weapon.'" }
+      - { title: rebirth, chapter: 7, scene: "Barret: 'Avalanche was right'" }
+    certainty: stated
+    notes: New in the Remake series; the original has no counterpart.
+
+relationships:
+  - type: occurred_at
+    target: location_corel
+    titles:
+      rebirth:
+        { sources: [{ title: rebirth, chapter: 7, scene: "Corel Reactor" }], certainty: stated }

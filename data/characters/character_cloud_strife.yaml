@@ -413,3 +413,19 @@ relationships:
     role: knocked out, comes round asking after Sephiroth
     titles:
       rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }
+
+  - type: participated_in
+    target: event_zack_reaches_aerith
+    role: left in a stranger's care
+    titles:
+      rebirth:
+        {
+          world: world_zack_survives,
+          sources: [{ title: rebirth, part: interlude }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_weapon_at_the_corel_reactor
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 7 }], certainty: stated }

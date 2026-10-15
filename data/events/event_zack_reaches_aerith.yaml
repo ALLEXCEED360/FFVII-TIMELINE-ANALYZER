@@ -1,0 +1,43 @@
+id: event_zack_reaches_aerith
+name: Zack Reaches Aerith
+summary: >-
+  In the world where Zack survives, he carries Cloud into Midgar, fights off the Shinra troops
+  trying to recover Aerith from a downed helicopter, and Elmyra takes her home.
+when: { year: 0 }
+seq: 167
+importance: 1
+arc: arc_midgar
+
+appearances:
+  - title: rebirth
+    world: world_zack_survives
+    status: depicted
+    summary: >-
+      As the news reports the tornado's damage and a fugitive ex-SOLDIER with a buster sword, Zack
+      leaves Cloud with a stranger, "too much mako, but he'll be fine", and runs to a downed
+      Shinra helicopter whose troops are ordered to protect the Ancient. He fights them off and
+      hides Aerith in an abandoned house in the Sector 5 undercity, where Elmyra comes with a
+      wheelchair to take her home, and Cloud with her.
+    depictions:
+      - { at: { title: rebirth, part: interlude }, framing: direct }
+    sources:
+      - { title: rebirth, part: interlude, scene: "Zack: 'Could ya look after my friend?'" }
+      - { title: rebirth, part: interlude, scene: "'Protect the Ancient!'" }
+      - {
+          title: rebirth,
+          part: interlude,
+          scene: "Mother and Daughter: 'I'm going to take her home'",
+        }
+    certainty: stated
+    notes: New in the Remake series; the original has no counterpart.
+
+relationships:
+  - type: occurred_at
+    target: location_midgar
+    titles:
+      rebirth:
+        {
+          world: world_zack_survives,
+          sources: [{ title: rebirth, part: interlude }],
+          certainty: stated,
+        }

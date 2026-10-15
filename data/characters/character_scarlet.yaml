@@ -180,3 +180,9 @@ relationships:
             },
           ]
         certainty: stated
+
+  - type: participated_in
+    target: event_rufus_addresses_the_board
+    role: objects, then asks for troops
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 7 }], certainty: stated }

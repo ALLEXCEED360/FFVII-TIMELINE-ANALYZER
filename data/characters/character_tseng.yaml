@@ -112,6 +112,11 @@ relationships:
       og:
         sources: [{ title: og, disc: 1, segment: og_road_to_junon, scene: "Going After Sephiroth" }]
         certainty: stated
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 3, scene: "'stay out of our way'" }],
+          certainty: stated,
+        }
 
   - type: participated_in
     target: event_keystone_stolen

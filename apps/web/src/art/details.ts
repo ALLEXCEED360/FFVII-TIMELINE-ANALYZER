@@ -749,6 +749,16 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
     title: "Midgardsormr attacks, Final Fantasy VII Rebirth (in-game still)",
     wiki: "Midgardsormr attacks from FFVII Rebirth.png",
   },
+  "moments/zack-brings-cloud": {
+    alt: "Zack, buster sword on his back, half-carrying Cloud across a wasteland toward Midgar's great wall.",
+    title: "Zack brings Cloud to Midgar, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Zack brings Cloud to Midgar from FFVII Rebirth.png",
+  },
+  "moments/corel-reactor": {
+    alt: "The Corel reactor in the original: a mako tower glowing green in a pit among the mountains at dusk.",
+    title: "The Corel reactor, Final Fantasy VII (screenshot)",
+    wiki: "Corel reactor.png",
+  },
 };
 
 /** An image's description and credit. */

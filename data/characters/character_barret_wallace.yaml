@@ -303,3 +303,26 @@ relationships:
     role: fights the serpent off
     titles:
       rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }
+
+  - type: participated_in
+    target: event_turks_in_the_mythril_mine
+    role: holds Tseng at gunpoint
+    titles:
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 3, scene: "'Hands in the air!'" }],
+          certainty: stated,
+        }
+
+  - type: participated_in
+    target: event_hojo_at_costa_del_sol
+    role: fights Hojo's specimens
+    titles:
+      rebirth:
+        { sources: [{ title: rebirth, chapter: 6, scene: "Hojo's Mojo" }], certainty: stated }
+
+  - type: participated_in
+    target: event_weapon_at_the_corel_reactor
+    role: takes it as proof AVALANCHE was right
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 7 }], certainty: stated }

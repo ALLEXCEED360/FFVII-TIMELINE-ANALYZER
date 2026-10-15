@@ -123,3 +123,14 @@ relationships:
       og: { sources: [{ title: og, disc: 1, segment: og_aerith_story }], certainty: stated }
       remake:
         { sources: [{ title: remake, chapter: 13, scene: "Words of Hope" }], certainty: stated }
+
+  - type: participated_in
+    target: event_zack_reaches_aerith
+    role: comes to take Aerith home
+    titles:
+      rebirth:
+        {
+          world: world_zack_survives,
+          sources: [{ title: rebirth, part: interlude, scene: "Knock at the Door" }],
+          certainty: stated,
+        }

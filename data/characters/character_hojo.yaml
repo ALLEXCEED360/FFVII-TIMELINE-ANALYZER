@@ -215,3 +215,9 @@ relationships:
       og:
         sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
         certainty: stated
+
+  - type: participated_in
+    target: event_rufus_addresses_the_board
+    role: recognizes the Weapon
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 7 }], certainty: stated }

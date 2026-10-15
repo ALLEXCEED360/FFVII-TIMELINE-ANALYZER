@@ -28,12 +28,20 @@ appearances:
   - title: rebirth
     status: depicted
     summary: >-
-      Following the black-robed figures through the mine's old tunnels, the party overhears Elena
-      and Rude: Reno has been sent off to rest, and Elena wants to put Cloud down.
+      Following the black-robed figures through the mine's old tunnels, Cloud, Tifa and Aerith
+      overhear Elena and Rude: Reno has been sent off to rest, and Elena wants to put Cloud down.
+      They fight; then Barret and Red XIII arrive and Barret holds Tseng at gunpoint. Tseng tells
+      them that while they are still wanted fugitives, if they stay out of the Turks' way, the
+      Turks will stay out of theirs.
     depictions:
       - { at: { title: rebirth, chapter: 3 }, framing: direct }
     sources:
       - { title: rebirth, chapter: 3, scene: "Where They Lead: Old Republic Tunnels" }
+      - {
+          title: rebirth,
+          chapter: 3,
+          scene: "Tseng: 'if you stay out of our way, we'll stay out of yours'",
+        }
     certainty: stated
 
 differences:
