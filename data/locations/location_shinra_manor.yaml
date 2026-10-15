@@ -24,16 +24,17 @@ appearances:
     status: depicted
     summary: >-
       In Cloud's account Sephiroth disappears into a basement no one in the village knew of, and
-      reads the Jenova Project's records there.
+      reads the Jenova Project's records there. Five years later the party goes in to reach its
+      terminal, is trapped inside, and meets Vincent Valentine, who calls himself its security.
     depictions:
-      - { at: { title: rebirth, chapter: 1 }, framing: disputed_account }
+      - { at: { title: rebirth, chapter: 1 }, framing: disputed_account, primary: true }
+      - { at: { title: rebirth, chapter: 11 }, framing: direct }
     sources:
       - { title: rebirth, chapter: 1, scene: "To Shinra Manor: Shinra Manor / Entrance" }
       - { title: rebirth, chapter: 1, scene: "Underground Cavern" }
+      - { title: rebirth, chapter: 11, scene: "'Welcome to Shinra Manor'" }
+      - { title: rebirth, chapter: 11, scene: "Vincent: 'I'm security'" }
     certainty: stated
-    notes: >-
-      Vincent's coffin in chapter 11 is in an unnamed room in the transcript, so that scene isn't
-      cited here.
 
 relationships:
   - type: part_of

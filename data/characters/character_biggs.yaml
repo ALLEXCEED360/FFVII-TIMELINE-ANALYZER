@@ -51,9 +51,30 @@ appearances:
     sources:
       - { title: rebirth, chapter: 13, scene: "Corridor of Effigies: 'Biggs?'" }
     certainty: stated
-    notes: >-
-      Rebirth's interludes, in which he also appears, are missing from the transcript used; see
-      the open question on them.
+
+  - title: rebirth
+    world: world_zack_survives
+    status: depicted
+    role: Alive after Sector 7, looking for a reason to have survived
+    summary: >-
+      In the world where Zack survives, Biggs is alive and wonders why he was spared. He puts up
+      flyers calling for new AVALANCHE recruits, but nobody comes, and Zack tells him it is up to
+      each of them to find their own purpose. Later Biggs tells Zack he has found his in AVALANCHE
+      and warns him to steer clear of Reactor 6. When Zack catches up with him there, the reactor
+      has run dry and Biggs's bomb has failed.
+    depictions:
+      - { at: { title: rebirth, chapter: 10 }, framing: direct }
+      - { at: { title: rebirth, chapter: 12 }, framing: direct }
+      - { at: { title: rebirth, chapter: 14 }, framing: direct }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 10,
+          scene: "Biggs: 'I thought I might have been saved for a reason'",
+        }
+      - { title: rebirth, chapter: 12, scene: "'steer clear of Reactor 6'" }
+      - { title: rebirth, chapter: 14, scene: "Biggs: 'figures it'd fail'" }
+    certainty: stated
 
 relationships:
   - type: member_of

@@ -84,6 +84,10 @@ relationships:
         notes: >-
           Found sleeping in a coffin in the mansion's basement, where he has slept for years to
           atone; "lives in" is our reading of that.
+      rebirth:
+        sources: [{ title: rebirth, chapter: 11, scene: "Vincent: 'I'm security'" }]
+        certainty: inferred
+        notes: Found in the manor's depths, where he calls himself its security.
 
   - type: participated_in
     target: event_junon_execution

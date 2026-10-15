@@ -109,6 +109,34 @@
     The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
     from what they say were used.
 
+- id: src_youtube_rebirth_chapter_13
+  name: Recorded cutscenes of Final Fantasy VII Rebirth, chapter 13 (YouTube)
+  kind: footage
+  role: evidence
+  covers: [rebirth]
+  usedFor: >-
+    The end of chapter 13, where the transcript breaks off: the black materia, the falling temple and Cait Sith. Read through the videos' automatic subtitles.
+  url: https://www.youtube.com/watch?v=VjUQilOg6CI
+  accessed: 2026-10-15
+  notes: >-
+    Checked line by line against a second recording (https://www.youtube.com/watch?v=sktuI8o3hFM).
+    The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
+    from what they say were used.
+
+- id: src_youtube_rebirth_chapter_14
+  name: Recorded cutscenes of Final Fantasy VII Rebirth, chapter 14 (YouTube)
+  kind: footage
+  role: evidence
+  covers: [rebirth]
+  usedFor: >-
+    Chapter 14's gaps: how Sephiroth got the black materia, Aerith's resolve, and Biggs in the world where Zack survives (with the chapter 10 and 12 recordings). Read through the videos' automatic subtitles.
+  url: https://www.youtube.com/watch?v=KTfrfm2kkbI
+  accessed: 2026-10-15
+  notes: >-
+    Checked line by line against a second recording (https://www.youtube.com/watch?v=3FGulW3dUPw).
+    The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
+    from what they say were used.
+
 - id: src_yinza_og_script
   name: Yinza — Final Fantasy VII Complete Script (index)
   kind: transcript

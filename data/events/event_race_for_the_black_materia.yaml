@@ -34,20 +34,53 @@ appearances:
     summary: >-
       Sephiroth, in the form of a robed man, strikes down Tseng. The party passes the temple's
       trials, and the Cetra's murals tell of Jenova and of the Gi, who forged the black materia.
-      Sephiroth declares his purpose, and when Cloud reaches the materia, Aerith tries to stop him
-      as the temple begins to fall.
+      Sephiroth declares that the black materia will summon Meteor and that he, son of Jenova,
+      will claim his birthright. Lifting the materia brings the temple down; Cait Sith stays
+      behind to hold it up and is crushed, then turns up again in another body. When Cloud
+      reaches the materia, Aerith tries to stop him. Afterwards Cloud admits that Sephiroth beat
+      him and took it.
     depictions:
       - { at: { title: rebirth, chapter: 13 }, framing: direct }
     sources:
       - { title: rebirth, chapter: 13, scene: "Hall of Resurrection" }
       - { title: rebirth, chapter: 13, scene: "Dreams of Oblivion" }
       - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }
+      - { title: rebirth, chapter: 13, scene: "Cait Sith: 'leave the heavy lifting to me'" }
+      - {
+          title: rebirth,
+          chapter: 13,
+          scene: "Cait Sith: 'this beautiful body is but one of many'",
+        }
+      - {
+          title: rebirth,
+          chapter: 14,
+          scene: "Cloud: 'he beat the crap out of me and took the materia'",
+        }
     certainty: stated
-    notes: >-
-      The transcript used is incomplete from here to the end of the chapter; what becomes of the
-      black materia in Rebirth is an open question (question_rebirth_black_materia).
 
 differences:
+  - key: materia_taken
+    from: { title: og }
+    to: { title: rebirth }
+    category: context
+    magnitude: minor
+    summary: >-
+      In OG, Cloud, under Sephiroth's control, hands the black materia over himself. In Rebirth,
+      Cloud says Sephiroth beat him and took it.
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_temple_of_the_ancients,
+          scene: "Cloud hands over the black materia",
+        }
+      - {
+          title: rebirth,
+          chapter: 14,
+          scene: "Cloud: 'he beat the crap out of me and took the materia'",
+        }
+    certainty: stated
+
   - key: gi_origin
     from: { title: og }
     to: { title: rebirth }

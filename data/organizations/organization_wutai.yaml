@@ -47,13 +47,18 @@ appearances:
     certainty: stated
 
   - title: rebirth
-    status: referenced
+    status: depicted
     summary: >-
       Governed by an interim government after a revolution, and bound by a fragile cease-fire with
-      Shinra; its emissary visits Rufus in Junon.
+      Shinra; its emissary visits Rufus in Junon. Near Nibelheim its ninjas clash with Shinra at
+      the reactor despite the cease-fire, and a representative of the interim government
+      broadcasts a call to rise up against Shinra.
     depictions:
       - { at: { title: rebirth, chapter: 4 }, framing: mention }
+      - { at: { title: rebirth, chapter: 11 }, framing: direct }
     sources:
       - { title: rebirth, chapter: 4, scene: "In Search of Lost Robes: 'An emissary from Wutai'" }
       - { title: rebirth, chapter: 7, scene: "Corel Reactor: Yuffie on the revolution" }
+      - { title: rebirth, chapter: 11, scene: "Yuffie: 'they're ninjas from Wutai'" }
+      - { title: rebirth, chapter: 11, scene: "'a representative of Wutai's interim government'" }
     certainty: stated

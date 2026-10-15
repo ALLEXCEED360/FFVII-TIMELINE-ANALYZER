@@ -33,12 +33,14 @@ appearances:
   - title: rebirth
     status: depicted
     summary: >-
+      Going on alone, Aerith says she will put everything she has into her prayers to stop Meteor.
       At the altar, Cloud appears to block Sephiroth's blade, before the scene resolves into
       Sephiroth killing Aerith. After she is laid to rest in the pool, Cloud goes on seeing and
       speaking with her; Tifa does not see her.
     depictions:
       - { at: { title: rebirth, chapter: 14 }, framing: direct }
     sources:
+      - { title: rebirth, chapter: 14, scene: "Aerith: 'I'll stop the meteor'" }
       - { title: rebirth, chapter: 14, scene: "the altar, the funeral at the pool, the departure" }
     certainty: ambiguous
     notes: >-

@@ -84,13 +84,13 @@
 
 - id: question_rebirth_black_materia
   kind: needs_footage
-  summary: What becomes of the black materia in Rebirth (chapters 13–14)
+  summary: Whether Meteor is summoned in Rebirth (chapters 13–14)
   details: >-
-    The transcript breaks off as Cloud reaches the black materia and the temple begins to fall, and
-    resumes with stage directions at the end of chapter 14 in which Cloud puts the black materia
-    into his sword. Whether Cloud hands it over, what happens to Cait Sith, and whether Meteor is
-    summoned all need checking against the game.
-  entities: [event_race_for_the_black_materia, character_cait_sith, event_meteor_summoned]
+    The footage subtitles settle what is said: Sephiroth takes the black materia from Cloud, and
+    Cait Sith gives up a body in the falling temple. Whether Meteor is summoned is shown rather
+    than said, and the end of chapter 14 has Cloud with the black materia again; both need
+    checking against the game.
+  entities: [event_race_for_the_black_materia, event_meteor_summoned]
   sources:
     - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }
     - { title: rebirth, chapter: 14, scene: "the ending" }
@@ -114,39 +114,17 @@
     by first name only. Add their full names, with the title that states them, once checked.
   entities: [character_yuffie, character_jessie]
 
-- id: question_rebirth_interludes
-  kind: not_in_dataset
-  summary: Rebirth's interludes with Zack and Biggs
-  details: >-
-    The transcript used marks the interludes in which Zack carries Cloud and meets Biggs as
-    missing, so Biggs's part in them isn't recorded. Check against the game and add it as a
-    Rebirth appearance in the world where Zack survives.
-  entities: [character_biggs, character_zack_fair]
-  sources: [{ title: rebirth, chapter: 10, scene: "Undying Wish" }]
-
 - id: question_rebirth_places
   kind: not_in_dataset
   summary: Places Rebirth visits that its transcript doesn't name
   details: >-
-    The transcript used is empty for chapter 8 (the Gold Saucer, Corel Prison and the town of
-    North Corel), thin for chapter 9, where the party drives south to "another run-down reactor"
-    without naming Gongaga, and has nothing for Rocket Town or the Sleeping Forest. Vincent's
-    coffin in chapter 11 is in an unnamed room. Add each place's Rebirth appearance, and the
-    links that depend on it (Cid in Rocket Town, Zack's hometown, Dyne in Corel Prison, Vincent
-    in the Shinra Manor), once checked against the game. The same gap leaves out how Rebirth
-    tells the Keystone's theft and Cait Sith's unmasking.
-  entities:
-    [
-      location_gold_saucer,
-      location_corel_prison,
-      location_corel,
-      location_gongaga,
-      location_gongaga_reactor,
-      location_rocket_town,
-      location_sleeping_forest,
-      location_shinra_manor,
-      event_keystone_stolen,
-    ]
+    The Gold Saucer, Corel Prison, Gongaga and its reactor, the Shinra Manor and the Keystone's
+    theft are now recorded from footage subtitles. Still missing: the town of North Corel, Rocket
+    Town and the Sleeping Forest, which the subtitles don't name, and the links that depend on
+    them (Cid in Rocket Town). Zack's hometown is named in Rebirth's main world (Aerith: "this is
+    where he grew up"), but Zack himself appears only in the world where he survives, so the link
+    waits on how to record it.
+  entities: [location_corel, location_rocket_town, location_sleeping_forest, character_zack_fair]
   sources:
     - { title: rebirth, chapter: 8 }
     - { title: rebirth, chapter: 9, scene: "'another run-down reactor'" }
