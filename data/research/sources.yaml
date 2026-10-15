@@ -36,6 +36,21 @@
     Incomplete when accessed — chapter 8 empty, chapter 9 thin, and chapters 10–14 partly in
     stage-direction summaries.
 
+- id: src_youtube_rebirth_chapter_8
+  name: Recorded cutscenes of Final Fantasy VII Rebirth, chapter 8 (YouTube)
+  kind: footage
+  role: evidence
+  covers: [rebirth]
+  usedFor: >-
+    Chapter 8, which the transcript leaves empty: the Gold Saucer shooting, Barret's story of
+    Corel, and Dyne. Read through the videos' automatic subtitles.
+  url: https://www.youtube.com/watch?v=v6moorXnTE0
+  accessed: 2026-10-14
+  notes: >-
+    Checked line by line against a second recording (https://www.youtube.com/watch?v=cJARSg4F72o).
+    The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
+    from what they say were used.
+
 - id: src_yinza_og_script
   name: Yinza — Final Fantasy VII Complete Script (index)
   kind: transcript

@@ -365,12 +365,12 @@ relationships:
 
   - type: participated_in
     target: event_framed_at_the_gold_saucer
-    role: blamed for the killings
+    role: under suspicion with the party
     titles:
       og:
         sources: [{ title: og, disc: 1, segment: og_gold_saucer }]
         certainty: stated
-
+      rebirth: { sources: [{ title: rebirth, chapter: 8 }], certainty: stated }
   - type: participated_in
     target: event_aerith_taken_by_shinra
     titles:

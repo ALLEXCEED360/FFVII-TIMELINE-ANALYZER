@@ -713,6 +713,16 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
     title: "Tseng finds Aerith and Marlene, Final Fantasy VII Remake (in-game still)",
     wiki: "FFVIIR Aerith Tseng Marlene angle.png",
   },
+  "moments/old-corel": {
+    alt: "Corel before it burned, in the original: timber houses, a water tower and the Mine Pub on a dusty street at dusk.",
+    title: "Old Corel, Final Fantasy VII (screenshot)",
+    wiki: "Old Corel.jpg",
+  },
+  "moments/dyne-attacks": {
+    alt: "Dyne in the desert below the Gold Saucer, teeth bared, raising the gun grafted to his arm.",
+    title: "Dyne attacks, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Dyne attacks from FFVII Rebirth.png",
+  },
 };
 
 /** An image's description and credit. */

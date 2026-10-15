@@ -23,16 +23,24 @@ appearances:
     certainty: stated
 
   - title: rebirth
-    status: referenced
-    summary: Barret starts to recall riding the minecarts with him, and trails off.
+    status: depicted
+    role: Barret's old friend, the gunman behind the Gold Saucer shooting
+    summary: >-
+      Barret starts to recall riding the minecarts with him, and trails off. At the Gold Saucer,
+      Barret names him as the man who shot the Coliseum guests; found in the desert below, he
+      blames Barret for all he lost, fights him, and cannot face going back to Marlene.
     depictions:
       - { at: { title: rebirth, chapter: 7 }, framing: mention }
+      - { at: { title: rebirth, chapter: 8 }, framing: direct, primary: true }
     sources:
       - { title: rebirth, chapter: 7, scene: "Continue Your Search: 'Me and Dyne used to...'" }
+      - {
+          title: rebirth,
+          chapter: 8,
+          scene: "Barret: 'I know the man who murdered all those people'",
+        }
+      - { title: rebirth, chapter: 8, scene: "Dyne: 'How could I ever hold my daughter again?'" }
     certainty: stated
-    notes: >-
-      Rebirth's Corel Prison chapter is empty in the transcript used, so anything more it shows of
-      him is left out until checked; see the open question on chapters 8 and 9.
 
 relationships:
   - type: parent_of
@@ -52,6 +60,10 @@ relationships:
             ],
           certainty: stated,
         }
+      rebirth:
+        sources:
+          [{ title: rebirth, chapter: 8, scene: "'How could I ever hold my daughter again?'" }]
+        certainty: stated
 
   - type: hometown
     target: location_corel
@@ -73,3 +85,26 @@ relationships:
         sources:
           - { title: og, disc: 1, segment: og_corel_prison, scene: "Upon reaching Dyne's hideout" }
         certainty: stated
+
+  - type: participated_in
+    target: event_framed_at_the_gold_saucer
+    role: the gunman, by Barret's account
+    titles:
+      rebirth:
+        sources:
+          [{ title: rebirth, chapter: 8, scene: "'I know the man who murdered all those people'" }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_burning_of_corel
+    role: loses his wife and his arm
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_corel_prison }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 8 }], certainty: stated }
+
+  - type: participated_in
+    target: event_barret_faces_dyne
+    role: fights Barret
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_corel_prison }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 8 }], certainty: stated }

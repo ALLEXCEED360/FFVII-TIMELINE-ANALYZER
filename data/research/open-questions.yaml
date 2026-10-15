@@ -95,26 +95,17 @@
     - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }
     - { title: rebirth, chapter: 14, scene: "the ending" }
 
-- id: question_rebirth_chapters_8_9
+- id: question_rebirth_chapter_9
   kind: not_in_dataset
-  summary: Rebirth's Gold Saucer and Corel chapters
+  summary: Rebirth's chapter 9, and where it first brings in Cid
   details: >-
-    The transcript used is empty for chapter 8 and thin for chapter 9, which cover the Gold
-    Saucer, Corel Prison and Barret's past — including the burning of Corel, Dyne, where Cait
-    Sith joins, and the party being framed at the Gold Saucer. These are left out until checked
-    against the game. Dyne is cited in Rebirth only
-    from Barret's mention of him in chapter 7, and Cid only from chapter 12, which opens with the
-    Tiny Bronco already repaired; where and how Rebirth first brings Cid in needs checking.
-  entities:
-    [
-      character_cait_sith,
-      character_barret_wallace,
-      character_dyne,
-      character_cid_highwind,
-      event_framed_at_the_gold_saucer,
-    ]
+    The transcript used is thin for chapter 9. Chapter 8 (the Gold Saucer and Corel Prison) was
+    added from the subtitles of recorded cutscene footage; those subtitles don't name speakers, so
+    only lines whose speaker is clear were used. Cid is cited in Rebirth only from chapter 12, which
+    opens with the Tiny Bronco already repaired; where and how Rebirth first brings him in needs
+    checking.
+  entities: [character_cid_highwind]
   sources:
-    - { title: rebirth, chapter: 8 }
     - { title: rebirth, chapter: 9 }
 
 - id: question_midgar_zolom

@@ -39,11 +39,14 @@ appearances:
     certainty: stated
 
   - title: rebirth
-    status: referenced
+    status: depicted
     summary: >-
-      Chocobo ranchers talk of its races, and Cait Sith says its director, Dio, may know where
-      the keystone went.
+      Chocobo ranchers talk of its races. The party arrives in chapter 8: Cloud wins a golden ticket
+      in a bout with its director, Dio, they stay at its hotel, and a shooting in the Coliseum
+      lobby sends them down to the desert below. Later, Cait Sith says Dio may know where the
+      keystone went.
     depictions:
+      - { at: { title: rebirth, chapter: 8 }, framing: direct, primary: true }
       - { at: { title: rebirth, chapter: 12 }, framing: mention }
     sources:
       - {
@@ -51,8 +54,6 @@ appearances:
           chapter: 2,
           scene: "Break in the Saddle: 'win a race or two at the Gold Saucer'",
         }
+      - { title: rebirth, chapter: 8, scene: "Dio: 'Welcome to our gilded paradise'" }
       - { title: rebirth, chapter: 12, scene: "Full Speed Ahead: 'we're bound for the Saucer'" }
     certainty: stated
-    notes: >-
-      The party visits the park in chapter 8, which is empty in the transcript used; it is cited
-      as referenced until that chapter is checked.

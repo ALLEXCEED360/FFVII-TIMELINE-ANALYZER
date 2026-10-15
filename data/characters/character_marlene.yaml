@@ -121,3 +121,11 @@ relationships:
       og: { sources: [{ title: og, disc: 1, segment: og_aerith_story }], certainty: stated }
       remake:
         { sources: [{ title: remake, chapter: 12, scene: "Saving Marlene" }], certainty: stated }
+
+  - type: participated_in
+    target: event_burning_of_corel
+    role: saved by Barret when her house was about to come down
+    titles:
+      rebirth:
+        sources: [{ title: rebirth, chapter: 8, scene: "Barret: 'I heard her crying'" }]
+        certainty: stated

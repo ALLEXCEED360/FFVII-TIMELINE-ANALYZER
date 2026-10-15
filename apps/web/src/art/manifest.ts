@@ -406,6 +406,10 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("moments/northern-cave", "1600x774", "scene", {}),
   art("places/mideel", "640x480", "scene", {}),
   art("moments/gateway-to-heaven", "432x336", "scene", {}),
+  art("moments/old-corel", "800x224", "scene", {}),
+  art("moments/dyne-attacks", "1600x900", "scene", {
+    focus: "45% 35%",
+  }),
   art("moments/aerith-tseng-marlene", "1600x900", "scene", {
     focus: "55% 50%",
   }),
@@ -491,6 +495,8 @@ export const MOMENT_ART: Readonly<Record<string, string>> = {
   event_turks_in_the_mythril_mine: "moments/turks-in-mythril-mine",
   event_hojo_at_costa_del_sol: "moments/hojo-at-costa-del-sol",
   event_framed_at_the_gold_saucer: "moments/gateway-to-heaven",
+  event_barret_faces_dyne: "moments/dyne-attacks",
+  event_burning_of_corel: "moments/old-corel",
   event_keystone_stolen: "moments/keystone-stolen",
   event_aerith_dream_in_the_sleeping_forest: "moments/aerith-dream",
   event_junon_execution: "moments/junon-gas-chamber",

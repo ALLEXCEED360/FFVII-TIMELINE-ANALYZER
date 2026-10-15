@@ -22,3 +22,19 @@ appearances:
         }
       - { title: og, disc: 1, segment: og_corel_prison, scene: "Upon reaching Dyne's hideout" }
     certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      The Dustbowl below the Gold Saucer, where the park's staff once lived until fiends drove them
+      out; with no bars and no rules, it has come to be called Corel Prison. The party goes down to
+      find the gunman, and Barret finds Dyne in the desert beyond.
+    depictions:
+      - { at: { title: rebirth, chapter: 8 }, framing: direct }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 8,
+          scene: "'why else do you think they started calling it Corel Prison'",
+        }
+    certainty: stated

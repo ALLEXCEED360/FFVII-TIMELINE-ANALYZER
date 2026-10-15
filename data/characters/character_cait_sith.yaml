@@ -22,17 +22,17 @@ appearances:
     status: depicted
     role: Travels with the party, claiming to work at a small Shinra subsidiary
     summary: >-
-      Travels with the party, telling Barret he is a nobody at a small Shinra subsidiary, and is
-      with them at the Temple of the Ancients and the Forgotten Capital.
+      Meets Cloud at the Gold Saucer as a fortune teller, finds the party hotel rooms, and brings
+      Cloud word of the shooting. Travels with the party, telling Barret he is a nobody at a small
+      Shinra subsidiary, and is with them at the Temple of the Ancients and the Forgotten Capital.
     depictions:
+      - { at: { title: rebirth, chapter: 8 }, framing: direct, primary: true }
       - { at: { title: rebirth, chapter: 9 }, framing: direct }
     sources:
+      - { title: rebirth, chapter: 8, scene: "'Cait Sith, fortune teller extraordinaire'" }
       - { title: rebirth, chapter: 9, scene: "'a 9-to-5 nobody at a small Shinra subsidiary'" }
       - { title: rebirth, chapter: 13, scene: "Within Our Grasp" }
     certainty: stated
-    notes: >-
-      The transcript used is empty for chapter 8, where he joins; he is cited from his first
-      recorded lines.
 
 relationships:
   - type: participated_in
@@ -140,8 +140,10 @@ relationships:
 
   - type: participated_in
     target: event_framed_at_the_gold_saucer
-    role: reads Cloud's fortune, joins him, and is caught with the party
+    role: reads Cloud's fortune
     titles:
       og:
         sources: [{ title: og, disc: 1, segment: og_gold_saucer }]
         certainty: stated
+      rebirth:
+        { sources: [{ title: rebirth, chapter: 8, scene: "the fortune" }], certainty: stated }

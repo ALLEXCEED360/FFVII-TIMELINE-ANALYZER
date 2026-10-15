@@ -1,0 +1,57 @@
+id: event_barret_faces_dyne
+name: Barret Faces Dyne
+summary: >-
+  In Corel Prison, Barret finds his old friend Dyne, who has turned his gun on anyone in reach since
+  losing everything in Corel. They fight, and though Barret tells him his daughter Marlene is
+  alive, Dyne cannot bring himself to go back to her.
+when: { year: 0 }
+seq: 228
+importance: 2
+arc: arc_across_the_sea
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Barret finds Dyne at the edge of the prison. Dyne wants to destroy everything, himself
+      included, and they fight. Told that Marlene is alive and already four, he says his hands are
+      too stained to carry her, gives Barret his wife Eleanor's pendant for her, and dies.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_corel_prison }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_corel_prison,
+          scene: "Dyne: 'I want to destroy everything... Even me...'",
+        }
+      - { title: og, disc: 1, segment: og_corel_prison, scene: "'Give that pendant to Marlene'" }
+      - { title: og, disc: 1, segment: og_corel_prison, scene: "Mr. Coates: 'So Dyne's dead...'" }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Barret tells the others the gunman is Dyne, his best friend, and insists on facing him alone.
+      Dyne blames him for everything he lost, and they fight. Barret tells him Marlene is alive,
+      just turned four and in Midgar, but Dyne asks how he could ever hold his daughter again with
+      so much blood on his hands. Barret says goodbye to his old friend, and Dio, now sure the party
+      is innocent, helps them get away.
+    depictions:
+      - { at: { title: rebirth, chapter: 8 }, framing: direct }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 8,
+          scene: "Barret: 'I know the man who murdered all those people'",
+        }
+      - { title: rebirth, chapter: 8, scene: "Dyne: 'How could I ever hold my daughter again?'" }
+      - { title: rebirth, chapter: 8, scene: "Dio: 'you are innocent, and I was wrong'" }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_corel_prison
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_corel_prison }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 8 }], certainty: stated }

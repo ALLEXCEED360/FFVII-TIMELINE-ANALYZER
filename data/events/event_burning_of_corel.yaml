@@ -1,0 +1,62 @@
+id: event_burning_of_corel
+name: The Burning of Corel
+summary: >-
+  Four years before the story, after an explosion at the new Corel reactor, Shinra blames the
+  townspeople and its troops burn Corel. Barret and Dyne lose their wives, and each loses an arm.
+when: { year: -4 }
+importance: 2
+arc: arc_across_the_sea
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Barret tells the party that Shinra blamed a reactor explosion on the people of Corel, said to
+      be rebels, and burned the town while he and Dyne were away; his wife Myrna died. In his
+      memory of the attack, Shinra soldiers, with Scarlet among them, shoot at the two as they
+      run back to the village, and Dyne clings to Barret's hand over a cliff.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_corel }, framing: flashback }
+      - { at: { title: og, disc: 1, segment: og_corel_prison }, framing: flashback, primary: true }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_corel,
+          scene: "Barret's Past: 'Shinra blamed the accident on the people'",
+        }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_corel_prison,
+          scene: "Barret's flashback: 'It's Shinra soldiers!'",
+        }
+    certainty: stated
+
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Barret tells the others how he and Dyne went to look at the Corel reactor after it blew up,
+      then came back to find Shinra troops shooting the villagers to cover it up. His wife died; a
+      doctor saved him but not his arm, and he chose a gun in its place, as Dyne did.
+    depictions:
+      - { at: { title: rebirth, chapter: 8 }, framing: flashback }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 8,
+          scene: "Barret's story: 'the Corel reactor had just gone up'",
+        }
+      - {
+          title: rebirth,
+          chapter: 8,
+          scene: "'I think they're trying to cover up what happened at the reactor'",
+        }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_corel
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_corel }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 8 }], certainty: stated }

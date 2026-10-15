@@ -1,8 +1,8 @@
 id: event_framed_at_the_gold_saucer
 name: Framed at the Gold Saucer
 summary: >-
-  At the Gold Saucer's Battle Square the party finds people shot dead. The park's owner, Dio, takes
-  them for the killers and has them thrown down into the desert prison below.
+  At the Gold Saucer, people are shot dead by a man with a gun for an arm. The park's director,
+  Dio, holds the party responsible, and they end up in the desert prison below.
 when: { year: 0 }
 seq: 227
 importance: 1
@@ -34,8 +34,49 @@ appearances:
         }
     certainty: stated
 
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Cait Sith, a fortune teller, tells Cloud he will find what he seeks but forever lose what he
+      cherishes most. Later a gunman kills a visiting Shinra director's security detail in the
+      Coliseum lobby, and guests and staff die in the crossfire. Witnesses describe a man with a
+      gun grafted to his arm, and Dio suspects Barret. When the party vouches for him, Dio gives
+      them 24 hours to find the real culprit or be handed over to Shinra, and sends them down to
+      the Dustbowl, known as Corel Prison.
+    depictions:
+      - { at: { title: rebirth, chapter: 8 }, framing: direct }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 8,
+          scene: "Cait Sith: 'you shall forever lose what you cherish most'",
+        }
+      - { title: rebirth, chapter: 8, scene: "Dio: 'a man with a gun grafted to one arm'" }
+      - { title: rebirth, chapter: 8, scene: "Dio: 'You have 24 hours'" }
+    certainty: stated
+
+differences:
+  - key: dropped_or_sent
+    from: { title: og }
+    to: { title: rebirth }
+    category: outcome
+    magnitude: minor
+    summary: >-
+      In OG, Dio takes the party for the killers and drops them into the prison. In Rebirth, he
+      suspects Barret, and sends the party down to find the real culprit within 24 hours.
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_gold_saucer,
+          scene: "Dio: 'Pay for your crime down below!!'",
+        }
+      - { title: rebirth, chapter: 8, scene: "Dio: 'You have 24 hours'" }
+    certainty: stated
+
 relationships:
   - type: occurred_at
     target: location_gold_saucer
     titles:
       og: { sources: [{ title: og, disc: 1, segment: og_gold_saucer }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 8 }], certainty: stated }
