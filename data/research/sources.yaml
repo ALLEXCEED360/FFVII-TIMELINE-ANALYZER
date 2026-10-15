@@ -66,6 +66,21 @@
     The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
     from what they say were used.
 
+- id: src_youtube_rebirth_chapter_10
+  name: Recorded cutscenes of Final Fantasy VII Rebirth, chapter 10 (YouTube)
+  kind: footage
+  role: evidence
+  covers: [rebirth]
+  usedFor: >-
+    Chapter 10, which the transcript covers only in part: Cosmo Canyon, Bugenhagen's planetarium,
+    the seminar and the River of Lights. Read through the videos' automatic subtitles.
+  url: https://www.youtube.com/watch?v=9DH9eo_UczY
+  accessed: 2026-10-15
+  notes: >-
+    Checked line by line against a second recording (https://www.youtube.com/watch?v=qV80xUemkVI).
+    The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
+    from what they say were used.
+
 - id: src_youtube_rebirth_chapter_11
   name: Recorded cutscenes of Final Fantasy VII Rebirth, chapter 11 (YouTube)
   kind: footage

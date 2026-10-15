@@ -407,3 +407,9 @@ relationships:
     role: remembers Zack, and believes he is dead
     titles:
       rebirth: { sources: [{ title: rebirth, chapter: 11 }], certainty: stated }
+
+  - type: participated_in
+    target: event_midgar_zolom
+    role: knocked out, comes round asking after Sephiroth
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }

@@ -297,3 +297,9 @@ relationships:
     role: decides Cait Sith isn't worth the bullets
     titles:
       rebirth: { sources: [{ title: rebirth, chapter: 12 }], certainty: stated }
+
+  - type: participated_in
+    target: event_midgar_zolom
+    role: fights the serpent off
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }

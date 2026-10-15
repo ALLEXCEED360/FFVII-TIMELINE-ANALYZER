@@ -67,6 +67,9 @@ describe("plain words", () => {
       tellingOf({ status: "referenced", framing: "mention", world: "world_zack_survives" }),
     ).toBe("Only mentioned, in another world");
     expect(tellingOf({ status: "omitted", framing: null, world: "world_main" })).toBe("Left out");
+    expect(tellingOf({ status: "depicted", framing: "mention", world: "world_main" })).toBe(
+      "Talked about",
+    );
   });
 
   it("says when, for someone who doesn't know the story", () => {

@@ -1,0 +1,32 @@
+id: event_river_of_lights
+name: The River of Lights
+summary: >-
+  On the night of Cosmo Canyon's River of Lights festival, Aerith says that being the last of the
+  Ancients has been a curse, but also a blessing for the friends it has brought her.
+when: { year: 0 }
+seq: 231
+importance: 1
+arc: arc_across_the_sea
+
+appearances:
+  - title: rebirth
+    status: depicted
+    summary: >-
+      After a seminar where Tifa tries to tell the planetologists what she saw in the Lifestream,
+      the canyon gathers at the great torch. Aerith says she has been held, watched and even hated
+      since she was little because of her blood; it has been a curse, but it has also brought her
+      friends she loves, and she means to repay their kindness and make the most of what she has
+      been given.
+    depictions:
+      - { at: { title: rebirth, chapter: 10 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 10, scene: "Aerith: 'my blood's been nothing but a curse'" }
+      - { title: rebirth, chapter: 10, scene: "'the River of Lights is almost upon us'" }
+    certainty: stated
+    notes: New in the Remake series; the original has no counterpart.
+
+relationships:
+  - type: occurred_at
+    target: location_cosmo_canyon
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 10 }], certainty: stated }

@@ -1,0 +1,32 @@
+id: event_midgar_zolom
+name: The Midgar Zolom
+summary: >-
+  In the marshes beyond the Chocobo Farm, the party meets the Midgar Zolom, a giant serpent, and
+  is left wondering about Sephiroth's strength.
+when: { year: 0 }
+seq: 177
+importance: 1
+arc: arc_the_journey_begins
+
+appearances:
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Crossing the swamplands by chocobo, the party is ambushed by Midgardsormr, a serpent that
+      had disguised itself as an island, and fights it off. Cloud, knocked out, comes round asking
+      after Sephiroth and saying he knew Sephiroth was strong, and is sure that the robed figures
+      they have been passing are looking for him too.
+    depictions:
+      - { at: { title: rebirth, chapter: 2 }, framing: direct }
+    sources:
+      - {
+          title: rebirth,
+          chapter: 2,
+          scene: "Through the Swamplands: 'It disguised itself as an island'",
+        }
+      - { title: rebirth, chapter: 2, scene: "Cloud: 'Those guys're looking for him too'" }
+    certainty: stated
+    notes: >-
+      In the original, the party finds the Zolom impaled near the Mythril Mine and takes it for
+      Sephiroth's work; that is shown rather than said, so it waits for a footage check
+      (question_midgar_zolom).

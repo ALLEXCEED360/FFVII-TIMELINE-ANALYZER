@@ -16,9 +16,14 @@ appearances:
 
   - title: rebirth
     status: depicted
-    summary: Nanaki's home, where Bugenhagen reveals Seto's stand and sends Nanaki back out into the world.
+    summary: >-
+      Nanaki's home and the sanctum of planetology, where a Shinra airship has just dropped wanted
+      posters of the party. Bugenhagen shows them the Lifestream in his planetarium, the canyon
+      gathers at the torch for the River of Lights, and Bugenhagen reveals Seto's stand and sends
+      Nanaki back out into the world.
     depictions:
       - { at: { title: rebirth, chapter: 10 }, framing: direct }
     sources:
+      - { title: rebirth, chapter: 10, scene: "'an airship dropped these on us this morning'" }
       - { title: rebirth, chapter: 10, scene: "The Watcher's Verdict" }
     certainty: stated

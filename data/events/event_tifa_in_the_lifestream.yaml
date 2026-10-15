@@ -22,10 +22,12 @@ appearances:
       her turn.
     depictions:
       - { at: { title: rebirth, chapter: 9 }, framing: direct }
+      - { at: { title: rebirth, chapter: 10 }, framing: mention }
     sources:
       - { title: rebirth, chapter: 9, scene: "'Jenova would become anyone to fool her prey'" }
       - { title: rebirth, chapter: 9, scene: "Tifa: 'when the rest of them ran, you were there'" }
       - { title: rebirth, chapter: 9, scene: "Cloud: 'I'm falling apart'" }
+      - { title: rebirth, chapter: 10, scene: "Tifa at the seminar: 'I fell into the Lifestream'" }
     certainty: stated
     notes: New in the Remake series; the original has no counterpart.
 

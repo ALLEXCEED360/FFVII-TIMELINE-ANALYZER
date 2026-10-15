@@ -25,7 +25,10 @@ export function tellingOf(appearance: {
               ? "Seen in a vision"
               : framing === "glimpse"
                 ? "Glimpsed"
-                : "Shown as it happens";
+                : // Shown elsewhere, only talked about at this point (a chapter page).
+                  framing === "mention"
+                  ? "Talked about"
+                  : "Shown as it happens";
   } else {
     words =
       framing === "vision"

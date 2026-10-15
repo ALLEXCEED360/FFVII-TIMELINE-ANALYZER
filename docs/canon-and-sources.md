@@ -45,7 +45,7 @@ A fact goes into `data/` only after it has been **checked against the game itsel
 
 Wikis and fan resources may be used **only to locate** a fact (which chapter, which scene). They are never the evidence.
 
-**Status of the dataset (v0.2, 2026-10-15):** 47 events, 31 characters, 27 locations and 5 organizations. Every fact was checked against full script transcripts (level 3) — see the research log in `data/research/sources.yaml`. Where a fact depends on what is _shown_ rather than said, it came from the transcripts' stage directions and is listed in `data/research/open-questions.yaml` for checking against footage before v1.0. Rebirth's chapters 8, 9, 11 and 12, missing or thin in its transcript, were added from the subtitles of recorded cutscene footage (level 2). Nothing was added from the gaps still in chapters 13–14; those are open questions too.
+**Status of the dataset (v0.2, 2026-10-15):** 49 events, 31 characters, 27 locations and 5 organizations. Every fact was checked against full script transcripts (level 3) — see the research log in `data/research/sources.yaml`. Where a fact depends on what is _shown_ rather than said, it came from the transcripts' stage directions and is listed in `data/research/open-questions.yaml` for checking against footage before v1.0. Rebirth's chapters 8 to 12, missing or thin in its transcript, were added from the subtitles of recorded cutscene footage (level 2). Nothing was added from the gaps still in chapters 13–14; those are open questions too.
 
 **The research log** (`data/research/`, decision [0012](decisions/0012-archive-and-sources.md)) records every source used, whether it is evidence or only used to locate, and every open question. It is validated with the dataset and shown at `/archive/research`.
 

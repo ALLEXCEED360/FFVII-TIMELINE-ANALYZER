@@ -97,14 +97,14 @@
 
 - id: question_midgar_zolom
   kind: needs_footage
-  summary: The Midgar Zolom (Midgardsormr) found impaled
+  summary: The Midgar Zolom found impaled, in the original
   details: >-
-    In the original, the party finds the Midgar Zolom impaled by Sephiroth near the Mythril Mine;
-    in Rebirth the party fights Midgardsormr in the swamp, and Cloud afterwards seems to sense
-    Sephiroth. Both scenes are mostly visual, so the event isn't recorded yet.
+    In the original, the party finds the Midgar Zolom impaled near the Mythril Mine and takes it
+    for Sephiroth's work. That is shown rather than said, so only Rebirth's telling is recorded in
+    the event so far.
+  entities: [event_midgar_zolom]
   sources:
     - { title: og, disc: 1, segment: og_road_to_junon, scene: "'Did Sephiroth... do this......?'" }
-    - { title: rebirth, chapter: 2, scene: "Through the Swamplands" }
 
 - id: question_full_names
   kind: structure

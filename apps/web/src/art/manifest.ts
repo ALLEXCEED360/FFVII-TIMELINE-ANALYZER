@@ -409,6 +409,9 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("moments/old-corel", "800x224", "scene", {}),
   art("moments/zacks-parents", "600x295", "scene", {}),
   art("moments/kalm-parachutes", "1600x899", "scene", {}),
+  art("moments/midgardsormr", "1600x900", "scene", {
+    focus: "65% 40%",
+  }),
   art("moments/mt-nibel", "1600x901", "scene", {
     focus: "40% 50%",
   }),
@@ -505,6 +508,8 @@ export const MOMENT_ART: Readonly<Record<string, string>> = {
   event_burning_of_corel: "moments/old-corel",
   event_zacks_parents: "moments/zacks-parents",
   event_escape_from_kalm: "moments/kalm-parachutes",
+  event_midgar_zolom: "moments/midgardsormr",
+  event_river_of_lights: "places/cosmo-canyon-torch",
   event_cloud_remembers_zack: "moments/mt-nibel",
   event_tifa_in_the_lifestream: "moments/gongaga-reactor-weapon",
   event_keystone_stolen: "moments/keystone-stolen",

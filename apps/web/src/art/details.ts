@@ -744,6 +744,11 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
     title: "Mt. Nibel, Final Fantasy VII Rebirth (in-game still)",
     wiki: "Mt Nibel from FFVII Rebirth.png",
   },
+  "moments/midgardsormr": {
+    alt: "Midgardsormr lunging out of the misty swamp, its fanged jaws gaping and its long tongue lashing.",
+    title: "Midgardsormr attacks, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Midgardsormr attacks from FFVII Rebirth.png",
+  },
 };
 
 /** An image's description and credit. */

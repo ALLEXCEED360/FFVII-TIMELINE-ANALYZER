@@ -18,10 +18,14 @@ appearances:
   - title: rebirth
     status: depicted
     role: Elder of Cosmo Canyon
-    summary: Shows Nanaki the truth about Seto and sends him back out into the world.
+    summary: >-
+      Teaches planetology in Cosmo Canyon. In his planetarium he shows the party the Lifestream, the
+      sum of the planet's spiritual energy, and warns that mako drawn off for industry can't fulfil
+      its purpose. He shows Nanaki the truth about Seto and sends him back out into the world.
     depictions:
       - { at: { title: rebirth, chapter: 10 }, framing: direct }
     sources:
+      - { title: rebirth, chapter: 10, scene: "the planetarium: 'that is the Lifestream'" }
       - { title: rebirth, chapter: 10, scene: "The Watcher's Verdict" }
     certainty: stated
 
