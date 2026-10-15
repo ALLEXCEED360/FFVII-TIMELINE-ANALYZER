@@ -1,0 +1,34 @@
+id: event_cloud_remembers_zack
+name: Cloud Remembers Zack
+summary: >-
+  Back in Nibelheim, Cloud remembers Zack as the friend from SOLDIER who came with him on the
+  mission five years before, and believes he saw him fall to his death.
+when: { year: 0 }
+seq: 232
+importance: 2
+arc: arc_across_the_sea
+
+appearances:
+  - title: rebirth
+    status: depicted
+    summary: >-
+      In the rebuilt village, Cloud recalls Zack Fair from Gongaga, who fought beside him in SOLDIER
+      and was with him on the mission there five years earlier. At the bridge on the trail to the
+      reactor, he remembers the old bridge giving way and Zack falling and being swept off by the
+      current, and says he thinks Zack is dead. Tifa asks to be the one to tell Aerith.
+    depictions:
+      - { at: { title: rebirth, chapter: 11 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 11, scene: "'You were here with me five years ago'" }
+      - { title: rebirth, chapter: 11, scene: "'The bridge broke. He fell.'" }
+      - { title: rebirth, chapter: 11, scene: "Tifa: 'Let me be the one to do it'" }
+    certainty: stated
+    notes: >-
+      New in the Remake series. What Cloud remembers is his own account; the original reveals
+      Zack's part at Nibelheim later, in the Lifestream.
+
+relationships:
+  - type: occurred_at
+    target: location_nibelheim
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 11 }], certainty: stated }

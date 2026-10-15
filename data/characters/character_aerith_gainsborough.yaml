@@ -229,3 +229,15 @@ relationships:
           certainty: stated,
         }
       rebirth: { sources: [{ title: rebirth, chapter: 9 }], certainty: stated }
+
+  - type: participated_in
+    target: event_escape_from_kalm
+    role: led back to the inn by Broden with Cloud
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }
+
+  - type: participated_in
+    target: event_keystone_stolen
+    role: claims the Keystone as her ancestors'
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 12 }], certainty: stated }

@@ -163,3 +163,9 @@ relationships:
       og:
         sources: [{ title: og, disc: 3, segment: og_finale }]
         certainty: stated
+
+  - type: participated_in
+    target: event_keystone_stolen
+    role: plans to track the Turks' helicopter
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 12 }], certainty: stated }

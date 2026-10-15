@@ -36,9 +36,18 @@ appearances:
 
   - title: rebirth
     status: depicted
-    summary: The setting of the first chapter's account of five years earlier.
+    summary: >-
+      The setting of the first chapter's account of five years earlier. When Cloud and Tifa return,
+      they find it rebuilt as if it had never burned: Shinra took the village over five years ago
+      and runs it as a treatment centre for mako poisoning, its streets full of robed figures.
     depictions:
-      - { at: { title: rebirth, chapter: 1 }, framing: disputed_account }
+      - { at: { title: rebirth, chapter: 1 }, framing: disputed_account, primary: true }
+      - { at: { title: rebirth, chapter: 11 }, framing: direct }
     sources:
       - { title: rebirth, chapter: 1, scene: "Sephiroth: Nibelheim." }
+      - {
+          title: rebirth,
+          chapter: 11,
+          scene: "'it now serves as a treatment center for mako poisoning'",
+        }
     certainty: stated

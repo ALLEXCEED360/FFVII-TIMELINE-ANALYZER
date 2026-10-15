@@ -286,3 +286,15 @@ relationships:
     role: falls into the Lifestream, and comes back to help Cloud
     titles:
       rebirth: { sources: [{ title: rebirth, chapter: 9 }], certainty: stated }
+
+  - type: participated_in
+    target: event_escape_from_kalm
+    role: waits in the air-raid shelter
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }
+
+  - type: participated_in
+    target: event_cloud_remembers_zack
+    role: asks to be the one to tell Aerith
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 11 }], certainty: stated }

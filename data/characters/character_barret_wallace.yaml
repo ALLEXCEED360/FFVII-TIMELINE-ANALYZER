@@ -285,3 +285,15 @@ relationships:
     titles:
       og: { sources: [{ title: og, disc: 1, segment: og_corel_prison }], certainty: stated }
       rebirth: { sources: [{ title: rebirth, chapter: 8 }], certainty: stated }
+
+  - type: participated_in
+    target: event_escape_from_kalm
+    role: waits in the air-raid shelter
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }
+
+  - type: participated_in
+    target: event_keystone_stolen
+    role: decides Cait Sith isn't worth the bullets
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 12 }], certainty: stated }

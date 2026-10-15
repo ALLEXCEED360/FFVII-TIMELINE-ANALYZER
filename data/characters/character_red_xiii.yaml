@@ -181,3 +181,9 @@ relationships:
       og:
         sources: [{ title: og, disc: 3, segment: og_finale }]
         certainty: stated
+
+  - type: participated_in
+    target: event_escape_from_kalm
+    role: finds the way out through the tunnel
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }

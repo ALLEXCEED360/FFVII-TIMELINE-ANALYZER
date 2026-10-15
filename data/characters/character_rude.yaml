@@ -112,3 +112,9 @@ relationships:
       og:
         sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
         certainty: stated
+
+  - type: participated_in
+    target: event_keystone_stolen
+    role: fights the party in a grudge match
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 12 }], certainty: stated }

@@ -284,6 +284,7 @@ relationships:
       og:
         sources: [{ title: og, disc: 1, segment: og_keystone, scene: "Secret Date" }]
         certainty: stated
+      rebirth: { sources: [{ title: rebirth, chapter: 12 }], certainty: stated }
 
   - type: participated_in
     target: event_aerith_dream_in_the_sleeping_forest
@@ -394,3 +395,15 @@ relationships:
     role: turned against Tifa by a voice
     titles:
       rebirth: { sources: [{ title: rebirth, chapter: 9 }], certainty: stated }
+
+  - type: participated_in
+    target: event_escape_from_kalm
+    role: led back to the inn by Broden with Aerith
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }
+
+  - type: participated_in
+    target: event_cloud_remembers_zack
+    role: remembers Zack, and believes he is dead
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 11 }], certainty: stated }

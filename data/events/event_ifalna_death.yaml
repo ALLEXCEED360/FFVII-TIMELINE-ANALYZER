@@ -41,11 +41,15 @@ appearances:
     status: referenced
     summary: >-
       Aerith tells Cloud that Hojo held her and her mother, Ifalna, prisoner as specimens because
-      Ifalna was a Cetra.
+      Ifalna was a Cetra. Later, after Cid says he once saw her mother at Shinra headquarters with
+      Aerith in her arms, Aerith tells him her mother was always frail and pushed herself too hard
+      escaping, so that Aerith could be free.
     depictions:
       - { at: { title: rebirth, chapter: 6 }, framing: mention }
+      - { at: { title: rebirth, chapter: 11 }, framing: mention }
     sources:
       - { title: rebirth, chapter: 6, scene: "When Evening Comes" }
+      - { title: rebirth, chapter: 11, scene: "Aerith: 'she pushed herself too hard'" }
     certainty: stated
 
 differences:

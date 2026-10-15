@@ -66,6 +66,11 @@ relationships:
       og:
         sources: [{ title: og, disc: 1, segment: og_keystone, scene: "'Yes, I was a spy'" }]
         certainty: stated
+      rebirth:
+        {
+          sources: [{ title: rebirth, chapter: 12, scene: "'it's Shinra property'" }],
+          certainty: stated,
+        }
 
   - type: participated_in
     target: event_junon_execution

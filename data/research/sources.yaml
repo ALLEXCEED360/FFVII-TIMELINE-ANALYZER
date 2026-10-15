@@ -66,6 +66,34 @@
     The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
     from what they say were used.
 
+- id: src_youtube_rebirth_chapter_11
+  name: Recorded cutscenes of Final Fantasy VII Rebirth, chapter 11 (YouTube)
+  kind: footage
+  role: evidence
+  covers: [rebirth]
+  usedFor: >-
+    Chapter 11, which the transcript summarises: Nibelheim rebuilt, Cloud remembering Zack, and Aerith telling Cid about her mother. Read through the videos' automatic subtitles.
+  url: https://www.youtube.com/watch?v=hg9NM_COXrE
+  accessed: 2026-10-15
+  notes: >-
+    Checked line by line against a second recording (https://www.youtube.com/watch?v=p1FFlYt0R_4).
+    The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
+    from what they say were used.
+
+- id: src_youtube_rebirth_chapter_12
+  name: Recorded cutscenes of Final Fantasy VII Rebirth, chapter 12 (YouTube)
+  kind: footage
+  role: evidence
+  covers: [rebirth]
+  usedFor: >-
+    Chapter 12, which the transcript summarises: the fight for the Gold Saucer's naming rights and Cait Sith taking the Keystone. Read through the videos' automatic subtitles.
+  url: https://www.youtube.com/watch?v=l8xG3nUWNuc
+  accessed: 2026-10-15
+  notes: >-
+    Checked line by line against a second recording (https://www.youtube.com/watch?v=5k2M0jkaTaI).
+    The subtitles are machine-made and don't name speakers, so only lines whose speaker is clear
+    from what they say were used.
+
 - id: src_yinza_og_script
   name: Yinza — Final Fantasy VII Complete Script (index)
   kind: transcript

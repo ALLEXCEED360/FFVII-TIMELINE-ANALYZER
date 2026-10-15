@@ -734,6 +734,16 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
       "The Crimson Mare Mk II and the Weapon in the Gongaga reactor, Final Fantasy VII Rebirth (in-game still)",
     wiki: "The Crimson Mare Mk II and the Weapon in the Gongaga reactor from FFVII Rebirth.png",
   },
+  "moments/kalm-parachutes": {
+    alt: "Shinra troopers parachuting into Kalm under red canopies, landing on its walled, cobbled streets.",
+    title: "Shinra forces parachute into Kalm, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Shinra parachute forces in Kalm from FFVII Rebirth.jpg",
+  },
+  "moments/mt-nibel": {
+    alt: "Mt. Nibel's jagged peaks above a pine forest in pale light, a bridge strung between the rocks.",
+    title: "Mt. Nibel, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Mt Nibel from FFVII Rebirth.png",
+  },
 };
 
 /** An image's description and credit. */

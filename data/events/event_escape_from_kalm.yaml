@@ -1,0 +1,33 @@
+id: event_escape_from_kalm
+name: Escape from Kalm
+summary: >-
+  Shinra troopers descend on Kalm hunting the party. A local named Broden guides Cloud and Aerith
+  back to the inn, and the party slips out of town through a tunnel beneath it.
+when: { year: 0 }
+seq: 175
+importance: 1
+arc: arc_the_journey_begins
+
+appearances:
+  - title: rebirth
+    status: depicted
+    summary: >-
+      As Cloud and Aerith look out from Kalm's clock tower, troopers arrive searching for the
+      "terrorists". Broden, a local who says he is on their side, leads the two back to the inn by
+      the back ways while distracting the troopers, sends them down to the air-raid shelter where
+      the others are waiting, and tells them to head east to a friend's farm. Red XIII sniffs out
+      the way through the tunnel, and the party comes out onto the grasslands.
+    depictions:
+      - { at: { title: rebirth, chapter: 2 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 2, scene: "Fugitives: 'Let's find these terrorists!'" }
+      - { title: rebirth, chapter: 2, scene: "Fleeing the Scene: 'I'm on your side'" }
+      - { title: rebirth, chapter: 2, scene: "Down and Out: the air-raid shelter" }
+    certainty: stated
+    notes: New in the Remake series; the original has no counterpart.
+
+relationships:
+  - type: occurred_at
+    target: location_kalm
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 2 }], certainty: stated }

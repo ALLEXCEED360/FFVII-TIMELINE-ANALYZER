@@ -1,8 +1,8 @@
 id: event_keystone_stolen
 name: Cait Sith Steals the Keystone
 summary: >-
-  At the Gold Saucer, Cait Sith takes the Keystone that opens the Temple of the Ancients and hands
-  it to Tseng, then admits he has been Shinra's spy all along.
+  At the Gold Saucer, Cait Sith takes the Keystone that opens the Temple of the Ancients for Shinra,
+  and the party learns he has been working for the company all along.
 when: { year: 0 }
 seq: 235
 importance: 2
@@ -27,11 +27,29 @@ appearances:
       - { title: og, disc: 1, segment: og_keystone, scene: "'Yes, I was a spy'" }
     certainty: stated
 
+  - title: rebirth
+    status: depicted
+    summary: >-
+      Dio offers the Keystone, which Aerith says her ancestors owned, if the party fights as his
+      champions against Don Corneo's family for the Gold Saucer's naming rights. They win, but as
+      soon as it is handed over Cait Sith makes off with it, calling it Shinra property. The Turks
+      take on the party in a grudge match, and Rufus himself steps into the ring against Cloud.
+      When the party finds Cait Sith, Barret decides he isn't worth the bullets. Cait Sith has
+      told the Turks where the temple is, and Cid plans to track their helicopter.
+    depictions:
+      - { at: { title: rebirth, chapter: 12 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 12, scene: "Aerith: 'my ancestors owned it'" }
+      - { title: rebirth, chapter: 12, scene: "'it's Shinra property'" }
+      - { title: rebirth, chapter: 12, scene: "'ain't worth the bullets'" }
+    certainty: stated
+
 relationships:
   - type: occurred_at
     target: location_gold_saucer
     titles:
       og: { sources: [{ title: og, disc: 1, segment: og_keystone }], certainty: stated }
+      rebirth: { sources: [{ title: rebirth, chapter: 12 }], certainty: stated }
 
   - type: caused
     target: event_race_for_the_black_materia

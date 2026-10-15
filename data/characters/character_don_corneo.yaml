@@ -36,6 +36,18 @@ appearances:
       - { title: intermission, chapter: 1, scene: "The Handoff" }
     certainty: stated
 
+  - title: rebirth
+    status: depicted
+    role: A Midgar crime boss, now at the Gold Saucer
+    summary: >-
+      His family challenges Dio for the Gold Saucer's naming rights in a fight against Dio's
+      champions, and he enters the ring himself before losing to the party.
+    depictions:
+      - { at: { title: rebirth, chapter: 12 }, framing: direct }
+    sources:
+      - { title: rebirth, chapter: 12, scene: "the fight for naming rights" }
+    certainty: stated
+
 relationships:
   - type: participated_in
     target: event_corneo_audition
@@ -87,3 +99,9 @@ relationships:
           sources: [{ title: remake, chapter: 9, scene: "'The plate will come crashing down!'" }],
           certainty: stated,
         }
+
+  - type: participated_in
+    target: event_keystone_stolen
+    role: his family fights Dio's champions for the naming rights
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 12 }], certainty: stated }

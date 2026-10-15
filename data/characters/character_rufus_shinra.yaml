@@ -131,3 +131,9 @@ relationships:
       og:
         sources: [{ title: og, disc: 2, segment: og_corel_huge_materia }]
         certainty: stated
+
+  - type: participated_in
+    target: event_keystone_stolen
+    role: steps into the ring against Cloud
+    titles:
+      rebirth: { sources: [{ title: rebirth, chapter: 12 }], certainty: stated }

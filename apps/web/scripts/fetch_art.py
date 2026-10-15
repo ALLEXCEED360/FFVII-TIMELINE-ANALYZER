@@ -175,6 +175,8 @@ ART: dict[str, tuple[str, int]] = {
     "moments/dyne-attacks": ("Dyne attacks from FFVII Rebirth.png", 1600),
     "moments/zacks-parents": ("Gongaga Zack's parents from FFVII.png", 1600),
     "moments/gongaga-reactor-weapon": ("The Crimson Mare Mk II and the Weapon in the Gongaga reactor from FFVII Rebirth.png", 1600),
+    "moments/kalm-parachutes": ("Shinra parachute forces in Kalm from FFVII Rebirth.jpg", 1600),
+    "moments/mt-nibel": ("Mt Nibel from FFVII Rebirth.png", 1600),
 }
 
 
