@@ -6722,6 +6722,10 @@
                             "type": "boolean",
                             "description": "The appearance's own sources cite this unit."
                           },
+                          "optional": {
+                            "type": "boolean",
+                            "description": "Only in some playthroughs: every citation here is optional."
+                          },
                           "depictions": {
                             "type": "array",
                             "items": {
@@ -6767,6 +6771,7 @@
                           "role",
                           "summary",
                           "cited",
+                          "optional",
                           "depictions",
                           "scenes"
                         ],
@@ -6984,6 +6989,15 @@
                           "world": {
                             "type": "string"
                           },
+                          "role": {
+                            "nullable": true,
+                            "description": "What the source did in it.",
+                            "type": "string"
+                          },
+                          "optional": {
+                            "type": "boolean",
+                            "description": "Only in some playthroughs: every citation here is optional."
+                          },
                           "scenes": {
                             "type": "array",
                             "items": {
@@ -6999,6 +7013,8 @@
                           "source",
                           "target",
                           "world",
+                          "role",
+                          "optional",
                           "scenes"
                         ],
                         "additionalProperties": false

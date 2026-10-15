@@ -127,3 +127,35 @@ relationships:
       og:
         sources: [{ title: og, disc: 3, segment: og_northern_cave }]
         certainty: stated
+
+  - type: participated_in
+    target: event_cloud_memories_restored
+    role: with Cloud and Tifa when the Lifestream erupts in Mideel
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_inside_clouds_mind }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_weapon_attacks_midgar
+    role: flies the Highwind out to meet Weapon
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: flies the party in and lands in Midgar with them
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_defeat_of_sephiroth
+    role: in the final descent
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_finale }]
+        certainty: stated

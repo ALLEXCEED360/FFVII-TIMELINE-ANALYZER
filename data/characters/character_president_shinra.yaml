@@ -115,3 +115,11 @@ relationships:
     titles:
       og: { sources: [{ title: og, disc: 1, segment: og_shinra_building }], certainty: stated }
       remake: { sources: [{ title: remake, chapter: 17 }], certainty: stated }
+
+  - type: participated_in
+    target: event_shinra_building_raid
+    role: holds the board meeting, then questions them once they are caught
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_shinra_building }]
+        certainty: stated

@@ -110,3 +110,11 @@ relationships:
         notes: >-
           His parents live in Gongaga and say he left home from there to join SOLDIER; the
           transcript doesn't name it his hometown outright.
+
+  - type: participated_in
+    target: event_cloud_memories_restored
+    role: seen in Cloud's true memories
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_inside_clouds_mind }]
+        certainty: stated

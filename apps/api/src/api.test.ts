@@ -216,9 +216,13 @@ describe("timeline, comparison, network and search", () => {
     ).body;
     expect(around.found).toBe(true);
     expect(around.cost).toBeGreaterThan(1);
-    // The original establishes none of Yuffie's relationships, so nothing reaches her there.
+    // Sonon is only in INTERmission, so nothing in the original reaches him.
     expect(
-      (await get("/network/path?from=location_northern_crater&to=character_yuffie&titles=og")).body,
+      (
+        await get(
+          "/network/path?from=location_northern_crater&to=character_sonon_kusakabe&titles=og",
+        )
+      ).body,
     ).toEqual({ found: false, cost: null, nodes: [], edges: [] });
     expect(
       (

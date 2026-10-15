@@ -89,3 +89,59 @@ relationships:
       og:
         sources: [{ title: og, disc: 3, segment: og_northern_cave }]
         certainty: stated
+
+  - type: participated_in
+    target: event_race_for_the_huge_materia
+    role: lets the party listen in on Shinra's plan
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_corel_huge_materia }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_cloud_memories_restored
+    role: hears Cloud's true story aboard the Highwind
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_inside_clouds_mind }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_aerith_prayer_revealed
+    role: in Cosmo Canyon with the others
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_cosmo_canyon_return }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_weapon_attacks_midgar
+    role: warns that something big is coming
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: shows the party the way in
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_defeat_of_sephiroth
+    role: in the final descent
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_finale }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_framed_at_the_gold_saucer
+    role: reads Cloud's fortune, joins him, and is caught with the party
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_gold_saucer }]
+        certainty: stated

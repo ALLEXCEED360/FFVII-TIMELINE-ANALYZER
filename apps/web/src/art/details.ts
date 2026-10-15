@@ -446,11 +446,10 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
     title: "Yuffie and Sonon, Final Fantasy VII Remake Intergrade (Square Enix promo screenshot)",
     wiki: "FFVII Remake Intergrade promo 3.png",
   },
-  "moments/jenova-lifeclinger": {
-    alt: "JENOVA Lifeclinger: a mass of violet, feather-like tendrils spreading from a skeletal body.",
-    title: "JENOVA Lifeclinger, Final Fantasy VII Rebirth (render of the game's model)",
-    artist: "Yare Yare Dong (render of the game's model)",
-    wiki: "JENOVA Lifeclinger from FFVII Rebirth render.png",
+  "moments/jenova-emergent": {
+    alt: "Jenova Emergent rising in the dark hold of the ship: a swollen blue mass on spindly limbs, a skull-like face at its centre.",
+    title: "Jenova Emergent appears, Final Fantasy VII Rebirth (in-game still)",
+    wiki: "Jenova Emergent appears from FFVII Rebirth.png",
   },
   "moments/ifalna-death": {
     alt: "Ifalna lying dying at a Midgar station in the rain-dim light, young Aerith beside her as Elmyra comes near.",
@@ -703,6 +702,11 @@ const DETAILS: Readonly<Record<string, Omit<ArtDetails, "artist"> & { artist?: s
     alt: "Fort Condor: a giant condor nesting on an egg atop an old reactor on a rocky peak.",
     title: "Fort Condor concept art, Final Fantasy VII (from the 25th Anniversary Ultimania)",
     wiki: "Fort Condor FFVII Concept Art.jpg",
+  },
+  "moments/gateway-to-heaven": {
+    alt: "The Gateway to Heaven in the original: a dim stone room at the Gold Saucer with chains on the walls and a round hole in the floor.",
+    title: "The Gateway to Heaven, Final Fantasy VII (screenshot)",
+    wiki: "Gateway to heaven.png",
   },
 };
 

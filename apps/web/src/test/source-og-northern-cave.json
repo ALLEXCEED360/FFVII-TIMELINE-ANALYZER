@@ -1,0 +1,191 @@
+{
+  "title": "og",
+  "unit": {
+    "key": "og_northern_cave",
+    "name": "The Northern Cave",
+    "disc": 3,
+    "position": 37,
+    "summary": "The descent into the crater's depths."
+  },
+  "previous": { "key": "og_highwind", "name": "Aboard the Highwind", "disc": 2, "position": 36 },
+  "next": { "key": "og_finale", "name": "The Final Battle", "disc": 3, "position": 38 },
+  "appearances": [
+    {
+      "entity": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "world": "world_main",
+      "status": "depicted",
+      "role": null,
+      "summary": "With Sephiroth's barrier gone, the Highwind flies into the crater. The party splits at its forks and regroups at the bottom; as monsters pour in, the others send Cloud ahead with two companions, who face JenovaÂ·SYNTHESIS at the planet's core.",
+      "cited": true,
+      "optional": false,
+      "depictions": [{ "framing": "direct", "note": null }],
+      "scenes": [
+        "'The road splits into two. We'll split into two groups.'",
+        "'You take two of us with you and go first'",
+        "JenovaÂ·SYNTHESIS"
+      ]
+    }
+  ],
+  "differences": [],
+  "relationships": [
+    {
+      "id": "edge_707ed3cede16e818",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_barret_wallace", "kind": "character", "name": "Barret Wallace" },
+      "target": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "world": "world_main",
+      "role": null,
+      "optional": false,
+      "scenes": []
+    },
+    {
+      "id": "edge_5147b276dc10be3c",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_cait_sith", "kind": "character", "name": "Cait Sith" },
+      "target": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "world": "world_main",
+      "role": null,
+      "optional": false,
+      "scenes": []
+    },
+    {
+      "id": "edge_4df756833ca9bd02",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_cid_highwind", "kind": "character", "name": "Cid Highwind" },
+      "target": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "world": "world_main",
+      "role": null,
+      "optional": false,
+      "scenes": []
+    },
+    {
+      "id": "edge_52e0cff4297454f3",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
+      "target": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "world": "world_main",
+      "role": "goes ahead to Sephiroth",
+      "optional": false,
+      "scenes": []
+    },
+    {
+      "id": "edge_f9cac2eb1e6e93e2",
+      "type": "occurred_at",
+      "label": "took place at",
+      "source": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "target": { "id": "location_northern_crater", "kind": "location", "name": "Northern Crater" },
+      "world": "world_main",
+      "role": null,
+      "optional": false,
+      "scenes": []
+    },
+    {
+      "id": "edge_1187a8895dbce20b",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_jenova", "kind": "character", "name": "Jenova" },
+      "target": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "world": "world_main",
+      "role": "fought as JenovaÂ·SYNTHESIS",
+      "optional": false,
+      "scenes": []
+    },
+    {
+      "id": "edge_d9a7fd47d16d35c1",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_red_xiii", "kind": "character", "name": "Red XIII" },
+      "target": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "world": "world_main",
+      "role": null,
+      "optional": false,
+      "scenes": []
+    },
+    {
+      "id": "edge_98a51cf9881dd635",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_tifa_lockhart", "kind": "character", "name": "Tifa Lockhart" },
+      "target": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "world": "world_main",
+      "role": null,
+      "optional": false,
+      "scenes": []
+    },
+    {
+      "id": "edge_819f2dac41f58333",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": {
+        "id": "character_vincent_valentine",
+        "kind": "character",
+        "name": "Vincent Valentine"
+      },
+      "target": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "world": "world_main",
+      "role": "goes down with the party",
+      "optional": true,
+      "scenes": []
+    },
+    {
+      "id": "edge_589795bf7fe2d605",
+      "type": "participated_in",
+      "label": "took part in",
+      "source": { "id": "character_yuffie", "kind": "character", "name": "Yuffie" },
+      "target": {
+        "id": "event_into_the_northern_cave",
+        "kind": "event",
+        "name": "Into the Northern Cave"
+      },
+      "world": "world_main",
+      "role": "goes down with the party",
+      "optional": true,
+      "scenes": []
+    }
+  ],
+  "worlds": []
+}

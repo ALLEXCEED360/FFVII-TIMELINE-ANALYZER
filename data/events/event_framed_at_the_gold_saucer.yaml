@@ -1,0 +1,41 @@
+id: event_framed_at_the_gold_saucer
+name: Framed at the Gold Saucer
+summary: >-
+  At the Gold Saucer's Battle Square the party finds people shot dead. The park's owner, Dio, takes
+  them for the killers and has them thrown down into the desert prison below.
+when: { year: 0 }
+seq: 227
+importance: 1
+arc: arc_across_the_sea
+
+appearances:
+  - title: og
+    status: depicted
+    summary: >-
+      Looking for Sephiroth's trail, Cloud meets Cait Sith, a fortune-telling toy who reads that he
+      will get what he pursues but lose something dear, and then invites himself along. At the
+      Battle Square they find bodies, all shot; a dying man says it was a man with a gun on his
+      arm. Dio arrives, blames the party, and drops them from the park into the desert prison.
+    depictions:
+      - { at: { title: og, disc: 1, segment: og_gold_saucer }, framing: direct }
+    sources:
+      - {
+          title: og,
+          disc: 1,
+          segment: og_gold_saucer,
+          scene: "'What you pursue will be yours. But you will lose something dear.'",
+        }
+      - { title: og, disc: 1, segment: og_gold_saucer, scene: "'a man with a gun...on his arm'" }
+      - {
+          title: og,
+          disc: 1,
+          segment: og_gold_saucer,
+          scene: "Dio: 'Pay for your crime down below!!'",
+        }
+    certainty: stated
+
+relationships:
+  - type: occurred_at
+    target: location_gold_saucer
+    titles:
+      og: { sources: [{ title: og, disc: 1, segment: og_gold_saucer }], certainty: stated }

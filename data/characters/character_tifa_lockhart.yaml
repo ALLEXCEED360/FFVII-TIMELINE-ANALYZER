@@ -196,3 +196,51 @@ relationships:
       og:
         sources: [{ title: og, disc: 3, segment: og_northern_cave }]
         certainty: stated
+
+  - type: participated_in
+    target: event_president_shinra_death
+    role: finds the President dead
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_shinra_building }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_jenova_on_the_cargo_ship
+    role: aboard in disguise
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_cargo_ship }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_aerith_prayer_revealed
+    role: remembers Aerith with Cloud in Cosmo Canyon
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_cosmo_canyon_return }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_weapon_attacks_midgar
+    role: watches from the Highwind
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: lands in Midgar with the party
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_defeat_of_sephiroth
+    role: with Cloud to the very end
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_finale }]
+        certainty: stated

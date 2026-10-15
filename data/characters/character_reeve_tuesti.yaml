@@ -109,3 +109,19 @@ relationships:
       og:
         sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
         certainty: stated
+
+  - type: participated_in
+    target: event_shinra_building_raid
+    role: at the board meeting the party overhears
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_shinra_building }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_weapon_attacks_midgar
+    role: told to run the reactors for the Sister Ray
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated

@@ -1899,6 +1899,8 @@ export interface paths {
                                 summary: string;
                                 /** @description The appearance's own sources cite this unit. */
                                 cited: boolean;
+                                /** @description Only in some playthroughs: every citation here is optional. */
+                                optional: boolean;
                                 /** @description Depictions set in this unit. */
                                 depictions: {
                                     /** @enum {string} */
@@ -1952,6 +1954,10 @@ export interface paths {
                                     name: string;
                                 };
                                 world: string;
+                                /** @description What the source did in it. */
+                                role: string | null;
+                                /** @description Only in some playthroughs: every citation here is optional. */
+                                optional: boolean;
                                 /** @description Scenes named by the citations. */
                                 scenes: string[];
                             }[];

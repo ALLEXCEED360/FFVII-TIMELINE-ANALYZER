@@ -88,3 +88,27 @@ relationships:
       rebirth:
         sources: [{ title: rebirth, chapter: 3, scene: "Where They Lead" }]
         certainty: stated
+
+  - type: participated_in
+    target: event_shinra_building_raid
+    role: catches them with Tseng
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_shinra_building }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_rocket_launch
+    role: guards Rocket Town for Shinra and is beaten
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_rocket_launch }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: stands in the party's way with the Turks
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated

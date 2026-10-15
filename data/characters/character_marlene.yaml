@@ -97,3 +97,19 @@ relationships:
         notes: >-
           Born to Dyne and Eleanor of Corel, and found by Barret in the burning town; the
           transcript doesn't call Corel her hometown in so many words.
+
+  - type: participated_in
+    target: event_keystone_stolen
+    role: heard over Cait Sith's communicator, held hostage
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_keystone }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_defeat_of_sephiroth
+    role: in Midgar as the Lifestream rises
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_finale }]
+        certainty: stated

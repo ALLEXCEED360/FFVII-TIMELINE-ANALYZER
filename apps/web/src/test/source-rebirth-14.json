@@ -21,8 +21,20 @@
       "role": "The last living Cetra, travelling with Cloud",
       "summary": "Travels with the party from Kalm and prays at the altar in the Forgotten Capital.",
       "cited": true,
+      "optional": false,
       "depictions": [],
       "scenes": ["as the last living Cetra"]
+    },
+    {
+      "entity": { "id": "character_cid_highwind", "kind": "character", "name": "Cid Highwind" },
+      "world": "world_main",
+      "status": "depicted",
+      "role": "A pilot who flies the party",
+      "summary": "Flies the party in the patched-up Tiny Bronco, styling himself the captain of their ship, tells Barret he still works with Shinra now and then, and tags along to the Gold Saucer. He is with the party at the Temple of the Ancients and the Forgotten Capital.",
+      "cited": true,
+      "optional": false,
+      "depictions": [],
+      "scenes": ["Beyond the Wall"]
     },
     {
       "entity": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
@@ -31,6 +43,7 @@
       "role": "Leads the pursuit of Sephiroth beyond Midgar",
       "summary": "Tells his account of Nibelheim at Kalm and follows Sephiroth to the Forgotten Capital.",
       "cited": true,
+      "optional": false,
       "depictions": [],
       "scenes": []
     },
@@ -41,6 +54,7 @@
       "role": "The party's quarry",
       "summary": "Shown in Cloud's account of Nibelheim, then pursued to the Forgotten Capital.",
       "cited": true,
+      "optional": false,
       "depictions": [{ "framing": "direct", "note": null }],
       "scenes": []
     },
@@ -51,8 +65,24 @@
       "role": "Travels with Cloud; questions his account of Nibelheim",
       "summary": "Doubts Cloud's story of Nibelheim, and is present at Aerith's death.",
       "cited": true,
+      "optional": false,
       "depictions": [],
       "scenes": []
+    },
+    {
+      "entity": {
+        "id": "character_vincent_valentine",
+        "kind": "character",
+        "name": "Vincent Valentine"
+      },
+      "world": "world_main",
+      "status": "depicted",
+      "role": "A mysterious figure who helps the party",
+      "summary": "Wakes from a coffin in the Shinra Manor, calls himself its security, and lets the party in once they show Murasaki's keycard. He knows more than he says (\"I've been around a while\"), guides the party through the Forgotten Capital and sends Cloud after Aerith at the altar.",
+      "cited": true,
+      "optional": false,
+      "depictions": [],
+      "scenes": ["Altarbound: 'She needs you. Go.'", "Guided by Fate"]
     },
     {
       "entity": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
@@ -61,6 +91,7 @@
       "role": null,
       "summary": "At the altar, Cloud appears to block Sephiroth's blade, before the scene resolves into Sephiroth killing Aerith. After she is laid to rest in the pool, Cloud goes on seeing and speaking with her; Tifa does not see her.",
       "cited": true,
+      "optional": false,
       "depictions": [{ "framing": "direct", "note": null }],
       "scenes": ["the altar, the funeral at the pool, the departure"]
     },
@@ -75,8 +106,20 @@
       "role": null,
       "summary": "The setting of the final chapter.",
       "cited": true,
+      "optional": false,
       "depictions": [{ "framing": "direct", "note": null }],
       "scenes": ["reaching the Forgotten Capital"]
+    },
+    {
+      "entity": { "id": "location_sector_5_church", "kind": "location", "name": "Sector 5 Church" },
+      "world": "world_zack_survives",
+      "status": "depicted",
+      "role": null,
+      "summary": "Zack wakes in the church at the end of the story.",
+      "cited": true,
+      "optional": false,
+      "depictions": [{ "framing": "direct", "note": null }],
+      "scenes": ["Zack's final scene in Aerith's church"]
     }
   ],
   "differences": [
@@ -113,6 +156,8 @@
       },
       "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
       "world": "world_main",
+      "role": null,
+      "optional": false,
       "scenes": []
     },
     {
@@ -122,6 +167,8 @@
       "source": { "id": "character_cloud_strife", "kind": "character", "name": "Cloud Strife" },
       "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
       "world": "world_main",
+      "role": null,
+      "optional": false,
       "scenes": []
     },
     {
@@ -135,6 +182,8 @@
         "name": "Forgotten Capital"
       },
       "world": "world_main",
+      "role": null,
+      "optional": false,
       "scenes": []
     },
     {
@@ -144,6 +193,8 @@
       "source": { "id": "character_sephiroth", "kind": "character", "name": "Sephiroth" },
       "target": { "id": "event_aerith_death", "kind": "event", "name": "Death of Aerith" },
       "world": "world_main",
+      "role": null,
+      "optional": false,
       "scenes": []
     },
     {
@@ -157,6 +208,8 @@
         "name": "Aerith Gainsborough"
       },
       "world": "world_main",
+      "role": null,
+      "optional": false,
       "scenes": []
     }
   ],

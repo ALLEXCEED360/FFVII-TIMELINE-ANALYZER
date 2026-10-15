@@ -73,6 +73,8 @@ export interface CitedAppearance {
   summary: string;
   /** Whether the appearance's own sources cite this unit (not just a depiction). */
   cited: boolean;
+  /** Only in some playthroughs: every citation here is optional. */
+  optional: boolean;
   /** Depictions set in this unit. */
   depictions: { framing: Framing; note: string | null }[];
   /** Scenes named by the citations, to help find the moment. */
@@ -97,6 +99,10 @@ export interface CitedRelationship {
   source: EntityRef;
   target: EntityRef;
   world: string;
+  /** What the source did in it. */
+  role: string | null;
+  /** Only in some playthroughs: every citation here is optional. */
+  optional: boolean;
   scenes: string[];
 }
 
@@ -145,6 +151,7 @@ export async function sourceUnit(
     select json_build_object('id', e.id, 'kind', e.kind, 'name', e.name) as entity,
       a.world, a.status, a.role, a.summary,
       bool_or(c.kind = 'appearance') as cited,
+      bool_and(c.optional) as optional,
       coalesce((
         select json_agg(json_build_object('framing', d.framing, 'note', d.note) order by d.position)
         from depictions d
@@ -184,7 +191,8 @@ export async function sourceUnit(
     select x.id, x.type,
       json_build_object('id', s.id, 'kind', s.kind, 'name', s.name) as source,
       json_build_object('id', t.id, 'kind', t.kind, 'name', t.name) as target,
-      et.world, ${SCENES} as scenes
+      et.world, x.attributes->>'role' as role,
+      bool_and(c.optional) as optional, ${SCENES} as scenes
     from citations c
     join edges x on x.id = c.edge_id
     join edge_titles et on et.edge_id = x.id and et.title = c.title

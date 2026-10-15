@@ -20,6 +20,7 @@ import reference from "./reference.json";
 import searchAeris from "./search-aeris.json";
 import searchNibelheim from "./search-nibelheim.json";
 import sourceOgForgottenCapital from "./source-og-forgotten-capital.json";
+import sourceOgNorthernCave from "./source-og-northern-cave.json";
 import sourceRebirth14 from "./source-rebirth-14.json";
 import sources from "./sources.json";
 import timeline from "./timeline.json";
@@ -48,6 +49,7 @@ const FIXTURES: Record<string, unknown> = {
   "/sources": sources,
   "/sources/rebirth/14": sourceRebirth14,
   "/sources/og/og_forgotten_capital": sourceOgForgottenCapital,
+  "/sources/og/og_northern_cave": sourceOgNorthernCave,
   "/health": { status: "ok" },
 };
 

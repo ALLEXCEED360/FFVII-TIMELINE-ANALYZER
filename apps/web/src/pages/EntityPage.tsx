@@ -384,6 +384,8 @@ function LinkChip({
   const linkTellings = tellingsIn(r.titles.map((t) => t.title));
   const only =
     linkTellings.length === 1 && tellingsIn([...games]).length > 1 ? linkTellings[0] : undefined;
+  // A telling where it only happens in some playthroughs: all its sources there are optional.
+  const optional = linkTellings.filter((telling) => telling !== only && optionalIn(r, telling));
   return (
     <span className="ent-chip-wrap">
       <Link to={entityPath(r.other.id)} className="ent-chip">
@@ -393,13 +395,29 @@ function LinkChip({
       {role && <span className="ent-chip-note">{role}</span>}
       {only && (
         <span className="ent-chip-note">
-          only in{" "}
+          {optionalIn(r, only) ? "optional, only in" : "only in"}{" "}
           <span className="cmp-game" style={{ "--c": TELLING[only].color } as CSSProperties}>
             <span aria-hidden="true" className="cmp-game-mark" />
             {TELLING[only].name.replace("The ", "the ")}
           </span>
         </span>
       )}
+      {optional.map((telling) => (
+        <span key={telling} className="ent-chip-note">
+          optional in{" "}
+          <span className="cmp-game" style={{ "--c": TELLING[telling].color } as CSSProperties}>
+            <span aria-hidden="true" className="cmp-game-mark" />
+            {TELLING[telling].name.replace("The ", "the ")}
+          </span>
+        </span>
+      ))}
     </span>
   );
+}
+
+/** Whether the link only happens in some playthroughs of this telling: all its sources there are optional. */
+function optionalIn(r: Relationship, telling: (typeof TELLINGS)[number]): boolean {
+  return r.titles
+    .filter((t) => TELLING[telling].titles.includes(t.title))
+    .every((t) => t.sources.length > 0 && t.sources.every((s) => s.optional));
 }

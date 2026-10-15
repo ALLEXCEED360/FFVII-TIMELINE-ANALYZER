@@ -183,6 +183,7 @@ function UnitView({
                               {a.entity.name}
                             </Link>
                             <span className="ar-how">{how}</span>
+                            {a.optional && <Optional />}
                           </p>
                           {a.role && <p className="ar-role">{a.role}</p>}
                           <p className="ar-text">{a.summary}</p>
@@ -239,7 +240,14 @@ function UnitView({
             {relationships.map((r) => (
               <li key={r.id} className="ar-sentence">
                 <Link to={entityPath(r.source.id)}>{r.source.name}</Link> {r.label}{" "}
-                <Link to={entityPath(r.target.id)}>{r.target.name}</Link>.
+                <Link to={entityPath(r.target.id)}>{r.target.name}</Link>
+                {r.role && `: ${r.role}`}.
+                {r.optional && (
+                  <>
+                    {" "}
+                    <Optional />
+                  </>
+                )}
                 {r.world !== "world_main" && (
                   <span className="ar-small">
                     {" "}
@@ -272,5 +280,14 @@ function UnitView({
         </section>
       )}
     </article>
+  );
+}
+
+/** Marks what only happens in some playthroughs, such as with a companion the player may never recruit. */
+function Optional() {
+  return (
+    <span className="ar-tag" title="Only in some playthroughs, depending on the player's choices">
+      Optional
+    </span>
   );
 }

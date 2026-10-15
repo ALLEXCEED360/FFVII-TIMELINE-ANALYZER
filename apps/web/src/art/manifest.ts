@@ -324,7 +324,7 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("moments/yuffie-sonon", "1600x900", "scene", {
     focus: "45% 40%",
   }),
-  art("moments/jenova-lifeclinger", "1000x979", "cutout", {}),
+  art("moments/jenova-emergent", "1600x900", "scene", {}),
   art("moments/ifalna-death", "1600x900", "scene", {
     focus: "50% 55%",
   }),
@@ -405,6 +405,7 @@ export const ARTWORK: readonly ArtEntry[] = [
   art("moments/highwind-boosters", "500x350", "scene", {}),
   art("moments/northern-cave", "1600x774", "scene", {}),
   art("places/mideel", "640x480", "scene", {}),
+  art("moments/gateway-to-heaven", "432x336", "scene", {}),
   art("places/fort-condor", "866x1261", "scene", {
     focus: "50% 35%",
   }),
@@ -475,7 +476,7 @@ export const MOMENT_ART: Readonly<Record<string, string>> = {
   event_escape_from_midgar: "places/expressway",
   event_battle_at_destinys_crossroads: "key/remake",
   event_junon_parade: "places/junon",
-  event_jenova_on_the_cargo_ship: "moments/jenova-lifeclinger",
+  event_jenova_on_the_cargo_ship: "moments/jenova-emergent",
   event_truth_about_seto: "moments/nanaki-seto",
   event_race_for_the_black_materia: "moments/sephiroth-black-materia",
   event_aerith_death: "moments/aerith-altar",
@@ -485,6 +486,7 @@ export const MOMENT_ART: Readonly<Record<string, string>> = {
   event_clouds_story_at_kalm: "moments/clouds-story-at-kalm",
   event_turks_in_the_mythril_mine: "moments/turks-in-mythril-mine",
   event_hojo_at_costa_del_sol: "moments/hojo-at-costa-del-sol",
+  event_framed_at_the_gold_saucer: "moments/gateway-to-heaven",
   event_keystone_stolen: "moments/keystone-stolen",
   event_aerith_dream_in_the_sleeping_forest: "moments/aerith-dream",
   event_junon_execution: "moments/junon-gas-chamber",

@@ -327,3 +327,19 @@ relationships:
       og:
         sources: [{ title: og, disc: 3, segment: og_northern_cave }]
         certainty: stated
+
+  - type: participated_in
+    target: event_president_shinra_death
+    role: finds the President dead and knows Sephiroth's sword
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_shinra_building }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_framed_at_the_gold_saucer
+    role: blamed for the killings
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_gold_saucer }]
+        certainty: stated

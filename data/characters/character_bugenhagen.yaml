@@ -46,3 +46,11 @@ relationships:
       og:
         sources: [{ title: og, disc: 2, segment: og_aerith_prayer }]
         certainty: stated
+
+  - type: participated_in
+    target: event_weapon_attacks_midgar
+    role: aboard the Highwind
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated

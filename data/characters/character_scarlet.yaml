@@ -131,3 +131,27 @@ relationships:
       og:
         sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
         certainty: stated
+
+  - type: participated_in
+    target: event_shinra_building_raid
+    role: at the board meeting the party overhears
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_shinra_building }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_meteor_summoned
+    role: in the crater with Rufus
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_northern_crater }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_weapon_attacks_midgar
+    role: came up with the Sister Ray
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated

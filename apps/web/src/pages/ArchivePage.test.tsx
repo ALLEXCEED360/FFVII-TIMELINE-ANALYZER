@@ -97,7 +97,14 @@ describe("a unit as a source", () => {
       within(characters)
         .getAllByRole("link")
         .map((l) => l.textContent),
-    ).toEqual(["Aerith Gainsborough", "Cloud Strife", "Sephiroth", "Tifa Lockhart"]);
+    ).toEqual([
+      "Aerith Gainsborough",
+      "Cid Highwind",
+      "Cloud Strife",
+      "Sephiroth",
+      "Tifa Lockhart",
+      "Vincent Valentine",
+    ]);
     expect(within(shown).getByRole("link", { name: "Death of Aerith" }).getAttribute("href")).toBe(
       "/event/aerith-death",
     );
@@ -126,6 +133,19 @@ describe("a unit as a source", () => {
     expect(screen.getByText("The city of the Cetra, where the first disc ends.")).toBeTruthy();
     expect(screen.getByText(/Retold in/).textContent).toBe("Retold in Rebirth");
     expect(screen.getByText("OG · Disc 1")).toBeTruthy();
+  });
+
+  it("says what each person did, and marks what only some playthroughs show", async () => {
+    stubApi();
+    renderAt("/archive/og/northern-cave");
+    const links = await screen.findByRole("region", { name: /^Links it shows/ });
+    const line = (name: string) =>
+      within(links).getAllByRole("link", { name }).at(0)!.closest("li")!.textContent;
+    expect(line("Yuffie")).toContain("goes down with the party");
+    expect(line("Yuffie")).toContain("Optional");
+    expect(line("Vincent Valentine")).toContain("Optional");
+    expect(line("Cloud Strife")).toContain("goes ahead to Sephiroth");
+    expect(line("Cloud Strife")).not.toContain("Optional");
   });
 
   it("shows not found for a unit that doesn't exist", async () => {

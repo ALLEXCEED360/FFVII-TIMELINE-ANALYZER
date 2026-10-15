@@ -84,3 +84,50 @@ relationships:
         notes: >-
           Found sleeping in a coffin in the mansion's basement, where he has slept for years to
           atone; "lives in" is our reading of that.
+
+  - type: participated_in
+    target: event_junon_execution
+    role: waits aboard the Highwind
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_junon_execution, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_race_for_the_huge_materia
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_corel_huge_materia, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: lands in Midgar with the party
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_night_before_the_end
+    role: comes back
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_highwind, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_into_the_northern_cave
+    role: goes down with the party
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_northern_cave, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_defeat_of_sephiroth
+    role: in the final descent
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_finale, optional: true }]
+        certainty: stated

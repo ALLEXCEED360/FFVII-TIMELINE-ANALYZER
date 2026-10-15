@@ -19,6 +19,9 @@ const Unit = z.object({
 });
 
 const Scenes = z.array(z.string()).describe("Scenes named by the citations.");
+const Optional = z
+  .boolean()
+  .describe("Only in some playthroughs: every citation here is optional.");
 const Side = z.object({ title: TitleCodeSchema, world: z.string() });
 
 const SourceUnitDetail = z.object({
@@ -34,6 +37,7 @@ const SourceUnitDetail = z.object({
       role: z.string().nullable(),
       summary: z.string(),
       cited: z.boolean().describe("The appearance's own sources cite this unit."),
+      optional: Optional,
       depictions: z
         .array(z.object({ framing: FramingSchema, note: z.string().nullable() }))
         .describe("Depictions set in this unit."),
@@ -60,6 +64,8 @@ const SourceUnitDetail = z.object({
       source: EntityRef,
       target: EntityRef,
       world: z.string(),
+      role: z.string().nullable().describe("What the source did in it."),
+      optional: Optional,
       scenes: Scenes,
     }),
   ),

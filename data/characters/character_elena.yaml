@@ -72,3 +72,19 @@ relationships:
       rebirth:
         sources: [{ title: rebirth, chapter: 3, scene: "Where They Lead" }]
         certainty: stated
+
+  - type: participated_in
+    target: event_race_for_the_black_materia
+    role: with Tseng in the temple before he is wounded
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_temple_of_the_ancients }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: stands in the party's way with the Turks
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated

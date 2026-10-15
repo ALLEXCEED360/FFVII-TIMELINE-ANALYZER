@@ -183,3 +183,19 @@ relationships:
       og:
         sources: [{ title: og, disc: 2, segment: og_aerith_prayer }]
         certainty: stated
+
+  - type: participated_in
+    target: event_president_shinra_death
+    role: with the party when the President is found
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_shinra_building }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_jenova_on_the_cargo_ship
+    role: aboard in disguise
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_cargo_ship }]
+        certainty: stated

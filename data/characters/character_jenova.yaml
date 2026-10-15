@@ -88,3 +88,14 @@ relationships:
       og:
         sources: [{ title: og, disc: 3, segment: og_northern_cave }]
         certainty: stated
+
+  - type: participated_in
+    target: event_aerith_death
+    role: fought straight after Aerith's death
+    titles:
+      og:
+        sources: [{ title: og, disc: 1, segment: og_forgotten_capital, scene: "Jenova·LIFE" }]
+        certainty: stated
+      rebirth:
+        sources: [{ title: rebirth, chapter: 14, scene: "Beyond the Wall: Jenova Lifeclinger" }]
+        certainty: stated

@@ -81,3 +81,11 @@ relationships:
       og:
         sources: [{ title: og, disc: 2, segment: og_underwater_reactor }]
         certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: stands in the party's way with the Turks
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid }]
+        certainty: stated

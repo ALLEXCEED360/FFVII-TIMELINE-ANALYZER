@@ -3,7 +3,7 @@
 Every image is official Square Enix artwork: character renders and illustrations, concept art and
 key art, as hosted on the Final Fantasy Wiki (finalfantasy.fandom.com). Nothing is AI-generated.
 There are no in-game screenshots, and nothing extracted from game files, with one exception the
-project's owner chose: a few stills, official promo shots and a fan render of a game model,
+project's owner chose: a few stills and official promo shots,
 for moments (moments/), places and groups no artwork shows as well. Credits live in
 src/art/details.ts; this script only reproduces the files. (key/remake-title.webp, the Remake
 title screen's artwork, was supplied by the project's owner and isn't fetched here.)
@@ -133,11 +133,11 @@ ART: dict[str, tuple[str, int]] = {
     "moments/aerith-dream": ("Home Wallpaper Voice from the Sleeping Forest from FFVIIEC.png", 1600),
     "places/upper-sector-7": ("Upper Sector 7 artwork for Final Fantasy VII Remake.png", 1600),
     "places/president-office": ("President-Office-Shinra-HQ-FFVIIR-Art.jpg", 1600),
-    # Moments, places and groups no artwork shows: stills, Square Enix promo shots, a model render.
+    # Moments, places and groups no artwork shows: stills and Square Enix promo shots.
     "moments/second-chance-meeting": ("Second Chance Meeting from FFVII Remake.png", 1600),
     "moments/yuffie-sonon": ("FFVII Remake Intergrade promo 3.png", 1600),
     "moments/lifestream": ("Lifestream-ffvii-fmv-falling.png", 1600),
-    "moments/jenova-lifeclinger": ("JENOVA Lifeclinger from FFVII Rebirth render.png", 1000),
+    "moments/jenova-emergent": ("Jenova Emergent appears from FFVII Rebirth.png", 1600),
     "moments/meteor-midgar": ("Meteor descending upon the Shinra Building from FFVII Remake.png", 1600),
     "moments/ifalna-death": ("Ifalna's death from Final Fantasy VII Remake.png", 1600),
     "moments/calamity-meteorite": ("Meteorite that destroyed the Cetra from FFVII Remake.png", 1600),
@@ -169,6 +169,7 @@ ART: dict[str, tuple[str, int]] = {
     "moments/northern-cave": ("Northern Cave Dungeon Infobox Image.png", 1600),
     "places/mideel": ("FFVII-Mideel.jpg", 1600),
     "places/fort-condor": ("Fort Condor FFVII Concept Art.jpg", 1600),
+    "moments/gateway-to-heaven": ("Gateway to heaven.png", 1600),
 }
 
 

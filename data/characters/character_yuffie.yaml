@@ -92,5 +92,65 @@ relationships:
   - type: participated_in
     target: event_jenova_on_the_cargo_ship
     titles:
+      og:
+        {
+          sources: [{ title: og, disc: 1, segment: og_cargo_ship, optional: true }],
+          certainty: stated,
+        }
       rebirth:
         { sources: [{ title: rebirth, chapter: 5, scene: "To Catch a Fiend" }], certainty: stated }
+
+  - type: participated_in
+    target: event_junon_execution
+    role: helps Barret get to the airport
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_junon_execution, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_race_for_the_huge_materia
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_corel_huge_materia, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_aerith_prayer_revealed
+    role: in Cosmo Canyon with the others
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_cosmo_canyon_return, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_hojos_last_stand
+    role: lands in Midgar with the party
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_midgar_raid, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_night_before_the_end
+    role: comes back
+    titles:
+      og:
+        sources: [{ title: og, disc: 2, segment: og_highwind, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_into_the_northern_cave
+    role: goes down with the party
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_northern_cave, optional: true }]
+        certainty: stated
+
+  - type: participated_in
+    target: event_defeat_of_sephiroth
+    role: in the final descent
+    titles:
+      og:
+        sources: [{ title: og, disc: 3, segment: og_finale, optional: true }]
+        certainty: stated
