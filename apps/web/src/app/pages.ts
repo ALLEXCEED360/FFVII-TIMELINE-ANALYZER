@@ -17,7 +17,6 @@ export const PAGES = {
   divergenceView: () =>
     import("../pages/DivergenceViewPage").then((m) => ({ Component: m.DivergenceViewPage })),
   archive: () => import("../pages/ArchivePage").then((m) => ({ Component: m.ArchivePage })),
-  research: () => import("../pages/ResearchPage").then((m) => ({ Component: m.ResearchPage })),
   archiveTitle: () =>
     import("../pages/ArchiveTitlePage").then((m) => ({ Component: m.ArchiveTitlePage })),
   sourceUnit: () =>

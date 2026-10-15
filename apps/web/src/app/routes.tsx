@@ -42,7 +42,6 @@ export const routes: RouteObject[] = [
           lazyPage("divergence", PAGES.divergence),
           lazyPage("divergence/:kind/:slug", PAGES.divergenceView),
           lazyPage("archive", PAGES.archive),
-          lazyPage("archive/research", PAGES.research),
           lazyPage("archive/:title", PAGES.archiveTitle),
           lazyPage("archive/:title/:unit", PAGES.sourceUnit),
           lazyPage("credits", PAGES.credits),

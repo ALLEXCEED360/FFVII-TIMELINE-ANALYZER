@@ -3,57 +3,6 @@ import { titleShort } from "../../lib/reference";
 
 // Names and context for the units of the titles — the original's segments, chapters and parts.
 
-export type QuestionKind = "needs_footage" | "not_in_dataset" | "structure";
-
-export const QUESTION_KIND_LABELS: Record<QuestionKind, string> = {
-  needs_footage: "To check against video of the game",
-  not_in_dataset: "Not in the archive yet",
-  structure: "How the games are divided",
-};
-
-export const SOURCE_KIND_LABELS: Record<string, string> = {
-  play: "Playing the game",
-  footage: "Footage",
-  transcript: "Transcript",
-  walkthrough: "Walkthrough",
-  chapter_list: "Chapter list",
-  press: "Press release",
-};
-
-/** Evidence levels, best first (canon-and-sources.md §4). */
-export const EVIDENCE_LEVELS = [
-  { kind: "play", label: "Playing the scene", note: "The game itself." },
-  {
-    kind: "footage",
-    label: "Recorded footage",
-    note: "Full playthroughs and cutscene compilations.",
-  },
-  {
-    kind: "transcript",
-    label: "Script transcripts",
-    note: "For what is said; anything visual still needs footage.",
-  },
-] as const;
-
-export const CERTAINTY_LABELS = {
-  stated: "Shown or said outright",
-  inferred: "Worked out from what's shown",
-  ambiguous: "Left open by the game",
-} as const;
-
-/** The colour of each, for its dot and bar. */
-export const CERTAINTY_COLORS = {
-  stated: "#8ef0c6",
-  inferred: "#a9b3c6",
-  ambiguous: "#f2c94c",
-} as const;
-
-export const CERTAINTY_DESCRIPTIONS = {
-  stated: "The game shows it or says it directly.",
-  inferred: "Not said outright, but follows from what is; each says how.",
-  ambiguous: "The game leaves it open on purpose; each says what is shown, without guessing.",
-} as const;
-
 /** Titles not yet in the archive (canon-and-sources.md §2): "future content". */
 export const FUTURE_TITLES = [
   {

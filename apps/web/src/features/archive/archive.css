@@ -66,31 +66,6 @@
   text-transform: uppercase;
   color: color-mix(in oklab, var(--c) 70%, white);
 }
-.ar-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  align-self: flex-start;
-  min-height: 2.6rem;
-  padding: 0.4rem 1rem;
-  border: 1px solid rgb(127 214 255 / 0.45);
-  border-radius: 6px;
-  background: rgb(8 11 18 / 0.7);
-  font-size: 0.9rem;
-  color: #fff;
-}
-.ar-button::after {
-  content: "→";
-  color: var(--m-accent);
-}
-.ar-button:hover {
-  border-color: var(--m-accent);
-  background: var(--m-accent-soft);
-}
-.ar-button:focus-visible {
-  outline: 2px solid var(--m-accent);
-  outline-offset: 2px;
-}
 
 /* ── The landing page: a card per game ────────────────────────────────────────────────────── */
 .ar-games {
@@ -184,16 +159,6 @@
 }
 .ar-game:hover .ar-more {
   background: color-mix(in oklab, var(--c) 22%, transparent);
-}
-.ar-pair {
-  display: grid;
-  gap: 1rem;
-}
-@media (min-width: 64rem) {
-  .ar-pair {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    align-items: start;
-  }
 }
 .ar-future {
   display: flex;
@@ -479,84 +444,6 @@
 .ar-tag-big {
   border-color: rgb(255 143 122 / 0.6);
   color: #ffb3a5;
-}
-
-/* ── Questions still open (OpenQuestions.tsx) ─────────────────────────────────────────────── */
-.ar-questions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-.ar-question {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.8rem 1rem;
-  border: 1px solid var(--m-line);
-  border-left: 3px solid #f2c94c;
-  border-radius: 5px;
-  background: rgb(8 11 18 / 0.6);
-}
-.ar-question-name {
-  font-weight: 600;
-  color: #fff;
-}
-
-/* ── How the facts were checked ───────────────────────────────────────────────────────────── */
-.ar-ladder {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-  counter-reset: rung;
-}
-.ar-rung {
-  display: grid;
-  grid-template-columns: 2.2rem minmax(0, 1fr);
-  gap: 0.1rem 0.75rem;
-}
-.ar-rung::before {
-  counter-increment: rung;
-  content: counter(rung);
-  grid-row: span 3;
-  display: flex;
-  height: 2.2rem;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgb(142 240 198 / 0.5);
-  border-radius: 999px;
-  font-family: var(--font-heading);
-  font-weight: var(--heading-weight);
-  color: #8ef0c6;
-}
-.ar-sure {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-.ar-sure-bar {
-  display: flex;
-  height: 0.6rem;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.08);
-}
-.ar-sure-key {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-.ar-sure-key li {
-  display: grid;
-  grid-template-columns: 0.75rem minmax(0, 1fr) auto;
-  align-items: baseline;
-  gap: 0.6rem;
-  font-size: 0.9rem;
-  color: var(--m-text);
-}
-.ar-dot {
-  width: 0.65rem;
-  height: 0.65rem;
-  border-radius: 999px;
 }
 
 @media (prefers-reduced-motion: reduce) {

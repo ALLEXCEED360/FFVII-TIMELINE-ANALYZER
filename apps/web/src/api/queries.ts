@@ -192,11 +192,3 @@ export function useSourceUnit(title: TitleCode | undefined, unit: string | undef
     retry: false,
   });
 }
-
-export function useResearch() {
-  return useQuery({
-    queryKey: ["research"],
-    queryFn: () => unwrap(api.GET("/research")),
-    staleTime: Infinity,
-  });
-}

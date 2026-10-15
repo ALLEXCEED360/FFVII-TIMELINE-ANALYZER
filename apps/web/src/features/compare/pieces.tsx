@@ -55,9 +55,6 @@ export function Change({
         <span className="sr-only">compared with</span>
         <span className="cmp-game">{gameName(reference, difference.to.title)}</span>
         {difference.magnitude === "major" && <span className="cmp-tag cmp-big">Big change</span>}
-        {difference.certainty === "ambiguous" && (
-          <span className="cmp-tag">The game leaves this open</span>
-        )}
       </p>
       <p className="cmp-text">{difference.summary}</p>
       {difference.notes && <p className="cmp-note">{difference.notes}</p>}
@@ -124,9 +121,6 @@ export function Telling({
       )}
       {appearance.role && <p className="cmp-role">{appearance.role}</p>}
       <p className="cmp-text">{appearance.summary}</p>
-      {appearance.certainty === "ambiguous" && (
-        <p className="cmp-note">The game leaves this open.</p>
-      )}
       {where && (
         <p className="cmp-sources">
           Where: <Citation locator={where} reference={reference} />

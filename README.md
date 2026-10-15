@@ -31,7 +31,7 @@ The four games, as the home menu shows them.
 | **Final Fantasy VII Remake Intergrade — INTERmission** | 2021 | Yuffie's 2 chapters: a new story beside the first           |
 | **Final Fantasy VII Rebirth**                          | 2024 | 14 chapters and an interlude, Kalm to the Forgotten Capital |
 
-61 characters, moments, places and groups · 171 appearances · 148 links — each checked against the games themselves.
+91 characters, moments, places and groups · 239 appearances · 209 links — each checked against the games themselves.
 
 ## ☞ Commands
 
@@ -42,7 +42,7 @@ The four games, as the home menu shows them.
 | **Divergence** | A turning point: the story so far on a line of Mako light, then where each game goes     |
 | **Network**    | A web of materia — people, moments, places, groups — and the chain that links any two    |
 | **Explore**    | Who's who and what's what, as picture cards                                              |
-| **Archive**    | Each game chapter by chapter, and how every fact was checked                             |
+| **Archive**    | Each game chapter by chapter, and who and what each one shows                            |
 | **Config**     | Background music, motion, the title screen, the Buster Sword cursor, the spoiler warning |
 
 Around it: a title screen over Midgar at night, a home menu in the original's pause-menu style that you can drive with the arrows or W A S D, the original's blue window between sections, and 122 official pictures behind every screen. The full look is in [`docs/design.md`](docs/design.md).

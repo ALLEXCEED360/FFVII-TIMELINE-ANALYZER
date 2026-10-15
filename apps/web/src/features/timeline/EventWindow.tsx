@@ -208,7 +208,6 @@ function Telling({
         })}
       </p>
       <p className="tl-detail-text">{a.summary}</p>
-      {a.certainty === "ambiguous" && <p className="tl-telling-note">The game leaves this open.</p>}
       {where && <p className="tl-telling-note">Where: {describeLocator(reference, where)}</p>}
     </div>
   );

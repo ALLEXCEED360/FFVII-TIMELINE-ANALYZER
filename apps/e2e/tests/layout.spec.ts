@@ -17,7 +17,6 @@ const PATHS = [
   "/archive",
   "/archive/og",
   "/archive/rebirth/chapter-14",
-  "/archive/research",
 ];
 
 for (const path of PATHS) {

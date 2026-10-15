@@ -31,8 +31,8 @@ describe("entity page", () => {
     expect(within(moments).getByText("Took part in")).toBeTruthy();
     const nibelheim = within(moments).getByRole("link", { name: "Nibelheim Incident" });
     expect(nibelheim.getAttribute("href")).toBe("/event/nibelheim-incident");
-    // Rebirth leaves Cloud's presence at Nibelheim open.
-    expect(within(moments).getByText("Left open")).toBeTruthy();
+    // How sure each link is isn't shown to readers.
+    expect(within(moments).queryByText("Left open")).toBeNull();
     const places = within(connections).getByRole("region", { name: "Places" });
     expect(within(places).getByText("Comes from")).toBeTruthy();
   });

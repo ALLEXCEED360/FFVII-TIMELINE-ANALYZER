@@ -1,5 +1,4 @@
 import { type ReactNode, useState } from "react";
-import { Link } from "react-router";
 import { artSourceUrl, detailsFor } from "../art/details";
 import { ARTWORK, type ArtEntry, SECTION_ART } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
@@ -128,14 +127,6 @@ export function CreditsPage() {
               </span>
             ))}
           </Role>
-          <Role role="Every fact checked against">
-            <span className="cr-name">
-              The games themselves —{" "}
-              <Link to="/archive/research" className="cr-link">
-                see how
-              </Link>
-            </span>
-          </Role>
         </dl>
       </section>
 
@@ -259,16 +250,6 @@ export function CreditsPage() {
             <p className="cr-text">
               Creative Commons Attribution-NonCommercial 4.0: reuse them with credit, but not to
               make money.
-            </p>
-          </li>
-          <li className="m-panel cr-panel">
-            <p className="cr-font-name">The research</p>
-            <p className="cr-text">
-              What each fact was checked against is listed in the{" "}
-              <Link to="/archive/research" className="cr-link">
-                research log
-              </Link>
-              .
             </p>
           </li>
         </ul>

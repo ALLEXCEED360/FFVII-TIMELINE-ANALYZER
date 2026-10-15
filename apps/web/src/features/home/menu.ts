@@ -48,7 +48,7 @@ export const SECTIONS: readonly {
     to: "/archive",
     page: "archive",
     name: "Archive",
-    text: "Each game part by part, what cites it, and the research behind every fact.",
+    text: "Each game part by part, and who and what each part shows.",
     art: "key/tifa",
   },
   {

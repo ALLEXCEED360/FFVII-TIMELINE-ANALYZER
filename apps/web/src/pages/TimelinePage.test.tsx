@@ -35,7 +35,7 @@ describe("timeline page", () => {
     expect(within(details).getByText("How each telling tells it")).toBeTruthy();
     expect(within(details).getAllByText("Shown as it happens").length).toBe(2);
     expect(details.textContent).toContain("Rebirth · Shown as it happens");
-    expect(within(details).getByText("The game leaves this open.")).toBeTruthy();
+    expect(within(details).queryByText("The game leaves this open.")).toBeNull();
     expect(within(details).getByRole("link", { name: "Compare side by side" })).toBeTruthy();
     expect(router.state.location.search).toBe("?event=event_aerith_death");
 

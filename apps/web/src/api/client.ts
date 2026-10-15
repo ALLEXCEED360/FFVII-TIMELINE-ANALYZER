@@ -64,7 +64,6 @@ export type EdgeCategory = NetworkEdge["category"];
 export type PathResult = Json<"/network/path">;
 export type DivergenceView = Json<"/divergence/{id}">;
 export type DivergencePoint = Json<"/divergence">["items"][number];
-export type OpenQuestion = EntityDetail["openQuestions"][number];
 export type SourceCatalogue = Json<"/sources">;
 export type CatalogueTitle = SourceCatalogue["titles"][number];
 export type CatalogueUnit = CatalogueTitle["units"][number];

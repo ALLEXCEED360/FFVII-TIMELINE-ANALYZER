@@ -48,11 +48,10 @@ test("from a citation to its part of the game, and on through the archive", asyn
   await expect(page).toHaveURL(/\/archive\/rebirth\/chapter-14$/);
   await expect(page.getByRole("heading", { level: 1, name: "End of the World" })).toBeVisible();
 
-  // Everything else the chapter backs, including the research question about it.
+  // Everything else the chapter backs.
   await expect(page.getByRole("region", { name: /^Who and what it shows/ })).toContainText(
     "Tifa Lockhart",
   );
-  await expect(page.getByRole("region", { name: "Still being checked here" })).toBeVisible();
 
   await page.getByRole("navigation", { name: "Other chapters" }).getByRole("link").first().click();
   await expect(page).toHaveURL(/\/archive\/rebirth\/chapter-13$/);
@@ -65,10 +64,10 @@ test("from a citation to its part of the game, and on through the archive", asyn
     .getByRole("navigation", { name: "Breadcrumb" })
     .getByRole("link", { name: "Archive" })
     .click();
-  await page.getByRole("link", { name: "See how each fact was checked" }).click();
-  await expect(page.getByRole("region", { name: /^Still being checked/ })).toContainText(
-    "How Rebirth shows Aerith's death",
-  );
+  await expect(
+    page.getByRole("heading", { level: 1, name: "The games, chapter by chapter" }),
+  ).toBeVisible();
+  await expect(page.getByText("How the facts were checked")).toHaveCount(0);
 });
 
 test("on a phone: an event opens under itself, and a comparison is tabs @mobile", async ({

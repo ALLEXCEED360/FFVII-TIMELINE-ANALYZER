@@ -6,7 +6,6 @@ import { useEntity, useReference, useTimeline } from "../api/queries";
 import { SECTION_ART, artFor, pictureFor, sceneFor } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
-import { Citations } from "../components/Citation";
 import { Orb } from "../components/Orb";
 import { ErrorMessage, Loading } from "../components/QueryState";
 import { ChangesByKind, Game, Telling } from "../features/compare/pieces";
@@ -254,36 +253,6 @@ function EntityView({
       </section>
 
       <LinkedTo entity={entity} />
-
-      {entity.openQuestions.length > 0 && (
-        <section aria-labelledby="ent-questions" className="ent-section">
-          <h2 id="ent-questions" className="m-heading ent-heading">
-            Still being checked
-          </h2>
-          <div className="m-panel ent-panel">
-            <p className="ent-text ent-dim">
-              Parts of this page wait on a closer look at the games. See the{" "}
-              <Link to="/archive/research" className="ent-inline-link">
-                research log
-              </Link>
-              .
-            </p>
-            <ul className="ent-questions">
-              {entity.openQuestions.map((q) => (
-                <li key={q.id} className="ent-question">
-                  <h3 className="ent-question-name">{q.summary}</h3>
-                  <p className="ent-text">{q.details}</p>
-                  {q.sources.length > 0 && (
-                    <p className="cmp-sources">
-                      Where to look: <Citations sources={q.sources} reference={reference} />
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
     </article>
   );
 }
@@ -411,7 +380,6 @@ function LinkChip({
   games: ReadonlySet<TitleCode>;
 }) {
   const role = typeof r.attributes.role === "string" ? r.attributes.role : null;
-  const open = r.titles.some((t) => t.certainty !== "stated");
   // Only one telling shows the link, though both show this page's subject.
   const linkTellings = tellingsIn(r.titles.map((t) => t.title));
   const only =
@@ -432,7 +400,6 @@ function LinkChip({
           </span>
         </span>
       )}
-      {open && <span className="cmp-tag">Left open</span>}
     </span>
   );
 }

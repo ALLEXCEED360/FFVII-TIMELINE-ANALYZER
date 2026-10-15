@@ -29,9 +29,9 @@ describe("archive", () => {
     expect(
       within(titles).getByText("Retells the original from Mako Reactor 1 to The Shinra Building."),
     ).toBeTruthy();
-    expect(
-      screen.getByRole("link", { name: "See how each fact was checked" }).getAttribute("href"),
-    ).toBe("/archive/research");
+    // How facts were checked isn't shown to readers.
+    expect(screen.queryByText("How the facts were checked")).toBeNull();
+    expect(document.querySelector('a[href="/archive/research"]')).toBeNull();
     expect(screen.getByText("Final Fantasy VII Revelation")).toBeTruthy();
   });
 
@@ -107,8 +107,7 @@ describe("a unit as a source", () => {
     expect(
       screen.getByRole("region", { name: "Other worlds glimpsed here" }).textContent,
     ).toContain("Zack survives");
-    const questions = await screen.findByRole("region", { name: "Still being checked here" });
-    expect(questions.textContent).toContain("How Rebirth shows Aerith's death (chapter 14)");
+    expect(screen.queryByRole("region", { name: /Still being checked/ })).toBeNull();
 
     const neighbours = screen.getByRole("navigation", { name: "Other chapters" });
     expect(
@@ -138,7 +137,7 @@ describe("a unit as a source", () => {
   it("has no accessibility violations", async () => {
     stubApi();
     const { container } = renderAt("/archive/rebirth/chapter-14");
-    await screen.findByRole("region", { name: "Still being checked here" });
+    await screen.findByRole("region", { name: /^Links it shows/ });
     await noViolations(container);
   });
 });
@@ -148,45 +147,10 @@ describe("research log", () => {
     vi.unstubAllGlobals();
   });
 
-  it("separates what facts were checked against from what only found them, and lists what's open", async () => {
+  it("isn't part of the app", async () => {
     stubApi();
     renderAt("/archive/research");
-    const evidence = await screen.findByRole("region", { name: /^Checked against 3/ });
-    const transcript = within(evidence).getByRole("link", {
-      name: /Final Fantasy VII Rebirth script/,
-    });
-    expect(transcript.getAttribute("target")).toBe("_blank");
-    expect(transcript.getAttribute("rel")).toBe("noreferrer");
-    expect(evidence.textContent).toContain("Incomplete when accessed");
-    expect(screen.getByRole("region", { name: /^Used only to find things/ })).toBeTruthy();
-
-    const questions = screen.getByRole("region", { name: /^Still being checked/ });
-    expect(
-      within(questions)
-        .getAllByRole("heading", { level: 3 })
-        .map((h) => h.textContent),
-    ).toEqual([
-      "To check against video of the game",
-      "Not in the archive yet",
-      "How the games are divided",
-    ]);
-
-    const interpretations = screen.getByRole("region", {
-      name: /^What the games don't say outright/,
-    });
-    expect(within(interpretations).getAllByRole("listitem").length).toBeGreaterThan(0);
-    expect(
-      within(interpretations)
-        .getAllByRole("link", { name: /Rebirth · Ch\. 14/ })[0]
-        ?.getAttribute("href"),
-    ).toBe("/archive/rebirth/chapter-14");
-  });
-
-  it("has no accessibility violations", async () => {
-    stubApi();
-    const { container } = renderAt("/archive/research");
-    await screen.findByRole("region", { name: /^Checked against \d/ });
-    await noViolations(container);
+    expect(await screen.findByRole("heading", { name: "No record found" })).toBeTruthy();
   });
 });
 
@@ -195,20 +159,12 @@ describe("citations elsewhere", () => {
     vi.unstubAllGlobals();
   });
 
-  it("link to their unit, and entity pages show their open questions", async () => {
+  it("link to their unit, and entity pages show no open questions", async () => {
     stubApi();
     renderAt("/event/aerith-death");
     await screen.findByRole("heading", { level: 1, name: "Death of Aerith" });
     const citation = screen.getAllByRole("link", { name: "Rebirth · Ch. 14" })[0];
     expect(citation?.getAttribute("href")).toBe("/archive/rebirth/chapter-14");
-    const questions = screen.getByRole("region", { name: "Still being checked" });
-    expect(
-      within(questions)
-        .getAllByRole("heading", { level: 3 })
-        .map((h) => h.textContent),
-    ).toEqual([
-      "How Rebirth shows Aerith's death (chapter 14)",
-      "Aerith's funeral in the original (opening of disc 2)",
-    ]);
+    expect(screen.queryByRole("region", { name: /Still being checked/ })).toBeNull();
   });
 });

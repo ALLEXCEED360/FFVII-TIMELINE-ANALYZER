@@ -24,7 +24,6 @@ const PAGES: { name: string; path: string; ready: (page: Page) => Promise<void> 
   { name: "archive", path: "/archive", ready: heading("The games, chapter by chapter") },
   { name: "archive title", path: "/archive/og", ready: heading("Final Fantasy VII") },
   { name: "archive unit", path: "/archive/rebirth/chapter-14", ready: heading("End of the World") },
-  { name: "research log", path: "/archive/research", ready: heading("How the facts were checked") },
   { name: "credits", path: "/credits", ready: heading("Credits") },
   { name: "settings", path: "/settings", ready: heading("Settings") },
   { name: "not found", path: "/nowhere/at-all", ready: heading("No record found") },

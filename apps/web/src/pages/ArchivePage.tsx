@@ -1,30 +1,22 @@
 import type { CSSProperties } from "react";
 import { Link } from "react-router";
 import type { CatalogueTitle, Reference } from "../api/client";
-import { useReference, useResearch, useSources } from "../api/queries";
+import { useReference, useSources } from "../api/queries";
 import { SECTION_ART, TITLE_ART } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
-import {
-  CERTAINTY_COLORS,
-  CERTAINTY_DESCRIPTIONS,
-  CERTAINTY_LABELS,
-  FUTURE_TITLES,
-  coverageText,
-  structureOf,
-} from "../features/archive/units";
+import { FUTURE_TITLES, coverageText, structureOf } from "../features/archive/units";
 import { archiveTitlePath } from "../lib/paths";
 import { titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
 import "../features/archive/archive.css";
 
-/** The archive: each game chapter by chapter, how facts were checked, and what's to come. */
+/** The archive: each game chapter by chapter, and what's to come. */
 export function ArchivePage() {
   useBackdrop(SECTION_ART.archive, { strength: 0.5, side: "full" });
   const sources = useSources();
   const reference = useReference();
-  const research = useResearch();
 
   return (
     <div className="ar">
@@ -58,57 +50,23 @@ export function ArchivePage() {
         )}
       </section>
 
-      <div className="ar-pair">
-        <section aria-labelledby="ar-checked" className="m-panel ar-panel ar-section">
-          <h2 id="ar-checked" className="m-heading ar-heading">
-            How the facts were checked
-          </h2>
-          <p className="ar-text">
-            Each fact here was checked against the game itself — by playing it, from video of it, or
-            from its script — and says where in the game to see it. Some things the games don&apos;t
-            say outright; those are marked, and never settled with a guess.
-          </p>
-          {research.data && (
-            <ul className="ar-sure-key">
-              {(["stated", "inferred", "ambiguous"] as const).map((c) => (
-                <li key={c}>
-                  <span
-                    aria-hidden="true"
-                    className="ar-dot"
-                    style={{ background: CERTAINTY_COLORS[c] }}
-                  />
-                  <span>
-                    <strong>{CERTAINTY_LABELS[c]}.</strong>{" "}
-                    <span className="ar-dim">{CERTAINTY_DESCRIPTIONS[c]}</span>
-                  </span>
-                  <span className="ar-small">{research.data.certainty[c]}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-          <Link to="/archive/research" className="ar-button">
-            See how each fact was checked
-          </Link>
-        </section>
-
-        <section aria-labelledby="ar-future" className="m-panel ar-panel ar-section">
-          <h2 id="ar-future" className="m-heading ar-heading">
-            Still to come
-          </h2>
-          <ul className="ar-future">
-            {FUTURE_TITLES.map((title) => (
-              <li key={title.name}>
-                <p className="ar-future-name">{title.name}</p>
-                <p className="ar-small">{title.note}</p>
-              </li>
-            ))}
-          </ul>
-          <p className="ar-small">
-            Parts of the story the Remake Trilogy hasn&apos;t reached yet are marked “not reached
-            yet”, never as missing.
-          </p>
-        </section>
-      </div>
+      <section aria-labelledby="ar-future" className="m-panel ar-panel ar-section">
+        <h2 id="ar-future" className="m-heading ar-heading">
+          Still to come
+        </h2>
+        <ul className="ar-future">
+          {FUTURE_TITLES.map((title) => (
+            <li key={title.name}>
+              <p className="ar-future-name">{title.name}</p>
+              <p className="ar-small">{title.note}</p>
+            </li>
+          ))}
+        </ul>
+        <p className="ar-small">
+          Parts of the story the Remake Trilogy hasn&apos;t reached yet are marked “not reached
+          yet”, never as missing.
+        </p>
+      </section>
     </div>
   );
 }

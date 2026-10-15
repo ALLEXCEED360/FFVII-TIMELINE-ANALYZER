@@ -2,23 +2,15 @@ import type { CSSProperties } from "react";
 import { Link, useParams } from "react-router";
 import type { Reference, SourceUnitDetail, TitleCode } from "../api/client";
 import { ApiError } from "../api/client";
-import { useReference, useResearch, useSourceUnit } from "../api/queries";
+import { useReference, useSourceUnit } from "../api/queries";
 import { SECTION_ART, TITLE_ART, pictureFor } from "../art/manifest";
 import { Artwork } from "../components/Artwork";
 import { useBackdrop } from "../components/Backdrop";
 import { Orb } from "../components/Orb";
 import { ErrorMessage, Loading } from "../components/QueryState";
-import { OpenQuestionList } from "../features/archive/OpenQuestions";
 import { arcOf, retoldBy, unitContext, unitLabel } from "../features/archive/units";
 import { KIND_WORDS } from "../lib/kinds";
-import {
-  ENTITY_KINDS,
-  archiveTitlePath,
-  entityPath,
-  sourcePath,
-  unitFromPath,
-  unitPath,
-} from "../lib/paths";
+import { ENTITY_KINDS, archiveTitlePath, entityPath, unitFromPath, unitPath } from "../lib/paths";
 import { CHANGE_WORDS, tellingOf } from "../lib/plain";
 import { titleShort, worldName } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
@@ -76,13 +68,9 @@ function UnitView({
   reference: Reference | undefined;
 }) {
   const { title, unit, appearances, differences, relationships, worlds } = detail;
-  const research = useResearch();
   const arc = arcOf(reference, title, unit.key);
   const retold = title === "og" ? retoldBy(reference, unit.key) : [];
   const label = unitLabel(unit.key, unit.name);
-  const questions = (research.data?.questions ?? []).filter((q) =>
-    q.sources.some((s) => sourcePath(s) === unitPath(title, unit.key)),
-  );
   const empty =
     appearances.length + differences.length + relationships.length + worlds.length === 0;
 
@@ -195,9 +183,6 @@ function UnitView({
                               {a.entity.name}
                             </Link>
                             <span className="ar-how">{how}</span>
-                            {a.certainty === "ambiguous" && (
-                              <span className="ar-tag">The game leaves this open</span>
-                            )}
                           </p>
                           {a.role && <p className="ar-role">{a.role}</p>}
                           <p className="ar-text">{a.summary}</p>
@@ -236,9 +221,6 @@ function UnitView({
                   </span>
                   <span className="ar-tag">{CHANGE_WORDS[d.category]}</span>
                   {d.magnitude === "major" && <span className="ar-tag ar-tag-big">Big change</span>}
-                  {d.certainty === "ambiguous" && (
-                    <span className="ar-tag">The game leaves this open</span>
-                  )}
                 </p>
                 <p className="ar-text">{d.summary}</p>
                 <Scenes scenes={d.scenes} />
@@ -264,9 +246,6 @@ function UnitView({
                     In another world: {worldName(reference, r.world)}.
                   </span>
                 )}
-                {r.certainty === "ambiguous" && (
-                  <span className="ar-small"> The game leaves this open.</span>
-                )}
                 {r.scenes.length > 0 && (
                   <span className="ar-small"> In the scene: {r.scenes.join("; ")}</span>
                 )}
@@ -290,15 +269,6 @@ function UnitView({
               </li>
             ))}
           </ul>
-        </section>
-      )}
-
-      {questions.length > 0 && (
-        <section aria-labelledby="ar-questions" className="ar-section">
-          <h2 id="ar-questions" className="m-heading ar-heading">
-            Still being checked here
-          </h2>
-          <OpenQuestionList questions={questions} reference={reference} />
         </section>
       )}
     </article>
