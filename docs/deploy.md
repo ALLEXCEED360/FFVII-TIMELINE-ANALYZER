@@ -47,5 +47,6 @@ The free plan sleeps after 15 minutes without visits; the next visit wakes it in
 ## After
 
 - **Updates:** push to `main`; Render and Vercel each rebuild. A change to `data/` reaches the live database when the API restarts with it.
+- **A new domain:** update the `og:url` and `og:image` addresses in [`apps/web/index.html`](../apps/web/index.html), which shared links use for their preview card ([`og.jpg`](../apps/web/public/og.jpg), the title screen).
 - **Locking the API to the site (optional):** in Render, set `CORS_ORIGIN` to the site's address (several may be separated by commas). The API only answers reads, so `*` is also safe.
 - **If something fails:** Render's **Logs** for the API (a wrong `DATABASE_URL` stops it before `Server listening`); the browser console for the site (requests going to `localhost:3000` mean `VITE_API_URL` wasn't set when it was built).
