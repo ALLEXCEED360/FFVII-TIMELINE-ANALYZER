@@ -74,3 +74,25 @@ test("on a phone, the home menu points at a tap and opens on a second @mobile", 
   await compare.tap();
   await expect(page).toHaveURL(/\/compare$/);
 });
+
+test("on a phone, Search and Credits in the menu's bar also open on a second tap @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/");
+  const bar = page.locator("[data-menu-bar]");
+  const search = bar.getByRole("button", { name: "Search" });
+  await search.tap();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(page.locator(".classic-help")).toContainText("Find anyone");
+  await search.tap();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Escape");
+  const credits = bar.getByRole("link", { name: "Credits" });
+  await credits.tap();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.locator(".classic-help")).toContainText("Who made the games");
+  await credits.tap();
+  await expect(page).toHaveURL(/\/credits$/);
+});

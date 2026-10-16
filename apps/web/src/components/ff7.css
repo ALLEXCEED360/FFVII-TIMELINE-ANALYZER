@@ -128,9 +128,15 @@
   width: 1em;
   height: 1em;
 }
+/* A phone held upright: the name, Search and Credits still on one line, sized to the screen,
+   with room left between them for the glove. */
 @media (max-width: 40rem) {
   .site-bar {
-    font-size: 15px;
+    font-size: clamp(11px, 3.55vw, 15px);
+  }
+  .site-bar-window {
+    column-gap: 1.8em;
+    padding-inline: 0.8em;
   }
   .site-bar-tools {
     gap: 1.6em;

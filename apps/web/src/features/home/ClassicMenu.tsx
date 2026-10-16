@@ -88,6 +88,12 @@ const touchFirst = () =>
 /** What a tap means before anything is chosen. */
 const TAP_HELP = "Tap a command or a game to see what it holds, then tap it again to open it.";
 
+/** What the bar's items do, in its order (Search, Credits). */
+const BAR_HELP = [
+  "Search. Find anyone, any moment or any place by name.",
+  "Credits. Who made the games, and the art, music and lettering this guide uses.",
+];
+
 /** Keys belong to whatever is being typed in, and to any open window (the title screen, search). */
 function keysAreFree(event: KeyboardEvent): boolean {
   if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return false;
@@ -167,6 +173,7 @@ export function ClassicMenu() {
     actions.current = { pointAt, goTo, moveTo };
   });
   const bar = useRef<{ index: number; from: "commands" | "party" }>({ index: 0, from: "commands" });
+  const [barIndex, setBarIndex] = useState(0);
   const barItems = () => [
     ...document.querySelectorAll<HTMLElement>("[data-menu-bar] > a, [data-menu-bar] > button"),
   ];
@@ -191,6 +198,7 @@ export function ClassicMenu() {
       const g = glove.current;
       if (g.zone !== "bar") bar.current.from = g.zone;
       bar.current.index = index;
+      setBarIndex(index);
       actions.current.moveTo("bar");
       if (focus) barItems()[index]?.focus({ preventScroll: true });
     };
@@ -240,6 +248,7 @@ export function ClassicMenu() {
       return item ? barItems().indexOf(item) : -1;
     };
     const onPointer = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return;
       const i = barItemOf(event);
       if (i >= 0 && (glove.current.zone !== "bar" || i !== bar.current.index)) toBar(i, true);
     };
@@ -247,20 +256,49 @@ export function ClassicMenu() {
       const i = barItemOf(event);
       if (i >= 0) toBar(i, false);
     };
+    // On touch, as with the commands: the first tap points at Search or Credits, the second opens.
+    // Caught before the item's own click, so a first tap neither searches nor leaves the menu.
+    let barTap: { index: number; wasChosen: boolean; touch: boolean } | null = null;
+    const onDown = (event: PointerEvent) => {
+      const i = barItemOf(event);
+      barTap =
+        i < 0
+          ? null
+          : {
+              index: i,
+              wasChosen: glove.current.zone === "bar" && bar.current.index === i,
+              touch: event.pointerType === "touch",
+            };
+    };
+    const onClick = (event: MouseEvent) => {
+      const t = barTap;
+      barTap = null;
+      if (!t?.touch || t.wasChosen || barItemOf(event) !== t.index) return;
+      event.preventDefault();
+      event.stopPropagation();
+      toBar(t.index, false);
+    };
     window.addEventListener("keydown", onKey);
     document.addEventListener("pointerover", onPointer);
     document.addEventListener("focusin", onFocus);
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("click", onClick, true);
     return () => {
       window.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerover", onPointer);
       document.removeEventListener("focusin", onFocus);
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("click", onClick, true);
     };
   }, []);
   const items = entities.data?.items ?? [];
   const pointed = chosenGame;
-  const help = pointed
-    ? `${pointed.name}. ${coverageText(reference.data, pointed.code)}`
-    : (current?.text ?? TAP_HELP);
+  const help =
+    zone === "bar"
+      ? BAR_HELP[barIndex]
+      : pointed
+        ? `${pointed.name}. ${coverageText(reference.data, pointed.code)}`
+        : (current?.text ?? TAP_HELP);
 
   return (
     <section aria-labelledby="home-title" className="ff7 classic" data-zone={zone}>
