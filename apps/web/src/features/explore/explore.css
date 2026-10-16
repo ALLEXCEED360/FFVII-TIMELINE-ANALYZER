@@ -229,6 +229,38 @@
   background: color-mix(in oklab, var(--materia) 22%, transparent);
 }
 
+/* A phone: two cards to a row, smaller, so the list isn't one long column. */
+@media (max-width: 40rem) {
+  .ex-cards,
+  .ex-cards[data-kind="character"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+  .ex-card-art {
+    height: 7rem;
+  }
+  .ex-cards[data-kind="character"] .ex-card-art {
+    height: 11rem;
+  }
+  .ex-card-body {
+    padding: 0.55rem 0.65rem 0.65rem;
+  }
+  .ex-card-name {
+    font-size: 1rem;
+  }
+  .ex-card-summary {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+  /* The whole card is the link, as the page says; the games get the row. */
+  .ex-card-more {
+    display: none;
+  }
+  .ex-group-name {
+    font-size: 26px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ex-card,
   .ex-card-art img {

@@ -501,6 +501,21 @@
     grid-column: 1;
     justify-self: start;
   }
+  /* Whole track names, over two lines if need be, rather than cut short. */
+  .mp-track {
+    grid-template-columns: 1.3rem minmax(0, 1fr) auto;
+    gap: 0.55rem;
+    padding-left: 1.6rem;
+  }
+  .mp-track-title {
+    white-space: normal;
+  }
+}
+/* No keyboard on a touch screen, so no keys to list. */
+@media (hover: none) {
+  .mp-keys {
+    display: none;
+  }
 }
 
 /* ── The now-playing card: bottom right, as in a sports game's menus ─────────────────────── */
@@ -635,7 +650,7 @@
     display: none;
   }
   .np-kicker {
-    font-size: 0.6rem;
+    font-size: 0.68rem;
   }
   .np-title {
     font-size: 14px;
@@ -646,5 +661,9 @@
   }
   .np-album {
     display: none;
+  }
+  /* Above Back, once it floats in the corner, rather than over it. */
+  body:has(.m-back-float) .np-card {
+    bottom: 4.25rem;
   }
 }

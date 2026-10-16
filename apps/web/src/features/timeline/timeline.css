@@ -398,6 +398,13 @@
   object-fit: contain;
   object-position: 50% 50% !important;
 }
+/* A phone on its side: the picture leaves room for the words. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .tl-detail-art img,
+  .tl-detail-art[data-kind="cutout"] img {
+    max-height: 55vh;
+  }
+}
 .tl-detail-name {
   padding-right: 4.5rem;
   font-size: 28px;

@@ -73,7 +73,7 @@ export function MusicSetting() {
             {!music.on ? "Music is off" : music.paused ? "Paused" : "Now playing"}
           </p>
           <p aria-live="polite" className="m-heading mp-now-title">
-            {now ? now.title : "Starts as you click or press a key"}
+            {now ? now.title : "Starts at your first click, tap or key"}
           </p>
           {now && (
             <p className="mp-now-by">

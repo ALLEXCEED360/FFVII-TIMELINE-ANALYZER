@@ -921,6 +921,12 @@
     font-size: 0.75rem;
   }
 }
+/* A phone on its side: the whole web, and the help under it, in one screen. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .nw-graph {
+    height: max(18rem, calc(100dvh - 1.5rem));
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .nw-graph-canvas {
     transition: none;

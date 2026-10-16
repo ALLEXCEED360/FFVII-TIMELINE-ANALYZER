@@ -117,8 +117,8 @@ export function NetworkPage() {
         <h1 className="m-heading m-title nw-title">{centerName}</h1>
         {centerEntity.data && <p className="m-intro">{centerEntity.data.summary}</p>}
         <p className="m-intro nw-guide">
-          Everything linked to {centerName}. Tap anything in the web to read its links, and use the
-          window beside it to choose what the web shows.
+          Everything linked to {centerName}. Tap anything in the web to read its links, and use
+          “What the web shows” to choose what it holds.
         </p>
       </header>
 

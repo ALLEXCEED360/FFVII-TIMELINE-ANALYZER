@@ -41,4 +41,4 @@ The original's pause menu. The four games are the party: cover, year as LV, wher
 
 ## Quality
 
-Keyboard-first, with axe checks in the unit and end-to-end tests; the graph always has a text alternative; nothing scrolls sideways on a phone. The first load stays under 135 kB of JavaScript and 15 kB of CSS (`pnpm web:size`).
+Keyboard-first, with axe checks in the unit and end-to-end tests; the graph always has a text alternative; nothing scrolls sideways on a phone. On a phone held upright, Explore's cards and Credits' pictures sit two to a row; held on its side, the bar, page tops and Back shrink and the web and event pictures fit the screen. The now-playing card rises above a floating Back, and the music keys aren't listed where there's no keyboard. The first load stays under 135 kB of JavaScript and 15 kB of CSS (`pnpm web:size`).

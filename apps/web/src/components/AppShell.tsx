@@ -62,7 +62,7 @@ export function AppShell() {
           // Clipped sideways: a page arrives leaning, and mustn't make the window scroll meanwhile.
           bleed
             ? "flex flex-1 flex-col overflow-x-clip"
-            : "mx-auto w-full max-w-(--page-max) flex-1 overflow-x-clip px-(--page-pad) py-8"
+            : "m-main mx-auto w-full max-w-(--page-max) flex-1 overflow-x-clip px-(--page-pad) py-8"
         }
       >
         {/* Every page but the home menu (which bleeds to the edges) has a way back. */}

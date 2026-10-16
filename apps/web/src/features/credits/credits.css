@@ -105,6 +105,20 @@
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   gap: 0.7rem;
 }
+/* A phone: two to a row, so the list isn't one long column. */
+@media (max-width: 40rem) {
+  .cr-art {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+  .cr-piece-art {
+    height: 6.5rem;
+  }
+  .cr-piece-body {
+    padding: 0.5rem 0.6rem 0.6rem;
+    font-size: 0.875rem;
+  }
+}
 .cr-piece {
   display: flex;
   flex-direction: column;

@@ -573,6 +573,41 @@
   box-shadow: 0 10px 30px rgb(0 0 0 / 0.55);
   animation: m-back-in 0.25s ease-out both;
 }
+/* A phone on its side: little height, so the bar, the page's top and Back all take less of it. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .mbar-inner {
+    min-height: 0;
+    padding-block: 0.4rem;
+  }
+  .mbar-orb {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .mbar-series {
+    font-size: 0.7rem;
+  }
+  .mbar-name {
+    font-size: 1.25rem;
+  }
+  .mbar-search,
+  .mbar-menu {
+    min-height: 2.5rem;
+  }
+  .m-main {
+    padding-top: 1rem;
+  }
+  .m-back {
+    margin-bottom: 0.7rem;
+    padding: 0.3rem 0.85rem 0.3rem 0.6rem;
+    font-size: 0.85rem;
+  }
+  .m-back-float {
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+  .m-title {
+    font-size: 34px;
+  }
+}
 @keyframes m-back-in {
   from {
     opacity: 0;

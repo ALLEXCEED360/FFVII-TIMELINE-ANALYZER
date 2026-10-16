@@ -82,7 +82,7 @@ export function ArtCredit({ entry, className = "" }: { entry: ArtEntry; classNam
   return (
     <Link
       to="/credits"
-      className={`inline-block min-h-6 py-0.5 font-mono text-[0.625rem] tracking-wider text-steel-400 hover:text-steel-100 ${className}`}
+      className={`inline-block min-h-6 py-0.5 font-mono text-[0.6875rem] tracking-wider text-steel-400 hover:text-steel-100 ${className}`}
     >
       Art: {detailsFor(entry).artist} · © Square Enix
     </Link>
