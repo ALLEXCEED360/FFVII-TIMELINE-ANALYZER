@@ -81,6 +81,13 @@ const DIRECTIONS: Record<string, "up" | "down" | "left" | "right" | "first" | "l
 /** Where the glove can be: the commands, the games, or the bar above. */
 type Zone = "commands" | "party" | "bar";
 
+/** A touch screen has no pointing before tapping, so the menu opens with nothing chosen. */
+const touchFirst = () =>
+  typeof window.matchMedia === "function" && window.matchMedia("(hover: none)").matches;
+
+/** What a tap means before anything is chosen. */
+const TAP_HELP = "Tap a command or a game to see what it holds, then tap it again to open it.";
+
 /** Keys belong to whatever is being typed in, and to any open window (the title screen, search). */
 function keysAreFree(event: KeyboardEvent): boolean {
   if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return false;
@@ -97,7 +104,10 @@ export function ClassicMenu() {
   const reference = useReference();
   const entities = useEntities();
   const sources = useSources();
-  const { active, choose, go, ref, current } = useMenu();
+  const [touch] = useState(touchFirst);
+  const { active, choose, go, ref, current } = useMenu(touch ? -1 : 0);
+  // On touch, the first tap on a command or game only points at it; a second tap opens it.
+  const tap = useRef<{ wasChosen: boolean; touch: boolean } | null>(null);
   // One glove, moved by keys or pointing: its column, and the game it last pointed at.
   const [zone, setZone] = useState<Zone>("commands");
   const [memberIndex, setMemberIndex] = useState(0);
@@ -116,7 +126,10 @@ export function ClassicMenu() {
   // Behind the menu: the chosen game's cover while the glove is among the games, otherwise the
   // highlighted command's scene — a different picture for each, crossfading as the glove moves.
   const chosenGame = zone === "party" ? titles[memberIndex] : undefined;
-  const scene = useSettled(chosenGame ? TITLE_ART[chosenGame.code] : current?.art, 90);
+  const scene = useSettled(
+    chosenGame ? TITLE_ART[chosenGame.code] : (current ?? SECTIONS[0])?.art,
+    90,
+  );
   useBackdrop(scene, { strength: 0.85, side: "full" });
 
   // Where the glove is, kept up to date the moment it moves, so keys pressed quickly (or held)
@@ -247,7 +260,7 @@ export function ClassicMenu() {
   const pointed = chosenGame;
   const help = pointed
     ? `${pointed.name}. ${coverageText(reference.data, pointed.code)}`
-    : current?.text;
+    : (current?.text ?? TAP_HELP);
 
   return (
     <section aria-labelledby="home-title" className="ff7 classic" data-zone={zone}>
@@ -280,8 +293,23 @@ export function ClassicMenu() {
                   to={archiveTitlePath(title.code)}
                   className="classic-member-link"
                   data-selected={zone === "party" && memberIndex === i ? "" : undefined}
-                  onPointerEnter={() => {
+                  onPointerEnter={(event) => {
+                    if (event.pointerType === "touch") return;
                     if (zone !== "party" || memberIndex !== i) pointAt(i);
+                  }}
+                  onPointerDown={(event) => {
+                    tap.current = {
+                      wasChosen: zone === "party" && memberIndex === i,
+                      touch: event.pointerType === "touch",
+                    };
+                  }}
+                  onClick={(event) => {
+                    const t = tap.current;
+                    tap.current = null;
+                    if (t?.touch && !t.wasChosen) {
+                      event.preventDefault();
+                      pointAt(i);
+                    }
                   }}
                   onFocus={() => {
                     glove.current.memberIndex = i;
@@ -360,8 +388,23 @@ export function ClassicMenu() {
                   to={section.to}
                   word={section.name}
                   aria-current={i === active ? "true" : undefined}
-                  onPointerEnter={() => {
+                  onPointerEnter={(event) => {
+                    if (event.pointerType === "touch") return;
                     if (zone !== "commands" || active !== i) goTo(i);
+                  }}
+                  onPointerDown={(event) => {
+                    tap.current = {
+                      wasChosen: zone === "commands" && active === i,
+                      touch: event.pointerType === "touch",
+                    };
+                  }}
+                  onClick={(event) => {
+                    const t = tap.current;
+                    tap.current = null;
+                    if (t?.touch && !t.wasChosen) {
+                      event.preventDefault();
+                      goTo(i);
+                    }
                   }}
                   onFocus={() => {
                     glove.current.active = i;

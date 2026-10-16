@@ -55,14 +55,14 @@ export const SECTIONS: readonly {
     to: "/settings",
     page: "settings",
     name: "Config",
-    text: "Motion, the title screen and the cursor, saved in this browser.",
+    text: "Music, motion, the title screen and the cursor, saved in this browser.",
     art: "key/barret-marlene",
   },
 ];
 
-/** The chosen section, and moving the glove to another (with wrap). */
-export function useMenu() {
-  const [active, setActive] = useState(0);
+/** The chosen section (-1 for none yet), and moving the glove to another (with wrap). */
+export function useMenu(initial = 0) {
+  const [active, setActive] = useState(initial);
   const links = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const choose = (i: number) => {
@@ -83,5 +83,5 @@ export function useMenu() {
     links.current[i] = el;
   };
 
-  return { active, choose, go, ref, current: SECTIONS[active] ?? SECTIONS[0] };
+  return { active, choose, go, ref, current: SECTIONS[active] };
 }

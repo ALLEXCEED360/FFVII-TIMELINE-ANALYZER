@@ -24,6 +24,7 @@ The original's pause menu. The four games are the party: cover, year as LV, wher
 
 - **Keys anywhere:** ↑ ↓ / W S within a column, ← A to the games, → D back to the commands, up from the top to Search and Credits, Enter to open. Mouse and keys move **one** glove.
 - **A chosen game** comes forward: its cover grows and glows in its colour, the others dim, and its key art fills the screen.
+- **On a touch screen** nothing is chosen at first. The first tap on a command or game points the glove at it and explains it; a second tap opens it. Upright, the games are covers two by two below the commands; on its side, the desktop's two columns return at a smaller size.
 
 ## Sections
 

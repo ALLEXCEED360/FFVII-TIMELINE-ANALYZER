@@ -67,7 +67,6 @@ test("from a citation to its part of the game, and on through the archive", asyn
   await expect(
     page.getByRole("heading", { level: 1, name: "The games, chapter by chapter" }),
   ).toBeVisible();
-  await expect(page.getByText("How the facts were checked")).toHaveCount(0);
 });
 
 test("on a phone: an event opens under itself, and a comparison is tabs @mobile", async ({

@@ -57,3 +57,20 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
     "Nibelheim Incident",
   );
 });
+
+test("on a phone, the home menu points at a tap and opens on a second @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/");
+  // Nothing is chosen until the first tap.
+  await expect(page.locator(".classic-command[aria-current]")).toHaveCount(0);
+  const compare = page.getByRole("link", { name: "Compare", exact: true });
+  await compare.tap();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(compare).toHaveAttribute("aria-current", "true");
+  await expect(page.locator(".classic-help")).toContainText("what changed between them");
+  await compare.tap();
+  await expect(page).toHaveURL(/\/compare$/);
+});
