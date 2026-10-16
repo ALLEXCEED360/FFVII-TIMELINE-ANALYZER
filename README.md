@@ -101,6 +101,8 @@ docs/           the model, the design and the decisions
 - **API:** a Docker image ([`apps/api/Dockerfile`](apps/api/Dockerfile)) that applies migrations and reseeds from the bundled `data/` on start, hosted on Render from [`render.yaml`](render.yaml) with a Neon Postgres database ([decision 0006](docs/decisions/0006-api-design.md)).
 - **Site:** a static build on Vercel ([`apps/web/vercel.json`](apps/web/vercel.json)), with `VITE_API_URL` pointing at the API ([decision 0007](docs/decisions/0007-web-app.md)).
 
+Step by step, from nothing to a live site: [`docs/deploy.md`](docs/deploy.md).
+
 ## ☞ Canon
 
 Each game is its own canon; where they disagree, that's a difference to show, never a contradiction to settle. A fact goes in only once it has been checked against the game — by playing it, from recorded footage, or from its script — and it carries where in the game to see it. Fan wikis are used only to find things, never as proof, and anything a game only shows without saying waits for a footage check. The sources used and the questions still open live in [`data/research/`](data/research/); the rules are in [`docs/canon-and-sources.md`](docs/canon-and-sources.md), and the whole model in [`docs/`](docs/README.md).

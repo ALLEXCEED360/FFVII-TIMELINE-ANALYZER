@@ -16,8 +16,14 @@ function databaseUrl(): string {
   return url;
 }
 
+/** Hosts such as Neon add `channel_binding`, which postgres.js would pass to the server as a
+ *  setting it doesn't know; the driver can't use it, so it's dropped. */
+export function withoutChannelBinding(url: string): string {
+  return url.replace(/([?&])channel_binding=[^&]*&?/, "$1").replace(/[?&]$/, "");
+}
+
 export function connect(url = databaseUrl()) {
-  const client = postgres(url, { max: 5, onnotice: () => undefined });
+  const client = postgres(withoutChannelBinding(url), { max: 5, onnotice: () => undefined });
   const db = drizzle(client, { schema, casing: "snake_case" });
   return { db, close: () => client.end() };
 }

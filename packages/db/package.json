@@ -8,7 +8,7 @@
   },
   "scripts": {
     "typecheck": "tsc",
-    "test": "vitest run search-query",
+    "test": "vitest run search-query client",
     "test:db": "vitest run db.test",
     "generate": "drizzle-kit generate"
   },

@@ -17,6 +17,7 @@ Read in this order:
 | [`model/spoilers.md`](model/spoilers.md)                   | The spoiler policy: one notice, then everything               |
 | [`features/divergence.md`](features/divergence.md)         | Where the games part ways, and what each marking means        |
 | [`design.md`](design.md)                                   | How the web app looks and behaves                             |
+| [`deploy.md`](deploy.md)                                   | Putting it online: Neon, Render and Vercel, step by step      |
 
 The research log — every source used and every open question — is data, in [`data/research/`](../data/research/).
 
