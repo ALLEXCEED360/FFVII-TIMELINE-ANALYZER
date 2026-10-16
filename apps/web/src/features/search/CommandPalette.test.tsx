@@ -25,7 +25,7 @@ describe("search palette", () => {
     await userEvent.type(screen.getByRole("combobox"), "aeris");
     const option = await screen.findByRole("option", { name: /Aerith Gainsborough/ });
     expect(option.textContent).toContain("Also known as Aeris");
-    expect(screen.getByRole("group", { name: "Characters" })).toBeTruthy();
+    expect(screen.getByRole("group", { name: "People" })).toBeTruthy();
   });
 
   it("moves with the arrow keys and opens the active result with Enter", async () => {

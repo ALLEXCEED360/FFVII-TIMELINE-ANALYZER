@@ -8,11 +8,16 @@ import {
 } from "react";
 import { useNavigate } from "react-router";
 import { useReference, useSearch } from "../../api/queries";
+import { Orb } from "../../components/Orb";
 import { ErrorMessage } from "../../components/QueryState";
 import { titleShort } from "../../lib/reference";
 import { useDebounced } from "../../lib/useDebounced";
 import { useUi } from "../../stores/ui";
 import { buildGroups } from "./palette";
+import "./search.css";
+
+/** Names to try, one tap each. */
+const TRIES = ["Cloud", "Aeris", "Sector 7", "Lifestream"];
 
 /** Ctrl/⌘ + K from anywhere. */
 export function useSearchShortcut() {
@@ -34,7 +39,7 @@ export function useSearchShortcut() {
 export const SHORTCUT_LABEL =
   typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform) ? "⌘K" : "Ctrl K";
 
-/** The global search palette: a modal combobox with results grouped by kind. */
+/** The global search: one of the original's windows, results grouped by kind, the glove on the chosen. */
 export function CommandPalette() {
   const open = useUi((s) => s.paletteOpen);
   if (!open) return null;
@@ -103,18 +108,19 @@ function Palette() {
   const positionOf = new Map(flat.map((item, i) => [item.key, i]));
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-void/70 p-4 pt-[12vh] backdrop-blur-sm">
-      {/* Clicking the backdrop closes; keyboard users have Escape. */}
-      <div aria-hidden="true" className="absolute inset-0" onClick={close} />
+    <div className="ff7 sp">
+      {/* Clicking outside closes; keyboard users have Escape. */}
+      <div aria-hidden="true" className="sp-shade" onClick={close} />
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Search the archive"
-        className="m-panel relative flex max-h-[70vh] w-full max-w-xl flex-col overflow-hidden shadow-2xl shadow-black/60"
+        className="sp-dialog"
         onKeyDown={onKeyDown}
       >
-        <div className="flex items-center gap-3 border-b border-night-700 px-4 py-3">
-          <span aria-hidden="true" className="size-2 rotate-45 bg-mako-400" />
+        {/* The original's name entry: a label, the text, and a way out. */}
+        <div className="ff7-window sp-head">
+          <Orb kind="character" size="1.1rem" />
           <input
             ref={inputRef}
             role="combobox"
@@ -123,33 +129,49 @@ function Palette() {
             aria-autocomplete="list"
             aria-activedescendant={activeKey ? `${listId}-${activeKey}` : undefined}
             aria-label="Search characters, events, locations, organizations and arcs"
-            placeholder="Search characters, events, places…"
+            placeholder="Type a name"
             value={input}
             onChange={(e) => {
               setInput(e.target.value);
               setActive(0);
             }}
-            className="flex-1 bg-transparent text-base text-steel-100 outline-none placeholder:text-steel-400"
+            className="ff7-text sp-input"
           />
-          <kbd className="rounded border border-night-600 px-1.5 text-xs text-steel-400">Esc</kbd>
+          <button type="button" onClick={close} className="ff7-text sp-close">
+            Close
+          </button>
         </div>
 
-        <div className="overflow-y-auto p-2">
+        <div className="ff7-window sp-body">
           {!q.trim() ? (
-            <p className="px-2 py-3 text-sm text-steel-400">
-              Try <em>Cloud</em>, <em>Aeris</em>, <em>Sector 7</em> or <em>Lifestream</em>. Typos
-              are fine.
-            </p>
-          ) : search.isError ? (
-            <div className="p-2">
-              <ErrorMessage error={search.error} />
+            <div className="sp-start">
+              <p className="ff7-text">Who or what are you looking for? Typos are fine.</p>
+              <ul aria-label="Try" className="sp-tries">
+                {TRIES.map((word) => (
+                  <li key={word}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setInput(word);
+                        setActive(0);
+                        inputRef.current?.focus();
+                      }}
+                      className="ff7-text sp-try"
+                    >
+                      {word}
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
+          ) : search.isError ? (
+            <ErrorMessage error={search.error} />
           ) : search.isPending ? (
-            <p role="status" className="px-2 py-3 text-sm text-steel-400">
+            <p role="status" className="ff7-text sp-note">
               Searching…
             </p>
           ) : flat.length === 0 ? (
-            <p role="status" className="px-2 py-3 text-sm text-steel-400">
+            <p role="status" className="ff7-text sp-note">
               Nothing found for “{q.trim()}”.
             </p>
           ) : (
@@ -159,32 +181,33 @@ function Palette() {
                   key={group.key}
                   role="group"
                   aria-labelledby={`${listId}-${group.key}-label`}
-                  className="mb-2"
+                  className="sp-group"
                 >
-                  <p id={`${listId}-${group.key}-label`} className="m-label px-2 py-1">
+                  <p id={`${listId}-${group.key}-label`} className="ff7-text ff7-label sp-kind">
+                    <Orb kind={group.key} />
                     {group.label}
                   </p>
                   {group.items.map((item) => {
                     const position = positionOf.get(item.key) ?? -1;
-                    const isActive = position === active;
                     return (
                       <div
                         key={item.key}
                         id={`${listId}-${item.key}`}
                         role="option"
-                        aria-selected={isActive}
+                        aria-selected={position === active}
                         onMouseEnter={() => {
                           setActive(position);
                         }}
                         onClick={() => {
                           go(item.href);
                         }}
-                        className={`flex cursor-pointer flex-col rounded px-2 py-1.5 ${
-                          isActive ? "bg-mako-900/60 text-mako-200" : "text-steel-100"
-                        }`}
+                        className="sp-option"
                       >
-                        <span className="text-sm">{item.label}</span>
-                        {item.hint && <span className="text-xs text-steel-400">{item.hint}</span>}
+                        <span aria-hidden="true" className="ff7-hand sp-glove">
+                          ☞
+                        </span>
+                        <span className="ff7-text sp-name">{item.label}</span>
+                        {item.hint && <span className="sp-hint">{item.hint}</span>}
                       </div>
                     );
                   })}
@@ -194,10 +217,18 @@ function Palette() {
           )}
         </div>
 
-        <p className="flex gap-4 border-t border-night-700 px-4 py-2 text-xs text-steel-400">
-          <span>↑↓ Move</span>
-          <span>↵ Open</span>
-          <span>Esc Close</span>
+        {/* Keys, where there's a keyboard. */}
+        <p className="ff7-window ff7-text sp-keys">
+          <span>
+            <kbd>↑</kbd>
+            <kbd>↓</kbd> Move
+          </span>
+          <span>
+            <kbd>Enter</kbd> Open
+          </span>
+          <span>
+            <kbd>Esc</kbd> Close
+          </span>
         </p>
       </div>
     </div>

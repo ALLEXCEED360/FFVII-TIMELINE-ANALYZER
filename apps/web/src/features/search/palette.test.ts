@@ -60,7 +60,12 @@ describe("buildGroups", () => {
   const groups = buildGroups(hits, arcs, ["nibelheim"], titleName);
 
   it("groups by kind, best group first, arcs last", () => {
-    expect(groups.map((g) => g.label)).toEqual(["Locations", "Events", "Characters", "Arcs"]);
+    expect(groups.map((g) => g.label)).toEqual([
+      "Places",
+      "Moments",
+      "People",
+      "Parts of the story",
+    ]);
   });
 
   it("keeps the API's ranking inside a group and links to entity pages", () => {
@@ -82,7 +87,7 @@ describe("buildGroups", () => {
         key: "arc_the_lifestream",
         href: "/timeline?arc=arc_the_lifestream",
         label: "The Lifestream",
-        hint: "Arc — opens the timeline",
+        hint: "A part of the story — opens the timeline",
       },
     ]);
   });

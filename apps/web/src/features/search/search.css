@@ -1,0 +1,221 @@
+/* The search (CommandPalette.tsx): the original's windows stacked as in its menus — the name
+   entry on top, the list under it, the keys at the foot — with the glove on the chosen result. */
+
+.sp {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: max(0.75rem, 12vh) 1rem 1rem;
+}
+.sp-shade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 20%, rgb(6 26 99 / 0.55), rgb(2 4 12 / 0.85) 70%);
+  backdrop-filter: blur(4px);
+}
+.sp-dialog {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 42rem;
+  max-height: min(76vh, calc(100dvh - 1.5rem));
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.sp kbd {
+  font-family: inherit;
+}
+
+/* ── The name entry ───────────────────────────────────────────────────────────────────────── */
+.sp-head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.75rem 0.7rem 1rem;
+  --open: 0s;
+}
+.sp-input {
+  min-width: 0;
+  flex: 1;
+  padding: 0.3rem 0;
+  border-bottom: 2px solid rgb(214 214 222 / 0.35);
+  background: transparent;
+  font-size: 26px;
+  caret-color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.sp-input::placeholder {
+  color: #7f93c4;
+  text-shadow: none;
+}
+.sp-input:focus {
+  border-bottom-color: #8ad7ff;
+}
+.sp-close {
+  flex: none;
+  padding: 0.35rem 0.8rem;
+  border: 2px solid rgb(214 214 222 / 0.6);
+  border-radius: 6px;
+  background: rgb(2 11 48 / 0.5);
+  font-size: 20px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+.sp-close:hover {
+  border-color: #fff;
+  background: rgb(31 95 196 / 0.6);
+}
+.sp-close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ── The list ─────────────────────────────────────────────────────────────────────────────── */
+.sp-body {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.8rem 0.9rem;
+  scrollbar-color: rgb(138 215 255 / 0.5) transparent;
+  --open: 0.05s;
+}
+.sp-note {
+  padding: 0.3rem 0.2rem;
+  font-size: 22px;
+}
+.sp-start {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 0.2rem;
+  font-size: 22px;
+  line-height: 1.3;
+}
+.sp-tries {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.sp-try {
+  padding: 0.3rem 0.85rem;
+  border: 2px solid rgb(214 214 222 / 0.55);
+  border-radius: 999px;
+  background: rgb(2 11 48 / 0.45);
+  font-size: 20px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+.sp-try:hover {
+  border-color: #fff;
+  background: rgb(31 95 196 / 0.6);
+}
+.sp-try:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.sp-group + .sp-group {
+  margin-top: 0.7rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgb(214 214 222 / 0.18);
+}
+.sp-kind {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.3rem 0.35rem;
+  font-size: 20px;
+}
+/* A result: its name in the game's lettering, why it matched under it; the glove in the gutter. */
+.sp-option {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.4rem 0.6rem 0.45rem 2.4rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.sp-option[aria-selected="true"] {
+  background: linear-gradient(90deg, rgb(138 215 255 / 0.2), rgb(138 215 255 / 0.04) 75%);
+  box-shadow: inset 2px 0 0 #8ad7ff;
+}
+.sp .sp-glove {
+  top: 1.15rem;
+  right: auto;
+  left: 0.4rem;
+  margin: 0;
+  font-size: 1.6rem;
+}
+.sp .sp-option[aria-selected="true"] .sp-glove {
+  visibility: visible;
+  animation: glove 0.9s steps(2) infinite;
+}
+.sp-name {
+  font-size: 23px;
+  line-height: 1.2;
+}
+.sp-hint {
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: #b9c6e3;
+}
+
+/* ── The keys ─────────────────────────────────────────────────────────────────────────────── */
+.sp-keys {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  padding: 0.5rem 1rem;
+  font-size: 20px;
+  color: #c9d3ea;
+  --open: 0.1s;
+}
+.sp-keys span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.sp-keys kbd {
+  min-width: 1.6rem;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid rgb(214 214 222 / 0.55);
+  border-radius: 4px;
+  background: rgb(31 95 196 / 0.35);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: none;
+}
+
+/* A touch screen: no keys to list, and the window from the top, clear of the keyboard. */
+@media (hover: none) {
+  .sp-keys {
+    display: none;
+  }
+}
+@media (max-width: 40rem), (max-height: 30rem) {
+  .sp {
+    padding: 0.75rem;
+  }
+  .sp-dialog {
+    max-height: calc(100dvh - 1.5rem);
+  }
+  .sp-input {
+    font-size: 22px;
+  }
+  .sp-name {
+    font-size: 21px;
+  }
+}

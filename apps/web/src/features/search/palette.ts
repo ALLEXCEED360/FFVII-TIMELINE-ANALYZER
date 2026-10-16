@@ -1,5 +1,6 @@
 import type { Arc, TitleCode } from "../../api/client";
-import { type EntityKind, KIND_LABELS, entityPath, isEntityKind } from "../../lib/paths";
+import { KIND_WORDS } from "../../lib/kinds";
+import { type EntityKind, entityPath, isEntityKind } from "../../lib/paths";
 
 // Turns search results into the palette's groups. Pure, so it's tested without a browser.
 
@@ -76,14 +77,15 @@ export function buildGroups(
 
   const groups: PaletteGroup[] = [...byKind.entries()]
     .sort((a, b) => b[1].best - a[1].best)
-    .map(([kind, { items }]) => ({ key: kind, label: KIND_LABELS[kind].many, items }));
+    .map(([kind, { items }]) => ({ key: kind, label: KIND_WORDS[kind].many, items }));
 
   const arcItems = matchArcs(arcs, terms).map((arc) => ({
     key: arc.id,
     href: `/timeline?arc=${arc.id}`,
     label: arc.name,
-    hint: "Arc — opens the timeline",
+    hint: "A part of the story — opens the timeline",
   }));
-  if (arcItems.length > 0) groups.push({ key: "arc", label: "Arcs", items: arcItems });
+  if (arcItems.length > 0)
+    groups.push({ key: "arc", label: "Parts of the story", items: arcItems });
   return groups;
 }
