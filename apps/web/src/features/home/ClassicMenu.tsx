@@ -2,6 +2,7 @@ import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import type { Reference, TitleCode } from "../../api/client";
 import { useEntities, useReference, useSources } from "../../api/queries";
+import { WAKING_TEXT, useWaking } from "../../api/waking";
 import { TITLE_ART, artSrc, artwork } from "../../art/manifest";
 import { useBackdrop } from "../../components/Backdrop";
 import { SectionLink } from "../../components/Wipe";
@@ -108,6 +109,7 @@ function keysAreFree(event: KeyboardEvent): boolean {
  */
 export function ClassicMenu() {
   const reference = useReference();
+  const waking = useWaking(reference.isPending);
   const entities = useEntities();
   const sources = useSources();
   const [touch] = useState(touchFirst);
@@ -293,8 +295,10 @@ export function ClassicMenu() {
   }, []);
   const items = entities.data?.items ?? [];
   const pointed = chosenGame;
-  const help =
-    zone === "bar"
+  // Until the API answers, the party is empty: the help line says why.
+  const help = waking
+    ? WAKING_TEXT
+    : zone === "bar"
       ? BAR_HELP[barIndex]
       : pointed
         ? `${pointed.name}. ${coverageText(reference.data, pointed.code)}`

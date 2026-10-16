@@ -8,8 +8,11 @@ import "./BootScreen.css";
 
 /** The shortest the title plays before it may leave on its own, so it reads as a beat. */
 const MIN_MS = 2400;
-/** How long it waits for the API to wake before giving up on it. */
+/** How long it waits for the API before saying it's waking, and leaving on its own. */
 const MAX_MS = 6000;
+/** The API sleeps between visits on its free host, and can take minutes to wake: keep asking. */
+const ASK_EVERY_MS = 5000;
+const GIVE_UP_MS = 4 * 60_000;
 /** Keypresses in the first moments are ignored, so a stray key can't skip the whole thing. */
 const ARM_MS = 700;
 const LEAVE_MS = 560;
@@ -33,7 +36,7 @@ const MOTES = Array.from({ length: 26 }, (_, i) => ({
 
 const IGNORED = new Set(["Tab", "Shift", "Control", "Alt", "Meta", "F5", "F11", "F12"]);
 
-type Status = "waking" | "online" | "offline";
+type Status = "waking" | "slow" | "online" | "offline";
 
 function sessionSeen(): boolean {
   try {
@@ -86,21 +89,30 @@ function Title({ onDone, replayed }: { onDone: () => void; replayed: boolean }) 
   // Dismissed — or, away from the home page, stepping aside once the archive has answered.
   const leaving = dismissed || (!waitForInput && minElapsed && status !== "waking");
 
-  // Wake the API.
+  // Wake the API, and keep asking while it wakes; the pages wait for it on their own as well.
   useEffect(() => {
     const controller = new AbortController();
-    const giveUp = window.setTimeout(() => {
-      controller.abort();
+    const started = Date.now();
+    let next = 0;
+    const slow = window.setTimeout(() => {
+      setStatus((now) => (now === "waking" ? "slow" : now));
     }, MAX_MS);
-    fetch(`${API_URL}/health`, { signal: controller.signal })
-      .then((response) => {
-        setStatus(response.ok ? "online" : "offline");
-      })
-      .catch(() => {
-        setStatus("offline");
-      });
+    const ask = () => {
+      fetch(`${API_URL}/health`, { signal: controller.signal })
+        .then((response) => {
+          if (!response.ok) throw new Error(String(response.status));
+          setStatus("online");
+        })
+        .catch(() => {
+          if (controller.signal.aborted) return;
+          if (Date.now() - started > GIVE_UP_MS) setStatus("offline");
+          else next = window.setTimeout(ask, ASK_EVERY_MS);
+        });
+    };
+    ask();
     return () => {
-      window.clearTimeout(giveUp);
+      window.clearTimeout(slow);
+      window.clearTimeout(next);
       controller.abort();
     };
   }, []);
@@ -177,12 +189,12 @@ function Title({ onDone, replayed }: { onDone: () => void; replayed: boolean }) 
     </p>
   );
 
-  const statusText =
-    status === "waking"
-      ? "Contacting the archive…"
-      : status === "online"
-        ? "Archive online"
-        : "Archive unreachable — continuing offline";
+  const statusText = {
+    waking: "Contacting the archive…",
+    slow: "Waking the archive — after a quiet spell this can take a minute or two",
+    online: "Archive online",
+    offline: "Archive unreachable — the pages will fill in once it answers",
+  }[status];
 
   return (
     <div

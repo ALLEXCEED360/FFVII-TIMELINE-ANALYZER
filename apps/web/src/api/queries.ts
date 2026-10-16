@@ -2,7 +2,8 @@ import { keepPreviousData, useQueries, useQuery } from "@tanstack/react-query";
 import { type DifferenceCategory, type EdgeCategory, type TitleCode, api, unwrap } from "./client";
 
 // Server state (TanStack Query). The data only changes when the dataset is redeployed, so answers
-// are cached for the whole visit.
+// are cached for the whole visit. Failed requests are retried while the API wakes, but never a
+// "not found" (api/waking.ts, set for every query in main.tsx).
 
 export function useReference() {
   return useQuery({
@@ -52,7 +53,6 @@ export function useComparison(id: string | undefined, titles: readonly TitleCode
       ),
     enabled: id !== undefined,
     placeholderData: keepPreviousData,
-    retry: false,
   });
 }
 
@@ -91,7 +91,6 @@ function networkQuery(id: string, depth: number, { titles, categories }: Network
   return {
     queryKey: ["network", id, query],
     queryFn: () => unwrap(api.GET("/network/{id}", { params: { path: { id }, query } })),
-    retry: false,
   };
 }
 
@@ -124,7 +123,6 @@ export function usePath(from: string | undefined, to: string | null, filter: Net
     queryKey: ["path", query],
     queryFn: () => unwrap(api.GET("/network/path", { params: { query } })),
     enabled: from !== undefined && to !== null,
-    retry: false,
   });
 }
 
@@ -142,7 +140,6 @@ export function useEntity(id: string | undefined) {
     queryKey: ["entity", id],
     queryFn: () => unwrap(api.GET("/entities/{id}", { params: { path: { id: id ?? "" } } })),
     enabled: id !== undefined,
-    retry: false,
   });
 }
 
@@ -167,7 +164,6 @@ export function useDivergence(
       unwrap(api.GET("/divergence/{id}", { params: { path: { id: id ?? "" }, query } })),
     enabled: id !== undefined,
     placeholderData: keepPreviousData,
-    retry: false,
   });
 }
 
@@ -189,6 +185,5 @@ export function useSourceUnit(title: TitleCode | undefined, unit: string | undef
         }),
       ),
     enabled: title !== undefined && unit !== undefined,
-    retry: false,
   });
 }

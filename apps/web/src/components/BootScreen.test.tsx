@@ -56,6 +56,25 @@ describe("title screen", () => {
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 
+  it("says the archive is waking when it's slow, and keeps asking until it answers", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    let awake = false;
+    stubApi((url) =>
+      url.pathname === "/health" && !awake ? { status: 503, body: { error: "asleep" } } : undefined,
+    );
+    renderAt("/");
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(6500);
+    });
+    expect(screen.getByText(/Waking the archive/)).toBeTruthy();
+
+    awake = true;
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5500);
+    });
+    expect(screen.getByText("Archive online")).toBeTruthy();
+  });
+
   it("can be played again from Settings", async () => {
     useUi.setState({ boot: "off" });
     stubApi();

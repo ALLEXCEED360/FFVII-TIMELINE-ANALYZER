@@ -74,7 +74,8 @@ export async function buildApp({
 
   app.addHook("onSend", async (request, reply) => {
     if (request.method === "GET" && reply.statusCode === 200 && !request.url.startsWith("/docs")) {
-      reply.header("cache-control", request.url.startsWith("/health") ? "no-store" : cacheControl);
+      const live = request.url.startsWith("/health") || request.url.startsWith("/live");
+      reply.header("cache-control", live ? "no-store" : cacheControl);
     }
   });
 
@@ -91,6 +92,19 @@ export async function buildApp({
       await db.execute(sql`select 1`);
       return { status: "ok" as const };
     },
+  );
+
+  // For keep-awake calls and the host's own checks: the database is left to sleep.
+  app.get(
+    "/live",
+    {
+      schema: {
+        tags: ["meta"],
+        summary: "Whether the API is running, without touching the database",
+        response: { 200: z.object({ status: z.literal("ok") }) },
+      },
+    },
+    () => ({ status: "ok" as const }),
   );
 
   await app.register(referenceRoutes, { db });

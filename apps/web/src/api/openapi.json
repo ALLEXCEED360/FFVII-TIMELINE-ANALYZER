@@ -41,6 +41,38 @@
         }
       }
     },
+    "/live": {
+      "get": {
+        "summary": "Whether the API is running, without touching the database",
+        "tags": [
+          "meta"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/reference": {
       "get": {
         "summary": "Titles, original segments, arcs, eras and worlds",

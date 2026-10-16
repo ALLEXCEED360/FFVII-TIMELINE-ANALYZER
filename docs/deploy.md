@@ -30,7 +30,7 @@ The tables don't need creating: the API applies the migrations and seeds from `d
 
 If Render asks for a card for a Blueprint, create it by hand instead: **New → Web Service** → the repository → Language **Docker**, Dockerfile path `./apps/api/Dockerfile`, context `.`, plan **Free**, health check `/health`, and the environment variables `DATABASE_URL` (Neon's), `CORS_ORIGIN` = `*`, `LOG_LEVEL` = `info`.
 
-The free plan sleeps after 15 minutes without visits; the next visit wakes it in about a minute.
+The free plan sleeps after 15 minutes without visits, and waking takes minutes. [`keep-awake.yml`](../.github/workflows/keep-awake.yml) calls the API's `/live` every 5 minutes so it stays up (one service fits in the free 750 hours a month); `/live`, unlike `/health`, leaves the Neon database to sleep. If it does sleep anyway, the title screen says the archive is waking and pages fill in on their own once it answers.
 
 ## 3. Site — Vercel
 

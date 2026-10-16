@@ -36,6 +36,13 @@ describe("basics", () => {
     expect(response.headers["cache-control"]).toBe("no-store");
   });
 
+  it("says it's running without caching, for keep-awake calls", async () => {
+    const { status, body, response } = await get("/live");
+    expect(status).toBe(200);
+    expect(body).toEqual({ status: "ok" });
+    expect(response.headers["cache-control"]).toBe("no-store");
+  });
+
   it("marks data responses cacheable", async () => {
     const { response } = await get("/reference");
     expect(response.headers["cache-control"]).toBe("public, max-age=300");
@@ -52,6 +59,7 @@ describe("basics", () => {
       "/entities",
       "/entities/{id}",
       "/health",
+      "/live",
       "/network/metrics",
       "/network/path",
       "/network/{id}",

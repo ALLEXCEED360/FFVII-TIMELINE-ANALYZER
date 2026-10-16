@@ -7,7 +7,8 @@ services:
     plan: free
     dockerfilePath: ./apps/api/Dockerfile
     dockerContext: .
-    healthCheckPath: /health
+    # Leaves the database to sleep between visits; the API checks it each time it starts.
+    healthCheckPath: /live
     autoDeploy: true
     envVars:
       - key: DATABASE_URL

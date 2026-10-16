@@ -2,18 +2,18 @@ import { expect, test } from "@playwright/test";
 
 // What happens when things go wrong, and what the browser downloads.
 
-test("an unreachable API shows an error with a retry, and recovers", async ({ page }) => {
+test("while the API is waking, a page says so and fills in by itself once it answers", async ({
+  page,
+}) => {
   await page.route("**/timeline?**", (route) => route.abort());
   await page.goto("/timeline");
-  const alert = page.getByRole("alert");
-  // TanStack Query retries a few times first, as the API may be waking up.
-  await expect(alert).toContainText("Couldn't reach the Timeline Analyzer API", {
-    timeout: 20_000,
-  });
+  await expect(page.getByText("Waking the archive")).toBeVisible({ timeout: 10_000 });
 
+  // No reload or click: the next try, at most 15 s later, gets through.
   await page.unroute("**/timeline?**");
-  await alert.getByRole("button", { name: /Retry|Try again/ }).click();
-  await expect(page.getByRole("heading", { name: "The Distant Past" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The Distant Past" })).toBeVisible({
+    timeout: 25_000,
+  });
 });
 
 test("a page whose code fails to download offers a reload, inside the site", async ({ page }) => {

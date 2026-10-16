@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { ApiError } from "../api/client";
+import { WAKING_TEXT, useWaking } from "../api/waking";
 
 // Loading, error and empty states shared by every data view: no panel is ever left blank.
 
@@ -11,11 +12,18 @@ export function Loading({
   /** "panel" holds the space of a large view (like the timeline) so the page doesn't jump. */
   variant?: "lines" | "panel";
 }) {
+  // A long wait means the API is waking: say so rather than look stuck.
+  const waking = useWaking(true);
+  const note = waking && <span className="max-w-prose text-sm text-(--m-dim)">{WAKING_TEXT}</span>;
   if (variant === "panel") {
     return (
-      <div role="status" className="m-panel flex h-80 flex-col items-center justify-center gap-3">
+      <div
+        role="status"
+        className="m-panel flex h-80 flex-col items-center justify-center gap-3 px-4 text-center"
+      >
         <span aria-hidden="true" className="size-2.5 rotate-45 animate-pulse bg-mako-400" />
         <span className="m-label">{label}</span>
+        {note}
       </div>
     );
   }
@@ -25,6 +33,7 @@ export function Loading({
       <span aria-hidden="true" className="skeleton h-3 w-3/4" />
       <span aria-hidden="true" className="skeleton h-3 w-1/2" />
       <span aria-hidden="true" className="skeleton h-3 w-2/3" />
+      {note}
     </div>
   );
 }
