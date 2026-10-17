@@ -12,6 +12,8 @@ const MIN_MS = 2400;
 const MAX_MS = 6000;
 /** The API sleeps between visits on its free host, and can take minutes to wake: keep asking. */
 const ASK_EVERY_MS = 5000;
+/** One ask that hangs (the database waking under it, say) is dropped and asked again. */
+const ASK_FOR_MS = 8000;
 const GIVE_UP_MS = 4 * 60_000;
 /** Keypresses in the first moments are ignored, so a stray key can't skip the whole thing. */
 const ARM_MS = 700;
@@ -98,7 +100,13 @@ function Title({ onDone, replayed }: { onDone: () => void; replayed: boolean }) 
       setStatus((now) => (now === "waking" ? "slow" : now));
     }, MAX_MS);
     const ask = () => {
-      fetch(`${API_URL}/health`, { signal: controller.signal })
+      const attempt = new AbortController();
+      const stop = () => {
+        attempt.abort();
+      };
+      controller.signal.addEventListener("abort", stop);
+      const limit = window.setTimeout(stop, ASK_FOR_MS);
+      fetch(`${API_URL}/health`, { signal: attempt.signal })
         .then((response) => {
           if (!response.ok) throw new Error(String(response.status));
           setStatus("online");
@@ -106,7 +114,12 @@ function Title({ onDone, replayed }: { onDone: () => void; replayed: boolean }) 
         .catch(() => {
           if (controller.signal.aborted) return;
           if (Date.now() - started > GIVE_UP_MS) setStatus("offline");
-          else next = window.setTimeout(ask, ASK_EVERY_MS);
+          // A dropped ask goes again at once; a refused one after a pause.
+          else next = window.setTimeout(ask, attempt.signal.aborted ? 0 : ASK_EVERY_MS);
+        })
+        .finally(() => {
+          window.clearTimeout(limit);
+          controller.signal.removeEventListener("abort", stop);
         });
     };
     ask();

@@ -75,6 +75,35 @@ describe("title screen", () => {
     expect(screen.getByText("Archive online")).toBeTruthy();
   });
 
+  it("drops an ask that hangs and asks again, so it can't stay waking", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    stubApi();
+    const answer = globalThis.fetch;
+    let hung = false;
+    vi.stubGlobal("fetch", (input: Request | string, init?: RequestInit) => {
+      const url = typeof input === "string" ? input : input.url;
+      if (url.endsWith("/health") && !hung) {
+        hung = true;
+        return new Promise((_, reject) => {
+          init?.signal?.addEventListener("abort", () => {
+            reject(new DOMException("Aborted", "AbortError"));
+          });
+        });
+      }
+      return answer(input, init);
+    });
+    renderAt("/");
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(6500);
+    });
+    expect(screen.getByText(/Waking the archive/)).toBeTruthy();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+    expect(screen.getByText("Archive online")).toBeTruthy();
+  });
+
   it("can be played again from Settings", async () => {
     useUi.setState({ boot: "off" });
     stubApi();
