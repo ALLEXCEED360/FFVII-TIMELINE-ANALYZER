@@ -1,9 +1,10 @@
 name: Keep the API awake
 
-# Render's free plan puts the API to sleep after 15 minutes without a visit, and waking it takes
-# minutes. A call every few minutes keeps it up (one service fits in the free plan's 750 hours a
-# month). It calls /live, which leaves the database to sleep. GitHub may run these late at busy
-# times, so the interval leaves room; it also pauses them after 60 days without a push.
+# Render's free plan puts the API to sleep after 15 minutes without a visit. A call every few minutes
+# keeps it up (one service fits in the free plan's 750 hours a month); /live leaves the database to
+# sleep. GitHub runs this far less often than asked on a quiet repository (every few hours), so the
+# main caller is cron-job.org (docs/deploy.md) and this is a backup. GitHub also pauses it after 60
+# days without a push.
 
 on:
   schedule:

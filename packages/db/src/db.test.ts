@@ -15,6 +15,7 @@ import { filterGraph, neighborhood as graphNeighborhood } from "@ffvii/graph-cor
 import { listDifferences, listEntities, reference } from "./catalog.ts";
 import { connect } from "./client.ts";
 import { loadGraph } from "./graph.ts";
+import { prepareDatabase } from "./prepare.ts";
 import { comparison, entity, neighborhood, playOrder, search, timeline } from "./queries.ts";
 import { buildSeedRows, seed } from "./seed.ts";
 
@@ -53,6 +54,16 @@ describe("seed", () => {
 
   it("can be run again without duplicating anything", async () => {
     await seed(db, buildSeedRows(dataset));
+    expect(await count("edges")).toBe(dataset.edges.length);
+  });
+
+  it("on start, reseeds only when the data or the code that reads it has changed", async () => {
+    const log: string[] = [];
+    // The plain seed above left no fingerprint, so the first start reseeds; the next one needn't.
+    await prepareDatabase(db, DATA_DIR, (line) => log.push(line));
+    await prepareDatabase(db, DATA_DIR, (line) => log.push(line));
+    expect(log.filter((line) => line.startsWith("seeded"))).toHaveLength(1);
+    expect(log.at(-1)).toMatch(/not reseeding/);
     expect(await count("edges")).toBe(dataset.edges.length);
   });
 

@@ -26,6 +26,7 @@ import {
   real,
   smallint,
   text,
+  timestamp,
 } from "drizzle-orm/pg-core";
 
 // The database is a derived copy of data/ (docs/decisions/0005-database-schema.md).
@@ -437,5 +438,15 @@ export const citations = pgTable(
     ),
   ],
 );
+
+// ─── Seeding ────────────────────────────────────────────────────────────────────
+
+/** What the database was last seeded from: a fingerprint of the data and of the code that turns it
+ *  into rows. A start with neither changed skips the reseed (prepare.ts). One row, or none. */
+export const seedState = pgTable("seed_state", {
+  id: integer().primaryKey(),
+  fingerprint: text().notNull(),
+  seededAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+});
 
 export type { EdgeType, TitleCode };

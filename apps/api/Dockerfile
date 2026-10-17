@@ -19,9 +19,10 @@ COPY packages packages
 COPY apps/api apps/api
 COPY data data
 
-ENV NODE_ENV=production PORT=3000
+# The database is a derived copy of data/ (docs/decisions/0004). Before serving, the server applies
+# migrations and reseeds, but only when the data or the code that reads it has changed.
+ENV NODE_ENV=production PORT=3000 SEED_FROM=data
 EXPOSE 3000
 USER node
 
-# The database is a derived copy of data/ (docs/decisions/0004): bring it up to date, then serve.
-CMD ["sh", "-c", "node packages/db/src/cli/migrate.ts && node packages/db/src/cli/seed.ts data && node apps/api/src/server.ts"]
+CMD ["node", "apps/api/src/server.ts"]

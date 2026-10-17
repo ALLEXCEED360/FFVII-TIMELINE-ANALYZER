@@ -33,11 +33,11 @@ The web app needs read-only access to the dataset. The data only changes when `d
 - **Caching:** data responses send `Cache-Control: public, max-age=300` in production, `no-store` in development and on `/health`.
 - **No spoiler filtering** (`docs/model/spoilers.md`).
 
-**Deployment:** a Docker image (`apps/api/Dockerfile`) bundles the code and `data/`. On start it applies migrations and **reseeds the database from the bundled data**, then serves, so the live database always matches the deployed data. Hosting: Render (free web service, from `render.yaml`) with Neon (free Postgres). CI builds the image on every push.
+**Deployment:** a Docker image (`apps/api/Dockerfile`) bundles the code and `data/`. On start, in the server's own process, it applies migrations and **reseeds the database from the bundled data** whenever the data or the code that turns it into rows has changed (a fingerprint of both is kept in `seed_state`), then serves, so the live database always matches the deployed data and a plain restart is quick. Hosting: Render (free web service, from `render.yaml`) with Neon (free Postgres). CI builds the image on every push.
 
 ## Consequences
 
 - ✅ One deploy ships code and data together, with no separate release step.
 - ✅ The OpenAPI document at `/docs/json` is the contract the web app's types will be generated from (Phase 4).
 - ❌ Reseeding on start assumes a single instance. With several, move the seed to a release step.
-- ❌ Render's free tier sleeps when idle, so the first request after a while is slow.
+- ❌ Render's free tier sleeps when idle, so the first request after a while is slow. A call to `/live` every few minutes keeps it awake (`docs/deploy.md`), and the site waits for it with a "waking" note.

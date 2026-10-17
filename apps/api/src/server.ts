@@ -1,8 +1,11 @@
-// Usage: node apps/api/src/server.ts — env: DATABASE_URL, PORT (3000), HOST, CORS_ORIGIN, LOG_LEVEL.
-import { connect } from "@ffvii/db";
+// Usage: node apps/api/src/server.ts — env: DATABASE_URL, PORT (3000), HOST, CORS_ORIGIN, LOG_LEVEL,
+// and SEED_FROM (a data folder) to bring the database up to date before serving, as the image does.
+import { resolve } from "node:path";
+import { connect, prepareDatabase } from "@ffvii/db";
 import { buildApp } from "./app.ts";
 
 const { db, close } = connect();
+if (process.env.SEED_FROM) await prepareDatabase(db, resolve(process.env.SEED_FROM));
 const app = await buildApp({
   db,
   corsOrigin: process.env.CORS_ORIGIN?.split(",") ?? "*",

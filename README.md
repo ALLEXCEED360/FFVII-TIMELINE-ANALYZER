@@ -33,7 +33,7 @@ The four games, as the home menu lines them up.
 | **Final Fantasy VII Remake Intergrade — INTERmission** | 2021 | Yuffie's 2 chapters, a new story beside the first                |
 | **Final Fantasy VII Rebirth**                          | 2024 | 14 chapters and an interlude, from Kalm to the Forgotten Capital |
 
-**115** characters, moments, places and groups · **275** appearances · **405** links — each checked against the games themselves.
+**31** people, **52** moments, **27** places and **5** groups, **115** in all · **275** appearances across the games · **405** links between them — each checked against the games themselves.
 
 ## ☞ Command
 

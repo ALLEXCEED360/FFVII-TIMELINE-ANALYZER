@@ -349,12 +349,13 @@ async function insertAll<T extends PgTable>(db: Db, table: T, values: Insert<T>[
   }
 }
 
-/** Replaces the whole database contents in one transaction: either all of it lands, or none. */
-export async function seed(db: Db, rows: SeedRows): Promise<void> {
+/** Replaces the whole database contents in one transaction: either all of it lands, or none. With a
+ *  fingerprint of what it was seeded from, a later start can tell nothing changed (prepare.ts). */
+export async function seed(db: Db, rows: SeedRows, fingerprint?: string): Promise<void> {
   await db.transaction(async (tx) => {
     await tx.execute(sql`
       truncate ${t.titles}, ${t.ogSegments}, ${t.worlds}, ${t.entities}, ${t.arcs}, ${t.eras},
-        ${t.idRedirects} cascade
+        ${t.idRedirects}, ${t.seedState} cascade
     `);
     const txDb = tx as unknown as Db;
     // Parents before children, so every foreign key already has its target.
@@ -377,5 +378,6 @@ export async function seed(db: Db, rows: SeedRows): Promise<void> {
     await insertAll(txDb, t.edgeTitles, rows.edgeTitles);
     await insertAll(txDb, t.idRedirects, rows.idRedirects);
     await insertAll(txDb, t.citations, rows.citations);
+    if (fingerprint !== undefined) await txDb.insert(t.seedState).values({ id: 1, fingerprint });
   });
 }

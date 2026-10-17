@@ -25,12 +25,17 @@ The tables don't need creating: the API applies the migrations and seeds from `d
 1. Sign up at [render.com](https://render.com) with GitHub and allow it to see this repository.
 2. **New → Blueprint** → pick the repository. Render reads `render.yaml` and offers one service, `ffvii-timeline-api` (Docker, free).
 3. When it asks for `DATABASE_URL`, paste Neon's connection string. Apply.
-4. Wait for the first build (a few minutes). The log should end with `migrations applied`, `seeded 115 entities…` and `Server listening`.
+4. Wait for the first build (a few minutes). The log should end with `migrations applied`, `seeded 115 entities…` and `Server listening`. Later starts with neither the data nor the code that reads it changed say `data unchanged since the last seed: not reseeding` instead, and are up in seconds.
 5. Open `https://<service>.onrender.com/health` — it answers `{"status":"ok"}`. Note this address: it's the API's.
 
 If Render asks for a card for a Blueprint, create it by hand instead: **New → Web Service** → the repository → Language **Docker**, Dockerfile path `./apps/api/Dockerfile`, context `.`, plan **Free**, health check `/health`, and the environment variables `DATABASE_URL` (Neon's), `CORS_ORIGIN` = `*`, `LOG_LEVEL` = `info`.
 
-The free plan sleeps after 15 minutes without visits, and waking takes minutes. [`keep-awake.yml`](../.github/workflows/keep-awake.yml) calls the API's `/live` every 5 minutes so it stays up (one service fits in the free 750 hours a month); `/live`, unlike `/health`, leaves the Neon database to sleep. If it does sleep anyway, the title screen says the archive is waking and pages fill in on their own once it answers.
+The free plan sleeps after 15 minutes without visits, and waking it takes a minute or more. To keep it up (one service fits in the free 750 hours a month), have something call the API's `/live` every 5 minutes. `/live`, unlike `/health`, leaves the Neon database to sleep.
+
+- **[cron-job.org](https://cron-job.org)** (free; the reliable one): **Create cronjob** → URL `https://<service>.onrender.com/live` → **Every 5 minutes** → save.
+- **[`keep-awake.yml`](../.github/workflows/keep-awake.yml)** asks GitHub for the same, but GitHub runs it only every few hours on a quiet repository, so it is a backup.
+
+If the API sleeps anyway, the title screen says the archive is waking and pages fill in on their own once it answers.
 
 ## 3. Site — Vercel
 
