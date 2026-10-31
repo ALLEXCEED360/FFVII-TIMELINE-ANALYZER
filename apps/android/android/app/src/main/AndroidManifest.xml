@@ -38,4 +38,6 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- A short buzz as a held command lifts out. -->
+    <uses-permission android:name="android.permission.VIBRATE" />
 </manifest>

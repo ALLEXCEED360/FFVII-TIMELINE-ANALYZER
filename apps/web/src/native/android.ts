@@ -11,10 +11,13 @@ type Router = ReturnType<typeof createBrowserRouter>;
 export function startAndroid(router: Router): void {
   document.documentElement.dataset.native = "android";
 
-  // Back closes what's open, then steps back through the pages, then home, then leaves the app.
+  // Back closes what's open (a held command lifted out, search, the menu), then steps back
+  // through the pages, then home, then leaves the app.
   void App.addListener("backButton", ({ canGoBack }) => {
     const ui = useUi.getState();
-    if (ui.paletteOpen) {
+    if (document.querySelector("[data-peek]")) {
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+    } else if (ui.paletteOpen) {
       ui.setPaletteOpen(false);
     } else if (document.querySelector(".mbar-menu[aria-expanded='true']")) {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));

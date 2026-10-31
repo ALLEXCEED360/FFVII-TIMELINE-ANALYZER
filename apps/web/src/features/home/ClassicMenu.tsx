@@ -16,6 +16,7 @@ import { coverageText } from "../archive/units";
 import { ENTITY_KINDS, KIND_LABELS, archiveTitlePath } from "../../lib/paths";
 import { TITLE_COLOR } from "../../lib/titles";
 import { SECTIONS, useMenu } from "./menu";
+import { Peek } from "./Peek";
 
 /** Whole seconds since the page loaded: it runs on through other pages, and a refresh resets it. */
 const secondsOpen = () => Math.floor(performance.now() / 1000);
@@ -129,20 +130,38 @@ export function ClassicMenu() {
   const sources = useSources();
   const [touch] = useState(touchFirst);
   const { active, choose, go, ref, current } = useMenu(touch ? -1 : 0);
-  // On touch, let go of a command or game quickly and it opens; hold it and the glove moves to it
-  // and shows what it holds. Only once held, so a drag to scroll leaves the glove where it is.
+  // On touch, let go of a command or game quickly and it opens; hold it and it sinks a little under
+  // the finger, then lifts out over the page with what it holds (Peek). Only once held, so a drag
+  // to scroll leaves everything where it is.
   const press = useRef<Press>(null);
   const holding = useRef<number | undefined>(undefined);
+  const pressed = useRef<HTMLElement | null>(null);
   const letGo = () => {
     window.clearTimeout(holding.current);
+    if (pressed.current) delete pressed.current.dataset.pressing;
+    pressed.current = null;
   };
-  const pressOn = (event: ReactPointerEvent, look: () => void) => {
+  const pressOn = (event: ReactPointerEvent<HTMLElement>, look: (held: HTMLElement) => void) => {
     const touch = event.pointerType === "touch";
     press.current = { at: event.timeStamp, touch };
     letGo();
-    if (touch) holding.current = window.setTimeout(look, HOLD_MS);
+    if (!touch) return;
+    const held = event.currentTarget;
+    held.dataset.pressing = "";
+    pressed.current = held;
+    holding.current = window.setTimeout(() => {
+      letGo();
+      if ("vibrate" in navigator) navigator.vibrate(12);
+      look(held);
+    }, HOLD_MS);
   };
   useEffect(() => letGo, []);
+  // What's lifted out, and from where.
+  const [peek, setPeek] = useState<{
+    kind: "command" | "game";
+    index: number;
+    from: DOMRect;
+  } | null>(null);
   // One glove, moved by keys or pointing: its column, and the game it last pointed at.
   const [zone, setZone] = useState<Zone>("commands");
   const [memberIndex, setMemberIndex] = useState(0);
@@ -383,13 +402,15 @@ export function ClassicMenu() {
                   to={archiveTitlePath(title.code)}
                   className="classic-member-link"
                   data-selected={zone === "party" && memberIndex === i ? "" : undefined}
+                  data-lifted={peek?.kind === "game" && peek.index === i ? "" : undefined}
                   onPointerEnter={(event) => {
                     if (event.pointerType === "touch") return;
                     if (zone !== "party" || memberIndex !== i) pointAt(i);
                   }}
                   onPointerDown={(event) => {
-                    pressOn(event, () => {
+                    pressOn(event, (held) => {
                       pointAt(i);
+                      setPeek({ kind: "game", index: i, from: held.getBoundingClientRect() });
                     });
                   }}
                   onPointerUp={letGo}
@@ -475,13 +496,15 @@ export function ClassicMenu() {
                   to={section.to}
                   word={section.name}
                   aria-current={i === active ? "true" : undefined}
+                  data-lifted={peek?.kind === "command" && peek.index === i ? "" : undefined}
                   onPointerEnter={(event) => {
                     if (event.pointerType === "touch") return;
                     if (zone !== "commands" || active !== i) goTo(i);
                   }}
                   onPointerDown={(event) => {
-                    pressOn(event, () => {
+                    pressOn(event, (held) => {
                       goTo(i);
+                      setPeek({ kind: "command", index: i, from: held.getBoundingClientRect() });
                     });
                   }}
                   onPointerUp={letGo}
@@ -526,6 +549,106 @@ export function ClassicMenu() {
         </dl>
         <p className="ff7-window classic-location ff7-text">Midgar · Timeline Analyzer</p>
       </div>
+      {peek && (
+        <MenuPeek
+          kind={peek.kind}
+          index={peek.index}
+          from={peek.from}
+          reference={reference.data}
+          onClose={() => {
+            setPeek(null);
+          }}
+        />
+      )}
     </section>
+  );
+}
+
+/** A held command or game, lifted out: its name, then what it holds and the way in. */
+function MenuPeek({
+  kind,
+  index,
+  from,
+  reference,
+  onClose,
+}: {
+  kind: "command" | "game";
+  index: number;
+  from: DOMRect;
+  reference: Reference | undefined;
+  onClose: () => void;
+}) {
+  if (kind === "command") {
+    const section = SECTIONS[index];
+    if (!section) return null;
+    const art = artwork(section.art);
+    return (
+      <Peek
+        from={from}
+        label={section.name}
+        onClose={onClose}
+        item={
+          <div className="ff7-window peek-window peek-command">
+            <span className="ff7-text peek-name">{section.name}</span>
+            <span className="ff7-text peek-hint">{section.hint}</span>
+          </div>
+        }
+        details={
+          <div className="ff7-window peek-window peek-details">
+            {art && (
+              <img
+                src={artSrc(art)}
+                alt=""
+                className="peek-art"
+                style={{ objectPosition: art.focus }}
+              />
+            )}
+            <p className="ff7-text peek-text">{section.text}</p>
+            <SectionLink to={section.to} word={section.name} className="ff7-text peek-open">
+              Open {section.name}
+              <span aria-hidden="true">▸</span>
+            </SectionLink>
+          </div>
+        }
+      />
+    );
+  }
+  const title = reference?.titles[index];
+  if (!title) return null;
+  const art = artwork(TITLE_ART[title.code]);
+  return (
+    <Peek
+      from={from}
+      label={title.name}
+      onClose={onClose}
+      item={
+        <div
+          className="ff7-window peek-window peek-game"
+          style={{ "--c": TITLE_COLOR[title.code] } as CSSProperties}
+        >
+          {art && (
+            <img
+              src={artSrc(art)}
+              alt=""
+              className="peek-cover"
+              style={{ objectPosition: art.focus }}
+            />
+          )}
+          <span className="ff7-text peek-name">{title.shortName}</span>
+          <span className="ff7-text peek-hint">
+            <span className="ff7-label">LV</span> {title.released.slice(0, 4)}
+          </span>
+        </div>
+      }
+      details={
+        <div className="ff7-window peek-window peek-details">
+          <p className="ff7-text peek-text">{coverageText(reference, title.code)}</p>
+          <Link to={archiveTitlePath(title.code)} className="ff7-text peek-open">
+            Open {title.shortName}
+            <span aria-hidden="true">▸</span>
+          </Link>
+        </div>
+      }
+    />
   );
 }

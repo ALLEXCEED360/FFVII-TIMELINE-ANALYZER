@@ -72,7 +72,7 @@ async function hold(page: Page, target: Locator) {
   await cdp.detach();
 }
 
-test("on a phone, a tap on the home menu opens, and a hold only shows what's there @mobile", async ({
+test("on a phone, a tap on the home menu opens, and a hold lifts it out to look at @mobile", async ({
   page,
   isMobile,
 }) => {
@@ -82,11 +82,16 @@ test("on a phone, a tap on the home menu opens, and a hold only shows what's the
   await expect(page.locator(".classic-command[aria-current]")).toHaveCount(0);
   const compare = page.getByRole("link", { name: "Compare", exact: true });
   await hold(page, compare);
-  await expect(compare).toHaveAttribute("aria-current", "true");
-  await expect(page.locator(".classic-help")).toContainText("what changed between them");
-  await page.waitForTimeout(300);
+  const peek = page.getByRole("dialog", { name: "Compare" });
+  await expect(peek).toContainText("what changed between them");
+  // Behind it, open as a dialog (so out of the page's roles for now), the glove is on it.
+  await expect(page.locator(".classic-command[aria-current]")).toContainText("Compare");
   await expect(page).toHaveURL(/\/$/);
-  await compare.tap();
+  // A tap outside puts it back.
+  await page.touchscreen.tap(8, 8);
+  await expect(peek).toHaveCount(0);
+  await hold(page, compare);
+  await page.getByRole("link", { name: "Open Compare" }).tap();
   await expect(page).toHaveURL(/\/compare$/);
 
   await page.goto("/");
