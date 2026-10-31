@@ -18,7 +18,9 @@
     </style>
 
 
+    <!-- Opening: the app's icon on the same night blue (Android 12 and later draw it themselves). -->
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="android:background">@drawable/splash</item>
+        <item name="windowSplashScreenBackground">@color/night</item>
     </style>
 </resources>

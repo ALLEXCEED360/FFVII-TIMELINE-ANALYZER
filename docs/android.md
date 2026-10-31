@@ -12,8 +12,11 @@ without a new APK; a change to the pages or the look needs a new release.
 | Back button, music pause | [`apps/web/src/native/android.ts`](../apps/web/src/native/android.ts), only in the app |
 | Releases                 | [`.github/workflows/android.yml`](../.github/workflows/android.yml)                    |
 
+The launcher icon (`res/mipmap-*`) and the opening screen (`res/drawable*/splash.png`, the icon on
+night blue) are made from one 1024×1024 PNG, for now a placeholder until the final icon is done.
+
 Inside the app, the page sits clear of the status and navigation bars (`--safe-area-inset-*` from
-Capacitor), the back button closes search or the menu, then goes back a page, then home, then leaves
+Capacitor, with a night-dark strip under each so the page scrolls beneath them), the back button closes search or the menu, then goes back a page, then home, then leaves
 the app, and the music rests while the app is out of sight.
 
 ## Releasing

@@ -72,6 +72,25 @@
     padding: var(--safe-area-inset-top, 0px) var(--safe-area-inset-right, 0px)
       var(--safe-area-inset-bottom, 0px) var(--safe-area-inset-left, 0px);
   }
+  /* Night-dark strips under the status bar and the navigation bar, so the page scrolls beneath
+     them instead of showing through behind the clock and the buttons. */
+  :root[data-native]::before,
+  :root[data-native]::after {
+    content: "";
+    position: fixed;
+    inset-inline: 0;
+    z-index: 80;
+    pointer-events: none;
+    background: #05070a;
+  }
+  :root[data-native]::before {
+    top: 0;
+    height: var(--safe-area-inset-top, 0px);
+  }
+  :root[data-native]::after {
+    bottom: 0;
+    height: var(--safe-area-inset-bottom, 0px);
+  }
 
   /* Faint paper grain over everything. */
   body::after {
