@@ -231,8 +231,48 @@
   font-size: 1.6em;
   line-height: 1.4;
 }
+/* Touch and hold shows what a command, a game, Search or Credits holds: no text selection or the
+   phone's link menu over it. */
+.classic-command,
+.classic-member-link,
+[data-menu-bar] > a,
+[data-menu-bar] > button {
+  -webkit-touch-callout: none;
+  user-select: none;
+}
 .classic-command:focus-visible {
   outline: none;
+}
+.classic-command-hint,
+.classic-command-go {
+  display: none;
+}
+/* On a touch screen, with no pointing to show the glove, each command is a row to tap: ruled off
+   from the next, with an arrow at its end (and, upright, a few words on where it goes). */
+@media (hover: none) {
+  .classic-commands li + li {
+    border-top: 1px solid rgb(154 160 200 / 0.3);
+  }
+  .classic-command {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 0.6em;
+    padding-block: 0.2em;
+  }
+  .classic-command-go {
+    display: block;
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    font-family:
+      "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;
+    font-size: 1em;
+    color: #8ad7ff;
+    text-shadow: 0 0 0.4em rgb(138 215 255 / 0.6);
+  }
+  .classic-command[aria-current] {
+    background: linear-gradient(90deg, rgb(138 215 255 / 0.18), transparent 80%);
+  }
 }
 .classic-command[aria-current] .ff7-hand {
   visibility: visible;
@@ -287,6 +327,40 @@
   .classic-command {
     font-size: 1.4em;
     line-height: 1.35;
+  }
+  @media (hover: none) {
+    /* Bigger rows, in a window of its own height that scrolls: four and a half rows show, the
+       half saying there's more. The list keeps the window's left margin, so the glove isn't
+       cut off. */
+    .classic-command {
+      font-size: 1.65em;
+      padding-block: 0.3em;
+    }
+    .classic-commands ul {
+      max-height: min(20.8em, 58svh);
+      margin-left: -2.6em;
+      padding-left: 2.6em;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scroll-snap-type: y proximity;
+      scrollbar-width: thin;
+      scrollbar-color: #8ad7ff transparent;
+    }
+    .classic-commands li {
+      scroll-snap-align: start;
+    }
+    .classic-command-hint {
+      display: block;
+      grid-column: 1;
+      grid-row: 2;
+      font-size: 0.6em;
+      line-height: 1.4;
+      color: #c9d3ff;
+    }
+    /* Level with the name, not the middle of the name and its words. */
+    .classic-command .ff7-hand {
+      top: calc(0.3em + 0.675em);
+    }
   }
   .classic-members {
     display: grid;

@@ -1,4 +1,10 @@
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Link } from "react-router";
 import type { Reference, TitleCode } from "../../api/client";
 import { useEntities, useReference, useSources } from "../../api/queries";
@@ -87,7 +93,16 @@ const touchFirst = () =>
   typeof window.matchMedia === "function" && window.matchMedia("(hover: none)").matches;
 
 /** What a tap means before anything is chosen. */
-const TAP_HELP = "Tap a command or a game to see what it holds, then tap it again to open it.";
+const TAP_HELP = "Tap a command or a game to open it. Touch and hold to see what it holds first.";
+
+/** On touch, a press held this long only shows what a command or a game holds, and opens nothing. */
+const HOLD_MS = 400;
+
+/** A press on the menu: when it began, and whether by touch. */
+type Press = { at: number; touch: boolean } | null;
+
+/** A touch press long enough to be a look rather than a tap. */
+const isHold = (press: Press) => press?.touch === true && performance.now() - press.at >= HOLD_MS;
 
 /** What the bar's items do, in its order (Search, Credits). */
 const BAR_HELP = [
@@ -114,8 +129,20 @@ export function ClassicMenu() {
   const sources = useSources();
   const [touch] = useState(touchFirst);
   const { active, choose, go, ref, current } = useMenu(touch ? -1 : 0);
-  // On touch, the first tap on a command or game only points at it; a second tap opens it.
-  const tap = useRef<{ wasChosen: boolean; touch: boolean } | null>(null);
+  // On touch, let go of a command or game quickly and it opens; hold it and the glove moves to it
+  // and shows what it holds. Only once held, so a drag to scroll leaves the glove where it is.
+  const press = useRef<Press>(null);
+  const holding = useRef<number | undefined>(undefined);
+  const letGo = () => {
+    window.clearTimeout(holding.current);
+  };
+  const pressOn = (event: ReactPointerEvent, look: () => void) => {
+    const touch = event.pointerType === "touch";
+    press.current = { at: event.timeStamp, touch };
+    letGo();
+    if (touch) holding.current = window.setTimeout(look, HOLD_MS);
+  };
+  useEffect(() => letGo, []);
   // One glove, moved by keys or pointing: its column, and the game it last pointed at.
   const [zone, setZone] = useState<Zone>("commands");
   const [memberIndex, setMemberIndex] = useState(0);
@@ -258,39 +285,60 @@ export function ClassicMenu() {
       const i = barItemOf(event);
       if (i >= 0) toBar(i, false);
     };
-    // On touch, as with the commands: the first tap points at Search or Credits, the second opens.
-    // Caught before the item's own click, so a first tap neither searches nor leaves the menu.
-    let barTap: { index: number; wasChosen: boolean; touch: boolean } | null = null;
+    // On touch, as with the commands: a tap on Search or Credits opens it, a hold only explains it.
+    // Caught before the item's own click, so a hold neither searches nor leaves the menu.
+    let barPress: (NonNullable<Press> & { index: number }) | null = null;
+    let barHolding: number | undefined;
+    const barLetGo = () => {
+      window.clearTimeout(barHolding);
+    };
     const onDown = (event: PointerEvent) => {
       const i = barItemOf(event);
-      barTap =
-        i < 0
-          ? null
-          : {
-              index: i,
-              wasChosen: glove.current.zone === "bar" && bar.current.index === i,
-              touch: event.pointerType === "touch",
-            };
+      const touch = event.pointerType === "touch";
+      barPress = i < 0 ? null : { index: i, at: performance.now(), touch };
+      barLetGo();
+      if (i >= 0 && touch) {
+        barHolding = window.setTimeout(() => {
+          toBar(i, false);
+        }, HOLD_MS);
+      }
     };
     const onClick = (event: MouseEvent) => {
-      const t = barTap;
-      barTap = null;
-      if (!t?.touch || t.wasChosen || barItemOf(event) !== t.index) return;
+      const p = barPress;
+      barPress = null;
+      if (!isHold(p) || barItemOf(event) !== p?.index) return;
       event.preventDefault();
       event.stopPropagation();
-      toBar(t.index, false);
+    };
+    // A hold on a link would otherwise open the phone's link menu (or start a drag) over the menu.
+    const onMenu = (event: Event) => {
+      const onMenuItem =
+        event.target instanceof Element &&
+        event.target.closest(".classic-command, .classic-member-link") !== null;
+      if ((barPress?.touch && barItemOf(event) >= 0) || (press.current?.touch && onMenuItem)) {
+        event.preventDefault();
+      }
     };
     window.addEventListener("keydown", onKey);
     document.addEventListener("pointerover", onPointer);
     document.addEventListener("focusin", onFocus);
     document.addEventListener("pointerdown", onDown);
+    document.addEventListener("pointerup", barLetGo);
+    document.addEventListener("pointercancel", barLetGo);
     document.addEventListener("click", onClick, true);
+    document.addEventListener("contextmenu", onMenu);
+    document.addEventListener("dragstart", onMenu);
     return () => {
       window.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerover", onPointer);
       document.removeEventListener("focusin", onFocus);
+      barLetGo();
       document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("pointerup", barLetGo);
+      document.removeEventListener("pointercancel", barLetGo);
       document.removeEventListener("click", onClick, true);
+      document.removeEventListener("contextmenu", onMenu);
+      document.removeEventListener("dragstart", onMenu);
     };
   }, []);
   const items = entities.data?.items ?? [];
@@ -340,18 +388,15 @@ export function ClassicMenu() {
                     if (zone !== "party" || memberIndex !== i) pointAt(i);
                   }}
                   onPointerDown={(event) => {
-                    tap.current = {
-                      wasChosen: zone === "party" && memberIndex === i,
-                      touch: event.pointerType === "touch",
-                    };
-                  }}
-                  onClick={(event) => {
-                    const t = tap.current;
-                    tap.current = null;
-                    if (t?.touch && !t.wasChosen) {
-                      event.preventDefault();
+                    pressOn(event, () => {
                       pointAt(i);
-                    }
+                    });
+                  }}
+                  onPointerUp={letGo}
+                  onPointerCancel={letGo}
+                  onClick={(event) => {
+                    if (isHold(press.current)) event.preventDefault();
+                    press.current = null;
                   }}
                   onFocus={() => {
                     glove.current.memberIndex = i;
@@ -435,18 +480,15 @@ export function ClassicMenu() {
                     if (zone !== "commands" || active !== i) goTo(i);
                   }}
                   onPointerDown={(event) => {
-                    tap.current = {
-                      wasChosen: zone === "commands" && active === i,
-                      touch: event.pointerType === "touch",
-                    };
-                  }}
-                  onClick={(event) => {
-                    const t = tap.current;
-                    tap.current = null;
-                    if (t?.touch && !t.wasChosen) {
-                      event.preventDefault();
+                    pressOn(event, () => {
                       goTo(i);
-                    }
+                    });
+                  }}
+                  onPointerUp={letGo}
+                  onPointerCancel={letGo}
+                  onClick={(event) => {
+                    if (isHold(press.current)) event.preventDefault();
+                    press.current = null;
                   }}
                   onFocus={() => {
                     glove.current.active = i;
@@ -459,6 +501,12 @@ export function ClassicMenu() {
                     ☞
                   </span>
                   {section.name}
+                  <span aria-hidden="true" className="classic-command-hint">
+                    {section.hint}
+                  </span>
+                  <span aria-hidden="true" className="classic-command-go">
+                    ▸
+                  </span>
                 </SectionLink>
               </li>
             ))}

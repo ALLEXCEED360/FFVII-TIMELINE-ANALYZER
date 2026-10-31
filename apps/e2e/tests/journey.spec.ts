@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { type Locator, type Page, expect, test } from "@playwright/test";
 
 // The core journey: search, an entity, a related event, compare, the graph, back to the timeline.
 
@@ -58,24 +58,43 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
   );
 });
 
-test("on a phone, the home menu points at a tap and opens on a second @mobile", async ({
+/** Touches the middle of an element and keeps the finger down for most of a second, as a phone does. */
+async function hold(page: Page, target: Locator) {
+  // Wait until it's in view and has stopped moving (the menu's windows open with a flourish).
+  await target.tap({ trial: true });
+  const box = await target.boundingBox();
+  if (!box) throw new Error("nothing to hold");
+  const point = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [point] });
+  await page.waitForTimeout(700);
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  await cdp.detach();
+}
+
+test("on a phone, a tap on the home menu opens, and a hold only shows what's there @mobile", async ({
   page,
   isMobile,
 }) => {
   test.skip(!isMobile, "touch only");
   await page.goto("/");
-  // Nothing is chosen until the first tap.
+  // Nothing is chosen until a touch.
   await expect(page.locator(".classic-command[aria-current]")).toHaveCount(0);
   const compare = page.getByRole("link", { name: "Compare", exact: true });
-  await compare.tap();
-  await expect(page).toHaveURL(/\/$/);
+  await hold(page, compare);
   await expect(compare).toHaveAttribute("aria-current", "true");
   await expect(page.locator(".classic-help")).toContainText("what changed between them");
+  await page.waitForTimeout(300);
+  await expect(page).toHaveURL(/\/$/);
   await compare.tap();
   await expect(page).toHaveURL(/\/compare$/);
+
+  await page.goto("/");
+  await page.getByRole("link", { name: "Network", exact: true }).tap();
+  await expect(page).toHaveURL(/\/network$/);
 });
 
-test("on a phone, Search and Credits in the menu's bar also open on a second tap @mobile", async ({
+test("on a phone, Search and Credits in the menu's bar open on a tap too @mobile", async ({
   page,
   isMobile,
 }) => {
@@ -83,16 +102,17 @@ test("on a phone, Search and Credits in the menu's bar also open on a second tap
   await page.goto("/");
   const bar = page.locator("[data-menu-bar]");
   const search = bar.getByRole("button", { name: "Search" });
-  await search.tap();
-  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await hold(page, search);
   await expect(page.locator(".classic-help")).toContainText("Find anyone");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await search.tap();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
   const credits = bar.getByRole("link", { name: "Credits" });
-  await credits.tap();
-  await expect(page).toHaveURL(/\/$/);
+  await hold(page, credits);
   await expect(page.locator(".classic-help")).toContainText("Who made the games");
+  await page.waitForTimeout(300);
+  await expect(page).toHaveURL(/\/$/);
   await credits.tap();
   await expect(page).toHaveURL(/\/credits$/);
 });
