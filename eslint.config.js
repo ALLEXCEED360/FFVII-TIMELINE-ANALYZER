@@ -6,7 +6,13 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-  globalIgnores(["**/dist/**", "**/coverage/**", "apps/web/src/api/schema.d.ts"]),
+  globalIgnores([
+    "**/dist/**",
+    "**/coverage/**",
+    "apps/web/src/api/schema.d.ts",
+    // The Android project: Capacitor's own files and the site copied into it.
+    "apps/android/android/**",
+  ]),
 
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,

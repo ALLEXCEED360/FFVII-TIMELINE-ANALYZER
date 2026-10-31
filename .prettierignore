@@ -15,3 +15,6 @@ apps/web/public/fonts/
 
 # the third-party cursor, shipped as Cursors-4U distributes it (credit header included)
 apps/web/public/cursors/
+
+# the Android project: Capacitor's own files and the site copied into it
+apps/android/android/

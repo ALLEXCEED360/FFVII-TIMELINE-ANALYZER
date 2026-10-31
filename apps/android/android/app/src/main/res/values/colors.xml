@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The site's own dark: the page background (the color-void token) and its Mako accent. -->
+    <color name="night">#05070A</color>
+    <color name="colorPrimary">#05070A</color>
+    <color name="colorPrimaryDark">#05070A</color>
+    <color name="colorAccent">#7FD6FF</color>
+</resources>

@@ -66,6 +66,13 @@
     min-height: 100dvh;
   }
 
+  /* The Android app draws under the status and navigation bars; the page keeps clear of them by
+     the sizes Capacitor gives (native/android.ts marks the page). */
+  :root[data-native] body {
+    padding: var(--safe-area-inset-top, 0px) var(--safe-area-inset-right, 0px)
+      var(--safe-area-inset-bottom, 0px) var(--safe-area-inset-left, 0px);
+  }
+
   /* Faint paper grain over everything. */
   body::after {
     content: "";
