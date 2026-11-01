@@ -144,3 +144,26 @@ test("on a phone, choosing the next event keeps it where it was tapped @mobile",
   const after = (await next.boundingBox())?.y ?? 0;
   expect(Math.abs(after - before)).toBeLessThan(2);
 });
+
+test("on a phone, choosing the next change on Compare keeps it where it was tapped @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/compare");
+  const buttons = page.locator(".cmp-row-button");
+  await buttons.nth(0).tap();
+  await expect(buttons.nth(0)).toHaveAttribute("aria-pressed", "true");
+  // A moment to read it, as anyone would, before going on.
+  await page.waitForTimeout(1200);
+  // The next change, below the first one's open window: closing that window would pull it up.
+  const next = buttons.nth(1);
+  await next.scrollIntoViewIfNeeded();
+  const before = (await next.boundingBox())?.y ?? 0;
+  await next.tap();
+  await expect(next).toHaveAttribute("aria-pressed", "true");
+  // Once the page has settled, it's where it was.
+  await page.waitForTimeout(1200);
+  const after = (await next.boundingBox())?.y ?? 0;
+  expect(Math.abs(after - before)).toBeLessThan(2);
+});
