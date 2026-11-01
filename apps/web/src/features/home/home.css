@@ -326,13 +326,16 @@
   position: fixed;
   inset: 0;
   z-index: 60;
-  display: grid;
-  place-items: center;
-  padding: calc(1rem + var(--safe-area-inset-top, 0px)) 1rem
-    calc(1rem + var(--safe-area-inset-bottom, 0px));
+  display: flex;
+  /* Should it ever be taller than the screen, it scrolls rather than losing its foot. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: calc(1rem + var(--safe-area-inset-top, 0px))
+    calc(1rem + var(--safe-area-inset-right, 0px)) calc(1rem + var(--safe-area-inset-bottom, 0px))
+    calc(1rem + var(--safe-area-inset-left, 0px));
 }
 .peek-backdrop {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: rgb(3 6 24 / 0.5);
   backdrop-filter: blur(14px) saturate(1.15);
@@ -342,7 +345,31 @@
   display: grid;
   gap: 0.75rem;
   width: min(100%, 26rem);
+  margin: auto;
   font-size: 15px;
+}
+/* A phone on its side: the held command or game on the left, what it holds beside it, both
+   sized to the short screen. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .peek-stack {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: center;
+    width: min(100%, 48rem);
+    font-size: 14px;
+  }
+  .peek-cover {
+    aspect-ratio: auto;
+    height: 52svh;
+  }
+  .peek-name {
+    font-size: 1.7em;
+  }
+  .peek-art {
+    height: 6.5em;
+  }
+  .peek-details {
+    gap: 0.6em;
+  }
 }
 .peek-lifted {
   transform-origin: top left;
