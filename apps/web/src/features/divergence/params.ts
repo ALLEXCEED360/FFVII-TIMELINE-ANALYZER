@@ -36,6 +36,8 @@ export function useDivergenceParams() {
     (change: Partial<DivergenceParams>) => {
       setSearch(divergenceSearch({ ...parseDivergenceParams(search), ...change }), {
         replace: true,
+        // Choosing a moment leaves the page where it is.
+        preventScrollReset: Object.keys(change).every((key) => key === "node"),
       });
     },
     [search, setSearch],

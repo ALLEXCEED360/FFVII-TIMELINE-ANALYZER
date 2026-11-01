@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { type ReactNode, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { ApiError } from "../api/client";
 import { useDivergence, useEntity, useReference } from "../api/queries";
 import { SECTION_ART, sceneFor } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
+import { DetailSheet, useLowerSheet } from "../features/divergence/DetailSheet";
 import { SplitView } from "../features/divergence/SplitView";
 import { byTelling } from "../features/divergence/tellings";
 import { divergenceSearch, useDivergenceParams } from "../features/divergence/params";
@@ -58,14 +59,16 @@ export function DivergenceViewPage() {
   };
   const hasOtherWorlds = (reference.data?.worlds.length ?? 0) > 1;
 
-  const detail = selected ? (
+  const unselect = () => {
+    update({ node: null });
+  };
+  // The chosen moment's window: beside the line on a wide screen, in a sheet on a phone.
+  const windowFor = (selected: string, onClose: () => void) => (
     <EventWindow
       key={selected}
       id={selected}
       reference={reference.data}
-      onClose={() => {
-        update({ node: null });
-      }}
+      onClose={onClose}
       action={
         selected === view?.pivot.id ? (
           false
@@ -82,7 +85,12 @@ export function DivergenceViewPage() {
         )
       }
     />
-  ) : null;
+  );
+  const detail = selected ? windowFor(selected, unselect) : null;
+  const selectedName =
+    view && selected
+      ? [...view.trunk, ...view.events].find((r) => r.event.id === selected)?.event.name
+      : undefined;
 
   return (
     <div className="dv">
@@ -135,7 +143,6 @@ export function DivergenceViewPage() {
 
       <div className="dv-body">
         <div className="dv-main">
-          {!wide && detail}
           {divergence.isPending ? (
             <Loading variant="panel" label="Finding where the tellings part ways…" />
           ) : divergence.isError ? (
@@ -153,6 +160,11 @@ export function DivergenceViewPage() {
             </div>
           )}
         </div>
+        {!wide && selected && (
+          <DetailSheet label={selectedName ?? "The moment"} onClose={unselect}>
+            <SheetWindow render={(lower) => windowFor(selected, lower)} />
+          </DetailSheet>
+        )}
         {wide && (
           <div className="dv-side">
             {detail ?? (
@@ -172,4 +184,9 @@ export function DivergenceViewPage() {
       </div>
     </div>
   );
+}
+
+/** The chosen moment's window in the phone's sheet, its Close lowering the sheet first. */
+function SheetWindow({ render }: { render: (lower: () => void) => ReactNode }) {
+  return render(useLowerSheet());
 }

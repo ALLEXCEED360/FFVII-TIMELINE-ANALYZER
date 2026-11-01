@@ -167,3 +167,25 @@ test("on a phone, choosing the next change on Compare keeps it where it was tapp
   const after = (await next.boundingBox())?.y ?? 0;
   expect(Math.abs(after - before)).toBeLessThan(2);
 });
+
+test("on a phone, a moment on Divergence opens in a sheet where you are @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/divergence/event/jenova-calamity");
+  // Upright, one telling at a time.
+  const trilogy = page.getByRole("button", { name: "The Remake Trilogy", exact: true });
+  await trilogy.tap();
+  await expect(trilogy).toHaveAttribute("aria-pressed", "true");
+  const moment = page.locator(".dv-branch[data-following] .dv-moment").nth(2);
+  await moment.scrollIntoViewIfNeeded();
+  const before = await page.evaluate(() => window.scrollY);
+  await moment.tap();
+  const sheet = page.locator("[data-sheet]");
+  await expect(sheet.getByRole("complementary", { name: "Event details" })).toBeVisible();
+  // Its own Close lowers it, and the page hasn't moved.
+  await sheet.getByRole("button", { name: "Close" }).tap();
+  await expect(sheet).toHaveCount(0);
+  expect(await page.evaluate(() => window.scrollY)).toBe(before);
+});
