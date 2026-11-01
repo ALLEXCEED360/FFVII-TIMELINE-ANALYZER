@@ -14,6 +14,9 @@ import { TELLING, TELLINGS, titlesOf } from "../lib/tellings";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { useReducedMotion } from "../lib/motion";
 
+/** How long a chosen event is held where it was tapped while the page settles around it. */
+const HOLD_PLACE_MS = 1000;
+
 /** The story in chapters, top to bottom; or in one game's play order. */
 export function TimelinePage() {
   // Across the whole screen: the panels keep the text readable, and the art shows around them.
@@ -63,9 +66,39 @@ export function TimelinePage() {
   }, [ready, params.event, wide]);
 
   const titleName = (code: TitleCode) => titleShort(reference.data, code);
+  // Choosing another event closes the one open above it on a narrow screen, which would pull the
+  // page up under the finger: the chosen event stays where it was tapped instead. Held there for a
+  // moment, frame by frame, since the router puts back the page's old place and a slow phone
+  // settles late; scrolling by hand, or pressing anything, lets go at once.
+  const tapped = useRef<{ id: string; top: number } | null>(null);
   const select = (id: string) => {
+    const row = document.getElementById(`event-${id}`);
+    tapped.current = row ? { id, top: row.getBoundingClientRect().top } : null;
     update({ event: params.event === id ? null : id });
   };
+  useEffect(() => {
+    const was = tapped.current;
+    tapped.current = null;
+    if (!was) return;
+    const until = performance.now() + HOLD_PLACE_MS;
+    let frame = 0;
+    const keep = () => {
+      const row = document.getElementById(`event-${was.id}`);
+      const moved = row ? row.getBoundingClientRect().top - was.top : 0;
+      if (Math.abs(moved) >= 1) window.scrollBy({ top: moved, behavior: "instant" });
+      if (performance.now() < until) frame = requestAnimationFrame(keep);
+    };
+    const letGo = () => {
+      cancelAnimationFrame(frame);
+    };
+    keep();
+    const byHand = ["pointerdown", "touchmove", "wheel", "keydown"] as const;
+    for (const type of byHand) window.addEventListener(type, letGo, { passive: true });
+    return () => {
+      letGo();
+      for (const type of byHand) window.removeEventListener(type, letGo);
+    };
+  }, [params.event]);
   const close = () => {
     update({ event: null });
   };

@@ -61,9 +61,12 @@ export function useTimelineParams() {
   const params = useMemo(() => parseTimelineParams(search), [search]);
   const update = useCallback(
     (change: Partial<TimelineParams>) => {
+      const choosing = Object.keys(change).every((key) => key === "event");
       setSearch(timelineSearch({ ...parseTimelineParams(search), ...change }), {
-        // Selecting an event shouldn't bury the Back button under history entries.
-        replace: Object.keys(change).every((key) => key === "event"),
+        // Selecting an event shouldn't bury the Back button under history entries, nor move the
+        // page: the timeline keeps the chosen event where it was tapped (TimelinePage).
+        replace: choosing,
+        preventScrollReset: choosing,
       });
     },
     [search, setSearch],
