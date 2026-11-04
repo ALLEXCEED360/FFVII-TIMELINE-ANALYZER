@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useId } from "react";
 import { Link } from "react-router";
 import type { PathResult } from "../../api/client";
 import { useEntity } from "../../api/queries";
@@ -20,6 +20,7 @@ export function LinkPanel({
   onCentre,
   onExpand,
   onPath,
+  close,
 }: {
   id: string;
   center: string;
@@ -29,7 +30,10 @@ export function LinkPanel({
   onCentre: (id: string) => void;
   onExpand: (id: string) => void;
   onPath: (id: string) => void;
+  /** A way to close it, when it's in a sheet. */
+  close?: ReactNode;
 }) {
+  const linksId = useId();
   const node = network.nodes.get(id);
   const entity = useEntity(id);
   const centerName = network.nodes.get(center)?.name ?? "the centre";
@@ -54,6 +58,7 @@ export function LinkPanel({
 
   return (
     <aside aria-label="Chosen in the web" className="ff7-window nw-panel nw-window">
+      {close}
       {art && (
         <div aria-hidden="true" className="nw-panel-art" data-kind={art.kind}>
           <Artwork entry={art} decorative eager />
@@ -100,8 +105,8 @@ export function LinkPanel({
         </div>
       )}
 
-      <section aria-labelledby="nw-links" className="nw-panel-section">
-        <h3 id="nw-links" className="m-label">
+      <section aria-labelledby={linksId} className="nw-panel-section">
+        <h3 id={linksId} className="m-label">
           Links in this web
         </h3>
         {groups.size === 0 ? (

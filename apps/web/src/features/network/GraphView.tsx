@@ -1,7 +1,7 @@
 import type { Core, ElementDefinition, NodeSingular } from "cytoscape";
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "../../lib/motion";
-import { GRAPH_STYLE } from "./style";
+import { GRAPH_STYLE, phoneStyle } from "./style";
 
 // The web (Cytoscape, loaded on demand), placed in rings by ringLayout (elements.ts). Changes apply
 // as a diff, things gliding to their new places. Plain scroll scrolls the page; Ctrl/⌘ + scroll zooms.
@@ -52,8 +52,12 @@ export default function GraphView({
       if (cancelled || !container.current) return;
       const instance = cytoscape({
         container: container.current,
-        style: GRAPH_STYLE,
-        minZoom: 0.25,
+        style: window.matchMedia("(hover: none) and (pointer: coarse) and (max-width: 63.99rem)")
+          .matches
+          ? phoneStyle(GRAPH_STYLE)
+          : GRAPH_STYLE,
+        // Low enough that a big web fits whole in a phone's small field.
+        minZoom: 0.1,
         maxZoom: 3,
         // A plain scroll scrolls the page, not the web (see the wheel handler below); on a touch
         // screen, where there's no wheel, two fingers pinch to zoom.
@@ -195,6 +199,20 @@ export default function GraphView({
     });
   }, [elements, ready, reducedMotion]);
 
+  // Something chosen from a list may be off the field: bring it into view.
+  useEffect(() => {
+    const instance = cy.current;
+    if (!ready || !instance || !settledRef.current) return;
+    const chosen = instance.$("node.selected");
+    if (chosen.empty()) return;
+    const at = chosen.renderedPosition();
+    if (at.x >= 0 && at.y >= 0 && at.x <= instance.width() && at.y <= instance.height()) return;
+    instance.animate(
+      { center: { eles: chosen } },
+      { duration: reducedMotion ? 0 : 300, easing: "ease-in-out-cubic" },
+    );
+  }, [elements, ready, reducedMotion]);
+
   // Fit the web to its field whenever the set of entities changes (after things have glided).
   useEffect(() => {
     const instance = cy.current;
@@ -241,7 +259,7 @@ export default function GraphView({
         <li>
           <kbd>Tap</kbd> see its links
         </li>
-        <li>
+        <li className="nw-how-mouse">
           <kbd>Double-tap</kbd> put it in the centre
         </li>
         <li>

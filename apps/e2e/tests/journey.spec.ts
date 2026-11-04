@@ -60,7 +60,9 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
 
 /** Touches the middle of an element and keeps the finger down for most of a second, as a phone does. */
 async function hold(page: Page, target: Locator) {
-  // Wait until it's in view and has stopped moving (the menu's windows open with a flourish).
+  // Wait until it's in view and has stopped moving (the menu's windows open with a flourish, and
+  // the pixel font arriving late can still shift the rows).
+  await page.evaluate(() => document.fonts.ready);
   await target.tap({ trial: true });
   const box = await target.boundingBox();
   if (!box) throw new Error("nothing to hold");
@@ -80,6 +82,8 @@ test("on a phone, a tap on the home menu opens, and a hold lifts it out to look 
   await page.goto("/");
   // Nothing is chosen until a touch.
   await expect(page.locator(".classic-command[aria-current]")).toHaveCount(0);
+  // The games in, so the commands have stopped moving as the page fills.
+  await expect(page.locator(".classic-member-link")).toHaveCount(4);
   const compare = page.getByRole("link", { name: "Compare", exact: true });
   await hold(page, compare);
   const peek = page.getByRole("dialog", { name: "Compare" });
@@ -185,6 +189,27 @@ test("on a phone, a moment on Divergence opens in a sheet where you are @mobile"
   const sheet = page.locator("[data-sheet]");
   await expect(sheet.getByRole("complementary", { name: "Event details" })).toBeVisible();
   // Its own Close lowers it, and the page hasn't moved.
+  await sheet.getByRole("button", { name: "Close" }).tap();
+  await expect(sheet).toHaveCount(0);
+  expect(await page.evaluate(() => window.scrollY)).toBe(before);
+});
+
+test("on a phone, what's chosen in the Network opens in a sheet where you are @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/network/character/cloud-strife");
+  const chip = page.locator(".nw-panel .nw-chip").nth(1);
+  const name = (await chip.textContent()) ?? "";
+  await chip.scrollIntoViewIfNeeded();
+  const before = await page.evaluate(() => window.scrollY);
+  await chip.tap();
+  const sheet = page.locator("[data-sheet]");
+  await expect(sheet.getByRole("heading", { name })).toBeVisible();
+  // Its links lead on to the next thing, in the same sheet.
+  await sheet.locator(".nw-chip").first().tap();
+  await expect(sheet.getByRole("heading", { name })).toHaveCount(0);
   await sheet.getByRole("button", { name: "Close" }).tap();
   await expect(sheet).toHaveCount(0);
   expect(await page.evaluate(() => window.scrollY)).toBe(before);

@@ -5,7 +5,7 @@ import { useDivergence, useEntity, useReference } from "../api/queries";
 import { SECTION_ART, sceneFor } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
-import { DetailSheet, useLowerSheet } from "../features/divergence/DetailSheet";
+import { Sheet, useLowerSheet } from "../components/Sheet";
 import { SplitView } from "../features/divergence/SplitView";
 import { byTelling } from "../features/divergence/tellings";
 import { divergenceSearch, useDivergenceParams } from "../features/divergence/params";
@@ -161,9 +161,9 @@ export function DivergenceViewPage() {
           )}
         </div>
         {!wide && selected && (
-          <DetailSheet label={selectedName ?? "The moment"} onClose={unselect}>
+          <Sheet label={selectedName ?? "The moment"} onClose={unselect}>
             <SheetWindow render={(lower) => windowFor(selected, lower)} />
-          </DetailSheet>
+          </Sheet>
         )}
         {wide && (
           <div className="dv-side">

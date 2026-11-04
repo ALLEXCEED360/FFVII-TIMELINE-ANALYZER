@@ -1,0 +1,61 @@
+/* Details on a phone: a sheet risen from the foot of the screen (Sheet.tsx). */
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.sheet-shade {
+  position: absolute;
+  inset: 0;
+  background: rgb(3 6 24 / 0.6);
+  backdrop-filter: blur(4px);
+}
+.sheet-body {
+  position: relative;
+  width: min(100%, 44rem);
+  max-height: calc(90svh - var(--safe-area-inset-top, 0px));
+  margin-inline: auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.6rem calc(0.5rem + var(--safe-area-inset-right, 0px))
+    calc(0.5rem + var(--safe-area-inset-bottom, 0px))
+    calc(0.5rem + var(--safe-area-inset-left, 0px));
+}
+/* It rises; the windows inside it don't unfold as they do beside the page. */
+.sheet :is(.tl-window, .nw-window) {
+  animation: none;
+}
+.sheet-grip {
+  display: block;
+  width: 3rem;
+  height: 5px;
+  margin: 0 auto 0.6rem;
+  border-radius: 5px;
+  background: rgb(255 255 255 / 0.55);
+}
+.sheet-close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  z-index: 1;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid rgb(214 214 222 / 0.5);
+  border-radius: 999px;
+  background: rgb(8 12 22 / 0.8);
+  font-size: 0.875rem;
+  color: #fff;
+}
+.sheet-close:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+/* On its side, the picture leaves room in the sheet for the words. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .sheet .tl-detail-art img,
+  .sheet .tl-detail-art[data-kind="cutout"] img {
+    max-height: 34svh;
+  }
+}

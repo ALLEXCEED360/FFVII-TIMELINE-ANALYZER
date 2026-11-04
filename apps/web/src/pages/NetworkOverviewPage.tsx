@@ -126,6 +126,7 @@ export function NetworkOverviewPage() {
               ))}
             </div>
           )}
+          {cast.length > 4 && <p className="nw-text nw-swipe">Swipe across for more.</p>}
           {entities.isPending ? (
             <Loading />
           ) : entities.isError ? (

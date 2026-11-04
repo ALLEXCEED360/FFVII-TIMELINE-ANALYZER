@@ -1,4 +1,4 @@
-import { Suspense, lazy, useMemo } from "react";
+import { type ReactNode, Suspense, lazy, useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
 import type { PathResult } from "../api/client";
 import { ApiError } from "../api/client";
@@ -14,6 +14,7 @@ import { SECTION_ART, sceneFor } from "../art/manifest";
 import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
 import { Orb } from "../components/Orb";
+import { Sheet, SheetClose } from "../components/Sheet";
 import { LinkPanel, PathChain } from "../features/network/LinkPanel";
 import { NetworkFilters } from "../features/network/NetworkFilters";
 import { NetworkList } from "../features/network/NetworkList";
@@ -62,6 +63,11 @@ export function NetworkPage() {
   const navigate = useNavigate();
 
   const wide = useMediaQuery("(min-width: 64rem)");
+  // Where the web and what's chosen in it fit side by side: wide screens, and a phone on its side.
+  // Upright on a phone, what's chosen rises in a sheet instead.
+  const beside = useMediaQuery(
+    "(min-width: 64rem), (orientation: landscape) and (max-height: 30rem)",
+  );
 
   // The kinds of thing chosen; the centre and a path being followed always show.
   const network = useMemo(() => {
@@ -101,6 +107,32 @@ export function NetworkPage() {
   const centerNode = network?.nodes.get(id);
   const centerName = centerNode?.name ?? centerEntity.data?.name ?? "…";
   const centerKind = isKind(kind ?? "") ? (kind as keyof typeof KIND_WORDS) : "character";
+  const panel = (shown: string, close?: ReactNode) =>
+    network && (
+      <LinkPanel
+        key={shown}
+        id={shown}
+        center={id}
+        network={network}
+        expanded={params.expand.includes(shown)}
+        close={close}
+        onSelect={(node) => {
+          update({ node });
+        }}
+        onCentre={recentre}
+        onExpand={(node) => {
+          update({
+            expand: params.expand.includes(node)
+              ? params.expand.filter((e) => e !== node)
+              : [...params.expand, node],
+          });
+        }}
+        onPath={(node) => {
+          // The chain shows above the web, so a sheet makes way for it.
+          update(beside ? { to: node } : { to: node, node: null });
+        }}
+      />
+    );
   const toName = params.to
     ? (network?.nodes.get(params.to)?.name ??
       entities.data?.items.find((e) => e.id === params.to)?.name ??
@@ -117,8 +149,8 @@ export function NetworkPage() {
         <h1 className="m-heading m-title nw-title">{centerName}</h1>
         {centerEntity.data && <p className="m-intro">{centerEntity.data.summary}</p>}
         <p className="m-intro nw-guide">
-          Everything linked to {centerName}. Tap anything in the web to read its links, and use
-          “What the web shows” to choose what it holds.
+          Everything linked to {centerName}. Tap anything in the web, or any name listed with it, to
+          read its links, and use “What the web shows” to choose what it holds.
         </p>
       </header>
 
@@ -154,7 +186,7 @@ export function NetworkPage() {
               {network.nodes.size === 1 && " — try looking further, or showing more"}
               {params.depth > 1 &&
                 network.nodes.size > 1 &&
-                ". The small dots further out are further away: point at one to see its name"}
+                ". The small dots further out are further away: tap one to see its name"}
             </p>
           )}
           {main.isPending ? (
@@ -178,30 +210,20 @@ export function NetworkPage() {
           )}
         </section>
 
-        {network && (
-          <LinkPanel
-            key={selected ?? id}
-            id={selected ?? id}
-            center={id}
-            network={network}
-            expanded={params.expand.includes(selected ?? "")}
-            onSelect={(node) => {
-              update({ node });
-            }}
-            onCentre={recentre}
-            onExpand={(node) => {
-              update({
-                expand: params.expand.includes(node)
-                  ? params.expand.filter((e) => e !== node)
-                  : [...params.expand, node],
-              });
-            }}
-            onPath={(node) => {
-              update({ to: node });
-            }}
-          />
-        )}
+        {panel(beside ? (selected ?? id) : id)}
       </div>
+
+      {!beside && selected && (
+        <Sheet
+          label={network?.nodes.get(selected)?.name ?? "Chosen in the web"}
+          showing={selected}
+          onClose={() => {
+            update({ node: null });
+          }}
+        >
+          {panel(selected, <SheetClose />)}
+        </Sheet>
+      )}
 
       {network && (
         <details className="m-panel nw-list">

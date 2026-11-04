@@ -88,9 +88,12 @@ export function useNetworkParams() {
   const params = useMemo(() => parseNetworkParams(search), [search]);
   const update = useCallback(
     (change: Partial<NetworkParams>) => {
+      const choosing = Object.keys(change).every((key) => key === "node");
       setSearch(networkSearch({ ...parseNetworkParams(search), ...change }), {
         // Selecting a node shouldn't fill the history with Back steps.
-        replace: Object.keys(change).every((key) => key === "node"),
+        replace: choosing,
+        // Nor should it move the page.
+        preventScrollReset: choosing,
       });
     },
     [search, setSearch],
