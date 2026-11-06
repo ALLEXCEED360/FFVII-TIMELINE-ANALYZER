@@ -1,4 +1,4 @@
-import { type ReactNode, Suspense, lazy, useMemo } from "react";
+import { type ReactNode, Suspense, lazy, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import type { PathResult } from "../api/client";
 import { ApiError } from "../api/client";
@@ -15,7 +15,7 @@ import { useBackdrop } from "../components/Backdrop";
 import { ErrorMessage, Loading } from "../components/QueryState";
 import { Orb } from "../components/Orb";
 import { Sheet, SheetClose } from "../components/Sheet";
-import { LinkPanel, PathChain } from "../features/network/LinkPanel";
+import { ChosenCard, LinkPanel, PathChain } from "../features/network/LinkPanel";
 import { NetworkFilters } from "../features/network/NetworkFilters";
 import { NetworkList } from "../features/network/NetworkList";
 import {
@@ -64,10 +64,17 @@ export function NetworkPage() {
 
   const wide = useMediaQuery("(min-width: 64rem)");
   // Where the web and what's chosen in it fit side by side: wide screens, and a phone on its side.
-  // Upright on a phone, what's chosen rises in a sheet instead.
+  // Upright on a phone, what's chosen shows as a small card under the web, and its details rise in
+  // a sheet when asked for, or straight away when it was chosen from a list.
   const beside = useMediaQuery(
     "(min-width: 64rem), (orientation: landscape) and (max-height: 30rem)",
   );
+
+  const [reading, setReading] = useState(false);
+  const chooseFromList = (node: string) => {
+    update({ node });
+    setReading(true);
+  };
 
   // The kinds of thing chosen; the centre and a path being followed always show.
   const network = useMemo(() => {
@@ -96,6 +103,7 @@ export function NetworkPage() {
   const filtersOnly = networkSearch({ ...params, expand: [], to: null, node: null }).toString();
   const keep = filtersOnly ? `?${filtersOnly}` : "";
   const recentre = (target: string) => {
+    setReading(false);
     void navigate(`${networkPath(target)}${keep}`);
   };
 
@@ -116,9 +124,7 @@ export function NetworkPage() {
         network={network}
         expanded={params.expand.includes(shown)}
         close={close}
-        onSelect={(node) => {
-          update({ node });
-        }}
+        onSelect={chooseFromList}
         onCentre={recentre}
         onExpand={(node) => {
           update({
@@ -129,6 +135,7 @@ export function NetworkPage() {
         }}
         onPath={(node) => {
           // The chain shows above the web, so a sheet makes way for it.
+          setReading(false);
           update(beside ? { to: node } : { to: node, node: null });
         }}
       />
@@ -171,9 +178,7 @@ export function NetworkPage() {
               pending={path.isPending}
               fromName={centerName}
               toName={toName}
-              onSelect={(node) => {
-                update({ node });
-              }}
+              onSelect={chooseFromList}
               onClear={() => {
                 update({ to: null });
               }}
@@ -200,11 +205,27 @@ export function NetworkPage() {
               <GraphView
                 elements={elements}
                 layoutKey={network ? layoutKey(network) : ""}
+                center={id}
                 onSelect={(node) => {
+                  setReading(false);
                   update({ node });
                 }}
                 onFocus={recentre}
                 dashed={params.tellings === "both"}
+                foot={
+                  !beside && selected && network ? (
+                    <ChosenCard
+                      id={selected}
+                      network={network}
+                      onRead={() => {
+                        setReading(true);
+                      }}
+                      onClear={() => {
+                        update({ node: null });
+                      }}
+                    />
+                  ) : undefined
+                }
               />
             </Suspense>
           )}
@@ -213,12 +234,12 @@ export function NetworkPage() {
         {panel(beside ? (selected ?? id) : id)}
       </div>
 
-      {!beside && selected && (
+      {!beside && selected && reading && (
         <Sheet
           label={network?.nodes.get(selected)?.name ?? "Chosen in the web"}
           showing={selected}
           onClose={() => {
-            update({ node: null });
+            setReading(false);
           }}
         >
           {panel(selected, <SheetClose />)}
@@ -235,9 +256,7 @@ export function NetworkPage() {
             network={network}
             reference={reference.data}
             selected={selected}
-            onSelect={(node) => {
-              update({ node });
-            }}
+            onSelect={chooseFromList}
             search={keep}
           />
         </details>

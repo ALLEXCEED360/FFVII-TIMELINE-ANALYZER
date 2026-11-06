@@ -981,10 +981,99 @@
 .nw-graph-canvas.is-settled {
   opacity: 1;
 }
-/* Upright on a phone: the tools in a bar of their own, so they never sit on the web. */
+/* What's chosen, upright on a phone: a small card in the help's place (ChosenCard). */
+.nw-chosen {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid rgb(214 214 222 / 0.3);
+  background: linear-gradient(140deg, rgb(31 95 196 / 0.55), rgb(6 26 99 / 0.75));
+}
+.nw-chosen-open {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.4rem 0.5rem 0.6rem;
+  text-align: left;
+  color: #fff;
+}
+.nw-chosen-art {
+  display: flex;
+  flex: none;
+  width: 3.2rem;
+  height: 3.2rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid #d6d6de;
+  border-radius: 6px;
+}
+.nw-chosen-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.nw-chosen-art[data-kind="cutout"] img {
+  object-fit: contain;
+  object-position: 50% 0% !important;
+}
+.nw-chosen-text {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.nw-chosen-name {
+  overflow: hidden;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nw-chosen-meta {
+  font-size: 0.8125rem;
+  color: #c9d3ea;
+}
+.nw-chosen-go {
+  flex: none;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgb(138 215 255 / 0.8);
+  border-radius: 999px;
+  background: rgb(138 215 255 / 0.2);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.nw-chosen-clear {
+  flex: none;
+  width: 2.6rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #c9d3ea;
+}
+.nw-chosen-open:focus-visible,
+.nw-chosen-clear:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: -2px;
+}
+/* Upright on a phone: about square, so the rings fill it; the tools in a bar of their own, so they
+   never sit on the web; and the words under it always the same height, so choosing something
+   doesn't move it. */
 @media (max-width: 40rem) {
+  .nw-guide {
+    display: none;
+  }
   .nw-graph {
-    height: 32rem;
+    height: min(calc(100vw + 7rem), 82svh);
+  }
+  .nw-how,
+  .nw-chosen {
+    flex: none;
+    height: 4.6rem;
+  }
+  .nw-how {
+    align-content: center;
   }
   .nw-graph-tools {
     position: static;

@@ -151,6 +151,54 @@ export function LinkPanel({
   );
 }
 
+/** What's chosen in the web on an upright phone: a small card under it, so the web stays in view
+ *  and the next thing is one tap away, with the full details a tap further. */
+export function ChosenCard({
+  id,
+  network,
+  onRead,
+  onClear,
+}: {
+  id: string;
+  network: MergedNetwork;
+  onRead: () => void;
+  onClear: () => void;
+}) {
+  const node = network.nodes.get(id);
+  if (!node) return null;
+  const kind = isKind(node.kind) ? node.kind : "character";
+  const art = pictureFor(id, kind);
+  const links = [...network.edges.values()].filter(
+    (edge) => edge.source === id || edge.target === id,
+  ).length;
+  return (
+    <div className="nw-chosen" role="status">
+      <button type="button" className="nw-chosen-open" onClick={onRead}>
+        <span aria-hidden="true" className="nw-chosen-art" data-kind={art?.kind}>
+          {art ? <Artwork entry={art} decorative eager /> : <Orb kind={kind} size="1.6rem" />}
+        </span>
+        <span className="nw-chosen-text">
+          <span className="m-heading nw-chosen-name">{node.name}</span>
+          <span className="nw-chosen-meta">
+            {KIND_WORDS[kind].one} · {links === 1 ? "1 link" : `${String(links)} links`}
+          </span>
+        </span>
+        <span className="nw-chosen-go">
+          Details <span aria-hidden="true">›</span>
+        </span>
+      </button>
+      <button
+        type="button"
+        aria-label="Clear the choice"
+        className="nw-chosen-clear"
+        onClick={onClear}
+      >
+        ×
+      </button>
+    </div>
+  );
+}
+
 /** How two things are linked, step by step, each step a sentence the right way round. */
 export function PathChain({
   path,

@@ -213,4 +213,42 @@ test("on a phone, what's chosen in the Network opens in a sheet where you are @m
   await sheet.getByRole("button", { name: "Close" }).tap();
   await expect(sheet).toHaveCount(0);
   expect(await page.evaluate(() => window.scrollY)).toBe(before);
+  // Closed, what's chosen stays as a small card under the web, ready to open again or clear.
+  await expect(page.locator(".nw-chosen")).toBeVisible();
+  await page.locator(".nw-chosen-open").tap();
+  await expect(sheet).toBeVisible();
+  await sheet.getByRole("button", { name: "Close" }).tap();
+  await page.getByRole("button", { name: "Clear the choice" }).tap();
+  await expect(page.locator(".nw-chosen")).toHaveCount(0);
+  await expect(page.getByRole("list", { name: "How to use the web" })).toBeVisible();
+  // Reset chooses nothing again.
+  await chip.tap();
+  await sheet.getByRole("button", { name: "Close" }).tap();
+  await expect(page.locator(".nw-chosen")).toBeVisible();
+  await page.getByRole("button", { name: "Reset", exact: true }).tap();
+  await expect(page.locator(".nw-chosen")).toHaveCount(0);
+});
+
+test("on a phone, each kind in the Network's cast starts at its beginning @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/network");
+  const row = page.getByRole("list", { name: "Whose web to see" });
+  await expect(row.getByRole("link").first()).toBeVisible();
+  const swipe = () =>
+    row.evaluate((el) => {
+      el.scrollLeft = 600;
+    });
+  const place = () => row.evaluate((el) => el.scrollLeft);
+  await swipe();
+  await expect.poll(place).toBeGreaterThan(0);
+  const kinds = page.getByRole("group", { name: "Kinds" });
+  await kinds.getByRole("button", { name: "Moments" }).tap();
+  await expect(row.getByRole("link").first()).toContainText(/./);
+  await expect.poll(place).toBe(0);
+  await swipe();
+  await kinds.getByRole("button", { name: "Places" }).tap();
+  await expect.poll(place).toBe(0);
 });

@@ -1,4 +1,4 @@
-import { type CSSProperties, useMemo, useState } from "react";
+import { type CSSProperties, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { useEntities, useNetworkMetrics } from "../api/queries";
 import { SECTION_ART, pictureFor } from "../art/manifest";
@@ -53,6 +53,13 @@ export function NetworkOverviewPage() {
       .map((e) => ({ ...e, links: links.get(e.id) ?? 0 }))
       .sort((a, b) => b.links - a.links || a.name.localeCompare(b.name));
   }, [items, metrics.data, query, kind]);
+
+  // Short of a wide screen the cast is a row to swipe across. A new list starts at its beginning:
+  // left alone, the row keeps its place, or follows the card it had settled on as the cards re-sort.
+  const row = useRef<HTMLUListElement>(null);
+  useLayoutEffect(() => {
+    if (row.current) row.current.scrollLeft = 0;
+  }, [cast]);
 
   return (
     <div className="nw">
@@ -134,7 +141,7 @@ export function NetworkOverviewPage() {
           ) : cast.length === 0 ? (
             <p className="nw-text">Nothing by that name.</p>
           ) : (
-            <ul aria-label="Whose web to see" className="nw-cast">
+            <ul ref={row} aria-label="Whose web to see" className="nw-cast">
               {cast.map((entity) => {
                 const picture = pictureFor(entity.id, entity.kind);
                 const materia = (MATERIA as Record<string, { color: string } | undefined>)[
