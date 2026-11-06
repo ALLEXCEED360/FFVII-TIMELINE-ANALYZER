@@ -60,10 +60,12 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
 
 /** Touches the middle of an element and keeps the finger down for most of a second, as a phone does. */
 async function hold(page: Page, target: Locator) {
-  // Wait until it's in view and has stopped moving (the menu's windows open with a flourish, and
-  // the pixel font arriving late can still shift the rows).
-  await page.evaluate(() => document.fonts.ready);
+  // Wait until it has stopped moving (the menu's windows open with a flourish), then bring it to
+  // the middle: that wait can leave the page scrolled so far that it's off the top of the screen.
   await target.tap({ trial: true });
+  await target.evaluate((el) => {
+    el.scrollIntoView({ block: "center", behavior: "instant" });
+  });
   const box = await target.boundingBox();
   if (!box) throw new Error("nothing to hold");
   const point = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
@@ -251,4 +253,45 @@ test("on a phone, each kind in the Network's cast starts at its beginning @mobil
   await swipe();
   await kinds.getByRole("button", { name: "Places" }).tap();
   await expect.poll(place).toBe(0);
+});
+
+/** The little of the web's Cytoscape instance the Reset test reaches for. */
+interface WebNode {
+  position(): { x: number; y: number };
+  position(to: { x: number; y: number }): void;
+  emit(event: string): void;
+}
+interface Web {
+  zoom(): number;
+  zoom(level: number): void;
+  nodes(): { map<T>(f: (node: WebNode) => T): T[]; toArray(): WebNode[] };
+}
+
+test("Reset puts dragged things back in the web and shows all of it", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "the same on every screen");
+  await page.goto("/network/character/barret-wallace");
+  await expect(page.locator(".nw-graph-canvas.is-settled")).toBeVisible();
+  const web = () =>
+    page.locator(".nw-graph-canvas").evaluate((el) => {
+      const cy = (el as unknown as { _cyreg: { cy: Web } })._cyreg.cy;
+      return { zoom: cy.zoom(), places: cy.nodes().map((node) => node.position()) };
+    });
+  const start = await web();
+  // Nothing chosen, so nothing but Reset itself can put them back.
+  await page.locator(".nw-graph-canvas").evaluate((el) => {
+    const cy = (el as unknown as { _cyreg: { cy: Web } })._cyreg.cy;
+    for (const node of cy.nodes().toArray().slice(1, 4)) {
+      const { x, y } = node.position();
+      node.position({ x: x + 300, y: y - 200 });
+      node.emit("dragfree");
+    }
+    cy.zoom(cy.zoom() * 1.8);
+  });
+  expect((await web()).places).not.toEqual(start.places);
+  await page.getByRole("button", { name: "Reset", exact: true }).click();
+  await expect.poll(async () => (await web()).places).toEqual(start.places);
+  await expect.poll(async () => (await web()).zoom).toBeCloseTo(start.zoom, 3);
 });

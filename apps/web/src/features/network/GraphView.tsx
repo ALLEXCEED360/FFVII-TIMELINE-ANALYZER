@@ -248,7 +248,13 @@ export default function GraphView({
         }
       }
       // Nodes before edges, so every edge finds its endpoints.
-      instance.add(toAdd.filter((e) => e.group === "nodes"));
+      // Each with its own copy of its place: Cytoscape moves the object it's given, and Reset needs
+      // these to stay the home a dragged thing goes back to.
+      instance.add(
+        toAdd
+          .filter((e) => e.group === "nodes")
+          .map((e) => (e.position ? { ...e, position: { ...e.position } } : e)),
+      );
       instance.add(toAdd.filter((e) => e.group === "edges"));
     });
   }, [elements, center, ready, reducedMotion]);
@@ -408,15 +414,6 @@ export default function GraphView({
           }}
         >
           −
-        </button>
-        <button
-          type="button"
-          className="nw-tool nw-tool-wide"
-          onClick={() => {
-            if (cy.current) cy.current.viewport(wholeWeb(cy.current));
-          }}
-        >
-          Show all
         </button>
         <button type="button" className="nw-tool nw-tool-wide" onClick={reset}>
           Reset
