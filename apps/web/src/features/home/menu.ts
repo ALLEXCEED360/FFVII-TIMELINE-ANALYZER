@@ -7,12 +7,15 @@ export const SECTIONS: readonly {
   page: PageName;
   name: string;
   text: string;
+  /** A few words under the name on a touch screen, so the commands read as places to go. */
+  hint: string;
   art: string;
 }[] = [
   {
     to: "/timeline",
     page: "timeline",
     name: "Timeline",
+    hint: "Every event, in order",
     text: "Every event in the order it happens in the story, or in the order you play it.",
     art: "places/midgar-concept",
   },
@@ -20,6 +23,7 @@ export const SECTIONS: readonly {
     to: "/compare",
     page: "compare",
     name: "Compare",
+    hint: "What changed between the games",
     text: "The same event, character or place across the titles, with what changed between them.",
     art: "places/junon",
   },
@@ -27,6 +31,7 @@ export const SECTIONS: readonly {
     to: "/divergence",
     page: "divergence",
     name: "Divergence",
+    hint: "Where the stories split",
     text: "Pick a moment and watch the shared history fork into a line for each telling.",
     art: "key/aerith",
   },
@@ -34,6 +39,7 @@ export const SECTIONS: readonly {
     to: "/network",
     page: "network",
     name: "Network",
+    hint: "Who's linked to whom",
     text: "Who is bound to whom, and the strongest path between any two of them.",
     art: "places/shinra-lobby",
   },
@@ -41,6 +47,7 @@ export const SECTIONS: readonly {
     to: "/explore",
     page: "explore",
     name: "Explore",
+    hint: "Every character, moment and place",
     text: "Browse every character, event, location and organization in the archive.",
     art: "places/sector-7",
   },
@@ -48,6 +55,7 @@ export const SECTIONS: readonly {
     to: "/archive",
     page: "archive",
     name: "Archive",
+    hint: "Each game, part by part",
     text: "Each game part by part, and who and what each part shows.",
     art: "key/tifa",
   },
@@ -55,6 +63,7 @@ export const SECTIONS: readonly {
     to: "/settings",
     page: "settings",
     name: "Config",
+    hint: "Music, motion and more",
     text: "Music, motion, the title screen and the cursor, saved in this browser.",
     art: "key/barret-marlene",
   },
@@ -76,7 +85,12 @@ export function useMenu(initial = 0) {
     const count = SECTIONS.length;
     const to = (i + count) % count;
     choose(to);
-    links.current[to]?.focus({ preventScroll: true });
+    const link = links.current[to];
+    link?.focus({ preventScroll: true });
+    // On a phone the commands scroll in their window: keep the chosen one in sight.
+    const list = link?.closest("ul");
+    if (link && list && list.scrollHeight > list.clientHeight)
+      link.scrollIntoView({ block: "nearest" });
   };
 
   const ref = (i: number) => (el: HTMLAnchorElement | null) => {

@@ -231,8 +231,218 @@
   font-size: 1.6em;
   line-height: 1.4;
 }
+/* Touch and hold shows what a command, a game, Search or Credits holds: no text selection or the
+   phone's link menu over it. */
+.classic-command,
+.classic-member-link,
+[data-menu-bar] > a,
+[data-menu-bar] > button {
+  -webkit-touch-callout: none;
+  user-select: none;
+}
 .classic-command:focus-visible {
   outline: none;
+}
+.classic-command-hint,
+.classic-command-go {
+  display: none;
+}
+/* On a touch screen, with no pointing to show the glove, each command is a row to tap: ruled off
+   from the next, with an arrow at its end (and, upright, a few words on where it goes). */
+@media (hover: none) {
+  .classic-commands li + li {
+    border-top: 1px solid rgb(154 160 200 / 0.3);
+  }
+  .classic-command {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 0.6em;
+    padding-block: 0.2em;
+  }
+  .classic-command-go {
+    display: block;
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    font-family:
+      "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;
+    font-size: 1em;
+    color: #8ad7ff;
+    text-shadow: 0 0 0.4em rgb(138 215 255 / 0.6);
+  }
+  /* No glove on a touch screen: the chosen command, game, Search or Credits glows instead, and
+     the commands lose the glove's margin. */
+  .classic .ff7-hand,
+  [data-menu-bar] .ff7-hand {
+    display: none;
+  }
+  .classic-commands {
+    padding-left: 0.65em;
+  }
+  .classic-command {
+    padding-inline: 0.45em;
+    border-radius: 0.2em;
+    transition:
+      transform 0.4s cubic-bezier(0.3, 0, 0.3, 1),
+      background-color 0.2s,
+      box-shadow 0.2s,
+      text-shadow 0.2s;
+  }
+  .classic[data-zone="commands"] .classic-command[aria-current] {
+    background: linear-gradient(90deg, rgb(138 215 255 / 0.32), rgb(138 215 255 / 0.1));
+    box-shadow:
+      inset 0 0 0 1px rgb(138 215 255 / 0.55),
+      0 0 0.9em rgb(138 215 255 / 0.4);
+    text-shadow:
+      0 0 0.5em rgb(138 215 255 / 0.9),
+      2px 2px 0 #10102a;
+  }
+  .classic-member-link[data-selected] .classic-name,
+  [data-menu-bar] > [data-selected] {
+    text-shadow:
+      0 0 0.5em rgb(138 215 255 / 0.95),
+      2px 2px 0 #10102a;
+  }
+  /* Held, a command or a game sinks a little under the finger, then lifts out (Peek.tsx): while
+     it's out, its place stands empty. */
+  .classic-member-link {
+    transition: transform 0.4s cubic-bezier(0.3, 0, 0.3, 1);
+  }
+  .classic-command[data-pressing],
+  .classic-member-link[data-pressing] {
+    transform: scale(0.96);
+  }
+  .classic-command[data-lifted],
+  .classic-member-link[data-lifted] {
+    visibility: hidden;
+  }
+}
+
+/* A held command or game, lifted out over the blurred page: itself on top, larger, then what it
+   holds and the way in. */
+.peek {
+  -webkit-touch-callout: none;
+  user-select: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  /* Should it ever be taller than the screen, it scrolls rather than losing its foot. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: calc(1rem + var(--safe-area-inset-top, 0px))
+    calc(1rem + var(--safe-area-inset-right, 0px)) calc(1rem + var(--safe-area-inset-bottom, 0px))
+    calc(1rem + var(--safe-area-inset-left, 0px));
+}
+.peek-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(3 6 24 / 0.5);
+  backdrop-filter: blur(14px) saturate(1.15);
+}
+.peek-stack {
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+  width: min(100%, 26rem);
+  margin: auto;
+  font-size: 15px;
+}
+/* A phone on its side: the held command or game on the left, what it holds beside it, both
+   sized to the short screen. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .peek-stack {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: center;
+    width: min(100%, 48rem);
+    font-size: 14px;
+  }
+  .peek-cover {
+    aspect-ratio: auto;
+    height: 52svh;
+  }
+  .peek-name {
+    font-size: 1.7em;
+  }
+  .peek-art {
+    height: 6.5em;
+  }
+  .peek-details {
+    gap: 0.6em;
+  }
+}
+.peek-lifted {
+  transform-origin: top left;
+}
+.peek-window {
+  /* Already open: it's lifted, not unfolded. */
+  animation: none;
+  background: linear-gradient(
+    140deg,
+    rgb(31 95 196 / 0.94) 0%,
+    rgb(12 47 142 / 0.95) 38%,
+    rgb(6 26 99 / 0.96) 70%,
+    rgb(2 11 48 / 0.97) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px #5c5c78,
+    0 0 0 1px #111118,
+    0 0 1.6em rgb(138 215 255 / 0.35),
+    0 1.2em 2.6em rgb(0 0 0 / 0.65);
+}
+.peek-command,
+.peek-game {
+  display: grid;
+  gap: 0.2em;
+  padding: 0.8em 1.1em;
+}
+.peek-name {
+  font-size: 2.1em;
+  line-height: 1.15;
+  text-shadow:
+    0 0 0.4em rgb(138 215 255 / 0.85),
+    2px 2px 0 #10102a;
+}
+.peek-hint {
+  font-size: 1.05em;
+  color: #e4ebff;
+}
+.peek-cover {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 0.4em;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 0 1em color-mix(in oklab, var(--c) 70%, transparent);
+}
+.peek-details {
+  display: grid;
+  gap: 0.8em;
+  padding: 0.8em 1.1em 1em;
+}
+.peek-art {
+  width: 100%;
+  height: 8.5em;
+  object-fit: cover;
+  border: 2px solid #b8b8c4;
+}
+.peek-text {
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+.peek-open {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55em 0.9em;
+  font-size: 1.3em;
+  border: 1px solid rgb(138 215 255 / 0.8);
+  border-radius: 0.2em;
+  background: linear-gradient(90deg, rgb(138 215 255 / 0.3), rgb(138 215 255 / 0.1));
+  box-shadow: 0 0 0.8em rgb(138 215 255 / 0.35);
+}
+.peek-open:active {
+  background: rgb(138 215 255 / 0.45);
 }
 .classic-command[aria-current] .ff7-hand {
   visibility: visible;
@@ -288,6 +498,40 @@
     font-size: 1.4em;
     line-height: 1.35;
   }
+  @media (hover: none) {
+    /* Bigger rows, in a window of its own height that scrolls: four and a half rows show, the
+       half saying there's more. The list keeps a little of the window's margin, so the chosen
+       row's glow isn't cut off. */
+    .classic-command {
+      font-size: 1.65em;
+      padding-block: 0.3em;
+    }
+    .classic-commands ul {
+      max-height: min(21.6em, 60svh);
+      margin: -0.4em -0.8em -0.4em -0.65em;
+      padding: 0.4em 0.8em 0.4em 0.65em;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scroll-snap-type: y proximity;
+      scrollbar-width: thin;
+      scrollbar-color: #8ad7ff transparent;
+    }
+    .classic-commands li {
+      scroll-snap-align: start;
+    }
+    .classic-command-hint {
+      display: block;
+      grid-column: 1;
+      grid-row: 2;
+      font-size: 0.6em;
+      line-height: 1.4;
+      color: #c9d3ff;
+    }
+    /* Level with the name, not the middle of the name and its words. */
+    .classic-command .ff7-hand {
+      top: calc(0.3em + 0.675em);
+    }
+  }
   .classic-members {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -315,6 +559,8 @@
     transform: scale(1.04);
   }
   .classic-member-link[data-selected] .classic-member-name {
+    /* Above the chosen game's light, which would otherwise grey it. */
+    position: relative;
     transform: none;
   }
   .classic-member-name {

@@ -227,7 +227,6 @@
   transition: opacity 0.35s ease;
   pointer-events: none;
 }
-.dv-moment:hover,
 .dv-moment:focus-visible {
   border-color: rgb(127 214 255 / 0.5);
   background-color: rgb(31 95 196 / 0.22);
@@ -259,15 +258,41 @@
   text-shadow: 2px 2px 0 #10102a;
   pointer-events: none;
 }
-.dv-stop:has(.dv-moment:is(:hover, :focus-visible)) .dv-glove {
+.dv-stop:has(.dv-moment:focus-visible) .dv-glove {
   visibility: visible;
   animation: glove 0.9s steps(2) infinite;
 }
-.dv-stop[data-selected] .dv-glove {
-  visibility: visible;
-}
-.dv-stop:is([data-selected], :has(.dv-moment:is(:hover, :focus-visible)))::before {
+.dv-stop:has(.dv-moment:focus-visible)::before {
   opacity: 0;
+}
+/* With a mouse: pointed at, the card lights and the glove takes the diamond's place; chosen, the
+   glove stays. */
+@media (hover: hover) {
+  .dv-moment:hover {
+    border-color: rgb(127 214 255 / 0.5);
+    background-color: rgb(31 95 196 / 0.22);
+  }
+  .dv-stop:has(.dv-moment:hover) .dv-glove {
+    visibility: visible;
+    animation: glove 0.9s steps(2) infinite;
+  }
+  .dv-stop[data-selected] .dv-glove {
+    visibility: visible;
+  }
+  .dv-stop:is([data-selected], :has(.dv-moment:hover))::before {
+    opacity: 0;
+  }
+}
+/* On a touch screen nothing lights under a held finger, and there's no glove: the chosen
+   moment's diamond grows and glows instead. */
+@media (hover: none) {
+  .dv-glove {
+    display: none;
+  }
+  .dv-stop[data-selected]::before {
+    box-shadow: 0 0 14px var(--c, var(--mako));
+    transform: translateY(-50%) rotate(45deg) scale(1.35);
+  }
 }
 .dv-moment-body {
   display: flex;
@@ -450,10 +475,23 @@
     background-color 0.2s,
     color 0.2s;
 }
-.dv-turn-open:hover,
 .dv-turn-open[aria-pressed="true"] {
   background: var(--m-accent);
   color: #06131c;
+}
+@media (hover: hover) {
+  .dv-turn-open:hover {
+    background: var(--m-accent);
+    color: #06131c;
+  }
+  .dv-card:hover {
+    border-color: rgb(88 224 168 / 0.6);
+    transform: translateY(-2px);
+  }
+  .dv-card:hover .dv-details {
+    background: var(--m-accent);
+    color: #06131c;
+  }
 }
 .dv-turn-open:focus-visible {
   outline: 2px solid #fff;
@@ -538,7 +576,67 @@
 .dv-branch .dv-name {
   font-size: 20px;
 }
+/* On a narrow screen: one telling at a time, chosen above the line. */
+.dv-follow {
+  display: none;
+  gap: 0.5rem;
+  margin: 0.3rem 0 0.2rem;
+}
+.dv-follow-choice {
+  flex: 1;
+  padding: 0.75rem 0.6rem;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-top: 3px solid var(--c);
+  border-radius: 8px;
+  background: rgb(2 11 48 / 0.6);
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: var(--heading-weight);
+  line-height: 1.2;
+  color: var(--dv-soft);
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    box-shadow 0.2s;
+}
+.dv-follow-choice[aria-pressed="true"] {
+  border-color: var(--c);
+  background: color-mix(in oklab, var(--c) 26%, rgb(2 11 48 / 0.85));
+  color: #fff;
+  box-shadow: 0 0 14px color-mix(in oklab, var(--c) 45%, transparent);
+}
+.dv-follow-choice:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.dv-narrow-only {
+  display: none;
+}
 @media (max-width: 47.99rem) {
+  .dv-follow {
+    display: flex;
+  }
+  .dv-wide-only {
+    display: none;
+  }
+  .dv-narrow-only {
+    display: inline;
+  }
+  .dv-branch:not([data-following]) {
+    display: none;
+  }
+  .dv-turn {
+    padding: 1.3rem 1rem 1.2rem;
+  }
+  .dv-turn-name {
+    font-size: 30px;
+  }
+  .dv-stage-name {
+    font-size: 24px;
+  }
+  .dv-stage {
+    padding: 1rem 1rem 0.7rem;
+  }
   .dv-branches {
     grid-template-columns: minmax(0, 1fr);
     padding-top: 0.6rem;
@@ -575,6 +673,24 @@
   gap: 1rem;
   margin-top: 0.7rem;
 }
+/* Upright on a phone, the turning points are a row to swipe across, not a long stack. */
+@media (max-width: 47.99rem) {
+  .dv-cards {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    gap: 0.8rem;
+    padding-bottom: 0.5rem;
+  }
+  .dv-cards > li {
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+  }
+  .dv-card-art {
+    height: 8.5rem;
+  }
+}
 .dv-card {
   display: flex;
   height: 100%;
@@ -583,10 +699,6 @@
   transition:
     border-color 0.2s,
     transform 0.2s;
-}
-.dv-card:hover {
-  border-color: rgb(88 224 168 / 0.6);
-  transform: translateY(-2px);
 }
 .dv-card:focus-visible {
   outline: 2px solid var(--m-accent);
@@ -626,10 +738,6 @@
 .dv-card .dv-details {
   align-self: flex-start;
   margin-top: auto;
-}
-.dv-card:hover .dv-details {
-  background: var(--m-accent);
-  color: #06131c;
 }
 .dv-landing .dv-moment {
   text-decoration: none;

@@ -177,8 +177,17 @@
   transition: opacity 0.35s ease;
   pointer-events: none;
 }
-/* Pointed at: a faint blue light, and the glove. */
-.tl-event:hover,
+/* Pointed at: a faint blue light, and the glove. Only with a mouse: on a touch screen it would
+   light up under a held finger, as if holding chose it, when a tap is all it takes. */
+@media (hover: hover) {
+  .tl-event:hover {
+    background-color: rgb(31 95 196 / 0.22);
+  }
+  .tl-event:hover .tl-glove {
+    opacity: 1;
+    animation: glove 0.9s steps(2) infinite;
+  }
+}
 .tl-event:has(.tl-event-button:focus-visible) {
   background-color: rgb(31 95 196 / 0.22);
 }
@@ -219,7 +228,6 @@
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
-.tl-event:hover .tl-glove,
 .tl-event:has(.tl-event-button:focus-visible) .tl-glove {
   opacity: 1;
   animation: glove 0.9s steps(2) infinite;

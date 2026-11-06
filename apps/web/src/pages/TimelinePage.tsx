@@ -11,6 +11,7 @@ import { useTimelineParams } from "../features/timeline/params";
 import { playGroups, storyChapters } from "../features/timeline/story";
 import { TITLE_ORDER, titleShort } from "../lib/reference";
 import { TELLING, TELLINGS, titlesOf } from "../lib/tellings";
+import { useKeepInPlace } from "../lib/useKeepInPlace";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { useReducedMotion } from "../lib/motion";
 
@@ -63,7 +64,10 @@ export function TimelinePage() {
   }, [ready, params.event, wide]);
 
   const titleName = (code: TitleCode) => titleShort(reference.data, code);
+  // The chosen event stays where it was tapped, however the page shifts around it.
+  const keepInPlace = useKeepInPlace(params.event);
   const select = (id: string) => {
+    keepInPlace(`event-${id}`);
     update({ event: params.event === id ? null : id });
   };
   const close = () => {

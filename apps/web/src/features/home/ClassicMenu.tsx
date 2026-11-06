@@ -1,4 +1,10 @@
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Link } from "react-router";
 import type { Reference, TitleCode } from "../../api/client";
 import { useEntities, useReference, useSources } from "../../api/queries";
@@ -10,6 +16,7 @@ import { coverageText } from "../archive/units";
 import { ENTITY_KINDS, KIND_LABELS, archiveTitlePath } from "../../lib/paths";
 import { TITLE_COLOR } from "../../lib/titles";
 import { SECTIONS, useMenu } from "./menu";
+import { Peek } from "./Peek";
 
 /** Whole seconds since the page loaded: it runs on through other pages, and a refresh resets it. */
 const secondsOpen = () => Math.floor(performance.now() / 1000);
@@ -87,7 +94,16 @@ const touchFirst = () =>
   typeof window.matchMedia === "function" && window.matchMedia("(hover: none)").matches;
 
 /** What a tap means before anything is chosen. */
-const TAP_HELP = "Tap a command or a game to see what it holds, then tap it again to open it.";
+const TAP_HELP = "Tap a command or a game to open it. Touch and hold to see what it holds first.";
+
+/** On touch, a press held this long only shows what a command or a game holds, and opens nothing. */
+const HOLD_MS = 400;
+
+/** A press on the menu: when it began, and whether by touch. */
+type Press = { at: number; touch: boolean } | null;
+
+/** A touch press long enough to be a look rather than a tap. */
+const isHold = (press: Press) => press?.touch === true && performance.now() - press.at >= HOLD_MS;
 
 /** What the bar's items do, in its order (Search, Credits). */
 const BAR_HELP = [
@@ -114,8 +130,38 @@ export function ClassicMenu() {
   const sources = useSources();
   const [touch] = useState(touchFirst);
   const { active, choose, go, ref, current } = useMenu(touch ? -1 : 0);
-  // On touch, the first tap on a command or game only points at it; a second tap opens it.
-  const tap = useRef<{ wasChosen: boolean; touch: boolean } | null>(null);
+  // On touch, let go of a command or game quickly and it opens; hold it and it sinks a little under
+  // the finger, then lifts out over the page with what it holds (Peek). Only once held, so a drag
+  // to scroll leaves everything where it is.
+  const press = useRef<Press>(null);
+  const holding = useRef<number | undefined>(undefined);
+  const pressed = useRef<HTMLElement | null>(null);
+  const letGo = () => {
+    window.clearTimeout(holding.current);
+    if (pressed.current) delete pressed.current.dataset.pressing;
+    pressed.current = null;
+  };
+  const pressOn = (event: ReactPointerEvent<HTMLElement>, look: (held: HTMLElement) => void) => {
+    const touch = event.pointerType === "touch";
+    press.current = { at: event.timeStamp, touch };
+    letGo();
+    if (!touch) return;
+    const held = event.currentTarget;
+    held.dataset.pressing = "";
+    pressed.current = held;
+    holding.current = window.setTimeout(() => {
+      letGo();
+      if ("vibrate" in navigator) navigator.vibrate(12);
+      look(held);
+    }, HOLD_MS);
+  };
+  useEffect(() => letGo, []);
+  // What's lifted out, and from where.
+  const [peek, setPeek] = useState<{
+    kind: "command" | "game";
+    index: number;
+    from: DOMRect;
+  } | null>(null);
   // One glove, moved by keys or pointing: its column, and the game it last pointed at.
   const [zone, setZone] = useState<Zone>("commands");
   const [memberIndex, setMemberIndex] = useState(0);
@@ -258,39 +304,60 @@ export function ClassicMenu() {
       const i = barItemOf(event);
       if (i >= 0) toBar(i, false);
     };
-    // On touch, as with the commands: the first tap points at Search or Credits, the second opens.
-    // Caught before the item's own click, so a first tap neither searches nor leaves the menu.
-    let barTap: { index: number; wasChosen: boolean; touch: boolean } | null = null;
+    // On touch, as with the commands: a tap on Search or Credits opens it, a hold only explains it.
+    // Caught before the item's own click, so a hold neither searches nor leaves the menu.
+    let barPress: (NonNullable<Press> & { index: number }) | null = null;
+    let barHolding: number | undefined;
+    const barLetGo = () => {
+      window.clearTimeout(barHolding);
+    };
     const onDown = (event: PointerEvent) => {
       const i = barItemOf(event);
-      barTap =
-        i < 0
-          ? null
-          : {
-              index: i,
-              wasChosen: glove.current.zone === "bar" && bar.current.index === i,
-              touch: event.pointerType === "touch",
-            };
+      const touch = event.pointerType === "touch";
+      barPress = i < 0 ? null : { index: i, at: performance.now(), touch };
+      barLetGo();
+      if (i >= 0 && touch) {
+        barHolding = window.setTimeout(() => {
+          toBar(i, false);
+        }, HOLD_MS);
+      }
     };
     const onClick = (event: MouseEvent) => {
-      const t = barTap;
-      barTap = null;
-      if (!t?.touch || t.wasChosen || barItemOf(event) !== t.index) return;
+      const p = barPress;
+      barPress = null;
+      if (!isHold(p) || barItemOf(event) !== p?.index) return;
       event.preventDefault();
       event.stopPropagation();
-      toBar(t.index, false);
+    };
+    // A hold on a link would otherwise open the phone's link menu (or start a drag) over the menu.
+    const onMenu = (event: Event) => {
+      const onMenuItem =
+        event.target instanceof Element &&
+        event.target.closest(".classic-command, .classic-member-link") !== null;
+      if ((barPress?.touch && barItemOf(event) >= 0) || (press.current?.touch && onMenuItem)) {
+        event.preventDefault();
+      }
     };
     window.addEventListener("keydown", onKey);
     document.addEventListener("pointerover", onPointer);
     document.addEventListener("focusin", onFocus);
     document.addEventListener("pointerdown", onDown);
+    document.addEventListener("pointerup", barLetGo);
+    document.addEventListener("pointercancel", barLetGo);
     document.addEventListener("click", onClick, true);
+    document.addEventListener("contextmenu", onMenu);
+    document.addEventListener("dragstart", onMenu);
     return () => {
       window.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerover", onPointer);
       document.removeEventListener("focusin", onFocus);
+      barLetGo();
       document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("pointerup", barLetGo);
+      document.removeEventListener("pointercancel", barLetGo);
       document.removeEventListener("click", onClick, true);
+      document.removeEventListener("contextmenu", onMenu);
+      document.removeEventListener("dragstart", onMenu);
     };
   }, []);
   const items = entities.data?.items ?? [];
@@ -335,23 +402,22 @@ export function ClassicMenu() {
                   to={archiveTitlePath(title.code)}
                   className="classic-member-link"
                   data-selected={zone === "party" && memberIndex === i ? "" : undefined}
+                  data-lifted={peek?.kind === "game" && peek.index === i ? "" : undefined}
                   onPointerEnter={(event) => {
                     if (event.pointerType === "touch") return;
                     if (zone !== "party" || memberIndex !== i) pointAt(i);
                   }}
                   onPointerDown={(event) => {
-                    tap.current = {
-                      wasChosen: zone === "party" && memberIndex === i,
-                      touch: event.pointerType === "touch",
-                    };
-                  }}
-                  onClick={(event) => {
-                    const t = tap.current;
-                    tap.current = null;
-                    if (t?.touch && !t.wasChosen) {
-                      event.preventDefault();
+                    pressOn(event, (held) => {
                       pointAt(i);
-                    }
+                      setPeek({ kind: "game", index: i, from: held.getBoundingClientRect() });
+                    });
+                  }}
+                  onPointerUp={letGo}
+                  onPointerCancel={letGo}
+                  onClick={(event) => {
+                    if (isHold(press.current)) event.preventDefault();
+                    press.current = null;
                   }}
                   onFocus={() => {
                     glove.current.memberIndex = i;
@@ -430,23 +496,22 @@ export function ClassicMenu() {
                   to={section.to}
                   word={section.name}
                   aria-current={i === active ? "true" : undefined}
+                  data-lifted={peek?.kind === "command" && peek.index === i ? "" : undefined}
                   onPointerEnter={(event) => {
                     if (event.pointerType === "touch") return;
                     if (zone !== "commands" || active !== i) goTo(i);
                   }}
                   onPointerDown={(event) => {
-                    tap.current = {
-                      wasChosen: zone === "commands" && active === i,
-                      touch: event.pointerType === "touch",
-                    };
-                  }}
-                  onClick={(event) => {
-                    const t = tap.current;
-                    tap.current = null;
-                    if (t?.touch && !t.wasChosen) {
-                      event.preventDefault();
+                    pressOn(event, (held) => {
                       goTo(i);
-                    }
+                      setPeek({ kind: "command", index: i, from: held.getBoundingClientRect() });
+                    });
+                  }}
+                  onPointerUp={letGo}
+                  onPointerCancel={letGo}
+                  onClick={(event) => {
+                    if (isHold(press.current)) event.preventDefault();
+                    press.current = null;
                   }}
                   onFocus={() => {
                     glove.current.active = i;
@@ -459,6 +524,12 @@ export function ClassicMenu() {
                     ☞
                   </span>
                   {section.name}
+                  <span aria-hidden="true" className="classic-command-hint">
+                    {section.hint}
+                  </span>
+                  <span aria-hidden="true" className="classic-command-go">
+                    ▸
+                  </span>
                 </SectionLink>
               </li>
             ))}
@@ -478,6 +549,106 @@ export function ClassicMenu() {
         </dl>
         <p className="ff7-window classic-location ff7-text">Midgar · Timeline Analyzer</p>
       </div>
+      {peek && (
+        <MenuPeek
+          kind={peek.kind}
+          index={peek.index}
+          from={peek.from}
+          reference={reference.data}
+          onClose={() => {
+            setPeek(null);
+          }}
+        />
+      )}
     </section>
+  );
+}
+
+/** A held command or game, lifted out: its name, then what it holds and the way in. */
+function MenuPeek({
+  kind,
+  index,
+  from,
+  reference,
+  onClose,
+}: {
+  kind: "command" | "game";
+  index: number;
+  from: DOMRect;
+  reference: Reference | undefined;
+  onClose: () => void;
+}) {
+  if (kind === "command") {
+    const section = SECTIONS[index];
+    if (!section) return null;
+    const art = artwork(section.art);
+    return (
+      <Peek
+        from={from}
+        label={section.name}
+        onClose={onClose}
+        item={
+          <div className="ff7-window peek-window peek-command">
+            <span className="ff7-text peek-name">{section.name}</span>
+            <span className="ff7-text peek-hint">{section.hint}</span>
+          </div>
+        }
+        details={
+          <div className="ff7-window peek-window peek-details">
+            {art && (
+              <img
+                src={artSrc(art)}
+                alt=""
+                className="peek-art"
+                style={{ objectPosition: art.focus }}
+              />
+            )}
+            <p className="ff7-text peek-text">{section.text}</p>
+            <SectionLink to={section.to} word={section.name} className="ff7-text peek-open">
+              Open {section.name}
+              <span aria-hidden="true">▸</span>
+            </SectionLink>
+          </div>
+        }
+      />
+    );
+  }
+  const title = reference?.titles[index];
+  if (!title) return null;
+  const art = artwork(TITLE_ART[title.code]);
+  return (
+    <Peek
+      from={from}
+      label={title.name}
+      onClose={onClose}
+      item={
+        <div
+          className="ff7-window peek-window peek-game"
+          style={{ "--c": TITLE_COLOR[title.code] } as CSSProperties}
+        >
+          {art && (
+            <img
+              src={artSrc(art)}
+              alt=""
+              className="peek-cover"
+              style={{ objectPosition: art.focus }}
+            />
+          )}
+          <span className="ff7-text peek-name">{title.shortName}</span>
+          <span className="ff7-text peek-hint">
+            <span className="ff7-label">LV</span> {title.released.slice(0, 4)}
+          </span>
+        </div>
+      }
+      details={
+        <div className="ff7-window peek-window peek-details">
+          <p className="ff7-text peek-text">{coverageText(reference, title.code)}</p>
+          <Link to={archiveTitlePath(title.code)} className="ff7-text peek-open">
+            Open {title.shortName}
+            <span aria-hidden="true">▸</span>
+          </Link>
+        </div>
+      }
+    />
   );
 }

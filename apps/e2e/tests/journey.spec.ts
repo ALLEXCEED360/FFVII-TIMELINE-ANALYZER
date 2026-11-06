@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { type Locator, type Page, expect, test } from "@playwright/test";
 
 // The core journey: search, an entity, a related event, compare, the graph, back to the timeline.
 
@@ -58,24 +58,54 @@ test("from search to comparison, graph and back to the timeline", async ({ page 
   );
 });
 
-test("on a phone, the home menu points at a tap and opens on a second @mobile", async ({
+/** Touches the middle of an element and keeps the finger down for most of a second, as a phone does. */
+async function hold(page: Page, target: Locator) {
+  // Wait until it has stopped moving (the menu's windows open with a flourish), then bring it to
+  // the middle: that wait can leave the page scrolled so far that it's off the top of the screen.
+  await target.tap({ trial: true });
+  await target.evaluate((el) => {
+    el.scrollIntoView({ block: "center", behavior: "instant" });
+  });
+  const box = await target.boundingBox();
+  if (!box) throw new Error("nothing to hold");
+  const point = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [point] });
+  await page.waitForTimeout(700);
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  await cdp.detach();
+}
+
+test("on a phone, a tap on the home menu opens, and a hold lifts it out to look at @mobile", async ({
   page,
   isMobile,
 }) => {
   test.skip(!isMobile, "touch only");
   await page.goto("/");
-  // Nothing is chosen until the first tap.
+  // Nothing is chosen until a touch.
   await expect(page.locator(".classic-command[aria-current]")).toHaveCount(0);
+  // The games in, so the commands have stopped moving as the page fills.
+  await expect(page.locator(".classic-member-link")).toHaveCount(4);
   const compare = page.getByRole("link", { name: "Compare", exact: true });
-  await compare.tap();
+  await hold(page, compare);
+  const peek = page.getByRole("dialog", { name: "Compare" });
+  await expect(peek).toContainText("what changed between them");
+  // Behind it, open as a dialog (so out of the page's roles for now), the glove is on it.
+  await expect(page.locator(".classic-command[aria-current]")).toContainText("Compare");
   await expect(page).toHaveURL(/\/$/);
-  await expect(compare).toHaveAttribute("aria-current", "true");
-  await expect(page.locator(".classic-help")).toContainText("what changed between them");
-  await compare.tap();
+  // A tap outside puts it back.
+  await page.touchscreen.tap(8, 8);
+  await expect(peek).toHaveCount(0);
+  await hold(page, compare);
+  await page.getByRole("link", { name: "Open Compare" }).tap();
   await expect(page).toHaveURL(/\/compare$/);
+
+  await page.goto("/");
+  await page.getByRole("link", { name: "Network", exact: true }).tap();
+  await expect(page).toHaveURL(/\/network$/);
 });
 
-test("on a phone, Search and Credits in the menu's bar also open on a second tap @mobile", async ({
+test("on a phone, Search and Credits in the menu's bar open on a tap too @mobile", async ({
   page,
   isMobile,
 }) => {
@@ -83,16 +113,185 @@ test("on a phone, Search and Credits in the menu's bar also open on a second tap
   await page.goto("/");
   const bar = page.locator("[data-menu-bar]");
   const search = bar.getByRole("button", { name: "Search" });
-  await search.tap();
-  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await hold(page, search);
   await expect(page.locator(".classic-help")).toContainText("Find anyone");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await search.tap();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
   const credits = bar.getByRole("link", { name: "Credits" });
-  await credits.tap();
-  await expect(page).toHaveURL(/\/$/);
+  await hold(page, credits);
   await expect(page.locator(".classic-help")).toContainText("Who made the games");
+  await page.waitForTimeout(300);
+  await expect(page).toHaveURL(/\/$/);
   await credits.tap();
   await expect(page).toHaveURL(/\/credits$/);
+});
+
+test("on a phone, choosing the next event keeps it where it was tapped @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/timeline");
+  const buttons = page.locator(".tl-event-button");
+  await buttons.nth(0).tap();
+  await expect(page.locator(".tl-window")).toHaveCount(1);
+  // A moment to read it, as anyone would, before going on.
+  await page.waitForTimeout(1200);
+  // The next event, below the first one's open window: closing that window would pull it up.
+  const next = buttons.nth(1);
+  await next.scrollIntoViewIfNeeded();
+  const before = (await next.boundingBox())?.y ?? 0;
+  await next.tap();
+  await expect(next).toHaveAttribute("aria-pressed", "true");
+  // Once the page has settled, it's where it was.
+  await page.waitForTimeout(1200);
+  const after = (await next.boundingBox())?.y ?? 0;
+  expect(Math.abs(after - before)).toBeLessThan(2);
+});
+
+test("on a phone, choosing the next change on Compare keeps it where it was tapped @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/compare");
+  const buttons = page.locator(".cmp-row-button");
+  await buttons.nth(0).tap();
+  await expect(buttons.nth(0)).toHaveAttribute("aria-pressed", "true");
+  // A moment to read it, as anyone would, before going on.
+  await page.waitForTimeout(1200);
+  // The next change, below the first one's open window: closing that window would pull it up.
+  const next = buttons.nth(1);
+  await next.scrollIntoViewIfNeeded();
+  const before = (await next.boundingBox())?.y ?? 0;
+  await next.tap();
+  await expect(next).toHaveAttribute("aria-pressed", "true");
+  // Once the page has settled, it's where it was.
+  await page.waitForTimeout(1200);
+  const after = (await next.boundingBox())?.y ?? 0;
+  expect(Math.abs(after - before)).toBeLessThan(2);
+});
+
+test("on a phone, a moment on Divergence opens in a sheet where you are @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/divergence/event/jenova-calamity");
+  // Upright, one telling at a time.
+  const trilogy = page.getByRole("button", { name: "The Remake Trilogy", exact: true });
+  await trilogy.tap();
+  await expect(trilogy).toHaveAttribute("aria-pressed", "true");
+  const moment = page.locator(".dv-branch[data-following] .dv-moment").nth(2);
+  await moment.scrollIntoViewIfNeeded();
+  const before = await page.evaluate(() => window.scrollY);
+  await moment.tap();
+  const sheet = page.locator("[data-sheet]");
+  await expect(sheet.getByRole("complementary", { name: "Event details" })).toBeVisible();
+  // Its own Close lowers it, and the page hasn't moved.
+  await sheet.getByRole("button", { name: "Close" }).tap();
+  await expect(sheet).toHaveCount(0);
+  expect(await page.evaluate(() => window.scrollY)).toBe(before);
+});
+
+test("on a phone, what's chosen in the Network opens in a sheet where you are @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/network/character/cloud-strife");
+  const chip = page.locator(".nw-panel .nw-chip").nth(1);
+  const name = (await chip.textContent()) ?? "";
+  await chip.scrollIntoViewIfNeeded();
+  const before = await page.evaluate(() => window.scrollY);
+  await chip.tap();
+  const sheet = page.locator("[data-sheet]");
+  await expect(sheet.getByRole("heading", { name })).toBeVisible();
+  // Its links lead on to the next thing, in the same sheet.
+  await sheet.locator(".nw-chip").first().tap();
+  await expect(sheet.getByRole("heading", { name })).toHaveCount(0);
+  await sheet.getByRole("button", { name: "Close" }).tap();
+  await expect(sheet).toHaveCount(0);
+  expect(await page.evaluate(() => window.scrollY)).toBe(before);
+  // Closed, what's chosen stays as a small card under the web, ready to open again or clear.
+  await expect(page.locator(".nw-chosen")).toBeVisible();
+  await page.locator(".nw-chosen-open").tap();
+  await expect(sheet).toBeVisible();
+  await sheet.getByRole("button", { name: "Close" }).tap();
+  await page.getByRole("button", { name: "Clear the choice" }).tap();
+  await expect(page.locator(".nw-chosen")).toHaveCount(0);
+  await expect(page.getByRole("list", { name: "How to use the web" })).toBeVisible();
+  // Reset chooses nothing again.
+  await chip.tap();
+  await sheet.getByRole("button", { name: "Close" }).tap();
+  await expect(page.locator(".nw-chosen")).toBeVisible();
+  await page.getByRole("button", { name: "Reset", exact: true }).tap();
+  await expect(page.locator(".nw-chosen")).toHaveCount(0);
+});
+
+test("on a phone, each kind in the Network's cast starts at its beginning @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/network");
+  const row = page.getByRole("list", { name: "Whose web to see" });
+  await expect(row.getByRole("link").first()).toBeVisible();
+  const swipe = () =>
+    row.evaluate((el) => {
+      el.scrollLeft = 600;
+    });
+  const place = () => row.evaluate((el) => el.scrollLeft);
+  await swipe();
+  await expect.poll(place).toBeGreaterThan(0);
+  const kinds = page.getByRole("group", { name: "Kinds" });
+  await kinds.getByRole("button", { name: "Moments" }).tap();
+  await expect(row.getByRole("link").first()).toContainText(/./);
+  await expect.poll(place).toBe(0);
+  await swipe();
+  await kinds.getByRole("button", { name: "Places" }).tap();
+  await expect.poll(place).toBe(0);
+});
+
+/** The little of the web's Cytoscape instance the Reset test reaches for. */
+interface WebNode {
+  position(): { x: number; y: number };
+  position(to: { x: number; y: number }): void;
+  emit(event: string): void;
+}
+interface Web {
+  zoom(): number;
+  zoom(level: number): void;
+  nodes(): { map<T>(f: (node: WebNode) => T): T[]; toArray(): WebNode[] };
+}
+
+test("Reset puts dragged things back in the web and shows all of it", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "the same on every screen");
+  await page.goto("/network/character/barret-wallace");
+  await expect(page.locator(".nw-graph-canvas.is-settled")).toBeVisible();
+  const web = () =>
+    page.locator(".nw-graph-canvas").evaluate((el) => {
+      const cy = (el as unknown as { _cyreg: { cy: Web } })._cyreg.cy;
+      return { zoom: cy.zoom(), places: cy.nodes().map((node) => node.position()) };
+    });
+  const start = await web();
+  // Nothing chosen, so nothing but Reset itself can put them back.
+  await page.locator(".nw-graph-canvas").evaluate((el) => {
+    const cy = (el as unknown as { _cyreg: { cy: Web } })._cyreg.cy;
+    for (const node of cy.nodes().toArray().slice(1, 4)) {
+      const { x, y } = node.position();
+      node.position({ x: x + 300, y: y - 200 });
+      node.emit("dragfree");
+    }
+    cy.zoom(cy.zoom() * 1.8);
+  });
+  expect((await web()).places).not.toEqual(start.places);
+  await page.getByRole("button", { name: "Reset", exact: true }).click();
+  await expect.poll(async () => (await web()).places).toEqual(start.places);
+  await expect.poll(async () => (await web()).zoom).toBeCloseTo(start.zoom, 3);
 });

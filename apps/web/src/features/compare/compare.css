@@ -120,7 +120,25 @@
   transition: opacity 0.35s ease;
   pointer-events: none;
 }
-.cmp-row:hover,
+/* Pointed at with a mouse: a faint blue light, and the glove. Not on a touch screen, where it
+   would light up under a held finger, as if holding chose it, when a tap is all it takes. */
+@media (hover: hover) {
+  .cmp-row:hover {
+    background-color: rgb(31 95 196 / 0.22);
+  }
+  .cmp-row:hover .cmp-glove {
+    opacity: 1;
+    animation: glove 0.9s steps(2) infinite;
+  }
+  .cmp-pick-item:hover {
+    background-color: rgb(31 95 196 / 0.28);
+    color: #fff;
+  }
+  .cmp-pick-item:hover .cmp-pick-glove {
+    visibility: visible;
+    animation: glove 0.9s steps(2) infinite;
+  }
+}
 .cmp-row:has(.cmp-row-button:focus-visible) {
   background-color: rgb(31 95 196 / 0.22);
 }
@@ -163,7 +181,6 @@
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
-.cmp-row:hover .cmp-glove,
 .cmp-row:has(.cmp-row-button:focus-visible) .cmp-glove {
   opacity: 1;
   animation: glove 0.9s steps(2) infinite;
@@ -454,10 +471,6 @@
     background-color 0.2s,
     color 0.2s;
 }
-.cmp-pick-item:hover {
-  background-color: rgb(31 95 196 / 0.28);
-  color: #fff;
-}
 .cmp-pick-item:focus-visible {
   outline: 2px solid var(--m-accent);
   outline-offset: -2px;
@@ -469,7 +482,7 @@
   font-size: 1.15rem;
   text-shadow: 2px 2px 0 #10102a;
 }
-.cmp-pick-item:is(:hover, :focus-visible) .cmp-pick-glove {
+.cmp-pick-item:focus-visible .cmp-pick-glove {
   visibility: visible;
   animation: glove 0.9s steps(2) infinite;
 }

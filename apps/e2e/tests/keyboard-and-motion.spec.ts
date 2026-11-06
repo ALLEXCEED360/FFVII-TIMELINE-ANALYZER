@@ -220,13 +220,18 @@ test("W A S D move the glove anywhere on the home menu, and left and right cross
 
 /** The gloves showing on the home menu, by the text of what each points at. */
 async function gloves(page: import("@playwright/test").Page) {
-  return page
-    .locator(".ff7-hand")
-    .evaluateAll((hands) =>
-      hands
-        .filter((hand) => getComputedStyle(hand).visibility === "visible")
-        .map((hand) => (hand.parentElement?.textContent ?? "").replace("☞", "").trim().slice(0, 8)),
-    );
+  return page.locator(".ff7-hand").evaluateAll((hands) =>
+    hands
+      .filter((hand) => getComputedStyle(hand).visibility === "visible")
+      .map((hand) => {
+        // What the glove points at, without the words a touch screen adds under a command.
+        const item = hand.parentElement?.cloneNode(true) as HTMLElement | undefined;
+        item?.querySelectorAll(".classic-command-hint").forEach((hint) => {
+          hint.remove();
+        });
+        return (item?.textContent ?? "").replace(/[☞▸]/gu, "").trim().slice(0, 8);
+      }),
+  );
 }
 
 test("the keys and the mouse move one glove on the home menu", async ({ page }) => {

@@ -18,6 +18,7 @@ Read in this order:
 | [`features/divergence.md`](features/divergence.md)         | Where the games part ways, and what each marking means        |
 | [`design.md`](design.md)                                   | How the web app looks and behaves                             |
 | [`deploy.md`](deploy.md)                                   | Putting it online: Neon, Render and Vercel, step by step      |
+| [`android.md`](android.md)                                 | The Android app: building, signing and releasing the APK      |
 
 The research log — every source used and every open question — is data, in [`data/research/`](../data/research/).
 

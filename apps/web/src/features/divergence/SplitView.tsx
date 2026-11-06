@@ -95,6 +95,8 @@ export function SplitView({
   onSelect: (eventId: string) => void;
 }) {
   const [everything, setEverything] = useState(false);
+  // On a narrow screen the tellings can't stand side by side: one is read at a time.
+  const [following, setFollowing] = useState(0);
   const pivot = view.events.find((r) => r.event.id === view.pivot.id) ?? view.events[0];
   // After it, every moment any telling has, in one order shared by all of them.
   const after = view.events.filter((r) => r !== pivot && r.stations.some(Boolean));
@@ -207,10 +209,32 @@ export function SplitView({
             Where each telling goes
           </h2>
           <p className="dv-stage-text">
-            From here each telling follows its own line. A moment both have sits side by side; a gap
-            means that telling doesn&apos;t have it there.
+            From here each telling follows its own line.{" "}
+            <span className="dv-wide-only">
+              A moment both have sits side by side; a gap means that telling doesn&apos;t have it
+              there.
+            </span>
+            <span className="dv-narrow-only">Choose which one to follow.</span>
           </p>
         </header>
+        {view.lines.length > 1 && (
+          <div role="group" aria-label="Which telling to follow" className="dv-follow">
+            {view.lines.map((line, b) => (
+              <button
+                key={line.key}
+                type="button"
+                aria-pressed={b === following}
+                onClick={() => {
+                  setFollowing(b);
+                }}
+                className="dv-follow-choice"
+                style={lane(line)}
+              >
+                {line.name}
+              </button>
+            ))}
+          </div>
+        )}
         <div
           className="dv-branches"
           style={
@@ -225,6 +249,7 @@ export function SplitView({
               key={line.key}
               aria-labelledby={`dv-${line.key}`}
               className="m-panel dv-branch"
+              data-following={b === following || undefined}
               style={lane(line)}
             >
               <h3 id={`dv-${line.key}`} className="m-heading dv-branch-name">

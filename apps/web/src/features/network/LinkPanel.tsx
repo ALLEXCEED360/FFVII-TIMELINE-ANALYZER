@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useId } from "react";
 import { Link } from "react-router";
 import type { PathResult } from "../../api/client";
 import { useEntity } from "../../api/queries";
@@ -20,6 +20,7 @@ export function LinkPanel({
   onCentre,
   onExpand,
   onPath,
+  close,
 }: {
   id: string;
   center: string;
@@ -29,7 +30,10 @@ export function LinkPanel({
   onCentre: (id: string) => void;
   onExpand: (id: string) => void;
   onPath: (id: string) => void;
+  /** A way to close it, when it's in a sheet. */
+  close?: ReactNode;
 }) {
+  const linksId = useId();
   const node = network.nodes.get(id);
   const entity = useEntity(id);
   const centerName = network.nodes.get(center)?.name ?? "the centre";
@@ -54,6 +58,7 @@ export function LinkPanel({
 
   return (
     <aside aria-label="Chosen in the web" className="ff7-window nw-panel nw-window">
+      {close}
       {art && (
         <div aria-hidden="true" className="nw-panel-art" data-kind={art.kind}>
           <Artwork entry={art} decorative eager />
@@ -100,8 +105,8 @@ export function LinkPanel({
         </div>
       )}
 
-      <section aria-labelledby="nw-links" className="nw-panel-section">
-        <h3 id="nw-links" className="m-label">
+      <section aria-labelledby={linksId} className="nw-panel-section">
+        <h3 id={linksId} className="m-label">
           Links in this web
         </h3>
         {groups.size === 0 ? (
@@ -143,6 +148,54 @@ export function LinkPanel({
         </Link>
       </nav>
     </aside>
+  );
+}
+
+/** What's chosen in the web on an upright phone: a small card under it, so the web stays in view
+ *  and the next thing is one tap away, with the full details a tap further. */
+export function ChosenCard({
+  id,
+  network,
+  onRead,
+  onClear,
+}: {
+  id: string;
+  network: MergedNetwork;
+  onRead: () => void;
+  onClear: () => void;
+}) {
+  const node = network.nodes.get(id);
+  if (!node) return null;
+  const kind = isKind(node.kind) ? node.kind : "character";
+  const art = pictureFor(id, kind);
+  const links = [...network.edges.values()].filter(
+    (edge) => edge.source === id || edge.target === id,
+  ).length;
+  return (
+    <div className="nw-chosen" role="status">
+      <button type="button" className="nw-chosen-open" onClick={onRead}>
+        <span aria-hidden="true" className="nw-chosen-art" data-kind={art?.kind}>
+          {art ? <Artwork entry={art} decorative eager /> : <Orb kind={kind} size="1.6rem" />}
+        </span>
+        <span className="nw-chosen-text">
+          <span className="m-heading nw-chosen-name">{node.name}</span>
+          <span className="nw-chosen-meta">
+            {KIND_WORDS[kind].one} · {links === 1 ? "1 link" : `${String(links)} links`}
+          </span>
+        </span>
+        <span className="nw-chosen-go">
+          Details <span aria-hidden="true">›</span>
+        </span>
+      </button>
+      <button
+        type="button"
+        aria-label="Clear the choice"
+        className="nw-chosen-clear"
+        onClick={onClear}
+      >
+        ×
+      </button>
+    </div>
   );
 }
 

@@ -10,6 +10,7 @@ import { ThingPicker } from "../features/compare/pieces";
 import { comparePath } from "../lib/paths";
 import { CHANGE_WORDS } from "../lib/plain";
 import { TITLE_ORDER } from "../lib/reference";
+import { useKeepInPlace } from "../lib/useKeepInPlace";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import "../features/compare/compare.css";
 
@@ -39,7 +40,9 @@ export function ComparePage() {
       if (value === null) next.delete(key);
       else next.set(key, value);
     }
-    setSearch(next, { replace: true });
+    // Opening a change leaves the page where it is (useKeepInPlace holds it there).
+    const opening = Object.keys(changes).every((key) => key === "open");
+    setSearch(next, { replace: true, preventScrollReset: opening });
   };
 
   const all = useMemo(() => differences.data?.items ?? [], [differences.data]);
@@ -63,7 +66,10 @@ export function ComparePage() {
 
   const open = search.get("open");
   const chosen = groups.find((g) => g.entity.id === open);
+  // The chosen change stays where it was tapped, however the page shifts around it.
+  const keepInPlace = useKeepInPlace(open);
   const select = (id: string) => {
+    keepInPlace(`change-${id}`);
     set({ open: open === id ? null : id });
   };
   const detail = chosen ? (

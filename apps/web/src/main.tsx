@@ -21,6 +21,14 @@ const queryClient = new QueryClient({
 
 const router = createBrowserRouter(routes);
 
+// Inside the Android app, whose bridge is in place before the page loads, its own wiring.
+const capacitor = (window as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor;
+if (capacitor?.isNativePlatform?.()) {
+  void import("./native/android").then(({ startAndroid }) => {
+    startAndroid(router);
+  });
+}
+
 const root = document.getElementById("root");
 if (!root) throw new Error("#root is missing from index.html");
 

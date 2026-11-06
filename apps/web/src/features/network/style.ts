@@ -17,6 +17,7 @@ const TEXT = "#eef2fb";
 const OUTLINE = "#05080d";
 const ACCENT = "#7fd6ff";
 const MAKO = "#8ef0c6";
+const PHONE_SIZE = 2;
 
 export const GRAPH_STYLE: StylesheetJson = [
   {
@@ -183,3 +184,19 @@ export const GRAPH_STYLE: StylesheetJson = [
   },
   { selector: ".faded, .dim", style: { opacity: 0.14 } },
 ];
+
+/** On a phone's small field things are drawn larger, to see and to tap, and a name too small to
+ *  read stays hidden until the web is zoomed in. */
+export function phoneStyle(style: StylesheetJson): StylesheetJson {
+  return [
+    ...style.map((rule) => {
+      if (!("style" in rule)) return rule;
+      const sized = { ...rule.style } as Record<string, unknown>;
+      for (const side of ["width", "height"]) {
+        if (typeof sized[side] === "number") sized[side] *= PHONE_SIZE;
+      }
+      return { ...rule, style: sized };
+    }),
+    { selector: "node", style: { "min-zoomed-font-size": 22 } },
+  ] as StylesheetJson;
+}

@@ -239,9 +239,11 @@
   letter-spacing: 0.08em;
   color: #8f9bb8;
 }
-.nw-opt:hover {
-  background-color: rgb(255 255 255 / 0.07);
-  color: #fff;
+@media (hover: hover) {
+  .nw-opt:hover {
+    background-color: rgb(255 255 255 / 0.07);
+    color: #fff;
+  }
 }
 .nw-opt:focus-visible {
   outline: 2px solid var(--m-accent);
@@ -276,14 +278,30 @@
 .nw-opts:not(:has(.nw-opt-state)) .nw-opt[aria-pressed="true"] .nw-opt-glove {
   visibility: visible;
 }
-.nw-opts:is(:hover, :has(:focus-visible)) .nw-opt[aria-pressed] .nw-opt-glove {
+.nw-opts:has(:focus-visible) .nw-opt[aria-pressed] .nw-opt-glove {
   visibility: hidden;
 }
-.nw-opts:is(:hover, :has(:focus-visible))
-  .nw-opt[aria-pressed]:is(:hover, :focus-visible)
-  .nw-opt-glove {
+.nw-opts:has(:focus-visible) .nw-opt[aria-pressed]:focus-visible .nw-opt-glove {
   visibility: visible;
   animation: glove 0.9s steps(2) infinite;
+}
+@media (hover: hover) {
+  .nw-opts:hover .nw-opt[aria-pressed] .nw-opt-glove {
+    visibility: hidden;
+  }
+  .nw-opts:hover .nw-opt[aria-pressed]:hover .nw-opt-glove {
+    visibility: visible;
+    animation: glove 0.9s steps(2) infinite;
+  }
+}
+/* No glove on a touch screen: the chosen option's light says which it is. */
+@media (hover: none) {
+  .nw-opt {
+    padding-left: 0.6rem;
+  }
+  .nw-opt-glove {
+    display: none;
+  }
 }
 .nw-find {
   grid-column: 1 / -1;
@@ -306,8 +324,10 @@
   color: #fff;
   cursor: pointer;
 }
-.nw-reset:hover {
-  background: rgb(138 215 255 / 0.2);
+@media (hover: hover) {
+  .nw-reset:hover {
+    background: rgb(138 215 255 / 0.2);
+  }
 }
 .nw-reset:focus-visible {
   outline: 2px solid var(--m-accent);
@@ -463,8 +483,10 @@
   font-size: 0.875rem;
   font-weight: 600;
 }
-.nw-tool:hover {
-  background: linear-gradient(140deg, rgb(52 125 230 / 0.95), rgb(12 47 142 / 0.95));
+@media (hover: hover) {
+  .nw-tool:hover {
+    background: linear-gradient(140deg, rgb(52 125 230 / 0.95), rgb(12 47 142 / 0.95));
+  }
 }
 .nw-tool:focus-visible {
   outline: 2px solid var(--m-accent);
@@ -525,8 +547,10 @@
   background: rgb(2 11 48 / 0.45);
   color: #fff;
 }
-.nw-window .nw-action:hover {
-  background: rgb(138 215 255 / 0.2);
+@media (hover: hover) {
+  .nw-window .nw-action:hover {
+    background: rgb(138 215 255 / 0.2);
+  }
 }
 .nw-panel {
   display: flex;
@@ -584,10 +608,12 @@
     border-color 0.2s,
     background-color 0.2s;
 }
-.nw-action:hover {
-  border-color: rgb(127 214 255 / 0.75);
-  background: var(--m-accent-soft);
-  color: #fff;
+@media (hover: hover) {
+  .nw-action:hover {
+    border-color: rgb(127 214 255 / 0.75);
+    background: var(--m-accent-soft);
+    color: #fff;
+  }
 }
 .nw-action:focus-visible {
   outline: 2px solid var(--m-accent);
@@ -646,9 +672,11 @@
   color: var(--m-text);
   cursor: pointer;
 }
-.nw-chip:hover {
-  border-color: rgb(127 214 255 / 0.6);
-  color: #fff;
+@media (hover: hover) {
+  .nw-chip:hover {
+    border-color: rgb(127 214 255 / 0.6);
+    color: #fff;
+  }
 }
 .nw-chip:focus-visible {
   outline: 2px solid var(--m-accent);
@@ -759,8 +787,10 @@
   color: #fff;
   cursor: pointer;
 }
-.nw-row-name:hover {
-  color: var(--m-accent);
+@media (hover: hover) {
+  .nw-row-name:hover {
+    color: var(--m-accent);
+  }
 }
 .nw-row-kind {
   font-size: 0.8rem;
@@ -793,6 +823,7 @@
 /* ── The landing page: someone to start with, and the link finder ────────────────────────── */
 .nw-start {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
   align-items: start;
 }
@@ -846,10 +877,12 @@
     transform 0.2s,
     box-shadow 0.2s;
 }
-.nw-card:hover {
-  border-color: var(--materia);
-  box-shadow: 0 0 18px color-mix(in oklab, var(--materia) 35%, transparent);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .nw-card:hover {
+    border-color: var(--materia);
+    box-shadow: 0 0 18px color-mix(in oklab, var(--materia) 35%, transparent);
+    transform: translateY(-2px);
+  }
 }
 .nw-card:focus-visible {
   outline: 2px solid var(--m-accent);
@@ -890,6 +923,41 @@
   font-size: 0.78rem;
   color: var(--m-dim);
 }
+.nw-swipe {
+  display: none;
+}
+/* Short of a wide screen, the cast is a row to swipe across, so how two things are linked isn't
+   buried under it. */
+@media (max-width: 63.99rem) {
+  .nw-swipe {
+    display: block;
+  }
+  .nw-cast {
+    grid-template-rows: repeat(2, auto);
+    grid-template-columns: none;
+    grid-auto-columns: min(42vw, 10.5rem);
+    grid-auto-flow: column;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    padding-bottom: 0.4rem;
+  }
+  .nw-cast > li {
+    scroll-snap-align: start;
+  }
+  .nw-card-art {
+    height: 7rem;
+  }
+  .nw-key-inline {
+    display: none;
+  }
+}
+/* On its side there's only height for one row. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .nw-cast {
+    grid-template-rows: auto;
+  }
+}
 .nw-finder-form {
   display: flex;
   flex-direction: column;
@@ -913,18 +981,133 @@
 .nw-graph-canvas.is-settled {
   opacity: 1;
 }
+/* What's chosen, upright on a phone: a small card in the help's place (ChosenCard). */
+.nw-chosen {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid rgb(214 214 222 / 0.3);
+  background: linear-gradient(140deg, rgb(31 95 196 / 0.55), rgb(6 26 99 / 0.75));
+}
+.nw-chosen-open {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.4rem 0.5rem 0.6rem;
+  text-align: left;
+  color: #fff;
+}
+.nw-chosen-art {
+  display: flex;
+  flex: none;
+  width: 3.2rem;
+  height: 3.2rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid #d6d6de;
+  border-radius: 6px;
+}
+.nw-chosen-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.nw-chosen-art[data-kind="cutout"] img {
+  object-fit: contain;
+  object-position: 50% 0% !important;
+}
+.nw-chosen-text {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.nw-chosen-name {
+  overflow: hidden;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nw-chosen-meta {
+  font-size: 0.8125rem;
+  color: #c9d3ea;
+}
+.nw-chosen-go {
+  flex: none;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgb(138 215 255 / 0.8);
+  border-radius: 999px;
+  background: rgb(138 215 255 / 0.2);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.nw-chosen-clear {
+  flex: none;
+  width: 2.6rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #c9d3ea;
+}
+.nw-chosen-open:focus-visible,
+.nw-chosen-clear:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: -2px;
+}
+/* Upright on a phone: about square, so the rings fill it; the tools in a bar of their own, so they
+   never sit on the web; and the words under it always the same height, so choosing something
+   doesn't move it. */
 @media (max-width: 40rem) {
+  .nw-guide {
+    display: none;
+  }
   .nw-graph {
-    height: 30rem;
+    height: min(calc(100vw + 7rem), 82svh);
+  }
+  .nw-how,
+  .nw-chosen {
+    flex: none;
+    height: 4.6rem;
+  }
+  .nw-how {
+    align-content: center;
+  }
+  .nw-graph-tools {
+    position: static;
+    order: -1;
+    justify-content: flex-end;
+    padding: 0.4rem 0.5rem;
+    border-bottom: 1px solid rgb(214 214 222 / 0.3);
+    background: rgb(2 8 30 / 0.7);
   }
   .nw-how {
     font-size: 0.75rem;
   }
 }
-/* A phone on its side: the whole web, and the help under it, in one screen. */
+/* A phone on its side: the web and what's chosen in it side by side, with a strip of page left
+   to scroll by, since a finger on the web moves the web. */
 @media (orientation: landscape) and (max-height: 30rem) {
+  .nw-body {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-areas: "filters filters" "main panel";
+  }
+  .nw-body > .nw-panel {
+    position: sticky;
+    top: 0.5rem;
+    max-height: calc(100dvh - 1rem);
+    overflow-y: auto;
+  }
   .nw-graph {
-    height: max(18rem, calc(100dvh - 1.5rem));
+    height: max(15rem, calc(100dvh - 4rem));
+  }
+  .nw-how li:not(.nw-how-key) {
+    display: none !important;
+  }
+  .nw-how:not(:has(.nw-how-key)) {
+    display: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
