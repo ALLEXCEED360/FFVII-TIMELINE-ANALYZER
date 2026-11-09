@@ -31,25 +31,26 @@ Android only installs an update over an app signed with the same key, so this ke
 **Keep a backup of it and its password somewhere safe (a password manager); if it's lost, people have to
 uninstall the app before installing a newer one.**
 
-1. Make the key, in a terminal, from any folder outside this repository. It asks for a password (twice)
-   and a few name questions (Enter skips them):
-
-   ```bash
-   "D:\Java\jdk-21.0.13+9\bin\keytool.exe" -genkeypair -keystore ffvii-release.jks -alias ffvii -keyalg RSA -keysize 4096 -validity 10000
-   ```
-
-2. Turn it into text for GitHub, in PowerShell, in the same folder:
+1. Make the key, in PowerShell, in a folder outside this repository (Documents here). It asks for a
+   password (twice) and a few name questions (Enter skips them):
 
    ```powershell
-   [Convert]::ToBase64String([IO.File]::ReadAllBytes("ffvii-release.jks")) | Set-Clipboard
+   cd $HOME\Documents
+   & "D:\Java\jdk-21.0.13+9\bin\keytool.exe" -genkeypair -keystore ffvii-release.jks -alias ffvii -keyalg RSA -keysize 4096 -validity 10000
+   ```
+
+2. Hand it to GitHub as the first secret with the GitHub CLI, straight from the file (no clipboard, so
+   nothing can be pasted in its place). The full path matters: .NET doesn't follow PowerShell's `cd`.
+
+   ```powershell
+   [Convert]::ToBase64String([IO.File]::ReadAllBytes("$HOME\Documents\ffvii-release.jks")) | gh secret set ANDROID_KEYSTORE_BASE64
    ```
 
 3. On GitHub, open the repository's **Settings → Secrets and variables → Actions → New repository
-   secret** and add four:
+   secret** and add the other three:
 
    | Name                        | Value                                         |
    | --------------------------- | --------------------------------------------- |
-   | `ANDROID_KEYSTORE_BASE64`   | the text from step 2 (paste)                  |
    | `ANDROID_KEYSTORE_PASSWORD` | the password from step 1                      |
    | `ANDROID_KEY_ALIAS`         | `ffvii`                                       |
    | `ANDROID_KEY_PASSWORD`      | the same password (keytool uses one for both) |

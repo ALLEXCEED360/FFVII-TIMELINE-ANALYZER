@@ -114,12 +114,21 @@
     transform 0.2s,
     box-shadow 0.2s;
 }
-.ex-card:hover {
-  border-color: var(--materia);
-  box-shadow:
-    0 0 22px color-mix(in oklab, var(--materia) 32%, transparent),
-    0 12px 28px rgb(0 0 0 / 0.4);
-  transform: translateY(-3px);
+/* Lit when pointed at with a mouse; not under a finger, where it would look chosen. */
+@media (hover: hover) {
+  .ex-card:hover {
+    border-color: var(--materia);
+    box-shadow:
+      0 0 22px color-mix(in oklab, var(--materia) 32%, transparent),
+      0 12px 28px rgb(0 0 0 / 0.4);
+    transform: translateY(-3px);
+  }
+  .ex-card:hover .ex-card-art img {
+    transform: scale(1.04);
+  }
+  .ex-card:hover .ex-card-more {
+    background: color-mix(in oklab, var(--materia) 22%, transparent);
+  }
 }
 .ex-card:focus-visible {
   outline: 2px solid var(--m-accent);
@@ -144,9 +153,6 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.4s ease;
-}
-.ex-card:hover .ex-card-art img {
-  transform: scale(1.04);
 }
 /* A figure on transparency: whole from the top, never cropped at the sides. */
 .ex-card-art[data-kind="cutout"] img {
@@ -225,8 +231,61 @@
   color: #fff;
   white-space: nowrap;
 }
-.ex-card:hover .ex-card-more {
-  background: color-mix(in oklab, var(--materia) 22%, transparent);
+
+.ex-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Everything at once, short of a wide screen: a row per kind to swipe across, the next card
+   peeking in, and a way to see all of the kind as a grid. */
+.ex-see-all {
+  margin-left: auto;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid rgb(138 215 255 / 0.6);
+  border-radius: 999px;
+  background: rgb(138 215 255 / 0.12);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+.ex-see-all:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.ex-cards[data-row] {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  gap: 0.6rem;
+  padding-bottom: 0.4rem;
+}
+.ex-cards[data-row] > li {
+  flex: 0 0 min(64vw, 17rem);
+  scroll-snap-align: start;
+}
+.ex-cards[data-row][data-kind="character"] > li {
+  flex-basis: min(40vw, 12.5rem);
+}
+
+/* Short of a wide screen, each set of choices is one line to swipe along, so the cards come sooner. */
+@media (max-width: 63.99rem) {
+  .ex-controls {
+    gap: 0.85rem;
+  }
+  .ex-controls .m-choices {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .ex-controls .m-choice {
+    flex: none;
+  }
 }
 
 /* A phone: two cards to a row, smaller, so the list isn't one long column. */
@@ -258,6 +317,45 @@
   }
   .ex-group-name {
     font-size: 26px;
+  }
+}
+
+/* A phone on its side: smaller cards, more to a row, each whole within the short screen. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .ex-cards {
+    grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+    gap: 0.6rem;
+  }
+  .ex-cards[data-kind="character"] {
+    grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  }
+  .ex-cards[data-row] > li {
+    flex-basis: 13rem;
+  }
+  .ex-cards[data-row][data-kind="character"] > li {
+    flex-basis: 10rem;
+  }
+  .ex-card-art {
+    height: 7rem;
+  }
+  .ex-cards[data-kind="character"] .ex-card-art {
+    height: 9.5rem;
+  }
+  .ex-card-body {
+    padding: 0.55rem 0.7rem 0.65rem;
+  }
+  .ex-card-name {
+    font-size: 1rem;
+  }
+  .ex-card-summary {
+    -webkit-line-clamp: 2;
+    font-size: 0.8125rem;
+  }
+  .ex-card-more {
+    display: none;
+  }
+  .ex-group-name {
+    font-size: 24px;
   }
 }
 

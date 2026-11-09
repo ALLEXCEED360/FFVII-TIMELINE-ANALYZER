@@ -295,3 +295,20 @@ test("Reset puts dragged things back in the web and shows all of it", async ({
   await expect.poll(async () => (await web()).places).toEqual(start.places);
   await expect.poll(async () => (await web()).zoom).toBeCloseTo(start.zoom, 3);
 });
+
+test("on a phone, Explore shows a row per kind, and See all opens one kind @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/explore");
+  const places = page.getByRole("list", { name: "Places" });
+  await expect(places).toHaveAttribute("data-row", "true");
+  await page.getByRole("button", { name: "See all Places" }).tap();
+  await expect(page).toHaveURL(/kind=location/);
+  await expect(page.locator("[data-row]")).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: /Places/ })).toBeInViewport();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBe(
+    0,
+  );
+});
