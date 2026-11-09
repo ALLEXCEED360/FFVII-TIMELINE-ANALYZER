@@ -312,3 +312,24 @@ test("on a phone, Explore shows a row per kind, and See all opens one kind @mobi
     0,
   );
 });
+
+test("on a phone, the original's archive shows one disc at a time, kept on the way back @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/archive/og");
+  const disc2 = page.getByRole("button", { name: /Disc 2/ });
+  await expect(page.getByRole("button", { name: /Disc 1/ })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await expect(page.getByRole("heading", { name: "Disc 2" })).toHaveCount(0);
+  await disc2.tap();
+  await expect(page).toHaveURL(/disc=2/);
+  await expect(page.getByRole("heading", { name: "Disc 2" })).toBeVisible();
+  await page.locator(".ar-chapter-name").first().tap();
+  await expect(page).toHaveURL(/\/archive\/og\/.+/);
+  await page.goBack();
+  await expect(disc2).toHaveAttribute("aria-pressed", "true");
+});
