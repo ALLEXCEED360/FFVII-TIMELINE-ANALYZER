@@ -20,6 +20,7 @@ function Setting<T extends string>({
   value,
   options,
   onChange,
+  className = "",
   children,
 }: {
   name: string;
@@ -28,12 +29,13 @@ function Setting<T extends string>({
   value: T;
   options: readonly Option<T>[];
   onChange: (value: T) => void;
+  className?: string;
   children?: ReactNode;
 }) {
   const chosen = options.find((o) => o.value === value);
   const id = useId();
   return (
-    <div role="group" aria-labelledby={id} className="st-row">
+    <div role="group" aria-labelledby={id} className={`st-row ${className}`}>
       <div className="st-row-head">
         <h3 id={id} className="m-heading st-row-name">
           {legend}
@@ -95,7 +97,7 @@ const BOOT: readonly Option<BootSetting>[] = [
   {
     value: "session",
     label: "Once a session",
-    says: "The title screen plays the first time you open the guide, until you close the browser.",
+    says: "The title screen plays the first time you open the guide, until you close it.",
   },
   { value: "off", label: "Never", says: "The guide opens straight on the menu." },
 ];
@@ -108,7 +110,7 @@ const CURSOR: readonly Option<CursorSetting>[] = [
   { value: "system", label: "My own pointer", says: "Your device's usual pointer." },
 ];
 
-/** Settings: the music, and how the guide moves, opens and points. Saved in this browser. */
+/** Settings: the music, and how the guide moves, opens and points. Saved on this device. */
 export function SettingsPage() {
   useBackdrop(SECTION_ART.settings, { strength: 0.5, side: "full" });
   const ui = useUi();
@@ -119,8 +121,8 @@ export function SettingsPage() {
         <p className="m-label">Config</p>
         <h1 className="m-heading m-title">Settings</h1>
         <p className="m-intro">
-          The music, and how the guide moves, opens and points. Your choices are saved in this
-          browser.
+          The music, and how the guide moves, opens and points. Your choices are saved on this
+          device.
         </p>
       </header>
 
@@ -157,6 +159,8 @@ export function SettingsPage() {
           value={ui.cursor}
           options={CURSOR}
           onChange={ui.setCursor}
+          // A mouse pointer setting means nothing on a touch screen.
+          className="st-pointer"
         />
         <div role="group" aria-labelledby="st-spoilers" className="st-row">
           <div className="st-row-head">
