@@ -1,4 +1,4 @@
-import { type CSSProperties, useMemo } from "react";
+import { type CSSProperties, useEffect, useMemo, useRef } from "react";
 import { Link, useSearchParams } from "react-router";
 import type { EntityList, TitleCode } from "../api/client";
 import { useEntities, useTimeline } from "../api/queries";
@@ -19,6 +19,7 @@ import {
   tellingsIn,
   titlesOf,
 } from "../lib/tellings";
+import { useMediaQuery } from "../lib/useMediaQuery";
 import "../features/explore/explore.css";
 
 type Entity = EntityList["items"][number];
@@ -60,6 +61,20 @@ export function ExplorePage() {
   const entities = useEntities();
   // Moments are shown in story order, and say when they happen.
   const timeline = useTimeline(ALL_TITLES);
+
+  // Short of a wide screen, everything at once is a row per kind to swipe across, each opening
+  // into all of its kind; a kind chosen, or a search, is a grid as on a wide screen.
+  const narrow = useMediaQuery("(max-width: 63.99rem)", false);
+  const rows = narrow && kind === undefined && text.trim() === "";
+  // "See all" opens its kind at the top of the cards, wherever on the page it was pressed.
+  const results = useRef<HTMLDivElement>(null);
+  const toResults = useRef(false);
+  useEffect(() => {
+    if (!toResults.current) return;
+    toResults.current = false;
+    const top = results.current?.getBoundingClientRect().top;
+    if (top !== undefined) window.scrollBy({ top: top - 12, behavior: "instant" });
+  }, [kind]);
 
   const set = (key: string, value: string | undefined) => {
     const next = new URLSearchParams(search);
@@ -168,79 +183,97 @@ export function ExplorePage() {
         </div>
       </div>
 
-      {entities.isPending ? (
-        <Loading variant="panel" label="Gathering everyone…" />
-      ) : entities.isError ? (
-        <div className="m-panel ex-empty">
-          <ErrorMessage error={entities.error} onRetry={() => void entities.refetch()} />
-        </div>
-      ) : groups.length === 0 ? (
-        <div className="m-panel ex-empty">
-          <p className="ex-text">Nothing matches. Try another word, or show everything.</p>
-          <button
-            type="button"
-            className="m-choice"
-            onClick={() => {
-              setSearch({});
-            }}
-          >
-            Show everything
-          </button>
-        </div>
-      ) : (
-        groups.map((group) => (
-          <section key={group.kind} aria-labelledby={`ex-${group.kind}`} className="ex-group">
-            <header className="ex-group-head">
-              <h2 id={`ex-${group.kind}`} className="m-heading ex-group-name">
-                <Orb kind={group.kind} size="1.1rem" />
-                {KIND_WORDS[group.kind].many}
-                <span className="ex-count">{group.items.length}</span>
-              </h2>
-              {!filtered && <p className="ex-text ex-guide">{KIND_GUIDE[group.kind]}</p>}
-            </header>
-            <ul
-              aria-label={KIND_WORDS[group.kind].many}
-              className="ex-cards"
-              data-kind={group.kind}
+      <div ref={results} className="ex-results">
+        {entities.isPending ? (
+          <Loading variant="panel" label="Gathering everyone…" />
+        ) : entities.isError ? (
+          <div className="m-panel ex-empty">
+            <ErrorMessage error={entities.error} onRetry={() => void entities.refetch()} />
+          </div>
+        ) : groups.length === 0 ? (
+          <div className="m-panel ex-empty">
+            <p className="ex-text">Nothing matches. Try another word, or show everything.</p>
+            <button
+              type="button"
+              className="m-choice"
+              onClick={() => {
+                setSearch({});
+              }}
             >
-              {group.items.map((entity) => {
-                const picture = pictureFor(entity.id, entity.kind);
-                const when = group.kind === "event" ? moments.get(entity.id)?.when : undefined;
-                return (
-                  <li key={entity.id}>
-                    <Link
-                      to={entityPath(entity.id)}
-                      className="ex-card"
-                      style={{ "--materia": MATERIA[group.kind].color } as CSSProperties}
-                    >
-                      <span aria-hidden="true" className="ex-card-art" data-kind={picture?.kind}>
-                        {picture ? (
-                          <Artwork entry={picture} decorative />
-                        ) : (
-                          <Orb kind={entity.kind} size="3rem" />
-                        )}
-                      </span>
-                      <span className="ex-card-body">
-                        {group.kind === "event" && (
-                          <span className="ex-card-when">{when ?? "During the story"}</span>
-                        )}
-                        <span className="ex-card-name">{entity.name}</span>
-                        <span className="ex-card-summary">{entity.summary}</span>
-                        <span className="ex-card-foot">
-                          <Tellings titles={entity.titles} />
-                          <span aria-hidden="true" className="ex-card-more">
-                            Read more ›
+              Show everything
+            </button>
+          </div>
+        ) : (
+          groups.map((group) => (
+            <section key={group.kind} aria-labelledby={`ex-${group.kind}`} className="ex-group">
+              <header className="ex-group-head">
+                <h2 id={`ex-${group.kind}`} className="m-heading ex-group-name">
+                  <Orb kind={group.kind} size="1.1rem" />
+                  {KIND_WORDS[group.kind].many}
+                  <span className="ex-count">{group.items.length}</span>
+                </h2>
+                {!filtered && <p className="ex-text ex-guide">{KIND_GUIDE[group.kind]}</p>}
+                {rows && (
+                  <button
+                    type="button"
+                    className="ex-see-all"
+                    onClick={() => {
+                      toResults.current = true;
+                      set("kind", group.kind);
+                    }}
+                  >
+                    See all <span aria-hidden="true">›</span>
+                    <span className="sr-only"> {KIND_WORDS[group.kind].many}</span>
+                  </button>
+                )}
+              </header>
+              <ul
+                // A new choice of stories starts each row at its beginning.
+                key={tellings}
+                aria-label={KIND_WORDS[group.kind].many}
+                className="ex-cards"
+                data-kind={group.kind}
+                data-row={rows || undefined}
+              >
+                {group.items.map((entity) => {
+                  const picture = pictureFor(entity.id, entity.kind);
+                  const when = group.kind === "event" ? moments.get(entity.id)?.when : undefined;
+                  return (
+                    <li key={entity.id}>
+                      <Link
+                        to={entityPath(entity.id)}
+                        className="ex-card"
+                        style={{ "--materia": MATERIA[group.kind].color } as CSSProperties}
+                      >
+                        <span aria-hidden="true" className="ex-card-art" data-kind={picture?.kind}>
+                          {picture ? (
+                            <Artwork entry={picture} decorative />
+                          ) : (
+                            <Orb kind={entity.kind} size="3rem" />
+                          )}
+                        </span>
+                        <span className="ex-card-body">
+                          {group.kind === "event" && (
+                            <span className="ex-card-when">{when ?? "During the story"}</span>
+                          )}
+                          <span className="ex-card-name">{entity.name}</span>
+                          <span className="ex-card-summary">{entity.summary}</span>
+                          <span className="ex-card-foot">
+                            <Tellings titles={entity.titles} />
+                            <span aria-hidden="true" className="ex-card-more">
+                              Read more ›
+                            </span>
                           </span>
                         </span>
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        ))
-      )}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ))
+        )}
+      </div>
     </div>
   );
 }

@@ -89,9 +89,11 @@
   transform: translateY(-50%);
   visibility: hidden;
 }
-.st-option:hover {
-  background-color: rgb(255 255 255 / 0.07);
-  color: #fff;
+@media (hover: hover) {
+  .st-option:hover {
+    background-color: rgb(255 255 255 / 0.07);
+    color: #fff;
+  }
 }
 .st-option:has(:checked) {
   background: linear-gradient(90deg, rgb(138 215 255 / 0.28), rgb(138 215 255 / 0.06));
@@ -102,12 +104,66 @@
 .st-option:has(:checked)::before {
   visibility: visible;
 }
-.st-options:is(:hover, :has(:focus-visible)) .st-option::before {
+.st-options:has(:focus-visible) .st-option::before {
   visibility: hidden;
 }
-.st-options .st-option:is(:hover, :has(:focus-visible))::before {
+.st-options .st-option:has(:focus-visible)::before {
   visibility: visible;
   animation: glove 0.9s steps(2) infinite;
+}
+@media (hover: hover) {
+  .st-options:hover .st-option::before {
+    visibility: hidden;
+  }
+  .st-options .st-option:hover::before {
+    visibility: visible;
+    animation: glove 0.9s steps(2) infinite;
+  }
+}
+
+/* On a touch screen: every choice a button to tap, the chosen one lit, no glove; and no setting
+   for a mouse pointer there isn't. */
+@media (hover: none) {
+  .st-option {
+    padding: 0.6rem 0.9rem;
+    border: 1px solid rgb(214 214 222 / 0.3);
+    background: rgb(2 11 48 / 0.45);
+    text-align: center;
+  }
+  .st-option::before {
+    display: none;
+  }
+  .st-option:has(:checked) {
+    border-color: #8ad7ff;
+    box-shadow: 0 0 12px rgb(138 215 255 / 0.4);
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  .st-pointer {
+    display: none;
+  }
+}
+/* Upright on a phone: a setting's choices side by side, the same width, filling the row. */
+@media (max-width: 40rem) {
+  .st-row-body {
+    align-items: stretch;
+  }
+  .st-options {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+  }
+  .st-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1.25;
+  }
+  .st-button {
+    align-self: flex-start;
+  }
 }
 .st-option:has(:focus-visible) {
   outline: 2px solid #fff;

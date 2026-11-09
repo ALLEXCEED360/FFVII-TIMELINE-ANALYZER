@@ -64,7 +64,7 @@ export const SECTIONS: readonly {
     page: "settings",
     name: "Config",
     hint: "Music, motion and more",
-    text: "Music, motion, the title screen and the cursor, saved in this browser.",
+    text: "Music, motion, the title screen and the cursor, saved on this device.",
     art: "key/barret-marlene",
   },
 ];

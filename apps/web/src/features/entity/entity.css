@@ -111,6 +111,7 @@
 .ent-game-name {
   font-weight: 600;
   color: #fff;
+  white-space: nowrap;
 }
 .ent-game-status {
   color: var(--m-dim);
@@ -256,15 +257,110 @@
   font-weight: var(--heading-weight);
   color: var(--m-dim);
 }
+/* A phone held upright: the figure alone in its ring, and under it, side by side, the original's
+   card and which look the figure shows, so neither sits on the figure. */
 @media (max-width: 40rem) {
   .ent-portrait-stage {
-    height: 20rem;
+    display: grid;
+    height: auto;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "figure figure" "then look";
+    align-items: center;
+    gap: 0.9rem 0.85rem;
+  }
+  .ent-portrait-ring {
+    top: 0;
+    bottom: auto;
+    width: min(19rem, 92%);
+  }
+  .ent-portrait-figure {
+    grid-area: figure;
+    justify-self: center;
+    max-width: 100%;
+    max-height: 19rem;
+  }
+  .ent-portrait-stage[data-wide] .ent-portrait-figure {
+    margin-block: 2.5rem;
   }
   .ent-portrait-then {
+    position: static;
+    grid-area: then;
     width: 6.5rem;
+    box-shadow: 0 8px 20px rgb(0 0 0 / 0.5);
   }
   .ent-portrait-then-art {
     height: 7rem;
+  }
+  .ent-portrait-look {
+    position: static;
+    grid-area: look;
+    justify-self: start;
+  }
+  .ent-portrait-stage:not(:has(.ent-portrait-then)) .ent-portrait-look {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  /* Each telling a full-width row. */
+  .ent-games {
+    flex-direction: column;
+  }
+  .ent-game {
+    border-radius: 8px;
+  }
+  /* Where next: one under the other, the same width, the arrow at the end. */
+  .ent-next {
+    flex-direction: column;
+  }
+  .ent-next-link {
+    justify-content: space-between;
+  }
+}
+/* A phone on its side: who it is beside the picture, the picture sized to the short screen, and the
+   original's card and the look in a column of their own beside the figure. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .ent-hero-art {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .ent-portrait-stage {
+    display: grid;
+    height: auto;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "then figure" "look figure";
+    align-items: end;
+    gap: 0.6rem 0.75rem;
+  }
+  .ent-portrait-stage:not(:has(.ent-portrait-then)) {
+    grid-template-areas: "look figure" "look figure";
+  }
+  .ent-portrait-ring {
+    top: 50%;
+    bottom: auto;
+    left: calc(50% + 3.5rem);
+    width: min(17rem, 62%);
+    transform: translate(-50%, -50%);
+  }
+  .ent-portrait-figure {
+    grid-area: figure;
+    justify-self: center;
+    max-width: 100%;
+    max-height: calc(100svh - 5rem);
+  }
+  .ent-portrait-then {
+    position: static;
+    grid-area: then;
+    width: 6rem;
+  }
+  .ent-portrait-then-art {
+    height: 6rem;
+  }
+  .ent-portrait-look {
+    position: static;
+    grid-area: look;
+    align-self: start;
+    max-width: 6rem;
+    border-radius: 8px;
+    text-align: center;
   }
 }
 .ent-credits {

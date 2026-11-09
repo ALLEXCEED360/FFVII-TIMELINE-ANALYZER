@@ -49,8 +49,10 @@
 .ar-crumbs a {
   color: var(--m-accent);
 }
-.ar-crumbs a:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .ar-crumbs a:hover {
+    text-decoration: underline;
+  }
 }
 .ar-crumbs li + li::before {
   content: "/";
@@ -92,11 +94,13 @@
     transform 0.2s,
     box-shadow 0.2s;
 }
-.ar-game:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    0 0 26px color-mix(in oklab, var(--c) 28%, transparent),
-    0 18px 40px rgb(0 0 0 / 0.45);
+@media (hover: hover) {
+  .ar-game:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 0 26px color-mix(in oklab, var(--c) 28%, transparent),
+      0 18px 40px rgb(0 0 0 / 0.45);
+  }
 }
 .ar-game:focus-within {
   outline: 2px solid var(--m-accent);
@@ -112,8 +116,10 @@
   object-fit: cover;
   transition: transform 0.4s ease;
 }
-.ar-game:hover .ar-game-art img {
-  transform: scale(1.04);
+@media (hover: hover) {
+  .ar-game:hover .ar-game-art img {
+    transform: scale(1.04);
+  }
 }
 .ar-game-body {
   display: flex;
@@ -156,8 +162,10 @@
   font-size: 0.8rem;
   color: #fff;
 }
-.ar-game:hover .ar-more {
-  background: color-mix(in oklab, var(--c) 22%, transparent);
+@media (hover: hover) {
+  .ar-game:hover .ar-more {
+    background: color-mix(in oklab, var(--c) 22%, transparent);
+  }
 }
 .ar-future {
   display: flex;
@@ -200,13 +208,15 @@
     border-color 0.2s,
     background-color 0.2s;
 }
-.ar-chapter:hover {
-  border-color: color-mix(in oklab, var(--c) 70%, transparent);
-  background: linear-gradient(
-    90deg,
-    color-mix(in oklab, var(--c) 18%, rgb(24 30 44 / 0.85)),
-    rgb(8 11 18 / 0.72) 70%
-  );
+@media (hover: hover) {
+  .ar-chapter:hover {
+    border-color: color-mix(in oklab, var(--c) 70%, transparent);
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--c) 18%, rgb(24 30 44 / 0.85)),
+      rgb(8 11 18 / 0.72) 70%
+    );
+  }
 }
 .ar-chapter:focus-within {
   outline: 2px solid var(--m-accent);
@@ -297,8 +307,10 @@
   align-items: flex-end;
   text-align: right;
 }
-.ar-step:hover {
-  border-color: var(--m-accent);
+@media (hover: hover) {
+  .ar-step:hover {
+    border-color: var(--m-accent);
+  }
 }
 .ar-step:focus-visible {
   outline: 2px solid var(--m-accent);
@@ -371,8 +383,10 @@
   font-weight: var(--heading-weight);
   color: #fff;
 }
-.ar-thing-name:hover {
-  color: var(--m-accent);
+@media (hover: hover) {
+  .ar-thing-name:hover {
+    color: var(--m-accent);
+  }
 }
 .ar-how {
   font-size: 0.8125rem;
@@ -419,8 +433,10 @@
   font-weight: 600;
   color: #fff;
 }
-.ar-link:hover {
-  color: var(--m-accent);
+@media (hover: hover) {
+  .ar-link:hover {
+    color: var(--m-accent);
+  }
 }
 .ar-sentence {
   font-size: 0.95rem;
@@ -430,8 +446,10 @@
   font-weight: 600;
   color: #fff;
 }
-.ar-sentence a:hover {
-  color: var(--m-accent);
+@media (hover: hover) {
+  .ar-sentence a:hover {
+    color: var(--m-accent);
+  }
 }
 .ar-tag {
   padding: 0.05rem 0.55rem;
@@ -443,6 +461,82 @@
 .ar-tag-big {
   border-color: rgb(255 143 122 / 0.6);
   color: #ffb3a5;
+}
+
+/* ── Phones ───────────────────────────────────────────────────────────────────────────────── */
+/* The original's discs, one at a time short of a wide screen. */
+.ar-discs {
+  display: flex;
+  gap: 0.5rem;
+}
+.ar-disc {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.6rem 0.4rem;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-top: 3px solid var(--c);
+  border-radius: 8px;
+  background: rgb(2 11 48 / 0.6);
+  color: var(--m-dim);
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    box-shadow 0.2s;
+}
+.ar-disc-name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: var(--heading-weight);
+}
+.ar-disc-count {
+  font-size: 0.75rem;
+}
+.ar-disc[aria-pressed="true"] {
+  border-color: var(--c);
+  background: color-mix(in oklab, var(--c) 24%, rgb(2 11 48 / 0.85));
+  color: #fff;
+  box-shadow: 0 0 14px color-mix(in oklab, var(--c) 40%, transparent);
+}
+.ar-disc:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+
+/* A game's card on a phone: its picture beside the words, so the four games aren't a long stack. */
+@media (max-width: 47.99rem), (orientation: landscape) and (max-height: 30rem) {
+  .ar-game {
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+  }
+  .ar-game-art {
+    height: auto;
+    min-height: 100%;
+  }
+  .ar-game-body {
+    gap: 0.35rem;
+    padding: 0.75rem 0.85rem 0.85rem;
+  }
+  .ar-game-name {
+    font-size: 1.1rem;
+  }
+  .ar-game-label {
+    font-size: 0.8rem;
+  }
+  .ar-more {
+    display: none;
+  }
+}
+/* On its side: two games to a row, and a part's people, moments, places and groups in two columns. */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .ar-games {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ar-kinds {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useSearchParams } from "react-router";
 import type { CatalogueTitle, CatalogueUnit, Reference, TitleCode } from "../api/client";
 import { useReference, useSources } from "../api/queries";
 import { SECTION_ART, TITLE_ART } from "../art/manifest";
@@ -17,6 +17,7 @@ import {
 import { unitPath } from "../lib/paths";
 import { isTitleCode, titleShort } from "../lib/reference";
 import { TITLE_COLOR } from "../lib/titles";
+import { useMediaQuery } from "../lib/useMediaQuery";
 import { NotFoundPage } from "./NotFoundPage";
 import "../features/archive/archive.css";
 
@@ -29,6 +30,12 @@ export function ArchiveTitlePage() {
   });
   const sources = useSources();
   const reference = useReference();
+  // Short of a wide screen, the original's three discs are read one at a time. The disc lives in
+  // the address, so coming back from a part returns to it.
+  const narrow = useMediaQuery("(max-width: 63.99rem)", false);
+  const [search, setSearch] = useSearchParams();
+  const discParam = Number(search.get("disc"));
+  const disc = discParam === 2 || discParam === 3 ? discParam : 1;
 
   if (title === undefined || !isTitleCode(title)) return <NotFoundPage />;
   const catalogue = sources.data?.titles.find((t) => t.code === title);
@@ -73,22 +80,48 @@ export function ArchiveTitlePage() {
           <ErrorMessage error={sources.error} onRetry={() => void sources.refetch()} />
         </div>
       ) : (
-        catalogue &&
-        groups.map((group) => (
-          <section
-            key={group.label ?? "units"}
-            aria-labelledby={`ar-${(group.label ?? "chapters").replace(" ", "-")}`}
-            className="ar-section"
-          >
-            <h2
-              id={`ar-${(group.label ?? "chapters").replace(" ", "-")}`}
-              className="m-heading ar-heading"
-            >
-              {group.label ?? "Chapters"}
-            </h2>
-            <ChapterList title={catalogue} units={group.units} reference={reference.data} />
-          </section>
-        ))
+        catalogue && (
+          <>
+            {narrow && title === "og" && (
+              <div role="group" aria-label="Which disc" className="ar-discs">
+                {groups.map((group, i) => (
+                  <button
+                    key={group.label}
+                    type="button"
+                    aria-pressed={disc === i + 1}
+                    onClick={() => {
+                      const next = new URLSearchParams(search);
+                      if (i === 0) next.delete("disc");
+                      else next.set("disc", String(i + 1));
+                      setSearch(next, { replace: true });
+                    }}
+                    className="ar-disc"
+                  >
+                    <span className="ar-disc-name">{group.label}</span>
+                    <span className="ar-disc-count">{group.units.length} parts</span>
+                  </button>
+                ))}
+              </div>
+            )}
+            {groups
+              .filter((_, i) => !(narrow && title === "og") || i + 1 === disc)
+              .map((group) => (
+                <section
+                  key={group.label ?? "units"}
+                  aria-labelledby={`ar-${(group.label ?? "chapters").replace(" ", "-")}`}
+                  className="ar-section"
+                >
+                  <h2
+                    id={`ar-${(group.label ?? "chapters").replace(" ", "-")}`}
+                    className="m-heading ar-heading"
+                  >
+                    {group.label ?? "Chapters"}
+                  </h2>
+                  <ChapterList title={catalogue} units={group.units} reference={reference.data} />
+                </section>
+              ))}
+          </>
+        )
       )}
     </article>
   );
