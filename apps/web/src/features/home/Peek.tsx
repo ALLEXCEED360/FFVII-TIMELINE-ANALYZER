@@ -7,6 +7,10 @@ const LIFT = "cubic-bezier(0.2, 0.9, 0.3, 1.15)";
 /** Back into place, settling without a bounce. */
 const SETTLE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
+/** Whether a tap landed on one of the lifted windows, rather than the space around them. */
+const onWindow = (target: EventTarget) =>
+  target instanceof Element && target.closest(".peek-window") !== null;
+
 /** Moves `item` from where it now sits back onto `from` (its place in the menu), corner to corner. */
 function fromPlace(item: HTMLElement, from: DOMRect): string {
   const to = item.getBoundingClientRect();
@@ -107,18 +111,17 @@ export function Peek({
       onContextMenu={(event) => {
         event.preventDefault();
       }}
+      // A tap anywhere but on the two windows puts it back: the space between and around them
+      // too, not only the shade behind.
+      onPointerDown={(event) => {
+        tappedOutside.current = !onWindow(event.target);
+      }}
+      onClick={(event) => {
+        if (tappedOutside.current && !onWindow(event.target)) close();
+        tappedOutside.current = false;
+      }}
     >
-      <div
-        ref={backdrop}
-        aria-hidden="true"
-        className="peek-backdrop"
-        onPointerDown={() => {
-          tappedOutside.current = true;
-        }}
-        onClick={() => {
-          if (tappedOutside.current) close();
-        }}
-      />
+      <div ref={backdrop} aria-hidden="true" className="peek-backdrop" />
       <div className="peek-stack">
         <div ref={lifted} className="peek-lifted">
           {item}

@@ -333,3 +333,32 @@ test("on a phone, the original's archive shows one disc at a time, kept on the w
   await page.goBack();
   await expect(disc2).toHaveAttribute("aria-pressed", "true");
 });
+
+for (const sideways of [false, true]) {
+  test(`on a phone${sideways ? " on its side" : ""}, a tap in the space around a lifted command puts it back @mobile`, async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(!isMobile, "touch only");
+    if (sideways) await page.setViewportSize({ width: 863, height: 360 });
+    await page.goto("/");
+    await expect(page.locator(".classic-member-link")).toHaveCount(4);
+    const compare = page.getByRole("link", { name: "Compare", exact: true });
+    await hold(page, compare);
+    const peek = page.getByRole("dialog", { name: "Compare" });
+    await expect(peek).toBeVisible();
+    const [item, details] = await Promise.all(
+      [".peek-lifted", ".peek-details"].map((s) => page.locator(s).boundingBox()),
+    );
+    if (!item || !details) throw new Error("the windows aren't showing");
+    // A tap on a window leaves it open.
+    await page.touchscreen.tap(item.x + item.width / 2, item.y + item.height / 2);
+    await expect(peek).toBeVisible();
+    // Empty space between the windows (side by side) or beside them (stacked) closes it.
+    const gap = sideways
+      ? { x: (item.x + item.width + details.x) / 2, y: item.y + item.height / 2 }
+      : { x: details.x + 4, y: (item.y + item.height + details.y) / 2 };
+    await page.touchscreen.tap(gap.x, gap.y);
+    await expect(peek).toHaveCount(0);
+  });
+}
