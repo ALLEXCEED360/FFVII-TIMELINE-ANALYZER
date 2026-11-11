@@ -576,6 +576,114 @@
 .dv-branch .dv-name {
   font-size: 20px;
 }
+/* ── Short of a wide screen: one step at a time, compact moments ─────────────────────────── */
+.dv-steps {
+  display: flex;
+  gap: 0.4rem;
+}
+.dv-step {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.9rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-radius: 8px;
+  background: rgb(2 11 48 / 0.6);
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: var(--heading-weight);
+  line-height: 1.15;
+  color: var(--dv-soft);
+}
+.dv-step-number {
+  display: inline-flex;
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+.dv-step[aria-pressed="true"] {
+  border-color: var(--mako);
+  background: color-mix(in oklab, var(--mako) 18%, rgb(2 11 48 / 0.85));
+  color: #fff;
+  box-shadow: 0 0 14px rgb(88 224 168 / 0.35);
+}
+.dv-step:focus-visible,
+.dv-next:focus-visible {
+  outline: 2px solid var(--m-accent);
+  outline-offset: 2px;
+}
+.dv-next {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.9rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgb(88 224 168 / 0.55);
+  border-radius: 8px;
+  background: rgb(88 224 168 / 0.1);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: left;
+  color: #fff;
+}
+.dv-more {
+  margin-top: 0.7rem;
+}
+@media (max-width: 63.99rem) {
+  .dv-guide {
+    display: none;
+  }
+  /* One step on its own: no line of light running in from the one before. */
+  .dv-split[data-phone] > .dv-turn,
+  .dv-split[data-phone] > .dv-after {
+    margin-top: 0;
+  }
+  .dv-split[data-phone] > .dv-turn::after,
+  .dv-split[data-phone] > .dv-after::before {
+    display: none;
+  }
+  .dv-split[data-phone] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  /* A moment in a line or a sheet away: its name and one line about it. What changes is in its
+     details. */
+  .dv-moment {
+    gap: 0.6rem;
+    padding: 0.6rem 0.8rem;
+  }
+  .dv-moment-body {
+    gap: 0.2rem;
+  }
+  .dv-name,
+  .dv-branch .dv-name {
+    font-size: 18px;
+    line-height: 1.25;
+  }
+  .dv-meta {
+    gap: 0.15rem 0.7rem;
+  }
+  :is(.dv-when, .dv-count, .dv-mark, .dv-only) {
+    font-size: 0.85rem;
+  }
+  .dv-moment .dv-kinds {
+    display: none;
+  }
+  .dv-rail {
+    gap: 0.35rem;
+  }
+}
+
 /* On a narrow screen: one telling at a time, chosen above the line. */
 .dv-follow {
   display: none;
@@ -673,8 +781,14 @@
   gap: 1rem;
   margin-top: 0.7rem;
 }
-/* Upright on a phone, the turning points are a row to swipe across, not a long stack. */
-@media (max-width: 47.99rem) {
+/* Short of a wide screen, the turning points are a row to swipe across, not a long stack. */
+.dv-swipe {
+  display: none;
+}
+@media (max-width: 63.99rem) {
+  .dv-swipe {
+    display: inline;
+  }
   .dv-cards {
     display: flex;
     overflow-x: auto;
@@ -684,7 +798,7 @@
     padding-bottom: 0.5rem;
   }
   .dv-cards > li {
-    flex: 0 0 82%;
+    flex: 0 0 min(82%, 19rem);
     scroll-snap-align: start;
   }
   .dv-card-art {

@@ -1,13 +1,25 @@
-import { type CSSProperties, type ReactNode, useState } from "react";
+import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
 import type { Reference } from "../../api/client";
 import { CHANGE_WORDS, type Marking, SPLIT_SENTENCES, SPLIT_WORDS } from "../../lib/plain";
 import { titleShort } from "../../lib/reference";
+import { useMediaQuery } from "../../lib/useMediaQuery";
 import type { Line, Row, SplitData, Station } from "./tellings";
 
 // Where the tellings part ways around one moment: the story so far, the turning point, then each.
 
 /** Earlier moments shown before the rest are asked for. */
 const SHOWN_BEFORE = 6;
+/** On a phone, later moments shown at first, and how many more each ask brings. */
+const SHOWN_AFTER = 8;
+const MORE_AFTER = 10;
+
+/** On a phone the three steps are read one at a time. */
+type Step = "before" | "turn" | "after";
+const STEPS: readonly { key: Step; name: string }[] = [
+  { key: "before", name: "Before" },
+  { key: "turn", name: "Turning point" },
+  { key: "after", name: "After" },
+];
 
 function when(start: number): string | null {
   if (start === 0) return null;
@@ -97,65 +109,129 @@ export function SplitView({
   const [everything, setEverything] = useState(false);
   // On a narrow screen the tellings can't stand side by side: one is read at a time.
   const [following, setFollowing] = useState(0);
+  // Short of a wide screen, one step at a time, opening on the turning point itself, and only
+  // the first of the later moments until more are asked for.
+  const phone = useMediaQuery("(max-width: 63.99rem)", false);
+  const single = useMediaQuery("(max-width: 47.99rem)", false);
+  const [step, setStep] = useState<Step>("turn");
+  const [limit, setLimit] = useState(SHOWN_AFTER);
   const pivot = view.events.find((r) => r.event.id === view.pivot.id) ?? view.events[0];
   // After it, every moment any telling has, in one order shared by all of them.
   const after = view.events.filter((r) => r !== pivot && r.stations.some(Boolean));
   const hidden = everything ? 0 : Math.max(0, view.trunk.length - SHOWN_BEFORE);
   const before = view.trunk.slice(hidden);
+  // The later moments to list: on a phone held upright, the followed telling's own; on a phone's
+  // side, the rows all tellings share; either way only so many until more are asked for.
+  const ownAfter = single ? after.filter((r) => r.stations[following]) : after;
+  const shownAfter = phone ? ownAfter.slice(0, limit) : after;
+  const moreAfter = phone ? ownAfter.length - shownAfter.length : 0;
+  const rowsFor = (b: number) =>
+    phone && single ? shownAfter.filter((r) => r.stations[b]) : shownAfter;
+  const shows = (part: Step) => !phone || step === part;
+
+  // A new step starts at the top of the steps, if the page had gone past them.
+  const steps = useRef<HTMLDivElement>(null);
+  const moved = useRef(false);
+  useEffect(() => {
+    if (!moved.current) return;
+    moved.current = false;
+    const bar = steps.current;
+    if (bar && bar.getBoundingClientRect().top < 0) bar.scrollIntoView({ block: "start" });
+  }, [step]);
+  const goTo = (to: Step) => {
+    moved.current = true;
+    setStep(to);
+  };
+  const next = (to: Step, words: string) =>
+    phone && (
+      <button
+        type="button"
+        className="dv-next"
+        onClick={() => {
+          goTo(to);
+        }}
+      >
+        {words} <span aria-hidden="true">›</span>
+      </button>
+    );
 
   return (
-    <div className="dv-split">
-      <section aria-labelledby="dv-before" className="m-panel dv-stage">
-        <header className="dv-stage-head">
-          <p className="m-label">Step 1 · Before</p>
-          <h2 id="dv-before" className="m-heading dv-stage-name">
-            The story so far
-          </h2>
-          <p className="dv-stage-text">
-            What happens before this moment. Both tellings share this part of the story, though not
-            always told the same way. Tap any moment for its details.
-          </p>
-        </header>
-        {view.trunk.length === 0 ? (
-          <p className="dv-empty">Nothing earlier is recorded.</p>
-        ) : (
-          <>
-            {hidden > 0 && (
-              <button
-                type="button"
-                onClick={() => {
-                  setEverything(true);
-                }}
-                className="m-row-link dv-earlier"
-              >
-                Show the {hidden} earlier moments
-              </button>
-            )}
-            <ol className="dv-rail dv-rail-shared">
-              {before.map((row) => {
-                const alike = row.stations.every((s) => s === null || s.marking === "shared");
-                const told = view.lines.filter((_, b) => row.stations[b] !== null);
-                const only = told.length === 1 && view.lines.length > 1 ? told[0] : undefined;
-                return (
-                  <Moment
-                    key={row.event.id}
-                    row={row}
-                    selected={selected}
-                    onSelect={onSelect}
-                    marking={alike ? "shared" : "changed"}
-                    markingText={alike ? "Told the same in both" : "Told differently"}
-                    big={row.stations.some((s) => changes(s).big)}
-                    kinds={[...new Set(row.stations.flatMap((s) => changes(s).words))]}
-                    extra={only && <span className="dv-only">Only in {inWords(only)}</span>}
-                  />
-                );
-              })}
-            </ol>
-          </>
-        )}
-      </section>
+    <div className="dv-split" data-phone={phone || undefined}>
+      {phone && (
+        <div ref={steps} role="group" aria-label="Which part to read" className="dv-steps">
+          {STEPS.map((s, i) => (
+            <button
+              key={s.key}
+              type="button"
+              aria-pressed={step === s.key}
+              onClick={() => {
+                goTo(s.key);
+              }}
+              className="dv-step"
+            >
+              <span aria-hidden="true" className="dv-step-number">
+                {i + 1}
+              </span>
+              {s.name}
+            </button>
+          ))}
+        </div>
+      )}
 
-      {pivot && (
+      {shows("before") && (
+        <section aria-labelledby="dv-before" className="m-panel dv-stage">
+          <header className="dv-stage-head">
+            <p className="m-label">Step 1 · Before</p>
+            <h2 id="dv-before" className="m-heading dv-stage-name">
+              The story so far
+            </h2>
+            <p className="dv-stage-text">
+              What happens before this moment. Both tellings share this part of the story, though
+              not always told the same way. Tap any moment for its details.
+            </p>
+          </header>
+          {view.trunk.length === 0 ? (
+            <p className="dv-empty">Nothing earlier is recorded.</p>
+          ) : (
+            <>
+              {hidden > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEverything(true);
+                  }}
+                  className="m-row-link dv-earlier"
+                >
+                  Show the {hidden} earlier moments
+                </button>
+              )}
+              <ol className="dv-rail dv-rail-shared">
+                {before.map((row) => {
+                  const alike = row.stations.every((s) => s === null || s.marking === "shared");
+                  const told = view.lines.filter((_, b) => row.stations[b] !== null);
+                  const only = told.length === 1 && view.lines.length > 1 ? told[0] : undefined;
+                  return (
+                    <Moment
+                      key={row.event.id}
+                      row={row}
+                      selected={selected}
+                      onSelect={onSelect}
+                      marking={alike ? "shared" : "changed"}
+                      markingText={alike ? "Told the same in both" : "Told differently"}
+                      big={row.stations.some((s) => changes(s).big)}
+                      kinds={[...new Set(row.stations.flatMap((s) => changes(s).words))]}
+                      extra={only && <span className="dv-only">Only in {inWords(only)}</span>}
+                    />
+                  );
+                })}
+              </ol>
+            </>
+          )}
+          {next("turn", "Next: the turning point")}
+        </section>
+      )}
+
+      {pivot && shows("turn") && (
         <section aria-labelledby="dv-turn" className="ff7-window dv-turn">
           <span aria-hidden="true" className="materia dv-orb" />
           <p className="m-label">Step 2 · The turning point</p>
@@ -199,96 +275,110 @@ export function SplitView({
           >
             See the details of this moment <span aria-hidden="true">›</span>
           </button>
+          {next("after", "Next: where each telling goes")}
         </section>
       )}
 
-      <section aria-labelledby="dv-after" className="dv-after">
-        <header className="dv-stage-head">
-          <p className="m-label">Step 3 · After</p>
-          <h2 id="dv-after" className="m-heading dv-stage-name">
-            Where each telling goes
-          </h2>
-          <p className="dv-stage-text">
-            From here each telling follows its own line.{" "}
-            <span className="dv-wide-only">
-              A moment both have sits side by side; a gap means that telling doesn&apos;t have it
-              there.
-            </span>
-            <span className="dv-narrow-only">Choose which one to follow.</span>
-          </p>
-        </header>
-        {view.lines.length > 1 && (
-          <div role="group" aria-label="Which telling to follow" className="dv-follow">
+      {shows("after") && (
+        <section aria-labelledby="dv-after" className="dv-after">
+          <header className="dv-stage-head">
+            <p className="m-label">Step 3 · After</p>
+            <h2 id="dv-after" className="m-heading dv-stage-name">
+              Where each telling goes
+            </h2>
+            <p className="dv-stage-text">
+              From here each telling follows its own line.{" "}
+              <span className="dv-wide-only">
+                A moment both have sits side by side; a gap means that telling doesn&apos;t have it
+                there.
+              </span>
+              <span className="dv-narrow-only">Choose which one to follow.</span>
+            </p>
+          </header>
+          {view.lines.length > 1 && (
+            <div role="group" aria-label="Which telling to follow" className="dv-follow">
+              {view.lines.map((line, b) => (
+                <button
+                  key={line.key}
+                  type="button"
+                  aria-pressed={b === following}
+                  onClick={() => {
+                    setFollowing(b);
+                  }}
+                  className="dv-follow-choice"
+                  style={lane(line)}
+                >
+                  {line.name}
+                </button>
+              ))}
+            </div>
+          )}
+          <div
+            className="dv-branches"
+            style={
+              {
+                "--n": String(view.lines.length),
+                "--rows": String(shownAfter.length + 1),
+              } as CSSProperties
+            }
+          >
             {view.lines.map((line, b) => (
-              <button
+              <section
                 key={line.key}
-                type="button"
-                aria-pressed={b === following}
-                onClick={() => {
-                  setFollowing(b);
-                }}
-                className="dv-follow-choice"
+                aria-labelledby={`dv-${line.key}`}
+                className="m-panel dv-branch"
+                data-following={b === following || undefined}
                 style={lane(line)}
               >
-                {line.name}
-              </button>
+                <h3 id={`dv-${line.key}`} className="m-heading dv-branch-name">
+                  {line.name}
+                </h3>
+                {after.every((row) => !row.stations[b]) ? (
+                  <p className="dv-empty">Nothing after this moment in this telling yet.</p>
+                ) : (
+                  <ol className="dv-rail">
+                    {rowsFor(b).map((row) => {
+                      const station = row.stations[b] ?? null;
+                      if (!station) {
+                        return (
+                          <li key={row.event.id} aria-hidden="true" className="dv-gap">
+                            Not in {inWords(line)}
+                          </li>
+                        );
+                      }
+                      const { words, big } = changes(station);
+                      return (
+                        <Moment
+                          key={row.event.id}
+                          row={row}
+                          selected={selected}
+                          onSelect={onSelect}
+                          marking={station.marking}
+                          markingText={SPLIT_WORDS[station.marking]}
+                          big={big}
+                          kinds={words}
+                          extra={<InGames station={station} line={line} reference={reference} />}
+                        />
+                      );
+                    })}
+                  </ol>
+                )}
+              </section>
             ))}
           </div>
-        )}
-        <div
-          className="dv-branches"
-          style={
-            {
-              "--n": String(view.lines.length),
-              "--rows": String(after.length + 1),
-            } as CSSProperties
-          }
-        >
-          {view.lines.map((line, b) => (
-            <section
-              key={line.key}
-              aria-labelledby={`dv-${line.key}`}
-              className="m-panel dv-branch"
-              data-following={b === following || undefined}
-              style={lane(line)}
+          {moreAfter > 0 && (
+            <button
+              type="button"
+              className="m-row-link dv-earlier dv-more"
+              onClick={() => {
+                setLimit((n) => n + MORE_AFTER);
+              }}
             >
-              <h3 id={`dv-${line.key}`} className="m-heading dv-branch-name">
-                {line.name}
-              </h3>
-              {after.every((row) => !row.stations[b]) ? (
-                <p className="dv-empty">Nothing after this moment in this telling yet.</p>
-              ) : (
-                <ol className="dv-rail">
-                  {after.map((row) => {
-                    const station = row.stations[b] ?? null;
-                    if (!station) {
-                      return (
-                        <li key={row.event.id} aria-hidden="true" className="dv-gap">
-                          Not in {inWords(line)}
-                        </li>
-                      );
-                    }
-                    const { words, big } = changes(station);
-                    return (
-                      <Moment
-                        key={row.event.id}
-                        row={row}
-                        selected={selected}
-                        onSelect={onSelect}
-                        marking={station.marking}
-                        markingText={SPLIT_WORDS[station.marking]}
-                        big={big}
-                        kinds={words}
-                        extra={<InGames station={station} line={line} reference={reference} />}
-                      />
-                    );
-                  })}
-                </ol>
-              )}
-            </section>
-          ))}
-        </div>
-      </section>
+              Show {Math.min(MORE_AFTER, moreAfter)} more · {moreAfter} still to come
+            </button>
+          )}
+        </section>
+      )}
     </div>
   );
 }

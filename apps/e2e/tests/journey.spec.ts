@@ -180,7 +180,8 @@ test("on a phone, a moment on Divergence opens in a sheet where you are @mobile"
 }) => {
   test.skip(!isMobile, "touch only");
   await page.goto("/divergence/event/jenova-calamity");
-  // Upright, one telling at a time.
+  // One step at a time, opening on the turning point; then, upright, one telling at a time.
+  await page.getByRole("button", { name: /After/ }).tap();
   const trilogy = page.getByRole("button", { name: "The Remake Trilogy", exact: true });
   await trilogy.tap();
   await expect(trilogy).toHaveAttribute("aria-pressed", "true");
@@ -362,3 +363,26 @@ for (const sideways of [false, true]) {
     await expect(peek).toHaveCount(0);
   });
 }
+
+test("on a phone, Divergence reads one step at a time, the later moments a few at a time @mobile", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "touch only");
+  await page.goto("/divergence/event/jenova-calamity");
+  const steps = page.getByRole("group", { name: "Which part to read" });
+  await expect(steps.getByRole("button", { name: /Turning point/ })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await expect(page.getByRole("heading", { name: "The story so far" })).toHaveCount(0);
+  // Each step leads on to the next.
+  await page.getByRole("button", { name: /Next: where each telling goes/ }).tap();
+  await expect(page.getByRole("heading", { name: "Where each telling goes" })).toBeVisible();
+  const moments = page.locator(".dv-branch[data-following] .dv-moment");
+  await expect(moments).toHaveCount(8);
+  await page.getByRole("button", { name: /Show 10 more/ }).tap();
+  await expect(moments).toHaveCount(18);
+  await steps.getByRole("button", { name: /Before/ }).tap();
+  await expect(page.getByRole("heading", { name: "The story so far" })).toBeVisible();
+});

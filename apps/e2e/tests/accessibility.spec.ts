@@ -62,9 +62,9 @@ async function graph(page: Page) {
   await expect(page.getByRole("status")).toHaveCount(0);
 }
 
-/** The turning point and the games' lines after it have arrived. */
+/** The turning point has arrived (on a phone, the step it opens on; beside the rest elsewhere). */
 async function split(page: Page) {
-  await expect(page.getByRole("region", { name: "Where each telling goes" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "See the details of this moment" })).toBeVisible();
   await expect(page.getByRole("status")).toHaveCount(0);
 }
 

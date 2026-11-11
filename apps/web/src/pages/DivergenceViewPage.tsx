@@ -152,6 +152,8 @@ export function DivergenceViewPage() {
           ) : (
             <div aria-busy={divergence.isPlaceholderData}>
               <SplitView
+                // A new turning point starts on its own turning point.
+                key={divergence.data.pivot.id}
                 view={byTelling(divergence.data, (world) => worldName(reference.data, world))}
                 reference={reference.data}
                 selected={selected}

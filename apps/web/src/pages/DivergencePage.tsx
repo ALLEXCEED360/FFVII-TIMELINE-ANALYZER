@@ -64,7 +64,7 @@ export function DivergencePage() {
                   </h2>
                   <p className="dv-stage-text">
                     Where the Remake Trilogy changes something that matters. Tap one to follow it.
-                    <span className="dv-narrow-only"> Swipe across for more.</span>
+                    <span className="dv-swipe"> Swipe across for more.</span>
                   </p>
                   <ul className="dv-cards" aria-busy={points.isPlaceholderData}>
                     {turning.map((point) => {
